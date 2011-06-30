@@ -1,0 +1,22 @@
+//List of files which are indexed.
+fl = new Array();
+fl["0"]= "dashboard/concepts/dashboard_search.html";
+fl["1"]= "dashboard/concepts/dashboard_using.html";
+fl["2"]= "dashboard/concepts/generating_reports.html";
+fl["3"]= "dashboard/concepts/managing_identities.html";
+fl["4"]= "dashboard/concepts/managing_resources.html";
+fl["5"]= "dashboard/concepts/managing_system.html";
+fl["6"]= "dashboard/concepts/overview.html";
+fl["7"]= "dashboard/tasks/dashboard_custom.html";
+fl["8"]= "dashboard/tasks/dashboard_login.html";
+fl["9"]= "dashboard/tasks/dashboard_using.html";
+fl["10"]= "dashboard/tasks/generating_reports.html";
+fl["11"]= "eiam/concepts/concepts_eiam.html";
+fl["12"]= "eiam/tasks/account_add.html";
+fl["13"]= "eiam/tasks/account_approve.html";
+fl["14"]= "eiam/tasks/account_delete.html";
+fl["15"]= "eiam/tasks/account_reject.html";
+fl["16"]= "eiam/tasks/group_add.html";
+fl["17"]= "eiam/tasks/policy_add.html";
+fl["18"]= "eiam/tasks/task_oview.html";
+var doStem = false

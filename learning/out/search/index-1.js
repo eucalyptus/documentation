@@ -1,0 +1,35 @@
+var indexerLanguage="en";
+//Auto generated index for searching.
+w["access"]="2*2";
+w["and"]="2*7,3*3";
+w["anyone"]="2*1";
+w["app"]="0*1";
+w["appropriate"]="2*2";
+w["audience"]="2*1";
+w["author"]="0*1,1*1,2*1,3*1";
+w["basic"]="2*1";
+w["basics"]="0*3,1*56,2*55,3*3";
+w["best"]="3*1";
+w["bold"]="3*1";
+w["can"]="3*1";
+w["characteristic"]="3*1";
+w["company"]="2*1";
+w["complete"]="0*2,2*1,3*2";
+w["decide"]="3*1";
+w["double-click"]="0*1";
+w["duration"]="2*45";
+w["e"]="0*1";
+w["easy"]="2*2";
+w["email"]="0*1,2*1";
+w["expected"]="2*45";
+w["features"]="2*1";
+w["folder"]="1*2,2*1";
+w["folders"]="2*2";
+w["following"]="0*1,1*2,2*1";
+w["generated"]="0*1,1*1,2*1,3*1";
+w["have"]="3*1";
+w["help"]="3*1";
+w["high"]="3*1";
+w["icons"]="3*1";
+w["identifies"]="3*1";
+

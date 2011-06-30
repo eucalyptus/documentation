@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "http://docs.oasis-open.org/dita/v1.2/OS/dtd/task.dtd">
+<task id="task_install_euca_comps">
+    <title>Install Eucalyptus Components</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>Install the Eucalyptus component RPMs (-cloud, -walrus, -sc, -cc).</p>
+            <note>
+                If you are running a licensed version of Eucalyptus with VMware support, you will also install <userinput>–broker</userinput> as shown in the following example.
+            </note>
+            <p>The following example uses x86_64. Replace with <userinput>i386</userinput> for 32-bit architectures.</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command in the terminal window:</cmd>
+                <info>
+                    <codeblock>root@clc]# rpm -Uvh eucalyptus-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-common-java-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-cloud-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-walrus-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-sc-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-cc-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-gl-${VERSION}eee-0.*.x86_64.rpm
+  # include the following RPM for Vmware support only
+  eucalyptus-broker-${VERSION}eee-0.*.x86_64.rpm</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>On the node machine(s), install the <term keyref="node_cluster">NC</term> RPMs (-nc), as shown:</cmd>
+                <info>
+                    <codeblock>[root@node1]# rpm -Uvh eucalyptus-$VERSION-0.*.x86_64.rpm \
+  eucalyptus-nc-${VERSION}eee-0.*.x86_64.rpm \
+  eucalyptus-gl-${VERSION}eee-0.*.x86_64.rpm</codeblock>
+                </info>
+            </step>
+            
+        </steps>
+    </taskbody>
+</task>

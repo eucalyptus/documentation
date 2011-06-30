@@ -1,0 +1,92 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<base target="contentwin"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<link rel="stylesheet" type="text/css" href="euca_doc.css"/>
+<title>Using the Eucalyptus Dashboard</title>
+<script type="text/javascript" src="assets/jquery-1.4.2.js"><!----></script><script type="text/javascript" src="assets/jquery-ui-1.8.2.custom.min.js"><!----></script><script type="text/javascript" src="assets/jquery.treeview.js"><!----></script><script type="text/javascript" src="search/htmlFileList.js"><!----></script><script type="text/javascript" src="search/htmlFileInfoList.js"><!----></script><script type="text/javascript" src="search/nwSearchFnt.js"><!----></script><script type="text/javascript" src="search/stemmers/en_stemmer.js"><!----></script><script type="text/javascript" src="search/index-1.js"><!----></script><script type="text/javascript" src="search/index-2.js"><!----></script><script type="text/javascript" src="search/index-3.js"><!----></script><script src="assets/webhelp.js" type="text/javascript"><!----></script><script src="assets/browserDetect.js" type="text/javascript"><!----></script><link href="assets/jquery.treeview.css" type="text/css" rel="stylesheet"/><link href="assets/webhelp_toc.css" type="text/css" rel="stylesheet"/><link href="assets/jquery.treeview.addon.css" type="text/css" rel="stylesheet"/></head>
+<body onload="javascript:hideDiv('searchDiv','displayContentDiv');"><h1>Using the Eucalyptus Dashboard</h1>
+<div id="contentAndSearchDiv"><div id="divContent" style="display:inline"><!----></div>
+            |
+            <div id="divSearch" style="display:inline"><!----></div></div><div id="searchDiv"><form name="searchForm" action="javascript:void(0)" onsubmit="Verifie('searchForm');">
+              Keywords : <!----><input type="text" id="textToSearch" name="textToSearch" class="textToSearch" size="30"/><!----><input type="button" value="Search" name="searchButton" class="searchButton" onclick="Verifie('searchForm');"/></form><div id="searchResults"><!----></div></div><div id="displayContentDiv"><div id="tab_nav_tree_placeholder"><div id="tab_nav_tree" class="visible_tab">
+<ul id="tree">
+<li id="d10e8"><a href="concepts/overview.html">Eucalyptus Dashboard Overview</a>
+<ul>
+<li id="d10e17"><a href="tasks/dashboard_login.html">Signing in to the Eucalyptus Dashboard</a></li>
+<li id="d10e27"><a href="tasks/dashboard_using.html">Understanding the Eucalyptus Dashboard</a></li>
+</ul>
+</li>
+<li id="d10e38"><a href="concepts/managing_system.html">Managing your System</a>
+<ul>
+<li id="d10e48"><a href="tasks">tasks/</a></li>
+</ul>
+</li>
+<li id="d10e53"><a href="concepts/managing_identities.html">Managing Identities</a>
+<ul>
+<li id="d10e62"><a href="../eiam/concepts/concepts_eiam.html">EIAM Concepts</a></li>
+<li id="d10e72"><a href="../eiam/tasks/task_oview.html">EIAM Tasks</a>
+<ul>
+<li id="d10e82"><a href="../eiam/tasks/account_add.html">Adding an Account</a></li>
+<li id="d10e92"><a href="../eiam/tasks/account_delete.html">Deleting an Account</a></li>
+<li id="d10e102"><a href="../eiam/tasks/account_approve.html">Approving an Account</a></li>
+<li id="d10e112"><a href="../eiam/tasks/account_reject.html">Rejecting an Account</a></li>
+<li id="d10e122"><a href="../eiam/tasks/policy_add.html">Adding a Policy</a></li>
+<li id="d10e132"><a href="../eiam/tasks/group_add.html">Adding a Group</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li id="d10e143"><a href="concepts/managing_resources.html">Managing Resources</a></li>
+<li id="d10e154"><a href="concepts/generating_reports.html">Generating Reports</a>
+<ul>
+<li id="d10e163"><a href="tasks/generating_reports.html">Generating Usage Reports</a></li>
+</ul>
+</li>
+<li id="d10e174"><a href="tasks/dashboard_custom.html">Customizing the Dashboard</a></li>
+</ul>
+</div></div></div><div class="footer">Eucalyptus Systems, 2011</div><script type="text/javascript"><!-- 
+  	$(function() {
+  			$("#tree").treeview({
+  				collapsed: true,
+  				animated: "fast",
+  				control:"#sidetreecontrol",
+  				persist: "location"
+  		});
+  	});
+    function select(){
+      selectLink(this.parentNode.id);
+    }  	     
+    
+function getHTMLPage2Expand(url){
+      var page = url.substr(1);
+      currentPage = page;
+      page = parent.location.search.substr(1).split("&");
+      for (x in page) {
+        var q;
+        q = page[x].split("=");;
+        if(q[0] == 'q'){
+         currentPage = q[1];
+        }
+      }
+      return currentPage;
+   }
+   
+    var aElements = document.getElementById(tree).getElementsByTagName("a");
+    var i;
+    var pathPrefix = parent.location.pathname;
+    var expandPage = getHTMLPage2Expand(parent.contentwin.location.pathname);
+    expandPage = expandPage.replace(pathPrefix, "");
+    for (i = 0; i< aElements.length; i++){
+      aElements[i].onclick = select;
+    }
+    if(parent.location.search != ''){ 
+      setTimeout('expandToTopic(window.location.href, expandPage)',200);
+    }
+//--></script></body>
+</html>

@@ -1,0 +1,10 @@
+fil = new Array();
+fil["0"]= "concepts/generating_reports.html@@@Generating Reports@@@Eucalyptus tracks resource usage and generates reports based on criteria you choose: Instance number Instance types Instance running times Network IO usage per instance Disk IO usage per instance S3 S...";
+fil["1"]= "concepts/managing_identities.html@@@Managing Identities@@@Eucalyptus Identity Authorization and Management (EIAM) is an authentication, authorization, and accounting system that manages user identities, enforces access controls over resources, and provides r...";
+fil["2"]= "concepts/managing_resources.html@@@Managing Resources@@@Concept definition...";
+fil["3"]= "concepts/managing_system.html@@@Managing your System@@@This section describes the tasks asscicated with managing your system using the Eucalyptus Dashboard...";
+fil["4"]= "concepts/overview.html@@@Eucalyptus Dashboard Overview@@@The Eucalyptus Dashboard is web-based interface that allows you to manage your system, identities, and resources. The Dashboard is search-based. This means that any link that appears in the Dashboard...";
+fil["5"]= "tasks/dashboard_custom.html@@@Customizing the Dashboard@@@This section describes how to change the logo image and logo text...";
+fil["6"]= "tasks/dashboard_login.html@@@Signing in to the Eucalyptus Dashboard@@@This section describes how to sign in to the Eucalyptus Dashboard...";
+fil["7"]= "tasks/dashboard_using.html@@@Understanding the Eucalyptus Dashboard@@@This section explains the components of the Dashboard screen...";
+fil["8"]= "tasks/generating_reports.html@@@Generating Usage Reports@@@This section shows you how to generate usage reports using the Eucalyptus Dashboard...";
