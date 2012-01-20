@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="registering_components">
+ <title>Registering Components</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>All registration commands run on the CLC server. Note that each registration command will attempt an SSH as root from the CLC server to the remote physical host where the registering component is assumed to be running. The registration command also contacts the component so it must be running at the time of the command is issued. If a password is required to allow SSH access, the command will prompt the user for it.</p>
+ 	<p>Each registration command requires four pieces of information:</p>
+ 	<ul>
+ 	<li>The component you are registering (CC, NC, SC, Walrus, VMware Broker), because this effects where the commands must be executed.</li>
+ 	<li>The partition the component will belong to. The partition is analogous to an availability-zone in AWS. A partition can span multiple clusters.</li>
+ 	<li>The name ascribed to the component. This is the pretty name used to identify the component in a human friendly way. This name when reporting about system state changes which require attention.  This name must be globally-unique with respect to other component registrations.</li>
+ 	<li>The IP address of the service being registered.</li>
+ 	</ul>
+ 	<p>In general, each registration command has the following format:</p>
+ <codeblock>	/usr/sbin/euca_conf --register-&lt;component_type> --partition=&lt;partition_name> 
+ 		--name=&lt;component_unique_name> &lt;machine_IP_address></codeblock>
+ 
+ </conbody>
+</concept>

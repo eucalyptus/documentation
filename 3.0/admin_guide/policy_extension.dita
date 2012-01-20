@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="policy_extension">
+	<title>Eucalyptus Policy Extensions</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ <section>
+ 	<title>Quota</title>
+ 	<p>Eucalyptus extends the IAM policy language to add quota enforcement. The extensions to support quota enforcement are:</p>
+ 	<ul>
+ 		<li>A new value for the Effect element of a permission statement in a policy: Use “Limit” to indicate that this statement is a quota statement.</li>
+ 		<li>A set of quota keys for specifying quota limit. For example, ec2:vmnumber evaluates to the current instance numbers for the request identity (user, group or account). You can only use NumericLessThanEquals condition type for quota keys, as noted in the following example condition block:
+<codeblock>“Condition”: {
+    “NumericLessThanEquals”: {
+        ec2:vmnumber”: “12”
+     }
+}</codeblock>
+ 			<p>This example states that that the principal cannot launch more than 12 instances. Depending on what identity the policy is attached to, the key evaluates at different levels. For example, if the above policy condition is attached to a group, then the ec2:vmnumber is evaluated for the group.</p></li>
+ 	</ul></section>
+ 	<section>
+ 		<title>Other Extensions</title>
+ 		<draft-comment>Create sections for each Euca extension. What are they? EC2 Resources, Expiration,
+ 		VM Type, IAM Resources? What do they do? What do they look like?</draft-comment>
+ 	</section>
+ </conbody>
+</concept>

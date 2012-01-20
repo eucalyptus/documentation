@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="planning_managed_novlan">
+	<title>Managed (No VLAN) Mode</title>
+	<shortdesc/>
+	<conbody>
+		<p>In Managed (No VLAN) mode, Eucalyptus fully manages the local VM instance network and
+			provides all of the networking features Eucalyptus currently supports, including security
+			groups, elastic IPs, etc. However, it does not provide VM network isolation. With VLAN
+			isolation at the bridge level, it is possible in Managed (No VLAN) mode for a root user on one
+			VM to snoop the ethernet traffic for other VMs that are hosted on the same physical
+			server.</p>
+		<note type="tip">In Managed (No VLAN) mode, VM isolation is guaranteed by having different
+			security groups on different subnets—this translates into Layer-3 only VM isolation. However,
+			because users are given root access to VM instances after they have been launched, in Managed
+			(No VLAN) mode the network must ensure that the VMs cannot escape the Layer-3 isolation by
+			changing their MAC addresses or routing tables.</note>
+
+		<section>
+			<title>Managed (No VLAN) Mode Requirements</title>
+			<ul>
+				<li>There must be an available range of IP addresses for the virtual subnets. This range
+					must not interfere with the physical network. Typically these IP addresses are selected
+					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc. </li>
+				<li>You are not running a firewall on the CC or your firewall is compatible with the dynamic
+					changes performed by Eucalyptus when working with security groups. (Note that Eucalyptus
+					will flush the 'filter' and 'nat' tables upon boot). </li>
+				<li>A range of public IP addresses must be available for use by Eucalyptus. </li>
+				<li>The CC must have installed DHCP server daemon compatible with ISC DHCP Daemon version
+					3.0.X.</li>
+			</ul>
+		</section>
+		
+		<section>
+			<title>Managed (No VLAN) Mode Limitations</title>
+			<ul>
+				<li>No VM isolation</li>
+			</ul>
+		</section>
+
+	</conbody>
+</concept>

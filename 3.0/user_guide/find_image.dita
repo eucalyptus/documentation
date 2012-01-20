@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="run_instance">
+    <title>Find an Image</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Eucalyptus lets you run instances from both Linux-based images (e.g., Ubuntu, RHEL/CentOS, openSUSE, Debian, Fedora, etc.) and Windows-based images (i.e., Windows Server 2003/2008 and Windows 7). </p>
+        	<!--   <note type="tip">You can filter this list to return only certain types of AMIs of
+        		interest to you. For more information about how to filter the results, go to
+        		ec2-describe-images in the Amazon Elastic Compute Cloud Command Line Reference.</note>     	-->
+        		<p>To find an image:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Use the <codeph>euca-run-instances</codeph> command.</cmd>
+            	<info>
+            		<codeblock>euca-run-instances &lt;image_id></codeblock>
+            	</info>
+            	<stepresult>
+            		<p>Eucalyptus returns output similar to the following example.</p>
+            		<codeblock>RESERVATION	r-460007BE	alice	alice-default
+INSTANCE	i-2F930625	emi-EC1410C1	0.0.0.0	0.0.0.0	pending	mykey	2010-03-29T23:08:45.962Z	eki-822C1344	eri-BFA91429</codeblock>
+            	</stepresult>
+            </step>
+        	<step>
+        		<cmd>Look for the instance ID in the second column and write it down. In the example
+        			above, the instance ID is <codeph>i-2F930625</codeph>. You use it to take
+        			any action on this instance, including terminating it when you are finished.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Get the launch status of the intance with the
+        			<codeph>euca-describe-instances</codeph> command.</cmd>
+        		<info>
+        			<codeblock>euca-describe-instances &lt;instance_id></codeblock>
+        		</info>
+        	</step>
+        </steps>
+    	<example>
+    		<p>The following example </p>
+    	</example>
+    </taskbody>
+</task>
+
+
+<!--Enter euca-describe-instances to verify your VM instance is running and to view information, such as instance id, key name, VM Type, and IP addresses.
+euca-describe-instances
+RESERVATION	r-338206B5	alice	default
+INSTANCE	i-4DCF092C  emi-EC1410C1 192.168.7.24	 10.17.0.130 ↵  running 	mykey 	0   m1.small      2010-03-15T21:57:45.134Z ↵ 
+wind 	eki-822C1344 	eri-BFA91429-->

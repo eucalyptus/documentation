@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_bridge_rhel5">
+	<title>RHEL 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>To configure a bridge in RHEL5.x, you need to create a file with bridge configuration (for
+        		example, ifcfg-brX) and modify the file for the physical interface (for example,
+        		ifcfg-ethX).</p>
+        </context>
+        <steps>
+            
+        	<step>
+        		<cmd>Go to the /etc/sysconfig/network-scripts
+        			directory:</cmd>
+        		<info>
+        			<codeblock>cd /etc/sysconfig/network-scripts</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Open the network script for the device you are adding to the bridge and add your
+        			bridge device to it. The edited file should look similar to the following:</cmd>
+        		<info>
+        			<codeblock>DEVICE=eth0
+# change the hardware address to match the hardware address your NIC uses
+HWADDR=00:16:76:D6:C9:45
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Create a new network script in the
+        			<filepath>/etc/sysconfig/network-scripts</filepath> directory called
+        			<filepath>ifcfg-br0</filepath> or something similar. The br0 is the name of the bridge,
+        			but this can be anything as long as the name of the file is the
+        			same as the <codeph>DEVICE</codeph> parameter, and the name is specified
+        			correctly in the previously created physical interface
+        			configuration (ifcfg-ethX).</cmd>
+        		<choices>
+        			<choice>If you are using DHCP, the configuration will look similar to:
+        			<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=dhcp
+ONBOOT=yes
+DELAY=0</codeblock>
+        			</choice>
+        			<choice>If you are using a static IP address, the configuration will look similar to:
+        			<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=&lt;static_IP_address>
+NETMASK=&lt;netmask>
+GATEWAY=&lt;gateway>
+ONBOOT=yes</codeblock>
+        			</choice>
+        		</choices>
+        		
+        	</step>
+        	<step>
+        		<cmd>Enter the following command:</cmd>
+        		<info>
+        			<codeblock>service network restart</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

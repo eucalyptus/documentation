@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_bridge_ubuntu">
+    <title>Ubuntu 10.04 LTS</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>To configure a bridge on Ubuntu Lucid:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command:</cmd>
+            	<info>
+            		<codeblock>apt-get install bridge-utils</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Modify the <filepath>/etc/network/interfaces</filepath> file.</cmd>
+        		<choices>
+        			<choice>If you are using DHCP, the configuration will look similar to the following
+        				example:
+        			<codeblock>auto lo 
+iface lo inet loopback
+ 
+auto br0  
+iface br0 inet dhcp
+    bridge_ports eth0</codeblock>
+        			</choice>
+        			<choice>If you are using a static IP address, the configuration will look similar to the
+        				following example:
+        			<codeblock>auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static
+    address &lt;static_IP_address>
+    network &lt;network>
+    netmask &lt;netmask>
+    broadcast &lt;broadcast_IP_address>
+    gateway &lt;gateway>
+    bridge_ports eth0
+    bridge_stp off</codeblock>
+        			</choice>
+        		</choices>
+        	</step>
+        	<step>
+        		<cmd>Enter the following command:</cmd>
+        		<info>
+        			<codeblock>service networking restart</codeblock>
+        		</info>
+        	</step>
+        </steps>
+
+    </taskbody>
+
+</task>

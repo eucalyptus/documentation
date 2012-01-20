@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="nc_restart">
+    <title>Restart a NC</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+           
+        </context>
+    	<steps>
+    		<step>
+    			<cmd>Log in to the NC and enter the following command:
+    			</cmd>
+    			<info>
+    				<codeblock>service eucalyptus-nc restart</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Repeat for each NC.</cmd>
+    		</step>
+    	</steps>
+    	<example>
+    		<draft-comment>Verify that the following is even needed. If so, replicate for other NC-tasks.</draft-comment>
+    		<p>You can automate the restart command for all of your NCs. Store a list 
+    		of your NCs in a file called <filepath>nc-hosts</filepath> that looks like:</p>
+    		<codeblock>nc-host-00
+nc-host-01
+...
+nc-host-nn</codeblock>
+    		<p>To restart all of your NCs, run the following command:</p>
+    		<codeblock>cat nc-hosts | xargs -i ssh root@{} service eucalyptus-nc restart</codeblock>
+    	</example>
+    </taskbody>
+</task>

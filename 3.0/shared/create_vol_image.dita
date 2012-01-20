@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_vol_image">
+    <title>Create a Volume-Backed Image</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>Context for the current task</p>
+        </context>
+        <steps>
+        	<step>
+        		<cmd>Enter the following command to create a new blank volume:</cmd>
+        		<info>
+        			<codeblock>euca-create-volume --zone &lt;zone_name> --size &lt;volume_size></codeblock>
+        			<p>where:</p>
+        			<ul>
+        				<li><codeph>zone</codeph> is the availability zone to create the volume in</li>
+        				<li><codeph>size</codeph> is the size of the volume in GBs</li>
+        			</ul>
+        		</info>
+        		<stepresult>Eucalyptus returns returns the volume ID for the new volume.</stepresult>
+        	</step>
+        	<step>
+        		<cmd>Enter the following command to check whether the volume is ready:</cmd>
+        		<info>
+        			<codeblock>euca-describe-volumes &lt;volume_id></codeblock>
+        		</info>
+        		<stepresult>Eucalyptus returns information about the volume's availability.</stepresult>
+        	</step>
+        	<step>
+        		<cmd>Enter the following command to attach the volume to an instance:</cmd>
+        		<info>
+        			<codeblock>euca-attach-volume &lt;volume_id> -i &lt;instance_id> -d &lt;device_name></codeblock>
+        		</info>
+        		<stepresult>Eucalyptus returns information about the attachment state.</stepresult>
+        	</step>
+        	<step>
+        		<cmd>Copy the image (not a bundle) you want to register to the instance.
+        		</cmd>
+        	</step>
+        	<step>
+        		<cmd>On the instance, copy the image onto the block device that corresponds to the block
+        			volume you attached. For example:</cmd>
+        		<info>
+        			<codeblock>dd if=/path/to/image of=/dev/sdf
+sync</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

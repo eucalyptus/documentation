@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ebs_image">
+	<title>Create an External Volume Machine Image</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To create an image that boots from an external volume you need to have a pre-existing instance running in
+				Eucalyptus. The following example uses an instance called
+					<codeph>i-00000000</codeph> running in availability zone
+				<codeph>zone1</codeph>.</p>
+			<note type="important">Make sure that the volume you create is large enough to hold the image
+				you want to boot.</note>
+		</context>
+		<steps>
+			<step>
+				<cmd>Create a new EBS volume in the same availability zone as the running instance.</cmd>
+
+				<info>
+					<codeblock>euca-create-volume --zone zone1 --size 10</codeblock>
+				</info>
+				<stepresult>The command displays the ID of the newly-created volume. </stepresult>
+			</step>
+			<step>
+				<cmd>Attach the newly-created volume to the instance.</cmd>
+				<info>
+					<codeblock>euca-attach-volume vol-00000000 -i i-00000000 -d /dev/sdf</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Copy the image (not a bundle) you wish to register to the instance.</cmd>
+
+			</step>
+
+			<step>
+				<cmd>On the instance, copy the image onto the block device that corresponds to the EBS
+					volume you attached.</cmd>
+				<info>
+					<codeblock>dd if=/path/to/image of=/dev/sdf
+sync</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Detach the EBS volume from the instance.</cmd>
+				<info>
+					<codeblock>euca-detach-volume vol-00000000</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>The EBS volumes that EBS-backed images use are created from EBS volume snapshots. When
+					the EBS volume finishes detaching, create a snapshot of it. The command will display the
+					ID of the newly-created snapshot.</cmd>
+				<info>
+					<codeblock>euca-create-snapshot vol-00000000</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>When Eucalyptus finishes creating the snapshot, register a new machine image as you
+					would for an instance-store image, but substitute <codeph>–snapshot</codeph> and the newly-created
+					snapshot's ID where you would normally supply the path to an image manifest. </cmd>
+				<info>
+					<codeblock>euca-register --kernel eki-00000000 --ramdisk eri-00000000 --name "my-new-ebs-image" --snapshot snap-00000000</codeblock>
+				</info>
+				<stepresult>When the command finishes it display the ID of the new EBS-backed machine image.</stepresult>
+			</step>
+		</steps>
+	</taskbody>
+</task>

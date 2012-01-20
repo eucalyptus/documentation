@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_vol">
+    <title>Create a Block Volume</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>You can create a dynamic block volume with data from a snapshot stored in Walrus or as a new blank volume with no data.</p>
+        	<note type="tip">Before you create a volume, make sure that the volume is large enough to hold the image
+        	you wish to boot.</note>
+        	<p>To create a block volume:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command to create a new blank volume:</cmd>
+            	<info>
+            		<codeblock>euca-create-volume --zone &lt;zone_name> --size &lt;volume_size></codeblock>
+            		<p>where:</p>
+            		<ul>
+            			<li><codeph>zone</codeph> is the availability zone to create the volume in</li>
+            			<li><codeph>size</codeph> is the size of the volume in GBs</li>
+            		</ul>
+            	</info>
+            	<stepresult>Eucalyptus returns returns the volume ID for the new volume.</stepresult>
+            </step>
+        	<step>
+        		<cmd>Enter the following command to check whether the volume is ready:</cmd>
+        		<info>
+        			<codeblock>euca-describe-volumes &lt;volume_id></codeblock>
+        		</info>
+        		<stepresult>Eucalyptus returns information about the volume's availability.</stepresult>
+        	</step>
+        </steps>
+    	<example>
+    		<p>For example:</p>
+    		<codeblock>euca-create-volume --zone zone1 --size 10</codeblock>
+    	</example>
+    	<postreq>You are now ready to <xref href="attach_vol.dita"/>.</postreq>
+    </taskbody>
+</task>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="policy_language">
+ <title>Permission Policy Language</title>
+ <shortdesc></shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>
+					permission
+					<indexterm>policy language</indexterm>
+					<indexterm>formats of</indexterm>
+				</indexterm>
+				<indexterm>
+					ARN
+					<indexterm>format</indexterm>
+				</indexterm>
+				<indexterm>
+					ERN
+					<indexterm>format</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+ <conbody>
+ 	
+ 		<p>Eucalyptus Resource Name (ERN) is the name format used to identify a unique resource entity within Eucalyptus policy language. ERN is compatible with Amazon Resource Name (ARN).  ARN has the following general format:</p>
+ 		<codeblock>arn:aws:&lt;vendor>:&lt;region>:&lt;namespace>:&lt;relative-id></codeblock>
+ 		<p>	where:</p>
+ 		<ul>
+ 			<li>vendor identifies the service (for example, ec2, s3, iam)</li>
+ 			<li>region specifies the region of a resource (not supported in Eucalyptus)</li>
+ 			<li>namespace specifies the name space of a resource.</li>
+ 			<li>relative-id specifies the ID within the service and the namespace</li>
+ 		</ul>
+
+ 			<p>The specific ARN formats for each service are detailed in the following sections.</p>
+ 	
+ 	<section>
+ 		<title>IAM</title>
+ 		<p>For users and groups, the ARN has the following format:</p>
+ 		<codeblock>arn:aws:iam::&lt;account id>:[user|group]/&lt;user or group name with path></codeblock>
+ 			<p>For example:</p>
+ 			<codeblock>arn:aws:iam::12345678:user/division_a/subdivision_ab/bob
+arn:aws:iam::12345678:group/division_b/subdivision_ba/subsubdivision_bac/dan</codeblock>
+ 	</section>
+ 	<section>
+ 			<title>EC2</title>
+ 			<p>In IAM, EC2 resources are treated as a whole. You can’t specify a permission for a specific EC2 resource. However, Eucalyptus extends the language to add EC2 resources. The format is:</p>
+ 			<codeblock>arn:aws:ec2:::&lt;type>/&lt;id or ip pattern></codeblock>
+ 				<p>The type includes: image, securitygroup, address, avalabilityzone, instance, keypair, volume, snapshot, vmtype. The ip pattern applies to “address” type. For example:</p>
+ 				<codeblock>arn:aws:ec2:::securitygroup/default
+arn:aws:ec2:::vmtype/m1.small</codeblock>
+ 	</section>
+ 	<section>
+ 				<title>S3</title> 
+ 		<p>S3 ARNs have the following format:</p>
+ 				<codeblock>arn:aws:s3:::&lt;bucket name>[/&lt;key name>]</codeblock>
+ 					<p>For example:</p>
+ 					<codeblock>arn:aws:s3:::acme_bucket
+arn:aws:s3:::acme_bucket/home/bob/object</codeblock>
+ 	</section>				
+ </conbody>
+</concept>

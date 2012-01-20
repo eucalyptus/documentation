@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_ubuntu">
+	<title>Install on Ubuntu 10.04 LTS</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p conref="../shared/reuse.dita#reuse/euca_install_ha_note"/>
+        	<p>To install Eucalyptus on servers running Ubuntu 10.04 LTS:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Copy the entitlement certificate to the <filepath>/etc/ssl/certs</filepath> directory on each server that you want to install Eucalyptus on.</cmd>
+            	<info>
+            		<codeblock>mv eucalyptus-enterprise.crt /etc/ssl/certs/eucalyptus-enterprise.crt</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Copy the private key file to the /etc/ssl/private directory on each server that you want to install Eucalyptus on.</cmd>
+        		<info>
+        			<codeblock>mv eucalyptus-enterprise.key /etc/ssl/private/eucalyptus-enterprise.key</codeblock>
+        			<note type="important">Make sure that the private key's file permissions are restricted to only the root user and ssl-certs group.</note>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Add the public key to the list of trusted keys:</cmd>
+        		<info>
+        			<codeblock>apt-key add 0260cf4e-eucalyptus-release-key.pub</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>On the machine that will host CLC, go to <filepath>/etc/apt/apt.conf.d </filepath>and create a new file (e.g., <filepath>eucarepo</filepath>) with the following content:</cmd>
+        		<info>
+        			<codeblock>Acquire {
+https {
+VerifyPeer "true";
+SslCert "/etc/ssl/certs/eucalyptus-enterprise.crt";
+SslKey "/etc/ssl/private/eucalyptus-enterprise.key";
+}; 
+};
+</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called <filepath>eucalyptus-enterprise.list</filepath> with the following content:</cmd>
+        		<info>
+        			<codeblock>deb https://downloads.eucalyptus.com/software/enterprise/3.0/ubuntu lucid universe</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>On all machines that will run either Eucalyptus or Euca2ools, create a file in /etc/apt/sources.list.d called euca2ools.list with the following content:</cmd>
+        		<info>
+        			<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.0/ubuntu lucid universe</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Enter the following command on all machines:</cmd>
+        		<info>
+        			<codeblock>apt-get update</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Install Eucalyptus packages and dependencies. The following example shows a package install all on the same server. You can install each component on a different server.</cmd>
+        		<info>
+        			<codeblock>apt-get install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>If you plan to use VMware, install the VMware Broker package on each CC server:</cmd>
+        		<info>
+        			<codeblock>apt-get install eucalyptus-broker</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>On each planned NC server, install the NC package:</cmd>
+        		<info>
+        			<codeblock>apt-get install eucalyptus-nc</codeblock>
+        		</info>
+        	</step>
+        	
+        </steps>
+    	<result>Your installation is complete. </result>
+    </taskbody>
+</task>

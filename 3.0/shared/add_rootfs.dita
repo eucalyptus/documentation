@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="add_rootfs">
+    <title>Add a Root Filesystem</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>When you add a root filesystem to Walrus, you bundle the root filesytem file, upload the file to a bucket
+        	in Walrus that you name, and then register the root filesystem with Eucalyptus.</p>
+        	<draft-comment>The code used below doesn't have --kernel or --ramdisk options. And the
+        		example has these options pointing to variables, which we haven't described. Help.</draft-comment>
+        	<p>To add a root filesytem to Walrus:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Use the following three commands:</cmd>
+            	<info>
+            		<codeblock>euca-bundle-image -i &lt;root_filesystem_file> 
+euca-upload-bundle -b &lt;root_filesystem_file_bucket> -m /tmp/&lt;root_filesystem_file>.manifest.xml
+euca-register &lt;root_filesystem_file_bucket>/&lt;root_filesystem_file>.manifest.xml</codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example>
+    		<p>For example: <draft-comment>Let's get a more up-to-date example</draft-comment></p>
+    		<codeblock>euca-bundle-image -i euca-ubuntu-9.04-x86_64/ubuntu.9-04.x86-64.img --kernel $EKI --ramdisk $ERI
+euca-upload-bundle -b ubuntu-image-bucket -m /tmp/ubuntu.9-04.x86-64.img.manifest.xml
+euca-register ubuntu-image-bucket/ubuntu.9-04.x86-64.img.manifest.xml
+</codeblock>
+    	</example>
+    	<postreq>The registered image has prefix <filepath>emi-</filepath> attached ot it.</postreq>
+    </taskbody>
+</task>

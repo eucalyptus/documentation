@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_hypervisor_centos">
+    <title>CentOS 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>The default settings that ship with CentOS 5.6 are generally appropriate except you must
+        		enable <codeph>xend-http-server</codeph> and restart the daemon.</p>
+        	<p>To make sure the Xen daemon is set up correctly:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
+            </step>
+        	<step>
+        		<cmd>Verify these Eucalyptus-recommended settings:</cmd>
+        		<info>
+        			<codeblock>(xend-http-server yes)
+(xend-unix-server yes)
+(xend-unix-path /var/lib/xend/xend-socket)
+(xend-address localhost)
+(network-script network-bridge)
+(vif-script vif-bridge)
+(dom0-min-mem 196)
+(dom0-cpus 0)
+(vncpasswd '')
+</codeblock>
+        		</info>
+        	</step>
+        	
+        </steps>
+    </taskbody>
+</task>

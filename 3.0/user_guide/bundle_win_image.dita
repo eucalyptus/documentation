@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="bundle_win_image">
+    <title>Bundle a Windows Instance</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>The euca-bundle-instance command lets you bundle a new Windows image from a running Windows instance directly to Walrus storage. Using 
+        		euca-bundle-instance is an efficient way to generate modified Windows VMs. You can spin up
+        		a Windows VM instance from an existing Windows VM image, modify it as needed, then save the modified image to Walrus storage, where it is immediately available for registering and running with the modifications already in place. </p>
+        		<p>To bundle a Windows instance:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command:</cmd>
+            	<info>
+            		<codeblock>euca-bundle-instance -b &lt;storeage_bucket_name> &lt;instance_ID>  -p followed by the image prefix; -o followed by the access key id of the user; and –w followed by the secret key id of the user.</codeblock>
+            		<note type="tip">You can query the progress of a <codeph>euca-bundle-instance</codeph>
+            			command using the <codeph>describe-bundle-task</codeph> command. You can cancel the
+            			progress of <codeph>euca-bundle-instance</codeph>	command using 
+            			<codeph>cancel-bundle-task</codeph> command.</note>
+            	</info>
+            </step>
+        </steps>
+    	<example>
+    		<p>The following example bundles a new Windows image from an existing Windows instance with ID <codeph>i-12c4af6a</codeph> to the bucket <codeph>mybucket</codeph>, with image prefix windows, access key “ACCESS,” and secret key “SECRET”:</p>
+    		<codeblock>euca-bundle-instance –b mybucket i-12c4af6a </codeblock>
+    	</example>
+    	<postreq>For more information about creating Windows images, see the Eucalyptus Administration Guide.</postreq>
+    </taskbody>
+
+</task>
+
+ 

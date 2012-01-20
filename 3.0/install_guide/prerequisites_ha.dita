@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="prerequisites_ha">
+	<title>HA Prerequisities</title>
+	<shortdesc/>
+	<conbody>
+
+		<p>HA Eucalyptus requires the same requirements as non-HA Eucalyptus. However, the
+			infrastructure HA Eucalyptus will be deployed on must meet some additional requirements,
+			listed in the following sections.</p>
+		<section>
+			<title>Redundant Physical Servers for Eucalyptus Components</title>
+			<p>Each front-end and middle-tier component in an HA deployment has a redundant hot backup.
+				These redundant Eucalyptus components occur in pairs, and each member of a pair must be
+				mapped to a separated physical server to ensure high availability. </p>
+			<p>If the HA deployment is to be able to tolerate the failure of networking hardware,
+				additional network interfaces are required for the physical servers that host Eucalyptus
+				components. The physical servers hosting a CLC, Walrus, or CC and/or VMware Broker must each
+				have three network interface cards (NICs). Each remaining physical server (except the NC
+				components) requires two NICs.</p>
+		</section>
+
+		<section>
+			<title>UDP Network Multicast</title>
+			<p>The network interconnecting physical servers hosting any front-end or middle-tier
+				components must support UDP multicast for IP address 228.7.7.3. Note that UDP multicast is
+				not used over the networks within each cluster (i.e., the network that interconnects the
+				middle-end components to the NCs).</p></section>
+		<section>
+			<title>DNS Round-Robin Support</title>
+			<p>The DNS entries for the externally visible IP addresses of the physical servers hosting CLC
+				or Walrus components must be configured to change round-robin style in an HA deployment.</p>
+		</section>
+
+		<section><title>Storage Mirroring</title>
+			<p>HA Eucalyptus uses a kernel-level storage technology called DRBD for storage integrity.
+				DRBD must be configured to mirror data operations between physical servers that host Walrus
+				components.</p></section>
+		<section><title>Email Notification</title>
+			<p>HA Eucalyptus notifies the system administrator of failure events via email. The Linux MTA
+				(Mail Transfer Agent) must be configured to deliver these notifications on any machine
+				hosting a CLC component in an HA Eucalyptus deployment.</p></section>
+
+	</conbody>
+</concept>

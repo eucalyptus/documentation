@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_libvirt_centos">
+    <title>CentOS 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+           
+        </context>
+        <steps>
+            <step>
+            	<cmd>Open the <filepath>/etc/libvirt/libvirtd.conf</filepath> file on an NC server.</cmd>
+            </step>
+        	<step>
+        		<cmd>Uncomment the following lines:</cmd>
+        		<info>
+        			<codeblock>unix_sock_group = “eucalyptus”
+unix_sock_ro_perms = “0777”
+unix_sock_rw_perms = “0770” 
+</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Save the file and restart the libvirtd daemon.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Use the virsh list command to comfirm that the eucalyptus user can communicate with libvirt.</cmd>
+        		<info>
+        			<codeblock>su –c “virsh list” eucalyptus
+Id Name             	State
+--------------------------------
+0 Domain-0
+</codeblock>
+        		</info>
+        		<stepresult>The command returns a Domain-0 for user eucalyptus. If the command doesn’t succeed, double-check the steps and setting.</stepresult>
+        	</step>
+        	<step>
+        		<cmd>Repeat for each NC server in your system.</cmd>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

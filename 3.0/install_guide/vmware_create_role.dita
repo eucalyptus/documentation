@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="vmware_create_user">
+    <title>Create New User</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>To give a more limited amount of control to Eucalyptus over your vSphere infrastructure,
+        		create one new user and two new roles. The new user (e.g., eucalyptus) and its password are used when configuring Eucalyptus for VMware. Define and associate these new roles with vSphere objects by doing the following tasks:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Associate a top-level role (e.g., Eucalyptus vSphere) with the eucalyptus user at
+            		the top level of the vSphere hierarchy only. You don’t need to check <uicontrol>Propagate to Child Objects</uicontrol>. This role should have only one privilege:</cmd>
+            	<info>
+            		<image href="images/vmware_users_privs.png"/>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Associate a resource-level role (e.g., Eucalyptus) with the eucalyptus user at the
+        			level(s) encapsulating the resources that you want Eucalyptus to use. For example, you can create a new virtual datacenter for Eucalyptus to use, add to it the relevant hosts or clusters, and assign the eucalyptus user Eucalyptus role for the new datacenter. Check <uicontrol>Propagate to Child Objects</uicontrol>. The Eucalyptus role should have the following privileges:</cmd>
+        		<info>
+        			<image href="images/vmware_privs.png"/>
+        		</info>
+        	</step>
+        </steps>
+    	<postreq>You're now ready to set up a datastore.</postreq>
+    </taskbody>
+</task>

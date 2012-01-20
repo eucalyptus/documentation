@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ldap_sync_process">
+	<title>Understanding LDAP Synchronization</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<section>
+ 		<title>The Synchronization Process</title>
+ 		<p>The synchronization always starts when the following happens:</p>
+ 		<ul>
+ 			<li>You manually upload a LIC file. Every LIC upload, whether it is new or an update, triggers a new synchronization.</li>
+ 			<li>If the automatic synchronization is enabled, a synchronization is started when the timer goes off.</li>
+ 		</ul>
+ 		<note>Eucalyptus does not allow concurrent synchronization. If you trigger synchronization more than once within a short time period, only the first one will be allowed.</note>
+ 		<p>During a synchronization, everything specified by an LIC in the LDAP/AD tree will be downloaded into Eucalyptus’ internal database. Each synchronization is a merging process of the information already in the database and the information from LDAP/AD. There are three cases for each entity: user, group or account:</p>
+ 		<ul>
+ 			<li>If an entity from LDAP/AD is not in Eucalyptus, a new one is created in the database.</li>
+ 			<li>If an entity from LDAP/AD is already in Eucalyptus, the Eucalyptus version is updated. For example, if a user’s info attributes are changed, those changes are downloaded and updated.</li>
+ 			<li>If an entity in Eucalyptus is missing from LDAP/AD, it will be removed from the database if the clean-deletion option in LIC is set to true. Otherwise, it will be left in the database. </li>
+ 		</ul>
+ 		
+ 		<note type="important">If clean-deletion is set to true, the removed entities in Eucalyptus will be lost forever, along with all its permissions and credentials. The resources associated with the entity will be left untouched. It is system administrator’s job to recycle these resources.</note>
+ 	</section>
+ 	
+ 	<section>
+ 		<title>LDAP Integration Configuration Format</title>
+ 		
+ 			<p>An LIC is in JSON format, it has the following hierarchical structure and elements. Following
+ 				shows an example of the LIC file:</p>
+ 			<codeblock>{
+ 	"ldap-service":{
+ 	"server-url":"ldap://localhost:7733",
+ 	"auth-method":"simple",
+ 	"user-auth-method":"simple",
+ 	"auth-principal":"cn=ldapadmin,dc=foo,dc=com",
+ 	"auth-credentials": "{RSA/ECB/PKCS1Padding}EAXRnvwnKtCZOxSrD/F3ng/yHH3J4jMxNUSkJJf6oqNMsUihjUerZ20e5iyXImPgjK1ELAPnppEfJvhCs7woS7jtFsedunsp5DJCNhgmOb2CR/MnH11V3FNY7bBWoew5A8Wwy6.x7YrPMS0j7dJkwM7yfp1Z6AbKOo2688I9uIvJUQwEKS4dOp7RVdA0izlJBDPAxiFZ2qa40VjFI/1mggbiWDNlgxiVtZXAEK7x9SRHJytLS8nrNPpIvPuTg3djKiWPVOLZ6vpSgPcVEliP261qdUfnf3GDKi3jqbPpRRQ6n8yI6aHw0gAtq8/qPyqjkkDP8JsGBgmXMxiCNPogbWg==",
+ 	"use-ssl":"false",
+ 	"ignore-ssl-cert-validation":"false",
+ 	"krb5-conf":"/path/to/krb5.conf",
+ 	},
+ 	
+ 	"sync":{
+ 	"enable":"true",
+ 	"auto":"true",
+ 	"interval":"900000",
+ 	"clean-deletion":"false",
+ 	},
+ 	
+ 	"accounting-groups":{
+ 	"base-dn":"ou=groups,dc=foo,dc=com",
+ 	"id-attribute":"cn",
+ 	"member-attribute":"member",
+ 	"selection":{
+ 	"filter":"objectClass=accountingGroup",
+ 	"select":["cn=accountingToSelect,ou=Groups,dc=foo,dc=com"],
+ 	"not-select":["cn=accountingToIgnore,ou=Groups,dc=foo,dc=com"],
+ 	}
+ 	},
+ 	
+ 	"groups-partition":{
+ 	"fooAccount":["fooGroup1", "fooGroup2"],
+ 	"barAccount":["barGroup1", "barGroup2"],
+ 	},
+ 	
+ 	"groups":{
+ 	"base-dn":"ou=groups,dc=foo,dc=com",
+ 	"id-attribute":"cn",
+ 	"member-attribute":"member",
+ 	"selection":{
+ 	"filter":"objectClass=groupOfNames",
+ 	"select":["cn=groupToSelect,ou=Groups,dc=foo,dc=com"],
+ 	"not-select":["cn=groupToIgnore,ou=Groups,dc=foo,dc=com"],
+ 	}
+ 	},
+ 	
+ 	"users":{
+ 	"base-dn":"ou=people,dc=foo,dc=com",
+ 	"id-attribute":"uid",
+ 	"user-info-attributes":{
+ 	"fullName":"Full Name",
+ 	"email":"Email"
+ 	},
+ 	"selection":{
+ 	"filter":"objectClass=inetOrgPerson",
+ 	"select":["uid=john,ou=People,dc=foo,dc=com", "uid=jack,ou=People,dc=foo,dc=com"],
+ 	"not-select":["uid=tom,ou=People,dc=foo,dc=com"],
+ 	}
+ 	},
+ 	}</codeblock>
+ 			
+ 			<p>The following sections explain the main parts of a LIC file.</p>
+ 	</section>
+ 	
+ </conbody>
+</concept>

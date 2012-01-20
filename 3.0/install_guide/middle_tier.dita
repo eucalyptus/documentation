@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="middle_tier">
+ <title>Middle Tier Components</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>The Eucalyptus components deployed in the middle-tier of a Eucalyptus deployment are the Cluster Controller (CC), Storage Controller (SC), and VMware Broker.</p>
+ 	<note type="tip">You only need the VMware Broker if you are using VMware hypervisor.</note>
+ 	<p>You can install all middle-tier components on a single machine, or you can distribute them on different machines. The choice of one or multiple machines is dictated by the demands of user workload in terms of external network utilization (CC) and EBS volume access (SC). </p> 
+ 	
+ 	<section>
+ 		<title>CC Placement</title>
+ 		
+ 		<p>If you plan to use elastic IPs and security groups, the CC physical machine becomes a software IP gateway between VM instances and the public network. Because of this software routing function, the physical server on which the CC is deployed should have fast, dedicated network access to both the NC network, and the public network. </p>
+ 		<p>If you don’t plan to use elastic IPs or security groups, the CC physical machine will not act as a software gateway. Network traffic will be limited to small control messages. </p>
+ 		<p>In all cases, place the CC on a machine that has TCP/IP connectivity to the Eucalyptus front-end machines and the NC machines on its cluster.</p> 
+ 		
+ 	</section>
+ 	
+ 	<section>
+ 		<title>SC Placement</title>
+ 		
+ 		<p>The machine on which the SC is deployed must always have TCP/IP connectivity to the CLC. If you use one of Eucalyptus’ provided SAN integration drivers, the SC must also have TCP/IP connectivity to the chosen SAN device. In this case, the SC only sends control messages to the SAN. </p>
+ 		<p>If you don’t configure a SAN, the SC must only have TCP/IP connectivity to the NC in its cluster since it will implement EBS locally in the file system or in directly attached block storage devices. So, you are not using a SAN driver, the machine on which the SC is deployed should also provide a fast, reliable local disk pool (either file-system or block-attached storage) so that the SC can create and maintain EBS volumes locally. The capacity of the disk pool should be sufficient to provide the SC with enough space to accommodate all EBS volumes that will be created by end-users within the SC’s cluster.</p>
+ 		
+ 	</section>
+ 	
+ 	<section>
+ 		<title>VMware Broker Placement</title>
+ 		
+ 		<p>If you decide to install the VMware Broker, install with a CC that manages the cluster in which the VMware Broker is running. There is a one-to-one correspondence between the VMWare Broker components and CCs and the pairs must be located on the same server. </p>
+ 		<p>Also, the VMware Broker must be able to communicate with the various VMware components (either vSphere or ESX/ESXi hypervisors) in its cluster.</p>
+ 		
+ 	</section>
+ 	
+ </conbody>
+</concept>

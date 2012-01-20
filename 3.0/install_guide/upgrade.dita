@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="upgrade">
+ <title>Appendix: Upgrading Eucalyptus</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>If you are upgrading from a previous version of Eucalyptus, following the directions detailed
+ 		in this section.</p>
+ 	
+ 	<section>
+ 		<title>Migrating Users</title>
+ 		<p>Eucalyptus 3.0 enforces case insensitivity. So a user labeled <uicontrol>john</uicontrol>
+ 			and another user labeled <uicontrol>JOHN</uicontrol> will collide during the upgrade process. You
+ 			must either relabel conflicting accounts or be aware that Eucalyptus will relabel
+ 			these accounts. For example, the upgrade process will
+maintain the <uicontrol>john</uicontrol> label but will relabel the other one as
+ 			<uicontrol>john-</uicontrol>.</p>
+ 	</section>
+ 	<section>
+ 		<title>Migrating VLAN Range</title>
+ 		<p>In Eucalyptus 2.x, there were per-cluster settings in the web user interface for
+ 			<uicontrol>Min VLANs</uicontrol> and <uicontrol>Max VLANs</uicontrol>. These values defined the
+ 			range of numeric VLAN tags allowed for that cluster. In some cases, this was necessary due to
+ 			limitations of the network switches being used. Failing to preserve these values might break
+ 			your cloud's network configuration.</p>
+ 		
+ 		<p>In Eucalyptus 3.0, the VLAN tag range is a global setting. The safest thing is to
+ 			choose a range that is the intersection of the user's per-cluster settings from 2.x. However, this will
+ 			not always be the preferred configuration for each user.</p>
+ 		
+ 		<p>Use the <apiname>euca-describe-properties</apiname> command to display the new settings:
+ 		</p>
+ 		<codeblock>PROPERTY    cloud.network.global_max_network_tag    1000
+PROPERTY    cloud.network.global_min_network_tag    2</codeblock>
+ 	</section>
+ 	<section>
+ 		<title>Finding Backup Files</title>
+ 		<p>The upgrade process creates a backup to
+ 			<codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>. For example:</p>
+ 		<codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
+ 		<p>If the upgrade fails and needs to be reverted to 2.x, you can find your preserved data in this
+ 			directory.</p>
+ 	</section>
+ 	
+ </conbody>
+</concept>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="configuring_multi_cluster">
+	<title>Configuring Multi-Cluster Networking</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Eucalyptus supports multiple clusters within a single Eucalyptus cloud. This section briefly describes how Eucalyptus manages the networking aspect of a multi-cluster setup.</p> 
+ 	<p>In System or Static networking modes, Eucalyptus does not perform any special configuration for a multi-cluster setup. In Managed and Managed-NoVLAN modes, Eucalyptus sets up Layer 2 Tunneling Protocol (L2TP) between your clusters. This means that virtual machines in the same security group, but distributed across clusters (potentially each in their own broadcast domain), can communicate with one another. Eucalyptus uses the VTun package to handle all L2TP tunnels between clusters. If VTun is installed on each of your CCs, multi-cluster tunneling is automatically handled by each CC.</p>
+ 	<p>Depending on the networking mode and network topology, keep the following network configuration considerations in mind.</p>
+ 	<dl>
+ 		<dlentry>
+ 			<dt>Managed Mode:</dt>
+ 			<dd>During normal operation, you will see many tunnel interfaces being created and destroyed as virtual networks are constructed and torn down.</dd>
+ 		</dlentry>
+ 		<dlentry>
+ 			<dt>Managed (No VLAN) Mode:</dt>
+ 			<dd>In order for VTun tunneling to work in this mode, you must configure each CC with a bridge as its primary, public interface (<codeph>VNET_PUBINTERFACE</codeph>).</dd>
+ 		</dlentry>
+ 		<dlentry>
+ 			<dt>Managed Mode and Managed (No VLAN) Mode:</dt>
+ 			<dd>The CC attempts to auto-discover it's list of local IP addresses upon startup, but if the IP that was used to register the CC is not locally available, you can override the CC's notion of 'self' by setting the <codeph>VNET_LOCALIP</codeph> variable in the <filepath>eucalyptus.conf</filepath> file.
+ 				<p>Do not run two CCs in the same broadcast domain with tunneling enabled, as this will potentially lead to a broadcast storm as tunnels start forwarding packets in a loop on your local network.</p>
+ 			</dd>
+ 		</dlentry>
+ 	</dl>
+ 	<p>If you want to disable tunneling altogether, set <codeph>VNET_LOCALIP=0.0.0.0</codeph> in <filepath>eucalyptus.conf</filepath>.</p>
+ 	
+ </conbody>
+</concept>

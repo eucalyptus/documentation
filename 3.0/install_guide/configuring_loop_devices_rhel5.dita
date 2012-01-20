@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_loop_devices_rhel5">
+    <title>RHEL 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            
+        </context>
+    	<steps>
+    		<step>
+    			<cmd>Log in to the SC server.</cmd>
+    		</step>
+    		<step>
+    			<cmd>Create and open a file, <filepath>/etc/modprobe.d/eucalyptus-loop</filepath>.</cmd>
+    		</step>
+    		<step>
+    			<cmd>Enter the following line:</cmd>
+    			<info>
+    				<codeblock>options loop max_loop=N</codeblock>
+    				<p>where N is an integer from 1 to 256</p>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Reload the loop driver if it is already loaded.</cmd>
+    			<info>
+    				<codeblock>rmmod loop
+modprobe loop</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Repeat for each SC and NC server.</cmd>
+    		</step>
+    	</steps>
+    </taskbody>
+</task>

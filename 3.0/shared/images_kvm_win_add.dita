@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="images_kvm_win_add">
+	<title>Add Image to Eucalyptus</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To enable an image as an executable entity, you must bundle and upload the Windows disk
+				image to Walrus, and then register the uploaded image with Eucalyptus.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Run the following command to bundle, upload, and register your Windows disk image:</cmd>
+				<info>
+					<codeblock>euca-bundle-image -i &lt;vm_image_file> 
+euca-upload-bundle -b &lt;image_bucket> -m /tmp/&lt;vm_image_file>.manifest.xml
+euca-register &lt;image_bucket>/&lt;vm_image_file>.manifest.xml</codeblock>
+				</info>
+			</step>
+		</steps>
+		<result>Your Windows image is now ready to run as an instance.</result>
+		<postreq>After you register the image, Walrus decrypts the image bundle. This process might
+			take a few minutes for a large Windows image to be decrypted. For example, a 10G image
+			requires that you wait about 10 minutes before you launch the instance.</postreq>
+	</taskbody>
+</task>

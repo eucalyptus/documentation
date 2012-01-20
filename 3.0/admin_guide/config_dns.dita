@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="config_dns">
+    <title>Configure DNS</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>To configure DNS:</p>
+        	<draft-comment>Do we need to tell folks to do anything with existing DNS on the network?<!--Change your master DNS configuration to point to the CLC public IP (entered in the above step) as the nameserver for your chosen subdomain within your organization. Optionally, you can change your client's config (<codeph>/etc/resolv.conf</codeph> on Linux) to point to the cloud front end IP directly, but note that you will have to do this on each system that needs to access the Eucalyptus DNS service.--> </draft-comment>
+        	
+        </context>
+        <steps>
+            <step>
+            	<cmd>Tell Eucalyptus that you want instances to get a DNS name:</cmd>
+            	<info>
+            		<codeblock>euca-modify-property -p bootstrap.webservices.use_instance_dns=true</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>In HA, we recommend that you configure Eucalyptus to use names for CLC and Walrus:</cmd>
+        		<info>
+        			<codeblock>euca-modify-property -p bootstrap.webservices.use_dns_delegation=true</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>For HA, you must forward the Eucalyptus subdomain to Eucalyptus name servers:</cmd>
+        		<info>
+        			<codeblock>euca-modify-property -p
+        				system.dns.dnsdomain=&lt;eucadomain.yourorganization.com></codeblock>
+        		</info>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

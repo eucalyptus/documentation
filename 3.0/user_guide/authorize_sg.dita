@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="authorize_sg">
+    <title>Authorize Security Groups</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Security Groups are sets of networking rules (in effect a firewall) applied to VMs associated with a group. When you first create a VM instance, it is assigned to a “default” security group that denies incoming network traffic from all sources. Hence, to allow login and usage of a new VM instance, you must authorize network access to the “default” security group with the euca-authorize command.</p>
+        	<p>To authorize a security group:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Enter <codeph>euca-authorize</codeph>, followed by the name of the security group,
+            	and the options of the network rules you want to apply.</cmd>
+            	<info>
+            		<codeblock>euca-authorize &lt;security_group></codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example>
+    		<p>In the following example, the security group <codeph>default</codeph> is authorized
+    			unlimited network access using SSH (TCP, port 22) and remote desktop (TCP, port 3389):</p>
+    		<codeblock>euca-authorize –P tcp –p 22 –s 0.0.0.0/0 default
+ euca-authorize –P tcp –p 3389 –s 0.0.0.0/0 default</codeblock>
+    	</example>
+    	<!--<postreq>For more information about <codeph>euca-authorize</codeph>, see the CLI Reference
+    		Guide.</postreq>-->
+    </taskbody>
+</task>

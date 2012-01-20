@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="account_users_groups">
+ <title>Accounts, Users, and Groups</title>
+ <shortdesc></shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>identity
+				<indexterm>model</indexterm>
+				</indexterm>
+				<indexterm>user
+				<indexterm>friendly name</indexterm>
+				</indexterm>
+				<indexterm>group
+					<indexterm>friendly name</indexterm>
+				</indexterm>
+				<indexterm>
+					account
+					<indexterm>eucasystem</indexterm>
+				</indexterm>
+				<indexterm>
+					user
+					<indexterm>eucaadmin</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+ <conbody>
+ 	<p>The EIAM identity model is organized into a two-level hierarchy. At the top level are accounts. Accounts are the unit for resource usage accounting. Each account is a separate namespace and is identified by its universal unique identifier (UUID).</p> 
+ 	<p>At the next level are users and groups. Users are subsets of accounts and are added to accounts by an appropriately credentialed administrator. Note that while the term “user” typically refers to a specific person, EIAM defines a user by a specific set of credentials generated to enable access to a given account. Each set of user credentials is valid for accessing only the account for which they were created. Thus a user only has access to one account within a Eucalyptus system. If an individual person wishes to have access to more than one account within a Eucalyptus system, a separate set of credentials must be generated (in effect a new ‘user’) for each account (though the same username and password can be used for different accounts).</p>  
+ <p>Groups are used to share resource access authorizations among a set of users within an account. Users can belong to multiple groups.</p>
+ <p>Both users and groups are given friendly names (e.g., Bob, Jane, Test1, etc.) as identifiers that are unique within a given account. Users and groups also have a path. The path is used to organize the user and group names. So a user or a group can be identified by a path plus a name, for example: “/sales/support/bob”, etc. By default all users and groups have a path “/”.  Note however that the path does not automatically organize users into groups, thus it does not affect the permissions that a user or group has.</p>
+ 	<p>The following diagram shows the relationships between accounts, groups, and users:</p>
+ 	<draft-comment>Need image.</draft-comment>
+ 	
+ 		<!--<image href="images/accounts_users_groups.png" scale="75" alt="Diagram showing accounts at top
+ 			level, users at middle level, and groups below users."/>-->
+ 	
+ 	<p>Note that in the diagram, the same user name and group name in different accounts represent different identities (implying different credentials and resource usage accounting, although they could have the same user information and represent the same user in real world).</p>
+ 	<p>For ease of system management, EIAM also includes the following special identities that are not present in Amazon IAM:</p>
+ 	
+ 	<dl>
+ 		<dlentry>
+ 		<dt>eucasystem account</dt>
+ 		<dd>This is the account for system administrator in Eucalyptus. Any users in
+ 			this account have full access to any resources in Eucalyptus. This is identical to the super
+ 			user or root in operating systems. This account is created automatically after Eucalyptus is
+ 			first installed. You cannot delete this account.</dd>
+ 		
+ 		</dlentry>
+ 		<dlentry>
+ 			<dt>eucaadmin user</dt>
+ 		<dd>Each account also has a special user acting as the super user or root. This
+ 			user has full access to any resources owned by this account. This user is automatically created
+ 			when the account is created. Nobody can delete this user unless the account is deleted. This
+ 			user also holds the credentials for the owning account.</dd>
+ 		</dlentry>
+ 	</dl>
+ 	
+ </conbody>
+</concept>

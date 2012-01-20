@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="planning_networking_modes">
+ <title>Planning Networking Modes</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Eucalyptus overlays a virtual network on top of your existing network. In order to do this,
+ 		Eucalyptus supports four different networking modes: Managed, Managed (No VLAN), System, and Static. Each mode is designed to allow you to choose an appropriate level of security and flexibility. The purpose of these modes is to direct Eucalyptus to use different network features to manage the virtual networks that connect VMs to each other and to clients external to Eucalyptus. </p> 
+ 	<p>A Eucalyptus installation must be compatible with local site policies and configurations (e.g., firewall rules). Eucalyptus configuration and deployment interfaces allow a wide range of options for specifying how it should be deployed. However, choosing between these options implies tradeoffs.</p>
+ 	<p>Your choice of networking mode depends on the following considerations:</p> 
+ 	<ul>
+ 	<li>Do you plan to support elastic IPs and security groups?</li>
+ 	<li>Do you plan to provide your own network DHCP server?</li>
+ <li>	Do you plan to support Layer 2 VM isolation?</li></ul>
+ 	
+ 	
+ 	
+ 	<p>These networking features are described in the following table:</p>
+ 	<table>
+ 		<tgroup cols="3">
+ 			<thead>
+ 				<row>
+ 					<entry>Feature</entry>
+ 					<entry>Description</entry>
+ 					<entry>Mode</entry>
+ 				</row>
+ 			</thead>
+ 			<tbody>
+ 				<row>
+ 					<entry>Elastic IPs</entry>
+ 					<entry>Eucalyptus instances typically have two IPs associated with them: a private one and a public
+ 						one. Private IPs are intended for internal communications between instances and are usually
+ 						only routable within a Eucalyptus cloud. Public IPs are used for external access and are
+ 						usually routable outside of Eucalyptus cloud. How these addresses are allocated and assigned
+ 						to instances is determined by a networking mode. In System and Static modes, an instance is
+ 						assigned only one IP address, which will be represented as both the private and public
+ 						address assigned to the instance.  Whether this address is routable outside of Eucalyptus is
+ 						a property of the addresses that are set by the cloud administrator during Eucalyptus
+ 						configuration. The distinction between public and private addresses becomes important in
+ 						Managed and Managed (No VLAN) modes, which support elastic IPs. With elastic IPs the user
+ 						gains control over a set of static IP addresses. Once allocated to the user, those same IPs
+ 						can be dynamically associated to running instances, overriding pre-assigned public IPs. This
+ 						allows users to run well-known services (for example, web sites) within the Eucalyptus cloud and to assign those services fixed IPs that do not change.</entry>
+ 					<entry>Managed
+ 						<p>Managed (No VLAN)</p></entry>
+ 				</row>
+ 				<row>
+ 					<entry>Security groups</entry>
+ 					<entry>Security groups are sets of networking rules that define the access rules for all VM instances associated with a group. For example, you can specify ingress rules, such as allowing ping (ICMP) or SSH (TCP, port 22) traffic to reach VMs in a specific security group. When you create a VM instance, unless otherwise specified at instance run-time, it is assigned to a default security group that denies incoming network traffic from all sources. Thus, to allow login and usage of a new VM instance you must authorize network access to the default security group with the euca-authorize command.	</entry>
+ 					<entry>Managed
+ 						Managed (No VLAN)</entry>
+ 				</row>
+ 				<row>
+ 					<entry>VM isolation</entry>
+ 					<entry>Although network traffic between VM instances belonging to a security group is always open, Eucalyptus can enforce isolation of network traffic between different security groups. This isolation is enforced using a VLAN tag per security group, thus, protecting VMs from possible eavesdropping by VM instances belonging to other security groups.</entry>
+ 					<entry>Managed</entry>
+ 				</row>
+ 				<row>
+ 					<entry>DHCP server</entry>
+ 					<entry>	Eucalyptus assigns IP addresses to VMs in all modes except System. In System mode, you must allow a DHCP server outside of Eucalyptus to assign IPs to any VM that Eucalyptus starts.	</entry>
+ 					<entry>Static
+ 						Managed
+ 						Managed (No VLAN</entry>
+ 				</row>
+ 			</tbody>
+ 		</tgroup>
+ 	</table>
+ 	
+ 	<p>If Eucalyptus can control and condition the networks its components use, your deployment will
+ 		support the full set of API features. However, if Eucalyptus is confined to using an existing network, some of the API features might be disabled. So, understanding and choosing the right networking configuration is an important (and complex) step in deployment planning.</p>
+ 		<p>The following image shows which networking mode you should choose, depending on what networking features you want:
+ 	</p>
+ 	
+ 	<image href="images/networking_mode_decision.png"/>
+ 	
+ 	<p>Each networking mode is detailed in the following sections.</p>
+ 	
+ </conbody>
+</concept>

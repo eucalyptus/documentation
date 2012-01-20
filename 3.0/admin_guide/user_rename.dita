@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="user_rename">
+    <title>Rename User</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Changing a user name is similar to moving the user. Administrators in your AWS account are probably the only types of users who will have permission to rename users and groups (or change their paths). To understand why, think of changing the name or path of a user or group as a "move" operation. Whoever wants to rename the user or group needs to have permission to do it on both sides of the "move."</p>
+        	<draft-comment>Edit and use as template for other tasks. Mainly use the why and when to use
+        	the task.</draft-comment>
+        	
+        	<p>For example, let's say a user is changing from one division in the company to another. You need to change the user's path from /division_abc/ to /division_efg/. So, you need permission to remove the user from /division_abc/, and you need permission to put the user into /division_efg/. Effectively this means you need permission to call UpdateUser on both arn:aws:iam::123456789012:user/division_abc/* and arn:aws:iam::123456789012:user/division_efg/*. It's possible that the only people within the organization who have that type of permission are administrators.</p>
+        </context>
+        
+    </taskbody>
+	<task id="user_rename_cli">
+		<title>Using the CLI</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To rename a user using the CLI:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>euare-usermod -u &lt;user_name> --new-user-name &lt;new_name></codeblock>
+					</info>
+					<stepresult>Eucalyptus does not return a message.</stepresult>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="user_rename_db">
+		<title>Using the Dashboard</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To rename a user using the Dashboard:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Click <uicontrol>Users</uicontrol> in the Quick Links section.</cmd>
+					<stepresult>The <uicontrol>Users</uicontrol> page displays.</stepresult>
+				</step>
+				<step>
+					<cmd>Click the <uicontrol>ID</uicontrol> of the user you want to rename.</cmd>
+					<stepresult>The user's <uicontrol>Properties</uicontrol> area displays.</stepresult>
+				</step>
+				<step>
+					<cmd>In the <uicontrol>Name</uicontrol> field, enter the new name of the user.</cmd>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>Save</uicontrol>.</cmd>
+				</step>
+			</steps>
+			<result>The new user name displays in the <uicontrol>Users</uicontrol> page.</result>
+		</taskbody>
+	</task>
+</task>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="add_cluster">
+	<title>Add a Cluster</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>You might want to add a new <indexterm><term>cluster</term></indexterm> to your for a
+				variety of reasons: adding new machines, using another hypervisor, or increasing
+				capacity.</p>
+			<note type="tip">Each Eucalyptus cluster has its own cluster controller and storage
+				controller. You can view detailed information about clusters by entering the following
+				command: <codeph>euca-describe-availability-zones verbose</codeph>. </note>
+			<p>To add a cluster:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Install the Eucalyptus packages from <draft-comment>Maybe this should be earlier?</draft-comment>.</cmd>
+			</step>
+			<step>
+				<cmd>Log in as root to the CLC.</cmd>
+			</step>
+			<step>
+				<cmd>Enter the following command to register the CC:</cmd>
+				<info><codeblock>/usr/sbin/euca_conf --register-cluster
+        			&lt;new_cluster_name&gt; &lt;CC_IP_address&gt;</codeblock></info>
+			</step>
+			<step>
+				<cmd>Enter the following command to register the SC:</cmd>
+				<info><codeblock>/usr/sbin/euca_conf --register-sc &lt;new_cluster_name&gt;
+        			&lt;SC_IP_address&gt;</codeblock></info>
+			</step>
+			<step>
+				<cmd>If you have it installed, register the Broker. Otherwise, skip this step.</cmd>
+				<info><codeblock>/usr/sbin/euca_conf --register-vmwarebroker &lt;new_cluster_name&gt;
+        			&lt;CC_IP_address&gt;</codeblock></info>
+			</step>
+			<step product="ha">
+				<cmd>If you are using HA, register the replicated controller information using the same
+					cluster name you used in the previous steps. However, use the IP address of the new
+					replicated component.</cmd>
+				<info><codeblock>/usr/sbin/euca_conf --register-cluster
+        			&lt;new_cluster_name&gt; &lt;replicated_CC_IP_address&gt;
+/usr/sbin/euca_conf --register-sc &lt;new_cluster_name&gt;
+        			&lt;replicated_SC_IP_address&gt;
+</codeblock></info>
+			</step>
+		</steps>
+	</taskbody>
+</task>

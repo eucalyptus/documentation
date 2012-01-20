@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="images_xen_win_baseos">
+	<title>Install Base Windows OS</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>The first task for creating a Windows image is installing a base Windows operating system (OS). To
+        		install a base Windows OS:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Log in to the stopped NC server or a host that runs the same hypervisor as the NCs.</cmd>
+            </step>
+        	<step id="xen_win_secondary_disk">
+        		<cmd>Create a blank disk file. Specify your Windows VM image name using the parameter
+        			<codeph>of</codeph>.</cmd>
+        		<info>
+        			<codeblock>dd if=/dev/zero of=windows.&lt;image_name>.img \
+        			bs=1M count=1 seek=16999</codeblock>
+        			<note type="important">Your image name must start with the word, <codeph>windows</codeph>
+        				(all lower-case).</note>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Create a floppy and secondary blank disk to be attached to the image later, in order to test paravirtualization drivers</cmd>
+        		<info>
+        			<codeblock>dd if=/dev/zero of=floppy.img \
+	bs=1k count=1474
+	dd if=/dev/zero of=secondary.img \
+	bs=1M count=1 seek=1000</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Make available the .iso file that contains your Windows installation CD/DVD, then copy the .iso file to your working directory.</cmd>
+        		
+        	</step>
+        	<step>
+        		<cmd>Copy the <filepath>libvirt-xen-windows-example.xml</filepath> file to your working
+        			directory (<filepath>$EUCALYPTUS/usr/share/eucalyptus/doc/</filepath>).</cmd>
+        	</step>
+        	<step>
+        		<cmd>Open the new <filepath>libvirt-xen-windows-example.xml</filepath> file and provide
+        			fully qualified paths to the VM image file and iso. Make sure that the name of the bridge is the same as the one used by the hypervisor on which you are creating the Windows image.</cmd>
+        		<!--<info>
+        			<note type="tip">brctrl show command shows bridge name—ensure that it’s the same.</note>
+        		</info>-->
+        		<stepresult>
+        			<p>Your file should looks similar to this example:</p>
+        			<codeblock>&lt;domain type='xen'>
+    &lt;name>eucalyptus-windows&lt;/name>
+    &lt;os>
+            &lt;type>hvm&lt;/type>
+            &lt;loader>/usr/lib/xen/boot/hvmloader&lt;/loader>
+            &lt;boot dev='cdrom'/>
+    &lt;/os>
+  &lt;features>
+    &lt;acpi/>
+    &lt;apic/>
+    &lt;pae/>
+  &lt;/features>
+  &lt;clock offset='localtime'/>
+  &lt;on_poweroff>destroy&lt;/on_poweroff>
+  &lt;on_reboot>restart&lt;/on_reboot>
+  &lt;on_crash>destroy&lt;/on_crash>
+    &lt;memory>524288&lt;/memory>
+    &lt;vcpu>1&lt;/vcpu>
+    &lt;devices>
+        &lt;emulator>/usr/lib64/xen/bin/qemu-dm&lt;/emulator>
+        &lt;disk type='file'>
+            &lt;source file='/root/windows_2003.img'/>
+            &lt;target dev='hda' bus='ide'/>
+        &lt;/disk>
+        &lt;!--&lt;disk type='file' device='disk'>
+            &lt;driver name='tap' type='aio'/>
+            &lt;source file='fully_qualified_path_to_secondary_disk'/>
+            &lt;target dev='xvda' bus='xen'/>
+        &lt;/disk>
+        &lt;disk type='file' device='floppy'>
+             &lt;source file='fully_qualified_path_to_floppy_disk'/>
+             &lt;target dev='fda'/>
+        &lt;/disk> -->
+        &lt;disk type='file' device='cdrom'>
+            &lt;source file='/root/en_win_srv_2003_r2_enterprise_with_sp2_cd1_x13-05460.iso'/>
+            &lt;target dev='hdc'/>
+            &lt;readonly/>
+        &lt;/disk>
+        &lt;interface type='bridge'>
+            &lt;source bridge='xenbr0'/>
+            &lt;script path='/etc/xen/scripts/vif-bridge'/>
+        &lt;/interface>
+        &lt;serial type='pty'>
+           &lt;source path='/dev/pts/3'/>
+           &lt;target port='0'/>
+        &lt;/serial>
+        &lt;input type='tablet' bus='usb'/>
+        &lt;input type='mouse' bus='ps2'/>
+        &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
+    &lt;/devices>
+&lt;/domain></codeblock>
+        		</stepresult>
+        	</step>
+        	<step>
+        		<cmd>Start the VM.</cmd>
+        		<info>
+        			<codeblock>virsh create libvirt-xen-windows-example.xml</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Connect to the virtual console using the VNC client of your choice. On the NC, check
+        			the display number that has been allocated by looking at the process table (<codeph>ps axw |
+        			grep vnc</codeph>). For example, if the display number is 0, then connect to the NC using the VNC client:</cmd>
+        		<info>
+        			<codeblock>vinagre &lt;machine-hosting-vm>:0</codeblock>
+        			<note type="tip">You can also connect to your Windows image using the Virtual Manager and Virtual Viewer utilities with Centos/Xen systems.</note>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Follow the standard Windows installation procedure until the VM has completed installing Windows.</cmd>
+        		<info>
+        			<note type="tip">On some hosts, the VNC’s display number will change when a VM restarts. Use <codeph>ps</codeph> to find the current number.</note>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Run <codeph>virsh</codeph> list to display the domain name.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Shut down the Windows VM you have just created. The easiest way to shutdown your VM
+        			is use the <codeph>virsh destroy</codeph> command, as shown:</cmd>
+        		<info>
+        			<codeblock>virsh destroy &lt;domain_name></codeblock>
+        		</info>
+        	</step>
+        </steps>
+    	<postreq>You are now ready to <xref href="images_xen_win_wis.dita"/>.</postreq>
+    </taskbody>
+</task>

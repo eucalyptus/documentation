@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="configuring_security_groups">
+	<title>Setting Up Security Groups</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<draft-comment>This can't be done on the Dashboard. How can this be done now?</draft-comment>
+ 	<p>To determine the number of active security groups, divide the number of IP addresses available
+ 		by the number of addresses per network. In our example there are 65536 addresses available (192.168.0.0/16). If we divide by the number of addresses per network (set to 32 below), we find the maximum number of subnets is (65536 / 32 = 2048). We also need to know the number of VLANs available to Eucalyptus. You can find this in the Eucalyptus Dashboard under the configuration tab > Clusters > Use VLAN tags.</p> 
+ 		<p>For the purposes of illustration, Let's assume the default range of available VLANs in the
+ 			Dashboard is set from 10 to 4095. The total number of available security groups is computed as</p>
+ 		<codeblock>#security groups = min(VLAN-end, #subnet) - VLAN-start</codeblock>
+ 	<p>In our example:</p>
+ 		<codeblock>min(4095, 2048) - 10 =  2038</codeblock>
+ 		<p>Thus we can have 2038 active security groups at any given time if the Eucalyptus Dashboard is set to “10 to 4095.”  If the Dashboard value is changed to “2 to 4095” then the available security groups would be 2046. It is using the Web UI restriction mechanism that a site can specify a VLAN range Eucalyptus to use. Calculating the total number of security groups, each of which requires a separate VLAN and subnet, requires this specific computation.</p>
+ </conbody>
+</concept>

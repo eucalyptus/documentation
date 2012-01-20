@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="planning_ha">
+ <title>High Availability Support</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Eucalyptus includes the ability to run redundant, hot swappable instances for the CLC, Walrus, CC, SC, and VMware Broker components. In a high availability (HA) configuration, a failure of any single component will not cause the system to halt. If your network configuration includes redundant networking hardware and routing paths, HA Eucalyptus can then tolerate a network component failure (e.g. the loss of a networking switch) without halting.</p>
+ 	<p>The deployment choices for HA Eucalyptus are similar to a non-HA Eucalyptus with two additional considerations.</p>
+ 	<ol><li>You must host redundant Eucalyptus software components on separate hardware components in order to be able to tolerate a hardware failure. If, for example, you install redundant CLCs on the same machine and the machine crashes, both CLCs will become inoperable. </li>
+ 	<li>Redundant components (which occur in pairs) must be able to communicate with each other through the network to which they are both attached while they are running. For example, both CLC components in an HA installation must be able to exchange messages.  If you use a firewall to separate them, one will not detect a failure of the other and a hot failover will not occur. This ability for pairs of components to communicate is required for the CLC, Walrus, CC, SC, and the VMware Broker for HA to operate properly.</li></ol> 
+ <p>Note that the same considerations for non-HA Eucalyptus with respect to networking mode and components placement apply to HA Eucalyptus in addition to the need for redundant component pairs to be able to communicate. Note also that the NC components are deployed redundantly in an HA Eucalyptus deployment. If a node running an NC fails, Eucalyptus will continue to be available for user requests (although the VMs running on that specific node will be lost).</p>
+ 	
+ </conbody>
+</concept>

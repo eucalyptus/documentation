@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="registering_scs">
+    <title>Register the SCs</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
+        	of SCs.</p>
+        	<ul>
+        		<li>&lt;SC #1 IPAddress> is the IP address of the physical server hosting one SC component.</li>
+        		<li>&lt;SC #2 IPAddress> is the IP address of the physical server hosting the other.</li>
+        	</ul>
+
+        </context>
+        <steps>
+            <step>
+            	<cmd>On one of the CLCs, register the primary SC using the following command:</cmd>
+            	<info>
+            		<codeblock>/usr/sbin/euca_conf --register-sc --partition=zone00 --host=&lt;SC_#1_IP_address> 
+	--component=sc00 </codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Register the secondary SC by entering the following command:</cmd>
+        		<info>
+        			<codeblock>/usr/sbin/euca_conf --register-sc --partition=zone00 --host=&lt;SC_#2_IP_address> 
+		--component=sc01</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

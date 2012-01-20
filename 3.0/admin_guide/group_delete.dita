@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="group_delete">
+    <title>Delete Group</title>
+    <shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>
+					group
+					<indexterm>delete</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+    <taskbody>
+        <context>
+            <p>Context for the current task</p>
+        </context>
+        
+    </taskbody>
+	<task id="group_delete_cli">
+		<title>Delete a Group (CLI)</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>When you delete a group, you have to remove users from the group and delete any policies from
+					the group. You can do this with one command, using the <apiname>euare-groupdel</apiname> command
+					with the <codeph>-r</codeph> option. Or you can follow the following steps to specify who and what you
+				want to delete.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Individually remove all users from the group.</cmd>
+					<info>
+						<codeblock>eucare-groupremoveuser -g &lt;group_name> -u &lt;user_name></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Delete the policies attached to the group.</cmd>
+					<info>
+						<codeblock>euare-groupdelpolicy -g &lt;group_name> -p &lt;policy_name></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Delete the group.</cmd>
+					<info>
+						<codeblock>euare-groupdel -g &lt;group_name></codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>The group is now deleted.</result>
+			<!-- <postreq>For more information about Eucalyptus commands, see . . .</postreq> -->
+		</taskbody>
+	
+	</task>
+	
+	<task id="group_delete_db">
+		<title>Delete a Group (Dashboard)</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To delete a group using the Dashboard:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Click <uicontrol>Groups</uicontrol> in the Quick Links section.</cmd>
+					<stepresult>The <uicontrol>Groups</uicontrol> page displays.</stepresult>
+				</step>
+				<step>
+					<cmd>Click the <uicontrol>ID</uicontrol> of the group you want to delete.</cmd>
+					<stepresult>The ID, Name, Path, and Owner account line is highlighted.</stepresult>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>Delete groups</uicontrol>.</cmd>
+					<stepresult>The <uicontrol>Delete selected groups</uicontrol>popup displays.
+					<image href="images/group_delete.png" alt="Image of the Delete selected groups popup window"/></stepresult>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>OK</uicontrol>.</cmd>
+				</step>
+			</steps>
+			<result>The group is now deleted.</result>
+		</taskbody>
+	</task>
+	
+</task>

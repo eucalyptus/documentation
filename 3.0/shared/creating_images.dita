@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="creating_images">
+ <title>Creating an Image</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>You can create your own image if you to deploy an instance that is customized for your specific use. For example, you can create an EMI to deploy a LAMP server, MySQL database server, or a Postgres database server. All you need is some familiarity with the creation process.</p>
+ 
+ 	<section>
+ 		<title>About Linux Images</title>
+ 		<p>A Linux image is a root partition of a Linux installation. We use the convention followed by EC2 images:</p>
+ 		<ul>
+ 		<li>The first partition is the root partition (where the EMI is attached)</li>
+ 		<li>The second is the ephemeral partition (for additional storage)</li>
+ 		<li>The third is the swap partition</li>
+ 		</ul>
+ 		<p>Any image you create must conform to these conditions (for example, <filepath>/etc/fstab</filepath> must follow this convention). Typically, the disk provided by Eucalyptus (as well as EC2) is the first SCSI disk (sda). However, you can customize it to be, for example, the first IDE disk (hda) or the first virtual disk on a paravirtual machine (xvda). </p>
+ 		
+ 	</section>
+ 	<section>
+ 		<title>About Windows Images</title>
+ 		<p>Eucalyptus supports a licensed version of Windows images. Before you bundle a Windows image,
+ 			you must have a valid version of Windows OS installed on your hypervisor and the Eucalyptus
+ 			Windows Integration Service installed in the created Windows VM. The following sections detail
+ 			how to perform these tasks.</p>
+ 		<draft-comment>Re: Bundling Windows image, Sang-Min notes: "I think bundle-instance a user-facing
+ 			command line and thus "Bundle a Windows Instance" should be moved to under "Using Instances" of User Guide. And there's a ticket that corrects the contents here (https://support.eucalyptus.com/Ticket/Display.html?id=5495)."
+ 		</draft-comment>
+ 		<p>Eucalyptus is compatible with images created from licensed versions of Windows Server 2003 R2, Windows Server 2008, Windows Server 2008 R2, and Windows 7. Windows OS is sensitive to physical and virtual hardware changes made after installation. We recommend that you create any Windows image on the specific hypervisor (Xen, KVM, or VMware) where you plan to run instances of that Windows image. Eucalyptus does not support running a Windows image across different hypervisors.</p>
+ 		
+ 		<p>Before you begin, you will need the following room for a blank disk file:</p>
+ 		<ul>
+ 			<li>8GB minimum, for Windows Server 2003 R2 (32-bit and 64-bit)</li>
+ 			<li>15GB minimum for Windows Server 2008 (32-bit and 64-bit), Windows Server 2008 R2 (64-bit), and Windows 7 (32-bit and 64-bit)</li>
+ 		</ul>
+ 		
+ 		<note type="tip">Eucalyptus implements ephemeral disks by which a running Windows instances are allocated an additional disk space based on the instance type. For example, if you assign an instance type 15 GB of disk and the registered Windows EMI is 8 GB, 7 GB of disk spaces are ephemeral disks accessible under <filepath>D:\</filepath>. If your Windows application uses scratch space most of time, we recommend keeping the Windows EMI small because it takes longer to launch bigger EMIs.</note>
+ 		
+ 		<p>The windows image is a root file system that has no kernel and ramdisk associated with it.
+ 			After creating your own Windows images, you can bundle, upload, and register it with Eucalyptus.</p>
+ 
+ 	</section>
+ 	<section>
+ 		<title>Hypervisor and OS Information</title>
+ 		<p>The follow sections detail how to create an image based on the hypervisor you use. To create
+ 			an image, choose which hypervisor you will use, which OS you want the
+ 			image to be, and then follow the directions for that choice.</p>
+ 		<draft-comment>Uncomment and finish the table, or delete and restructure.</draft-comment>
+ 		<!--<table>
+ 			<tgroup cols="3">
+ 				<thead>
+ 					<row>
+ 						<entry>Hypervisor</entry>
+ 						<entry>OS</entry>
+ 						<entry>Directions</entry>
+ 					</row>
+ 				</thead>
+ 				<tbody>
+ 					<row>
+ 						<entry>Xen</entry>
+ 						<entry>Linux</entry>
+ 						<entry>See <xref href="create_comps_xen_lin.dita"/></entry>
+ 					</row>
+ 					<row>
+ 						<entry>Xen</entry>
+ 						<entry>Windows</entry>
+ 						<entry>See <xref href="create_comps_xen_win.dita"/></entry>
+ 					</row>
+ 					<row>
+ 						<entry>KVM</entry>
+ 						<entry>Linux</entry>
+ 						<entry>See <xref href="create_comps_kvm_lin.dita"/></entry>
+ 					</row>
+ 					<row>
+ 						<entry>KVM</entry>
+ 						<entry>Windows</entry>
+ 						<entry>See <xref href="create_comps_kvm_win.dita"/></entry>
+ 					</row>
+ 					<row>
+ 						<entry>VMware</entry>
+ 						<entry>Linux</entry>
+ 						<entry>See <xref href="create_comps_vmware_lin.dita"/></entry>
+ 					</row>
+ 					<row>
+ 						<entry>VMware</entry>
+ 						<entry>Windows</entry>
+ 						<entry>See <xref href="create_comps_vmware_win.dita"/></entry>
+ 					</row>
+ 				</tbody>
+ 			</tgroup>
+ 		</table>-->
+ 	</section>
+ 	
+ </conbody>
+</concept>

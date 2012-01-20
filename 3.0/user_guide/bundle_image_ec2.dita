@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="bundle_image_ec2">
+    <title>Bundle an Image for Amazon EC2</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>To bundle an image for use with Amazon EC2:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Locate the Amazon ec2 cert file that is provided as part of the EC2 AMI tools. This file is generally located in 
+            		<filepath>$EC2_AMITOOL_HOME/etc/ec2/amitools/cert-ec2.pem</filepath>.
+            	</cmd>
+            </step>
+        	<step>
+        		<cmd>Enter the following command:</cmd>
+        		<info>
+        			<codeblock>euca-bundle-image -i &lt;image_name> \
+-c &lt;cert_filename> -k &lt;private_key_filename> \
+--ec2cert &lt;path_to_cert_file> </codeblock>
+        		</info>
+        	</step>
+        </steps>
+    	<example>
+    		<codeblock>euca-bundle-image -i euca-centos-5.3 \
+ 	x86_64/centos.5-3.x86-64.img  -u 123456789111 -c cert- \
+ 	abc.pem -k pk-abc.pem --ec2cert \
+ 	$EC2_AMITOOL_HOME/etc/ec2/amitools/cert-ec2.pem </codeblock>
+    	</example>
+    </taskbody>
+</task>

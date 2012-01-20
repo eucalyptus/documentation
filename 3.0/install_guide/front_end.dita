@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="front_end">
+	<title>Front-End Components</title>
+	<shortdesc/>
+	<conbody>
+		<p>The main decision for front-end components is whether to install the CLC and Walrus on the
+			same server. If they are on the same server, they operate as separate web services within a
+			single Java environment, and they use a fast-path for inter-service communication. If they are
+			not on the same server, then they use SOAP and REST to work together.</p>
+		<p>However, when installed on the same server, the CLC and Walrus must share a common memory
+			footprint, both managed by the Java memory manager. Walrus self-tunes its performance based on
+			the memory pressure it perceives and runs faster with more memory. So, while separating the
+			CLC and Walrus decreases the efficiency of the messaging between the two, it often increases
+			the responsiveness of the overall Eucalyptus system when Walrus is given a large memory
+			footprint.</p>
+		<p>Sometimes the key factor for front-end components is not performance, but server cost and
+			data center configuration. If you only have one server available for the front-end, then you
+			have to install the components on the same server.</p>
+		<p>The CLC and Walrus components are not designed to be separated by wide-area, common carrier
+			networks. They use aggressive time-outs to maintain system responsiveness so separating them
+			over a long-latency, lossy network link will not work.</p>
+		<p>The CLC and Walrus communicate with Eucalyptus clients independently. End-users typically
+			interact with Eucalyptus through a client interface. They can use either our provided
+			euca2ools Linux command line client tools, or the Eucalyptus AWS-compatible API, or a
+			third-party client that is compatible with Eucalyptus. In all cases, the end-user client must
+			be able to send messages via TCP/IP to the machine on which the CLC is deployed.</p>
+		<p>In addition, the CLC must have TCP/IP connectivity to all other Eucalyptus components except
+			for node controllers (NCs), which may reside on their own private networks. In addition, NC
+			servers must be able to send messages to the Walrus server because images are downloaded by
+			the NC using the Walrus URL. That is, the CLC does not need to be able to route network
+			traffic directly to the NCs but Walrus does for the purposes of image delivery.</p>
+
+	</conbody>
+</concept>

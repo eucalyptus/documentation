@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="images_vmw_win_convert">
+	<title>Convert the VMDK to an Image</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>After your Windows VM image is ready on ESX/ESX-i/VCenter, use the <codeph>euca_imager</codeph> command to download the image and convert it to the format Eucalyptus uses. The <codeph>euca_imager</codeph> command converts a remote VMDK located on a datastore into a disk image on the local disk on the CC/VMware Broker machine.</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Log into the CC/VMware Broker machine and, if necessary, set the appropriate
+            	environment variables.</cmd>
+            	<info>
+            		<codeblock># export VDDK_HOME=/opt/packages/vddk/ 
+# export EUCALYPTUS=/ 
+# export LD_LIBRARY_PATH=/opt/packages/vddk/lib/vmware-vix-disklib/lib64/ 
+# PATH=/usr/lib/eucalyptus/:$PATH 
+# cd ~/.euca (or path to .eucarc) 
+# source .eucarc 
+</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Enter the euca_imager command with appropriate parameters to extract and convert the
+        			VMDK to a raw disk image. Parameters are described in the following
+        			table:<draft-comment>Verify these params and descriptions.</draft-comment></cmd>
+        		<info>
+        			<table>
+        				<tgroup cols="2">
+        					<thead>
+        						<row>
+        							<entry>Parameter</entry>
+        							<entry>Description</entry>
+        						</row>
+        					</thead>
+        					<tbody>
+        						<row>
+        							<entry><codeph>debug</codeph></entry>
+        							<entry>Enables <codeph>euca_imager</codeph> debugging output</entry>
+        						</row>
+        						<row>
+        							<entry><codeph>in</codeph></entry>
+        							<entry>https URL for the vCenter Server or ESX/ESXi machine </entry>
+        						</row>
+        						<row>
+        							<entry><codeph>out</codeph></entry>
+        							<entry>User-defined name of disk </entry>
+        						</row>
+        						<row>
+        							<entry><codeph>login</codeph></entry>
+        							<entry>Name used to access the VMware machine </entry>
+        						</row>
+        						<row>
+        							<entry><codeph>password</codeph></entry>
+        							<entry>Password used to access the VMware machine</entry>
+        						</row>
+        						<row>
+        							<entry><codeph>vsphere-vmdk</codeph></entry>
+        							<entry>Go to vSphere client, find the virtual machine that you have installed (make sure it is in <codeph>powered off</codeph> state), and select the <uicontrol>Hard disk 1</uicontrol> resource. There will be a <uicontrol>Disk File</uicontrol> field for the VMDK, and a similar field on the <uicontrol>Option</uicontrol> tab for the VMX file. </entry>
+        						</row>
+        						<row>
+        							<entry><codeph>vsphere-vmx</codeph></entry>
+        							<entry>Same description as vsphere-vmdk parameter. This is optional if you’re contacting an ESX node directly, but may be required when contacting vCenter.</entry>
+        						</row>
+        						<row>
+        							<entry><codeph>vsphere-datacenter</codeph></entry>
+        							<entry>Specified name of the datacenter. This is optional if you’re contacting an ESX node directly, but may be required when contacting vCenter.</entry>
+        						</row>
+        					
+        					</tbody>
+        				</tgroup>
+        			</table>
+        		</info>
+        	</step>
+        </steps>
+    	<example>
+    		<p>The following example shows euca_imager with the appropriate parameters as described above
+    			converting a VMDK to a raw disk image. Note that the prefix of the
+    			<codeph>out</codeph> parameter must begin with the word <codeph>windows</codeph>.</p>
+    		<codeblock>/usr/lib/eucalyptus/euca_imager debug=yes convert in=https://192.168.7.198 out=windows.disk login=Administrator password=password vsphere-vmdk=”[datastore1]WindowsVM/WindowsVM.vmdk” vsphere-datacenter=DataCenter1 vsphere-vmx=”[datastore1]WindowsVM/WindowsVM.vmx</codeblock>
+    	</example>
+    	<postreq>You are now ready to <xref href="images_vmw_win_add.dita"/>.</postreq>
+    </taskbody>
+</task>

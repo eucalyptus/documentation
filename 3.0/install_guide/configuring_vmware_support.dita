@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_vmware_support" product="product1">
+    <title>Configure VMware Support</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Configuring Eucalyptus to suppot VMware involves a few special steps that enable the Eucalyptus VMware Broker component to properly interact with vSphere infrastructure components. In all cases the VMware Broker must be installed on the same machine as the Cluster Controller (CC). </p>
+        	<p>To configure VMware support for a new install:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>On the CC, enter the following command:</cmd>
+            	<info>
+            		<codeblock>euca-configure-vmware</codeblock>
+            	</info>
+            	<stepresult>The output of the above command prompts you for the same parameters that the vSphere client application requests at startup. </stepresult>
+            </step>
+        	<step>
+        		<cmd>Enter the requested parameters, making sure to specify the full URL and not just the hostname. For example:</cmd>
+        		<info>
+        			<codeblock>Please, supply vSphere endpoint IP: 192.168.7.88
+Please, supply vSphere username: Administrator
+Please, supply vSphere password:
+Do you want to enter another endpoint? [N]: Y
+Please, supply vSphere endpoint IP: 192.168.7.89
+Please, supply vSphere username: Administrator
+Please, supply vSphere password:
+Do you want to enter another endpoint? [N]: N</codeblock>
+        			<p>The endpoint can be either vCenter or ESX/ESXi node. We recommend using vCenter because it is easier to configure and can be more efficient.</p>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Check to see if the configuration has successfully connected to the endpoint by entering the following command.</cmd>
+        		<info>
+        			<codeblock>euca-configure-vmware</codeblock>
+        		</info>
+        		<choices>
+        			<choice>If the configuration successfully connected to the endpoint, a list of
+        				discovered hosts appears, as in the following example:
+        			<codeblock>Discovered hosts:
+192.168.7.207 login=Administrator datastoreName=datastore1 (4) 
+uploadViaHost=null
+192.168.7.213 login=Administrator datastoreName=datastore1 (3) 
+uploadViaHost=null
+192.168.7.198 login=Administrator datastoreName=datastore1 (5) 
+uploadViaHost=null</codeblock>
+        			</choice>
+        			<choice>If the VMware Broker can’t contact the vSphere endpoint, Eucalyptus returns an error message:
+        			<codeblock>Network mode: SYSTEM
+        			ERROR: no vmware endpoints could be contacted (check url, login, and password)</codeblock>
+        				<p>To find the source of the above error, try scanning the contents of the
+        					cloud-output.log file at <filepath>/var/log/eucalyptus/cloud-output.log</filepath>.</p>
+        			</choice>
+        		</choices>
+        		
+        	</step>
+        </steps>
+    	<postreq>We recommend that you also look at (and if necessary edit) the VMware configuration to verify that the parameters are specified correctly. For example, you may wish to specify the name of a vSphere datastore for the VMware Broker to use (because the VMware Broker chooses the first datastore available to it by default.) Or you may want to specify the name of a vSphere network to use (because the VMware Broker will select the first network available to it by default). 
+    		<p>To edit the VMware configuration file, use the Eucalyptus command, euca-configure-vmware. If you have already initially configured Eucalyptus for VMware, this command opens the configuration file in an editor. After you make any configuration changes, save the file and restart the Cloud Controller: </p>
+    		<codeblock>service eucalyptus-cloud restart.</codeblock>
+    		<p>For more information about advanced configurations for Eucalyptus VMware support, see the Eucalyptus Administration Guide.</p>
+    	</postreq>
+    </taskbody>
+</task>
