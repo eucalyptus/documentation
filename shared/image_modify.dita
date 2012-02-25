@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="image_modify">
+    <title>Modify an Image</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>You might find that existing images in your cloud don't meet your needs.</p>
+            <p>To modify an existing image:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Create a mount point for your image.</cmd>
+            	<info>
+            		<codeblock>mkdir temp-mnt</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Associate a loop block device to the image.</cmd>
+        		<info>
+        			<codeblock>losetup /dev/loop5 &lt;image_name></codeblock>
+        			<p>where <codeph>loop5</codeph> is a free device</p>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Mount the image.</cmd>
+        		<info>
+        			<codeblock>mount /dev/loop5 temp-mnt</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Make procfs, dev and sysfs available in your chroot environment.</cmd>
+        		<info>
+        			<codeblock>mkdir -p temp-mnt/proc
+mkdir -p temp-mnt/sys
+mkdir -p temp-mnt/dev
+mount -o bind /proc temp-mnt/proc
+mount -o bind /sys temp-mnt/sys
+mount -o bind /dev temp-mnt/dev</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>You now have the image under <filepath>temp-mnt</filepath> and you can copy over what you want into it. If you want to install packages into it, you have few options:</cmd>
+        		<choices>
+        			<choice><codeph>chroot temp-mnt</codeph> and use <codeph>apt-get</codeph>,
+        				<codeph>yum</codeph>, or <codeph>zypper</codeph> to install what you want.</choice>
+        			<choice>Instruct the package manager program to use a different root (for example both dpkg and rpm uses the --root option)</choice>
+        		</choices>
+        	</step>
+        	<step>
+        		<cmd>Unmount the drive.</cmd>
+        		<info>
+        			<codeblock>umount /dev/loop5
+losetup -d /dev/loop5</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    	<result>You now have an image with your modifications. You are ready to <xref
+    		href="add_existing.dita">add the image</xref> to
+    		Eucalyptus.</result>
+    </taskbody>
+</task>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="bp_vsphere">
+ <title>Working with vSphere</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Eucalyptus with the VMware Broker option can create and manage virtual machines on all or a subset of vSphere infrastructure resources. Since Eucalyptus takes over the task of managing Virtual Machines, to avoid interfering with the operation of your cloud, it is important to avoid performing some operations though vSphere-specific tools, such as the vSphere Client. Conversely, since Eucalyptus does not manage vSphere hosts, network, or storage, the administrator will have to continue using vSphere-specific tools for other operations. The following is a comprehensive, but not exhaustive list of operations that should and should not be performed with vSphere-specific tools.</p>
+ 	<section>
+ 		<title>Actions that may be performed with vSphere tools at any time</title>
+ 	<ul>
+ 		<li>vSphere management tasks that do not involve resources (VMs, hosts, networks, datastores,
+ 			folders, vCenter Server sessions, etc.) that have never been and are not being used by Eucalyptus.</li>
+ 		<li>Adding new resources -- hosts, networks, datastores, folders -- to vCenter. Such resources may be discovered and used by Eucalyptus automatically, either immediately or after a VMware Broker restart, if the VMware Broker configuration allows that (see 'discover' option in the section on configuring the VMware Broker).</li>
+ 		<li>While we recommend using Eucalyptus's API to manage instances, a VM created by Eucalyptus may
+ 			be powered off using vSphere Server tools. (It is not necessary to delete such a VM as Eucalyptus will delete it.)</li>
+ 		<li>Managing roles and permissions in ways that do not reduce privileges of Eucalyptus since the time it became active.</li>
+ 		<li>Changing vCenter or ESX(i) host settings that do not interfere with ongoing sessions and operations. For instance, a license on a host utilized by Eucalyptus may be changed as long as the host remains operational.</li>
+ 		<li>Changing of vCenter ID or Name (see below regarding the change of IP address).</li>
+ 		
+ 	</ul>
+ 	</section>
+ 	
+ 	<section>
+ 		<title>Actions that may be performed when Eucalyptus is not active (specifically, when the VMware Broker is shut down):</title>
+ 		<ul>
+ 			<li>Deleting the templates (VMs whose names start with 'emi-'). Those will be recreated if needed, albeit at the cost of additional instance start-up delay. To control the space used by and the number of templates, use VMware Broker's configuration properties vmwarebroker.vsphere_cache_limit_bytes and vmwarebroker.vsphere_cache_max_elements.</li>
+ 			<li>Managing roles and permissions for Eucalyptus-managed resources, as long as new roles, if any, are reflected in VMware Broker configuration (see 'login' parameter) and as long as no Eucalyptus-created running VMs are taken out of Eucalyptus's control.
+ 			</li>
+ 			<li>vCenter IP address may be changed as long as VMware Broker's configuration is modified accordingly. IP addresses of ESX hosts may be changed as long as there are no running Eucalyptus VMs on the host (furthermore, a change of IP address may require adjustment of configuration unless the host can be discovered).</li>
+ 			
+ 		</ul>
+ 	</section>
+ 	
+ 	<section>
+ 		<title>Actions to avoid with vSphere tools at all times:</title>
+ 		<ul>
+ 			<li>Renaming, modifying the settings for, or cloning Eucalyptus-created inventory objects (the name of the top-level folder on vCenter, VM templates, VMs). This includes changing the virtual hardware characteristics of VMs created by Eucalyptus.</li>
+ 			<li>Migrating, snapshotting, and failing over VMs or templates (emi-...) created by Eucalyptus to a different host or a different datastore with VMotion, VMware HA, or VMware DRS.</li>
+ 			<li>Changing default ports (80 for HTTP and 443 for HTTPS). </li>
+ 			
+ 		</ul>
+ 	</section>
+ </conbody>
+</concept>

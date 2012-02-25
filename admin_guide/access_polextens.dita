@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="access_polextens">
+ <title>Policy Extensions</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Eucalyptus extends the IAM policy in order to meet the needs of enterprise customers.</p>
+ 	<section>
+ 	<title>EC2 Resource</title>
+ 	<p>In IAM, you cannot specify EC2 resources in a policy statement except a wildcard,<codeph>“*”</codeph>. Therefore it is not possible to constrain a permission on specific EC2 entities. For example, you can not restrict a user to run instances on a specific image or VM type. To solve that, Eucalyptus 3 introduces the EC2 resource for the policy language. The ARN of an EC2 resource is like the following:</p>
+ 	
+ 	<codeblock>arn:aws:ec2::&lt;account_id>:&lt;resource_type>/&lt;resource_id></codeblock>
+ 		<p>Where account id is optional.</p>
+ 		
+ 		<p>Eucalyptus supports the following resource types for EC2:</p>
+ 		<ul>
+ 		<li>image</li>
+ 		<li>securitygroup</li>
+ 		<li>address (either an address or address range: 192.168.7.1-192.168.7.255)</li>
+ 		<li>availabilityzone</li>
+ 		<li>instance</li>
+ 		<li>keypair</li>
+ 		<li>volume</li>
+ 		<li>snapshot</li>
+ 		<li>vmtype</li>
+ 		</ul>
+ 		
+ 		
+ 		<p>The following example specifies permission to launch instances with only an m1.small VM type:</p>
+ 		<codeblock>{
+  "Version":"2011-04-01",
+  "Statement":[{
+    "Sid":"2",
+    "Effect":"Allow",
+    "Action":"ec2:RunInstances",
+    "Resource":"arn:aws:ec2:::vmtype/m1.small"
+  }]
+}</codeblock>
+ 	</section>
+ 	<section>
+ 		<title>Policy Key</title>
+ 		<p>Eucalyptus does not implement all IAM policy keys. Eucalyptus implements the following AWS policy keys:</p>
+ 		<ul>
+ 		<li>aws:CurrentTime</li>
+ 		<li>aws:SourceIp</li>
+ 		</ul>
+ 		
+ 		<p>Eucalyptus extends the policy keys by adding the following to the specification of instance lifetime.:</p>
+ 		<ul>
+ 			<li>ec2:KeepAlive: specifies how long an instance can run</li>
+ 			<li>ec2:ExpirationTime: specifies the expiration time for an instance</li>
+ 		</ul>
+ 		
+ 		 <p>The following example restricts an instance running time to 24 hours:</p>
+ 		<codeblock>{
+  "Version":"2011-04-01",
+  "Statement":[{
+    "Sid":"3",
+    "Effect":"Allow",
+    "Action":"ec2:RunInstances",
+    "Resource":"*",
+    "Condition":{
+      “NumericEquals”:{
+        “ec2:KeepAlive”:”1440”
+      }
+    }
+  }]
+}</codeblock>
+ 		<p>If there are multiple <codeph>ec2:KeepAlive</codeph> or <codeph>ec2:ExpirationTime</codeph>
+ 			keys that match a request, Eucalyptus chooses the longer lifetime for the instance to run.</p></section>
+ </conbody>
+</concept>

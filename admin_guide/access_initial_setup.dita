@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="access_initial_setup">
+    <title>Use Case: Creating an Administrator</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>This use case details tasks for creating an administrator. These tasks require that you
+        		have your account credentials for sending requests to Eucalyptus using the command line interface (CLI) tools.</p>
+        </context>
+        
+    </taskbody>
+	<!--<task id="setup_get_creds">
+		<title>Get Your Account Credentials</title>
+		<taskbody>
+			<context><p>You can interact with Eucalyptus access control using Euca2ools, a suite of command
+				line interface (CLI) tools designed for Eucalyptus services. </p>
+				
+				<p>To use the CLI, you must first get the access keys for your account. You can find them by going to the AWS management console on the web, clicking your name on the top, followed by Security Credentials, and scrolling down to the section titled Access Credentials. Make note of the Access Key ID and the Secret Access Key that appears beside it. Both of them should be long sets of alphanumeric characters. Create a file called .iamrc in your home directory that contains those keys in this format:</p></context>
+			<steps>
+				<step>
+					<cmd></cmd>
+				</step>
+			</steps>
+		</taskbody>
+		</task>-->
+	<!--<task id="setup_initial_setup">
+		<title>Initial Setup</title>
+		Install the Command Line Tools
+		Install the euca2ools package. To do so with yum, run:
+		# yum install euca2ools
+		</task>-->
+	
+	<task id="setup_create_admin_group">
+		<title>Create an Admin Group</title>
+		<taskbody>
+			<context>
+				<p>Eucalyptus recommends using account credentials as little as possible. You can avoid using account credentials by creating a group of users with administrative privileges. </p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Create a group called <userinput>administrators</userinput>.</cmd>
+					<info>
+						<codeblock>euare-groupcreate -g administrators</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the group was created.</cmd>
+					<info>
+						<codeblock>euare-grouplistbypath</codeblock>
+					</info>
+					<stepresult>
+						<p>Eucalyptus returns a listing of the groups that have been created, as in the following
+						example.</p>
+						<codeblock>arn:aws:iam::123456789012:group/administrators</codeblock>
+					</stepresult>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setup_group_pol">
+		<title>Add a Policy to the Group</title>
+		<taskbody>
+			<context>
+				<p>Add a policy to the administrators group that allows its members to perform all actions in
+					Eucalyptus.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command to create a policy called <codeph>admin-root</codeph> that
+						grants all actions on all resources to all users in the
+						administrators group:</cmd>
+					<info>
+						<codeblock>euare-groupaddpolicy -p admin-root -g administrators -e Allow -a "*" -r "*" -o</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setup_admin_user">
+		<title>Create an Administrative User</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Create a user for day-to-day administrative work and add that user to the administrators group.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command to create an administrative user named <codeph>alice</codeph>:</cmd>
+					<info>
+						<codeblock>euare-usercreate -u alice</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Add the new administrative user to the administrators group.</cmd>
+					<info>
+						<codeblock>euare-groupadduser -g administrators -u alice</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setup_gen_admin_creds">
+		<title>Generate Administrative Credentials</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To start running commands as the new administrative user, you must create an access key for
+					that user.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command to generate an access key for the administrative user:</cmd>
+					<info>
+						<codeblock>euare-useraddkey -u alice</codeblock>
+					</info>
+					<stepresult>
+						<p>Eucalyptus returns the access key ID and the user's secret key.</p>
+					</stepresult>
+				</step>
+				<step>
+					<cmd>Open the <filepath>~/.iamrc</filepath> file and replace your account credentials the
+						user's credentials you just created.</cmd>
+					<info>
+						<codeblock>ed ~/.iamrc</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Switch euca2ools over to using the new credentials.</cmd>
+					<info>
+						<codeblock>source ~/.eucarc</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	
+</task>
