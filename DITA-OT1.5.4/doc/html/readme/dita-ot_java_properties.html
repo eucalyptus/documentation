@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Command-line tool arguments for DITA-OT"/>
+<meta name="abstract" content="Reference list of DITA-specific command line tool arguments."/>
+<meta name="description" content="Reference list of DITA-specific command line tool arguments."/>
+<meta name="DC.Relation" scheme="URI" content="../readme/DITA-javacmd.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="dita-ot-java-properties"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Command-line tool arguments for DITA-OT</title>
+</head>
+<body id="dita-ot-java-properties">
+
+
+  <h1 class="title topictitle1">Command-line tool arguments for DITA-OT</h1>
+
+  
+  
+  <div class="body refbody"><p class="shortdesc">Reference list of DITA-specific command line tool arguments.</p>
+
+    <div class="section"><h2 class="title sectiontitle">Parameters available to all transforms</h2>
+      
+      <p class="p">The following common parameters are available for all transformation output types.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Common DITA-OT parameters</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e38">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e41">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/debug</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Specifies that DITA-OT print debugging information for
+                your project. Allowed values are "yes" and "no". Default value is "no".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/draft</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Indicates whether draft-comment and required-cleanup
+                elements are included in the generated file. <span class="ph">Corresponds to XSLT parameter DRAFT in most XSLT modules.</span> Allowed values are
+                "yes" and "no". Default value is "no".<div class="note tip"><span class="tiptitle">Tip:</span> For PDF output, setting
+                    <samp class="ph codeph">${args.draft}</samp> to "yes" will also cause the contents of
+                    <samp class="ph codeph">&lt;titlealts&gt;</samp> to appear below the title.</div>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/grammarcache</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Specifies whether to use the
+                grammar caching feature of the XML parser. Allowed values are "yes" and "no".
+                Default value is "yes".<div class="note note"><span class="notetitle">Note:</span> For most users, this is an important option that
+                  dramatically speeds up processing time. However, there is a known problem with
+                  using this feature for documents that use XML Entities. If your build fails with
+                  parser errors about entity resolution, try setting this parameter to
+                "no".</div>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/i</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Typically defines the location of the .ditamap file for
+                your documentation project. However, the property can be set to a .dita file, as
+                well. DITA-OT reads this file to find the .dita files that comprise the content for
+                the documentation project.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/logdir</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Defines the location where DITA-OT places log files for
+                your project.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/outext</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Specifies the file extension for HTML files in your
+                project's output. <span class="ph">Corresponds to XHTML parameter
+                    <samp class="ph codeph">OUTEXT</samp>.</span> Default values is ".html".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/basedir</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">The directory where your project's ant build script resides.
+                The DITA-OT will look for your .dita files relative to this directory. DITA-OT's
+                default build script sets this as an attribute of the project, but you can also
+                define it as a project property.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/filter</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Defines the location of your
+                project's filter file. Filter files end with the <samp class="ph codeph">.ditaval</samp> suffix
+                and are used to filter, include and exclude, content in the generated document.
+                Alternatively, you can create multiple versions of your document by creating a
+                different <samp class="ph codeph">.ditamap</samp> file for each version.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/outdir</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">The location of the directory to hold output from your
+                documentation project.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/transtype</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Defines the output type for a specific Ant target. Plug-ins
+                may add new values for this option; by default, the following values are available:<ul class="ul">
+                  <li class="li">pdf</li>
+
+                  <li class="li">xhtml</li>
+
+                  <li class="li">htmlhelp</li>
+
+                  <li class="li">eclipsehelp</li>
+
+                  <li class="li">eclipsecontent</li>
+
+                  <li class="li">odt</li>
+
+                  <li class="li">troff</li>
+
+                  <li class="li">rtf</li>
+
+                  <li class="li">javahelp</li>
+
+                  <li class="li">legacypdf</li>
+
+                  <li class="li">docbook</li>
+
+                </ul>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 "><samp class="ph codeph">/validate</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e38 d32892e41 ">Specifies whether DITA-OT should validate your content
+                files. Allowed values are "yes" and "no". Default value is "yes".</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Parameters available for all XHTML based transforms</h2>
+      
+      <p class="p">The following
+        parameters are available for all output types that are based on the XHTML transform type,
+        including:</p>
+
+      <ul class="ul">
+        <li class="li">XHTML</li>
+
+        <li class="li">HTMLHelp</li>
+
+        <li class="li">JavaHelp</li>
+
+        <li class="li">eclipsehelp</li>
+
+      </ul>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 2. XHTML and related parameters</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e260">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e263">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/artlbl</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Adds a label to each image containing
+                the image's filename. Allowed values are "yes" and "no". Default value is
+                "no".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/copycss</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Indicates whether you want to copy
+                your own .css file to the output directory.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/args.css</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">The name of your custom .css
+                file.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/csspath</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">The location of your copied .css file
+                relative to the output directory. <span class="ph">Corresponds to XSLT
+                  parameter <samp class="ph codeph">CSSPATH</samp>.</span></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/cssroot</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">The directory that contains your
+                custom .css file. DITA-OT will copy the file from this location.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/ftr</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies the location of a well-formed
+                XML file containing your custom running-footer for the document body. <span class="ph">Corresponds to XSLT parameter
+                  <samp class="ph codeph">FTR</samp>.</span><div class="note note"><span class="notetitle">Note:</span> The fragment must be valid XML, with a single root
+                  element, common practice is to place all content into &lt;div&gt;.</div>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/usetasklabels</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies whether to generate
+                locale-based default headings for sections within task topics. Allowed values are
+                "YES" and "NO". Default value is "NO". <span class="ph">Corresponds to
+                  the XSLT parameter <samp class="ph codeph">GENERATE-TASK-LABELS</samp>.</span></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/hdf</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies the location of a well-formed
+                XML file to be placed in the document head.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/hdr</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies the location of a well-formed
+                XML file containing your custom running-header for the document body. <span class="ph">Corresponds to XSLT parameter
+                  <samp class="ph codeph">HDR</samp>.</span><div class="note note"><span class="notetitle">Note:</span> The fragment must be valid XML, with a single root
+                  element, common practice is to place all content into &lt;div&gt;.</div>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/indexshow</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Indicates whether
+                  <samp class="ph codeph">indexterm</samp> element should appear in the output. Allowed values are
+                "yes" and "no". Default value is "no".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/xhtmlclass</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies whether to include
+                DITA class ancestry inside generated XHTML elements. Allowed values are "no" and
+                "yes"; the default is "yes" in release 1.5.2 (it was "no" in 1.5 and 1.5.1). For
+                example, the prereq element in a task (which is specialized from section) would
+                generate "<samp class="ph codeph">class="section prereq</samp>". <span class="ph">Corresponds to the XSLT parameter
+                <samp class="ph codeph">PRESERVE-DITA-CLASS</samp>.</span></td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/xsl</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies an XSL file that is used rather
+                than the default XSL transform, located in
+                  <samp class="ph codeph">toolkitdir\xsl\dita2xhtml.xsl</samp>. Property must specify the full
+                path and XSL file name.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/generateouter</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies whether to generate
+                files for content files that are not located in or beneath the directory containing
+                your <samp class="ph codeph">ditmap</samp> file. Supported values are:<ul class="ul">
+                  <li class="li">"1"  (default) – do not generate outer files</li>
+
+                  <li class="li">"2 – generate outer files</li>
+
+                  <li class="li">"3" – old solution.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/onlytopicinmap</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies whether files that are
+                linked to, or referenced with a conref attribute, should generate output. If set to
+                "yes", only files that are referenced directly from the map will generate output
+                files.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 "><samp class="ph codeph">/outercontrol</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e260 d32892e263 ">Specifies whether content files are
+                located in or below the directory containing your <samp class="ph codeph">.ditamap</samp> file.
+                Supported values are:<ul class="ul">
+                  <li class="li">"fail" – fail quickly if files are going to be generated/copied outside of
+                    that directory</li>
+
+                  <li class="li">"warn" (default) – complete if files will be generated/copied outside, but log
+                    a warning</li>
+
+                  <li class="li">"quiet" – quietly finish with only those files (no warning or error).</li>
+
+                </ul>
+The <samp class="ph codeph">gen-list-without-flagging</samp> Ant task generates a harmless
+                warning for content outside the map directory; you can suppress these warnings by
+                setting the <samp class="ph codeph">outer.control</samp> property to "quiet". <div class="note warning"><span class="warningtitle">Warning:</span> Microsoft HTML Help Compiler cannot produce HTMLHelp for documentation projects
+                  that use outer content. Your content files must reside in or below the directory
+                  containing the <samp class="ph codeph">.ditamap</samp> file, and the map file cannot specify
+                  ".." at the start of <samp class="ph codeph">href</samp> attributes for
+                    <samp class="ph codeph">topicref</samp> elements.</div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">PDF-specific command line tool options</h2>
+      
+      <p class="p">The following table describes command line tool options that are specific to the PDF
+        transformation type.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 3. PDF parameters</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e530">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e533">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 "><samp class="ph codeph">/foincluderellinks</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 ">Specifies which links to
+                include in the PDF file. Values are:<ul class="ul">
+                  <li class="li">"none" (default) – no links are included.</li>
+
+                  <li class="li">"all" – all links are included.</li>
+
+                  <li class="li">"nofamily" – hard coded links and reltable-based links are included. Parent,
+                    child, next, and previous links are not included.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 "><samp class="ph codeph">/fooutputrellinks</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 ">Specifies whether to show
+                links in your project's output. Values are "yes" (include all links) and "no" (the
+                default, include no links). If <samp class="ph codeph">${args.fo.include.rellinks}</samp> is
+                specified, this parameter is ignored.<div class="note note"><span class="notetitle">Note:</span> This parameter is deprecated in favor of
+                    <samp class="ph codeph">${args.fo.include.rellinks}</samp>.</div>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 "><samp class="ph codeph">/xslpdf</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 ">Specifies an XSL file that is used in place of the
+                default XSL transform at <samp class="ph codeph">demo\fo\xsl\fo\topic2fo_shell.xsl</samp>. You
+                must specify the full path and XSL file name.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 "><samp class="ph codeph">/fouserconfig</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 ">The parameter to specify the user configuration
+                file for FOP.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 "><samp class="ph codeph">/retaintopicfo</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e530 d32892e533 ">Specifies whether to leave the generated FO file for
+                a PDF project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">ODT-specific command line tool options</h2>
+      
+      <p class="p">The ODT transform, which
+        produces a document using the Open Document Format, is available in the 1.5.2 version of the
+        DITA-OT.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 4. ODT related parameters</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e635">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e638">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e635 d32892e638 "><samp class="ph codeph">/odtimgembed</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e635 d32892e638 ">Determines whether images are
+                embedded as binary objects within the ODT file. </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e635 d32892e638 "><samp class="ph codeph">/odtincluderellinks</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e635 d32892e638 ">Specifies which links to include in the ODT
+                file. Values are:<ul class="ul">
+                  <li class="li">"none" (default) – no links are included.</li>
+
+                  <li class="li">"all" – all links are included.</li>
+
+                  <li class="li">"nofamily" – hard coded links and reltable-based links are included. Parent,
+                    child, next, and previous links are not included.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">EclipseContent-specific command line tool options</h2>
+      
+      <p class="p">The "eclipsecontent" transform
+      type produces normalized DITA files, along with Eclipse TOC and project files.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 5. EclipseContent options</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e699">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e702">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e699 d32892e702 "><samp class="ph codeph">/eclipsecontenttoc</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e699 d32892e702 ">Specifies the name of the TOC file for an
+                Eclipse Content project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">XHTML-specific command line tool options</h2>
+      
+      <p class="p">Parameters in this section are used by
+      the "xhtml" transtype, but not by other XHTML based transforms.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 6. Options for the "xhtml" transform type</span></caption>
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="bottom" id="d32892e743">Argument</th>
+
+              <th class="entry" valign="bottom" id="d32892e746">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e743 d32892e746 "><samp class="ph codeph">/xhtmltoc</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e743 d32892e746 ">Specifies the name of the entry point
+                for an XHTML project. Default value is <samp class="ph codeph">index.html</samp></td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">EclipseHelp-specific command line tool options</h2>
+      
+      <p class="p">The following table describes command line tool options that are specific to the
+        EclipseHelp transformation type, which is an XHTML based output for use with the Eclipse
+        Help System.</p>
+
+      
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e785">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e788">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 "><samp class="ph codeph">/eclipsehelptoc</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 ">Specifies the name of the TOC file.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 "><samp class="ph codeph">/provider</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 ">Specifies the name of the person or
+                organization providing an Eclipse Help project. Default value is
+                  <samp class="ph codeph">DITA</samp>. <div class="note tip"><span class="tiptitle">Tip:</span> The toolkit ignores the value of this
+                  property when processing an Eclipse Collection Map,
+                  <samp class="ph codeph">eclipse.dtd</samp>.</div>
+
+              </td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 "><samp class="ph codeph">/version</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e785 d32892e788 ">Specifies the version number to include in the
+                output. Default value is <samp class="ph codeph">0.0.0</samp>.<div class="note tip"><span class="tiptitle">Tip:</span> The toolkit ignores
+                  the value of this property when processing an Eclipse Collection Map,
+                    <samp class="ph codeph">eclipse.dtd</samp>.</div>
+</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">HTMLHelp-specific command line tool options</h2>
+      <p class="p">The following table describes command line tool options that are specific to the HTML Help
+        compiled help transformation target.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e860">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e863">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e860 d32892e863 "><samp class="ph codeph">/htmlhelpincludefile</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e860 d32892e863 ">Specifies the name of a
+                file that you want included in an HTMLHelp project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">JavaHelp-specific command line tool options</h2>
+      <p class="p">The following table describes command line tool options that are specific to the JavaHelp
+        transformation target.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e898">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e901">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e898 d32892e901 "><samp class="ph codeph">/javahelpmap</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e898 d32892e901 ">Specifies the name of the ditamap file for a
+                JavaHelp project.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e898 d32892e901 "><samp class="ph codeph">/javahelptoc</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e898 d32892e901 ">Specifies the name of the file containing the TOC
+                in your JavaHelp output. Default value is the name of the ditamap file for your
+                project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+    <div class="section"><h2 class="title sectiontitle">Other Toolkit command line tool options</h2>
+      <p class="p">The following table describes additional command line tool options specific to the DITA Open
+        Toolkit that you may override.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" id="d32892e946">Argument</th>
+
+              <th class="entry" valign="top" id="d32892e949">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 "><samp class="ph codeph">/ditalocale</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 ">Specifies the language locale file to use for
+                sorting index entries. The JavaHelp transformation type also uses this
+                parameter.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 "><samp class="ph codeph">/cleantemp</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 ">Specifies whether DITA-OT should delete the files in the
+                temporary directory, <samp class="ph codeph">dita.temp.dir</samp>, when it finishes a build.
+                Allowed values are "yes" and "no". Default value is "yes".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 "><samp class="ph codeph">/ditadir</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 ">The location of your DITA-OT installation. Verify that your
+                project's build script points to the correct location.</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 "><samp class="ph codeph">/ditaext</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 ">Deprecated, <samp class="ph codeph">dita.ext</samp> parameter should
+                be used instead. Defines the file extension for content files in the directory
+                specified with the <samp class="ph codeph">dita.temp.dir</samp> property. Allowed values are
+                ".xml" and ".dita"; Default value is ".xml".</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 "><samp class="ph codeph">/tempdir</samp></td>
+
+              <td class="entry" valign="top" headers="d32892e946 d32892e949 ">Defines the directory where DITA-OT will create a
+                temporary directory to place temporary files generated during the transformation
+                process.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/DITA-javacmd.html" title="The DITA Open Toolkit provides a command-line tool as an alternative for users with little knowledge of Ant. Most parameters available to the Ant builds are also available using the command-line tool.">Running DITA-OT from command-line tool</a></div>
+</div>
+</div>
+
+</body>
+</html>

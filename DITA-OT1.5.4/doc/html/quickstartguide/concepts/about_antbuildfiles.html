@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Writing Ant Build Files DITA-OT"/>
+<meta name="abstract" content="Learning how buildfiles tell Ant what and how to compile."/>
+<meta name="description" content="Learning how buildfiles tell Ant what and how to compile."/>
+<meta name="DC.Relation" scheme="URI" content="../../quickstartguide/chapters/chapter2.html"/>
+<meta name="DC.Relation" scheme="URI" content="about_ant.html"/>
+<meta name="DC.Relation" scheme="URI" content="../../readme/dita-ot_ant_properties.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="about_DITAOT-build-files"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../../css/commonltr.css"/>
+<title>Writing Ant Build Files DITA-OT</title>
+</head>
+<body id="about_DITAOT-build-files">
+
+
+<h1 class="title topictitle1">Writing Ant Build Files DITA-OT</h1>
+
+
+<div class="body conbody"><p class="shortdesc">Learning how buildfiles tell Ant what and how to compile.
+  </p>
+
+<div class="section"><h2 class="title sectiontitle">Customize the Default Ant Script</h2>   <p class="p">The sample Ant build scripts provided by the DITA-OT
+may not be adequate to meet the needs of your documentation project.
+   This topic describes how to customize the default scripts and write
+your own.</p>
+        <p class="p">The
+DITA Open Toolkit contains sample build files for both the DITA-OT
+and sample documentation.  Writers new to the toolkit       use the <samp class="ph codeph">sample_all.xml</samp> Ant
+build script to create all the sample documents that come with DITA-OT.
+ The       toolkit also contains build scripts for individual ouput types,
+such as <samp class="ph codeph">sample_pdf.xml</samp>. You can modify       just one
+or two Ant properties in these scripts for your own documentation.
+    </p>
+     <p class="p">Here is the Ant project definition from <samp class="ph codeph">template_pdf.xml</samp>. </p>
+
+      <pre class="pre codeblock">&lt;project name="@PROJECT.NAME@_pdf" default="@DELIVERABLE.NAME@2pdf" basedir="."&gt;
+  
+  &lt;property name="dita.dir" location="${basedir}${file.separator}..${file.separator}.."/&gt;
+    
+  &lt;target name="@DELIVERABLE.NAME@2pdf"&gt;
+    &lt;ant antfile="${dita.dir}${file.separator}build.xml"&gt;
+      &lt;property name="args.input" location="@DITA.INPUT@"/&gt;
+      &lt;property name="output.dir" location="@OUTPUT.DIR@"/&gt;
+      &lt;property name="transtype" value="pdf"/&gt;
+    &lt;/ant&gt;
+  &lt;/target&gt;
+
+&lt;/project&gt;</pre>
+
+<div class="p">You simply change the values of
+the following properties to match the values used in your project:
+    <ul class="ul">
+<li class="li">Project name: The root element in an Ant build file.</li>
+
+<li class="li">Target name: Must be one of the supported DITA-OT transtypes.</li>
+
+</ul>
+     However, the toolkit's scripts assume that your input files
+are located in same directory structure used by the DITA-OT samples.
+    </div>
+    </div>
+
+<div class="section"><h2 class="title sectiontitle">Write Your Own Ant Script</h2>
+      
+      <p class="p">The default build script may not meet the needs of your project for a range of reasons:</p>
+
+      <ul class="ul">
+        <li class="li">You want to add additional Ant properties not used in the sample template, such XSL and
+          DTD properties to assist your debugging efforts.</li>
+
+        <li class="li">Your content files may not have the same directory structure as the samples.</li>
+
+        <li class="li">You want to place the output files in a different directory.</li>
+
+      </ul>
+
+      <p class="p">You need to cutomize or write your own build file for these use cases. For example, each
+        target for this guide's build script uses a separate value for
+          <samp class="ph codeph">dita.temp.dir</samp> to assist debugging for a specific output types. </p>
+
+      <p class="p">Here is an example Ant script that can be used to produce this document: </p>
+
+      <pre class="pre codeblock">&lt;project name="antquickstartguide" default="dita2pdf" basedir="."&gt;
+
+  &lt;property environment = "env"/&gt;
+  &lt;property name="DITA_DIR" value="${env.DITA_DIR}"/&gt;
+  &lt;property name="args.logdir" value="../logs"/&gt;
+  &lt;property name="dita.input.valfile" value="../QSG.ditaval"/&gt;
+
+  &lt;property name="dita.extname" value=".dita"/&gt;
+  &lt;property name="args.fo.img.ext" value=".gif"/&gt;
+    
+  &lt;property name="output.dir" location="../output"/&gt;
+  &lt;property name="outdir" location ="../output"/&gt;
+  &lt;property name="clean.temp" value="no"/&gt;
+  
+  &lt;property name="args.indexshow" value="no"/&gt;
+    
+  &lt;target name="dita2pdf"&gt;
+    &lt;ant antfile="${DITA_DIR}/build.xml"&gt;
+      &lt;property name="transtype" value="pdf"/&gt;
+      &lt;property name="args.input" value="../quickstartguide.ditamap"/&gt;
+      &lt;property name="dita.temp.dir" value="${outdir}/temp_pdf"/&gt;
+      &lt;property name="output.dir" value="${outdir}/pdf"/&gt;
+      &lt;property name="outer.control" value="quiet"/&gt;
+      &lt;property name="clean.temp" value="yes"/&gt;
+    &lt;/ant&gt;
+  &lt;/target&gt;
+
+&lt;/project&gt;</pre>
+
+      <p class="p"><a class="xref" href="../../readme/dita-ot_ant_properties.html" title="Reference list of DITA-specific Ant properties.">Ant argument properties for DITA-OT</a> contains a list of the most basic
+        Ant properties used by DITA-OT. Use these properties to customize your document's build
+        script for your needs.</p>
+
+      
+    </div>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../../quickstartguide/chapters/chapter2.html" title="Learn how to run DITA-OT to generate published output documents.">Running DITA Open Toolkit</a></div>
+</div>
+<div class="relinfo relconcepts"><strong>Related concepts</strong><br/>
+<div><a class="link" href="about_ant.html" title="Learning about the blurred line between code and documentation and why technical writers need to learn Ant.">What is Ant?</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="../../readme/dita-ot_ant_properties.html" title="Reference list of DITA-specific Ant properties.">Ant argument properties for DITA-OT</a></div>
+</div>
+</div>
+
+</body>
+</html>
