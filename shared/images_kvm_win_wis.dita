@@ -6,7 +6,7 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p>Context for the current task</p>
+			<p>To install Eucalyptus Windows Integration:</p>
 		</context>
 		<steps>
 			<step>
@@ -17,13 +17,13 @@ apt-get install eucalyptus-windows-tools</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Copy <filepath>$EUCALYPTUS/usr/share/eucalyptus/eucawin.iso</filepath> to the working directory of your NC.</cmd>
+				<cmd>Copy <filepath>/usr/share/eucalyptus/eucawin.iso</filepath> to the working directory of your NC.</cmd>
 			</step>
 			<step>
-				<cmd>Open the libvirt-xen-windows-example.xml file and make the following edits:</cmd>
+				<cmd>Open the libvirt-kvm-windows-example.xml file and make the following edits:</cmd>
 				<info>
 					<ul>
-						<li>Comment out the lines of XML code directing Xen to boot the Windows image from the CDROM.</li>
+						<li>Comment out the lines of XML code directing KVM to boot the Windows image from the CDROM.</li>
 						<li>Change the text so that <codeph>eucawin.iso</codeph> replaces the Windows .iso image and is mounted as <codeph>cdrom</codeph>.</li>
 						<li>Enter the path to the secondary disk file you created in the <xref
 							href="images_kvm_win_baseos.dita#images_kvm_win_baseos/kvm_win_secondary_disk">previous
@@ -31,7 +31,8 @@ apt-get install eucalyptus-windows-tools</codeblock>
 						<li>Uncomment the lines that direct attachment of a floppy disk, secondary disk, and secondary network interface.</li>
 					</ul>
 					<p>Your finished file should look similar to the following example:</p>
-					<codeblock>&lt;name>eucalyptus-windows&lt;/name>
+					<codeblock>&lt;domain type="kvm">
+	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
     &lt;type>hvm&lt;/type>
     &lt;!-- &lt;boot dev='cdrom'/> -->

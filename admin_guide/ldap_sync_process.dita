@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ldap_sync_process">
-	<title>Understanding LDAP Synchronization</title>
+	<title>Synchronization Overview</title>
  <shortdesc></shortdesc>
  <conbody>
  	<section>
  		<title>The Synchronization Process</title>
  		<p>The synchronization always starts when the following happens:</p>
  		<ul>
- 			<li>You manually upload a LIC file. Every LIC upload, whether it is new or an update, triggers a new synchronization.</li>
+ 			<li>You manually upload a LDAP/AD Integration Configuration (LIC) file. Every new or updated LIC
+ 				upload triggers a new synchronization.</li>
  			<li>If the automatic synchronization is enabled, a synchronization is started when the timer goes off.</li>
  		</ul>
- 		<note>Eucalyptus does not allow concurrent synchronization. If you trigger synchronization more than once within a short time period, only the first one will be allowed.</note>
+ 		<note>Eucalyptus does not allow concurrent synchronization. If you trigger synchronization more
+ 			than once within a short time period, Eucalyptus only allows the first one.</note>
  		<p>During a synchronization, everything specified by an LIC in the LDAP/AD tree will be downloaded into Eucalyptus’ internal database. Each synchronization is a merging process of the information already in the database and the information from LDAP/AD. There are three cases for each entity: user, group or account:</p>
  		<ul>
  			<li>If an entity from LDAP/AD is not in Eucalyptus, a new one is created in the database.</li>
@@ -33,7 +35,11 @@
  	"auth-method":"simple",
  	"user-auth-method":"simple",
  	"auth-principal":"cn=ldapadmin,dc=foo,dc=com",
- 	"auth-credentials": "{RSA/ECB/PKCS1Padding}EAXRnvwnKtCZOxSrD/F3ng/yHH3J4jMxNUSkJJf6oqNMsUihjUerZ20e5iyXImPgjK1ELAPnppEfJvhCs7woS7jtFsedunsp5DJCNhgmOb2CR/MnH11V3FNY7bBWoew5A8Wwy6.x7YrPMS0j7dJkwM7yfp1Z6AbKOo2688I9uIvJUQwEKS4dOp7RVdA0izlJBDPAxiFZ2qa40VjFI/1mggbiWDNlgxiVtZXAEK7x9SRHJytLS8nrNPpIvPuTg3djKiWPVOLZ6vpSgPcVEliP261qdUfnf3GDKi3jqbPpRRQ6n8yI6aHw0gAtq8/qPyqjkkDP8JsGBgmXMxiCNPogbWg==",
+ 	"auth-credentials": "{RSA/ECB/PKCS1Padding}EAXRnvwnKtCZOxSrD/F3ng/yHH3J4jMxNUS
+ 	kJJf6oqNMsUihjUerZ20e5iyXImPgjK1ELAPnppEfJvhCs7woS7jtFsedunsp5DJCNhgmOb2CR/MnH
+ 	11V3FNY7bBWoew5A8Wwy6.x7YrPMS0j7dJkwM7yfp1Z6AbKOo2688I9uIvJUQwEKS4dOp7RVdA0izl
+ 	lJBDPAxiFZ2qa40VjFI/1mggbiWDNlgxiVtZXAEK7x9SRHJytLS8nrNPpIvPuTg3djKiWPVOLZ6vpS
+ 	gPcVEliP261qdUfnf3GDKi3jqbPpRRQ6n8yI6aHw0gAtq8/qPyqjkkDP8JsGBgmXMxiCNPogbWg==",
  	"use-ssl":"false",
  	"ignore-ssl-cert-validation":"false",
  	"krb5-conf":"/path/to/krb5.conf",

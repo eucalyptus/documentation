@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="starting_euca_sc">
-	<title>Start the Storage Controller</title>
+	<title>Start the SC</title>
     <shortdesc/>
     <taskbody>
         <context>
-        	<p>If the SC component is not on the same machine as the CLC, do the following:</p>
+        	<note type="important">If you installed SC on the same host as the CLC, skip this step.</note>
+        	<p>To start the SC:</p>
         </context>
         <steps>
             <step>
@@ -13,8 +14,15 @@
         		<info>
         			<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
         		</info>
+            </step>
+        	<step>
+        		<cmd>If you have a multi-cluster setup, repeat this step on the SC in each cluster.</cmd>
         	</step>
         </steps>
+    	<postreq>
+    		<note type="restriction">For an HA environment, repeat this task on the secondary SC in each
+    			cluster.</note>
+    	</postreq>
     </taskbody>
 </task>
 

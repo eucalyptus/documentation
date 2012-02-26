@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_brokers">
-	<title>Register VMware Broker</title>
+	<title>Register the VMware Broker</title>
     <shortdesc/>
     <taskbody>
         <context>
-        	<draft-comment>Include with CC section?</draft-comment>
+        	
         	<note type="tip">If you aren’t using VMware, skip this section.</note>
+        	<p>To register the VMware Broker</p>
         </context>
         <steps>
             <step>
-            	<cmd>On one of the CLCs, register the primary VMware Broker by entering the following command:</cmd>
+            	<cmd>On the CLC, enter the following command:</cmd>
             	<info>
-            		<codeblock>/usr/sbin/euca_conf --register-vmwarebroker --partition=zone00 
-            		--host=&lt;CC_#1_IP_address> --component=vmwarebroker00</codeblock>
+            		<codeblock>/usr/sbin/euca_conf --register-vmwarebroker --partition &lt;partition_name> 
+ --host &lt;CC_IP_address> --component &lt;vmwarebroker_name></codeblock>
             		<note type="important">Register the VMware Broker component using the CC IP address, not the CLC IP address.</note>
             	</info>
             </step>
         	<step>
-        		<cmd>Register the secondary VMware Broker by entering the following command:</cmd>
-        		<info>
-        			<codeblock>/usr/sbin/euca_conf --register-vmwarebroker --partition=zone00 
-	--host=&lt;CC_#2_IP_address> --component=vmwarebroker01</codeblock>
-        		</info>
+        		<cmd>Repeat for each cluster, replacing the VMware Broker name, partition name, CC IP address, and CC name.</cmd>
+        		
         	</step>
         </steps>
+    	<postreq>
+    		<note type="restriction">For HA, register the secondary VMware Broker the same way, using the
+    			secondary CC IP address and CC name, but using the same partition name as the primary
+    			CC.</note>
+    	</postreq>
     </taskbody>
 </task>

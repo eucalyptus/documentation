@@ -1,33 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_scs">
-    <title>Register the SCs</title>
+    <title>Register the SC</title>
     <shortdesc/>
     <taskbody>
         <context>
-        	<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
+        	<!--<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
         	of SCs.</p>
         	<ul>
         		<li>&lt;SC #1 IPAddress> is the IP address of the physical server hosting one SC component.</li>
         		<li>&lt;SC #2 IPAddress> is the IP address of the physical server hosting the other.</li>
-        	</ul>
-
+        	</ul>-->
+<p>To register the SC:</p>
         </context>
         <steps>
             <step>
-            	<cmd>On one of the CLCs, register the primary SC using the following command:</cmd>
+            	<cmd>On the CLC, enter the following command:</cmd>
             	<info>
-            		<codeblock>/usr/sbin/euca_conf --register-sc --partition=zone00 --host=&lt;SC_#1_IP_address> 
-	--component=sc00 </codeblock>
+            		<codeblock>/usr/sbin/euca_conf --register-sc --partition &lt;partition_name> --host &lt;SC_IP_address> 
+	--component &lt;SC_name></codeblock>
+            		<note type="important">An SC must have same partition name as the CC in the same
+            			cluster.</note>
             	</info>
             </step>
         	<step>
-        		<cmd>Register the secondary SC by entering the following command:</cmd>
-        		<info>
-        			<codeblock>/usr/sbin/euca_conf --register-sc --partition=zone00 --host=&lt;SC_#2_IP_address> 
-		--component=sc01</codeblock>
-        		</info>
+        		<cmd>Repeat for each cluster, replacing the SC name, partition name, SC IP address, and SC name.</cmd>
+        		
         	</step>
         </steps>
+    	<postreq>
+    		<note type="restriction">For HA, register the secondary SC the same way, using the
+    			secondary SC IP address and SC name, but using the same partition name as the primary
+    			SC.</note>
+    	</postreq>
     </taskbody>
 </task>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="using_images">
- <title>Using Machine Images</title>
+ <title>Using Images</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<draft-comment>Rewrite.</draft-comment>
- 	<p>A machine image is a snapshot of a system (specifically its root filesystem) that provides the
- 		basis for instances. When you run a new virtual machine in EC2 you choose a machine image to use
+ 
+ 	<p>An image is a snapshot of a system's root file system and it provides the
+ 		basis for instances. When you run a new virtual machine, you choose a machine image to use
  		as a template. The new virtual machine is then an instance of that machine image that contains its own copy of everything in the image. The instance keeps running until you stop or terminate it, or until it fails. If an instance fails, you can launch a new one from the same image. You can create multiple instances of a single machine image. Each instance will be independent of the others.</p>
  		<p>You can use a single image or multiple images, depending on your needs. From a single image,
  			you can launch different types of instances. An <term id="instancetype">instance type</term> defines what hardware the instance has, including the amount of memory, disk space, and CPU power. </p>
@@ -15,10 +15,13 @@
  		node.</p>
  	
  	<!--instance-store vs. block-store-->
- 	
+ 	<note type="note">This section describes instances that are not backed by dynamic block volumes,
+ 		or Eucalyptus block storage (EBS) devices. For information about EBS, see <xref
+ 			href="using_block_storage.dita"/>.</note>
  	<section>
- 		<title>Available Machine Images</title>
- 		<p><draft-comment>Existing machine images available where?</draft-comment></p>
+ 		<title>Available Images</title>
+ 		<p>Existing machine images available at the <xref
+ 			href="http://emis.eucalyptus.com/">Eucalyptus Machine Images</xref> page.</p>
  		
  		<p>You might find that an existing machine image meets your needs. However, you might want to
  			customize a machine image or create a machine image for your own use. For more information about
@@ -27,19 +30,15 @@
  	</section>
  	
  	<section>
- 		<title>Machine Image Types</title>
+ 		<title>Image Types</title>
  		
  		<p>Machine images are either backed by persistent storage or backed by instance
- 			store.<draft-comment>let's get some correct terms and phrases for us</draft-comment> A machine
- 			image backed by <draft-comment>should we say SC-backed?</draft-comment> persistent storeage means that the root device is a snapshot and appears as a
- 			persistent volume when
- 			an instance is launched from the machine image. A machine that is backed by instance store means
+ 			store. An image backed by persistent storage means that the root device is a snapshot and appears as a
+ 			persistent volume when an instance is launched from the machine image. A machine that is backed by instance store means
  			that the root device is stored in Walrus and 
- 			appears as instance store when an instance is launched from the machinine image</p>
+ 			appears as instance store when an instance is launched from the machine image</p>
  		.
- 			<p>There are other important differences between the two types of AMIs. For an in-depth discussion of these
- 			differences, see Using Amazon EBS-Backed AMIs and Instances (p. 176). The following table gives a
- 			quick summary of the differences.</p>
+ 			
  	</section>
  	
  </conbody>

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_walruses">
-    <title>Register Walrus Pairs</title>
+    <title>Register Walrus</title>
     <shortdesc/>
     <taskbody>
         <context>
-        	<p>Because the CLCs communicate state automatically, you only need to register the redundant Walruses with one of the CLC components.</p>
+        	<p>To register Walrus:</p>
         </context>
         <steps>
             <step>
-            	<cmd>Log in to one of the CLC servers and enter the following command to register the
-            		primary Walrus:</cmd>
+            	<cmd>On the CLC server, enter the following command:</cmd>
             	<info>
-            	<codeblock>/usr/sbin/euca_conf --register-walrus --partition=walrus --host=&lt;walrus_#1 IP_address> --component=walrus00</codeblock>
+            	<codeblock>/usr/sbin/euca_conf --register-walrus --partition walrus --host &lt;walrus_IP_address> --component &lt;walrus_name></codeblock>
             	</info>
             </step>
-        	<step>
-        		<cmd>Enter the following command to register the secondary Walrus:</cmd>
-        		<info>
-        			<codeblock>/usr/sbin/euca_conf --register-walrus --partition=walrus --host=&lt;walrus_#2 IP_address> --component=walrus01</codeblock>
-        		</info>
-        	</step>
+        	
         </steps>
+    	<postreq>
+    		<note type="restriction">For HA, register the secondary Walrus the same way, using the
+    			secondary Walrus IP address and secondary Walrus name. Use the same partition name as the
+    			primary Walrus.</note>
+    	</postreq>
     </taskbody>
 </task>

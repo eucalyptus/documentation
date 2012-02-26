@@ -47,12 +47,12 @@
  				<ul>
  					<li>AWS: Using the complete ARNs to specify a list of accounts, users and groups. The account part of the ARN is using AWS account ID. For example:
  					<codeblock>“Principal”: {
-“AWS”: [“arn:aws:iam::12345678:user/*”]
+"AWS": ["arn:aws:iam::12345678:user/*"]
 }</codeblock>
  					</li>
  					<li>CanonicalUser: Using the old AWS user ID, which now represents the account.
- 					<codeblock>“Principal”: {
-“CanonicalUser”: “12345678”
+ 					<codeblock>"Principal": {
+"CanonicalUser": "12345678"
 }</codeblock>
  					</li>
  				</ul>
@@ -69,28 +69,28 @@
  					<p>The following example permits all actions in EC2:</p>
  					<codeblock>"Action":"ec2:*"</codeblock>
  					<p>The following example permits all IAM actions that start with “List”:</p>
- 					<codeblock>“Action”:“iam:List*”</codeblock>
+ 					<codeblock>"Action":"iam:List*"</codeblock>
  					 <note type="tip">The action name is case insensitive.</note>
  		</section>
  		<section>
  			<title>NotAction</title>
  			<p>
  				The action(s) that this permission does not apply to. It can be a wildcard (*) to represent all actions. This element has the same structure as the Action element. For example:
- 				<codeblock>“NotAction”:”ec2:RunInstances”</codeblock></p>
+ 				<codeblock>"NotAction":"ec2:RunInstances"</codeblock></p>
  		</section>
  		<section>
  			<title>Resource</title>
  			<p>
  				A resource is the object that the policy applies to. The resource names use the standard ARNs. Note that resources can be from different services. 
  				It can be a wildcard (*) to represent all resources. The following example refers to all users:
- 				<codeblock>“Resource”: [“arn:aws:iam::12345678:users/*”]</codeblock></p>
+ 				<codeblock>"Resource": ["arn:aws:iam::12345678:users/*"]</codeblock></p>
  		</section>
 
  		<section>
  			<title>NotResource</title>
  			<p>
  				This specifies any exceptions to a list of resources. For example:
- 				<codeblock>“NotResource”: [“arn:aws:s3:::bucket1”, “arn:aws:s3:::bucket2”]</codeblock></p>
+ 				<codeblock>"NotResource": ["arn:aws:s3:::bucket1", "arn:aws:s3:::bucket2"]</codeblock></p>
  		</section>
  		
  		<section>
@@ -99,10 +99,10 @@
  				that need to be satisfied in order for the permission to be granted. Each set of condition types within a condition is referred to as a condition block. Each condition type in the condition block specifies the relationship between a key and its value(s). The following is an example of a condition block with two condition types:</p>
  <codeblock>“Condition”: {
     “DateGreaterThan”: {
-        “aws:CurrentTime”: “2010-01-01”
+        “aws:CurrentTime”: "2010-01-01"
      }
     “IpAddress”: {
-        “aws:SourceIp”: [“192.168.1.0/24”, “192.168.2.0/24”]
+        “aws:SourceIp”: ["192.168.1.0/24", "192.168.2.0/24"]
      }
 }</codeblock>
  				<p>Here <codeph>DateGreaterThan</codeph> and <codeph>IpAddress</codeph> are condition types.

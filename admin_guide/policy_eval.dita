@@ -12,21 +12,21 @@
  	<p>When Eucalyptus receives a request, it uses everything about the request and the current system status to match the statement. The identity of the user who sends the request, the type of the request (i.e. the API being called) and the target resource of the request are compared to the statement’s “Principal” (implicitly usually), “Action” (or “NotAction”) and “Resource” (or “NotResource”) elements, respectively. The conditions are also evaluated based on the request and the current system status. If all matches, the statement’s effect is taken into effect, being “Allow” or “Deny”.</p>
  	<p>The Eucalyptus policy evaluation process is an extension of the IAM algorithm, with added the support for account-level permissions. The following describes the process:</p>
  	<ol>
- 		<li>If the request user is system administrator (users in “eucasystem” account), access is granted.</li>
- 		<li>If granted, Eucalyptus collects the following for the user who sent the request: permissions attached to the user’s account, the groups that the user belongs to, and the request user himself.</li>
- 		<li>Otherwise, check account level permissions:
+ 		<li>If the request user is a system administrator (a user in the <uicontrol>eucalyptus</uicontrol> account), access is granted.</li>
+ 		<!--<li>If granted, Eucalyptus collects the following for the user who sent the request: permissions attached to the user’s account, the groups that the user belongs to, and the request user himself.</li>-->
+ 		<!--<li>Otherwise, check account level permissions:
  		<ul>
  			<li>If explicitly denied (i.e. there is a matched permission statement’s effect is Deny), access is denied.</li>
  			<li>If explicitly allowed (i.e. a there is matched permission statement’s effect is Allow), continue to the next step.</li>
  			<li>If no matching permissions, check the account of the request user and the account of the requested resource. If not match, access is denied. If match, continue to the next step.</li>
  		</ul>
- 		</li>
- 		<li>If the request user is account admin (eucaadmin user in an account), access is granted.</li>
- 		<li>Otherwise, check local permissions (user/group-level permissions):
+ 		</li>-->
+ 		<li>If the request user is an account administrator (a eucaadmin user in an account), access is granted.</li>
+ 		<li>Otherwise, check local permissions (user- and group-level permissions):
  		<ul>
- 			<li>If explicitly denied, access is DENIED.</li>
- 			<li>If explicitly allowed, access is GRANTED.</li>
- 			<li>If no matching permissions, access is DENIED.</li>
+ 			<li>If explicitly denied, access is denied.</li>
+ 			<li>If explicitly allowed, access is granted.</li>
+ 			<li>If no matching permissions, access is denied.</li>
  		</ul>
  		</li>
  	</ol>

@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="user_rename">
-    <title>Rename User</title>
+    <title>Modify a User</title>
     <shortdesc/>
     <taskbody>
         <context>
-        	<p>Changing a user name is similar to moving the user. Administrators in your AWS account are probably the only types of users who will have permission to rename users and groups (or change their paths). To understand why, think of changing the name or path of a user or group as a "move" operation. Whoever wants to rename the user or group needs to have permission to do it on both sides of the "move."</p>
-        	<draft-comment>Edit and use as template for other tasks. Mainly use the why and when to use
-        	the task.</draft-comment>
+        	<p>Modifying a user is similar to a "move" operation. Whoever wants to modify a user must
+        		have permission to do it on both sides of the move. That is, you need permission to remove
+        		the user from the current path or name, and put that user in the new path or name.</p>
         	
-        	<p>For example, let's say a user is changing from one division in the company to another. You need to change the user's path from /division_abc/ to /division_efg/. So, you need permission to remove the user from /division_abc/, and you need permission to put the user into /division_efg/. Effectively this means you need permission to call UpdateUser on both arn:aws:iam::123456789012:user/division_abc/* and arn:aws:iam::123456789012:user/division_efg/*. It's possible that the only people within the organization who have that type of permission are administrators.</p>
+        	<p>For example, if a user changes from
+        		one team in a company to another, you can change the user's path from
+        		<filepath>/team_abc/</filepath> to <filepath>/team_efg/</filepath>. You need
+        		permission to remove the user from <filepath>/team_abc/</filepath>. You also need
+        		permission to put the user into <filepath>/team_efg/</filepath>. This means you need
+        		permission to call UpdateUser on both <filepath>arn:aws:iam::123456789012:user/team_abc/*</filepath> and
+        		<filepath>arn:aws:iam::123456789012:user/team_efg/*</filepath>. </p>
         </context>
         
     </taskbody>
@@ -22,9 +28,16 @@
 			</context>
 			<steps>
 				<step>
-					<cmd>Enter the following command:</cmd>
+					<cmd>Enter the following command to rename a user:</cmd>
 					<info>
 						<codeblock>euare-usermod -u &lt;user_name> --new-user-name &lt;new_name></codeblock>
+					</info>
+					<stepresult>Eucalyptus does not return a message.</stepresult>
+				</step>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>euare-groupmod -u &lt;user_name> -p &lt;new_path></codeblock>
 					</info>
 					<stepresult>Eucalyptus does not return a message.</stepresult>
 				</step>

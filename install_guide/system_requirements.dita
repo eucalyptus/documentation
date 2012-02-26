@@ -6,16 +6,20 @@
  <conbody>
  	
  	<p>To install Eucalyptus, your system must meet the following baseline requirements.</p>
- 	<note>The specific requirements of your Eucalyptus deployment—including the number of physical machines, structure of the physical network, storage requirements, access to software, etc.—are ultimately determined by the features you choose for your cloud and the availability of infrastructure required to support those features.</note> 
+ 	<note type="note">The specific requirements of your Eucalyptus deployment&#151;including the
+ 		number of physical machines, structure of the physical network, storage requirements, and access to
+ 		software are ultimately determined by the features you choose for your cloud and the availability of infrastructure required to support those features.</note> 
  	<section><title>Compute Requirements</title>
  		<ul>
- 		<li>Physical Machines—All Eucalyptus components must be installed on physical machines, not virtual machines. </li>
- 		<li>Central Processing Units (CPUs)—We recommend that each machine in your network be either an Intel or AMD, with a minimum of 2GHz minimum, multicore processor.</li>
- 		<li>Network Interface Cards (NICs)—All Eucalyptus components must have at least one NIC for a base-line deployment.  For better network isolation and scale, the CC should have two NICS (one facing the CLC/user network and one facing the NC/VM network).  For HA configurations that include network failure reslience, each machine should have one extra NIC for each functional NIC (they will be bonded and connected to separate physical network hardware components).</li>
- 	<li>Operating Systems—Eucalyptus supports the following Linux distributions: CentOS 5.6, RHEL 5.6, RHEL 6, and Ubuntu 10.04 LTS.</li>
- 		<li>Machine Clocks—Each Eucalyptus component machine and any client machine clocks must be synchronized (e.g., using NTP). These clocks must be synchronized all the time, not just at installation.</li>
- 		<li>Hypervisor—CentOS 5 and RHEL 5 installations must have Xen, and Ubuntu 10.04 LTS installations must have KVM installed and configured on NC host machines. VMware-based installations do not include NCs, but must have a VMware hypervisor pool installed and configured.</li>
- 		<li>Machine Access—Verify that all machines in your network allow SSH login, and that root or sudo access is available on each of them.</li> </ul></section>
+ 		<li>Physical Machines: All Eucalyptus components must be installed on physical machines, not virtual machines. </li>
+ 		<li>Central Processing Units (CPUs): We recommend that each
+ 			machine in your Eucalyptus cloud contain either an Intel or AMD processor with a minimum of two, 2GHz cores.</li>
+ 		
+ 	<li>Operating Systems: Eucalyptus supports the following Linux distributions: CentOS 5, RHEL 5, RHEL 6, and Ubuntu 10.04 LTS.</li>
+ 		<li>Machine Clocks: Each Eucalyptus component machine and any client machine clocks must be
+ 			synchronized (for example, using NTP). These clocks must be synchronized all the time, not just at installation.</li>
+ 			<li>Hypervisor: CentOS 5 and RHEL 5 installations must have Xen installed and configured on NC host machines. RHEL 6 and Ubuntu 10.04 LTS installations must have KVM installed and configured on NC host machines. VMware-based installations do not include NCs, but must have a VMware hypervisor pool installed and configured.</li>
+ 		<li>Machine Access: Verify that all machines in your network allow SSH login, and that root or sudo access is available on each of them.</li> </ul></section>
  	<section><title>Storage and Memory Requirements</title>
 <ul> 	<li>Each machine in your network needs a minimum of 30 GB of storage.</li> 
  	<li>We recommend at least 100GB for Walrus and SC hosts running Linux VMs, and at least 250GB for Walrus and SC hosts running Windows VMs.</li>
@@ -27,9 +31,15 @@
  	<title>Network Requirements</title>
  		<ul>
  	<li>All NCs must have access to a minimum of 1Gb Ethernet network connectivity.</li>
+ 			<li>All Eucalyptus components must have at least one Network Interface Card (NIC) for a
+ 				base-line deployment. For better network isolation and scale, the CC should have two NICS (one facing the CLC/user network and one facing the NC/VM network).  For HA configurations that include network failure resilience, each machine should have one extra NIC for each functional NIC (they will be bonded and connected to separate physical network hardware components).</li>
  	<li>Some configurations require that machines hosting a CC have two network interfaces, each with a minimum of 1Gb Ethernet.</li>
  	<li>Depending on the feature set that is to be deployed, the network ports connecting the Ethernet interfaces may need to allow VLAN trunking.</li>
  	<li>In order to enable all of the networking features, Eucalyptus requires that you make available two sets of IP addresses. The first range is private, to be used only within the Eucalyptus system itself. The second range is public, to be routable to and from end-users and VM instances. Both sets must be unique to Eucalyptus, not in use by other components or applications within your network.</li>
+ 			<li>The network interconnecting physical servers hosting Eucalyptus
+ 					components must support UDP multicast for IP address 228.7.7.3. Note that UDP multicast is
+ 					not used over the network that interconnects the
+ 					CC to the NCs.</li>
  
  		</ul>
  		<p>	Once you are satisfied that your systems requirements are met, you are ready to plan your Eucalyptus installation. </p>
