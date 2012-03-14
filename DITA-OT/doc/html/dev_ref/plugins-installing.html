@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Installing DITA-OT plug-ins"/>
+<meta name="abstract" content="Plug-ins are generally distributed as zip files. There are two steps to installing a plug-in: unzipping and integrating."/>
+<meta name="description" content="Plug-ins are generally distributed as zip files. There are two steps to installing a plug-in: unzipping and integrating."/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="plugins-installing"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Installing DITA-OT plug-ins</title>
+</head>
+<body id="plugins-installing">
+
+
+<h1 class="title topictitle1">Installing DITA-OT plug-ins</h1>
+
+
+<div class="body refbody"><p class="shortdesc">Plug-ins are generally distributed as zip files. There are two steps to installing a
+    plug-in: unzipping and integrating.</p>
+
+<div class="section"><p class="p">It is possible to define a plug-in so that it may be installed
+anywhere, although most expect to be placed in either the <span class="ph filepath">demo/</span> or <span class="ph filepath">plugins/</span> directory
+inside of the DITA-OT. Most plug-ins do not require a specific install
+directory and can go in either of the default locations, but some
+may come with instructions for a particular install directory. The
+first step to installing a plug-in is to unzip to the desired location.</p>
+<div class="p">The remaining step is to integrate the new plug-in. This can be accomplished in a few ways:<ol class="ol">
+          <li class="li">From the toolkit directory, you can run the following command to integrate all
+            installed plug-ins:<pre class="pre codeblock">ant -f integrator.xml</pre>
+<p class="p">The integration
+              process has two modes, lax and strict. In the strict mode the integration process will
+              immediately fail if it encounters errors in plug-in configurations or installation
+              process. In the lax mode, the integration process will continue to finish regardless
+              of errors; the lax mode does not imply error recovery and may leave the DITA-OT
+              installation into a broken state. The default mode is lax due to backwards
+              compatibility, to run the integration in strict
+              mode:</p>
+<pre class="pre codeblock">ant -f integrator.xml strict</pre>
+<p class="p">To get
+              more information about the integration process, run Ant in verbose
+            mode:</p>
+<pre class="pre codeblock">ant -f integrator.xml -verbose strict</pre>
+</li>
+
+          <li class="li">Any build that uses the Java command line interface automatically runs the integrator
+            before processing begins.</li>
+
+          <li class="li">Ant based builds may import the <samp class="ph codeph">integrator.xml</samp> file, and add
+              <samp class="ph codeph">integrate</samp> to the start of the dependency chain for the build.<div class="note note"><span class="notetitle">Note:</span> The integration process in considered part of the installation process and
+              running it before each conversion will incur a preformance penalty.</div>
+</li>
+
+        </ol>
+</div>
+</div>
+
+</div>
+
+
+</body>
+</html>
