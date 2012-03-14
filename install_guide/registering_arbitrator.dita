@@ -5,6 +5,9 @@
     <shortdesc/>
     <taskbody>
         <context>
+        	<p>Eucalyptus uses a periodic ICMP echo test to an Arbitrator. This test approximates an
+        		end user's ability to access the system. If Eucalyptus determines that it cannot reach
+        		the host associated with a registered Arbitrator, all Eucalyptus services operating on that host attempt to failover to the alternate hosts running those services. </p>
             
         	<note type="restriction">In HA, you can register each
             	Arbitrator service on the primary and secondary CLC and Walrus. If you are using either Managed or
@@ -23,7 +26,7 @@
         		entity that needs to be monitored from the host.</p>
         <!--	<draft-comment>I'd like to reword this previous paragraph. We strongly recommend that in
         		HA, each component on its own host.</draft-comment>-->
-        	<p>To register Arbitrator:</p>
+        	<p>To register an Arbitrator:</p>
         </context>
         <steps>
             <step>
@@ -38,12 +41,18 @@
         			<ul>
         				<li><codeph>&lt;ID></codeph> is a globally unique ID that identifies an Arbitrator. Note
         				that you must use the same &lt;ID> as both a partition and component ID.</li>
-        				<li><codeph>&lt;target_host></codeph> is an IP <draft-comment>Is this a name or IP
-        					address?</draft-comment> of a host on which an Arbitrator
-        					to be enabled. The value should be the host of a primary or secondary CLC and a
-        					primary or secondary Walrus, if Walrus is remote from its CLC.</li>
+        				<li><codeph>&lt;target_host></codeph> is the IP or hostname running the Eucalyptus
+        					component that will run the Arbitrator.</li>
         			</ul>
         		</info>
+        		<stepxmp>
+        			<p>For example:</p>
+        			<codeblock>euca_conf --register-arbitrator --partition EXAMPLE_ARB --component EXAMPLE_ARB --host 192.168.1.10</codeblock>
+        		</stepxmp>
+        	
+        	</step>
+        	<step>
+        		<cmd>Repeat for the secondary CLC and for both Walrus servers.</cmd>
         	</step>
         	<step>
         		<cmd>Define the gateway for each Arbitrator:</cmd>
@@ -51,20 +60,34 @@
         			<codeblock>/usr/sbin/euca-modify-property -p &lt;ID>.arbitrator.gatewayhost=&lt;gateway></codeblock>
         			<p>where:</p>
         			<ul>
-        				<li><codeph>&lt;ID></codeph> is the Arbitrator's ID</li>
-        				<li><codeph>&lt;gateway></codeph> is an IP or DNS name of a host to check for connectivity</li>
+        				<li><codeph>&lt;ID></codeph> is the globally unique ID of the registered Arbitrator.</li>
+        				<li><codeph>&lt;gateway></codeph> is an external hostname or IP address used to
+        					approximate connectivity to the end user.</li>
         			</ul>
         		</info>
+        		<stepxmp>
+        			<p>For example:</p>
+        			<codeblock>euca-modify-property -p EXAMPLE_ARB.arbitrator.gatewayhost=192.168.1.1</codeblock>
+        		</stepxmp>
         	</step>
         	<step>
-        		<cmd>To register on each CC, log in to the primary CC and open the
-        			<filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file. <draft-comment>Need full path</draft-comment></cmd>
+        		<cmd>Repeat for each registered Arbitrator.</cmd>
+        	</step>
+        	<step>
+        		<cmd>To register on each CC, log in to the primary CC, and open the
+        			<filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
         	</step>
         	<step>
         		<cmd>Provide a list of Arbitrators (up to three) as values for the <codeph>CC_ARBITRATORS</codeph>
         		property. For example:</cmd>
         		<info>
         			<codeblock>CC_ARBITRATORS="192.168.48.11 192.168.48.12"</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Save the file and restart the CC.</cmd>
+        		<info>
+        			<codeblock>service eucalyptus-cc restart </codeblock>
         		</info>
         	</step>
         	<step>
