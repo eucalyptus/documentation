@@ -2,112 +2,75 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-authorize">
 	<title>euca-authorize</title>
-	<shortdesc>Authorize a rule for a security group.</shortdesc>
+	<shortdesc>Adds a rule that allows traffic inbound to a security group.</shortdesc>
   <refbody>
     <section>
     	<title>Syntax</title>
-    	<codeblock>euca-authorize  [-A, --access-key &lt;access_key> ][-A, --secret-key &lt;secret_key>
-     ][--config &lt;config_path> ][--debug][--debugger][-h,
-     --help][--region &lt;region_name> ][-U, --url &lt;url> ][--version
-     ][--euca-auth][-P, --protocol &lt;protocol> ][-p, --port-range</codeblock>
+    	<codeblock>euca-authorize  <b>group_name</b> [-P <b>protocol</b>> ][-p <b>port_range</b>]
+ [-s <b>cidr_range</b>]</codeblock>
     </section>
   	<section>
-  		<title>Required Parameters</title>
+  		<title>Options</title>
   		<table>
-  			<tgroup cols="2">
+  			<tgroup cols="3">
   				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
+  				<colspec colwidth="70*"/>
+  				<colspec colwidth="10*"/>
   				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
+  					<row> 
+  						<entry align="center">Option</entry>
+  						<entry align="center">Description</entry> 
+  						<entry align="center">Required?</entry>
   					</row>
   				</thead>
   				<tbody>
   					<row>
   						<entry><codeph>group_name</codeph></entry>
-  						<entry>Name of the group to add the rule to.</entry>
-  						
+  						<entry>Name of the security group to add the rule to.</entry>
+  						<entry>Yes</entry>
   					</row>
-  					
+  					<row>
+  						<entry><codeph>-P, --protocol <i>protocol</i></codeph></entry>
+  						<entry>IP protocol name or number.
+  							<p>Valid values: <codeph>tcp</codeph> | <codeph>udp</codeph> | <codeph>icmp</codeph> or the corresponding protocol number (<codeph>6</codeph> | <codeph>17</codeph> | <codeph>1</codeph>)</p></entry>
+  						<entry>No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-p <i>port_range</i> </codeph></entry>
+  						<entry>Specifies the range of ports to allow for TCP and UDP. Not required for ICMP.
+  							<p>Valid values: Single integer or range (min-max). Use <codeph>-1</codeph> to specify all
+  								ports.</p></entry>
+  						<entry>Conditional</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-s, --cidr <i>cidr_range</i> </codeph></entry>
+  						<entry>CIDR range.
+  							<p>Default: <codeph>0.0.0.0/0</codeph></p></entry>
+  						<entry>No</entry>
+  					</row>
   				</tbody>
   			</tgroup>
   		</table>
   	</section>
+  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
   	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/protocol">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/port_range">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/icmp_type">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/source_group">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/source_group_user">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/source_subnet">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
+  		<title>Output</title>
+  		<ul>
+  			<li>Output type identifier ("GROUP", "PERMISSION")</li>
+  			<li>Group name</li>
+  			<li>Rule type (EC2 only supports an ALLOW rule)</li>
+  			<li>Protocol</li>
+  			<li>Port range start</li>
+  			<li>Port range end</li>
+  			
+  		</ul>
   	</section>
   	
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
+  	<section>
   		<title>Example</title>
-  		</section>-->
+  		<codeblock>euca-authorize default -P tcp -p 80 -s 0.0.0.0/0 
+GROUP   default
+PERMISSION  default ALLOWS  tcp 80  80  FROM    CIDR    0.0.0.0/0</codeblock>
+  	</section>
   </refbody>
 </reference>

@@ -3,109 +3,69 @@
 <reference id="euca-unbundle">
 	<title>euca-unbundle</title>
 	<shortdesc>Unbundles a previously uploaded bundle.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-unbundle  -m, --manifest &lt;manifest_path> [-A, --access-key &lt;access_key>
-     ][-A, --secret-key &lt;secret_key> ][--config &lt;config_path>
-     ][--debug][--debugger][-h, --help][--region &lt;region_name> ][-U,
-     --url &lt;url> ][--version][--euca-auth][-k, --privatekey
-     &lt;private_key_path> ][-d, --destination &lt;destination_dir> ][-s,
-     --destination &lt;source_dir> ]</codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-m,--manifest</codeph></entry>
-  						<entry>Path to the manifest file</entry>
-  					</row>
-  					
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-k,--privatekey</codeph></entry>
-  						<entry>Path to private key used to encrypt bundle</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-d,--destination</codeph></entry>
-  						<entry>Directory to store the image to.
-  							Defaults to the current directory.
-  						</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-s,--destination</codeph></entry>
-  						<entry>Source directory for the bundled image parts.
-  							Defaults to manifest directory.
-  						</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-unbundle -m <b>manifest_path</b> [-k <b>private_key_path</b> ]
+				[-d <b>destination_dir</b> ] [-s <b>source_dir</b> ]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required?</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>-m,--manifest <i>manifest</i></codeph></entry>
+							<entry>Path to the manifest file</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-k,--privatekey <i>private_key</i></codeph></entry>
+							<entry>Path to private key used to encrypt bundle</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-d,--destination <i>destination_directory</i></codeph></entry>
+							<entry>Directory to store the image to. Defaults to the current directory. </entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-s,--source <i>source_directory</i></codeph></entry>
+							<entry>Source directory for the bundled image parts. Defaults to manifest directory. </entry>
+							<entry>No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<p>Eucalyptus returns status messages indicating the various stages of the unbundling
+				process.</p>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock> euca-unbundle -m /tmp/myimage.img.manifest.xml
+Part: myimage.img.part.00
+Part: myimage.img.part.01
+Part: myimage.img.part.02
+Part: myimage.img.part.03
+Decrypting image
+Uncompressing image</codeblock>
+		</section>
+	</refbody>
 </reference>

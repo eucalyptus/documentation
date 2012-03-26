@@ -6,134 +6,61 @@
   <refbody>
 	<section>
   	<title>Syntax</title>
-  	<codeblock>euca-bundle-image  -i, --image &lt;image_path> [-a, --access-key &lt;access_key> ][-s,
-     --secret-key &lt;secret_key> ][--config &lt;config_path>
-     ][--debug][--debugger][-h, --help][--region &lt;region_name>
-     ][-U, --url &lt;url> ][--version][--euca-auth][-u, --user &lt;user>
-     ][-c, --cert &lt;cert_path> ][-k, --privatekey
-     &lt;private_key_path> ][-p, --prefix &lt;prefix> ][--kernel
+  	<codeblock>euca-bundle-image  -i <b>image_path</b> [-u, --user <b>user</b>]
+  	[-r, --arch <b>target_arch</b>][-p, --prefix &lt;prefix> ][--kernel
      &lt;kernel_id> ][--ramdisk &lt;ramdisk_id> ][--product-codes
      &lt;product_codes> ][-b, --block-device-mapping
      &lt;block_device_mapping> ][-d, --destination &lt;destination>
-     ][--ec2cert &lt;ec2cert_path> ][-r, --arch &lt;target_arch>
-     ][--batch]</codeblock>
+     ][--ec2cert &lt;ec2cert_path> ][--batch]</codeblock>
   </section>
 	<section>
-		<title>Required Parameters</title>
+		<title>Options</title>
 		<table>
-			<tgroup cols="2">
+			<tgroup cols="3">
 				<colspec colwidth="20*"/>
-				<colspec colwidth="80*"/>
-				
+				<colspec colwidth="70*"/>
+				<colspec colwidth="10*"/>
 				<thead>
-					<row>
-						<entry align="center">Parameter</entry>
-						<entry align="center">Description</entry>
-						
+					<row> 
+						<entry align="center">Option</entry>
+						<entry align="center">Description</entry> 
+						<entry align="center">Required?</entry>
 					</row>
 				</thead>
 				<tbody>
 					<row>
 						<entry><codeph>-i,--image</codeph></entry>
 						<entry>Path to the image file to bundle.</entry>
-						
+						<entry>Yes</entry>
 					</row>
-					
+					<row id="user">
+						<entry><codeph>-u,--user</codeph></entry>
+						<entry>12-digit user ID of the person who is bundling the image.
+						</entry>
+						<entry>Yes</entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
 	</section>
+  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
   	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/user">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/cert">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/private_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/prefix">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/kernel">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/ramdisk">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/product_codes">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/block_device_mapping">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/destination">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/ec2cert">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/arch">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/batch">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
+  		<title>Output</title>
+  		
   	</section>
   	
-  	
-	<!--<section>
-		<title>Errors</title>
-		</section>-->
-	<!--<section>
-		<title>Example</title>
-		</section>-->
+  	<section>
+  		<title>Example</title>
+  		<codeblock>euca-bundle-image --arch i386 -i myimage.img
+Checking image
+Encrypting image
+Splitting image...
+Part: myimage.img.part.00
+Part: myimage.img.part.01
+Part: myimage.img.part.02
+Part: myimage.img.part.03
+Generating manifest /tmp/myimage.img.manifest.xml</codeblock>
+  	</section>
+	
   </refbody>
 </reference>

@@ -2,155 +2,153 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-run-instances">
 	<title>euca-run-instances</title>
-  <shortdesc>Starts specified instances.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-run-instances  [-A, --access-key &lt;access_key> ][-A, --secret-key
-     &lt;secret_key> ][--config &lt;config_path>
-     ][--debug][--debugger][-h, --help][--region &lt;region_name>
-     ][-U, --url &lt;url> ][--version][--euca-auth][-n, --instance-
-     count &lt;count> ][-g, --group &lt;group_name> ][-k, --key
-     &lt;keyname> ][-d, --user-data &lt;user_data> ][-f, --user-data-
-     file &lt;user_data_file> ][--addressing &lt;addressing> ][-t,
-     --instance-type &lt;instance_type> ][--kernel &lt;kernel>
-     ][--ramdisk &lt;ramdisk> ][-b, --block-device-mapping
-     &lt;block_device_mapping> ][--monitor][-s, --subnet &lt;subnet>
-     ][-z, --availability-zone &lt;zone> ] image_id</codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>image_id</codeph></entry>
-  						<entry>ID of the image to run</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-n,--instance-count</codeph></entry>
-  						<entry>Number of instances to run</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>g,--group</codeph></entry>
-  						<entry>Security group to run the instance in</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-k,--key</codeph></entry>
-  						<entry>Name of a keypair</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-d,--user-data</codeph></entry>
-  						<entry>User data to pass to the instance</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-f,--user-data-file</codeph></entry>
-  						<entry>File containing user data to pass to the
-  							instance
-  						</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--addressing </codeph></entry>
-  						<entry>Deprecated
-  						<draft-comment>Any reason why we need to include this?</draft-comment></entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-t,--instance-type</codeph></entry>
-  						<entry>Image type to run the instance as.</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--kernel</codeph></entry>
-  						<entry>ID of the kernel to be used</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--ramdisk</codeph></entry>
-  						<entry>ID of the ramdisk to be used</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-b,--block-device-mapping </codeph></entry>
-  						<entry>Block device mapping for the instance(s).
-  							Option may be used multiple times
-  						</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--monitor</codeph></entry>
-  						<entry>Enable monitoring for the instance</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-s,--subnet</codeph></entry>
-  						<entry>Amazon VPC subnet ID for the instance</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-z,--availability-zone</codeph></entry>
-  						<entry>Availability zone to run the instance in</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+	<shortdesc>Starts specified instances of the specified machine image.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-run-instances <b>image_id</b> [-n <b>count</b> ][-g 
+				<b>group_name</b> ][-k <b>keyname</b> ][-d <b>user_data_file</b> ]
+				[-t <b>instance_type</b> ][--kernel <b>kernel</b> ][--ramdisk <b>ramdisk</b> 
+				][-b <b>block_device_mapping</b>][--monitor] [-z <b>zone</b> ]  <!--[-s <b>subnet</b>]--></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required?</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph><i>image_id</i></codeph></entry>
+							<entry>ID of the image to run</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-n,--instance-count <i>min[-max]</i></codeph></entry>
+							<entry>Number of instances to run. If this is specified as a range
+								(min-max), Eucalyptus will try to run the
+								maximum number, but no fewer than the minimum
+								number.</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-g,--group <i>group</i></codeph></entry>
+							<entry>Security group to run the instance in</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-k,--key <i>keypair</i></codeph></entry>
+							<entry>Name of a key pair</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-d,--user-data <i>user_data</i></codeph></entry>
+							<entry>User data to pass to the instance</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-f,--user-data-file <i>user_data_file</i></codeph></entry>
+							<entry>File containing user data to pass to the instance </entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>-t,--instance-type</codeph></entry>
+							<entry>Instance type to run.
+								<draft-comment>Valid values:???</draft-comment>
+							
+							</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>--kernel</codeph></entry>
+							<entry>Kernel ID to be used</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>--ramdisk</codeph></entry>
+							<entry>Ramdisk ID to be used</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-b,--block-device-mapping </codeph></entry>
+							<entry>Block device mapping for the instance. This is passed in the form of
+								&lt;devicename>=&lt;blockdevice>, where: <codeph>devicename</codeph>
+								is the device name of the physical device on the
+								instance to map and <codeph>blockdevice</codeph> is one of
+								the following values:
+								<ul>
+									<li><codeph>none</codeph>: Use this value to suppress existing mapping on the
+										specified image for this device. For example: <codeph>/dev/sdc=none</codeph></li>
+									<li><codeph>ephemeral[0..3]</codeph>: Use this value to indicate that an instance local
+										storage device should be mapped to this device. For example: <codeph>/dev/sdc=ephemeral0</codeph></li>
+									<li><codeph>[snapshot-id]:[size]:[delete-on-termination
+										(true|false)]</codeph>: Use this value to map
+										a device to an existing EBS-backed volume, and to specify
+										whether the EBS volume should be deleted
+										on termination. This value defaults to <codeph>true</codeph>.
+										<p>To specify a new EBS-backed volume, skip the snapshot
+											ID and pass in a volume size instead. For
+											example:<codeph> /dev/sdb=:20</codeph>.</p></li>
+								</ul></entry>
+							<entry>No</entry>
+						</row>
+						<!--<row>
+							<entry><codeph>-\-monitor</codeph></entry>
+							<entry>Enable monitoring for the instance</entry>
+							<entry>No</entry>
+						</row>-->
+					<!--	<row>
+							<entry><codeph>-s,-\-subnet</codeph></entry>
+							<entry>Amazon VPC subnet ID for the instance</entry>
+							<entry>No</entry>
+						</row>-->
+						<row>
+							<entry><codeph>-z,--availability-zone</codeph></entry>
+							<entry>Availability zone to run the instance in</entry>
+							<entry>No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("RESERVATION")</li>
+				<li>Instance ID that uniquely identifies each running instance</li>
+				<li>EMI ID of the image on which the instance(s) are based</li>
+				<li>Instance state. This is usually pending, which indicates that the instance(s) are preparing to launch</li>
+				<li>Key pair name (if a key pair was associated with the instance at launch)</li>
+				<li>Product code (if applicable)</li>
+				<li>Instance type</li>
+				<li>Instance launch time</li>
+				<li>Availability zone</li>
+				<li>Kernel ID</li>
+				<li>RAM disk ID</li>
+				<li>Monitoring status</li>
+				<li>Root device type (ebs or instance-store)</li>
+				<li>Placement group the cluster instance is in</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-run-instances -k mykey -g mygroup emi-15A1386E
+RESERVATION r-D8A4438A  790547641019    default
+INSTANCE    i-12623E16  emi-15A1386E    0.0.0.0 0.0.0.0 pending kp00
+ 0       m1.small    2012-01-01T00:00:00.000Z    zone00</codeblock>
+		</section>
+	</refbody>
 </reference>

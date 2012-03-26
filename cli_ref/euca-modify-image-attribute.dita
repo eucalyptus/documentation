@@ -2,114 +2,83 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-modify-image-attribute">
 	<title>euca-modify-image-attribute</title>
-	<shortdesc>Show attributes for a specified image.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-modify-image-attribute  [-A, --access-key &lt;access_key> ][-A, --secret-key
-     &lt;secret_key> ][--config &lt;config_path>
-     ][--debug][--debugger][-h, --help][--region
-     &lt;region_name> ][-U, --url &lt;url> ][--version
-     ][--euca-auth][-l, --launch-permission][-p,
-     --product-code &lt;product_code> ][-a, --add &lt;add>
-     ][-r, --remove &lt;remove> ] image_id</codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>image_id</codeph></entry>
-  						<entry>Unique identifier for the image that you want
-  							to modify the attributes of
-  						</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-l,--launch-permission</codeph></entry>
-  						<entry>Show launch permissions</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-p,--product-code</codeph></entry>
-  						<entry>Show the product codes associated with the
-  							image
-  						</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-a,--add</codeph></entry>
-  						<entry>Entity (typically, user ID) to add</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-r,--remove</codeph></entry>
-  						<entry>Entity (typically, user ID) to remove</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+	<shortdesc>Modifies an attribute of an EMI.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-modify-image-attribute <b>image_id</b> [ -l ][-p <i>product_code</i> ][-a
+				<b>entity</b>][-r <b>entity</b> ]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required?</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph><i>image_id</i></codeph></entry>
+							<entry>Unique identifier for the image that you want to modify the attributes of
+							</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-l, --launch-permission</codeph></entry>
+							<entry>Used with the <codeph>--add</codeph> or <codeph>--remove</codeph> option to grant or 
+								revoke launch permissions</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-a, --add <i>entity</i></codeph></entry>
+							<entry>Adds a launch permission for the specified 
+								account or for all accounts.
+								<p>Valid Values: <codeph>account identifier</codeph> | <codeph>all</codeph></p></entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-r, --remove <i>entity</i></codeph></entry>
+							<entry>Removes a launch permission for the specified 
+								account or for all users.
+								<p>Valid Values: <codeph>account identifier</codeph> | <codeph>all</codeph></p></entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-p, --product-code <i>code</i></codeph></entry>
+							<entry>Product code to add to the specified EMI. Once you add a product code to an
+								EMI, it can't be removed</entry>
+							<entry>Yes</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("IMAGE")</li>
+				<li>Image ID</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<p>The following example makes the EMI public, so that all accounts can launch it.</p>
+			<codeblock>euca-modify-image-attribute -l -a all emi-15A1386E
+IMAGE   emi-15A1386E</codeblock>
+			<p>The following example denies launch permission for a specific account.</p>
+			<codeblock>euca-modify-image-attribute -l -r 790547641019 emi-15A1386E
+IMAGE   emi-15A1386E</codeblock>
+		</section>
+	</refbody>
 </reference>

@@ -2,70 +2,57 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euare-useraddkey">
 	<title>euare-useraddkey</title>
-  <shortdesc>Creates an access key.</shortdesc>
+	<shortdesc>Creates a new access key ID and corresponding secret access key for the specified user.
+		If don't use the pass a user name, Eucalyptus creates keys for the user who owns the requesting credentials. </shortdesc>
   <refbody>
     <section>
     	<title>Syntax</title>
     	<codeblock></codeblock>
     </section>
   	<section>
-  		<title>Required Parameters</title>
-  		<p>None</p>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
+  		<title>Options</title>
   		<table>
-  			<tgroup cols="2">
+  			<tgroup cols="3">
   				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
+  				<colspec colwidth="70*"/>
+  				<colspec colwidth="10*"/>
   				<thead>
-  					<row>
+  					<row> 
   						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
+  						<entry align="center">Description</entry> 
+  						<entry align="center">Required?</entry>
   					</row>
-  					
   				</thead>
   				<tbody>
   					<row>
-  						<entry><codeph>-u, --user-name</codeph></entry>
+  						<entry><codeph>-u, --user-name <i>user_name</i></codeph></entry>
   						<entry>Name of the user the signing certificate is for</entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/delegate">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/version">
-  						<entry></entry>
+  						<entry>No</entry>
   					</row>
   				</tbody>
   			</tgroup>
   		</table>
   	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
+  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+  	
+  	<section>
+  		<title>Output</title>
+  		<ul>
+  			<li>Access key ID</li>
+  			<li>Secret access key</li>
+  		</ul>
+  	</section>
+  	
+  	<section>
   		<title>Example</title>
-  		</section>-->
+  		<p>The following example generates new keys for the user who owns the requesting credentials.</p>
+  		<codeblock>euare-useraddkey
+UDHYLIGYKLURDIBAIUEMJ
+0VhKjLs4QVA8F3o9Xl2bFhheQJL0K5I30kByFGdm</codeblock>
+  		<p>The following example generates new keys for myuser.</p>
+  		<codeblock>euare-useraddkey -u myuser
+JMEUIABIDRULKYGILYHDU
+mdGFyBk03I5K0LJQehhFb2lX9o3F8AVQ4sLjKhV0</codeblock>
+  	</section>
   </refbody>
 </reference>

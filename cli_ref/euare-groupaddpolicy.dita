@@ -6,100 +6,59 @@
   <refbody>
     <section>
     	<title>Syntax</title>
-    	<codeblock></codeblock>
+    	<codeblock>euare-groupaddpolicy -g <b>group_name</b> -p <b>policy_name</b> -e <b>effect</b> -a 'ec2:*'</codeblock>
     </section>
   	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
-  					</row>
-  				</thead>
+  		<title>Options</title>
+  		<table>   			<tgroup cols="3">   				<colspec colwidth="20*"/>   				<colspec colwidth="80*"/>   				<colspec colwidth="20*"/>   				<thead>   					<row>    						<entry align="center">Option</entry>   						<entry align="center">Description</entry>    						<entry align="center">Required?</entry>   					</row>   				</thead>
+  			
   				<tbody>
   					<row>
-  						<entry><codeph>-g, --group-name</codeph></entry>
+  						<entry><codeph>-g, --group-name <i>group_name</i></codeph></entry>
   						<entry>Name of the group to associate the policy with</entry>
+  						<entry>Yes</entry>
   					</row>
   					<row>
-  						<entry><codeph>-p, --policy-name</codeph></entry>
+  						<entry><codeph>-p, --policy-name <i>policy_name</i></codeph></entry>
   						<entry>Name of the policy document</entry>
+  						<entry>Yes</entry>
   					</row>
   					<row>
-  						<entry><codeph>-e, --effect</codeph></entry>
-  						<entry>The value for the policy's <codeph>Effect</codeph> element</entry>
+  						<entry><codeph>-e, --effect <i>effect</i></codeph></entry>
+  						<entry>The value for the policy's <codeph>Effect</codeph> element.
+  							<p>Valid values: <codeph>Allow</codeph> | <codeph>Deny</codeph></p></entry>
+  						<entry>Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-a, --action <i>action</i></codeph></entry>
+  						<entry>The value for the policy's <codeph>Action</codeph> element. This value specifies both the service and action you want to allow or deny permission to. For example: <codeph>-a iam:ListAccessKeys</codeph>. </entry>
+  						<entry>Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-o</codeph></entry>
+  						<entry>This option tells Eucalyptus to output the JSON policy document that IAM created for you.</entry>
+  						<entry>No</entry>
   					</row>
   				</tbody>
   			</tgroup>
   		</table>
+  		<draft-comment>Do we use the -r option?</draft-comment>
   	</section>
+  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+  	
   	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-a, --action</codeph></entry>
-  						<entry>The value for the policy's <codeph>Action</codeph> element</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-r, --resource</codeph></entry>
-  						<entry>The value for the policy's <codeph>Resource</codeph> element</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-o, --output</codeph></entry>
-  						<entry>Causes the output to include the JSON policy document
-  							created for you
-  						</entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
+  		<title>Output</title>
+  		<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
   	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
+  	
+  	<section>
+  		<title>Examples</title>
+  		<p>The following policy allows all actions in EC2.</p>
+  		<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*'</codeblock>
+  		<p>The following policy allows all actions in EC2 and outputs the generated JSON policy.</p>
+  		<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*' -o
+{"Version":"2008-10-17","Statement":[{"Effect":"Allow",
+"Action":["ec2:*"], "Resource":["*"]}]}</codeblock>
+  	</section>
   </refbody>
 </reference>

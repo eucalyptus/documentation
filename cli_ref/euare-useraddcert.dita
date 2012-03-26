@@ -6,74 +6,60 @@
   <refbody>
     <section>
     	<title>Syntax</title>
-    	<codeblock></codeblock>
+    	<codeblock>euare-useraddcert [-u <b>user_name</b>] [-c <b>certificate_text</b> | -f
+    		<b>certificate_file</b>] </codeblock>
     </section>
   	<section>
-  		<title>Required Parameters</title>
-  		<p>None</p>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
+  		<title>Options</title>
   		<table>
-  			<tgroup cols="2">
+  			<tgroup cols="3">
   				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
+  				<colspec colwidth="70*"/>
+  				<colspec colwidth="10*"/>
   				<thead>
-  					<row>
+  					<row> 
   						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
+  						<entry align="center">Description</entry> 
+  						<entry align="center">Required?</entry>
   					</row>
-  					
   				</thead>
   				<tbody>
   					<row>
-  						<entry><codeph>-c, --certificate-body</codeph></entry>
-  						<entry>The contents of the signing certificate.</entry>
-  					</row>
-  					<row>
-  						<entry><codeph> -f, --certificate-file</codeph></entry>
-  						<entry>The file that contains the signing certificate</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-u, --user-name</codeph></entry>
+  						<entry><codeph>-u, --user-name <i>user_name</i></codeph></entry>
   						<entry>Name of the user the signing certificate is for</entry>
+  						<entry>Np</entry>
   					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/delegate">
-  						<entry></entry>
+  					<row>
+  						<entry><codeph>-c, --certificate-body <i>certificate_text</i></codeph></entry>
+  						<entry>The contents of the signing certificate.</entry>
+  						<entry>Conditional</entry>
   					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debug">
-  						<entry></entry>
+  					<row>
+  						<entry><codeph> -f, --certificate-file <i>certificate_file></i></codeph></entry>
+  						<entry>The file that contains the signing certificate</entry>
+  						<entry>Conditional</entry>
   					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
+  					
   				</tbody>
   			</tgroup>
   		</table>
   	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
+  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+  	
+  	<section>
+  		<title>Output</title>
+  		<p>Eucalyptus returns a certificate ID that you will need to modify or delete the certificate in
+  			the future.</p>
+  	</section>
+  	
+  	<section>
   		<title>Example</title>
-  		</section>-->
+  		<p>The following example uploads a signing certificate as text for the user named myuser.</p>
+  		<codeblock>euare-useraddcert -u myuser -c '&lt;PEM-encoded certificate>'
+ER1AYGZEJ4O1BGRTYMYOH</codeblock>
+  		<p>The following example uploads a signing certificate as a .pem file for the user named myuser.</p>
+  		<codeblock>euare-useraddcert -u myuser -f &lt;file containing PEM-encoded certificate>
+ER1AYGZEJ4O1BGRTYMYOH</codeblock>
+  	</section>
   </refbody>
 </reference>
