@@ -23,12 +23,17 @@
  	<section>
  		<title>Managed Mode Requirements</title>
  		<ul>
- 			<li>There must be an available range of IP addresses for the virtual subnets. This range must not interfere with the physical network. Typically these IP addresses are selected from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
- 			<li>Network must be VLAN clean, meaning that all switch ports that Eucalyptus components are connected to will allow and forward VLAN tagged packets.</li>
- 			<li>You are not running a firewall on the CC or your firewall is compatible with the dynamic changes performed by Eucalyptus when working with security groups. (Note that Eucalyptus will flush the 'filter' and 'nat' tables upon boot).</li>
- 			<li>No pre-existing DHCP server on the subnet. (Or, the existing DHCP server must be configured to not serve instances.)</li>
- 			
- 		</ul>
+				<li>There must be an available range of IP addresses for the virtual subnets. This
+					range must not interfere with the physical network. Typically these IP addresses
+					are selected from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
+				<li>The network must be VLAN clean, meaning that all switch ports that Eucalyptus
+					components are connected to will allow and forward VLAN tagged packets.</li>
+				<li>Any firewall running on the Cluster Controller must be compatible with the
+					dynamic changes performed by Eucalyptus when working with security groups. (Note
+					that Eucalyptus will flush the 'filter' and 'nat' tables upon boot).</li>
+				<li>Any DHCP server on the subnet must be configured not to serve Eucalyptus
+					instances.</li>
+			</ul>
  	</section>
  	
  </conbody>
