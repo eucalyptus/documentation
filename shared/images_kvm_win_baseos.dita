@@ -16,8 +16,7 @@
 			<step>
 				<cmd>Create a blank disk file. Specify your Windows VM image name using the parameter <codeph>of</codeph>.</cmd>
 				<info>
-					<codeblock>dd if=/dev/zero of=windows.&lt;image_name>.img \
-        			bs=1M count=1 seek=16999</codeblock>
+					<codeblock>dd if=/dev/zero of=windows.&lt;image_name>.img bs=1M count=1 seek=16999</codeblock>
 					<note type="important">Your image name must start with the word, <codeph>windows</codeph> (all
 						lower-case).</note>
 				</info>
@@ -33,21 +32,24 @@
 			</step>
 			<step>
 				<cmd>Make available the .iso file that contains your Windows installation CD/DVD, then copy the
-					.iso file to your working directory (<filepath>$EUCALYPTUS/usr/share/eucalyptus/doc/</filepath>).</cmd>
+					.iso file to your working directory (<filepath>/usr/share/eucalyptus/doc/</filepath>).</cmd>
 				
 			</step>
 			<step>
 				<cmd>Copy the <filepath>libvirt-kvm-windows-example.xml</filepath> file to your working
-					directory.</cmd>
+					directory and rename it to <filepath>libvirt-kvm-windows.xml</filepath>.</cmd>
+				<info>
+					<codeblock>cp libvirt-kvm-windows-example.xml /usr/share/eucalyptus/doc/libvirt-kvm-windows.xml</codeblock>
+				</info>
 			</step>
 			<step>
-				<cmd>Open the new <filepath>libvirt-kvm-windows-example.xml</filepath> file and provide
+				<cmd>Open the new <filepath>libvirt-kvm-windows.xml</filepath> file and provide
 					fully qualified paths to the VM image file and iso. Make sure that the name of the bridge is the same as the one used by the hypervisor on which you are creating the Windows image.</cmd>
 				<!--<info>
 					<note type="tip">brctrl show command shows bridge name—ensure that it’s the same.</note>
 					</info>-->
 				<stepresult>
-					<p>Your file should looks similar to this example:</p>
+					<p>Your file should look similar to this example:</p>
 					<codeblock>&lt;domain type='kvm'>
 	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
@@ -94,7 +96,7 @@
 			<step>
 				<cmd>Start the VM.</cmd>
 				<info>
-					<codeblock>virsh create libvirt-kvm-windows-example.xml</codeblock>
+					<codeblock>virsh create libvirt-kvm-windows.xml</codeblock>
 				</info>
 			</step>
 			<step>

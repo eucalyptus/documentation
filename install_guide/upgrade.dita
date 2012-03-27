@@ -4,17 +4,22 @@
  <title>Appendix: Upgrading Eucalyptus</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>If you are upgrading from a previous version of Eucalyptus, following the directions detailed
+ 	<p>If you are upgrading from a previous version of Eucalyptus, follow the directions detailed
  		in this section.</p>
  	
  	<section>
  		<title>Migrating Users</title>
- 		<p>Eucalyptus 3.0 enforces case insensitivity. So a user labeled <uicontrol>john</uicontrol>
+ 		<p>There are two considerations for migrating users during the upgrade process:</p>
+ 		<ul>
+ 		<li>In Eucalyptus 3.0 the concept of <b>user</b> has changed. What used to be a user is now an
+ 			<b>account</b>, and the user is an identity within the account. In the upgrade process to
+ 			Eucalyptus 3.0, users are converted to accounts.</li>
+ 		<li>Eucalyptus 3.0 enforces case insensitivity. So a user labeled <uicontrol>john</uicontrol>
  			and another user labeled <uicontrol>JOHN</uicontrol> will collide during the upgrade process. You
  			must either relabel conflicting accounts or be aware that Eucalyptus will relabel
  			these accounts. For example, the upgrade process will
 maintain the <uicontrol>john</uicontrol> label but will relabel the other one as
- 			<uicontrol>john-</uicontrol>.</p>
+ 			<uicontrol>john-</uicontrol>.</li></ul>
  	</section>
  	<section>
  		<title>Migrating VLAN Range</title>
@@ -28,7 +33,7 @@ maintain the <uicontrol>john</uicontrol> label but will relabel the other one as
  			choose a range that is the intersection of the user's per-cluster settings from 2.x. However, this will
  			not always be the preferred configuration for each user.</p>
  		
- 		<p>Use the <apiname>euca-describe-properties</apiname> command to display the new settings:
+ 		<p>Use the <cmdname>euca-describe-properties</cmdname> command to display the new settings:
  		</p>
  		<codeblock>PROPERTY    cloud.network.global_max_network_tag    1000
 PROPERTY    cloud.network.global_min_network_tag    2</codeblock>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="configuring_bridge">
-	<title>Configuring the Bridge</title>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_bridge">
+	<title>Configure Bridges</title>
 	<shortdesc/>
-	<conbody>
+	<taskbody>
+		<context>
 		<p>For Managed (No VLAN), Static, and System modes, you must configure a Linux ethernet bridge
 			on all NC machines. This bridge connects your local ethernet adapter to the cluster network.
 			Under normal operation, NCs will attach virtual machine instances to this bridge when the
@@ -20,5 +21,264 @@
 			describe how to set up a bridge on various distributions. In this section we show examples for
 			configuring bridge devices that either obtain IP addresses using DHCP
 			or statically. </p>
-	</conbody>
-</concept>
+		
+			<note type="important">Before you configure a bridge, you must install the <codeph>bridge-utils</codeph> package.</note>
+		</context>
+		
+	</taskbody>
+	<task id="configuring_bridge_centos">
+		<title>CentOS 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To configure a bridge in CentOS:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Install the <codeph>bridge-utils</codeph> package.</cmd>
+					<info>
+						<codeblock>yum install bridge-utils</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Create a new ethernet bridge configuration file <filepath>/etc/sysconfig/network-scripts/ifcfg-br0</filepath>
+						and enter the following:</cmd>
+					<info>
+						<codeblock>DEVICE=br0
+BOOTPROTO=dhcp
+ONBOOT=yes
+TYPE=Bridge</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Add your physical ethernet device to the bridge by editing  your physical ethernet device
+						configuration file (<filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath>).</cmd>
+					<choices>
+						<choice>If you are using DHCP, the configuration will look similar to the following
+							example:
+							<codeblock>DEVICE=eth0
+TYPE=Ethernet
+BRIDGE=br0</codeblock>
+						</choice>
+						<choice>If you are using a static IP address, the configuration will look similar to the
+							following example:
+							<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=&lt;static_IP_address>
+NETMASK=&lt;netmask>
+GATEWAY=&lt;gateway>
+ONBOOT=yes</codeblock>
+						</choice>
+					</choices>
+				</step>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>service network restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_bridge_rhel5">
+		<title>RHEL 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To configure a bridge in RHEL5.x, you need to create a file with bridge configuration (for
+					example, ifcfg-brX) and modify the file for the physical interface (for example,
+					ifcfg-ethX).</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Install the <codeph>bridge-utils</codeph> package.</cmd>
+					<info>
+						<codeblock>yum install bridge-utils</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Go to the <filepath>/etc/sysconfig/network-scripts</filepath>
+						directory:</cmd>
+					<info>
+						<codeblock>cd /etc/sysconfig/network-scripts</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Open the network script for the device you are adding to the bridge and add your
+						bridge device to it. The edited file should look similar to the following:</cmd>
+					<info>
+						<codeblock>DEVICE=eth0
+# change the hardware address to match the hardware address your NIC uses
+HWADDR=00:16:76:D6:C9:45
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Create a new network script in the
+						<filepath>/etc/sysconfig/network-scripts</filepath> directory called
+						<filepath>ifcfg-br0</filepath> or something similar. The br0 is the name of the bridge,
+						but this can be anything as long as the name of the file is the
+						same as the <codeph>DEVICE</codeph> parameter, and the name is specified
+						correctly in the previously created physical interface
+						configuration (ifcfg-ethX).</cmd>
+					<choices>
+						<choice>If you are using DHCP, the configuration will look similar to:
+							<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=dhcp
+ONBOOT=yes
+DELAY=0</codeblock>
+						</choice>
+						<choice>If you are using a static IP address, the configuration will look similar to:
+							<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=&lt;static_IP_address>
+NETMASK=&lt;netmask>
+GATEWAY=&lt;gateway>
+ONBOOT=yes</codeblock>
+						</choice>
+					</choices>
+					
+				</step>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>service network restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_bridge_rhel6">
+		<title>RHEL 6</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To configure a bridge in RHEL6.x, you need to create a file with bridge configuration (for
+					example, ifcfg-brX) and modify the file for the physical interface (for example,
+					ifcfg-ethX).</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Install the <codeph>bridge-utils</codeph> package.</cmd>
+					<info>
+						<codeblock>yum install bridge-utils</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Go to the <filepath>/etc/sysconfig/network-scripts</filepath>
+						directory:</cmd>
+					<info>
+						<codeblock>cd /etc/sysconfig/network-scripts</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Open the network script for the device you are adding to the bridge and add your
+						bridge device to it. The edited file should look similar to the following:</cmd>
+					<info>
+						<codeblock>DEVICE=eth0
+# change the hardware address to match the hardware address your NIC uses
+HWADDR=00:16:76:D6:C9:45
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Create a new network script in the
+						<filepath>/etc/sysconfig/network-scripts</filepath> directory called
+						<filepath>ifcfg-br0</filepath> or something similar. The br0 is the name of the bridge,
+						but this can be anything as long as the name of the file is the
+						same as the <codeph>DEVICE</codeph> parameter, and the name is specified
+						correctly in the previously created physical interface
+						configuration (ifcfg-ethX).</cmd>
+					<choices>
+						<choice>If you are using DHCP, the configuration will look similar to:
+							<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=dhcp
+ONBOOT=yes
+DELAY=0</codeblock>
+						</choice>
+						<choice>If you are using a static IP address, the configuration will look similar to:
+							<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=&lt;static_IP_address>
+NETMASK=&lt;netmask>
+GATEWAY=&lt;gateway>
+ONBOOT=yes</codeblock>
+						</choice>
+					</choices>
+					
+				</step>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>service network restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_bridge_ubuntu">
+		<title>Ubuntu 10.04 LTS</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To configure a bridge on Ubuntu Lucid:</p>
+			</context>
+			<steps>
+				
+				<step>
+					<cmd>Install the <codeph>bridge-utils</codeph> package.</cmd>
+					<info>
+						<codeblock>apt-get install bridge-utils</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Modify the <filepath>/etc/network/interfaces</filepath> file.</cmd>
+					<choices>
+						<choice>If you are using DHCP, the configuration will look similar to the following
+							example:
+							<codeblock>auto lo 
+iface lo inet loopback
+ 
+auto br0  
+iface br0 inet dhcp
+    bridge_ports eth0</codeblock>
+						</choice>
+						<choice>If you are using a static IP address, the configuration will look similar to the
+							following example:
+							<codeblock>auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static
+    address &lt;static_IP_address>
+    network &lt;network>
+    netmask &lt;netmask>
+    broadcast &lt;broadcast_IP_address>
+    gateway &lt;gateway>
+    bridge_ports eth0
+    bridge_stp off</codeblock>
+						</choice>
+					</choices>
+				</step>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>/etc/init.d/networking restart</codeblock>
+					</info>
+				</step>
+			</steps>
+			
+		</taskbody>
+		
+	</task>
+	
+</task>

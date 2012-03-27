@@ -14,19 +14,20 @@
             <step>
                 <cmd>Enter the following command:</cmd>
             	<info>
-            		<codeblock>euca-bundle-instance -b &lt;storeage_bucket_name> &lt;instance_ID>  -p followed by the image prefix; -o followed by the access key id of the user; and –w followed by the secret key id of the user.</codeblock>
-            		<note type="tip">You can query the progress of a <codeph>euca-bundle-instance</codeph>
-            			command using the <codeph>describe-bundle-task</codeph> command. You can cancel the
-            			progress of <codeph>euca-bundle-instance</codeph>	command using 
-            			<codeph>cancel-bundle-task</codeph> command.</note>
+            		<codeblock>euca-bundle-instance -b &lt;bucket_name> -p &lt;prefix_starting_with_windows> -o $EC2_ACCESS_KEY –w
+$EC2_SECRET_KEY &lt;instance_ID></codeblock>
+            		<note type="tip">You can query the progress of a bundling tasks using the <cmdname>euca-describe-bundle-
+            		task</cmdname> command. You can cancel the active bundle task using
+            			<cmdname>euca-cancel-bundle-task</cmdname> command.</note>
             	</info>
             </step>
         </steps>
     	<example>
-    		<p>The following example bundles a new Windows image from an existing Windows instance with ID <codeph>i-12c4af6a</codeph> to the bucket <codeph>mybucket</codeph>, with image prefix windows, access key “ACCESS,” and secret key “SECRET”:</p>
-    		<codeblock>euca-bundle-instance –b mybucket i-12c4af6a </codeblock>
+    		<p>The following example bundles a new Windows image from an existing Windows instance with ID
+    			<codeph>i-12c4af6a</codeph>, to the bucket <codeph>mybucket</codeph>, with image prefix <codeph>windows2003_bundle</codeph>:</p>
+    		<codeblock>euca-bundle-instance -b mybucket -p windows2003_bundle -o $EC2_ACCESS_KEY -w $EC2_SECRET_KEY  i-12c4af6a</codeblock>
     	</example>
-    	<postreq>For more information about creating Windows images, see the Eucalyptus Administration Guide.</postreq>
+    	<!--<postreq>For more information about creating Windows images, see the Eucalyptus Administration Guide.</postreq>-->
     </taskbody>
 
 </task>

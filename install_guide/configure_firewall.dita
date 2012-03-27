@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_firewall">
+    <title>Configure the Firewall</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>If you have existing firewall rules on your hosts, you must allow Eucalyptus access.</p>
+        	<note type="tip">If you are installing on Ubuntu 10.04 LTS, you can skip this section.</note>
+        	
+        	<p>To enable your firewall:</p>
+        		
+        </context>
+        <steps>
+            <step>
+            	<cmd>UDP multicast to the hosts that will run the CLC, Walrus, SC, and VMwareBroker.</cmd>
+            	<info>
+            		<codeblock>-A RH-Firewall-1-INPUT -p udp -d &lt;network/mask> -j ACCEPT</codeblock>
+            		<!--<p>where <codeph>&lt;network/mask></codeph> is the network that Eucalyptus hosts will be
+            			using (for example, <codeph>224.0.0.0/4</codeph>).</p>-->
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Allow UDP between these hosts by, for example, adding the following rule to
+        			<filepath>/etc/sysconfig/iptables</filepath>.</cmd>
+        		<info>
+        			<codeblock>-A RH-Firewall-1-INPUT -p udp -s &lt;network/mask> -j ACCEPT</codeblock>
+        			<!--<p>where <codeph>&lt;network/mask></codeph> is the network that Eucalyptus hosts will be
+        				using (for example, <codeph>192.168.0.0/24</codeph>).</p>-->
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Repeat on each host that will run a Eucalyptus component: CLC, Walrus, CC, SC, and
+        			NC.</cmd>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

@@ -5,56 +5,99 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p>To create a VM image as an executable entity, you must prepare it by bundling a root disk
-				image and kernel/ramdisk pair, uploading each to Walrus bucket storage, and then register the
-				image with Eucalyptus. </p>
-			<note>All users can bundle, upload, and register images. However, only an administrator has the
-				permissions to upload and register kernels and ramdisks. The administrator also manages which
-				images a user can access. </note>
+			<note type="important">Before you begin, make sure that Xen installed and properly functioning for the account you are going to use.</note>
+			<p>To create a root filesystem to be used with Eucalyptus using Xen and an ISO image of the guest
+				OS you want to install:</p>
 			
 		</context>
-		
+		<steps>
+			<step>
+				<cmd>Download the ISO image of the distro (guest OS) you want to install.</cmd>
+			</step>
+			<step>
+				<cmd>Create a virtual disk with the desired size. For example, to create a 4 GiB disk:</cmd>
+				<info>
+					<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Create a Xen configuration file (for example, <filepath>xen.cfg</filepath>) to boot off the
+					ISO image. The file should look like the following:</cmd>
+				<info>
+					<codeblock>name = "bootFromISO"
+kernel = "/usr/lib/xen/boot/hvmloader"
+memory = 1024
+builder = "hvm"
+device_model = "/usr/lib64/xen/bin/qemu-dm"
+boot = "d"
+disk = ['file:PATH_TO_ISO,hdc:cdrom,r',
+'file:PATH_TO/&lt;image_name>,sda,w']
+vif = ['mac=00:01:01:00:00:03, bridge=xenbr0']
+dhcp="on"
+vnc = 1
+vncdisplay = 7
+pae = 1</codeblock>
+					<note type="important">You must modify <codeph>device_model</codeph> and <codeph>kernel</codeph> since they depend on where the
+						distribution puts such files. Look into the Xen package file list. Also be sure that all the options are correct for your needs.</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Start the domU.</cmd>
+				<info>
+					<codeblock>xen create xen.cfg</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Connect with a VNC viewer. For example:</cmd>
+				<info>
+					<codeblock>xvncviewer localhost:7</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Install the distro as you would normally would. Do not use <codeph>lvm</codeph> or <codeph>md</codeph> and install everything in one partition. Remember the partition in which the distro is installed.</cmd>
+				<info><note type="important">Most distributions will remember the network interfaces by the MAC
+					address, so interfaces will always be the same (that is, <codeph>eth0</codeph> and
+					<codeph>eth1</codeph> will not be inverted accidentally). In Eucalyptus you have to get the
+					distribution to forget the NIC, so that every instance will see the interface as the first
+					interface. To do so you may want to refer to the specific distribution. For example Debian and
+					Ubuntu use <codeph>udev</codeph> so check <filepath>/etc/udev/rules.d/*net*</filepath>. CentOS
+					might have something in <filepath>/etc/network-scripts/ifcfg-eth0</filepath>. Failure to do so
+					may leave your instance without network.</note></info>
+			</step>
+			<step>
+				<cmd>Stop the domU.</cmd>
+			</step>
+			<step>
+				<cmd>Find out the starting block and the block size of the root file system.</cmd>
+				<info>
+					<codeblock>parted &lt;image_name></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Change the units to blocks.</cmd>
+				<info>
+					<codeblock>(parted) u
+Unit? [compact]? b</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Print the current partition table using <codeph>p</codeph>.</cmd>
+				<stepresult>Note the start for the partition you are interested in and the size. For this
+					example we'll say that the start is <codeph>32256</codeph> and the size is <codeph>1024000</codeph>.</stepresult>
+			</step>
+			<step>
+				<cmd>Extract the file system.</cmd>
+				<info>
+					<codeblock>dd if=&lt;image_name> of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
+					
+				</info>
+			</step>
+		</steps>
+		<result>You now have a root filesystem. Make sure that it is compatible with the kernel/initrd you are using in your
+			cloud environment. In particular you may want to be sure you have the
+			modules of the kernel you are going to use. Then you are ready to <xref
+				href="add_existing.dita">add the image</xref> to
+			Eucalyptus.</result>
 	</taskbody>
-	<task id="images_xen_lin_eri">
-		<title>Create a Linux Image (Xen)</title>
-		<shortdesc/>
-		<taskbody>
-			<context>
-				<p>Context for the current task</p>
-			</context>
-			<steps>
-				<step>
-					<cmd>Task step.</cmd>
-				</step>
-			</steps>
-		</taskbody>
-	</task>
-		<task id="images_xen_lin_eki">
-			<title>Create a Linux Image (Xen)</title>
-			<shortdesc/>
-			<taskbody>
-				<context>
-					<p>Context for the current task</p>
-				</context>
-				<steps>
-					<step>
-						<cmd>Task step.</cmd>
-					</step>
-				</steps>
-			</taskbody>
-		</task>
-			<task id="images_xen_lin_emi">
-				<title>Create a Linux Image (Xen)</title>
-				<shortdesc/>
-				<taskbody>
-					<context>
-						<p>Context for the current task</p>
-					</context>
-					<steps>
-						<step>
-							<cmd>Task step.</cmd>
-						</step>
-					</steps>
-				</taskbody>
-			</task>
+	
 </task>

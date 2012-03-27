@@ -1,15 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="configuring_loop_devices">
- <title>Configuring Loop Devices</title>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_loop_devices">
+ <title>Configure Loop Devices</title>
  <shortdesc></shortdesc>
- <conbody>
- 	<p>To ensure that Eucalyptus starts new instances, you must configure the number of loop devices you expect to use for SC and NC components. An SC with insufficient loop devices fails to create new EBS volumes. A NC with insufficient loop devices fails to start new instances.</p>
- 	<p>We recommend that you err on the side of configuring too many loop devices. The downside to having too many loop devices is tying up a miniscule amount of extra memory and adding a lot of clutter to the system's /dev directory. The cost of having too many and then not using them is smaller than the cost of Eucalyptus being unable to make use of all of a system's resources.</p>
- 	<note type="tip">We recommend a minimum of 50 loop devices. The maximum number of devices is 256, and this is also a safe value.</note>
- 	<p>Eucalyptus installs with a default loop device amount of 256. This configuration is stored in the in the /etc/eucalyptus/eucalyptus.conf file. If you are running RHEL 6 or Ubuntu, you can accept the default number, or change to another number by editing the configuration file. Steps for this task are listed in the following sections.</p>
- 	<p>If you’re running CentOS 5 and RHEL 5, you must create a file to configure loop devices. Steps for this task are listed in the following sections.</p>
- 	<p>Note that any configuration changes must be done on each SC and NC in your system.</p>
+ <taskbody>
+ 	<context>
+ 	<p>To ensure that Eucalyptus starts new instances, you must configure the number of loop devices
+ 		you expect to use for SC and NC components. An SC with insufficient loop devices fails to create
+ 		new EBS volumes. An NC with insufficient loop devices fails to start new instances. This section
+ 		tells you how to configure loop devices for your distribution.</p>
  	
- </conbody>
-</concept>
+ 	<p>We recommend that you err on the side of configuring too many loop devices. Too many loop
+ 		devices result in a minor amount of memory tie-up and some clutter added to the system's
+ 		<filepath>/dev</filepath> directory. Too few loop devices make Eucalyptus unable to use all of a system's resources.</p>
+ 	
+  	<p>Eucalyptus installs with a default loop device amount of 256. However, Eucalyptus cannot
+ 		control the number of loop devices on either CentOS 5 or RHEL 5. These systems default to eight
+ 		loop devices, so you must supply a option to the loop driver by writing a configuration file. For
+ 		more information, see the instructions for either <xref
+ 			href="#configuring_loop_devices_centos"/> or
+  		<xref href="#configuring_loop_devices_rhel6"/>.</p>
+ 	
+ 		<p>If you want to change the default loop device number in RHEL 6 or Ubuntu 10.04 LTS,  see the
+ 			instructions for either <xref href="#configuring_loop_devices_rhel5"/> or
+ 			<xref href="#configuring_loop_devices_ubuntu"/>.</p>
+ 	
+ 	<note type="tip">We recommend a minimum of 50 loop devices. If you have fewer than 50, the startup
+ 		script will complain.</note>
+ 	</context>
+ </taskbody>
+	<task id="configuring_loop_devices_centos">
+		<title>CentOS 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the SC server.</cmd>
+				</step>
+				<step>
+					<cmd>Create and open a file, <filepath>/etc/modprobe.d/eucalyptus-loop</filepath>.</cmd>
+				</step>
+				<step>
+					<cmd>Enter the following line:</cmd>
+					<info>
+						<codeblock>options loop max_loop=N</codeblock>
+						<p>where N is an integer from 1 to 256</p>
+					</info>
+				</step>
+				<step>
+					<cmd>Reload the loop driver if it is already loaded.</cmd>
+					<info>
+						<codeblock>rmmod loop
+modprobe loop</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Repeat for each SC and NC server.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_loop_devices_rhel5">
+		<title>RHEL 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the SC server.</cmd>
+				</step>
+				<step>
+					<cmd>Create and open a file, <filepath>/etc/modprobe.d/eucalyptus-loop</filepath>.</cmd>
+				</step>
+				<step>
+					<cmd>Enter the following line:</cmd>
+					<info>
+						<codeblock>options loop max_loop=N</codeblock>
+						<p>where N is an integer from 1 to 256</p>
+					</info>
+				</step>
+				<step>
+					<cmd>Reload the loop driver if it is already loaded.</cmd>
+					<info>
+						<codeblock>rmmod loop
+modprobe loop</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Repeat for each SC and NC server.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_loop_devices_rhel6">
+		<title>RHEL 6</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>You don’t need to make a configuration change for RHEL 6 machines unless you want to change the default loop device value of 256. To change the default value, perform the tasks that follow.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the SC server and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following line:</cmd>
+					<info>
+						<codeblock># CREATE_SC_LOOP_DEVICES=256</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Replace 256 with the number of loop devices.</cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each SC on your system.</cmd>
+				</step>
+				<step>
+					<cmd>Log in to an NC server and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following line:</cmd>
+					<info>
+						<codeblock># CREATE_NC_LOOP_DEVICES=256</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Replace 256 with the number of loop devices.</cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each NC on your system.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_loop_devices_ubuntu">
+		<title>Ubuntu	10.04 LTS</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the SC server and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following line:</cmd>
+					<info>
+						<codeblock># CREATE_SC_LOOP_DEVICES=256</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Replace 256 with the number of loop devices.</cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each SC on your system.</cmd>
+				</step>
+				<step>
+					<cmd>Log in to an NC server and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following line:</cmd>
+					<info>
+						<codeblock># CREATE_NC_LOOP_DEVICES=256</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Replace 256 with the number of loop devices.</cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each NC on your system.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	
+</task>

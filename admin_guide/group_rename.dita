@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="group_rename">
-    <title>Rename Group</title>
+    <title>Modify a Group</title>
     <shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
 				<indexterm>
 					group
-					<indexterm>rename</indexterm>
+					<indexterm>modify</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+        	<p>Modifying a group is similar to a "move" operation. Whoever wants to modify the group must
+        		have permission to do it on both sides of the move. That is, you need permission to remove
+        		the group from its current path or name, and put that group in the new path or name.</p>
+        	
+        	<p>For example, if a group changes from
+        		one area in a company to another, you can change the group's path from
+        		<filepath>/area_abc/</filepath> to <filepath>/area_efg/</filepath>. You need
+        		permission to remove the group from <filepath>/area_abc/</filepath>. You also need
+        		permission to put the group into <filepath>/area_efg/</filepath>. This means you need
+        		permission to call <cmdname>UpdateGroup</cmdname> on both <filepath>arn:aws:iam::123456789012:group/area_abc/*</filepath> and
+        		<filepath>arn:aws:iam::123456789012:group/area_efg/*</filepath>. </p>
+           
         </context>
         
     </taskbody>
 	<task id="group_rename_cli">
-		<title>Rename a Group</title>
+		<title>Using the CLI</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>To change a group's name using the CLI:</p>
+				<p>To modify a group using the CLI:</p>
 			</context>
 			<steps>
 				<step>
-					<cmd>Enter the following command:</cmd>
+					<cmd>Enter the following command to modify the group's name:</cmd>
 					<info>
 						<codeblock>euare-groupmod -g &lt;group_name> --new-group-name &lt;new_name></codeblock>
+					</info>
+					<stepresult>Eucalyptus does not return a message.</stepresult>
+				</step>
+				<step>
+					<cmd>Enter the following command to modify a group's path:</cmd>
+					<info>
+						<codeblock>euare-groupmod -g &lt;group_name> -p &lt;new_path></codeblock>
 					</info>
 					<stepresult>Eucalyptus does not return a message.</stepresult>
 				</step>
@@ -38,11 +56,11 @@
 		</taskbody>
 	</task>
 	<task id="group_rename_db">
-		<title>Rename a Group</title>
+		<title>Using the Dashboard</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>To change a group's name using the Dashboard:</p>
+				<p>To modify a group using the Dashboard:</p>
 			</context>
 			<steps>
 				<step>
@@ -55,6 +73,9 @@
 				</step>
 				<step>
 					<cmd>In the <uicontrol>Name</uicontrol> field, enter the new name of the group.</cmd>
+				</step>
+				<step>
+					<cmd>In the <uicontrol>Path</uicontrol> field, enter the new path for the group.</cmd>
 				</step>
 				<step>
 					<cmd>Click <uicontrol>Save</uicontrol>.</cmd>

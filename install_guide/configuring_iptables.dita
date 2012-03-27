@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="configuring_iptables">
-	<title>Working with Existing IP Tables Rules</title>
- <shortdesc></shortdesc>
- <conbody>
- 	<p>In Managed and Managed (No VLAN) modes, Eucalyptus flushes the front-end machine's iptables rules for both 'filter' and 'nat', then it sets the default policy for the 'FORWARD' chain in 'filter' to 'DROP'. At run time, the CC adds/removes rules from 'FORWARD' as users add/remove ingress rules from their active security groups. In addition, the 'nat' table is configured to allow VMs access to the external network using IP masquerading, and dynamically adds/removes rules in the 'nat' table as users assign/unassign public IPs to VMs at instance boot or run-time. </p>
- <p>If you have rules you want to apply on the CC, make the following edit on the CC before you
- 	start Eucalyptus or while Eucalyptus is stopped.</p> 
- 	<codeblock>iptables-save > $EUCALYPTUS/var/run/eucalyptus/net/iptables-preload</codeblock>
- 	<note type="caution">If you choose to perform this operation to define special iptables rules that are loaded when Eucalyptus starts, you could cause Eucalyptus VM networking to fail. We recommend that you only do this if you are completely sure that it will not interfere with the operation of Eucalyptus.</note>
- 	
- </conbody>
+	<title>Manage IP Tables Rules</title>
+	<shortdesc/>
+	<conbody>
+		<p>In Managed and Managed (No VLAN) modes, Eucalyptus flushes the CC's iptables rules for both
+				<codeph>filter</codeph> and <codeph>nat</codeph>, then it sets the default policy for the
+				<codeph>FORWARD</codeph> chain in <codeph>filter</codeph> to <codeph>DROP</codeph>. At run
+			time, the CC adds and removes rules from <codeph>FORWARD</codeph> as users add and remove
+			ingress rules from their active security groups. In addition, the <codeph>nat</codeph> table
+			is configured to allow VMs access to the external network using IP masquerading, and
+			dynamically adds/removes rules in the <codeph>nat</codeph> table as users assign and unassign
+			public IPs to VMs at instance boot or run-time. </p>
+		<p>If you have rules you want to apply on the CC, make the following edit on the CC before you
+			start Eucalyptus or while Eucalyptus is stopped:</p>
+		<codeblock>iptables-save > /var/run/eucalyptus/net/iptables-preload</codeblock>
+		<note type="caution">Performing this operation to define special iptables rules that are loaded
+			when Eucalyptus starts, you could cause Eucalyptus VM networking to fail. We recommend that
+			you only do this if you are completely sure that it will not interfere with the operation of
+			Eucalyptus.</note>
+
+	</conbody>
 </concept>

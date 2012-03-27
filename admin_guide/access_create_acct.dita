@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="access_create_acct">
+ <title>Account Creation</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<p>Accounts can be created in two ways:</p>
+ <ul>
+ 	
+ <li>The system administrator can create the account directly, using the CLI or the Dashboard. The
+ 	accounts created in this method are available for accessing immediately.</li>
+ <li>A user can apply for an account using the Dashboard. An email is sent to the system
+ 	administrator for review. The system administrator can approve or reject the application by
+ 	invoking a URL included in the email. A notification email will be sent to the intended account
+ 	owner. If the application is approved, the account owner needs to invoke the URL included in the notification email to confirm the approval. Once confirmed, the new account becomes available.</li>
+ </ul>
+ 	
+ 	
+<p>The account registration status can be found in Dashboard. The account registration status is
+	actually associated with the account admin user. That means you can use the following command to obtain the same information:</p>
+ 	
+ 	<codeblock>euare-usergetattributes --delegate account -u admin --show-extra</codeblock>
+ <p>Where the <codeph>--show-extra</codeph> option displays extra information of a user in the following order:</p>
+ 	<ul><li>If the user is enabled</li>
+ 	<li>Registration status</li>
+ 	<li>Password expires</li></ul>
+ 	
+ 	<p>The account registration status has the following values based on the status of registration
+ 		process: <codeph>REGISTERED</codeph>, <codeph>APPROVED</codeph>, or <codeph>CONFIRMED</codeph>.
+ 		An account that is not confirmed cannot be used or accessed. The system administrator can
+ 		manipulate the account registration status in both dashboard and command line:</p>
+ 	
+ 	<codeblock>euare-usermod --delegate account -u admin --reg-status=status</codeblock>
+ 	<p>The command line manipulation of the registration status does not send the notification emails.
+ 		So unless you experienced, we recommend that you use the Dashboard.</p>
+ </conbody>
+	<!--<related-links>
+		<link></link>
+	</related-links>-->
+</concept>

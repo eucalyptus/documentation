@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="registering_components">
- <title>Registering Components</title>
+ <title>Registering Eucalyptus</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>All registration commands run on the CLC server. Note that each registration command will attempt an SSH as root from the CLC server to the remote physical host where the registering component is assumed to be running. The registration command also contacts the component so it must be running at the time of the command is issued. If a password is required to allow SSH access, the command will prompt the user for it.</p>
- 	<p>Each registration command requires four pieces of information:</p>
+ 	<p>Eucalyptus implements a secure protocol for registering separate components so that the
+ 		overall system can’t be tricked into including a component run by an unauthorized
+ 		administrator or user. You only need to register components the first time Eucalyptus is
+ 		started after it was installed.</p>
+ 	<p>Most registration commands run on the CLC server. NCs, however, are registered on each CC. You
+ 	must register each node controller on every CC for the cluster on which the node controller participates.</p>
+ 	
+ 	<p>Note that each registration command will attempt an SSH as root to the remote physical host where the registering component is assumed to be running. The registration command also contacts the component so it must be running at the time of the command is issued. If a password is required to allow SSH access, the command will prompt the user for it.</p>
+ 	<p>Except for NCs, each registration command requires four pieces of information:</p>
  	<ul>
- 	<li>The component you are registering (CC, NC, SC, Walrus, VMware Broker), because this effects where the commands must be executed.</li>
- 	<li>The partition the component will belong to. The partition is analogous to an availability-zone in AWS. A partition can span multiple clusters.</li>
- 	<li>The name ascribed to the component. This is the pretty name used to identify the component in a human friendly way. This name when reporting about system state changes which require attention.  This name must be globally-unique with respect to other component registrations.</li>
- 	<li>The IP address of the service being registered.</li>
+ 	<li>The <b>component</b> you are registering, because this affects where the commands must be executed.</li>
+ 	<li>The <b>partition</b> the component will belong to. The partition is the same thing as availability zone in AWS.</li>
+ 	<li>The <b>name</b> ascribed to the component. This is the pretty name used to identify the component in a human friendly way. This name when reporting about system state changes which require attention.  This name must be globally-unique with respect to other component registrations.</li>
+ 	<li>The <b>IP address</b> of the service being registered.</li>
  	</ul>
- 	<p>In general, each registration command has the following format:</p>
- <codeblock>	/usr/sbin/euca_conf --register-&lt;component_type> --partition=&lt;partition_name> 
- 		--name=&lt;component_unique_name> &lt;machine_IP_address></codeblock>
+ 	<p>NCs only have two pieces of information: component name and IP address.</p>
+ 	<!-- Taking this part out because it's not true. Say something specific for each component, or let
+ 	the tasks speak for themselves. -->
+ <!--	<p>In general, each registration command has the following format:</p>
+ <codeblock>	/usr/sbin/euca_conf -\-register-&lt;component_type> -\-partition=&lt;partition_name> 
+ 	-\-name=&lt;component_unique_name> &lt;machine_IP_address></codeblock>-->
  
  </conbody>
 </concept>

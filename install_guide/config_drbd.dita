@@ -5,20 +5,9 @@
     <shortdesc/>
     <taskbody>
         <context>
-        	<note type="tip">If you are not installing Eucalyptus HA, skip this section.</note>
+        	<note type="restriction">This section is for Eucalyptus HA. If you are not using HA, skip this section.</note>
         	
-        	<p>Walrus uses DRBD for disk replication. In Eucalyptus HA, Eucalyptus replicates storage
-        		from the primary Walrus server to the secondary Walrus server. For more
-        		information about DRBD, go to <xref href="http://www.drbd.org/" format="html"
-        			type="external">What is DRBD</xref>.</p>
-        		
-        		<p>We recommend that you choose a disk for each Walrus that is large enough to hold all objects and buckets you
-        			ever expect to have, including all images that will ever be registered to your system,
-        			plus any Amazon S3 application data. For consistent performance, we recommend that you use
-        			identical disks for the primary and secondary Walrus.</p>
         	
-        	<note type="tip">We recommend that you use LVM (Logical Volume Manager). Should you run out
-        		of disk space, LVM allows you to add disks and migrate the data.</note>
         	
         	<p>Before you begin, ensure that you have the following information:</p>
         	<ul>
@@ -46,7 +35,7 @@
         	</step>
         	<step>
         		<cmd>Copy the example Eucalyptus DRBD file
-        			(<filepath>/etc/eucalyptus/drbd.conf.template</filepath>) to
+        			(<filepath>/etc/eucalyptus/drbd.conf.example</filepath>) to
         			<filepath>/etc/eucalyptus/drbd.conf</filepath>.</cmd>
         	</step>
         	<step>
@@ -70,7 +59,7 @@
         			</ul>
         		</info>
         		<stepresult>
-        			<p>The file should look similar to the following example:</p>
+        			<p>The file should look like the following example:</p>
         			<codeblock>common {
   protocol C;
 }
@@ -100,6 +89,8 @@ resource r0 {
     after-sb-1pri discard-secondary;
   }
 }</codeblock>
+        			<note type="important">On RHEL 6, remove the <codeph>common</codeph> section
+        				(<codeph>common { protocol C; }</codeph>). The default configuration in RHEL 6 already includes a common section.</note>
         		</stepresult>
         	</step>
         	<step>
@@ -110,19 +101,32 @@ resource r0 {
 					<info>
 						<codeblock>include "/etc/eucalyptus/drbd.conf";</codeblock>
 					</info>
-					<stepresult>
-						<p>The file should like this example:</p>
+					<!--<stepresult>
+						<p>For example:</p>
 						<codeblock>include "drbd.d/global_common.conf";
 include "drbd.d/*.res";
 include "/etc/eucalyptus/drbd.conf";</codeblock>
-					</stepresult>
+					</stepresult>-->
 				</step>
         	<step>
         		<cmd>Save and close the file.</cmd>
         	</step>
         	<step>
-        		<cmd>Copy both the <filepath>/etc/drbd.conf</filepath> and the
-        			<filepath>/etc/eucalyptus/drbd.conf</filepath> files to the secondary Walrus server.</cmd>
+        		<cmd>Open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
+        			following configuration:</cmd>
+        		<info>
+        			<codeblock>CLOUD_OPTS="-Dwalrus.storage.manager=DRBDStorageManager"</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Restart Walrus.</cmd>
+        		<info>
+        			<codeblock>service eucalyptus-cloud restart</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
+        			<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> files to the secondary Walrus server.</cmd>
         	</step>
         	<step>
         		<cmd>On the primary Walrus, associate the DRBD block device (<filepath>/dev/drbd1</filepath>) with the disk
@@ -148,7 +152,10 @@ drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
         			<codeblock>Run: drbdadm dstate r0</codeblock>
         		</info>
         		<stepresult>Wait for the output to display <codeph>UpToDate/UpToDate</codeph>, then
-        			continue to the next step.</stepresult>
+        			continue to the next step.
+        			<note type="tip">To view the synchronization process in near-realtime, run <codeph>watch
+        				-n 2 cat /proc/drbd</codeph>.</note>
+        		</stepresult>
         	</step>
         	<step>
         		<cmd>On the primary Walrus, create a filesystem on <filepath>/dev/drbd1</filepath>.
@@ -162,8 +169,8 @@ drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
         		<cmd>On the primary CLC, tell Eucalyptus to use DRBD parameters configured in the DRBD
         			config file so Walrus can write to the correct device:</cmd>
         		<info>
-        			<codeblock>euca-modify-property -p walrus.blockdevice=/dev/drbd1
-euca-modify-property -p walrus.resource=r0</codeblock>
+        			<codeblock>euca-modify-property -p walrus.blockdevice /dev/drbd1
+euca-modify-property -p walrus.resource r0</codeblock>
         		</info>
         	</step>
         </steps>

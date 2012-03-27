@@ -12,33 +12,29 @@
             	<cmd>Shut down any running Eucalyptus components. For further information about the
             		shut down process, see <xref href="shut_down.dita"/>.</cmd>
             </step>
-        	<step>
-        		<cmd>Optionally update/downgrade Eucalyptus-related binary packages. <draft-comment>???
-        			What does this mean ???</draft-comment></cmd>
-        	</step>
+        	
         	<step>
         		<cmd>If you are trying to recover from a broken upgrade by rolling back or by trying the
         		upgrade again, this would be the right time to:</cmd>
         		<info>
         			<ul>
-        				<li>Remove all software components related to Eucalyptus (e.g., rpm -e or apt-get
-        					remove).</li>
+        				<li>Remove all software components related to Eucalyptus (for example, <codeph>rpm -e</codeph> or <codeph>apt-get
+        					remove</codeph>).</li>
         				<li>Install the appropriate version. For more information, go to the Eucalyptus
         					Installation Guide.</li>
         			</ul>
-        			<note type="warning">DEBs will restart the services: be sure you stop them again before copying back the backed-up files.</note>
+        			<note type="warning">DEBs will restart the services. Be sure you stop them again before copying back the backed-up files.</note>
         		</info>
         	</step>
         	<step>
         		<cmd>Replace the saved state.</cmd>
         		<choices>
         			<choice>If you backed up with cp, enter the following:
-        			<codeblock>cp -a $BACKUP/eucalyptus.conf $EUCALYPTUS/etc/eucalyptus
-cp -a $BACKUP/keys $BACKUP/db $BACKUP/bukkits $BACKUP/volumes $EUCALYPTUS/var/lib/eucalyptus</codeblock>
+        			<codeblock>cp -a $BACKUP/eucalyptus.conf /etc/eucalyptus
+cp -a $BACKUP/keys $BACKUP/db $BACKUP/bukkits $BACKUP/volumes /var/lib/eucalyptus</codeblock>
         			</choice>
         			<choice>If you backed up with tar, enter the following:
-        			<codeblock>cd $EUCALYPTUS
-tar xvf $BACKUP/eucalyptus-backup.tar</codeblock>
+        			<codeblock>tar xvf $BACKUP/eucalyptus-backup.tar</codeblock>
         			</choice>
         		</choices>
         	</step>

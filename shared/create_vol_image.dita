@@ -1,51 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="create_vol_image">
-    <title>Create a Volume-Backed Image</title>
+    <title>Create an EBS Image</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+        	<p>This section explains how to create a Eucalyptus block storage-backed image. Please
+        		note the following considerations before you create an EBS image:</p>
+        	<ul>
+        		<li>Note that you cannot use a standard image as an EBS image without modification. This is due to the
+        			lack of a bootloader on a standard image.</li>
+        		<li>Also, because an EBS image must be written to a volume, you must already have a
+        			running instance in your cloud to load an EBS image.</li>
+        		<li>virtio systems need virtio_blk and virtio_balloon</li>
+        		<li>KVM without virtio systems need sym53c8xx</li>
+        			<li>Xen systems need xenblk and xenblk_front</li>
+        	</ul>
+        	
+        	<p>You can create an EBS image from an <xref href="#create_vol_image_existing">existing
+        		image</xref> or create your <xref href="create_vol_image_new">own image</xref> for its use.</p>
+            
+        	
         </context>
-        <steps>
-        	<step>
-        		<cmd>Enter the following command to create a new blank volume:</cmd>
-        		<info>
-        			<codeblock>euca-create-volume --zone &lt;zone_name> --size &lt;volume_size></codeblock>
-        			<p>where:</p>
-        			<ul>
-        				<li><codeph>zone</codeph> is the availability zone to create the volume in</li>
-        				<li><codeph>size</codeph> is the size of the volume in GBs</li>
-        			</ul>
-        		</info>
-        		<stepresult>Eucalyptus returns returns the volume ID for the new volume.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Enter the following command to check whether the volume is ready:</cmd>
-        		<info>
-        			<codeblock>euca-describe-volumes &lt;volume_id></codeblock>
-        		</info>
-        		<stepresult>Eucalyptus returns information about the volume's availability.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Enter the following command to attach the volume to an instance:</cmd>
-        		<info>
-        			<codeblock>euca-attach-volume &lt;volume_id> -i &lt;instance_id> -d &lt;device_name></codeblock>
-        		</info>
-        		<stepresult>Eucalyptus returns information about the attachment state.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Copy the image (not a bundle) you want to register to the instance.
-        		</cmd>
-        	</step>
-        	<step>
-        		<cmd>On the instance, copy the image onto the block device that corresponds to the block
-        			volume you attached. For example:</cmd>
-        		<info>
-        			<codeblock>dd if=/path/to/image of=/dev/sdf
-sync</codeblock>
-        		</info>
-        	</step>
-        </steps>
+        
     </taskbody>
+	<task id="create_vol_image_existing">
+		<title>Create an EBS Image from an Existing Image</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+				<p>If you have been given a hard disk to be used as an EBS starter image:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Run an instance of an existing Eucalyptus machine image.</cmd>
+					<info>
+						<codeblock>euca-run-instances &lt;image_id></codeblock>
+					</info>
+					<stepresult>Note the instance ID returned by Eucalyptus.
+						<note type="tip">To find out the instance IP address, run <codeph>euca-describe-instances
+							&lt;instance_id></codeph>.</note>
+					</stepresult>
+				</step>
+				<step>
+					<cmd>Create a volume large enough to hold the hard disk image.</cmd>
+					<info>
+						<codeblock>euca-create-volume --zone &lt;partition_name> --size &lt;volume_size></codeblock>
+						<p>where:</p>
+						<ul>
+							<li><codeph>zone</codeph> is the availability zone to create the volume in</li>
+							<li><codeph>size</codeph> is the size of the volume in GBs</li>
+						</ul>
+					</info>
+					<stepresult>Note the volume ID returned by Eucalyptus.
+						<note type="tip">To find out when the volume creation completes, run 
+							<codeph>euca-describe-volume &lt;volume_id></codeph>. Wait for the volume's state to reach
+							<codeph>available</codeph>.</note>
+					</stepresult>
+				</step>
+				
+				<step>
+					<cmd>Attach the volume to the instance.</cmd>
+					<info>
+						<codeblock>euca-attach-volume &lt;volume_id> -i &lt;instance_id> -d &lt;device_name></codeblock>
+					</info>
+					<stepresult>Eucalyptus returns information about the attachment state.</stepresult>
+				</step>
+				<step>
+					<cmd>Login to the instance.</cmd>
+					<info>
+						<codeblock>ssh root@&lt;instance_ip></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Copy the image (not a bundle) you want to register to the instance.
+					</cmd>
+				</step>
+				<step>
+					<cmd>Examine <filepath>/proc/partitions</filepath> to determine the actual device name.</cmd>
+					<info>
+						<codeblock>cat /proc/partitions</codeblock>
+						<p>The response will be similar to the following:</p>
+						<codeblock>major minor  #blocks  name
+
+ 252        0   10485791 vda
+ 252        1    1548288 vda1
+ 252        2    8413184 vda2
+ 252        3     524288 vda3
+ 252       16    5242880 vdb</codeblock>
+					</info>
+					<stepresult>The attached volume will typically be the last one in the list. In the
+						previous example, this is <codeph>vdb</codeph>.</stepresult>
+				</step>
+				<step>
+					<cmd>Copy the image onto the block device that corresponds to the volume you attached.</cmd>
+					<choices>
+						<choice>If you already have a local copy of the image, run:
+							<codeblock>dd if=&lt;image_file> bs=1M| ssh root@&lt;instance_ip> "dd
+of=/dev/&lt;device> bs=1M"</codeblock>
+						</choice>
+						<choice>If you are downloading the image from a URL, in your existing SSH
+							session run:
+							<codeblock>curl &lt;image_url> > /dev/&lt;device></codeblock>
+						</choice>
+					</choices>
+				</step>
+				<step>
+					<cmd>Detach the volume.</cmd>
+					<info>
+						<codeblock>euca-detach-volume &lt;volume_id></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Create a snapshot of the volume.</cmd>
+					<info>
+						<codeblock>euca-create-snapshot &lt;volume_id></codeblock>
+					</info>
+					<stepresult>Note the snapshot ID returned by Eucalyptus.</stepresult>
+				</step>
+				<step>
+					<cmd>Register the snapshot.</cmd>
+					<choices>
+						<choice>For Linux:
+						<codeblock>euca-register -n &lt;image_name> --root-device-name /dev/sda1 -b /dev/sda1=&lt;snapshot_id></codeblock>
+							
+						</choice>
+						<choice>For Windows:
+						<codeblock>euca-register -n &lt;image_name> --kernel windows --root-device-name /dev/sda1 -b /dev/sda1=&lt;snapshot_id></codeblock>
+						</choice>
+					</choices>
+					
+				</step>
+			</steps>
+			<result>You now have an EBS image.</result>
+		</taskbody>
+	</task>
+	<task id="create_vol_image_new">
+		<title>Create a New EBS Image</title>
+		<taskbody>
+		<context>
+			<p>To create your own EBS image, use one of the following options.</p>
+			
+		</context>
+			<steps-unordered>
+				<step>
+					<cmd>Use <codeph>virt-install</codeph> on a system
+						with the same distribution and hypervisor as your NC. If you create and successfully
+						boot and connect the image to the network in this environment, it will boot
+						from an EBS volume.  Note that for CentOS or RHEL images, you may need
+						to edit <filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath> and remove the
+						<codeph>HWADDR</codeph> line. This is because an instance's network interface will always have a
+						different hardware address.</cmd>
+					<info>
+						<note type="warning">If you use an image created with virt-install under a
+							different distribution or hypervisor combination, it is likely that
+							it will not install the correct drivers into the ramdisk, and the
+							image will not boot.</note>
+					</info>
+					
+				</step>
+				<step>
+					<cmd>Use a tool like boxgrinder that can create a hard disk image
+						capable of booting under multiple hypervisors. </cmd>
+				</step>
+				
+				
+			</steps-unordered>
+			
+		</taskbody>
+	</task>
 </task>

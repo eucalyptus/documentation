@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="DITA-OT pre-processing architecture"/>
+<meta name="abstract" content="This topic describes the set of steps commonly known as the pre-processing stage of a DITA build. These steps typically run at the start of any build using the DITA-OT, regardless of the final output format."/>
+<meta name="description" content="This topic describes the set of steps commonly known as the pre-processing stage of a DITA build. These steps typically run at the start of any build using the DITA-OT, regardless of the final output format."/>
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/DITA-OTArchitecture.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="preprocessarch"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>DITA-OT pre-processing architecture</title>
+</head>
+<body>
+
+<div class="nested0" id="preprocessarch">
+<h1 class="title topictitle1">DITA-OT pre-processing architecture</h1>
+
+
+<div class="body conbody"><p class="shortdesc">This topic describes the set of steps commonly known as
+the pre-processing stage of a DITA build. These steps typically run
+at the start of any build using the DITA-OT, regardless of the final
+output format.</p>
+
+<p class="p">Each step described corresponds to one Ant target in the build
+pipeline. The general Ant target "preprocess" will call all of the
+targets described here.</p>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/DITA-OTArchitecture.html" title="The DITA Open Toolkit is an open source implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The toolkit uses open source solution of ANT, XSLT (currently 1.0 for most processing, with XSLT 2.0 for PDF) and Java to implement transformation functions from DITA content (maps and topics) into different deliverable formats.">DITA Open Toolkit Architecture</a></div>
+</div>
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-genlist">
+<h2 class="title topictitle2">Generate lists (gen-list)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">gen-list</samp> step examines the input files
+and creates lists of topics, images, document properties, or other
+content. These lists are used by later steps in the pipeline. For
+example, one list includes all topics that make use of the conref
+attribute; only those files are processed         during the conref
+stage of the build. This step is implemented in Ant and Java.</p>
+
+<div class="section"><p class="p">The result of this list is a set of several list files
+in the temporary directory, including <span class="ph filepath">dita.list</span> and <span class="ph filepath">dita.xml.properties</span>.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+
+<thead class="thead" align="left">
+<tr class="row">
+<th class="entry" valign="top" id="d3085e69">List file property</th>
+
+<th class="entry" valign="top" id="d3085e72">List file</th>
+
+<th class="entry" valign="top" id="d3085e75">List property</th>
+
+<th class="entry" valign="top" id="d3085e78">Usage</th>
+
+</tr>
+
+</thead>
+
+<tbody class="tbody">
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">canditopicsfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">canditopics.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">canditopicslist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">chunkedditamapfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">chunkedditamap.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">chunkedditamaplist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">chunkedtopicfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">chunkedtopic.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">chunkedtopiclist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">codereffile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">coderef.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">codereflist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">topics with coderef</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">conreffile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">conref.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">conreflist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Documents that contains conref attribute that
+need to be resolved in preprocess.</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">conrefpushfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">conrefpush.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">conrefpushlist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">conreftargetsfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">conreftargets.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">conreftargetslist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">copytosourcefile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">copytosource.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">copytosourcelist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">copytotarget2sourcemapfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">copytotarget2sourcemap.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">copytotarget2sourcemaplist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">flagimagefile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">flagimage.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">flagimagelist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">fullditamapandtopicfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">fullditamapandtopic.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">fullditamapandtopiclist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">All of the ditamap and topic files that are
+referenced during the transformation. These                 may be
+referenced by href or conref attributes.</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">fullditamapfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">fullditamap.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">fullditamaplist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">All of the ditamap files in dita.list</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">fullditatopicfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">fullditatopic.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">fullditatopiclist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">All of the topic files in dita.list</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">hrefditatopicfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">hrefditatopic.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">hrefditatopiclist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">All of the topic files that are referenced with
+an href attribute</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">hreftargetsfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">hreftargets.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">hreftargetslist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">link targets</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">htmlfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">html.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">htmllist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">resource files</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">imagefile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">image.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">imagelist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Images files that are referenced in the content</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">keyfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">key.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">keylist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">List of keys. The format
+                is:<pre class="pre codeblock">keyname "=" link "(" source ")"</pre>
+Both href and source URLs
+                are relative to base directory.</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">keyreffile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">keyref.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">keyreflist</td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Topics and maps which have key references.</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">outditafilesfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">outditafiles.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">outditafileslist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">relflagimagefile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">relflagimage.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">relflagimagelist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">resourceonlyfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">resourceonly.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">resourceonlylist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">skipchunkfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">skipchunk.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">skipchunklist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">subjectschemefile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">subjectscheme.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">subjectschemelist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">subtargetsfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "><samp class="ph codeph">subtargets.list</samp></td>
+
+<td class="entry" valign="top" headers="d3085e75 ">subtargetslist</td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">tempdirToinputmapdir.relative.value</td>
+
+<td class="entry" valign="top" headers="d3085e72 "> </td>
+
+<td class="entry" valign="top" headers="d3085e75 "> </td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">uplevels</td>
+
+<td class="entry" valign="top" headers="d3085e72 "> </td>
+
+<td class="entry" valign="top" headers="d3085e75 "> </td>
+
+<td class="entry" valign="top" headers="d3085e78 "> </td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">user.input.dir</td>
+
+<td class="entry" valign="top" headers="d3085e72 "> </td>
+
+<td class="entry" valign="top" headers="d3085e75 "> </td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Absolute input directory path</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">user.input.file.listfile</td>
+
+<td class="entry" valign="top" headers="d3085e72 "> </td>
+
+<td class="entry" valign="top" headers="d3085e75 "> </td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Input file list file</td>
+
+</tr>
+
+<tr class="row">
+<td class="entry" valign="top" headers="d3085e69 ">user.input.file</td>
+
+<td class="entry" valign="top" headers="d3085e72 "> </td>
+
+<td class="entry" valign="top" headers="d3085e75 "> </td>
+
+<td class="entry" valign="top" headers="d3085e78 ">Input file path, relative to input directory</td>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-debugfilter">
+<h2 class="title topictitle2">Debug and filter (debug-filter)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">debug-filter</samp> stage processes all referenced
+DITA content, and creates copies in a temporary directory for use
+during the remainder of the build. Several modifications are made
+during this process.</p>
+
+<div class="section">     <p class="p">As the files are copied, the following modifications
+are made:</p>
+<ul class="ul">
+<li class="li">The files are filtered according to entries in any specified DITAVAL
+file.</li>
+
+<li class="li">Debug information is inserted into each element (using the <samp class="ph codeph">xtrf</samp> and <samp class="ph codeph">xtrc</samp> attributes).
+These values allow messages later in the build to reliably indicate
+the original source of the error — for example, a message may trace
+back to the fifth <samp class="ph codeph">&lt;ph&gt;</samp> element in a specific source
+document. Without these attributes, that count may no longer be available
+due to filtering and other processing.</li>
+
+<li class="li">Adjust column names in tables to use a common naming scheme. This
+is done only to simplify later conref processing; for example, if
+a table row is pulled into another table, this ensures that a reference
+to "column 5 properties" will continue to work in the fifth column
+of the new table.</li>
+
+</ul>
+<p class="p">This step is implemented in Java. </p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-copyfiles">
+<h2 class="title topictitle2">Copy related files (copy-files)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">copy-files</samp> step copies related non-DITA
+resources to the output directory, such as HTML files referenced in
+a map or images referenced by DITAVAL files.</p>
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-conrefpush">
+<h2 class="title topictitle2">Conref push (conrefpush)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">conrefpush</samp> step resolves "conref push"
+references. The conref push feature was added in the DITA 1.2 specification,
+and the associated processing is available in DITA-OT version 1.5
+and later. This step only processes documents that use conref push
+(or that are updated due to the push action). The step is implemented
+in Java.</p>
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-conref">
+<h2 class="title topictitle2">Conref (conref)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">conref</samp> step resolves traditional conref
+attributes, processing only the documents that use the conref attribute.
+Each map or topic is processed with XSLT to resolve the attributes.</p>
+
+<div class="section"><p class="p">As part of the process, IDs within referenced content
+are changed as they are pulled into the new location. This is done
+in order to ensure that IDs within the original (referencing) topic
+remain unique.</p>
+<div class="p">If an element with an ID is pulled into a new
+context along with a cross reference that references the target, both
+the ID and the reference are updated so that they remain valid in
+the new location. For example, a referenced topic may include a section
+as in the following example.<pre class="pre codeblock">&lt;topic id="referenced_topic"&gt;
+  &lt;title&gt;...&lt;/title&gt;
+  &lt;body&gt;
+    &lt;section id="sect"&gt;&lt;title&gt;Sample section&lt;/title&gt;
+      &lt;p&gt;Look at the next figure &lt;xref href="#referenced_topic/fig"&gt;here&lt;/xref&gt;.&lt;/p&gt;
+      &lt;fig id="fig"&gt;&lt;title&gt;Sample&lt;/title&gt;
+        &lt;p&gt;This is a rather useless figure, but it
+           illustrates a point.&lt;/p&gt;
+      &lt;/fig&gt;
+    &lt;/section&gt;
+  &lt;/body&gt;
+&lt;/topic&gt;</pre>
+</div>
+<div class="p">If the section is referenced with a
+conref attribute, the ID on the &lt;fig&gt; element will be modified
+to ensure it remains unique inside the new topic. At the same time,
+the &lt;xref&gt; element will also be modified so that after the conref
+is resolved, it remains valid as a local reference. If the topic pulling
+in a new copy of the section has the id "new_topic", then the pulled
+copy of the section may look something like this in the intermediate
+document.<pre class="pre codeblock">&lt;section&gt;&lt;title&gt;Sample section&lt;/title&gt;
+  &lt;p&gt;Look at the next figure &lt;xref href="#new_topic/d1e25"&gt;here&lt;/xref&gt;.&lt;/p&gt;
+  &lt;fig id="d1e25"&gt;&lt;title&gt;Sample&lt;/title&gt;
+    &lt;p&gt;This is a rather useless figure, but it
+       illustrates a point.&lt;/p&gt;
+  &lt;/fig&gt;
+&lt;/section&gt;</pre>
+</div>
+<p class="p">In this case, the ID of the figure
+has been changed to a generated value of "d1e25". At the same time,
+the &lt;xref&gt; element has been updated to use that new generated ID,
+so that the reference stays local in the updated topic.</p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-metadata">
+<h2 class="title topictitle2">Move metadata (move-meta-entries)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">move-meta-entries</samp> step pushes metadata
+back and forth between maps and topics. For example, index entries
+and copyrights in the map are pushed into affected topics, so that
+topics may be processed later in isolation while retaining all relevant
+metadata.</p>
+
+<div class="section">This step is implemented in Java.</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-keyref">
+<h2 class="title topictitle2">Resolve keyref (keyref)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">keyref</samp> step examines all keys defined
+in the source material, and updates key references appropriately.
+Links that make use of keys are updated so that any href value is
+replaced by the appropriate target; key based text replacement is
+also evaluated. The keyref mechanism was defined as part of the DITA
+1.2 standard, and is available in DITA-OT 1.5 and later.</p>
+
+<div class="section"><p class="p">This step is implemented in Java.</p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-coderef">
+<h2 class="title topictitle2">Resolve code references (codref)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">coderef</samp> module resolves references
+made with the <samp class="ph codeph">&lt;coderef&gt;</samp> element, which was added
+in DITA 1.2. This module is available in DITA-OT 1.5 and later.</p>
+
+<div class="section"><p class="p">The <samp class="ph codeph">&lt;coderef&gt;</samp> element is used inside
+of <samp class="ph codeph">&lt;codeblock&gt;</samp> to reference code stored externally
+in non-XML documents. During the pre-process step, this Java module
+pulls the referenced content into the <samp class="ph codeph">&lt;codeblock&gt;</samp> element.</p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-mapref">
+<h2 class="title topictitle2">Resolve map references (mapref)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">mapref</samp> module resolves references
+from one map to another.</p>
+
+<div class="section"><div class="p">Maps may reference other maps using markup similar to
+the following:<pre class="pre codeblock">&lt;topicref href="other.ditamap" format="ditamap"/&gt;</pre>
+</div>
+<div class="p">The
+DITA 1.2 standard added a new element that allows this sort of reference
+without setting the format attribute:<pre class="pre codeblock">&lt;mapref href="other.ditamap"/&gt;</pre>
+</div>
+<p class="p">In
+either case, the element that references the other map is replaced
+by the topic references from the other map. Relationship tables are
+pulled into the referencing map as a child of the root element (&lt;map&gt;
+or a specialization of &lt;map&gt;).</p>
+<p class="p">This step is implemented in
+XSLT.</p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-mappull">
+<h2 class="title topictitle2">Pull content into maps (mappull)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">mappull</samp> step pulls content from referenced
+topics into maps, and cascades data within maps.</p>
+
+<div class="section"><div class="p">This step uses XSLT to make the following changes to the
+map:<ul class="ul">
+<li class="li">Pull titles from referenced DITA topics. This step replaces the
+navigation title specified on the topicref. If the locktitle attribute
+is set to "yes", the value in the map is not changed.</li>
+
+<li class="li">The &lt;linktext&gt; element is set based on the title of the referenced
+topic, unless it is already specified locally.</li>
+
+<li class="li">The &lt;shortdesc&gt; element is set based on the short description
+of the referenced topic, unless it is already specified locally.</li>
+
+<li class="li">When a local DITA topic is referenced, the type attribute is set
+on the topicref based on the type of topic referenced. For example,
+a reference to a task topic will end up with type="task".</li>
+
+<li class="li">Inheritable attributes, such as toc or print, are made explicit
+on child topicref elements. This allows any future step to work with
+the attributes directly, without reevaluating the cascade behavior.</li>
+
+</ul>
+</div>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-chunk">
+<h2 class="title topictitle2">Chunk topics (chunk)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">chunk</samp> step is a Java module that breaks
+apart and assembles referenced DITA content based on the chunk attribute
+in maps.</p>
+
+<div class="section"><div class="p">The following values are recognized on the chunk attribute,
+based on definitions provided in the DITA specification. These values
+were initially defined in the DITA 1.1 specification, with significant
+clarifications in the DITA 1.2 specification.<ul class="ul">
+<li class="li">select-topic</li>
+
+<li class="li">select-document</li>
+
+<li class="li">select-branch</li>
+
+<li class="li">by-topic</li>
+
+<li class="li">by-document</li>
+
+<li class="li">to-content</li>
+
+<li class="li">to-navigation.</li>
+
+</ul>
+</div>
+</div>
+
+</div>
+
+<div class="related-links"><div class="relinfo"><strong>Related information</strong><br/>
+<div><a class="link" href="http://docs.oasis-open.org/dita/v1.2/os/spec/archSpec/chunking.html" target="_blank">http://docs.oasis-open.org/dita/v1.2/os/spec/archSpec/chunking.html</a></div>
+</div>
+</div>
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-maplink">
+<h2 class="title topictitle2">Map based linking (maplink and move-links)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">These two steps work together to create links based on
+a map and move those links into referenced topics. The links are created
+based on hierarchy (parent/child), the collection-type attribute (sequential
+or family links), and relationship tables.</p>
+
+<div class="section"><p class="p">The <samp class="ph codeph">maplink</samp> module first runs an XSLT
+program that evaluates the map, and places all generated links into
+a single file in the temporary processing directory. Once that file
+is created, the <samp class="ph codeph">move-links</samp> module runs a Java program
+that pushes the generated links into the proper topics.</p>
+</div>
+
+</div>
+
+</div>
+<div class="topic reference nested1" xml:lang="en-us" lang="en-us" id="preprocess-topicpull">
+<h2 class="title topictitle2">Pull content into topics (topicpull)</h2>
+
+
+<div class="body refbody"><p class="shortdesc">The <samp class="ph codeph">topicpull</samp> module pulls content into <samp class="ph codeph">&lt;xref&gt;</samp> and <samp class="ph codeph">&lt;link&gt;</samp> elements
+(if needed).</p>
+
+<div class="section"><p class="p">For <samp class="ph codeph">&lt;xref&gt;</samp> elements, if the <samp class="ph codeph">&lt;xref&gt;</samp> does
+not contain link text, the target is examined and link text is pulled.
+For example, a reference to a topic will pull the title of the topic;
+a reference to a list item will pull the number of the item. If the <samp class="ph codeph">&lt;xref&gt;</samp> element
+references a topic that has a short description, and the <samp class="ph codeph">&lt;xref&gt;</samp> element
+does not already contain a child <samp class="ph codeph">&lt;desc&gt;</samp> element,
+a <samp class="ph codeph">&lt;desc&gt;</samp> element is created with the short description
+of the target.</p>
+<p class="p">The process is similar for <samp class="ph codeph">&lt;link&gt;</samp> elements.
+If the <samp class="ph codeph">&lt;link&gt;</samp> does not have a child <samp class="ph codeph">&lt;linktext&gt;</samp> element,
+one is created with the appropriate link text. Similarly, if the <samp class="ph codeph">&lt;link&gt;</samp> element
+does not have a child <samp class="ph codeph">&lt;desc&gt;</samp> element, and the
+short description of the target can be determined, a <samp class="ph codeph">&lt;desc&gt;</samp> is
+created with the short description of the target.</p>
+<p class="p">This step
+is implemented in XSLT.</p>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -5,7 +5,7 @@
     <shortdesc/>
     <taskbody>
         <context>
-        	<p>Configuring Eucalyptus to suppot VMware involves a few special steps that enable the Eucalyptus VMware Broker component to properly interact with vSphere infrastructure components. In all cases the VMware Broker must be installed on the same machine as the Cluster Controller (CC). </p>
+        	<p>Configuring Eucalyptus to support VMware involves a few special steps that enable the Eucalyptus VMware Broker component to properly interact with vSphere infrastructure components. In all cases the VMware Broker must be installed on the same machine as the Cluster Controller (CC). </p>
         	<p>To configure VMware support for a new install:</p>
         </context>
         <steps>
@@ -17,7 +17,9 @@
             	<stepresult>The output of the above command prompts you for the same parameters that the vSphere client application requests at startup. </stepresult>
             </step>
         	<step>
-        		<cmd>Enter the requested parameters, making sure to specify the full URL and not just the hostname. For example:</cmd>
+        		<cmd>Enter the requested parameters, making sure to specify the full URL and not just the
+        			hostname. If you want to use vCenter, then enter the vCenter host's information as the
+        			only vSphere endpoint. If you do not want to use vCenter, then you must enter each ESX/ESXi host as an individual vSphere endpoint. We recommend using vCenter because it is easier to configure and can be more efficient.</cmd>
         		<info>
         			<codeblock>Please, supply vSphere endpoint IP: 192.168.7.88
 Please, supply vSphere username: Administrator
@@ -27,39 +29,52 @@ Please, supply vSphere endpoint IP: 192.168.7.89
 Please, supply vSphere username: Administrator
 Please, supply vSphere password:
 Do you want to enter another endpoint? [N]: N</codeblock>
-        			<p>The endpoint can be either vCenter or ESX/ESXi node. We recommend using vCenter because it is easier to configure and can be more efficient.</p>
+        			
         		</info>
+        		<stepresult>After entering all vSphere endpoint information you should see output similar to the following:
+        		<codeblock>querying VMware endpoint at https://192.168.51.70/sdk...
+detected apiType=HOSTAGENT apiVersion=4
+reponse time=391ms
+datacenter=ha-datacenter
+detected 4 cores
+detected 6552MB available for VMs and 6552MB currently unreserved for VMs
+detected 151296MB of disk capacity
+host=192.168.51.70 datastore=datastore1
+Summary of hosts: 1 nodes with 4 total cores
+discovered 1 host(s)
+192.168.51.70 login=root datastoreName=datastore1 uploadViaHost=true"</codeblock>
+        		</stepresult>
         	</step>
         	<step>
-        		<cmd>Check to see if the configuration has successfully connected to the endpoint by entering the following command.</cmd>
-        		<info>
-        			<codeblock>euca-configure-vmware</codeblock>
-        		</info>
-        		<choices>
-        			<choice>If the configuration successfully connected to the endpoint, a list of
-        				discovered hosts appears, as in the following example:
-        			<codeblock>Discovered hosts:
-192.168.7.207 login=Administrator datastoreName=datastore1 (4) 
-uploadViaHost=null
-192.168.7.213 login=Administrator datastoreName=datastore1 (3) 
-uploadViaHost=null
-192.168.7.198 login=Administrator datastoreName=datastore1 (5) 
-uploadViaHost=null</codeblock>
-        			</choice>
-        			<choice>If the VMware Broker can’t contact the vSphere endpoint, Eucalyptus returns an error message:
-        			<codeblock>Network mode: SYSTEM
-        			ERROR: no vmware endpoints could be contacted (check url, login, and password)</codeblock>
-        				<p>To find the source of the above error, try scanning the contents of the
-        					cloud-output.log file at <filepath>/var/log/eucalyptus/cloud-output.log</filepath>.</p>
-        			</choice>
-        		</choices>
+        		<cmd>Open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and modify the following settings, making sure they are not commented out.</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>In the <codeph>CLUSTER CONTROLLER (CC) / NODE CONTROLLER (NC) SHARED
+        					CONFIGURATION</codeph> section, set <codeph>NC_PORT="8773"</codeph>.</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>In the <codeph>CLUSTER CONTROLLER (CC) CONFIGURATION</codeph> section, set
+        					<codeph>C_SERVICE="/services/VMwareBroker"</codeph>.
+        				</cmd>
+        			</substep>
+        		</substeps>
         		
         	</step>
+        	<step>
+        		<cmd>Save the file.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Restart the CLC, the VMware Broker, and the CC.</cmd>
+        		<choices>
+        			<choice>For the CLC and the VMware Broker:
+        			<codeblock>service eucalyptus-cloud restart</codeblock></choice>
+        			<choice>For the CC:
+        			<codeblock>service eucalyptus-cc restart</codeblock></choice>
+        		</choices>
+        	</step>
         </steps>
-    	<postreq>We recommend that you also look at (and if necessary edit) the VMware configuration to verify that the parameters are specified correctly. For example, you may wish to specify the name of a vSphere datastore for the VMware Broker to use (because the VMware Broker chooses the first datastore available to it by default.) Or you may want to specify the name of a vSphere network to use (because the VMware Broker will select the first network available to it by default). 
-    		<p>To edit the VMware configuration file, use the Eucalyptus command, euca-configure-vmware. If you have already initially configured Eucalyptus for VMware, this command opens the configuration file in an editor. After you make any configuration changes, save the file and restart the Cloud Controller: </p>
-    		<codeblock>service eucalyptus-cloud restart.</codeblock>
-    		<p>For more information about advanced configurations for Eucalyptus VMware support, see the Eucalyptus Administration Guide.</p>
-    	</postreq>
+    	
+    	<!--	<p>For more information about advanced configurations for Eucalyptus VMware support, see the Eucalyptus Administration Guide.</p>-->
+    	
     </taskbody>
 </task>

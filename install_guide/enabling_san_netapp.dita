@@ -5,21 +5,43 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			
+			<p>NetApp Filer devices (FAS 2000 and FAS 6000 series) are managed by Eucalyptus using NetApp
+				ONTAPI (version 7.3.3 or above). Enable ONTAPI and provide administrative Eucalyptus with access
+				to OTAPI. To configure NetApp Filer and enable NetApp SANs:</p>
 		</context>
 		<steps>
+			<step>
+				<cmd>Enable and verify API access to NetApp Filer.</cmd>
+			</step>
+			<step>
+				<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
+				<choices>
+					<choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
+							show_space</codeph>.</choice>
+					<choice>If an aggregate with spare capacity does not exist, create
+						one using the <codeph>aggr create</codeph> command.</choice>
+				</choices>
+			</step>
+			<step>
+				<cmd>Verify that you have a license for FlexClone installed. At the shell prompt, enter
+					<codeph>license</codeph> to see the list of all installed licenses.</cmd>
+			</step>
+			<step>
+				<cmd>Write down the administrator credentials (or create an administrator account for
+					Eucalyptus). You will need to configure Eucalyptus with these credentials later.
+					<draft-comment>When? We don't show this.</draft-comment></cmd>
+			</step>
 			<step>
 				<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
 					following configuration:</cmd>
 				<info>
-					<codeblock>CLOUD_OPTS="--java-home=/opt/packages/jdk \
-     -Debs.storage.manager=SANManager \
-     -Debs.san.provider=NetappProvider”
-</codeblock>
+					<codeblock>CLOUD_OPTS="-Debs.storage.manager=SANManager 
+ -Debs.san.provider=NetappProvider"</codeblock>
+					
 				</info>
 			</step>
 			<step>
-				<cmd>Start or restart the SC (or Eucalyptus, if the SC is not installed separately).</cmd>
+				<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
 			</step>
 		</steps>
 	</taskbody>

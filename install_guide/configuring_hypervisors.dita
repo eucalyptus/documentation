@@ -1,9 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="configuring_hypervisors">
- <title>Configuring Hypervisors</title>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_hypervisors">
+ <title>Configure Hypervisors</title>
  <shortdesc></shortdesc>
- <conbody>
-  
- </conbody>
-</concept>
+ <taskbody>
+ 	<context><p>Eucalyptus interacts with both Xen and KVM hypervisors through libvirt. This section
+ 		details steps to configuring these hypervisors.</p>
+ 		<note type="important">Make sure that you enable hardware virtualization before you start these
+ 			steps.</note>
+ 	</context>
+ </taskbody>
+	<task id="configuring_hypervisor_centos">
+		<title>CentOS 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>The default settings that ship with CentOS 5.6 are generally appropriate except you must
+					enable <codeph>xend-http-server</codeph> and restart the daemon.</p>
+				<p>To make sure the Xen daemon is set up correctly:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Verify these Eucalyptus-recommended settings:</cmd>
+					<info>
+						<codeblock>(xend-http-server yes)
+(xend-unix-server yes)
+(xend-unix-path /var/lib/xend/xend-socket)
+(xend-address localhost)
+(network-script network-bridge)
+(vif-script vif-bridge)
+(dom0-min-mem 196)
+(dom0-cpus 0)
+(vncpasswd '')
+</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Open the <filepath>/etc/libvirt/libvirtd.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following lines and change the value for <codeph>unix_sock_group</codeph>
+						from <codeph>libvirt</codeph> to <codeph>eucalyptus</codeph>:</cmd>
+					<info>
+						<codeblock>unix_sock_group = "eucalyptus"
+unix_sock_ro_perms = "0777"
+unix_sock_rw_perms = "0770"</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Save the file and restart the libvirtd daemon.</cmd>
+				</step>
+				<step>
+					<cmd>Use the virsh list command to confirm that the eucalyptus user can communicate with libvirt.</cmd>
+					<info>
+						<codeblock>su –c "virsh list" eucalyptus
+Id Name             	State
+--------------------------------
+0 Domain-0
+</codeblock>
+					</info>
+					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command doesn’t succeed, double-check the steps and setting.</stepresult>
+				</step>
+				<step conref="../shared/reuse_task.dita#reuse_task/xen_nc_config">
+					<cmd></cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each NC server in your system.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_hypervisor_rhel5">
+		<title>RHEL 5</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To make sure the Xen daemon is set up correctly:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Verify these Eucalyptus-recommended settings:</cmd>
+					<info>
+						<codeblock>(xend-http-server yes)
+(xend-unix-server yes)
+(xend-unix-path /var/lib/xend/xend-socket)
+(xend-address localhost)
+(network-script network-bridge)
+(vif-script vif-bridge)
+(dom0-min-mem 196)
+(dom0-cpus 0)
+(vncpasswd '')
+</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Open the <filepath>/etc/libvirt/libvirtd.conf</filepath> file.</cmd>
+				</step>
+				<step>
+					<cmd>Uncomment the following lines and change the value for <codeph>unix_sock_group</codeph>
+						from <codeph>libvirt</codeph> to <codeph>eucalyptus</codeph>:</cmd>
+					<info>
+						<codeblock>unix_sock_group = "eucalyptus"
+unix_sock_ro_perms = "0777"
+unix_sock_rw_perms = "0770" 
+</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Save the file and restart the libvirtd daemon.</cmd>
+				</step>
+				<step>
+					<cmd>Use the virsh list command to confirm that the eucalyptus user can communicate with libvirt.</cmd>
+					<info>
+						<codeblock>su –c "virsh list" eucalyptus
+Id Name             	State
+--------------------------------
+0 Domain-0</codeblock>
+					</info>
+					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command doesn’t succeed, double-check the steps and setting.</stepresult>
+				</step>
+				<step conref="../shared/reuse_task.dita#reuse_task/xen_nc_config">
+					<cmd></cmd>
+				</step>
+				<step>
+					<cmd>Repeat for each NC server in your system.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_hypervisor_rhel6">
+		<title>RHEL 6</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>No additional configuration is required for KVM or libvirt on RHEL 6.</p>
+			</context>
+			
+		</taskbody>
+	</task>
+	<task id="configuring_hypervisor_ubuntu">
+		<title>Ubuntu 10.04 LTS</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>No additional configuration is required for KVM or libvirt on Ubuntu 10.04 LTS.</p>
+			</context>
+			
+		</taskbody>
+	</task>
+	
+</task>

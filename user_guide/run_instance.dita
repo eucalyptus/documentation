@@ -9,23 +9,31 @@
         		<p>To launch an instance:</p>
         </context>
         <steps>
-            <step>
-                <cmd>View available images by running the following command:</cmd>
-            	<info>
-            		<codeblock>euca-describe-images</codeblock>
-            	</info>
-            	<stepresult>The output displays all available images The image n.
-            	<codeblock>IMAGE	emi-EC1410C1	centos-32/centos.5-3.x86.img.manifest.xml ↵
-admin	available	public 	x86_64	machine
-IMAGE	eki-822C1344	kernel-i386/vmlinuz-2.6.28-11-server.manifest.xml ↵
-admin	available	public 	x86_64	kernel
-IMAGE	eri-A98C13E4  initrd-64/initrd.img-2.6.28-11-generic.manifest.xml ↵
-admin	available	public 	x86_64	ramdisk</codeblock>
-            	</stepresult>
-            </step>
+            
         	<step>
-        		<cmd></cmd>
+        		<cmd>Enter the following command:</cmd>
+        		<info>
+        			<codeblock>euca-run-instances &lt;image_id></codeblock>
+        		</info>
+        		<stepresult>
+        			<p>Eucalyptus returns output similar to the following example.</p>
+        			<codeblock>RESERVATION	r-460007BE	alice	alice-default
+INSTANCE	i-2F930625	emi-EC1410C1	0.0.0.0	0.0.0.0	pending	mykey	2010-03-29T23:08:45.962Z	eki-822C1344	eri-BFA91429</codeblock>
+        		</stepresult>
         	</step>
+        	
+        	<step>
+        		<cmd>Enter the following command to get the launch status of the instance:</cmd>
+        		<info>
+        			<codeblock>euca-describe-instances &lt;instance_id></codeblock>
+        		</info>
+        		<stepresult><draft-comment>Need response from Eucalyptus then uncomment the para below.</draft-comment>
+        			<!-- When the instance state in the field just before the key pair name reads "running", the instance has started booting. There might be a short time before it is accessible over the network, however. The first DNS name is your instance's external DNS name, i.e. the one that can be used to contact it from the Internet. The second DNS name is your instance's local DNS name, and is only contactable by other instances within the Amazon EC2 network. The DNS names of your instances are different than those shown in the preceding example and you should use yours instead. The examples in this guide use the public DNS name.
+        				
+        				If the instance's state immediately goes to "terminated" instead of "running", you can get information about why the instance didn't launch. For more information, see What to Do If an Instance Immediately Terminates. -->
+        		</stepresult>
+        	</step>
+        	
         </steps>
     	<!--<postreq>For more information about <codeph>euca-authorize</codeph>, see the CLI Reference
     		Guide.</postreq>-->

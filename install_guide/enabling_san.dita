@@ -1,18 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="enabling_san">
-	<title>Configuring SAN Support</title>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="enabling_san">
+	<title>Configure SAN Support</title>
 	<shortdesc></shortdesc>
-	<conbody>
+	<taskbody>
+		<context>
+			<p>To use the SAN integration feature that Eucalyptus provides, configure supported SAN devices
+				to allow Eucalyptus to manage the SAN. Eucalyptus automatically creates and tears down volumes,
+				snapshots, and data connections from guest instances. The administrator does not need to pre-allocate volumes or LUNs for Eucalyptus.</p>
 		<p>Eucalyptus offers SAN support for EBS. The SANManager module directs the Storage
-		Controller (SC) to manage supported SAN devices. Enabling the SANManager requires configuring the CLOUD_OPTS variable in eucalyptus.conf so that Eucalyptus loads the SANManager module and selects your SAN device at start time.</p>
-		<draft-comment>Let's combine earlier narrative (<xref href="configuring_san.dita"/></draft-comment>
+		Controller (SC) to manage supported SAN devices. Enabling the SANManager requires that you
+		configure the <codeph>CLOUD_OPTS</codeph> variable in eucalyptus.conf so that Eucalyptus loads the SANManager module and selects your SAN device at start time.</p>
+		
 		<p>To configure SAN support:</p>
 		<ol>
-			<li><xref href="configuring_sanmanager.dita">Enable SAN access on Eucalyptus</xref></li>
+			<li><xref href="#configuring_sanmanager">Enable SAN access on Eucalyptus</xref></li>
 			<li>Enable the specific SAN
-				device (<xref href="enabling_san_dell.dita">Dell</xref>, <xref
-					href="enabling_san_netapp.dita">Netapp</xref>, or <xref href="enabling_san_jbod.dita">JBOD</xref>)</li>
+				device (<xref href="#enabling_san_dell">Dell</xref>, <xref
+					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_jbod">JBOD</xref>)</li>
 		</ol>
-	</conbody>
-</concept>
+		</context>
+	</taskbody>
+	<task id="configuring_sanmanager">
+		<title>Enable SANManager</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To enable the Eucalyptus SANManager:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following commands:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.sanhost=&lt;SAN_hostname_or_IP_address>
+euca-modify-property -p &lt;partition_name>.storage.sanuser=&lt;SAN_admin_user_name>
+euca-modify-property -p &lt;partition_name>.storage.sanpassword=&lt;SAN_admin_password></codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="enabling_san_dell">
+		<title>Enable Dell Equallogic SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
+						following configuration:</cmd>
+					<info>
+						<codeblock>CLOUD_OPTS="-Debs.storage.manager=SANManager 
+ -Debs.san.provider=EquallogicProvider"</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
+					<info>
+						<codeblock>service eucalyptus-cloud restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="enabling_san_netapp">
+		<title>Enable NetApp SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>NetApp Filer devices (FAS 2000 and FAS 6000 series) are managed by Eucalyptus using NetApp
+					ONTAPI (version 7.3.3 or above). Enable ONTAPI and provide administrative Eucalyptus with access
+					to OTAPI. To configure NetApp Filer and enable NetApp SANs:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enable and verify API access to NetApp Filer.</cmd>
+				</step>
+				<step>
+					<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
+					<choices>
+						<choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
+							show_space</codeph>.</choice>
+						<choice>If an aggregate with spare capacity does not exist, create
+							one using the <codeph>aggr create</codeph> command.</choice>
+					</choices>
+				</step>
+				<step>
+					<cmd>Verify that you have a license for FlexClone installed. At the shell prompt, enter
+						<codeph>license</codeph> to see the list of all installed licenses.</cmd>
+				</step>
+				<step>
+					<cmd>Write down the administrator credentials (or create an administrator account for Eucalyptus). You will need to configure Eucalyptus with these credentials later.</cmd>
+				</step>
+				<step>
+					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
+						following configuration:</cmd>
+					<info>
+						<codeblock>CLOUD_OPTS="-Debs.storage.manager=SANManager 
+ -Debs.san.provider=NetappProvider"</codeblock>
+						
+					</info>
+				</step>
+				<step>
+					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
+					<info>
+						<codeblock>service eucalyptus-cloud restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="enabling_san_jbod">
+		<title>Enable Direct Attached Storage (JBOD) SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
+						following configuration:</cmd>
+					<info>
+						<codeblock>CLOUD_OPTS="-Debs.storage.manager=DASManager"
+</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
+					<info>
+						<codeblock>service eucalyptus-cloud restart</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+</task>

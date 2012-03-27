@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_ccs">
-    <title>Register the CCs</title>
+    <title>Register the CC</title>
     <shortdesc/>
     <taskbody>
         <context>
-            
+        	
+            <p>To register the CC:</p>
         </context>
         <steps>
             <step>
-            	<cmd>On one of the CLCs, register the primary CC using the following command:</cmd>
+            	<cmd>On the CLC, enter the following command:</cmd>
             	<info>
-            		<codeblock>/usr/sbin/euca_conf --register-cluster --partition=zone00 --host=&lt;CC #1 IPAddress> --component=cc00</codeblock>
+            		<codeblock>/usr/sbin/euca_conf --register-cluster --partition &lt;partition_name>
+ --host &lt;CC_IP_address> --component &lt;cc_name></codeblock>
+            		<note type="tip">We recommend that you set the <codeph>partition</codeph> name to a descriptive name
+            			for the availability zone controlled by the CC. The <codeph>component</codeph> is a
+            			unique name. We recommend that you use a short-hand name of the hostname or IP
+            			address of the machine, like <codeph>cc—host</codeph> or <codeph>cc-ip</codeph>. We recommend hostname.</note>
             	</info>
             </step>
         	<step>
-        		<cmd>Register the secondary CC by entering the following command:</cmd>
-        		<info>
-        			<codeblock>/usr/sbin/euca_conf --register-cluster --partition=zone00 
-	--host=&lt;CC_#2_IP_address> --component=cc01</codeblock>
-        		</info>
+        		<cmd>Repeat for each cluster, replacing the CC name, partition name, CC IP address, and CC name.</cmd>
+        		<!--<info>
+        			<codeblock>/usr/sbin/euca_conf -\-register-cluster -\-partition=zone00 
+	-\-host=&lt;CC_#2_IP_address> -\-component=cc01</codeblock>
+        		</info>-->
         	</step>
         </steps>
+    	<postreq>
+    		<note type="restriction">For HA, register the secondary CC the same way, replacing the
+    			 CC IP address and CC name, but using the same partition name as the primary
+    			CC.</note>
+    	</postreq>
     </taskbody>
 </task>

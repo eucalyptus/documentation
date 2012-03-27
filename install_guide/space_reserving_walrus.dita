@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="taskId">
-    <title>Increase Walrus Disk Space</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<p>The amount of free disk space available to Walrus should be at least three times the size of the largest image you want to upload. The process of uploading an image involves decryption and creation of temporary files. The generated files require about twice as much disk space as the image. So, we recommend three times the image size to keep things running smoothly.</p>
-        	<p>By default, Walrus reserves 30GB of space for an image cache. If the total size of all images to be cached in Eucalyptus exceeds 30 GB, increase the Space reserved for unbundling images parameter (in the Walrus section of the Configuration interface) to a value larger than the sum total size of all the cached images.</p> 
-        	<p>For example, you might have a total of three images: two 10GB images and one 30 GB
-        		image. In order to ensure that all three images are cached and read to run in Eucalyptus,
-        		you will need to set the “Space reserved for unbundling images” in Walrus to 50 GB or
-        		larger. To increase the image cache size in Walrus:</p>
-        </context>
-        <steps>
-        	<step><cmd>Log in to the Dashboard.</cmd></step>
-        	<step><cmd>Click <uicontrol>Service Components</uicontrol> in the <uicontrol>Quick Links</uicontrol> section.</cmd>
-        	<stepresult>The <uicontrol>Service Components</uicontrol> page displays.</stepresult></step>
-        	<step><cmd>Click <uicontrol>walrus</uicontrol>.</cmd>
-        	<stepresult>The <uicontrol>Properties</uicontrol> section displays.</stepresult></step>
-        	<step><cmd>Enter the new size (in MB) in the <uicontrol>Space reserved for unbundling images</uicontrol> field.</cmd></step>
-        	<step><cmd>Click <uicontrol>Save</uicontrol>.</cmd></step>
-        </steps>
-    </taskbody>
+<task id="space_reserving_walrus">
+	<title>Increase Walrus Disk Space</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>The size of Walrus storage must be larger than the sum of all the uploaded images. Each
+				uploaded image requires additional space to accommodate image decryption and the creation of
+				temporary working files. <b>We recommend that the Walrus storage size be three times the size
+				of all uploaded images.</b></p>
+			<p>For example, you might have a total of three images: two 10GB images and one 30 GB image.
+				In order to ensure that all three images are cached and ready to run in Eucalyptus, you will
+				need to set the “Space reserved for unbundling images” in Walrus to 50 GB or larger. To
+				increase the image cache size in Walrus:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the Dashboard.</cmd>
+			</step>
+			<step>
+				<cmd>Click <uicontrol>Service Components</uicontrol> in the <uicontrol>Quick
+						Links</uicontrol> section.</cmd>
+				<stepresult>The <uicontrol>Service Components</uicontrol> page displays.</stepresult>
+			</step>
+			<step>
+				<cmd>Click <uicontrol>walrus</uicontrol>.</cmd>
+				<stepresult>The <uicontrol>Properties</uicontrol> section displays.</stepresult>
+			</step>
+			<step>
+				<cmd>Enter the new size (in MB) in the <uicontrol>Space reserved for unbundling
+						images</uicontrol> field.</cmd>
+			</step>
+			<step>
+				<cmd>Click <uicontrol>Save</uicontrol>.</cmd>
+			</step>
+		</steps>
+	</taskbody>
 </task>

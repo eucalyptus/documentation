@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Introducing Document Generation"/>
+<meta name="abstract" content="Learning the mechanics of document generation with DITA OT."/>
+<meta name="description" content="Learning the mechanics of document generation with DITA OT."/>
+<meta name="DC.Relation" scheme="URI" content="../../quickstartguide/chapters/chapter3.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="concept_introduction"/>
+<link rel="stylesheet" type="text/css" href="../../css/commonltr.css"/>
+<title>Introducing Document Generation</title>
+</head>
+<body id="concept_introduction">
+
+ 
+  <h1 class="title topictitle1">Introducing Document Generation</h1>
+ 
+   
+  <div class="body conbody"><p class="shortdesc">Learning the mechanics of document generation with DITA OT.</p>
+
+  <p class="p">Your documentation project uses an Ant build script, which calls a target in another Ant build script in the DITA-OT
+  root directory, which imports another Ant build script, which itself imports several more Ant build scripts.
+  Sound confusing?  This topic explains this interaction and explains how to identify targets in these scripts related to 
+  errors in your document generation.</p>
+
+  <div class="p">Each target in the build script for this Quick Start Guide contains the following code snippet.
+      <pre class="pre codeblock">&lt;ant antfile="${dita.dir}/build.xml" target="init"&gt;</pre>
+ The
+        <samp class="ph codeph">toolkit_dir</samp> directory is the root directory where you installed
+      DITA-OT.</div>
+
+  <p class="p">The build file you should understand is <samp class="ph codeph">build.xml</samp>, located in folder bound to
+        <samp class="ph codeph">dita.dir</samp> property. The Ant targets defined and imported into this script
+      are the same targets that you see on the console as your build script runs.</p>
+
+  
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+  
+  
+  <thead class="thead" align="left">
+  <tr class="row">
+	<th class="entry" valign="top" width="37.5%" id="d16097e46">DITA-OT Build Script</th>
+
+	<th class="entry" valign="top" width="62.5%" id="d16097e49">Description</th>
+
+  </tr>
+
+  </thead>
+
+  <tbody class="tbody">
+  <tr class="row">
+	<td class="entry" valign="top" width="37.5%" headers="d16097e46 "><samp class="ph codeph">build_init.xml</samp></td>
+
+	<td class="entry" valign="top" width="62.5%" headers="d16097e49 ">Starts the document transformation, initializes the DITA-OT logger, verifies that the
+              toolkit can locate the files and directories that you specified in your build file,
+              and prints these values to the console and the log file, if you have specified
+              one.</td>
+
+  </tr>
+
+  <tr class="row">
+	<td class="entry" valign="top" width="37.5%" headers="d16097e46 "><samp class="ph codeph">build_preprocess.xml</samp></td>
+
+	<td class="entry" valign="top" width="62.5%" headers="d16097e49 ">Validates your content files, generates lists of input files, including internal elements distributed across all content, such as index and 
+	    conref entries.  Moves copies of these files and elements into the the directory specified by <samp class="ph codeph">output.dir</samp> property
+		in your build script.</td>
+
+  </tr>
+
+  <tr class="row">
+	<td class="entry" valign="top" width="37.5%" headers="d16097e46 "><samp class="ph codeph">build_general.xml</samp>, <samp class="ph codeph">build_dita2wordrtf.xml</samp>,
+                <samp class="ph codeph">build_dita2xhtml.xml</samp>, <samp class="ph codeph">build_dita2eclipsehelp.xml</samp>,
+              <samp class="ph codeph">build_dita2javahelp.xml</samp>, <samp class="ph codeph">build_dita2htmlhelp.xml</samp>,
+                <samp class="ph codeph">build_dita2pdf</samp></td>
+
+	<td class="entry" valign="top" width="62.5%" headers="d16097e49 ">Output specific Ant files which are not intended to be run directly.</td>
+
+  </tr>
+	
+  </tbody>
+
+  </table>
+</div>
+
+	<p class="p">Your console displays the name of each Ant target called inside the build scripts, including the
+      output-specific script. For example, the following screen shot displays the names of Ant
+      targets contained in the <samp class="ph codeph">build.xml</samp> script when PDF transtformation type is
+      used.</p>
+
+	<p class="p"><img class="image" src="../images/pdftargets.gif" height="350" width="500"/></p>
+
+	<p class="p">When you see an error in the output, you should read the Ant target that generated it for clues to solve the problem.
+	To learn more about what caused the <samp class="ph codeph">INFO</samp>, <samp class="ph codeph">SEVERE</samp>, and <samp class="ph codeph">WARNING</samp> errors in the image above,
+	you should read the <samp class="ph codeph">transform.fo2pdf.fop</samp> Ant target to learn what the Toolkit was doing when the error occurred and which
+	xsl file generated the error.</p>
+
+	<div class="note note"><span class="notetitle">Note:</span> The DITA-OT build scripts sometimes continue to run even if they are unable to generate a temporary file for 
+	one of your content files.  The build later displays an error message stating that a DITA-OT build script cannot find a generated file.  This
+	error is often misleading; the problem may be that your content file contains an error other than XML validation, which would stop the DITA-OT
+	build from proceeding.</div>
+
+	<p class="p">DITA-OT uses a separate set of Ant targets to process your PDF if you specify a value for the
+        <samp class="ph codeph">args.fo.userconfig</samp> property in your document's build script.</p>
+
+  </div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../../quickstartguide/chapters/chapter3.html" title="Transforming your DITA-compliant XML into documents.">Debugging DITA-OT Transformations</a></div>
+</div>
+</div>
+
+</body>
+</html>

@@ -4,56 +4,75 @@
 	<title>Verifying Component Disk Space</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>Eucalyptus components need disk space for log files, databases, buckets, and instances. The following table details the needs of each component. Verify that the machines you plan to install the components have adequate space.</p>
+ 	<p>Eucalyptus components need disk space for log files, databases, buckets, and instances. The
+ 		following table details the needs of each component. Verify that the machines you plan to install
+ 		the components on have adequate space.</p>
+ 	
+ 	<p>We recommend that you choose a disk for each Walrus that is large enough to hold all objects and buckets you
+ 		ever expect to have, including all images that will ever be registered to your system,
+ 		plus any Amazon S3 application data. For consistent performance, we recommend that you use
+ 		identical disks for the primary and secondary Walrus.</p>
+ 	
+ 	<note type="tip">We recommend that you use LVM (Logical Volume Manager). Should you run out
+ 		of disk space, LVM allows you to add disks and migrate the data.</note>
  	<table>
  		<tgroup cols="3">
+ 			<colspec colname="left" colwidth="20*"/>
+ 			<colspec colname="mid" colwidth="60*"/>
+ 			<colspec colname="right" colwidth="20*"/>
  			<thead>
  				<row>
- 					<entry>Component</entry>
- 					<entry>Directory</entry>
- 					<entry>Minimum Size</entry>
+ 					<entry colname="left">Component</entry>
+ 					<entry colname="mid">Directory</entry>
+ 					<entry colname="right">Minimum Size</entry>
  				</row>
  			</thead>
  			<tbody>
  				<row>
- 					<entry>CLC</entry>
- 					<entry><filepath>/var/log/eucalyptus</filepath> 
- 						<filepath>/var/lib/eucalyptus/db</filepath>
+ 					<entry><p>CLC</p>
+ 					<p>CLC logging</p></entry>
+ 					<entry><p><filepath>/var/lib/eucalyptus/db</filepath></p>
+ 						<p><filepath>/var/log/eucalyptus</filepath></p>
  					</entry>
- 					<entry>1GB
- 						2GB
+ 					<entry><p>2GB</p>
+ 						<p>1GB</p>
  					</entry>
  				</row>
  				<row>
- 					<entry>Walrus</entry>
- 					<entry><filepath>/var/log/eucalyptus</filepath> 
- 						<filepath>/var/lib/eucalyptus/bukkits</filepath> 
+ 					<entry><p>Walrus</p>
+ 					<p>Walrus logging</p></entry>
+ 					<entry><p><filepath>/var/lib/eucalyptus/bukkits</filepath> </p>
+ 						<p><filepath>/var/log/eucalyptus</filepath> </p>
  					</entry>
- 					<entry>1GB
- 						50GB
+ 					<entry><p>50GB</p>
+ 						<p>1GB</p>
  					</entry>
  				</row>
  				<row>
  					<entry>SC</entry>
- 					<entry><filepath>/var/lib/eucalyptus/volumes</filepath> (EBS storage)</entry>
+ 					<entry><filepath>/var/lib/eucalyptus/volumes</filepath> (EBS storage) 
+ 						This disk space on the SC is only required if you are not using a SAN
+ 							driver.</entry>
  					<entry>50GB</entry>
  				</row>
  				<row>
- 					<entry>CC</entry>
- 					<entry><filepath>/var/lib/eucalyptus/CC</filepath> 
- 						<filepath>/var/log/eucalyptus</filepath>
+ 					<entry><p>CC</p>
+ 					<p>CC logging</p></entry>
+ 					<entry><p><filepath>/var/lib/eucalyptus/CC</filepath></p> 
+ 						<p><filepath>/var/log/eucalyptus</filepath></p>
  					</entry>
- 					<entry>2GB
- 						500MB
+ 					<entry><p>2GB</p>
+ 						<p>500MB</p>
  					</entry>
  				</row>
  				<row>
- 					<entry>NC</entry>
- 					<entry><filepath>/var/log/eucalyptus</filepath> 
- 						<filepath>/var/lib/eucalyptus/instances</filepath> 
+ 					<entry><p>NC</p>
+ 					<p>NC logging</p></entry>
+ 					<entry><p><filepath>/var/lib/eucalyptus/instances</filepath> </p>
+ 						<p><filepath>/var/log/eucalyptus</filepath> </p>
  					</entry>
- 					<entry>500MB
- 						100GB
+ 					<entry><p>100GB</p>
+ 						<p>500MB</p>
  					</entry>
  				</row>
  			</tbody>

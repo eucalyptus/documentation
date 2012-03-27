@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ts_intances">
+ <title>Instances</title>
+ <shortdesc></shortdesc>
+ <conbody>
+ 	<dl>
+ 		<dlentry>
+ 			<dt>Inaccurate IP addresses display in the output of euca-describe-addresses.</dt>
+ 			<dd>
+ 				<p>This can occur if you add IPs from the wrong subnet into your public IP pool, do a cleanrestart
+ 					on the CC, swap out the wrong ones for the right ones, and do another clean restart on the CC. To resolve this
+ 					issue, run the following:</p>
+ 						
+ 						<codeblock>/etc/init.d/eucalyptus-cloud stop
+/etc/init.d/eucalyptus-cc stop
+iptables -F
+/etc/init.d/eucalyptus-cc cleanrestart
+/etc/init.d/eucalyptus-cloud start</codeblock>
+ 						
+ 			</dd>
+ 		</dlentry>
+ 	</dl>
+ </conbody>
+</concept>

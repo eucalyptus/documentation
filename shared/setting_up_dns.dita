@@ -1,35 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="setting_up_dns">
- <title>Setting Up DNS (No HA)</title>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="setting_up_dns">
+ <title>Configure DNS</title>
  <shortdesc></shortdesc>
- <conbody>
- 	<p>The Eucalyptus cloud front-end has a Domain Name System (DNS) service built into it. This
- 	Eucalytpus service responds to DNS requests in order to support virtual hosting of buckets (mapping bucket names to IP addresses) and instance DNS (mapping of hostnames to instance public and private IP addresses). </p>
- 	<p>To set up DNS on Eucalyptus, do the following:</p>
- 	<table>
- 		<tgroup cols="2">
- 			<thead>
- 				<row>
- 					<entry>Step</entry>
- 					<entry>Task</entry>
- 				</row>
- 			</thead>
- 			<tbody>
- 				<row>
- 					<entry>1</entry>
- 					<entry><xref href="enable_dns.dita"/></entry>
- 				</row>
- 				<row>
- 					<entry>2</entry>
- 					<entry><xref href="config_dns.dita"/></entry>
- 				</row>
- 				<row>
- 					<entry>3</entry>
- 					<entry><xref href="use_dns.dita"/></entry>
- 				</row>
- 			</tbody>
- 		</tgroup>
- 	</table>
- </conbody>
-</concept>
+ <taskbody>
+ 	<context>
+ 		<p>Eucalyptus provides a DNS service that you can configure to:</p>
+ 		<ul>
+ 		<li>Map instance IPs and Walrus bucket names to DNS host names</li>
+ 			<li>Enable DNS delegation to support transparent failover in HA mode</li>
+ 			</ul>
+ 			<p>The DNS service will automatically try to bind to port 53. If port 53 cannot be used, DNS will
+ 			be disabled. Typically, other system services like dnsmasq are configured to run on port 53. To use the Eucalyptus DNS service, you will need to disable these services.</p>
+ 		
+ 		
+ 	</context>
+ 	
+ </taskbody>
+	<task id="setting_up_dns_subd">
+		<title>Configure the Subdomain</title>
+		<taskbody>
+			<context>
+				<p>Before using the DNS service, configure the DNS sub domain name that you want Eucalyptus to handle as follows after the Eucalyptus Cloud Controller (CLC) has been started.</p>
+				
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the CLC (the primary CLC in an HA setup) and enter the following:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p
+system.dns.dnsdomain=&lt;eucadomain.yourdomain></codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setting_up_dns_map">
+		<title>Turn on IP Mapping</title>
+		<taskbody>
+			<context>
+				<p>To turn on mapping of instance IPs to DNS host names:</p>
+				
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p bootstrap.webservices.use_instance_dns=true</codeblock>
+						<p>When this option is enabled, public and private DNS entries are set up for each instance
+							that is launched in Eucalyptus. This also enables virtual hosting for Walrus. Buckets created
+							in Walrus can be accessed as hosts. For example, the bucket <codeph>mybucket</codeph> is
+							accessible as <codeph>mybucket.walrus.eucadomain.yourdomain</codeph>.</p>
+						<p>Instance IP addresses will be mapped as <codeph>euca-A.B.C.D.eucalyptus.&lt;subdomain></codeph>, where <codeph>A.B.C.D</codeph> is the IP address (or addresses) assigned to your instance. </p>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setting_up_dns_del">
+		<title>Enable DNS Delegation</title>
+		<taskbody>
+			<context>
+				<note type="restriction">If you are not using HA, you can skip this task.</note>
+				<p>DNS delegation allows you to forward DNS traffic for the Eucalyptus subdomain to the
+					Eucalyptus CLC hosts. These hosts act as name servers. This allows interruption-free access to
+					Eucalyptus cloud services in the event of a failure. Both primary and secondary CLC hosts are
+					capable of mapping cloud host names to IP addresses of the primary CLC and Walrus hosts.</p>
+				<p>For example, if the IP address of the primary and secondary CLC are
+					<codeph>192.168.5.1</codeph> and <codeph>192.168.5.2</codeph>, and the IP addresses of
+					primary and secondary Walruses are <codeph>192.168.6.1</codeph> and <codeph>192.168.6.2</codeph>, the host <codeph>eucalyptus.eucadomain.yourdomain</codeph> will resolve to <codeph>192.168.6.1</codeph> and <codeph>walrus.eucadomain.yourdomain</codeph> will resolve to <codeph>192.168.6.1</codeph>.</p>
+				<p>If the primary CLC fails, the secondary CLC will become the primary and
+					<codeph>eucalyptus.eucadomain.yourdomain</codeph> will resolve to
+					<codeph>192.168.5.2</codeph>. If the primary Walrus fails, the secondary Walrus will be promoted and <codeph>walrus.eucadomain.yourdomain</codeph> will resolve to <codeph>192.168.6.2</codeph>.</p>
+				<p>To enable DNS delegation:</p>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>On the primary CLC, enter the following command:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p bootstrap.webservices.use_dns_delegation=true</codeblock>
+						
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="setting_up_dns_master">
+		<title>Configure the Master DNS Server</title>
+		<taskbody>
+			<context>
+				<p>Set up your master DNS server to forward the Eucalyptus subdomain to the primary and secondary CLC servers, which act as name servers.</p>
+				<p>The following example shows how the Linux name server <codeph>bind</codeph> is set up to
+					forward the Eucalyptus subdomain.</p>
+				
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Open <filepath>/etc/named.conf</filepath> and set up the <codeph>eucadomain.yourdomain
+					zone</codeph>. For example, your <filepath>/etc/named.conf</filepath> may look like the
+					following:</cmd>
+					<info>
+						<codeblock>zone "yourdomain" {
+type master;
+file "/etc/bind/db.yourdomain";
+};
+
+#Forward eucadomain.yourdomain
+zone "eucadomain.yourdomain" {
+type forward;
+forward only;
+forwarders { &lt;CLC_0_IP>; &lt;CLC_1_IP>; };
+};</codeblock>
+						<p>where <codeph>&lt;CLC_0_IP></codeph> is the IP address of your primary CLC and
+							<codeph>&lt;CLC_1_IP></codeph> is the IP address of your secondary CLC.</p>
+					</info>
+				</step>
+				<step>
+					<cmd>Create <filepath>/etc/bind/db.yourdomain</filepath> if it does not exist. If your master
+						DNS is already set up for <codeph>yourdomain</codeph>, you will need to add name server
+						entries for <codeph>&lt;CLC_0_IP></codeph> and <codeph>&lt;CLC_1_IP></codeph>. For example:</cmd>
+					<info>
+						<codeblock>$TTL 604800
+@ IN SOA yourdomain. root.yourdomain. (
+2 ; Serial
+604800 ; Refresh
+86400 ; Retry
+2419200 ; Expire
+604800 ) ; Negative Cache TTL
+;
+@ IN NS ns.yourdomain.
+@ IN A &lt;master_nameserver_IP>
+			
+ns.yourdomain. IN A &lt;master_nameserver_IP>
+				
+;Add entries for primary and secondary CLCs 
+eucadomain.yourdomain. IN NS clc0.eucadomain.yourdomain.
+eucadomain.yourdomain. IN NS clc1.eucadomain.yourdomain.
+				
+clc0.eucadomain.yourdomain. IN A &lt;CLC_0_IP>
+clc1.eucadomain.yourdomain. IN A &lt;CLC_1_IP></codeblock>
+						<p>where <codeph>clc0.eucadomain.yourdomain</codeph> and <codeph>clc1.eucadomain.yourdomain</codeph> are the host names of your primary and secondary CLC servers.</p>
+					</info>
+				</step>
+				<step>
+					<cmd>Restart the bind nameserver (<codeph>/etc/init.d/bind9 restart</codeph> or
+						<codeph>/etc/init.d/named restart</codeph>, depending on your Linux distribution).</cmd>
+				</step>
+				<step>
+					<cmd>Test your setup by pointing <codeph>/etc/resolv.conf</codeph> on your client to your
+						primary DNS server and attempt to resolve <codeph>eucalyptus.eucadomain.yourdomain</codeph>
+						using ping or nslookup. It should return the IP address of the primary CLC server.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+</task>
