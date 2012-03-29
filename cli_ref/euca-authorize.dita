@@ -32,19 +32,35 @@
   					<row>
   						<entry><codeph>-P, --protocol <i>protocol</i></codeph></entry>
   						<entry>IP protocol name or number.
-  							<p>Valid values: <codeph>tcp</codeph> | <codeph>udp</codeph> | <codeph>icmp</codeph> or the corresponding protocol number (<codeph>6</codeph> | <codeph>17</codeph> | <codeph>1</codeph>)</p></entry>
+  							<p>Valid values: <codeph>tcp</codeph> | <codeph>udp</codeph> | <codeph>icmp</codeph></p></entry>
   						<entry>No</entry>
   					</row>
   					<row>
   						<entry><codeph>-p <i>port_range</i> </codeph></entry>
-  						<entry>Specifies the range of ports to allow for TCP and UDP. Not required for ICMP.
+  						<entry>Specifies the range of ports to allow for TCP and UDP. Not valid for ICMP.
   							<p>Valid values: Single integer or range (min-max). Use <codeph>-1</codeph> to specify all
   								ports.</p></entry>
   						<entry>Conditional</entry>
   					</row>
   					<row>
-  						<entry><codeph>-s, --cidr <i>cidr_range</i> </codeph></entry>
-  						<entry>CIDR range.
+  						<entry><codeph>-t, --icmp-type-code</codeph></entry>
+  						<entry>ICMP type and code specified as "type:code". Only works if you specify ICMP as the
+  							protocol.</entry>
+  						<entry>Conditional</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-o, --source-group <i>source_group</i></codeph></entry>
+  						<entry>Group from which traffic is authorized by the rule. Every instance in the security group is allowed to pass traffic.</entry>
+  						<entry>No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-u, --source-group-user <i>source_group_user</i></codeph></entry>
+  						<entry>ID of the security group user you name in the -o parameter</entry>
+  						<entry>No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-s, --source-subnet <i>source_subnet</i> </codeph></entry>
+  						<entry>Addresses to apply the rule to
   							<p>Default: <codeph>0.0.0.0/0</codeph></p></entry>
   						<entry>No</entry>
   					</row>

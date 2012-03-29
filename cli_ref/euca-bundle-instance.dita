@@ -2,16 +2,12 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-bundle-instance">
 	<title>euca-bundle-instance</title>
-	<shortdesc>Bundles an S3-backed Windows instance.</shortdesc>
+	<shortdesc>Bundles a running instance into a machine image and stores the image in Walrus. This commad is typically used with Windows instances.</shortdesc>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euca-bundle-instance  -b <b>bucket</b> -p <b>prefix</b> -o <b>access_key_id</b> -w
-				<b>secret_key</b> -x <b>expires</b> [-a, --access-key
-     &lt;access_key> ][-s, --secret-key &lt;secret_key> ][--config
-     &lt;config_path> ][--debug][--debugger][-h, --help][--region
-     &lt;region_name> ][-U, --url &lt;url> ][--version][--euca-
-     auth][-c, --policy &lt;policy> ] [ instance_id ]</codeblock>
+			<codeblock>euca-bundle-instance  <b>instance_id</b> -b <b>bucket</b> -p <b>prefix</b> -o <b>access_key_id</b> -w
+				<b>secret_key</b> -x <b>expires</b>  </codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -30,22 +26,35 @@
 
 					<tbody>
 						<row>
+							<entry><codeph><i>instance_id</i></codeph></entry>
+							<entry>ID of the instance you want to bundle</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
 							<entry><codeph>-b,--bucket</codeph></entry>
 							<entry>Name of the bucket to upload.</entry>
 							<entry>Yes</entry>
 						</row>
-						<row conref="../shared/shared_params.dita#shared_params/prefix">
-							<entry/>
+						<row >
+							<entry><codeph>-p,--prefix</codeph></entry>
+							<entry>The prefix for the bundle image files.
+							</entry>
+							<entry>Yes</entry>
 						</row>
-						<row conref="../shared/shared_params.dita#shared_params/user_access_key">
-							<entry/>
+						<row>
+							<entry><codeph>-o,--access-key-id <i>access_key_id</i></codeph></entry>
+							<entry>Access key ID of the owner of the bucket</entry>
+							<entry>Yes</entry>
 						</row>
-						<row conref="../shared/shared_params.dita#shared_params/user_secret_key">
-							<entry/>
+						<row>
+							<entry><codeph>-w,--secret-key <i>secret_key</i></codeph></entry>
+							<entry>Secret key used to sign the upload policy</entry>
+							<entry>Yes</entry>
 						</row>
 						<row conref="../shared/shared_params.dita#shared_params/expires">
 							<entry/>
 						</row>
+						
 					</tbody>
 				</tgroup>
 			</table>
