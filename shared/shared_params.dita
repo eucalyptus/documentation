@@ -13,43 +13,48 @@
     				<row>
     					<entry>Option</entry>
     					<entry>Description</entry>
+    					<entry>Required?</entry>
     				</row>
     			</thead>
     			<tbody>
     				<row id="access_key_id">
     					<entry><codeph>-a,--access-key</codeph></entry>
     					<entry>User's access key ID</entry>
-    					<entry></entry>
+    					<entry>Yes</entry>
     				</row>
     				<row id="secret_key">
     					<entry><codeph>-s,--secret-key</codeph></entry>
     					<entry>User's secret key</entry>
-    					<entry></entry>
+    					<entry>No</entry>
     				</row>
     				<row id="config">
     					<entry><codeph>--config</codeph></entry>
     					<entry>Read credentials and cloud settings
     						from the specified config file. 
     						<p>Default: <filepath>$HOME/.eucarc or /etc/euca2ools/eucarc</filepath>.</p></entry>
-    					<entry></entry>
+    					<entry>No</entry>
     				</row>
     				<row id="debug">
     					<entry><codeph>--debug</codeph></entry>
     					<entry>Prints what the command sends to the server and what it receives from the server.
     						Use when you're trying to debug Euca2ools.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="debugger">
     					<entry><codeph>--debugger</codeph></entry>
     					<entry>Enable interactive debugger on error</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="help">
     					<entry><codeph>-h,--help</codeph></entry>
     					<entry>Display the manual page for the command.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="region">
     					<entry><codeph>--region</codeph></entry>
     					<entry>Region to direct requests to. Only valid for EC2 endpoints. <draft-comment>Meaning
     						what?</draft-comment></entry>
+    					<entry>No</entry>
     				</row>
     				<row id="url">
     					<entry><codeph>-U,--url</codeph></entry>
@@ -59,6 +64,7 @@
     				<row id="version">
     					<entry><codeph>--version</codeph></entry>
     					<entry>Display the version of this tool</entry>
+    					<entry>No</entry>
     				</row>
     				<!--<row id="euca_auth">
     					<entry><codeph>-\-euca-auth</codeph></entry>
@@ -68,167 +74,206 @@
     					<entry><codeph>-P,--protocol</codeph></entry>
     					<entry>The protocol. 
     						<p>Valid Values: <userinput>tcp</userinput> | <userinput>udp</userinput> |
-    						<userinput>icmp</userinput> | <userinput>6</userinput> | <userinput>17</userinput> | <userinput>1</userinput></p></entry>
+    						<userinput>icmp</userinput></p></entry>
+    					<entry>No</entry>
     				</row>
     				<row id="port_range">
     					<entry><codeph>-p,--port-range</codeph></entry>
     					<entry>Range of ports for the rule (specified as
     						"from-to").</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="icmp_type">
     					<entry><codeph>-t,--icmp-type-code</codeph></entry>
     					<entry>ICMP type and code specified as "type:code"</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="source_group">
     					<entry><codeph>-o,--source-group</codeph></entry>
     					<entry>Group from which traffic is authorized
     						by the rule.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="source_group_user">
     					<entry><codeph>-u,--source-group-user</codeph></entry>
     					<entry> User ID for the source group.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="source_subnet">
     					<entry><codeph>-s,--source-subnet </codeph></entry>
     					<entry>The source subnet for the rule.
     						<p>Default: <codeph>0.0.0.0/0</codeph></p></entry>
+    					<entry>No</entry>
     				</row>
     				<row id="user">
     					<entry><codeph>-u,--user</codeph></entry>
     					<entry>12-digit user ID of the person who is bundling the image.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="cert">
     					<entry><codeph>-c,--cert</codeph></entry>
     					<entry>Path the users PEM-encoded certificate.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="private_key">
     					<entry><codeph>-k,--privatekey </codeph></entry>
     					<entry>Path to users PEM-encoded private key.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="prefix">
     					<entry><codeph>-p,--prefix</codeph></entry>
     					<entry>The prefix for the bundle image files.
-    						<p>Default: image name</p>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="kernel">
     					<entry><codeph>--kernel</codeph></entry>
     					<entry>ID of the kernel you want to associate with the
-    						image.
+    						image. You can override this ID in <xref href="../cli_ref/euca-register.dita"/> and
+    						<xref href="../cli_ref/euca-run-instances.dita"/> at runtime. <p>If you are bundling a kernel image, set to <codeph>true</codeph>.</p>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="ramdisk">
     					<entry><codeph>--ramdisk</codeph></entry>
     					<entry>ID of the ramdisk to be associated with the
-    						image.
+    						image. You can override this ID in <xref href="../cli_ref/euca-register.dita"/> and
+    						<xref href="../cli_ref/euca-run-instances.dita"/> at runtime.  <p>If you are bundling a ramdisk image, set to <codeph>true</codeph>.</p>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="product_codes">
     					<entry><codeph>--product-codes</codeph></entry>
     					<entry>Product codes to be associated with the image.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="block_device_mapping">
     					<entry><codeph>-b,--block-device-mapping</codeph></entry>
     					<entry>Default block device mapping for the image. The format of the mapping is a
-    						comma-separated list of key=value pairs.
+    						comma-separated list of key=value pairs. <draft-comment>Scot's notes say:
+    							"sda=(/dev/sdf=none) no block device mapping" and "Google block device mapping (see CLI
+    							ref for EC2)" Uh...?</draft-comment>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="destination">
     					<entry><codeph>-d,--destination </codeph></entry>
     					<entry>Directory to store the bundled image in. We recommend that you include this option
-    						where allowed.
+    						where allowed. <draft-comment>Scot's notes: "on your machine where you're running the
+    							command from where you want it to go."</draft-comment>
     						<p>Default: <filepath>/tmp</filepath></p>
     					</entry>
+    					<entry>No</entry>
     				</row>
+    				
     				<row id="ec2cert">
     					<entry><codeph>--ec2cert</codeph></entry>
-    					<entry>Path to the cloud's X509 public key
-    						certificate.
+    					<entry>Path to the cloud's X.509 certificate.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="arch">
     					<entry><codeph>-r,--arch</codeph></entry>
     					<entry>Target architecture for the image.
-    						<p>Valid values: <userinput>i386</userinput> | <userinput>x86_64</userinput></p>
+    						<p>Default: <codeph>x86_64</codeph></p>
+    						<p>Valid values: <codeph>i386</codeph> | <codeph>x86_64</codeph></p>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="batch">
     					<entry><codeph>--batch</codeph></entry>
     					<entry>Run in batch mode. This is for compatibility only, and has no
     						effect.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="directory">
     					<entry><codeph>-d,--directory</codeph></entry>
     					<entry>Working directory where bundle should be
     						generated
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="policy">
     					<entry><codeph> -c,--policy</codeph></entry>
     					<entry>Base64-encoded S3 upload policy</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="policy_signature">
     					<entry><codeph>-policysignature</codeph></entry>
     					<entry>Signature for the upload policy</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="acl">
     					<entry><codeph>-acl</codeph></entry>
     					<entry>Canned ACL policy</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="size">
     					<entry><codeph>-s,--size</codeph></entry>
     					<entry>Size of the image in MB</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="all">
     					<entry><codeph>-a,--all</codeph></entry>
     					<entry>Bundle all directories, including mounted filesystems.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="no_inherit">
     					<entry><codeph>--no-inherit</codeph></entry>
     					<entry>Do not add instance metadata to the bundled image.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="exclude">
     					<entry><codeph>-e,--exclude</codeph></entry>
     					<entry>Comma-separated list of directories to exclude.
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="volume">
     					<entry><codeph>--volume</codeph></entry>
     					<entry>Path to mounted volume to bundle.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="fstab">
     					<entry><codeph>--fstab</codeph></entry>
     					<entry>Path to the fstab to be bundled with image.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="generate_fstab">
     					<entry><codeph>--generate-fstab</codeph></entry>
     					<entry>Generate fstab to bundle in image.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="user_access_key">
     					<entry><codeph>-o,--user-access-key</codeph></entry>
     					<entry>Access key ID of the owner of the bucket</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="user_secret_key">
     					<entry><codeph>-w,--user-secret-key</codeph></entry>
     					<entry>Secret key used to sign the upload policy</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="expires">
     					<entry><codeph>-x,--expires</codeph></entry>
-    					<entry>Expiration, in hours, for the generated policy.</entry>
+    					<entry>Expiration, in hours, for the generated upload policy.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="instance_id">
     					<entry><codeph>instance_id</codeph></entry>
     					<entry>Unique ID of the instance</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="description">
     					<entry><codeph>-d,--description</codeph></entry>
     					<entry>Brief description of the image</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="no_reboot">
     					<entry><codeph>--no-reboot</codeph></entry>
@@ -238,14 +283,17 @@
     						the created image cannot be guaranteed.
     						<p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p>
     					</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="manifest">
     					<entry><codeph>-m,--manifest</codeph></entry>
     					<entry>Path to the manifest file.</entry>
+    					<entry>No</entry>
     				</row>
     				<row id="clear">
     					<entry><codeph>--clear</codeph></entry>
     					<entry>Delete the bucket containing the image.</entry>
+    					<entry>No</entry>
     				</row>
     				<!--<row>
     					<entry><codeph></codeph></entry>
