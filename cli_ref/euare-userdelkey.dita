@@ -2,42 +2,59 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euare-userdelkey">
 	<title>euare-userdelkey</title>
-  <shortdesc>Deletes a pair of access keys.</shortdesc>
-  <refbody>
-   <section>
-   	<title>Syntax</title>
-   	<codeblock></codeblock>
-   </section>
-  	<section>
-  		<title>Options</title>
-  		<table>   			<tgroup cols="3">   				<colspec colwidth="20*"/>   				<colspec colwidth="70*"/>   				<colspec colwidth="20*"/>   				<thead>   					<row>    						<entry align="center">Option</entry>   						<entry align="center">Description</entry>    						<entry align="center">Required?</entry>   					</row>   				</thead>
-  			
-  				<tbody>
-  					<row>
-  						<entry><codeph>-u, --user-name <i>user_name</i></codeph></entry>
-  						<entry>Name of the user that the access keys belongs to</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-k, --user-key-id</codeph></entry>
-  						<entry>The access key ID for the access key ID and secret
-  							access key you want to delete.
-  						</entry>
-  					</row>
-  					
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
-  	
-  	<section>
-  		<title>Output</title>
-  		<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
-  	</section>
-  	
-  	<section>
-  		<title>Example</title>
-  		<codeblock>euare-userdelkey -u myuser -k UDHYLIGYKLURDIBAIUEMJ</codeblock>
-  	</section>
-  </refbody>
+	<shortdesc>Deletes an access key. If the user is a member of any group
+		or has user policies, signing certificates, access keys, and a login profile, you must use the recursive option.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euare-userdelkey [-u <b>user_name</b>] -k <b>user_key_id</b> [-r]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required?</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>-u, --user-name <i>user_name</i></codeph></entry>
+							<entry>Name of the user that the access keys belongs to</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-k, --user-key-id</codeph></entry>
+							<entry>The access key ID for the access key ID and secret access key you want to
+								delete. </entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-r, --recursive</codeph></entry>
+							<entry>Deletes the user from associated groups and deletes the user's credentials and policies along with the user.</entry>
+							<entry>No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euare-userdelkey -u myuser -k UDHYLIGYKLURDIBAIUEMJ</codeblock>
+		</section>
+	</refbody>
 </reference>
