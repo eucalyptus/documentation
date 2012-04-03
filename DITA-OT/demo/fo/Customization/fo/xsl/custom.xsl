@@ -33,9 +33,11 @@ See the accompanying license.txt file for applicable licenses.
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:ex="http://exslt.org/dates-and-times"
     xmlns:opentopic="http://www.idiominc.com/opentopic"
+    extension-element-prefixes="ex"
     exclude-result-prefixes="opentopic"
-    version="1.1">
+    version="2.0">
 
   <xsl:template name="insertPageNumberCitation">
 		<xsl:param name="isTitleEmpty"/>
@@ -167,8 +169,9 @@ See the accompanying license.txt file for applicable licenses.
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/copyryear ')]">
+        
         <fo:inline xsl:use-attribute-sets="copyryear" >
-            <xsl:value-of select="@year"/><xsl:text> </xsl:text>
+            <xsl:value-of select="format-date(current-date(),'[Y0001]-[M01]-[D01]')" /><xsl:text> </xsl:text>
         </fo:inline>
     </xsl:template>
 
