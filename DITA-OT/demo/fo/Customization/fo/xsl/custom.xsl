@@ -37,7 +37,7 @@ See the accompanying license.txt file for applicable licenses.
     xmlns:opentopic="http://www.idiominc.com/opentopic"
     extension-element-prefixes="ex"
     exclude-result-prefixes="opentopic"
-    version="2.0">
+    version="1.1">
 
   <xsl:template name="insertPageNumberCitation">
 		<xsl:param name="isTitleEmpty"/>
