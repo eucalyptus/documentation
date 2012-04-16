@@ -2,64 +2,77 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euare-groupaddpolicy">
 	<title>euare-groupaddpolicy</title>
-  <shortdesc>Adds a new policy to a group.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euare-groupaddpolicy -g <b>group_name</b> -p <b>policy_name</b> -e <b>effect</b> -a 'ec2:*'</codeblock>
-    </section>
-  	<section>
-  		<title>Options</title>
-  		<table>   			<tgroup cols="3">   				<colspec colwidth="20*"/>   				<colspec colwidth="70*"/>  
-  			<colspec colwidth="10*"/>   				<thead>   					<row>    						<entry align="center">Option</entry>   						<entry align="center">Description</entry>    						<entry align="center">Required?</entry>   					</row>   				</thead>
-  			
-  				<tbody>
-  					<row>
-  						<entry><codeph>-g, --group-name <i>group_name</i></codeph></entry>
-  						<entry>Name of the group to associate the policy with</entry>
-  						<entry>Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-p, --policy-name <i>policy_name</i></codeph></entry>
-  						<entry>Name of the policy document</entry>
-  						<entry>Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-e, --effect <i>effect</i></codeph></entry>
-  						<entry>The value for the policy's <codeph>Effect</codeph> element.
-  							<p>Valid values: <codeph>Allow</codeph> | <codeph>Deny</codeph></p></entry>
-  						<entry>Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-a, --action <i>action</i></codeph></entry>
-  						<entry>The value for the policy's <codeph>Action</codeph> element. This value specifies both the service and action you want to allow or deny permission to. For example: <codeph>-a iam:ListAccessKeys</codeph>. </entry>
-  						<entry>Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-o</codeph></entry>
-  						<entry>This option tells Eucalyptus to output the JSON policy document that IAM created for you.</entry>
-  						<entry>No</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  		<draft-comment>Do we use the -r option?</draft-comment>
-  	</section>
-  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
-  	
-  	<section>
-  		<title>Output</title>
-  		<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
-  	</section>
-  	
-  	<section>
-  		<title>Examples</title>
-  		<p>The following policy allows all actions in EC2.</p>
-  		<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*'</codeblock>
-  		<p>The following policy allows all actions in EC2 and outputs the generated JSON policy.</p>
-  		<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*' -o
+	<shortdesc>Adds a new policy to a group.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euare-groupaddpolicy -g <b>group_name</b> -p <b>policy_name</b> -e <b>effect</b> -a 'ec2:*'</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>-g, --group-name <i>group_name</i></codeph></entry>
+							<entry>Name of the group to associate the policy with</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-p, --policy-name <i>policy_name</i></codeph></entry>
+							<entry>Name of the policy document</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-e, --effect <i>effect</i></codeph></entry>
+							<entry>The value for the policy's <codeph>Effect</codeph> element. <p>Valid values:
+										<codeph>Allow</codeph> | <codeph>Deny</codeph></p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-a, --action <i>action</i></codeph></entry>
+							<entry>The value for the policy's <codeph>Action</codeph> element. This value
+								specifies both the service and action you want to allow or deny permission to. For
+								example: <codeph>-a iam:ListAccessKeys</codeph>. </entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-o</codeph></entry>
+							<entry>This option tells Eucalyptus to output the JSON policy document that IAM
+								created for you.</entry>
+							<entry align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<draft-comment>Do we use the -r option?</draft-comment>
+		</section>
+		<section conref="../shared/euare-common.dita#euare-common/euare_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
+		</section>
+
+		<section>
+			<title>Examples</title>
+			<p>The following policy allows all actions in EC2.</p>
+			<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*'</codeblock>
+			<p>The following policy allows all actions in EC2 and outputs the generated JSON policy.</p>
+			<codeblock>euare-groupaddpolicy -g mygroup -p mypolicy -e Allow -a 'ec2:*' -o
 {"Version":"2008-10-17","Statement":[{"Effect":"Allow",
 "Action":["ec2:*"], "Resource":["*"]}]}</codeblock>
-  	</section>
-  </refbody>
+		</section>
+	</refbody>
 </reference>
