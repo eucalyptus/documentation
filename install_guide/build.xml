@@ -12,20 +12,14 @@
 	* -->
 
 <project name="install_guide" default="all" basedir=".">
-	
-	<!-- Refer to build.properties file for OS and user-specific configurations. -->
-	<property file="build.properties"/>
-	
 	<!-- Use environment variables. -->
 	<property environment="env"/>
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
 	<property name="source.dir" value="${env.DOC_HOME}"/>
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
-	<property name="xep.dir" value="${env.XEP_HOME}"/>
-	<property name="args.input" value="${source.dir}${file.separator}${map.file}"/>
-	<property name="kindlegen.executable" value="${env.KINDLE_HOME}"/>
 	
-	
+	<!-- Refer to build.properties file for OS and user-specific configurations. -->
+	<property file="build.properties"/>
 	
 	<!-- Generate output to the "out" folder. -->
 	<property name="out" value="out"/>
@@ -38,6 +32,7 @@
 			<property name="output.dir"
 				value="out${file.separator}pdf"/>
 			<property name="transtype" value="pdf"/>
+			<!--<property name="clean.temp" value="yes"/>-->
 		</ant>
 	</target>
 	
@@ -54,6 +49,7 @@
 			<property name="output.dir"
 				value="out${file.separator}xhtml"/>
 			<property name="transtype" value="xhtml"/>
+			<!--<property name="clean.temp" value="yes"/>-->
 		</ant>
 	</target>
 	
@@ -91,7 +87,7 @@
 		</ant>
 	</target>
 	
-	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub, kindle, html2">
+	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub">
 		
 	</target>
 	
