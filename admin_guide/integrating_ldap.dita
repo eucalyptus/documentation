@@ -4,107 +4,25 @@
  <title>LDAP/AD Integration</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>You can use the Eucalyptus LDAP/Active Directory (AD) integration to synchronize existing LDAP/AD user and group information with Eucalyptus. The integration lets you:</p>
+
+ 	<p>You can use the Eucalyptus LDAP/Active Directory (AD) integration to synchronize existing
+ 		LDAP/AD user and group information with Eucalyptus. When you enable LDAP/AD synchronization,
+ 		Eucalyptus does the following:</p>
  	<ul>
- 	<li>Use existing LDAP/AD user/group to manage Eucalyptus identities</li>
- 	<li>Access specific LDAP/AD user information from Eucalyptus</li>
- 	<li>Use existing LDAP/AD to authenticate users to log in to Eucalyptus Dashboard</li>
+ 		<li>Imports specified user and group information from LDAP or AD and maps them into a predefined two-tier account/group/user structure</li>
+ 		<li>Authenticates Dashboard users through the connected LDAP or AD service</li>
  	</ul>
- <p>The following are still managed only within Eucalyptus and can’t be synchronized from LDAP/AD:</p>
+ 	<p>Note that Eucalyptus only imports the identities and some related information. Any
+ 		Eucalyptus-specific attributes are still managed from Eucalyptus. These include:</p>
  	<ul>
- 	<li>User credentials, including access keys and X509 certificates</li>
- 	<li>Permissions and quotas to access Eucalyptus resources</li>
- 	<li>Special Eucalyptus users, including system administrators (that is, users in the <uicontrol>eucalyptus</uicontrol> account) and every account administrator</li>
+ 		<li>User credentials: secret access keys and X.509 certificates. The Dashboard login
+ 			password is an exception. Eucalyptus does not download passwords from LDAP/AD and does not save
+ 			them either. Eucalyptus authenticates Dashboard logins directly through LDAP/AD, using LDAP/AD authentication (simple or SASL).</li>
+ 		<li>Policies: IAM policies and quotas. Policies are associated with identities within Eucalyptus,
+ 			and stored in internal database.</li>
  	</ul>
- 	
- 	<section>
- 		<title>The Synchronization Process</title>
- 		<p>The synchronization always starts when the following happens:</p>
- 		<ul>
- 			<li>You manually upload a LDAP/AD Integration Configuration (LIC) file. Every new or updated LIC
- 				upload triggers a new synchronization.</li>
- 			<li>If the automatic synchronization is enabled, a synchronization is started when the timer goes off.</li>
- 		</ul>
- 		<note>Eucalyptus does not allow concurrent synchronization. If you trigger synchronization more
- 			than once within a short time period, Eucalyptus only allows the first one.</note>
- 		<p>During a synchronization, everything specified by an LIC in the LDAP/AD tree will be downloaded into Eucalyptus’ internal database. Each synchronization is a merging process of the information already in the database and the information from LDAP/AD. There are three cases for each entity: user, group or account:</p>
- 		<ul>
- 			<li>If an entity from LDAP/AD is not in Eucalyptus, a new one is created in the database.</li>
- 			<li>If an entity from LDAP/AD is already in Eucalyptus, the Eucalyptus version is updated. For example, if a user’s info attributes are changed, those changes are downloaded and updated.</li>
- 			<li>If an entity in Eucalyptus is missing from LDAP/AD, it will be removed from the database if the clean-deletion option in LIC is set to true. Otherwise, it will be left in the database. </li>
- 		</ul>
- 		
- 		<note type="important">If clean-deletion is set to true, the removed entities in Eucalyptus will be lost forever, along with all its permissions and credentials. The resources associated with the entity will be left untouched. It is system administrator’s job to recycle these resources.</note>
- 	</section>
- 	
- 	<section>
- 		<title>LDAP Integration Configuration Format</title>
- 		
- 		<p>An LIC is in JSON format, it has the following hierarchical structure and elements. Following
- 			shows an example of the LIC file:</p>
- 		<codeblock>{
- 	"ldap-service":{
- 	"server-url":"ldap://localhost:7733",
- 	"auth-method":"simple",
- 	"user-auth-method":"simple",
- 	"auth-principal":"cn=ldapadmin,dc=foo,dc=com",
- 	"auth-credentials": "{RSA/ECB/PKCS1Padding}EAXRnvwnKtCZOxSrD/F3ng/yHH3J4jMxNUSkJJf6oqNMsUihjUerZ20e5iyXImPgjK1ELAPnppEfJvhCs7woS7jtFsedunsp5DJCNhgmOb2CR/MnH11V3FNY7bBWoew5A8Wwy6.x7YrPMS0j7dJkwM7yfp1Z6AbKOo2688I9uIvJUQwEKS4dOp7RVdA0izlJBDPAxiFZ2qa40VjFI/1mggbiWDNlgxiVtZXAEK7x9SRHJytLS8nrNPpIvPuTg3djKiWPVOLZ6vpSgPcVEliP261qdUfnf3GDKi3jqbPpRRQ6n8yI6aHw0gAtq8/qPyqjkkDP8JsGBgmXMxiCNPogbWg==",
- 	"use-ssl":"false",
- 	"ignore-ssl-cert-validation":"false",
- 	"krb5-conf":"/path/to/krb5.conf",
- 	},
- 	
- 	"sync":{
- 	"enable":"true",
- 	"auto":"true",
- 	"interval":"900000",
- 	"clean-deletion":"false",
- 	},
- 	
- 	"accounting-groups":{
- 	"base-dn":"ou=groups,dc=foo,dc=com",
- 	"id-attribute":"cn",
- 	"member-attribute":"member",
- 	"selection":{
- 	"filter":"objectClass=accountingGroup",
- 	"select":["cn=accountingToSelect,ou=Groups,dc=foo,dc=com"],
- 	"not-select":["cn=accountingToIgnore,ou=Groups,dc=foo,dc=com"],
- 	}
- 	},
- 	
- 	"groups-partition":{
- 	"fooAccount":["fooGroup1", "fooGroup2"],
- 	"barAccount":["barGroup1", "barGroup2"],
- 	},
- 	
- 	"groups":{
- 	"base-dn":"ou=groups,dc=foo,dc=com",
- 	"id-attribute":"cn",
- 	"member-attribute":"member",
- 	"selection":{
- 	"filter":"objectClass=groupOfNames",
- 	"select":["cn=groupToSelect,ou=Groups,dc=foo,dc=com"],
- 	"not-select":["cn=groupToIgnore,ou=Groups,dc=foo,dc=com"],
- 	}
- 	},
- 	
- 	"users":{
- 	"base-dn":"ou=people,dc=foo,dc=com",
- 	"id-attribute":"uid",
- 	"user-info-attributes":{
- 	"fullName":"Full Name",
- 	"email":"Email"
- 	},
- 	"selection":{
- 	"filter":"objectClass=inetOrgPerson",
- 	"select":["uid=john,ou=People,dc=foo,dc=com", "uid=jack,ou=People,dc=foo,dc=com"],
- 	"not-select":["uid=tom,ou=People,dc=foo,dc=com"],
- 	}
- 	},
- 	}</codeblock>
- 		
- 		<p>The following sections explain the main parts of a LIC file.</p>
- 	</section>
+ 	<p>Also note that special identities, including system administrators and account administrators, are created in Eucalyptus and not imported from LDAP/AD. Only normal user identities are imported.</p>
+
  
  </conbody>
 </concept>

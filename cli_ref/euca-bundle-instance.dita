@@ -2,111 +2,98 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-bundle-instance">
 	<title>euca-bundle-instance</title>
-	<shortdesc>Bundles an S3-backed Windows instance.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-bundle-instance  -b, --bucket &lt;bucket> -p, --prefix &lt;prefix> -o, --user-
-     access-key &lt;access_key_id> -w, --user-secret-key
-     &lt;secret_key> -x, --expires &lt;expires> [-a, --access-key
-     &lt;access_key> ][-s, --secret-key &lt;secret_key> ][--config
-     &lt;config_path> ][--debug][--debugger][-h, --help][--region
-     &lt;region_name> ][-U, --url &lt;url> ][--version][--euca-
-     auth][-c, --policy &lt;policy> ] [ instance_id ]</codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-b,--bucket</codeph></entry>
-  						<entry>Name of the bucket to upload.</entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/prefix">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/user_access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/user_secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/expires">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/policy">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/instance_id">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+
+	<shortdesc>Bundles a running instance into a machine image and stores the image in Walrus. This commad is typically used with Windows instances.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-bundle-instance  <b>instance_id</b> -b <b>bucket</b> -p <b>prefix</b> -o <b>access_key_id</b> -w
+				<b>secret_key</b> -x <b>expires</b>  </codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph><i>instance_id</i></codeph></entry>
+							<entry>ID of the instance you want to bundle</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-b,--bucket <i>bucket_name</i></codeph></entry>
+							<entry>Name of the bucket to upload.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row >
+							<entry><codeph>-p,--prefix</codeph></entry>
+							<entry>The prefix for the bundle image files.
+							</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-o,--access-key-id <i>access_key_id</i></codeph></entry>
+							<entry>Access key ID of the owner of the bucket</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-w,--secret-key <i>secret_key</i></codeph></entry>
+							<entry>Secret key used to sign the upload policy</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/expires">
+							<entry/>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("BUNDLE")</li>
+
+				<li>Bundle ID</li>
+
+				<li>Instance ID</li>
+
+				<li>Bucket name</li>
+
+				<li>Bundle prefix</li>
+				<li>State</li>
+
+				<li>Bundle start time</li>
+
+				<li>Bundle update time</li>
+
+
+
+			</ul>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-bundle-instance -b mah-bukkit -p winemi -o
+JCCBLEOQTLCFVNDPWUOG7 -w ZNpf50R3MmhA56YIMWd8ZmpucIW8NxYl84XT6l8N
+i-E7AC420A
+BUNDLE bun-CFF03DFA i-E7AC420A mah-bukkit winemi pending
+2012-01-01T00:00:00.000Z 2012-01-01T00:00:00.000Z
+</codeblock>
+		</section>
+	</refbody>
+
 </reference>
