@@ -2,70 +2,101 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euare-usercreatecert">
 	<title>euare-usercreatecert</title>
-  <shortdesc>Creates a signing certificate for a user.</shortdesc>
+
+	<shortdesc>Creates a signing certificate for a user. This command is not part of the AWS IAM API.</shortdesc>
   <refbody>
     <section>
     	<title>Syntax</title>
-    	<codeblock></codeblock>
+    	<codeblock>euare-usercreatecert -u <b>user_name</b></codeblock>
     </section>
   	<section>
-  		<title>Required Parameters</title>
-  		<p>None</p>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
+  		<title>Options</title>
   		<table>
-  			<tgroup cols="2">
+  			<tgroup cols="3">
   				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
+  				<colspec colwidth="70*"/>
+  				<colspec colwidth="10*"/>
   				<thead>
-  					<row>
+  					<row> 
   						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
+  						<entry align="center">Description</entry> 
+  						<entry align="center">Required</entry>
   					</row>
-  					
   				</thead>
   				<tbody>
   					<row>
-  						<entry><codeph>-u, --user-name</codeph></entry>
-  						<entry>Name of the user that the signing certificate is for</entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/delegate">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/version">
-  						<entry></entry>
+  						<entry><codeph>-u, --user-name <i>user_name</i></codeph></entry>
+  						<entry>User name	</entry>
+  						<entry align="center">Yes</entry>
+
   					</row>
   				</tbody>
   			</tgroup>
   		</table>
   	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
+
+  	<section conref="../shared/euare-common.dita#euare-common/euare_common_options"/>
+  	
+  	<section>
+  		<title>Output</title>
+  		<ul>
+  			<li>Certificate ID</li>
+  			<li>Certificate body</li>
+  			<li>Certificate's private key</li>
+  		</ul>
+  	</section>
+  	
+  	<section>
   		<title>Example</title>
-  		</section>-->
+  		<codeblock>euare-usercreatecert
+PXNPRNAHHMPLECYXCOMLE
+LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHRENDQWdDZ0F3SUJBZ0lIUHZOcG1pUVliakFO
+QmdrcWhraUc5dzBCQVEwRkFEQkNNUXN3Q1FZRFZRUUcKRXdKVlV6RU5NQXNHQTFVRUNoTUVWWE5sY2pF
+VE1CRUdBMVVFQ3hNS1JYVmpZV3g1Y0hSMWN6RVBNQTBHQTFVRQpBeE1HYlhsMWMyVnlNQjRYRFRFeU1E
+SXdOakl3TXpjME9Gb1hEVEUzTURJd05qSXdNemMwT0Zvd1FqRUxNQWtHCkExVUVCaE1DVlZNeERUQUxC
+Z05WQkFvVEJGVnpaWEl4RXpBUkJnTlZCQXNUQ2tWMVkyRnNlWEIwZFhNeER6QU4KQmdOVkJBTVRCbTE1
+ZFhObGNqQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUl0ZQpvRC95KzhZ
+S3BmY1I3Zmt4aVZVdjVRdEJrZ3ZJRTFjNkQvVkN2R0tYdDhEL2RBZWl4ellTTjJFWVV5bmMwUkkzClFo
+UVlnVWpkcGduTWJqU0M1bUZuL3psZHNrTVNVVkdzcjlFNXRkV1ZtUnVra0FXZ1MxSVVpeEVMMjZQQVFL
+MkUKZU1jYnRpa08xdUVGK1c5cHFFeGJDc0k2ejFzUTJYT3dkdmMxbHRKWnlpeTFodTU0LzNkeHl2R1RP
+NHIyc01ndQpLL0Qzc1pFWVhYaWw4ckMwMjJwNTdWa2kvZGttMWtuUWlPUktDU0hWUVJtZExjbWZlcGpa
+aitTOUZLR0x3UURMCkhQUUF0eGRYRmZsV2JJNjltNGVkV2k4MzlBSzhMUE9kOXJ0QmZTZ3FyOHh5cHpU
+ejBmL2g0c09pRldiTnpSUXUKU3gzNkQ4QzlCaWdQWXpHcklic0NBd0VBQWFNVE1CRXdEd1lEVlIwVEFR
+SC9CQVV3QXdFQi96QU5CZ2txaGtpRwo5dzBCQVEwRkFBT0NBUUVBWmxvell1UjBmbnl5cUJDdjZISFB5
+R1BoOGFHR2Y2U3U1Y254TSt3MUFDbEE0TG5VCk55Ly8xc3RpZkN3K0NkNm9mUEhCc2xwamEzRTB5L3BV
+eDJGUURYcGJXelA2Y2VRbFNza1gzR0FSUFFtZkQweGYKY3EyRFZvMnNFR2ZxVTg4T0MzMzBMV3JJZ1li
+YTRkak43Wis3ZEFjUlBEYXk3dGxwM25DU0xYa3NzWlFPT2d2NQpNVXM1VThZSVJRcnczZVZnS0QyeHlx
+dkhWMTdzRjJKS2E5YWM4eVp6dW9nWWE1YTJralRBbmZJRTFtNzRlZFpECmtya3FGOWhRRjUxQWtMOXNr
+SVl3dVJBVHl3SlJ5Zm5yeFdlM1laNUFQTFhRMjVpWUg4SS9DdFZDMVZaZEh5S1oKVXNjaU5VUC9xdnp6
+VXduK0E2YUUvNXlFeXRkS1htU2xrK3JDNkE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg..
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAi16gP/L7xgql9xHt+TGJVS/lC0GSC8gTVzoP9UK8Ype3wP90
+B6LHNhI3YRhTKdzREjdCFBiBSN2mCcxuNILmYWf/OV2yQxJRUayv0Tm11ZWZG6SQ
+BaBLUhSLEQvbo8BArYR4xxu2KQ7W4QX5b2moTFsKwjrPWxDZc7B29zWW0lnKLLWG
+7nj/d3HK8ZM7ivawyC4r8PexkRhdeKXysLTbanntWSL92SbWSdCI5EoJIdVBGZ0t
+yZ96mNmP5L0UoYvBAMsc9AC3F1cV+VZsjr2bh51aLzf0Arws8532u0F9KCqvzHKn
+NPPR/+Hiw6IVZs3NFC5LHfoPwL0GKA9jMashuwIDAQABAoIBADU+y55i6Im627lO
+4koIAN3I1Iq+XFuf7rOufRZIjsxkBlH3xo58Q/uGbh3sOymNMVryPY6L5ii+dYbc
+0WXCdN3V644xG7/AKc04Wltm3u9gngQPlO5xVRVgv9idXSZsdslUCQiYr7lz7+g8
+bhWAmknBppSZ/0pdX5ZxXqIHmT13e+J/eJY/DR05gPk/3fmwq57grKkfrVTfz9nk
+oLdL0lP9TUtDPrqG6Gw9BmftK4LDEzhQyW1IFJW2RHSl29KiFr5siK5qqxNxO7u9
+s5VK09jMvVdzjjV97C7ZoaPV9whafrSCaSHOsTUFFG2uK8cJJQm2hts9aefcH138
+3KlcxBECgYEAxnzO7tf5t6zaYaHSdpU4BYRvWToCXwJ0EN4DYm9kNChToYl7Ry7U
+KasXfOytm+SLHHpBsPH0zKn/eomm/oQlITk7m6paMnCgtlentfEp0Fch6JUqBRHo
+72wjHkzmcUm5BtzOeqwqQtwon+mUD798+cGz0eQzO8Sskl5bCWX5ax8CgYEAs8Ci
+cnw2u/V3bV+H7ec4LvsRInzrui/Ju9ljSc80YFfudRy4uiTbSKdrVZLX1inbbswE
+ip/TZQOpARod6du9hJkBedripKcTyurFzpzGjoVxA2vKMIe3ZGpH3HxD0/VUxnQ9
+uoJJUEhTBa5pIKd9hqu+DSfR29gtFrQL972m0eUCgYBu0hp7kkyTt8fKQR6QJOo9
+cl71E4VlZKpHDJ4ZJJZu5KElDOyupr/AcA1SK5cW9jiRctUgpUcHylahJR/+9OsC
+LMFSPX/Ur7ubcz9pPzgYYb3F7Rqj8Ab9PoQxE8CKOh47bac/KMcDw4ZPGowXatOt
+YvAyXVYZpcqwgkwT6EKlAwKBgFrtlz9Sll1+TmuFZ71wuXsKhiBsENKeWe4siY1M
+w7H4ySd03/1Jp6OZDTK8lXJAuj/R9HorX0Q6FcP48ijaf4QT4itCDmQ8IEcFfAqI
+Q+jUl9ajMCRcgujI2pEuSyFtePTq2E8AmRWDgHvfPk7Gazk0p28ANaiAMk7JxUQN
+K9YBAoGAMGjwsXF+rzw42bsWY6hGkR5sYPIqKukiQ6niu3yxeioOrU0jVKovqww3
+lpD47YeFMoEoULIerliG37jykDPsmbD+vGkk9HVBb+C2ZZMWPoSprJUSCNae8yBj
+JapgI1atois3yPjwkVvR4Ce/IYupgPQsTINue+ACqa1mMSxjJDw=
+-----END RSA PRIVATE KEY-----</codeblock>
+  	</section>
+
   </refbody>
 </reference>

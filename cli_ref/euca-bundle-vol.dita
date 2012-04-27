@@ -2,134 +2,139 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-bundle-vol">
 	<title>euca-bundle-vol</title>
-	<shortdesc>Bundles an image for use with Eucalyptus or Amazon EC2.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-bundle-vol  [-A, --access-key &lt;access_key> ][-A, --secret-key &lt;secret_key>
-     ][--config &lt;config_path> ][--debug][--debugger][-h,
-     --help][--region &lt;region_name> ][-U, --url &lt;url> ][--version
-     ][--euca-auth][-s, --size &lt;size> ][-u, --user &lt;user> ][-c,
-     --cert &lt;cert_path> ][-k, --privatekey &lt;private_key_path> ][-a,
-     --all][-p, --prefix &lt;prefix> ][--no-inherit][-e, --exclude
-     &lt;exclude> ][--kernel &lt;kernel_id> ][--ramdisk &lt;ramdisk_id>
-     ][--product-codes &lt;product_codes> ][-b, --block-device-mapping
-     &lt;block_device_mapping> ][-d, --destination &lt;destination_path>
-     ][--ec2cert &lt;ec2cert_path> ][-r, --arch &lt;target_architecture>
-     ][--volume &lt;volume_path> ][--fstab &lt;fstab_path> ][--generate-
-     fstab][--batch]</codeblock>
-    </section>
-  	
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/size">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/user">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/cert">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/private_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/all">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/prefix">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/no_inherit">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/exclude">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/kernel">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/ramdisk">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/product_codes">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/block_device_mapping">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/destination">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/ec2cert">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/arch">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/volume">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/fstab">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/generate_fstab">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/batch">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+
+	<shortdesc>Bundles an image for use with Eucalyptus or Amazon EC2, compressing, encrypting and
+		signing a snapshot of the local machine's root file system.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-bundle-vol [-s, --size <b>size</b> ][-u, --user <b>user</b> ]
+    		[-c, --cert <b>cert_path</b> ][-k, --privatekey <b>private_key_path</b> ]
+    		[-a, --all][-p, --prefix <b>prefix</b> ][--no-inherit][-e, --exclude
+    		<b>exclude</b> ][--kernel <b>kernel_id</b> ][--ramdisk <b>ramdisk_id</b>
+        ][--product-codes <b>product_codes</b> ][-b, --block-device-mapping
+    		<b>block_device_mapping</b> ][-d, --destination <b>destination_path</b>
+    		][--ec2cert <b>ec2cert_path</b> ][-r, --arch <b>target_architecture</b>
+    		][--volume <b>volume_path</b> ][--fstab <b>fstab_path</b> ][--generate-
+    		fstab][--batch]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row id="private_key">
+							<entry><codeph>-k,--privatekey <i>private_key</i></codeph></entry>
+							<entry>Path to user's PEM-encoded private key.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row id="user">
+							<entry><codeph>-u,--user <i>user_id</i></codeph></entry>
+							<entry>12-digit user ID of the person who is bundling the image. </entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row id="cert">
+							<entry><codeph>-c,--cert</codeph></entry>
+							<entry>Path the user's PEM-encoded certificate.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row id="arch">
+							<entry><codeph>-r,--arch</codeph></entry>
+							<entry>Target architecture for the image. <p>Default: <codeph>x86_64</codeph></p>
+								<p>Valid values: <codeph>i386</codeph> | <codeph>x86_64</codeph></p>
+							</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/size">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/destination">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/exclude">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/include">
+							<entry/>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<p>Eucalyptus returns status messages describing the stages and status of the bundling.</p>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-bundle-vol -d /mnt/ebsvol -p myimage -s 2048 --arch x86_64
+1+0 records in
+1+0 records out
+1048576 bytes (1.0 MB) copied, 0.00358811 s, 292 MB/s
+mke2fs 1.41.9 (22-Aug-2009)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+131072 inodes, 524288 blocks
+26214 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=536870912
+16 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks:
+ 32768, 98304, 163840, 229376, 294912
+
+Writing inode tables: done
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 39 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+Checking image
+Tarring image
+Encrypting image
+Splitting image...
+Part: myimage.part.0
+Part: myimage.part.1
+Part: myimage.part.2
+Part: myimage.part.3
+Part: myimage.part.4
+Part: myimage.part.5
+Part: myimage.part.6
+Part: myimage.part.7
+Part: myimage.part.8
+Part: myimage.part.9
+Part: myimage.part.10
+Part: myimage.part.11
+Part: myimage.part.12
+Part: myimage.part.13
+Part: myimage.part.14
+Part: myimage.part.15
+Part: myimage.part.16
+Part: myimage.part.17
+Part: myimage.part.18
+Part: myimage.part.19
+Part: myimage.part.20
+Part: myimage.part.21
+Part: myimage.part.22
+Generating manifest /mnt/ebsvol/myimage.manifest.xml</codeblock>
+		</section>
+	</refbody>
+
 </reference>

@@ -2,95 +2,78 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-describe-addresses">
 	<title>euca-describe-addresses</title>
-	<shortdesc>Shows information about addresses.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-describe-addresses  [-a, --access-key &lt;access_key> ][-s, --secret-key
-     &lt;secret_key> ][--config &lt;config_path>
-     ][--debug][--debugger][-h, --help][--region
-     &lt;region_name> ][-U, --url &lt;url> ][--version][--euca-
-     auth] [--filter name=value] [ ip ]
+
+	<shortdesc>Shows a list of public IP address that you have allocated. If you have assigned these to
+		an instance, this list also includes the associated instance for each IP.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-addresses [--filter <b>name=value</b>] [ <b>ip</b> ]
 </codeblock>
-    </section>
-  	
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section>
-  		<title>Available Filters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Filter</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row conref="../shared/shared_filters.dita#shared_filters/instance-id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_filters.dita#shared_filters/public-ip">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry/>
+							<entry/>
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/instance-id">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/public-ip">
+							<entry/>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("ADDRESS")</li>
+				<li>Elastic IP address</li>
+				<li>Instance ID that the IP address is assigned to</li>
+
+				<li>IP address domain</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Examples</title>
+			<p>As a user:</p>
+			<codeblock>euca-describe-addresses
+ADDRESS 86.75.30.9  None    standard
+ADDRESS 86.75.30.10 i-E7AC420A      standard</codeblock>
+			<p>As a cloud administrator:</p>
+			<codeblock>euca-describe-addresses
+ADDRESS 86.75.30.9  available
+(arn:aws:euare::790547641019:user/admin)  standard
+ADDRESS 86.75.30.10 i-E7AC420A
+(arn:aws:euare::790547641019:user/admin)  standard
+ADDRESS 86.75.30.11 nobody  standard</codeblock>
+			
+			<p/>
+			<codeblock>euca-describe-addresses
+ADDRESS 86.75.30.9  available</codeblock>
+		</section>
+	</refbody>
+
 </reference>

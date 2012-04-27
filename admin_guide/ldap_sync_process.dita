@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ldap_sync_process">
-	<title>Synchronization Overview</title>
+
+	<title>Synchronization Process</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<section>
- 		<title>The Synchronization Process</title>
+ 	
+
  		<p>The synchronization always starts when the following happens:</p>
  		<ul>
  			<li>You manually upload a LDAP/AD Integration Configuration (LIC) file. Every new or updated LIC
@@ -22,80 +23,6 @@
  		</ul>
  		
  		<note type="important">If clean-deletion is set to true, the removed entities in Eucalyptus will be lost forever, along with all its permissions and credentials. The resources associated with the entity will be left untouched. It is system administrator’s job to recycle these resources.</note>
- 	</section>
- 	
- 	<section>
- 		<title>LDAP Integration Configuration Format</title>
- 		
- 			<p>An LIC is in JSON format, it has the following hierarchical structure and elements. Following
- 				shows an example of the LIC file:</p>
- 			<codeblock>{
- 	"ldap-service":{
- 	"server-url":"ldap://localhost:7733",
- 	"auth-method":"simple",
- 	"user-auth-method":"simple",
- 	"auth-principal":"cn=ldapadmin,dc=foo,dc=com",
- 	"auth-credentials": "{RSA/ECB/PKCS1Padding}EAXRnvwnKtCZOxSrD/F3ng/yHH3J4jMxNUS
- 	kJJf6oqNMsUihjUerZ20e5iyXImPgjK1ELAPnppEfJvhCs7woS7jtFsedunsp5DJCNhgmOb2CR/MnH
- 	11V3FNY7bBWoew5A8Wwy6.x7YrPMS0j7dJkwM7yfp1Z6AbKOo2688I9uIvJUQwEKS4dOp7RVdA0izl
- 	lJBDPAxiFZ2qa40VjFI/1mggbiWDNlgxiVtZXAEK7x9SRHJytLS8nrNPpIvPuTg3djKiWPVOLZ6vpS
- 	gPcVEliP261qdUfnf3GDKi3jqbPpRRQ6n8yI6aHw0gAtq8/qPyqjkkDP8JsGBgmXMxiCNPogbWg==",
- 	"use-ssl":"false",
- 	"ignore-ssl-cert-validation":"false",
- 	"krb5-conf":"/path/to/krb5.conf",
- 	},
- 	
- 	"sync":{
- 	"enable":"true",
- 	"auto":"true",
- 	"interval":"900000",
- 	"clean-deletion":"false",
- 	},
- 	
- 	"accounting-groups":{
- 	"base-dn":"ou=groups,dc=foo,dc=com",
- 	"id-attribute":"cn",
- 	"member-attribute":"member",
- 	"selection":{
- 	"filter":"objectClass=accountingGroup",
- 	"select":["cn=accountingToSelect,ou=Groups,dc=foo,dc=com"],
- 	"not-select":["cn=accountingToIgnore,ou=Groups,dc=foo,dc=com"],
- 	}
- 	},
- 	
- 	"groups-partition":{
- 	"fooAccount":["fooGroup1", "fooGroup2"],
- 	"barAccount":["barGroup1", "barGroup2"],
- 	},
- 	
- 	"groups":{
- 	"base-dn":"ou=groups,dc=foo,dc=com",
- 	"id-attribute":"cn",
- 	"member-attribute":"member",
- 	"selection":{
- 	"filter":"objectClass=groupOfNames",
- 	"select":["cn=groupToSelect,ou=Groups,dc=foo,dc=com"],
- 	"not-select":["cn=groupToIgnore,ou=Groups,dc=foo,dc=com"],
- 	}
- 	},
- 	
- 	"users":{
- 	"base-dn":"ou=people,dc=foo,dc=com",
- 	"id-attribute":"uid",
- 	"user-info-attributes":{
- 	"fullName":"Full Name",
- 	"email":"Email"
- 	},
- 	"selection":{
- 	"filter":"objectClass=inetOrgPerson",
- 	"select":["uid=john,ou=People,dc=foo,dc=com", "uid=jack,ou=People,dc=foo,dc=com"],
- 	"not-select":["uid=tom,ou=People,dc=foo,dc=com"],
- 	}
- 	},
- 	}</codeblock>
- 			
- 			<p>The following sections explain the main parts of a LIC file.</p>
- 	</section>
  	
  </conbody>
 </concept>

@@ -2,105 +2,69 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euare-groupdel">
 	<title>euare-groupdel</title>
-  <shortdesc>Deletes a group.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
-    	<codeblock></codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry align="center">Parameter</entry>
-  						<entry align="center">Description</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-g, --group-name</codeph></entry>
-  						<entry>Name of the group to delete</entry>
-  					</row>
-  					
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="20*"/>
-  				<colspec colwidth="80*"/>
-  				<thead>
-  					<row>
-  						<entry align="center">Option</entry>
-  						<entry align="center">Description</entry>
-  					</row>
-  					
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-r, --recursive</codeph></entry>
-  						<entry>Deletes the group, removes all users from the group
-  							and deletes all policies associated with the group.
-  							.</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-R, --recursive-euca</codeph></entry>
-  						<entry>This Eucalyptus extension behaves exactly like the <codeph>-r</codeph> option but
-  							it performs operations server-side rather than in the
-  							client.
-  						</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>-p, --pretend</codeph></entry>
-  						<entry>Returns a list of users and policies that would be
-  							deleted if the <codeph>-r</codeph> or <codeph>-R</codeph> option were actually
-  							sent in with the request.</entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/delegate">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/access_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params_euare.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-  	<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-  	<!--<section>
-  		<title>Example</title>
-  		</section>-->
-  </refbody>
+
+	<shortdesc>Deletes a group. If the group has users or policies, you must use the recursive option
+			(<codeph>-r</codeph>) to delete all of them.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euare-groupdel -g <b>group_name</b></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>-g, --group-name <i>group_name</i></codeph></entry>
+							<entry>Name of the group to delete</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-r, --recursive</codeph></entry>
+							<entry>Deletes the group, removes all users from the group and deletes all policies
+								associated with the group. .</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-R, --recursive-euca</codeph></entry>
+							<entry>This Eucalyptus extension behaves exactly like the <codeph>-r</codeph> option
+								but it performs operations server-side rather than in the client. </entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-p, --pretend</codeph></entry>
+							<entry>Returns a list of users and policies that would be deleted if the
+									<codeph>-r</codeph> or <codeph>-R</codeph> option were actually sent in with the
+								request.</entry>
+							<entry align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euare-common.dita#euare-common/euare_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<p conref="../shared/shared_params.dita#shared_params/euca_no_output"/>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euare-groupdel -g mygroup</codeblock>
+		</section>
+	</refbody>
+
 </reference>
