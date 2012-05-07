@@ -33,9 +33,7 @@ See the accompanying license.txt file for applicable licenses.
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fo="http://www.w3.org/1999/XSL/Format"
-    xmlns:ex="http://exslt.org/dates-and-times"
     xmlns:opentopic="http://www.idiominc.com/opentopic"
-    extension-element-prefixes="ex"
     exclude-result-prefixes="opentopic"
     version="1.1">
 
