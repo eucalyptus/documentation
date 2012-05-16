@@ -5,23 +5,32 @@
  <title>Welcome</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>This guide provides instructions for a single-cluster deployment of Eucalyptus Open Source release 2.0.3 on a two-machine system running CentOS 5.6. Only one network mode is supported for these scripts: MANAGED_NOVLAN.</p>
+ 	<p>Welcome to the FastStart Guide. This guide provides instructions for installing
+ 		Eucalyptus on two machines, though you have the option to add more
+ 		machines.</p>
  	<section>
- 		<title>Requirements</title>
- 		<p>Eucalyptus consists of the following distributed components:</p>
+ 		<title>Overview</title>
+ 		<p>Eucalyptus consists of the following components:</p>
  		<ul>
- 			<li>CLC: Cloud Controller (EC2 functionality)</li>
- 			<li>Walrus (S3 functionality)</li>
- 			<li>CC: Cluster Controller (middle-tier cluster management service)</li>
- 			<li>SC: Storage Controller (EBS functionality)</li>
- 			<li>NC: Node Controller (controls VM instances)</li>
+ 			<li>Cloud Controller (CLC): this component provides EC2 functionality</li>
+ 			<li>Walrus: this component provides S3 functionality</li>
+ 			<li>Cluster Controller (CC): this component provides management service for a cluster in your
+ 				cloud</li>
+ 			<li>Storage Controller (SC): this component provides EBS functionality</li>
+ 			<li>Node Controller (NC): this component controls virtual machine instances</li>
  		</ul>
+ 		<p>In FastStart, the CLC, Walrus, CC, and SC are installed on one machine. This machine is called
+ 			the Frontend. The NC is installed on another machine, called the Node. In FastStart you can have
+ 		one Frontend and one or more Nodes.</p>
  	</section>
  	
  	<section>
  		<title>Hardware Requirements</title>
- 		<p>You will need a minimum of two machines to host Eucalyptus components.</p>
- 		<table>
+ 		<p>Before installing FastStart, make sure you have at least two machines. Each machine must have
+ 		a minimum of 100GB of disk space and 4GB of memory.</p>
+ 		
+ 		<p>Test that each machine allows SSH login and that root access is available (sudo is okay).</p>
+ 		<!--<table>
  			<tgroup cols="4">
  				<thead>
  					<row>
@@ -46,17 +55,17 @@
  					</row>
  				</tbody>
  			</tgroup>
- 		</table>
- 		<p>Be sure that all machines are running the latest release of CentOS 6.2. Test that all systems
- 			allow SSH login, and that root access is available (sudo is okay).</p>
+ 		</table>-->
+ 		
  	</section>
  	
  	<section>
  		<title>Network Requirements</title>
  		<ul>
- 		<li>You must have a DHCP server available (installed but not running).</li>
+ 		<li>You must have access to a DHCP server.</li>
  		<li>You must have range of available public IP addresses. These will be assigned to VM instances.</li>
- 		<li>You must have large range of available private IP addresses. These will be used by a virtual subnet. They cannot overlap or contain any part of a physical network IP address space.</li>
+ 		<li>You must have large range of available private IP addresses. These will be used by a virtual
+ 			subnet. They can't overlap or contain any part of a physical network IP address space.</li>
  		</ul>
  	</section>
  
@@ -64,8 +73,10 @@
  	<title>Software Requirements</title>
  	<p>You must have access to the following:</p>
  	<ul>
- 		<li>CentOS 5.6 install CD #1. You can find the image on one of the mirrors here: http://isoredirect.centos.org/centos/5/isos/x86_64/. The file is labeled CentOS-5.6-x86_64-bin-1of8.iso.</li>
- 		<li>Eucalyptus Fast Start media</li>
+ 		<li><b>CentOS 6.2 minimal install CD:</b> You can get the image on one of the mirrors at <xref
+ 			href="http://isoredirect.centos.org/centos/6.2/isos/x86_64/" scope="external" type="html">http://isoredirect.centos.org/centos/6.2/isos/x86_64/</xref>. The file is labeled <filepath>CentOS-6.2-x86_64-minimal.iso</filepath>.</li>
+ 		<li><b>Eucalyptus FastStart media:</b> You can get Faststart at <xref
+ 			href="http://www.eucalyptus.com/download/faststart" scope="external" type="html">http://www.eucalyptus.com/download/faststart</xref></li>
  	</ul>
  </section>
  
