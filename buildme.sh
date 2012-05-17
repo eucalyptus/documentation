@@ -6,8 +6,6 @@ export ANT_HOME="/usr/bin/ant"
 
 cd "$DITA_HOME"
 
-echo $DITA_HOME
-
 # Get the absolute path of DITAOT's home directory
 DITA_DIR="`pwd`"
 
