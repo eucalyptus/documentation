@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="eustore-browse-install">
+    <title>Browse and Install Images from EuStore</title>
+    <shortdesc>This task explains how to browse and install images from EuStore.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To browse and install an image from EuStore:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Find an image on EuStore:</cmd>
+                <info>
+                    <codeblock>eustore-describe-images</codeblock>
+                </info>
+                <tutorialinfo>This command returns a list of images available from the EuStore. For
+                    example:</tutorialinfo>
+                <info>
+                    <codeblock>
+4150406313 centos      i386    2011.07.02     CentOS 5 1.3GB root, Hypervisor-Specific Kernels
+1643448352 centos      x86_64  2011.07.02     CentOS 5 1.3GB root, Hypervisor-Specific Kernels
+2215913473 centos      x86_64  2011.12.28     CentOS 5 1.3GB root, Single Kernel
+3235725435 centos      x86_64  2012.1.14      CentOS 5 1.3GB root, Single Kernel
+0155946749 centos      i386    2011.07.02     CentOS 5 4.5GB root, Hypervisor-Specific Kernels
+2606989864 centos      x86_64  2011.07.02     CentOS 5 4.5GB root, Hypervisor-Specific Kernels
+3814798756 centos      x86_64  2011.12.28     CentOS 5 4.5GB root, Single Kernel
+0598061105 centos      x86_64  2012.1.14      CentOS 5 4.5GB root, Single Kernel
+0308481541 debian      i386    2011.07.02     Debian 6 1.3GB root, Hypervisor-Specific Kernels
+3402295892 debian      x86_64  2011.07.02     Debian 6 1.3GB root, Hypervisor-Specific Kernels
+1450309069 debian      x86_64  2012.1.14      Debian 6 1.3GB root, Single Kernel
+1258936568 debian      i386    2011.07.04     Debian 6 4.5GB root, Hypervisor-Specific Kernels
+3056211774 debian      x86_64  2011.07.02     Debian 6 4.5GB root, Hypervisor-Specific Kernels
+0969770451 debian      x86_64  2011.12.28     Debian 6 4.5GB root, Single Kernel
+4084351385 debian      x86_64  2012.1.14      Debian 6 4.5GB root, Single Kernel
+0061180839 ubuntu      i386    2011.07.02     Ubuntu 10.04 1.3GB root, Hypervisor-Specific Kernels
+3192747366 ubuntu      x86_64  2011.07.02     Ubuntu 10.04 1.3GB root, Hypervisor-Specific Kernels
+2378540351 ubuntu      x86_64  2012.1.14      Ubuntu 10.04 1.3GB root, Single Kernel
+1497058306 ubuntu      i386    2011.07.02     Ubuntu 10.04 4.5GB root, Hypervisor-Specific Kernels
+1463636971 ubuntu      x86_64  2011.07.02     Ubuntu 10.04 4.5GB root, Hypervisor-Specific Kernels
+0962847746 ubuntu      x86_64  2012.1.14      Ubuntu 10.04 4.5GB root, Single Kernel
+                    </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Pick an available image from the returned list and note the image ID. For this
+                    example, we will choose:</cmd>
+                <info>
+                    <codeblock>3235725435  centos      x86_64  2012.1.14      CentOS 5 1.3GB root, Single Kernel</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Install the image from EuStore using the eustore-install-image command. For
+                    this example, we only need to specify the image ID and the name of a bucket (the
+                    bucket will be created if it doesn't already exist):</cmd>
+                <info>
+                    <codeblock>
+eustore-install-image -b testbucket -i 3235725435
+                    </codeblock>
+                </info>
+                <info> This command performs a number of tasks for you, including downloading the
+                    image from the central Eucalyptus image store and installing the image on your
+                    own Eucalyptus private cloud. The output from this command will look similar to
+                    the following example: </info>
+                <info>
+                    <codeblock>
+Downloading Image :  CentOS 5 1.3GB root, Single Kernel
+0-----1-----2-----3-----4-----5-----6-----7-----8-----9-----10
+##############################################################
+
+Checking image bundle
+Unbundling image
+tar root = euca-centos-2012.1.14-x86_64
+path = euca-centos-2012.1.14-x86_64
+path = euca-centos-2012.1.14-x86_64/initrd.img-2.6.32-5-amd64
+Bundling/uploading ramdisk
+Checking image
+Encrypting image
+Splitting image...
+Part: initrd.img-2.6.32-5-amd64.part.00
+Generating manifest /tmp/jz8asK/initrd.img-2.6.32-5-amd64.manifest.xml
+Checking bucket: testbucket
+Creating bucket: testbucket
+Uploading manifest file
+Uploading part: initrd.img-2.6.32-5-amd64.part.00
+Uploaded image as testbucket/initrd.img-2.6.32-5-amd64.manifest.xml
+testbucket/initrd.img-2.6.32-5-amd64.manifest.xml
+eri-A7A63A1D
+path = euca-centos-2012.1.14-x86_64/euca-centos-2012.1.14-x86_64.img
+path = euca-centos-2012.1.14-x86_64/vmlinuz-2.6.32-5-amd64
+Bundling/uploading kernel
+Checking image
+Encrypting image
+Splitting image...
+Part: vmlinuz-2.6.32-5-amd64.part.00
+Generating manifest /tmp/jz8asK/vmlinuz-2.6.32-5-amd64.manifest.xml
+Checking bucket: testbucket
+Uploading manifest file
+Uploading part: vmlinuz-2.6.32-5-amd64.part.00
+Uploaded image as testbucket/vmlinuz-2.6.32-5-amd64.manifest.xml
+testbucket/vmlinuz-2.6.32-5-amd64.manifest.xml
+eki-5F663C59
+Bundling/uploading image
+Checking image
+Encrypting image
+Splitting image...
+Part: euca-centos-2012.1.14-x86_64.part.00
+Part: euca-centos-2012.1.14-x86_64.part.01
+Part: euca-centos-2012.1.14-x86_64.part.02
+Part: euca-centos-2012.1.14-x86_64.part.03
+Part: euca-centos-2012.1.14-x86_64.part.04
+Part: euca-centos-2012.1.14-x86_64.part.05
+Part: euca-centos-2012.1.14-x86_64.part.06
+Part: euca-centos-2012.1.14-x86_64.part.07
+Part: euca-centos-2012.1.14-x86_64.part.08
+Part: euca-centos-2012.1.14-x86_64.part.09
+Part: euca-centos-2012.1.14-x86_64.part.10
+Part: euca-centos-2012.1.14-x86_64.part.11
+Part: euca-centos-2012.1.14-x86_64.part.12
+Part: euca-centos-2012.1.14-x86_64.part.13
+Part: euca-centos-2012.1.14-x86_64.part.14
+Part: euca-centos-2012.1.14-x86_64.part.15
+Part: euca-centos-2012.1.14-x86_64.part.16
+Part: euca-centos-2012.1.14-x86_64.part.17
+Part: euca-centos-2012.1.14-x86_64.part.18
+Generating manifest /tmp/jz8asK/euca-centos-2012.1.14-x86_64.manifest.xml
+Checking bucket: testbucket
+Uploading manifest file
+Uploading part: euca-centos-2012.1.14-x86_64.part.00
+Uploading part: euca-centos-2012.1.14-x86_64.part.01
+Uploading part: euca-centos-2012.1.14-x86_64.part.02
+Uploading part: euca-centos-2012.1.14-x86_64.part.03
+Uploading part: euca-centos-2012.1.14-x86_64.part.04
+Uploading part: euca-centos-2012.1.14-x86_64.part.05
+Uploading part: euca-centos-2012.1.14-x86_64.part.06
+Uploading part: euca-centos-2012.1.14-x86_64.part.07
+Uploading part: euca-centos-2012.1.14-x86_64.part.08
+Uploading part: euca-centos-2012.1.14-x86_64.part.09
+Uploading part: euca-centos-2012.1.14-x86_64.part.10
+Uploading part: euca-centos-2012.1.14-x86_64.part.11
+Uploading part: euca-centos-2012.1.14-x86_64.part.12
+Uploading part: euca-centos-2012.1.14-x86_64.part.13
+Uploading part: euca-centos-2012.1.14-x86_64.part.14
+Uploading part: euca-centos-2012.1.14-x86_64.part.15
+Uploading part: euca-centos-2012.1.14-x86_64.part.16
+Uploading part: euca-centos-2012.1.14-x86_64.part.17
+Uploading part: euca-centos-2012.1.14-x86_64.part.18
+Uploaded image as testbucket/euca-centos-2012.1.14-x86_64.manifest.xml
+testbucket/euca-centos-2012.1.14-x86_64.manifest.xml
+Installed image: emi-F0E33C52
+                    </codeblock>
+                </info>
+                <info> Note the last line in the output, which provides the image ID for the image
+                    you just installed from the euca store. In this example, the image ID is
+                    emi-F0E33C52. </info>
+            </step>
+            <step> 
+                <cmd>Verify the image was installed on your Eucalyptus cloud. To do this, use the
+                euca-describe--images command, which returns a list of the available images on your
+                Eucalyptus cloud:</cmd>
+                <info>
+                    <codeblock>
+euca-describe-images
+                    </codeblock>
+                </info>
+                <info>
+                    This command will return output similar to the following example:
+                </info>
+                <info>
+                    <codeblock>
+IMAGE     eki-5F663C59     testbucket/vmlinuz-2.6.32-5-amd64.manifest.xml     449455269925     available     public          x86_64     kernel                    instance-store
+IMAGE     eki-2E963B03     tmp0hpdstttmi/vmlinuz-2.6.28-11-generic.manifest.xml     000000000001     available     public          i386     kernel                    instance-store
+IMAGE     emi-A6D3365C     tmpu9kzz13enx/ubuntu.9-04.x86-64.img.manifest.xml     449455269925     available     public          i386     machine     eki-2E963B03     eri-E3263C85          instance-store
+IMAGE     eri-E3263C85     tmpqnx9gm08oa/initrd.img-2.6.28-11-generic.manifest.xml     000000000001     available     public          i386     ramdisk                    instance-store
+IMAGE     eri-A7A63A1D     testbucket/initrd.img-2.6.32-5-amd64.manifest.xml     449455269925     available     public          x86_64     ramdisk                    instance-store
+IMAGE     emi-F0E33C52     testbucket/euca-centos-2012.1.14-x86_64.manifest.xml     449455269925     available     public          x86_64     machine     eki-5F663C59     eri-A7A63A1D          instance-store
+                    </codeblock>
+                </info>
+                <info> Note the ID of the last image in the output -
+                    <codeblock>emi-F0E33C52</codeblock> - matches that of the image we installed
+                    from EuStore. </info>
+            </step>
+        </steps>
+        <result>The image has been successfully downloaded from EuStore and installed on your
+            Eucalyptus cloud. </result>
+        <postreq> You can now run an instance from this image and connect to it using SSH. </postreq>
+    </taskbody>
+</task>

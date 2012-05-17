@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="instances-launch-connect">
+    <title>Run and Connect to an Instance</title>
+    <shortdesc>This task explains how to run and connect to an instance.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To launch and conenct to an instance:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Choose an image:</cmd>
+                <info>
+                    <codeblock>euca-describe-images</codeblock>
+                </info>
+                <tutorialinfo>This command returns a list of available images. For
+                    example:</tutorialinfo>
+                <info>
+                    <codeblock>
+euca-describe-images
+                    </codeblock>
+                </info>
+                <info> This command returns a list of all available images installed on your
+                    Eucalyptus cloud. For example: </info>
+                <info>
+                    <codeblock>
+IMAGE     eki-5F663C59     testbucket/vmlinuz-2.6.32-5-amd64.manifest.xml     449455269925     available     public          x86_64     kernel                    instance-store
+IMAGE     eki-2E963B03     tmp0hpdstttmi/vmlinuz-2.6.28-11-generic.manifest.xml     000000000001     available     public          i386     kernel                    instance-store
+IMAGE     emi-A6D3365C     tmpu9kzz13enx/ubuntu.9-04.x86-64.img.manifest.xml     449455269925     available     public          i386     machine     eki-2E963B03     eri-E3263C85          instance-store
+IMAGE     eri-E3263C85     tmpqnx9gm08oa/initrd.img-2.6.28-11-generic.manifest.xml     000000000001     available     public          i386     ramdisk                    instance-store
+IMAGE     eri-A7A63A1D     testbucket/initrd.img-2.6.32-5-amd64.manifest.xml     449455269925     available     public          x86_64     ramdisk                    instance-store
+IMAGE     emi-F0E33C52     testbucket/euca-centos-2012.1.14-x86_64.manifest.xml     449455269925     available     public          x86_64     machine     eki-5F663C59     eri-A7A63A1D          instance-store
+                    </codeblock>
+                </info>
+                <info> For this example, we will use the last image in the list - emi-F0833C52.
+                </info>
+            </step>
+            <step>
+                
+                <cmd> Create a key pair using the euca-add-keypair command. This command will store
+                    the public half of the key pair and keep it available for your Eucalyptus cloud
+                    instances, and will output the private half of the key pair. You should save
+                    this output to a file for future use, as in the following example: </cmd>
+                <info>
+                    <note type="notice">If you've already added a keypair, you can skip this step.</note>
+                </info>
+                <info>
+                    <codeblock>
+euca-add-keypair mytestkey >mytestkey.private
+                    </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> Change permissions on the file so that only you can access and change it: </cmd>
+                <info>
+                    <codeblock>
+chmod 0600 mytestkey.private
+                    </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> Run the instance with the euca-run-instances command, specifying the
+                    appropriate image ID and the name of the key pair you just created. For example: </cmd>
+                <info>
+                    <codeblock>
+euca-run-instances emi-F0E33C52 -k mytestkey
+                    </codeblock>
+                </info>
+                <info> This will return output similar to the following: </info>
+                <info>
+                    <codeblock>
+RESERVATION     r-CCE33FC0     449455269925     default
+INSTANCE     i-68A24092     emi-F0E33C52     0.0.0.0     0.0.0.0     pending     mytestkey     0 
+m1.small     2012-05-17T10:36:46.232Z     PARTI00     eki-5F663C59     eri-A7A63A1D
+monitoring-disabled     0.0.0.0     0.0.0.0               instance-store     
+                    </codeblock>
+                </info>
+                <info> Note that the initial state of the instance is 'pending' while the instance
+                    is being created. </info>
+            </step>
+            <step>
+                <cmd>After a few moments, check to see if your instance is available for use yet by
+                    using the euca-describe-instances command:</cmd>
+                <info>
+                    <codeblock>
+euca-describe-insances  i-68A24092
+                    </codeblock>
+                </info>
+                <info> When the instance is ready, this command will return output similar to the
+                    following: </info>
+                <info>
+                    <codeblock>
+RESERVATION     r-CCE33FC0     449455269925     default
+INSTANCE     i-68A24092     emi-F0E33C52     192.168.9.91     10.93.7.76     running     mytestkey     0
+m1.small     2012-05-17T10:36:46.232Z     PARTI00     eki-5F663C59     eri-A7A63A1D
+monitoring-disabled     192.168.9.91     10.93.7.76               instance-store           
+                    </codeblock>
+                </info>
+                <info> Note that the instance is now listed as 'running', and there's now an IP
+                    address - in this example, 192.168.9.91. You can use this IP address to connect
+                    to the instance. </info>
+            </step>
+            <step>
+                <cmd>
+                    Connect to the running instance using SSH, specifying the private key file and the IP address of the instance. For example:
+                </cmd>
+                <info>
+                    <codeblock>
+ssh -i mytestkey.private 192.168.9.91
+                    </codeblock>
+                </info>
+                <info>
+                    This command returns output similar to the following:
+                </info>
+                <info>
+                    <codeblock>
+Warning: Permanently added '192.168.9.91' (RSA) to the list of known hosts.
+Last login: Thu May 17 03:39:58 2012 from eucahost-9-91.eucalyptus
+-bash-3.2# 
+                    </codeblock>
+                </info>
+            </step>
+        </steps>
+        <result>Congratulations! You've now successfully launched an instance and connected to it with SSH. </result>
+        <postreq>  </postreq>
+    </taskbody>
+</task>
