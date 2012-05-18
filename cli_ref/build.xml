@@ -11,7 +11,7 @@
 	| they are relative paths.
 	* -->
 
-<project name="install_guide" default="all" basedir=".">
+<project name="admin_guide" default="all" basedir=".">
 	<!-- Use environment variables. -->
 	<property environment="env"/>
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
@@ -87,6 +87,26 @@
 		</ant>
 	</target>
 	
+	<target name="xliff" depends="integrate" description="Builds an XLIFF file from a ditamap">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			
+			<property name="output.dir"
+				value="out${file.separator}xliff"/>
+			<property name="transtype" value="xliff"/>
+		</ant>
+	</target>
+	
+	<target name="xliff2dita" depends="integrate" description="Builds dita files from an XLIFF
+		translated file">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+		<property name="input.dir" value="${source.dir}${file.separator}translate"/>
+		<property name="output.dir"
+			value="out${file.separator}xliff2dita"/>
+		<property name="transtype" value="ditafromxliff"/>
+		</ant>
+	</target>
+	
+	<!-- This builds all files we intend to publish other than xliff and xliff2dita. -->
 	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub">
 		
 	</target>
