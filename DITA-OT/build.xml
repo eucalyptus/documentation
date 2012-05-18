@@ -17,7 +17,7 @@
     <dita-ot-fail id="DOTA001F">
       <condition>
         <and>
-          <not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsecontent" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="odt" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="wordrtf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="docbook" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="legacypdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not>
+          <not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xliff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsecontent" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="ditafromxliff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="odt" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="wordrtf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="docbook" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="legacypdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not>
         </and>
       </condition>
     </dita-ot-fail>
@@ -43,17 +43,73 @@
   
   <target name="dita-preprocess" depends="start-process, init-logger, init-URIResolver, output-version, check-arg, output-deprecated-msg, output-css-warn-message, preprocess"></target>
 
-  <property name='dita.plugin.org.dita.troff.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.eclipsecontent.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.eclipsehelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.dita11.dir' location='${dita.dir}/demo/dita11'/><property name='dita.plugin.org.dita.xhtml.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.odt.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.pdf2.dir' location='${dita.dir}/demo/fo'/><property name='dita.plugin.org.dita.specialization.dita132.dir' location='${dita.dir}/demo/dita132'/><property name='dita.plugin.com.sophos.tocjs.dir' location='${dita.dir}/demo/tocjs'/><property name='dita.plugin.org.dita.wordrtf.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.docbook.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.h2d.dir' location='${dita.dir}/demo/h2d'/><property name='dita.plugin.org.dita.specialization.eclipsemap.dir' location='${dita.dir}/demo/eclipsemap'/><property name='dita.plugin.org.dita.base.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.htmlhelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.legacypdf.dir' location='${dita.dir}/demo/legacypdf'/><property name='dita.plugin.org.dita.pdf.dir' location='${dita.dir}/plugins/org.dita.pdf'/><property name='dita.plugin.org.dita.javahelp.dir' location='${dita.dir}'/>
+  <property name='dita.plugin.org.dita.troff.dir' location='${dita.dir}'/><property name='dita.plugin.org.xliff.d2x.dir' location='${dita.dir}/demo/xliff'/><property name='dita.plugin.org.dita.eclipsecontent.dir' location='${dita.dir}'/><property name='dita.plugin.org.ditafromxliff.x2d.dir' location='${dita.dir}/demo/ditafromxliff'/><property name='dita.plugin.org.dita.eclipsehelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.dita11.dir' location='${dita.dir}/demo/dita11'/><property name='dita.plugin.org.dita.xhtml.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.odt.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.pdf2.dir' location='${dita.dir}/demo/fo'/><property name='dita.plugin.org.dita.specialization.dita132.dir' location='${dita.dir}/demo/dita132'/><property name='dita.plugin.com.sophos.tocjs.dir' location='${dita.dir}/demo/tocjs'/><property name='dita.plugin.org.dita.wordrtf.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.docbook.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.h2d.dir' location='${dita.dir}/demo/h2d'/><property name='dita.plugin.org.dita.specialization.eclipsemap.dir' location='${dita.dir}/demo/eclipsemap'/><property name='dita.plugin.org.dita.base.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.htmlhelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.legacypdf.dir' location='${dita.dir}/demo/legacypdf'/><property name='dita.plugin.org.dita.pdf.dir' location='${dita.dir}/plugins/org.dita.pdf'/><property name='dita.plugin.org.dita.javahelp.dir' location='${dita.dir}'/>
   <!-- This file is part of the DITA Open Toolkit project hosted on 
   Sourceforge.net. See the accompanying license.txt file for 
   applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
   
 <import file="build_dita2troff.xml"></import>
+
+<!--
+////////////////////////////////////
+/// December 2011
+/// Bryan Schnabel
+/// DITA-XLIFF Roundtrip Tool for DITA OT version 0.01
+/// (c) Copyright Bryan Schnabel
+/// 
+/// Apache License\
+/// Version 2.0, January 2004
+/// http://www.apache.org/licenses/ 
+////////////////////////////////////
+-->
+  
+<path id="dost.class.path">
+    
+<pathelement location="${dita.dir}${file.separator}demo/fo/fo.jar"></pathelement>
+    
+<pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
+  </path>
+  
+<target name="dita2xliff" depends="dita-preprocess, map2pdf2, topic2pdf2,d2xXSL"></target>
+  
+<target name="d2xXSL">
+    
+<xslt processor="trax" in="${dita.temp.dir}${file.separator}stage1.xml" out="${output.dir}${file.separator}d_x.xml" style="${dita.dir}${file.separator}demo${file.separator}xliff${file.separator}xsl${file.separator}d2x.xsl"></xslt>
+  </target>
+
 <!-- This file is part of the DITA Open Toolkit project hosted on 
   Sourceforge.net. See the accompanying license.txt file for 
   applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
   
 <import file="build_dita2eclipsecontent.xml"></import>
+
+<!--
+////////////////////////////////////
+/// December 2011
+/// Bryan Schnabel
+/// DITA-XLIFF Roundtrip Tool for DITA OT version 0.01
+/// (c) Copyright Bryan Schnabel
+/// 
+/// Apache License\
+/// Version 2.0, January 2004
+/// http://www.apache.org/licenses/ 
+////////////////////////////////////
+-->
+  
+<path id="dost.class.path">
+    
+<pathelement location="${dita.dir}${file.separator}demo/fo/fo.jar"></pathelement>
+    
+<pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
+  </path>
+  
+<target name="dita2ditafromxliff" depends="dita-preprocess, map2pdf2, x2dXSL"></target>
+  
+<target name="x2dXSL">
+    
+<xslt in="${input.dir}${file.separator}d_x_translated.xml" out="${output.dir}${file.separator}deleteme.txt" style="${dita.dir}${file.separator}demo${file.separator}ditafromxliff${file.separator}xsl${file.separator}x2d.xsl"></xslt>
+  </target>
+
 <!-- This file is part of the DITA Open Toolkit project hosted on 
   Sourceforge.net. See the accompanying license.txt file for 
   applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
@@ -379,7 +435,7 @@
     <echo level="info">  args.input=&lt;file&gt;</echo>
     <echo level="info">    Path and name of the input file.</echo>
     <echo level="info"></echo>
-    <echo level="info">  transtype={docbook|eclipsecontent|eclipsehelp|htmlhelp|javahelp|legacypdf|odt|pdf|pdf2|tocjs|troff|wordrtf|xhtml}</echo>
+    <echo level="info">  transtype={ditafromxliff|docbook|eclipsecontent|eclipsehelp|htmlhelp|javahelp|legacypdf|odt|pdf|pdf2|tocjs|troff|wordrtf|xhtml|xliff}</echo>
     <echo level="info">    Transformation type.</echo>
     <echo level="info"></echo>
     <echo level="info">Optional properties:</echo>
