@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="access_policy_quota" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic concept/concept " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="concept:1">
+ <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="title:1">Quotas</title>
+ <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita"/>
+ <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><conbody class="- topic/body  concept/conbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="conbody:1">
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:1">Eucalyptus adds quota enforcement to resource usage. To avoid introducing another configuration
+ 		language into Eucalyptus, and simplify the management, we extend the IAM policy language to
+ 		support quotas. The only addition added to the language is the new <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:1">limit</codeph> effect. If a policy statement’s <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:2">effect</codeph> is <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:3">limit</codeph>, it is a quota statement.</p>
+ 	
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:2">A quota statement also has action and resource fields. You can use these fields to match
+ 		specific requests, for example, quota only being checked on matched requests. The actual quota type and value are specified using special quota keys, and listed in the <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:4">condition</codeph> part of the statement. Only condition type <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:5">NumericLessThanEquals</codeph> can be used with quota keys.</p>
+ 	
+ 	<note type="important" class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="note:1">An account can only have a quota policy. If you attach an IAM
+ 		policy to an account (where, for example, the Effect is "Allow" or "Deny"), there will be unexpected results.</note>
+ 	
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:3">The following quota policy statement limits the attached user to only launch a maximum of 16 instances in an account.</p>
+ 	<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeblock:1">{
+ "Version":"2011-04-01",
+ "Statement":[{
+   "Sid":"4",
+   "Effect":"Limit",
+   "Action":"ec2:RunInstances",
+   "Resource":"*",
+   "Condition":{
+     “NumericLessThanEquals”:{
+       “ec2:quota-vminstancenumber”:”16”
+     }
+   }
+ }]
+}</codeblock>
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:4">You can attach quotas to both users and accounts, although some of the quotas only apply to
+ 		accounts. Quota attached to groups will take no effect.</p>
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:5">When a quota policy is attached to an account, it actually is attached to the account
+ 		administrator user. Since only system administrator can specify account quotas, the account
+ 		administrator can only inspect quotas but can't change the quotas attached to herself.</p>
+ 	
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:6">The following is all the quota keys implemented in Eucalyptus:</p>
+ 	
+ 	<table class="- topic/table " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="table:1">
+ 		<tgroup cols="3" class="- topic/tgroup " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="tgroup:1">
+ 			<thead class="- topic/thead " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="thead:1">
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:1">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:1">Quota Key</entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:2">Description</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:3">Applies to</entry>
+ 				</row>
+ 			</thead>
+ 			<tbody class="- topic/tbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="tbody:1">
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:2">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:4"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:6">s3:quota-bucketnumber</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:5">Number of S3 buckets</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:6">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:3">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:7"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:7">s3:quota-bucketobjectnumber</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:8">Number of objects in each bucket,</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:9">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:4">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:10"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:8">s3:quota-bucketsize</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:11">Size of bucket, in MB</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:12">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:5">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:13"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:9">s3:quota-buckettotalsize</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:14">total size of all buckets, in MB</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:15">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:6">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:16"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:10">ec2:quota-addressnumber </codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:17">Number of elastic IPs</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:18">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:7">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:19"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:11">ec2:quota-imagenumber </codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:20">Number of EC2 images</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:21">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:8">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:22"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:12">ec2:quota-snapshotnumber </codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:23">Number of EC2 snapshots</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:24">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:9">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:25"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:13">ec2:quota-vminstancenumber</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:26">Number of EC2 instances</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:27">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:10">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:28"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:14">ec2:quota-volumenumber</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:29">Number of EC2 volumes</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:30">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:11">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:31"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:15">ec2:quota-volumetotalsize</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:32">Number of total volume size, in GB</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:33">account and user</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:12">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:34"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:16">iam:quota-groupnumber</codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:35">Number of IAM groups</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:36">account</entry>
+ 				</row>
+ 				<row class="- topic/row " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="row:13">
+ 					<entry colname="col1" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:37"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="codeph:17">iam:quota-usernumber </codeph></entry>
+ 					<entry colname="col2" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:38">Number of IAM users</entry>
+ 					<entry colname="col3" class="- topic/entry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="entry:39">account</entry>
+ 				</row>
+ 			</tbody>
+ 		</tgroup>
+ 	</table>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="section:1">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="title:2">Default Quota</title>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_quota.dita" xtrc="p:7">Contrary to IAM policies, by default, there is no quota limits (except the hard system limit)
+ 			on any resource allocations for a user or an account. Also, system administrators are not 
+ 			constrained by any quota. Account administrators are only be constrained by account quota.</p>
+ 	</section>
+ </conbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:54" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:51" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_policies.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Policy Overview</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</concept>

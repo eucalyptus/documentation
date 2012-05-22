@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/shared?>
+<?path2project ../?>
+<task id="add_kernel" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)    " class="- topic/topic task/task " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="task:1">
+    <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="title:1">Add a Kernel</title>
+    <shortdesc class="- topic/shortdesc " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="shortdesc:1"></shortdesc>
+    <taskbody class="- topic/body task/taskbody " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="taskbody:1">
+        <context class="- topic/section task/context " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="context:1">
+        	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="p:1">When you add a kernel to Walrus, you bundle the kernel file, upload the file to a bucket
+        	in Walrus that you name, and then register the kernel with Eucalyptus.</p>
+            <p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="p:2">To add a kernel to Walrus:</p>
+        </context>
+        <steps class="- topic/ol task/steps " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="steps:1">
+            <step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="step:1">
+                <cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="cmd:1">Use the following three commands:</cmd>
+            	<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="info:1">
+            		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="codeblock:1">euca-bundle-image -i &lt;kernel_file&gt; --kernel true
+euca-upload-bundle -b &lt;kernel_bucket&gt; -m /tmp/&lt;kernel_file&gt;.manifest.xml
+euca-register &lt;kernel_bucket&gt;/&lt;kernel_file&gt;.manifest.xml</codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example class="- topic/example " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="example:1">
+    		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="p:3">For example:</p>
+    		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="codeblock:2">euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/vmlinuz-2.6.27.21-0.1-xen --kernel true
+...
+Generating manifest /tmp/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
+
+euca-upload-bundle -b example_kernel_bucket -m /tmp/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
+...
+
+euca-register example_kernel_bucket/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
+IMAGE	eki-XXXXXXXX</codeblock>
+    		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="p:4">Where the returned value <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/add_kernel.dita" xtrc="codeph:1">eki-XXXXXXXX</codeph> is the unique ID of the registered kernel image.</p>
+    	</example>
+    	
+    </taskbody>
+</task>

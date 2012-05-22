@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/user_guide?><?path2project ../?><task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="bundle_win_image" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)    " class="- topic/topic task/task " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="task:1">
+    <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="title:1">Bundle a Windows Instance</title>
+    <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita"/>
+    <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><taskbody class="- topic/body task/taskbody " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="taskbody:1">
+        <context class="- topic/section task/context " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="context:1">
+        	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="p:1">The euca-bundle-instance command lets you bundle a new Windows image from a running Windows instance directly to Walrus storage. Using 
+        		euca-bundle-instance is an efficient way to generate modified Windows VMs. You can spin up
+        		a Windows VM instance from an existing Windows VM image, modify it as needed, then save the modified image to Walrus storage, where it is immediately available for registering and running with the modifications already in place. </p>
+        		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="p:2">To bundle a Windows instance:</p>
+        </context>
+        <steps class="- topic/ol task/steps " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="steps:1">
+            <step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="step:1">
+                <cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="cmd:1">Enter the following command:</cmd>
+            	<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="info:1">
+            		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="codeblock:1">euca-bundle-instance -b &lt;bucket_name&gt; -p
+&lt;prefix_starting_with_windows&gt; -o $EC2_ACCESS_KEY -w
+$EC2_SECRET_KEY &lt;instance_ID&gt;</codeblock>
+            		<note type="tip" class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="note:1">You can query the progress of a bundling tasks using the <cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="cmdname:1">euca-describe-bundle-
+            		task</cmdname> command. You can cancel the active bundle task using
+            			<cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="cmdname:2">euca-cancel-bundle-task</cmdname> command.</note>
+            	</info>
+            </step>
+        </steps>
+    	<example class="- topic/example " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="example:1">
+    		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="p:3">The following example bundles a new Windows image from an existing Windows instance with ID
+    			<codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="codeph:1">i-12c4af6a</codeph>, to the bucket <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="codeph:2">mybucket</codeph>, with image prefix <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="codeph:3">windows2003_bundle</codeph>:</p>
+    		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/user_guide/bundle_win_image.dita" xtrc="codeblock:2">euca-bundle-instance -b mybucket -p windows2003_bundle -o $EC2_ACCESS_KEY -w $EC2_SECRET_KEY  i-12c4af6a</codeblock>
+    	</example>
+    	
+    </taskbody>
+
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:133" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:102" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../shared/working_images.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Image Tasks</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</task>

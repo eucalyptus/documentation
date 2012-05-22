@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="ldap_sync_process" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic concept/concept " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="concept:1">
+
+	<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="title:1">Synchronization Process</title>
+ <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita"/>
+ <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><conbody class="- topic/body  concept/conbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="conbody:1">
+ 	
+
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="p:1">The synchronization always starts when the following happens:</p>
+ 		<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="ul:1">
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="li:1">You manually upload a LDAP/AD Integration Configuration (LIC) file. Every new or updated LIC
+ 				upload triggers a new synchronization.</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="li:2">If the automatic synchronization is enabled, a synchronization is started when the timer goes off.</li>
+ 		</ul>
+ 		<note class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="note:1">Eucalyptus does not allow concurrent synchronization. If you trigger synchronization more
+ 			than once within a short time period, Eucalyptus only allows the first one.</note>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="p:2">During a synchronization, everything specified by an LIC in the LDAP/AD tree will be downloaded into Eucalyptus’ internal database. Each synchronization is a merging process of the information already in the database and the information from LDAP/AD. There are three cases for each entity: user, group or account:</p>
+ 		<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="ul:2">
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="li:3">If an entity from LDAP/AD is not in Eucalyptus, a new one is created in the database.</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="li:4">If an entity from LDAP/AD is already in Eucalyptus, the Eucalyptus version is updated. For example, if a user’s info attributes are changed, those changes are downloaded and updated.</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="li:5">If an entity in Eucalyptus is missing from LDAP/AD, it will be removed from the database if the clean-deletion option in LIC is set to true. Otherwise, it will be left in the database. </li>
+ 		</ul>
+ 		
+ 		<note type="important" class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ldap_sync_process.dita" xtrc="note:2">If clean-deletion is set to true, the removed entities in Eucalyptus will be lost forever, along with all its permissions and credentials. The resources associated with the entity will be left untouched. It is system administrator’s job to recycle these resources.</note>
+ 	
+ </conbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:66" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:57" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/integrating_ldap.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>LDAP/AD Integration</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</concept>

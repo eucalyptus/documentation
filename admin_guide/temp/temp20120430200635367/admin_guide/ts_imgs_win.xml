@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="ts_imgs_win" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic concept/concept " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="concept:1">
+	<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="title:1">Windows Images</title>
+ <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita"/>
+ <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><conbody class="- topic/body  concept/conbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="conbody:1">
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="p:1"><draft-comment translate="no" class="- topic/draft-comment " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="draft-comment:1">Concept definition.</draft-comment></p>
+ 	<section id="win_img_props" class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="section:1">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="title:2">Properties</title>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="p:2">A typical size of Windows images is large and Eucalyptus has a set of properties that limit
+ 			the size of various storage components. The first step in troubleshooting is to make sure that the values are large enough to store your Windows images. You can modify a property using</p> 
+ 			<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeblock:1">/usb/sbin/euca-modify-property -p &lt;property&gt;=&lt;value&gt;</codeblock>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="p:3">The properties that might affect registering Windows images are:</p>
+ 		<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="ul:1">
+ 			
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:1"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:1">walrus.storagemaxbucketsizeinmb</codeph>: max bucket size enforced by Walrus; should be larger than a Windows image</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:2"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:2">walrus.storagemaxcachesizeinmb</codeph>: total size of all images that is cached in Walrus; should be larger than the sum of all images (Windows/Linux) in Walrus</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:3">walrus.storagemaxtotalsnapshotsizeingb: if a Windows image is a type of EBS-backed EMI, this should be large enough to store all EBS backed images</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:4"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:3">{PARTITION}.storage.maxvolumesizeingb</codeph>: if a Windows image is a type of EBS-backed EMI, this should be large enough to store the image</li>
+ 		</ul>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="p:4">In addition, during the <cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:1">euca-run-instances</cmdname>, the CLC may time-out an
+ 			instance while a large windows image (images in both Walrus and EBS) is being launched. We
+ 			recommend that you rais the values of the following properties.</p>
+ 		<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="ul:2">
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:5"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:4">cloud.vmstate.instance_timeout</codeph>: maximum wait time, in minutes, before the
+ 			instance becomes running. Am instance cannot stay in pending longer than this. Default: 60</li>
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:6"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:5">cloud.vmstate.ebs_volume_creation_timeout</codeph>: maximum wait time, in minutes,
+ 			before a volume backing a boot from EBS image is created. Default: 30</li>
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:7"><codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:6">cloud.addresses.maxkillorphans</codeph>: The public IP assigned to an instance will be
+ 			expired after the time limit. The exact time-out is {maxkillorphans*5} seconds (by default it's
+ 			50 seconds). If the volume backing an EBS image is not created in time, the public IP will be released from the instance.</li>
+ 		</ul>
+ 	</section>
+ 	
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="section:2">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="title:3">Image Preparation</title>
+ 	<dl class="- topic/dl " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dl:1">
+ 		<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:1">
+ 			<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:1"><cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:2">euca-bundle-image</cmdname> hangs</dt>
+ 			<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:1">The time to bundle an image is proportional to the image size. Because the typical size of Windows image is big, give enough time until bundling is complete. As a rule of thumb, it may take up to 20 min. for bundling a 10 GB Windows image.</dd>
+ 		</dlentry>
+ 		<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:2">
+ 			<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:2"><cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:3">euca-upload-bundle</cmdname> fails</dt>
+ 			<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:2">Make sure ‘walrus.storagemaxbucketsizeinmb’ is large enough. If not, ask your administrator.</dd>
+ 		</dlentry>
+ 	</dl>
+ 	</section>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="section:3">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="title:4">Instance Launch and Login</title>
+ 		<dl class="- topic/dl " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dl:2">
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:3">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:3">Instance stays in pending</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:3">Typically, it takes longer to launch Windows images than Linux images as the delay is proportional to the image size. This can be especially long when the image is seeded on NCs the first time (images are cached in NCs and run within few seconds thereafter). As a rule of thumb, 10 GB Windows images may take up to 10 minutes to become ‘running’ when it is not cached in NCs.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:4">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:4">Instance stay in pending and goes to shutdown</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:4">An instance may time-out if the Windows image is too big. Review and
+ 					adjust the relevant properties.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:5">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:5">Instance is running, but not accessible using Remote Desktop.</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:5">after instances become running, you should wait until Windows is fully booted. If the image is sysprepped, the booting time may take up to 10 min. Also you should make sure the followings are cleared:
+ 				<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="ul:3">
+ 					<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:8">The port 3389 is authorized in the security group</li>
+ 					<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:9">If the instance is attached to your active directory domain, the domain GPO shouldn’t block the RDP port (3389)</li>
+ 					<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:10">The username should be authorized to log-in using Remote Desktop (refer to User guide: Windows integration service)</li>
+ 				</ul>
+ 				</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:6">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:6">Finding the login username and password</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:6">Use <userinput class="+ topic/ph sw-d/userinput " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="userinput:1">Administrator</userinput> and the password retrieved by <cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:4">euca-get-password</cmdname>. If the instance is attached to a domain, you may use your domain username and password (make sure the username is prepended with domain name, such as <filepath class="+ topic/ph sw-d/filepath " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="filepath:1">YOUR_DOMAIN\Alice</filepath>). </dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:7">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:7">Can’t retrieve windows password using <cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:5">euca-get-password</cmdname></dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:7">Make sure the platform field of your windows EMI is set to ‘windows’, not ‘linux’ (use <cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:6">euca-describe-images</cmdname>). If not, the most likely reason is that the image name does not begin with ‘windows’. You should bundle/upload/register the image with a proper name.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:8">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:8">Instance is not attached to an Active Directory domain</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:8">
+ 					<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="ul:4">
+ 						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:11">Make sure the parameters set in Windows integration service are correct. One way to verify them is to log in the instance using Administrator password and manually attach the instance to the domain (System Properties -&gt; Computer Name) using the same parameters.</li>
+ 						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="li:12">Make sure <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="codeph:7">VNET_DNS</codeph> in eucalyptus.conf is set to the domain controller (refer to User Guide: Configure Active Directory).</li>
+ 					</ul>
+ 				</dd>
+ 			</dlentry>
+ 		</dl>
+ 	</section>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="section:4">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="title:5">Disk and Volume</title>
+ 		<dl class="- topic/dl " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dl:3">
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:9">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:9">Ephemeral disks are not visible in the Windows</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:9">Open Disk Management console (<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:1">All Programs</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:2">Administrative Tools</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:3">Server Manager</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:4">Storage</uicontrol>) and find the uninitialized disks. You should create a partition on the disk and format it.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:10">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:10">EBS volume is attached, but not visible in the Windows</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:10">Open Disk Management console (<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:5">All Programs</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:6">Administrative Tools</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:7">Server Manager</uicontrol>-&gt;<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="uicontrol:8">Storage</uicontrol>) and find the uninitialized disks. You should create a partition on the disk and format it. You don’t have to repeat it when the volume is reattached later.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:11">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:11">EBS volume is detached, but the disk drive (for example, <filepath class="+ topic/ph sw-d/filepath " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="filepath:2">E:\</filepath>) is still visible in the Windows</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:11">For KVM hypervisor, you should perform “remove hardware safely” before detaching the volume.</dd>
+ 			</dlentry>
+ 			<dlentry class="- topic/dlentry " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dlentry:12">
+ 				<dt class="- topic/dt " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dt:12"><cmdname class="+ topic/keyword sw-d/cmdname " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="cmdname:7">euca-bundle-instance</cmdname> fails</dt>
+ 				<dd class="- topic/dd " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/ts_imgs_win.dita" xtrc="dd:12">Make sure the bucket specified with ‘-b’ option doesn’t already exist and the property ‘walrus.storagemaxbucketsizeinmb’ is large enough to store the image.
+ 				</dd>
+ 			</dlentry>
+ 		</dl>
+ 	</section>
+ </conbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:144" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:139" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/troubleshooting.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Troubleshooting Eucalyptus</linktext><?ditaot genshortdesc?><desc class="- topic/desc ">Provides common management or configuration problems and solutions for fixing these problems.</desc></link></linkpool></related-links>
+</concept>

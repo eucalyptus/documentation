@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="access_policy_algorithms" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic concept/concept " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="concept:1">
+ <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="title:1">Algorithms</title>
+ <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita"/>
+ <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><conbody class="- topic/body  concept/conbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="conbody:1">
+ 	
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="p:1">Eucalyptus uses two types of algorithms to determine access.</p>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="section:1">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="title:2">Policy Evaluation Algorithm</title>
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="p:2">You can associated multiple policies and permission statements with a user. The way these are
+ 		combined together to control the access to resources in an account is defined by the policy evaluation algorithm. Eucalyptus implements the same policy evaluation algorithm as IAM:</p>
+ 	<ol class="- topic/ol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ol:1">
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:1">If the request user is account admin, access is allowed.</li>
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:2">Otherwise, collect all the policy statements associated with the request user (attached to the user and all the groups the user belongs to), which match the incoming request (i.e. based on the API being invoked and the resources it is going to access).
+ 		<ol class="- topic/ol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ol:2">
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:3">If there is no matched policy statement, access is denied (default implicit deny).</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:4">Otherwise, evaluate each policy statement that matches.
+ 			<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ul:1">
+ 				<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:5">If there is a statement that explicitly denies the access, the request is denied.</li>
+ 				<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:6">If there is no explicit deny, which means there is at least one explicit allow, access is allowed.</li>
+ 			</ul>
+ 			</li>
+ 		</ol>
+ 		</li>
+ 	</ol>
+ </section>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="section:2">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="title:3">Access Evaluation Algorithm</title>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="p:3">Now we give the overall access evaluation combining both account level permissions and IAM permissions, which decides whether a request is accepted by Eucalyptus:</p>
+ 		<ol class="- topic/ol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ol:3">
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:7">If the request user is sys admin, access is allowed.</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:8">Otherwise, check account level permissions, e.g. image launch permission, to see if the request user’s account has access to the specific resources.
+ 			<ol class="- topic/ol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ol:4">
+ 				<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:9">If not, the access is denied.</li>
+ 				<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:10">Otherwise, invoke the policy evaluation algorithm to check if the request user has access to the resources based on IAM policies.</li>
+ 			</ol>
+ 			</li>
+ 		</ol>
+ 	</section>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="section:3">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="title:4">Quota Evaluation Algorithm</title>
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="p:4">Like the normal IAM policies, a user may be associated with multiple quota policies (and multiple quota statements). How all the quota policies are combined to take effect is defined by the quota evaluation algorithm:</p>
+ 		<ol class="- topic/ol " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="ol:5">
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:11">If the request user is sys admin, there is no limit on resource usage.</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:12">Otherwise, collect all the quotas associated with the request user, including those attached to the request user’s account and those attached to the request user himself/herself (for account admin, we only need collect account quotas).</li>
+ 			<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="li:13">Evaluate each quota one by one. Reject the request as long as there is one quota being exceeded by the request. Otherwise, accept the request.</li>
+ 		</ol>
+ 		<note class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="note:1">The hard limits on some resources override quota limits. For example, <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="codeph:1">walrus.storagemaxbucketsizeinmb</codeph> (system property) overrides the <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policy_algorithms.dita" xtrc="codeph:2">s3:quota-bucketsize</codeph> (quota key).</note>
+ 	</section>
+ </conbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:55" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:51" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_policies.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Policy Overview</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</concept>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/shared?><?path2project ../?><task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="image_kvm_win_wis" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)    " class="- topic/topic task/task " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="task:1">
+	
+	<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="title:1">Install Eucalyptus Windows Integration</title>
+	<shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita"/>
+	<prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><taskbody class="- topic/body task/taskbody " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="taskbody:1">
+		<context class="- topic/section task/context " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="context:1">
+			<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="p:1">To install Eucalyptus Windows Integration:</p>
+		</context>
+		<steps class="- topic/ol task/steps " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="steps:1">
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:1">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:1">Use yum or apt-get to download the Eucalyptus tool. </cmd>
+				<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="info:1">
+					<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeblock:1">yum install eucalyptus-windows-tools
+apt-get install eucalyptus-windows-tools</codeblock>
+				</info>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:2">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:2">Copy <filepath class="+ topic/ph sw-d/filepath " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="filepath:1">/usr/share/eucalyptus/eucawin.iso</filepath> to the working directory of your NC.</cmd>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:3">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:3">Open the libvirt-kvm-windows-example.xml file and make the following edits:</cmd>
+				<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="info:2">
+					<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="ul:1">
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:1">Comment out the lines of XML code directing KVM to boot the Windows image from the CDROM.</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:2">Change the text so that <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeph:1">eucawin.iso</codeph> replaces the Windows .iso image and is mounted as <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeph:2">cdrom</codeph>.</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:3">Enter the path to the secondary disk file you created in the <xref href="images_kvm_win_baseos.xml#images_kvm_win_baseos/kvm_win_secondary_disk" class="- topic/xref " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="xref:1" type="step"><?ditaot usertext?>previous
+							task</xref>.</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:4">Uncomment the lines that direct attachment of a floppy disk, secondary disk, and secondary network interface.</li>
+					</ul>
+					<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="p:2">Your finished file should look similar to the following example:</p>
+					<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeblock:2">&lt;domain type="kvm"&gt;
+	  &lt;name&gt;eucalyptus-windows&lt;/name&gt;
+    &lt;os&gt;
+    &lt;type&gt;hvm&lt;/type&gt;
+    &lt;!-- &lt;boot dev='cdrom'/&gt; --&gt;
+    &lt;/os&gt;
+    &lt;features&gt;
+        &lt;acpi/&gt;
+    &lt;/features&gt;
+    &lt;memory&gt;524288&lt;/memory&gt;
+    &lt;vcpu&gt;1&lt;/vcpu&gt;
+    &lt;devices&gt;
+        &lt;emulator&gt;/usr/bin/kvm&lt;/emulator&gt;
+        &lt;disk type='file'&gt;
+            &lt;source file='/root/windows_2003.img'/&gt;
+            &lt;target dev='hda'/&gt;
+        &lt;/disk&gt;
+        &lt;disk type='file' device='disk'&gt;
+             &lt;source file='/root/secondary.img'/&gt;
+             &lt;target dev='vda' bus='virtio'/&gt;
+        &lt;/disk&gt; 
+        &lt;disk type='file' device='floppy'&gt;
+             &lt;source file='/root/floppy.img'/&gt;
+             &lt;target dev='fda'/&gt;
+        &lt;/disk&gt;
+        &lt;disk type='file' device='cdrom'&gt;
+            &lt;source file='eucawin.iso'/&gt;
+            &lt;target dev='hdc'/&gt;
+            &lt;readonly/&gt;
+        &lt;/disk&gt;
+        &lt;interface type='bridge'&gt;
+            &lt;source bridge='br0'/&gt;
+            &lt;model type='rtl8139'/&gt;
+        &lt;/interface&gt;
+        &lt;interface type='bridge'&gt;
+            &lt;source bridge='br0'/&gt;
+            &lt;model type='virtio'/&gt; 
+        &lt;/interface&gt;
+        &lt;graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'/&gt;
+    &lt;/devices&gt;
+&lt;/domain&gt;</codeblock>
+				</info>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:4">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:4">Log in to Windows and find the Eucalyptus installation files in the CDROM drive.</cmd>
+				<choices class="- topic/ul task/choices " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="choices:1">
+					<choice class="- topic/li task/choice " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="choice:1">For Windows Server 2003 R2, run <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeph:3">setup.exe</codeph>.</choice>
+					<choice class="- topic/li task/choice " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="choice:2">For all others, run <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="codeph:4">EucalyptusWindowsIntegration.msi</codeph>. (setup.exe will automatically install .NET framework 2.0, which is not bundled in Server 2003 R2).</choice>
+				</choices>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:5">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:5">In the <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:1">Choose your hypervisor</uicontrol> step, click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:2">KVM</uicontrol> and then click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:3">Next</uicontrol>.</cmd>
+				<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="info:3"><image href="images/ewi_hypervisor.jpg" scale="80" alt="Eucalyptus Windows Integrator      select hypervisor window" placement="inline" class="- topic/image " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="image:1"/> <draft-comment translate="no" class="- topic/draft-comment " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="draft-comment:1">Should this be a separate section, like Active
+						Directory and Remote Desktop? Scot: maybe combine all into one process file of separate tasks.</draft-comment></info>
+				<stepresult class="- topic/itemgroup task/stepresult " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="stepresult:1">During the installation of KVM VirtIO drivers, warning messages might appear asking to
+					confirm the driver installation. Click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:4">Continue</uicontrol> in all cases.</stepresult>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:6">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:6">At the <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:5">Welcome to the Found New Hardware Wizard</uicontrol>, click
+					<uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:6">Next</uicontrol>. </cmd>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:7">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:7">Choose <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:7">Install Software
+					Automatically…</uicontrol> and click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:8">Next</uicontrol>.</cmd>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:8">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:8">Reboot the Windows VM</cmd>
+			</step>
+			<step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="step:9">
+				<cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="cmd:9">Open the Windows device manager and check that the following drivers are found for
+					each device:</cmd>
+				<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="info:4">
+					<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="ul:2">
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:5">Floppy disk drive</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:6">Disk drivers: Red Hat VirtIO SCSI Disk Device</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:7">SCSI and RAID controllers: Red Hat VirtIO SCSI controller</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:8">Network adapters: Red Hat VirtIO Ethernet Adapter</li>
+					</ul>
+				</info>
+				<stepresult class="- topic/itemgroup task/stepresult " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="stepresult:2">If the correct drivers are not found, question marks display on the devices.
+					<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="ul:3">
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:9">Right-click on the devices in question and run update drivers. The new hardware wizard displays.
+						</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:10">When the new hardware wizard asks if Windows update is to be connected, click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:9">No, not this time</uicontrol>.</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:11">Choose <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:10">Install software automatically (recommended)</uicontrol>.</li>
+						<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="li:12">If a confirmation popup message displays, click <uicontrol class="+ topic/ph ui-d/uicontrol " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="uicontrol:11">Continue</uicontrol>.</li>
+					</ul>
+				</stepresult>
+			</step>
+		</steps>
+		<postreq class="- topic/section task/postreq " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="postreq:1">You are now ready to <xref href="images_kvm_win_ad.xml" class="- topic/xref " xtrf="/Users/scottb/Documents/git/documentation/shared/images_kvm_win_wis.dita" xtrc="xref:2" type="task"><?ditaot gentext?>Configure Active Directory<?ditaot genshortdesc?><desc class="- topic/desc "/></xref>.</postreq>
+	</taskbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:117" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:115" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../shared/images_kvm_win.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Create Windows Image (KVM)</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</task>

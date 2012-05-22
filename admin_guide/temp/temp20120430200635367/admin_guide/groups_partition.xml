@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="groups_partition" ditaarch:DITAArchVersion="1.2" domains="(topic reference)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic       reference/reference " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="reference:1">
+  <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="title:1">groups-partition</title>
+
+  <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita"/>
+  <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><refbody class="- topic/body        reference/refbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="refbody:1">
+  	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="section:1"><p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="p:1">Like accounting-groups, groups-partition specifies how to map LDAP/AD groups to
+  		Eucalyptus accounts. However, in this section you to manually specify which LDAP/AD groups you want to map to Eucalyputs accounts. </p>
+  		<note type="important" class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="note:1">If you use <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="codeph:1">groups-partition</codeph>, remove the <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="codeph:2">accounting-groups</codeph> section. These two sections are mutually exclusive.</note>
+
+  		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="p:2">The Eucalyptus accounts are created by partitioning LDAP/AD groups. Each partition composes
+  			an Eucalyptus account. So all the groups within the partition become Eucalyptus groups within that account. All the users of those groups will become Eucalyptus users within that account and the corresponding Eucalyptus groups. </p>
+  		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="p:3">This section requires that you specify one partition at a time, using a list of JSON key-value pairs. For each entry, the key is the account name to be mapped and the value is a list of names of LDAP/AD groups to be mapped into the account. For example:</p>
+  	<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="codeblock:1">"groups-partition": {
+          "salesmarketing": ["sales", "marketing"],
+          "devsupport": ["engineering", "support"],
+}
+</codeblock>
+  		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="p:4">Here salesmarketing and devsupport are names for the groups partition and are used as the corresponding Eucalyptus account names.</p>
+  		<note type="tip" class="- topic/note " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/groups_partition.dita" xtrc="note:2">If you use groups-partition, remove the accounting-groups section. These two sections are mutually exclusive.</note>
+  	</section>
+  	
+  </refbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:63" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:59" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_lic.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>LDAP/AD Integration Configuration</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link></linkpool></related-links>
+</reference>

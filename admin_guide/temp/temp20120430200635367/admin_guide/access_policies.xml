@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/admin_guide?><?path2project ../?><concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="access_policies" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " class="- topic/topic concept/concept " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="concept:1">
+ <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="title:1">Policy Overview</title>
+ <shortdesc class="- topic/shortdesc " xtrc="shortdesc:1" xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita"/>
+ <prolog class="- topic/prolog "><copyright class="- topic/copyright " xtrc="copyright:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<copyryear class="- topic/copyryear " xtrc="copyryear:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" year="2012"/>
+			<copyrholder class="- topic/copyrholder " xtrc="copyrholder:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus Systems</copyrholder>
+		</copyright><metadata class="- topic/metadata "><prodinfo class="- topic/prodinfo " xtrc="prodinfo:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+			<prodname class="- topic/prodname " xtrc="prodname:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">Eucalyptus</prodname>
+			<vrmlist class="- topic/vrmlist " xtrc="vrmlist:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap">
+				<vrm class="- topic/vrm " version="3.0" xtrc="vrm:1" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"/>
+			</vrmlist>
+		</prodinfo></metadata></prolog><conbody class="- topic/body  concept/conbody " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="conbody:1">
+ 	
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:1">Eucalyptus uses the same policy language to specify user level permissions as AWS IAM. Policies
+ 		are written in JSON. Each policy file can contain multiple statements, each specifying a
+ 		permission. A permission statement specifies whether to allow or deny a list of
+ 		actions to be performed on a list of resources, under specific conditions.</p>
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:2">A permission statement has the following components:</p>
+ 	<ul class="- topic/ul " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="ul:1">
+ 	<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="li:1"><b class="+ topic/ph hi-d/b " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="b:1">Effect:</b> Begins the decision that applies to all following components. Either: <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeph:1">“Allow”</codeph> or <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeph:2">“Deny”</codeph></li>
+ 	<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="li:2"><b class="+ topic/ph hi-d/b " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="b:2">Action or NotAction:</b> Indicates service-specific and case-sensitive commands. For example: <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeph:3">“ec2:RunInstances”</codeph></li>
+
+ 	<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="li:3"><b class="+ topic/ph hi-d/b " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="b:3">Resource or NotResource:</b> Indicates selected resources, each specified as an Amazon
+ 		resource name (ARN). For example: <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeph:4">“arn:aws:s3:::acme_bucket/blob”</codeph></li>
+ 		<li class="- topic/li " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="li:4"><b class="+ topic/ph hi-d/b " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="b:4">Condition:</b> Indicates additional constraints of the permission. For example: <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeph:5">"DateGreaterThan"</codeph></li>
+ 	</ul>
+ 	
+
+ <p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:3">The following policy example contains a statement that gives a user with full permission. This is the same access as the account
+
+ 	administrator:</p>
+ <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="codeblock:1">{
+  "Version":"2011-04-01",
+ 	"Statement":[{
+ 	  "Sid":"1",
+ 	  "Effect":"Allow",
+ 	  "Action":"*",
+ 	  "Resource":"*"
+ 	}]
+}</codeblock>
+ 	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:4">For more information about policy language, go to the <xref href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/PermissionsOverview.html" format="html" scope="external" class="- topic/xref " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="xref:1"><?ditaot usertext?>IAM User Guide</xref>.</p>
+ 	<section class="- topic/section " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="section:1">
+ 		<title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="title:2">Policy Notes</title>
+ 		
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:5">You can combine IAM policies with account level permissions. For example, the admin of account A can give users in account B permission to launch one of account A’s images by changing the image attributes. Then the admin of account B can use IAM policy to designate the users who can actually use the shared images.</p>
+ 		
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:6">You can attach IAM policies to both users and groups. When attached to groups, a policy is
+ 			equivalent to attaching the same policy to the users within that group. Therefore, a user might
+ 			have multiple policies attached, both policies attached to the user, and policies attached
+ 			to the group that the user belongs to.</p>
+ 		
+ 		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/admin_guide/access_policies.dita" xtrc="p:7">Do not attach IAM policies (except quota policies, a Eucalyptus extension) to account admins. At this point, doing so won’t result in a failure but may have unexpected consequences.</p>
+ 	</section>
+
+ </conbody>
+<related-links class="- topic/related-links "><linkpool class="- topic/linkpool " xtrc="topicref:51" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:44" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/understanding_identities.xml" role="parent"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Access Overview</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link><linkpool class="- topic/linkpool " xtrc="topicref:51" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap"><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:52" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_polextens.xml" role="child"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Policy Extensions</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:53" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_policy_perms.xml" role="child"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Default Permissions</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:54" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_policy_quota.xml" role="child"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Quotas</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:55" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/access_policy_algorithms.xml" role="child"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Algorithms</linktext><?ditaot genshortdesc?><desc class="- topic/desc "/></link><link class="- topic/link " mapclass="- map/topicref " type="concept" xtrc="topicref:56" xtrf="/Users/scottb/Documents/git/documentation/ag.ditamap" href="../admin_guide/policies_samples.xml" role="child"><?ditaot usertext?><linktext class="- topic/linktext "><?ditaot gentext?>Sample Policies</linktext><?ditaot genshortdesc?><desc class="- topic/desc ">A few example use cases and associated policies.</desc></link></linkpool></linkpool></related-links>
+</concept>

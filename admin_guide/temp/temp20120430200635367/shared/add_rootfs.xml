@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?workdir /Users/scottb/Documents/git/documentation/admin_guide/temp/temp20120430200635367/shared?>
+<?path2project ../?>
+<task id="add_rootfs" xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)    " class="- topic/topic task/task " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="task:1">
+    <title class="- topic/title " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="title:1">Add a Root Filesystem</title>
+    <shortdesc class="- topic/shortdesc " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="shortdesc:1"></shortdesc>
+    <taskbody class="- topic/body task/taskbody " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="taskbody:1">
+        <context class="- topic/section task/context " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="context:1">
+        	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="p:1">When you add a root filesystem to Walrus, you bundle the root filesystem file, upload the file to a bucket
+        		in Walrus that you name, and then register the root filesystem with Eucalyptus. The bundle
+        		operation can include a registered ramdisk (ERI ID) and a registered kernel (EKI ID). The
+        		resulting image would will associate the three images.</p>
+        	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="p:2">You can also bundle the root file system independently and associate the ramdisk and
+        		kernel with the resulting EMI at run time. For more information, see <xref href="associating_ekieri.xml" class="- topic/xref " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="xref:1"></xref>.</p>
+        	
+        	<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="p:3">To add a root filesystem to Walrus:</p>
+        </context>
+        <steps class="- topic/ol task/steps " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="steps:1">
+            <step class="- topic/li task/step " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="step:1">
+                <cmd class="- topic/ph task/cmd " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="cmd:1">Use the following three commands:</cmd>
+            	<info class="- topic/itemgroup task/info " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="info:1">
+            		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="codeblock:1">euca-bundle-image -i &lt;root_filesystem_file&gt; 
+euca-upload-bundle -b &lt;root_filesystem_file_bucket&gt; -m /tmp/&lt;root_filesystem_file&gt;.manifest.xml
+euca-register &lt;root_filesystem_file_bucket&gt;/&lt;root_filesystem_file&gt;.manifest.xml</codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example class="- topic/example " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="example:1">
+    		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="p:4">For example:</p>
+    		<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="codeblock:2">euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-upload-bundle -b example_rf_bucket -m /tmp/fedora.10.x86-64.img.manifest.xml
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml
+IMAGE	 emi-XXXXXXXX</codeblock>
+    		<p class="- topic/p " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="p:5">Where the returned value <codeph class="+ topic/ph pr-d/codeph " xtrf="/Users/scottb/Documents/git/documentation/shared/add_rootfs.dita" xtrc="codeph:1">emi-XXXXXXXX</codeph> is the unique ID of the registered
+    			machine image.</p>
+    	</example>
+    	
+    </taskbody>
+</task>
