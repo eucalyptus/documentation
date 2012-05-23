@@ -28,17 +28,27 @@ Building Documentation
 If you want to generate HTML or PDF from the files in this repository, perform
 the following tasks:
 
-  * Create environment variables for DOC_HOME, DITA_HOME, JAVA_HOME, and
+  * Make sure that you have Java and ANT.
+
+  * Create environment variables for DOC_HOME (path to where the euca directory
+    is), DITA_HOME (path to the euca/DITA-OT directory), JAVA_HOME, and
     ANT_HOME.
 
+  * In the build.properties file for the guide you want to build, change the
+    pdf.formatter value from xep to fop:
 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    pdf.formatter=fop
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-map.file=${source.dir}/cli.ditamap
-args.input=${map.file}
-kindlegen.executable=/Users/scotmarvin/~:KindleGen/kindlegen
-args.draft=no
-clean.temp=no
-pdf.formatter=xep
-xep.dir=/Users/scotmarvin/xep
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  * Run the shell script DITA-OT/startcmd.sh (or startcmd.bat in Windows) to set
+    up the necessary environment variables.
+
+  * In the same shell window, change directories to the directory you want to
+    generate documentation for.
+
+  * Enter ant and the type of output you want (pdf or xhtml):
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ant pdf
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
