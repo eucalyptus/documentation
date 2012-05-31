@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="installing_euca_centos" platform="centos5">
+<task id="installing_euca_centos" platform="centos5" outputclass="content">
     <title>Install on CentOS 5</title>
     <shortdesc/>
     <taskbody>
@@ -11,12 +11,21 @@
         </context>
         <steps>
         	<step>
-        		<cmd>Move your credentials so the package managers can locate them.</cmd>
+        		<cmd>On all servers, run the following commands:</cmd>
+        		<info>
+        			<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/
+3.1/centos/5/x86_64/eucalyptus-release-3.1.noarch.rpm
+rpm -Uvh eucalyptus-release-3.1.noarch.rpm</codeblock>
+        		</info>
+        	</step>
+        	<step props="subscribe">
+        		<cmd>If you are a Eucalyptus subscriber, move your credentials so the package managers can
+        			locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
         		<substeps>
         			<substep>
         				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
         				<info>
-        					<codeblock>mv &lt;license_name>-1.3.0.crt /etc/pki/tls/certs/&lt;license_name>-1.3.0.crt</codeblock>
+        					<codeblock>mv &lt;license_name>-1.3.1.crt /etc/pki/tls/certs/&lt;license_name>-1.3.1.crt</codeblock>
         				</info>
         			</substep>
         			<substep>
@@ -35,37 +44,36 @@
         		
         	</step>
         	
-        	<step>
-            	<cmd>On all servers, create a file in <filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo with the following content:</cmd>
+        	<step props="subscribe">
+            	<cmd>If you are a Eucalyptus subscriber, create a file on all servers in
+            		<filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo. Add the
+            		following content to this file:</cmd>
             	<info>
             		<codeblock>[eucalyptus-enterprise]
-name=Eucalyptus Enterprise 3.0
-baseurl=https://downloads.eucalyptus.com/software/enterprise/3.0/centos/$releasever/$basearch
+name=Eucalyptus Enterprise 3.1
+baseurl=https://downloads.eucalyptus.com/software/enterprise/3.1/centos/$releasever/$basearch
 gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
 gpgcheck=1
-sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.0.crt
-sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
-</codeblock>
+sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.1.crt
+sslclientkey=/etc/pki/tls/private/&lt;license_name>.key</codeblock>
             	</info>
             </step>
         	<step>
-        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/yum.repos.d</filepath> called euca2ools.repo with the following content:</cmd>
+        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
+        			commands:</cmd>
         		<info>
-        			<codeblock>[euca2ools]
-name=Euca2ools 2.0
-baseurl=http://downloads.eucalyptus.com/software/euca2ools/2.0/centos/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-</codeblock>
+        			<codeblock>wget http://downloads.eucalyptus.com/software/euca2ools/
+2.1/centos/5/x86_64/euca2ools-release-2.1.noarch.rpm
+rpm -Uvh euca2ools-release-2.1.noarch.rpm</codeblock>
         		</info>
         	</step>
         	
         	<step>
         		<cmd>Enable the EPEL repository with the following two commands:</cmd>
         		<info>
-        			<codeblock>wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm 
-rpm -Uvh epel-release-5-4.noarch.rpm
-</codeblock>
+        			<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/
+3.1/centos/5/x86_64/epel-release-5.noarch.rpm
+rpm -Uvh epel-release-5.noarch.rpm</codeblock>
         		</info>
         	</step>
         	<step>
@@ -79,7 +87,8 @@ rpm -Uvh epel-release-5-4.noarch.rpm
         	<step>
         		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
         		<info>
-        			<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<codeblock>yum groupinstall eucalyptus-cloud-controller
+yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
         			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
         		</info>
         	</step>
@@ -87,18 +96,25 @@ rpm -Uvh epel-release-5-4.noarch.rpm
 				<cmd>On each planned NC server, install the NC package:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-nc </codeblock>
-					<note type="important">If you are using VMware, you can skip this step.
+					<note type="important" product="vmware">If you are using VMware, you can skip this step.
 						Eucalyptus software is not installed on the node machines. The nodes are
 						running VMware.</note>
 				</info>
         	</step>
-        	<step>
-				<cmd>If you plan to use VMware, install the subscription only VMware Broker package
-					on each CC:</cmd>
+        	<step props="subscribe" product="vmware">
+				<cmd>If you are a Eucalyptus subscriber and plan to use VMware, install the subscription only VMware Broker package
+					on each CC. Otherwise, skip this step.</cmd>
 				<info>
-					<codeblock>yum install eucalyptus-broker</codeblock>
+					<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
 				</info>
-			</step>
+        	</step>
+        	<step props="subscribe" product="san">
+        		<cmd>If you are a Eucalyptus subscriber and plan to use SAN support, install the
+        			enterprise only SAN package on each SC. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
+        		</info>
+        	</step>
         	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
         		<cmd></cmd>
         	</step>

@@ -10,13 +10,23 @@
             <p>To install Eucalyptus on servers running RHEL 5:</p>
         </context>
         <steps>
-        	<step>
-        		<cmd>Move your credentials so the package managers can locate them.</cmd>
+        	
+        		<step>
+        			<cmd>Run the following command on all servers:</cmd>
+        			<info>
+        				<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/
+3.1/rhel/5/x86_64/eucalyptus-release-3.1.noarch.rpm
+rpm -Uvh eucalyptus-release-3.1.noarch.rpm</codeblock>
+        			</info>
+        		</step>
+        	<step props="subscribe">
+        		<cmd>If you are a Eucalyptus subscriber, move your credentials so the package managers can
+        			locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
         		<substeps>
         			<substep>
         				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
         				<info>
-        					<codeblock>mv &lt;license_name>-1.3.0.crt /etc/pki/tls/certs/&lt;license_name>-1.3.0.crt</codeblock>
+        					<codeblock>mv &lt;license_name>-1.3.1.crt /etc/pki/tls/certs/&lt;license_name>-1.3.1.crt</codeblock>
         				</info>
         			</substep>
         			<substep>
@@ -34,29 +44,27 @@
         		</substeps>
         	</step>
         	
-        	
-        	<step>
-            	<cmd>On all servers, create a file in <filepath>/etc/yum.repos.d</filepath> called <filepath>eucalyptus-enterprise.repo</filepath> with the following content:</cmd>
+        	<step props="subscribe">
+        		<cmd>If you are a Eucalyptus subscriber, create a file on all servers in
+        			<filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo. Add the
+        			following content to this file:</cmd>
             	<info>
             		<codeblock>[eucalyptus-enterprise]
-name=Eucalyptus Enterprise 3.0
-baseurl=https://downloads.eucalyptus.com/software/enterprise/3.0/rhel/$releasever/$basearch
+name=Eucalyptus Enterprise 3.1
+baseurl=https://downloads.eucalyptus.com/software/enterprise/3.1/rhel/$releasever/$basearch
 gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
 gpgcheck=1
-sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.0.crt
-sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
-</codeblock>
+sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.1.crt
+sslclientkey=/etc/pki/tls/private/&lt;license_name>.key</codeblock>
             	</info>
             </step>
         	<step>
-        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/yum.repos.d</filepath> called <filepath>euca2ools.repo</filepath> with the following content:</cmd>
+        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
+        			command:</cmd>
         		<info>
-        			<codeblock>[euca2ools]
-name=Euca2ools 2.0
-baseurl=http://downloads.eucalyptus.com/software/euca2ools/2.0/rhel/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-</codeblock>
+        			<codeblock>wget http://downloads.eucalyptus.com/software/euca2ools/
+2.1/rhel/5/x86_64/euca2ools-release-2.1.noarch.rpm
+rpm -Uvh euca2ools-release-2.1.noarch.rpm</codeblock>
         		</info>
         	</step>
         	
@@ -64,7 +72,7 @@ gpgcheck=1
         		<cmd>Enable the Cluster-Storage repository in Red Hat Network for each SC:</cmd>
         		<substeps>
         			<substep>
-        				<cmd>Go to <xref format="html" href="https://rhn.redhat.com">https://rhn.redhat.com</xref></cmd>
+        				<cmd>Go to <xref format="html" scope="external" href="https://rhn.redhat.com">https://rhn.redhat.com</xref></cmd>
         			</substep>
         			<substep>
         				<cmd>Navigate to the system that will run the SC.</cmd>
@@ -102,10 +110,9 @@ gpgcheck=1
         		<info>
         			<codeblock>[centos-extras]
 name=CentOS 5 - Extras
-mirrorlist=http://mirrorlist.centos.org/?release=5&amp;arch=$basearch&amp;repo=extras 
-gpgcheck=1
+mirrorlist=http://mirrorlist.centos.org/?release=5&amp;arch=$basearch&amp;repo=extras
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
-</codeblock>
+gpgcheck=1</codeblock>
         		</info>
         	</step>
         	<step>
@@ -143,7 +150,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
         	<step>
         		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
         		<info>
-        			<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<codeblock>yum groupinstall eucalyptus-cloud-controller
+yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
         			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
         		</info>
         	</step>
@@ -156,12 +164,19 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
 						running VMware.</note>
 				</info>
         	</step>
-        	<step>
-				<cmd>If you plan to use VMware, install the subscription only VMware Broker package
-					on each CC server:</cmd>
-				<info>
-					<codeblock>yum install eucalyptus-broker</codeblock>
-				</info>
+        	<step props="subscribe" product="vmware">
+        		<cmd>If you are a Eucalyptus subscriber and plan to use VMware, install the subscription only VMware Broker package
+        			on each CC. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-broker</codeblock>
+        		</info>
+        	</step>
+        	<step props="subscribe" product="san">
+        		<cmd>If you are a Eucalyptus subscriber and plan to use SAN support, install the
+        			enterprise only SAN package on each SC. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
+        		</info>
         	</step>
         	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
         		<cmd></cmd>
