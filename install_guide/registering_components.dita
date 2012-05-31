@@ -15,10 +15,10 @@
  	<p>Note that each registration command will attempt an SSH as root to the remote physical host where the registering component is assumed to be running. The registration command also contacts the component so it must be running at the time of the command is issued. If a password is required to allow SSH access, the command will prompt the user for it.</p>
  	<p>Except for NCs, each registration command requires four pieces of information:</p>
  	<ul>
- 	<li>The <b>component</b> you are registering, because this affects where the commands must be executed.</li>
- 	<li>The <b>partition</b> the component will belong to. The partition is the same thing as availability zone in AWS.</li>
- 	<li>The <b>name</b> ascribed to the component. This is the pretty name used to identify the component in a human friendly way. This name when reporting about system state changes which require attention.  This name must be globally-unique with respect to other component registrations.</li>
- 	<li>The <b>IP address</b> of the service being registered.</li>
+ 	<li>The <b>component</b> (<codeph>--register-XYZ</codeph>) you are registering, because this affects where the commands must be executed.</li>
+ 	<li>The <b>partition</b> (<codeph>--partition</codeph>) the component will belong to. The partition is the same thing as availability zone in AWS.</li>
+ 	<li>The <b>name</b> (<codeph>--component</codeph>) ascribed to the component. This is the name used to identify the component in a human-friendly way. This name is also used when reporting system state changes which require administrator attention. This name must be globally-unique with respect to other component registrations. To ensure this uniqueness, we recommend using a combination of the component type (CLC, SC, CC, etc) and system hostname or IP address when you choose your component names. For example: <codeph>clc-eucahost15</codeph> or <codeph>clc-192.168.0.15</codeph>.</li>
+ 	<li>The <b>IP address</b> (<codeph>--host</codeph>) of the service being registered.</li>
  	</ul>
  	<p>NCs only have two pieces of information: component name and IP address.</p>
  	<!-- Taking this part out because it's not true. Say something specific for each component, or let
