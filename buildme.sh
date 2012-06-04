@@ -1,5 +1,6 @@
 #!/bin/sh
 #simple build script
+#need to fix this...test commit
 export DITA_HOME="`pwd`/DITA-OT"
 export DOC_HOME=`pwd`
 export ANT_HOME="/usr/bin/ant"
