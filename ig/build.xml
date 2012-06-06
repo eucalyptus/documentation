@@ -11,7 +11,7 @@
 	| they are relative paths.
 	* -->
 
-<project name="admin_guide" default="all" basedir=".">
+<project name="ig_guide" default="all" basedir=".">
 	<!-- Use environment variables. -->
 	<property environment="env"/>
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
@@ -48,6 +48,18 @@
 		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
 			<property name="output.dir"
 				value="out${file.separator}xhtml"/>
+			<property name="breadcrumbs" value="yes"/>
+			<property name="dita-css"
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}css${file.separator}euca_doc.css"/>
+			<property name="args.css"
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}css${file.separator}euca_doc.css"/>
+			<property name="args.csspath" value="css"/>
+			<property name="args.copycss" value="yes"/>
+			
+			<property name="args.hdr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}xhtml${file.separator}euca_header.html"/>
+			<property name="args.ftr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}xhtml${file.separator}euca_footer.html"/>
 			<property name="transtype" value="xhtml"/>
 			<!--<property name="clean.temp" value="yes"/>-->
 		</ant>
@@ -103,6 +115,14 @@
 			<property name="output.dir"
 				value="out${file.separator}xliff2dita"/>
 			<property name="transtype" value="ditafromxliff"/>
+		</ant>
+	</target>
+	
+	<target name="docbook" description="Build Docbook files" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}docbook"/>
+			<property name="transtype" value="docbook"/>
 		</ant>
 	</target>
 	
