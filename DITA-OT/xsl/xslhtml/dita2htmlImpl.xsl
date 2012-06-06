@@ -83,7 +83,7 @@
 <xsl:param name="INDEXSHOW" select="'no'"/><!-- "no" and "yes" are valid values; non-'yes' is ignored -->
 
 <!-- for now, disable breadcrumbs pending link group descision -->
-<xsl:param name="BREADCRUMBS" select="'no'"/> <!-- "no" and "yes" are valid values; non-'yes' is ignored -->
+<xsl:param name="BREADCRUMBS" select="'yes'"/> <!-- "no" and "yes" are valid values; non-'yes' is ignored -->
 
 <!-- the year for the copyright -->
 <xsl:param name="YEAR" select="'2005'"/>
