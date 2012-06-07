@@ -16,7 +16,8 @@
         		<li>The DRBD block device name of each Walrus. In the following examples, we assume that
         			DRBD block device name is <filepath>/dev/drbd1</filepath>.</li>
         		<li>The DRBD backing disk partition names on each Walrus. A partition (either on a new disk or an existing disk) should be dedicated to Walrus. The partition sizes should be identical.</li>
-        	</ul>
+		</ul>
+		<note type="tip">Consider backing the DRBD resource with a logical volume using LVM, this will make growing the backing store easier in the future if you are running low on disk space.</note>
         	<p>Configuring DRBD requires that you complete edit the Eucalyptus DRBD file
         		to include your Walrus information, and edit the master DRBD file to tell it to look
         		for the Eucalyptus DRBD file. </p>
@@ -43,13 +44,13 @@
         		<cmd>Open the <filepath>/etc/eucalyptus/drbd.conf</filepath> file and make the following edits:</cmd>
         		<info>
         			<ul>
-        				<li>Change the value of <codeph>&lt;walrus-host-1></codeph> to the hostname of the primary Walrus.</li>
+        				<li>Change the value of <codeph>&lt;walrus-host-1></codeph> to the hostname (output of `uname -n`) of the primary Walrus.</li>
         				<li>Change the value of <codeph>&lt;drbd-block-dev, e.g., /dev/drbd1></codeph> to
         					<codeph>/dev/drbd1</codeph></li>
         				<li>Change the value of <codeph>&lt;drbd-backing-disk-dev, e.g. /dev/sdb1></codeph> to
         					<codeph>/dev/sdb1</codeph></li>
         				<li>Change the value of <codeph>&lt;walrus-host-1-ip></codeph> to the IP address of the primary Walrus.</li>
-        				<li>Change the value of <codeph>&lt;walrus-host-2></codeph> to the hostname of the
+        				<li>Change the value of <codeph>&lt;walrus-host-2></codeph> to the hostname (output of `uname -n`) of the
         					secondary Walrus.</li>
         				<li>Change the value of <codeph>&lt;drbd-block-dev, e.g., /dev/drbd1></codeph> to
         					<codeph>/dev/drbd1</codeph></li>
@@ -143,7 +144,7 @@ drbdadm connect r0</codeblock>
         		<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
         		<info>
         			<codeblock>drbdsetup /dev/drbd1 syncer -r 110M
-drbdadm --overwrite-data-of-peer primary r0</codeblock>
+drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
 
         		</info>
         	</step>
