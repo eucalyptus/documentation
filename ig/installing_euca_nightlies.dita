@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_nightlies">
+    <title>Installing Eucalyptus Nightly Packages</title>
+    <shortdesc/>
+    <taskbody>
+    	
+        <context>
+        	<p>To install Eucalyptus nightly builds on servers running RHEL 6</p>
+        </context>
+        <steps>
+		<step>
+		<cmd>Download the Eucalyptus nightly release key from: http://www.eucalyptus.com/eucalyptus-cloud/security/keys</cmd>
+		</step>
+		<step>
+        		<substeps>
+        			<substep>
+        				<cmd>Place the Eucalyptus Nightly GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
+        				<info>
+        					<codeblock>mv 9d7b073c-eucalyptus-nightly-release-key.pub /etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub</codeblock>
+        				</info>
+        			</substep>  
+        		</substeps>
+        	</step>
+        	<step>
+        	<cmd>On all servers create a file in /etc/yum.repos.d called eucalyptus-nightly.repo with the following content:</cmd>
+        	<info>
+        		<codeblock>[eucalyptus-nightly]
+name=Eucalyptus Nightly 3.1
+baseurl=https://downloads.eucalyptus.com/software/eucalyptus/nightly/3.1/centos/$releasever/$basearch
+gpgkey=file:///etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub
+gpgcheck=1
+</codeblock>
+        	</info>
+        	</step>
+        </steps>
+    	<result>Your installation is complete.</result>
+    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
+    </taskbody>
+</task>
