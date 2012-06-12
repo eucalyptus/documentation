@@ -4,6 +4,15 @@
 # note that this will not work with the current build.properties
 # unless you have xep installed and remove the hardcoded kindlegen references
 
+#test to see if we're running under jenkins or not
+echo "Testing for jenkins execution…"
+if [ -z "$WORKSPACE" ]
+then
+cd "$WORKSPACE"
+else
+echo "…not running under jenkins..."
+fi
+
 export DITA_HOME="`pwd`/DITA-OT"
 export DOC_HOME=`pwd`
 export ANT_HOME="$DITA_HOME/tools/ant"
