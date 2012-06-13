@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="dist" name="build_euca_docs">
- <target name="setup">
- 	<property name="pdf.formatter" value="xep"/>
- 	<property name="xep.dir" value="/Users/scotmarvin/xep"/>
-  
- </target> 
+<project basedir="." default="pdf" name="build_euca_docs">
+	<property name="pdf.formatter" value="xep"/>
+	<property name="xep.dir" value="/Users/scotmarvin/xep"/>
+	<property environment="env"/>
+	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
+	<property name="source.dir" value="${env.DOC_HOME}"/>
+	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
+	<property name="home.dir" value="${env.HOME}${file.separator}Desktop${file.separator}out"/>
+ 
+	<target name="pdf">
+		<ant antfile="build.xml" target="pdf" dir="ag"/>
+		<ant antfile="build.xml" target="pdf" dir="cli"/>
+		<ant antfile="build.xml" target="pdf" dir="fs"/>
+		<ant antfile="build.xml" target="pdf" dir="ig"/>
+		<ant antfile="build.xml" target="pdf" dir="ug"/>
+		<antcall target="move"/>
+		
+	</target>
+	
+	<target name="move">
+		<move
+			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
+			todir="${home.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}pdf${file.separator}cli.pdf"
+			todir="${home.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}pdf${file.separator}fs.pdf"
+			todir="${home.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}pdf${file.separator}ig.pdf"
+			todir="${home.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
+			todir="${home.dir}" overwrite="true"/>
+	</target>
 </project>
