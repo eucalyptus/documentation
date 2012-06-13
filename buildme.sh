@@ -5,12 +5,13 @@
 # unless you have xep installed and remove the hardcoded kindlegen references
 
 #test to see if we're running under jenkins or not
-echo "Testing for jenkins execution…"
-if [ -z "$WORKSPACE" ]
+echo "Testing for jenkins execution... "
+if [ -n "$WORKSPACE" ]
 then
+echo "running under jenkins; switching to $WORKSPACE"
 cd "$WORKSPACE"
 else
-echo "…not running under jenkins..."
+echo "not running under jenkins"
 fi
 
 export DITA_HOME="`pwd`/DITA-OT"
