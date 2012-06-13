@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_nightlies_centos6" platform="centos6">
+    <title>Installing Eucalyptus Nightly Packages on CentOS 6</title>
+    <shortdesc/>
+    <taskbody>
+    	
+        <context>
+        	<p>To install Eucalyptus nightly builds on servers running CentOS 6</p>
+        </context>
+        <steps>
+		<step>
+		<cmd>Download the Eucalyptus nightly release key from: <xref format="html" href="http://www.eucalyptus.com/eucalyptus-cloud/security/keys">http://www.eucalyptus.com/eucalyptus-cloud/security/keys</xref></cmd>
+		</step>
+		<step>
+        		<cmd>Place the Eucalyptus Nightly GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
+        			<info>
+        				<codeblock>mv 9d7b073c-eucalyptus-nightly-release-key.pub /etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub</codeblock>
+        			</info>
+		</step>
+        	<step>
+        	<cmd>On all servers create a file in /etc/yum.repos.d called eucalyptus-nightly.repo with the following content:</cmd>
+        	<info>
+        		<codeblock>[eucalyptus-nightly]
+name=Eucalyptus Nightly 3.1
+baseurl=https://downloads.eucalyptus.com/software/eucalyptus/nightly/3.1/centos/$releasever/$basearch
+gpgkey=file:///etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub
+gpgcheck=1
+</codeblock>
+        	</info>
+        	</step>
+                <step>
+                        <cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
+                                commands:</cmd>
+                        <info>
+                                <codeblock>yum install -y http://downloads.eucalyptus.com/software/
+euca2ools/2.1/centos/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+                        </info>
+                </step>
+                <step>
+                        <cmd>Install the ELRepo repository on the machine that will run Walrus:</cmd>
+                        <info>  
+                                <codeblock>yum --nogpg install http://downloads.eucalyptus.com/software/
+eucalyptus/3.1/centos/6/x86_64/elrepo-release-6.el6.elrepo.noarch.rpm</codeblock>
+                        </info> 
+                </step> 
+        	<step>
+        		<cmd>Configure the EPEL repository:</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>Go to <xref format="html" href="http://fedoraproject.org/wiki/EPEL">http://fedoraproject.org/wiki/EPEL</xref></cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Navigate to <uicontrol>How can I use these extra packages?</uicontrol> and select the newest version for EPEL6.</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Click the package link to download the RPM.</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Install the resultant RPM package with the following command, as root:</cmd>
+        				<info>
+        					<codeblock>rpm -Uvh epel-release-<i>X</i>-<i>Y</i>.noarch.rpm</codeblock>
+        				</info>
+        			</substep>
+        		</substeps>
+        	</step>
+        	<step>
+        		<cmd>On all servers, enter:</cmd>
+        		<info>
+        			<codeblock>yum update</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
+        		<info>
+        			<codeblock>yum groupinstall eucalyptus-cloud-controller
+yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
+        		</info>
+        	</step>
+        	<step>
+				<cmd>On each planned NC server, install the NC package:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-nc</codeblock>
+					<note type="important" product="vmware">If you are using VMware, you can skip this step.
+						Eucalyptus software is not installed on the node machines. The nodes are
+						running VMware.</note>
+				</info>
+        	</step>
+ 
+        </steps>
+    	<result>Your installation is complete.</result>
+    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
+    </taskbody>
+</task>

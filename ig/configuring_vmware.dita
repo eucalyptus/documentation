@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+	<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_vmware" otherprops="subscription">
+ <title>Configuring VMware</title>
+ <shortdesc></shortdesc>
+ <taskbody>
+ 	<context>
+			<note type="tip">VMware support is available by subscription only. If you are not using
+				VMware, skip this section.</note>
+			<p>The easiest way to configure vSphere for Eucalyptus is to give Eucalyptus
+				unrestricted access to all vSphere endpoint(s). This way does not require complex
+				modifications to local access permission settings. You can grant this access to
+				Eucalyptus by using an existing administrative account and password or by creating a
+				new account for Eucalyptus and associating it with vSphere’s standard Administrator
+				role at the top level of the vSphere hierarchy as seen in the vSphere client.</p>
+			<image href="images/vmware_assign_permissions.png" scale="90"
+				alt="Assing Persmissions windows"/>
+			<p>To give a more limited amount of control to Eucalyptus over your vSphere
+				infrastructure, create one new user and two new roles. The new user, eucalyptus, and
+				its password are used when configuring Eucalyptus for VMware support. Define and
+				associate these new roles with vSphere objects by doing the tasks listed in this
+				section.</p>
+		</context>
+ 	
+ </taskbody>
+	
+	<task id="vmware_create_user">
+		<title>Create New User</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To give a more limited amount of control to Eucalyptus over your vSphere infrastructure,
+					create one new user and two new roles. The new user (e.g., eucalyptus) and its password are used when configuring Eucalyptus for VMware. Define and associate these new roles with vSphere objects by doing the following tasks:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Associate a top-level role (e.g., Eucalyptus vSphere) with the eucalyptus user at
+						the top level of the vSphere hierarchy only. You don’t need to check <uicontrol>Propagate to Child Objects</uicontrol>. This role should have only one privilege:</cmd>
+					<info>
+						<image href="images/vmware_users_privs.png"/>
+					</info>
+				</step>
+				<step>
+					<cmd>Associate a resource-level role (e.g., Eucalyptus) with the eucalyptus user at the
+						level(s) encapsulating the resources that you want Eucalyptus to use. For example, you can create a new virtual datacenter for Eucalyptus to use, add to it the relevant hosts or clusters, and assign the eucalyptus user Eucalyptus role for the new datacenter. Check <uicontrol>Propagate to Child Objects</uicontrol>. The Eucalyptus role should have the following privileges:</cmd>
+					<info>
+						<image href="images/vmware_privs.png"/>
+					</info>
+				</step>
+			</steps>
+			<postreq>You're now ready to set up a datastore.</postreq>
+		</taskbody>
+	</task>
+	<task id="configuring_vmware_datastore">
+		<title>Set Up a Datastore</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Each node requires at least one datastore (either local or one shared by multiple nodes). If more than one datastore is available to a node, Eucalyptus will choose the datastore arbitrarily. If Eucalyptus is to be restricted in its use of available datastores, specify a datastore in Eucalyptus’s configuration for VMware.</p>
+				<p>To determine the datastores that are available on a host, perform the following steps with
+					vSphere client referencing either at vCenter Server or at a specific ESX/ESXi node:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Choose a host in left-hand-side panel.</cmd>
+				</step>
+				<step>
+					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>Storage</uicontrol> in the secondary left-hand side panel.</cmd>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>View: Datastores</uicontrol> at the top of the panel.</cmd>
+				</step>
+			</steps>
+			<postreq>You're now ready to create a network.</postreq>
+		</taskbody>
+	</task>
+	<task id="configuring_vmware_network">
+		<title>Create a Network</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Each node must have a network reachable by the node running the Eucalyptus VMware Broker.</p>
+				<note type="tip">If more than one network is available, specify the network name in Eucalyptus configuration explicitly. Eucalyptus assumes that this network resides on the switch named "vSwitch0". If that is not the case, the switch name also must be specified in the configuration. For more information about </note>
+				<p>To check the network settings and create a network (if necessary) perform the following steps
+					with vSphere client pointed either at vCenter Server or at a particular ESX/ESXi node:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Click a host in left-hand side panel.</cmd>
+				</step>
+				<step>
+					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>Networking</uicontrol> in the secondary left-hand-side panel.</cmd>
+				</step>
+				<step>
+					<cmd>If there is no VM Network in the list, add it by performing these steps:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Click <uicontrol>Add Networking...</uicontrol> in the upper-right corner.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click <uicontrol>Virtual Machine</uicontrol> and click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click a switch (e.g., <uicontrol>Use vSwitch0</uicontrol>) and click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Enter <uicontrol>VM Network for Network Label</uicontrol>, leave <uicontrol>VLAN ID</uicontrol> blank, and click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Check the summary and click <uicontrol>Finish</uicontrol>.</cmd>
+						</substep>
+						
+					</substeps>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="configuring_vmware_ebs">
+		<title>Enable EBS Support</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To enable VMware support for dynamic block volume support (like Amazon’s Elastic Block Store) in Eucalyptus, configure each of the ESX/ESXi nodes in your infrastructure to support iSCSI. Given a node that is licensed for iSCSI support, this amounts to enabling and configuring the gateway for the VMkernel network. To accomplish that, perform the following steps with vSphere client pointed either at vCenter or at a particular ESX/ESXi node:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Click a host in left-hand-side panel.</cmd>
+				</step>
+				<step>
+					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+				</step>
+				<step>
+					<cmd>Select <uicontrol>Networking</uicontrol> in the secondary left-hand-side panel.</cmd>
+				</step>
+				<step>
+					<cmd>If there is no <uicontrol>VMkernel</uicontrol> network listed, add it by performing the following tasks:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Click <uicontrol>Add Networking...</uicontrol> in the upper-right corner.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click <uicontrol>VMkernel</uicontrol> and click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click a switch (e.g., <uicontrol>Use vSwitch0</uicontrol>) and click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click the label <uicontrol>VLAN ID</uicontrol> and make sure that
+								<uicontrol>None(0)</uicontrol> is selected, then click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Choose either dynamic network config or static IP assignment, depending on your
+								environment. When your are done, click <uicontrol>Next</uicontrol>.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click <uicontrol>Finish</uicontrol>.</cmd>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>Click <uicontrol>DNS and Routing</uicontrol> in the secondary left-hand-side panel.</cmd>
+					
+				</step>
+				<step>
+					<cmd>If VMkernel does not have a gateway, add it by performing these steps:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Click <uicontrol>Properties...</uicontrol> in upper-right corner.</cmd>
+						</substep>
+						<substep>
+							<cmd>Click the <uicontrol>Routing</uicontrol> tab, enter the gateway's IP, and click <uicontrol>OK</uicontrol>.</cmd>
+						</substep>
+					</substeps>
+				</step>
+			</steps>
+			<postreq>For more information about configuring vSphere, go to the VMware website at <xref
+				format="html" href="http://www.vmware.com/support/pubs/vs_pubs.html">http://www.vmware.com/support/pubs/vs_pubs.html</xref>.</postreq>
+		</taskbody>
+	</task>
+	<task id="configuring_vmware_tools">
+		<title>Install VMware Tools</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Ensure that VMware Tools are installed in the images that will be installed and run
+					within the Eucalyptus cloud. These tools allow Eucalyptus to discover an instance’s IP
+					address in System networking mode. They also are required for using the
+					<cmdname>euca-bundle-instance</cmdname> command when running Windows VMs in Eucalyptus. For
+					information about installing VMware
+					Tools, go to the VMware documentation at <xref format="html" href="http://www.vmware.com">http://www.vmware.com</xref>.</p>
+			</context>
+			
+		</taskbody>
+	</task>
+	<task id="configuring_vmware_vddk">
+		<title>Install VDDK</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>If you are using VMware, install the VMware’s VIX DiskLib dynamic libraries (VDDK) on the machine that you plan to install the VMware Broker on (i.e., the CC machine). </p>
+				<p conref="../shared/reuse.dita#reuse/certificate_info" />
+				<note type="warning">The VMware VDDK library installer will not run on a system running a Xen kernel.</note>
+			</context>
+			<steps>
+				<step>
+					<cmd>Log in to the machine that you will install the CC on.</cmd>
+				</step>
+				<step>
+					<cmd>Download the VDDK tarball.</cmd>
+					<info>
+						<codeblock>wget --certificate &lt;license_name>-1.3.0.crt --private-key &lt;license_name>.key https://downloads.eucalyptus.com/software/enterprise/3.0/dependencies/eucalyptus-deps-3.0.tar.gz</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Extract the installer for the VDDK library using the following commands:</cmd>
+					<info>
+						<codeblock>tar xzf eucalyptus-deps-3.0.tar.gz
+cd eucalyptus-deps-3.0
+tar xzf vmware-vix-disklib-distrib.tgz
+cd vmware-vix-disklib-distrib</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Run the installer script, accepting the End User License Agreement and entering <codeph>/opt/packages/vddk</codeph> as the installation prefix where all folders will be placed, as shown:</cmd>
+					<info>
+						<codeblock>./vmware-install.pl
+Creating a new VMware VIX DiskLib API installer database using the tar4 format.
+Installing VMware VIX DiskLib API.
+You must read and accept the VMware VIX DiskLib API End User License Agreement to continue. Press enter to display it.
+Do you accept? (yes/no) yes
+
+Thank you.
+What prefix do you want to use to install VMware VIX DiskLib API?
+The prefix is the root directory where the other
+folders such as man, bin, doc, lib, etc. will be placed.
+/opt/packages/vddk
+
+The installation of VMware VIX DiskLib API 1.1.0 build-163495 for Linux completed successfully. You can decide to remove this software from your system at any time by invoking the following command:
+"/usr/bin/vmware-uninstall-vix-disklib.pl".
+Enjoy,
+
+--the VMware team</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	
+</task>

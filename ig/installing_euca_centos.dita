@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_centos" platform="centos5">
+    <title>Install on CentOS 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p conref="../shared/reuse.dita#reuse/euca_install_ha_note"/>
+            <p>To install Eucalyptus on servers running CentOS 5:</p>
+        </context>
+        <steps>
+        	<step>
+        		<cmd>Move your credentials so the package managers can locate them.</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
+        				<info>
+        					<codeblock>mv &lt;license_name>-1.3.0.crt /etc/pki/tls/certs/&lt;license_name>-1.3.0.crt</codeblock>
+        				</info>
+        			</substep>
+        			<substep>
+        				<cmd>Place the private key in <filepath>/etc/pki/tls/private</filepath>.</cmd>
+        				<info>
+        					<codeblock>mv &lt;license_name>.key /etc/pki/tls/private/&lt;license_name>.key</codeblock>
+        				</info>
+        			</substep>
+        			<substep>
+        				<cmd>Place the Eucalyptus GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
+        				<info>
+        					<codeblock>mv c1240596-eucalyptus-release-key.pub /etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub</codeblock>
+        				</info>
+        			</substep>
+        		</substeps>
+        		
+        	</step>
+        	
+        	<step>
+            	<cmd>On all servers, create a file in <filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo with the following content:</cmd>
+            	<info>
+            		<codeblock>[eucalyptus-enterprise]
+name=Eucalyptus Enterprise 3.0
+baseurl=https://downloads.eucalyptus.com/software/enterprise/3.0/centos/$releasever/$basearch
+gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
+gpgcheck=1
+sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.0.crt
+sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
+</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/yum.repos.d</filepath> called euca2ools.repo with the following content:</cmd>
+        		<info>
+        			<codeblock>[euca2ools]
+name=Euca2ools 2.0
+baseurl=http://downloads.eucalyptus.com/software/euca2ools/2.0/centos/$releasever/$basearch
+gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
+gpgcheck=1
+</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Configure the EPEL repository:</cmd>
+			<substeps>
+				<substep>
+					<cmd>Go to <xref format="html" href="http://fedoraproject.org/wiki/EPEL">http://fedoraproject.org/wiki/EPEL</xref></cmd>
+				</substep>
+				<substep>
+					<cmd>Navigate to <uicontrol>How can I use these extra packages?</uicontrol> and select the newest version for EL5.</cmd>
+				</substep>
+				<substep>
+					<cmd>Click the package link to download the RPM.</cmd>
+				</substep>
+				<substep>
+					<cmd>Install the resultant RPM package with the following command, as root:</cmd>
+				<info>
+					<codeblock>rpm -Uvh epel-release-<i>X</i>-<i>Y</i>.noarch.rpm</codeblock>
+				</info>
+				</substep>
+			</substeps>
+        	</step>
+        	<step>
+        		<cmd>If your planned Walrus server is running Xen, install
+        			<filepath>kmod-drbd83-xen</filepath> package. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install kmod-drbd83-xen</codeblock>
+        		</info>
+        	</step>  
+        	
+        	<step>
+        		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
+        		</info>
+        	</step>
+        	<step>
+				<cmd>On each planned NC server, install the NC package:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-nc </codeblock>
+					<note type="important">If you are using VMware, you can skip this step.
+						Eucalyptus software is not installed on the node machines. The nodes are
+						running VMware.</note>
+				</info>
+        	</step>
+        	<step>
+				<cmd>If you plan to use VMware, install the subscription only VMware Broker package
+					on each CC:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-broker</codeblock>
+				</info>
+			</step>
+        	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
+        		<cmd></cmd>
+        	</step>
+        </steps>
+    	<result>Your installation is complete.</result>
+    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
+    </taskbody>
+</task>

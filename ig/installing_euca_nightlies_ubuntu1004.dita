@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_nightlies_ubuntu1004" platform="ubuntu1004">
+	<title>Install Eucalyptus Nightly Packages on Ubuntu 10.04 LTS</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p conref="../shared/reuse.dita#reuse/euca_install_ha_note"/>
+        	<p>To install Eucalyptus nightlies on servers running Ubuntu 10.04 LTS:</p>
+        </context>
+        <steps>
+          <step>
+          	<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called <filepath>eucalyptus.list</filepath> with the following content:</cmd>
+          	<info>
+          		<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/nightly/3.1/ubuntu lucid universe</codeblock>
+          	</info>
+          </step> 
+		<step>
+		<cmd>Download the Eucalyptus nightly release key from: <xref format="html" href="http://www.eucalyptus.com/eucalyptus-cloud/security/keys">http://www.eucalyptus.com/eucalyptus-cloud/security/keys</xref></cmd>
+		</step>
+		<step>	
+    					<cmd>Add the public key to the list of trusted keys.</cmd>
+    					<info>
+    						<codeblock>apt-key add 9d7b073c-eucalyptus-nightly-release-key.pub</codeblock>
+    					</info>
+    		</step>
+                <step>
+                        <cmd>On all machines that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/apt/sources.list.d</filepath> called euca2ools.list with the following content:</cmd>
+                        <info>
+                                <codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu lucid universe</codeblock>
+                        </info>
+                </step>
+        	<step>
+        		<cmd>Enter the following command on all machines:</cmd>
+        		<info>
+        			<codeblock>apt-get update</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Install Eucalyptus packages and dependencies. The following example shows a package install all on the same server. You can install each component on a different server.</cmd>
+        		<info>
+        			<codeblock>apt-get install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+        			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
+        		</info>
+        	</step>
+        	<step>
+				<cmd>On each planned NC server, install the NC package:</cmd>
+				<info>
+					<codeblock>apt-get install eucalyptus-nc</codeblock>
+					<note type="important" product="vmware">If you are using VMware, you can skip this step.
+						Eucalyptus software is not installed on the node machines. The nodes are
+						running VMware.</note>
+				</info>
+			</step>
+        	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
+        		<cmd></cmd>
+        	</step>
+        </steps>
+    	<result>Your installation is complete. </result>
+    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
+    </taskbody>
+</task>

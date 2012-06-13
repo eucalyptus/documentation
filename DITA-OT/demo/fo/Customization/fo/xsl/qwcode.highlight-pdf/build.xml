@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="qwcode.dita.ot.plugins.highlight" default="" >
+
+    <dirname property="dita.dir" file="../../../../../"/>
+	<import file="${dita.dir}/integrator.xml" />	
+
+	<target name="buildDemo" depends="integrate">
+		<delete dir="demo/pdf" />
+		<delete dir="demo/temp" />
+		<ant antfile="${dita.dir}/build.xml" target="init">
+			<property name="args.input" value="demo/dita/map.ditamap" />
+			<property name="output.dir" value="demo/pdf" />
+			<property name="dita.temp.dir" value="demo/temp" />
+			<property name="transtype" value="pdf" />
+			<property name="clean.temp" value="yes" />
+		</ant>
+	</target>
+	
+</project>
