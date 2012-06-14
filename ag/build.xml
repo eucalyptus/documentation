@@ -111,6 +111,22 @@
 		</ant>
 	</target>
 	
+	<target name="docbook" description="Build Docbook files" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}docbook"/>
+			<property name="transtype" value="docbook"/>
+		</ant>
+	</target>
+	
+	<target name="qa" description="Generates quality assurance report" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}qa"/>
+			<property name="transtype" value="qa"/>
+		</ant>
+	</target>
+	
 	<!-- This builds all files we intend to publish other than xliff and xliff2dita. -->
 	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub">
 		

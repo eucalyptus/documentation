@@ -6,9 +6,11 @@
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
 	<property name="source.dir" value="${env.DOC_HOME}"/>
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
-	<property name="home.dir" value="${env.HOME}${file.separator}Desktop${file.separator}out"/>
+	<property name="www.dir"
+		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}3.1${file.separator}beta"/>
  
 	<target name="pdf">
+<!-- Generate the PDF files	for all guides -->
 		<ant antfile="build.xml" target="pdf" dir="ag"/>
 		<ant antfile="build.xml" target="pdf" dir="cli"/>
 		<ant antfile="build.xml" target="pdf" dir="fs"/>
@@ -19,19 +21,20 @@
 	</target>
 	
 	<target name="move">
+<!-- Move the generated files to the www repo	-->
 		<move
 			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
-			todir="${home.dir}" overwrite="true"/>
+			todir="${www.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}pdf${file.separator}cli.pdf"
-			todir="${home.dir}" overwrite="true"/>
+			todir="${www.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}pdf${file.separator}fs.pdf"
-			todir="${home.dir}" overwrite="true"/>
+			todir="${www.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}pdf${file.separator}ig.pdf"
-			todir="${home.dir}" overwrite="true"/>
+			todir="${www.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
-			todir="${home.dir}" overwrite="true"/>
+			todir="${www.dir}" overwrite="true"/>
 	</target>
 </project>
