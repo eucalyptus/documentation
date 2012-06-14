@@ -10,24 +10,11 @@
         	<p>To install Eucalyptus nightly builds on servers running RHEL 6</p>
         </context>
         <steps>
-		<step>
-		<cmd>Download the Eucalyptus nightly release key from: <xref format="html" href="http://www.eucalyptus.com/eucalyptus-cloud/security/keys">http://www.eucalyptus.com/eucalyptus-cloud/security/keys</xref></cmd>
-		</step>
-		<step>
-        		<cmd>Place the Eucalyptus Nightly GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
-        			<info>
-        				<codeblock>mv 9d7b073c-eucalyptus-nightly-release-key.pub /etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub</codeblock>
-        			</info>
-		</step>
         	<step>
-        	<cmd>On all servers create a file in /etc/yum.repos.d called eucalyptus-nightly.repo with the following content:</cmd>
+        	<cmd>Run the following command on all servers:</cmd>
         	<info>
-        		<codeblock>[eucalyptus-nightly]
-name=Eucalyptus Nightly 3.1
-baseurl=https://downloads.eucalyptus.com/software/eucalyptus/nightly/3.1/rhel/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/9d7b073c-eucalyptus-nightly-release-key.pub
-gpgcheck=1
-</codeblock>
+        		<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/software/eucalyptus/
+nightly/3.1/rhel/6/x86_64/eucalyptus-release-nightly-3.1.noarch.rpm</codeblock>
         	</info>
         	</step>
                 <step>
@@ -44,7 +31,7 @@ euca2ools/2.1/rhel/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
                         <cmd>Install the ELRepo repository on the machine that will run Walrus:</cmd>
                         <info>
                                 <codeblock>yum --nogpg install http://downloads.eucalyptus.com/software/eucalyptus/
-3.1/rhel/6/x86_64/elrepo-release-6.el6.elrepo.noarch.rpm</codeblock>
+nightly/3.1/rhel/6/x86_64/elrepo-release-6-4.el6.elrepo.noarch.rpm</codeblock>
                         </info>
                 </step>
         	<step>

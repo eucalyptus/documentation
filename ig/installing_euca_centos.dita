@@ -10,8 +10,16 @@
             <p>To install Eucalyptus on servers running CentOS 5:</p>
         </context>
         <steps>
-        	<step>
-        		<cmd>Move your credentials so the package managers can locate them.</cmd>
+    		<step>
+    			<cmd>On all servers, run the following commands:</cmd>
+    			<info>
+    				<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/
+software/eucalyptus/3.1/centos/5/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step props="subscribe">
+    			<cmd>If you are a Eucalyptus subscriber, move your credentials so the package managers can
+    				locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
         		<substeps>
         			<substep>
         				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
@@ -48,17 +56,14 @@ sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
 </codeblock>
             	</info>
             </step>
-        	<step>
-        		<cmd>On all systems that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/yum.repos.d</filepath> called euca2ools.repo with the following content:</cmd>
-        		<info>
-        			<codeblock>[euca2ools]
-name=Euca2ools 2.0
-baseurl=http://downloads.eucalyptus.com/software/euca2ools/2.0/centos/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-</codeblock>
-        		</info>
-        	</step>
+    		<step>
+    			<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
+    				commands:</cmd>
+    			<info>
+    				<codeblock>yum install -y http://downloads.eucalyptus.com/software/
+euca2ools/2.1/centos/5/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
         	<step>
         		<cmd>Configure the EPEL repository:</cmd>
 			<substeps>
