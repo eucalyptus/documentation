@@ -4,5 +4,6 @@
   <xsl:import href="maplinkImpl.xsl"></xsl:import>
   
 <xsl:import href="../../demo/eclipsemap/xsl/maplink-plugin.xsl"/>
+<xsl:import href="../../plugins/qwcode.ancestors/src/dita.xsl.maplink.xsl"/>
   <xsl:output method="xml" encoding="utf-8" indent="no"></xsl:output>
 </xsl:stylesheet>
