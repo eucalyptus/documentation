@@ -10,58 +10,33 @@
             <p>To install Eucalyptus on servers running CentOS 5:</p>
         </context>
         <steps>
+			<step props="subscribe">
+				<note type="tip">If you are a Eucalyptus subscriber, you should have received an rpm package file
+    			    that you will need to install. If you are not a Eucalyptus subscriber, skip this step.</note>
+				<cmd>On all servers, copy over your rpm package file and run the following command:</cmd>
+				<info>
+					<codeblock>rpm -Uvh eucalyptus-enterprise-release-3.1-*.rpm</codeblock>
+				</info>
+			</step>
+
     		<step>
-    			<cmd>On all servers, run the following commands:</cmd>
+                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
+				<cmd>Run the following commands on all servers:</cmd>
     			<info>
-    				<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/
-software/eucalyptus/3.1/centos/5/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+					<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/3.1/centos/5/x86_64/eucalyptus-release-3.1.noarch.rpm
+rpm -Uvh eucalyptus-release-3.1.noarch.rpm</codeblock>
     			</info>
-    		</step>
-    		<step props="subscribe">
-    			<cmd>If you are a Eucalyptus subscriber, move your credentials so the package managers can
-    				locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>-1.3.0.crt /etc/pki/tls/certs/&lt;license_name>-1.3.0.crt</codeblock>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Place the private key in <filepath>/etc/pki/tls/private</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>.key /etc/pki/tls/private/&lt;license_name>.key</codeblock>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Place the Eucalyptus GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv c1240596-eucalyptus-release-key.pub /etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub</codeblock>
-        				</info>
-        			</substep>
-        		</substeps>
-        		
-        	</step>
+			</step>
         	
-        	<step>
-            	<cmd>On all servers, create a file in <filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo with the following content:</cmd>
-            	<info>
-            		<codeblock>[eucalyptus-enterprise]
-name=Eucalyptus Enterprise 3.0
-baseurl=https://downloads.eucalyptus.com/software/enterprise/3.0/centos/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.0.crt
-sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
-</codeblock>
-            	</info>
-            </step>
-    		<step>
+			<step>
+                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
     			<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
     				commands:</cmd>
-    			<info>
-    				<codeblock>yum install -y http://downloads.eucalyptus.com/software/
-euca2ools/2.1/centos/5/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+				<info>
+    				<codeblock>wget http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/5/x86_64/euca2ools-release-2.1.noarch.rpm
+rpm -Uvh euca2ools-release-2.1.noarch.rpm</codeblock>
     			</info>
     		</step>
         	<step>
@@ -95,26 +70,34 @@ euca2ools/2.1/centos/5/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
         	<step>
         		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
         		<info>
-        			<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+					<codeblock>yum groupinstall eucalyptus-cloud-controller
+yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
         			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
         		</info>
         	</step>
         	<step>
 				<cmd>On each planned NC server, install the NC package:</cmd>
 				<info>
-					<codeblock>yum install eucalyptus-nc </codeblock>
+					<codeblock>yum install eucalyptus-nc</codeblock>
 					<note type="important">If you are using VMware, you can skip this step.
 						Eucalyptus software is not installed on the node machines. The nodes are
 						running VMware.</note>
 				</info>
         	</step>
-        	<step>
-				<cmd>If you plan to use VMware, install the subscription only VMware Broker package
-					on each CC:</cmd>
-				<info>
-					<codeblock>yum install eucalyptus-broker</codeblock>
-				</info>
-			</step>
+        	<step props="subscribe" product="vmware">
+        		<cmd>If you are a Eucalyptus subscriber and plan to use VMware, install the subscription only VMware Broker package
+        			on each CC. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
+        		</info>
+        	</step>
+        	<step props="subscribe" product="san">
+        		<cmd>If you are a Eucalyptus subscriber and plan to use SAN support, install the
+        			enterprise only SAN package on each SC. Otherwise, skip this step.</cmd>
+        		<info>
+        			<codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
+        		</info>
+        	</step>
         	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
         		<cmd></cmd>
         	</step>
