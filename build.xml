@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="pdf" name="build_euca_docs">
+<project basedir="." default="all" name="build_euca_docs">
 	<property name="pdf.formatter" value="xep"/>
 	<property name="xep.dir" value="/Users/scotmarvin/xep"/>
 	<property environment="env"/>
@@ -8,6 +8,8 @@
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
 	<property name="www.dir"
 		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}3.1${file.separator}beta"/>
+	<property name="wwwtest.dir"
+		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}3.1.0"/>
  
 	<target name="pdf">
 <!-- Generate the PDF files	for all guides -->
@@ -16,12 +18,23 @@
 		<ant antfile="build.xml" target="pdf" dir="fs"/>
 		<ant antfile="build.xml" target="pdf" dir="ig"/>
 		<ant antfile="build.xml" target="pdf" dir="ug"/>
-		<antcall target="move"/>
+		<antcall target="move_pdf"/>
 		
 	</target>
 	
-	<target name="move">
-<!-- Move the generated files to the www repo	-->
+	<target name="xhtml">
+		<!-- Generate the PDF files	for all guides -->
+		<ant antfile="build.xml" target="xhtml" dir="ag"/>
+		<ant antfile="build.xml" target="xhtml" dir="cli"/>
+		<ant antfile="build.xml" target="xhtml" dir="fs"/>
+		<ant antfile="build.xml" target="xhtml" dir="ig"/>
+		<ant antfile="build.xml" target="xhtml" dir="ug"/>
+		<antcall target="move_xhtml"/>
+		
+	</target>
+	
+	<target name="move_pdf">
+<!-- Move the generated PDF files to the www repo	-->
 		<move
 			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
 			todir="${www.dir}" overwrite="true"/>
@@ -36,5 +49,28 @@
 			todir="${www.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
 			todir="${www.dir}" overwrite="true"/>
+	</target>
+	
+	<target name="move_xhtml">
+		<!-- Move the generated XHTML files to the www repo	-->
+		<move
+			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}xhtml${file.separator}ag"
+			todir="${wwwtest.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}xhtml${file.separator}cli"
+			todir="${wwwtest.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}xhtml${file.separator}fs"
+			todir="${wwwtest.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}xhtml${file.separator}ig"
+			todir="${wwwtest.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}xhtml${file.separator}ug"
+			todir="${wwwtest.dir}" overwrite="true"/>
+	</target>
+	
+	<target name="all">
+		<antcall target="pdf"/>
+		<antcall target="xhtml"/>
 	</target>
 </project>
