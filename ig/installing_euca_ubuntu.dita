@@ -10,57 +10,27 @@
         	<p>To install Eucalyptus on servers running Ubuntu 10.04 LTS:</p>
         </context>
         <steps>
+			<step props="subscribe">
+				<note type="tip">If you are a Eucalyptus subscriber, you should have received a deb package file
+    			    that you will need to install. If you are not a Eucalyptus subscriber, skip this step.</note>
+				<cmd>On all servers, copy over your deb package file and run the following command:</cmd>
+				<info>
+					<codeblock>dpkg -i eucalyptus-enterprise-release_3.1-*lucid_all.deb</codeblock>
+				</info>
+			</step>
+
           <step>
+            <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
           	<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called <filepath>eucalyptus.list</filepath> with the following content:</cmd>
           	<info>
           		<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu lucid universe</codeblock>
           	</info>
           </step> 
-        	<step props="subscribe">
-        		<cmd>If you are a Eucalyptus subscriber, copy your credentials so the package managers can
-        			locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Copy the entitlement certificate to the <filepath>/etc/ssl/certs</filepath> directory on each server that you want to install Eucalyptus on.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>-1.3.1.crt /etc/ssl/certs/&lt;license_name>-1.3.1.crt</codeblock>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Copy the private key file to the <filepath>/etc/ssl/private</filepath> directory on each server that you want to install Eucalyptus on.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>.key /etc/ssl/private/&lt;license_name>.key</codeblock>
-        					<note type="important">Make sure that the private key's file permissions are restricted to only the root user and ssl-certs group.</note>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Add the public key to the list of trusted keys.</cmd>
-        				<info>
-        					<codeblock>apt-key add c1240596-eucalyptus-release-key.pub</codeblock>
-        				</info>
-        			</substep>  
-        		</substeps>
-        	</step>
-        	<step props="subscribe">
-        		<cmd>If you are a Eucalyptus subscriber, create a new file on each server in 
-        			<filepath>/etc/apt/apt.conf.d </filepath> called <filepath>eucarepo</filepath>) with the following content:</cmd>
-        		<info>
-        			<codeblock>Acquire {
-    https {
-        VerifyPeer "true";
-        SslCert "/etc/ssl/certs/&lt;license_name>-1.3.1.crt";
-        SslKey "/etc/ssl/private/&lt;license_name>.key";
-    }; 
-};</codeblock>
-        		</info>
-        	</step>
+
         	<step>
-        		<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called <filepath>eucalyptus-enterprise.list</filepath> with the following content:</cmd>
-        		<info>
-        			<codeblock>deb https://downloads.eucalyptus.com/software/enterprise/3.1/ubuntu lucid universe</codeblock>
-        		</info>
-        	</step>
-        	<step>
+                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
         		<cmd>On all machines that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/apt/sources.list.d</filepath> called euca2ools.list with the following content:</cmd>
         		<info>
         			<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu lucid universe</codeblock>
