@@ -5,7 +5,7 @@
 <!-- PARAMETER DEFAULTS -->
 <xsl:param name="doAncestors" select="'yes'"/>
 <xsl:param name="ancestorSeperator" select="' &gt; '"/>
-<xsl:param name="includePrevNextLinks" select="'no'"/>
+<xsl:param name="includePrevNextLinks" select="'yes'"/>
 <xsl:param name="includeTitleInTrail" select="'no'"/>
 
 
