@@ -8,11 +8,18 @@
 echo "Testing for jenkins execution... "
 if [ -n "$WORKSPACE" ]
 then
-echo "running under jenkins; switching to $WORKSPACE"
+echo "...running under jenkins; switching to $WORKSPACE"
 cd "$WORKSPACE"
 else
-echo "not running under jenkins"
+echo "...not running under jenkins"
 fi
+
+echo "----------------------------"
+echo "Logged in as: " $USER
+echo "----------------------------"
+
+
+echo "Setting environment variables…"
 
 export DITA_HOME="`pwd`/DITA-OT"
 export DOC_HOME=`pwd`

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="qwcode.dita.ot.plugins.ancestors" default="">
+
+	<property name="dita.dir" value="${basedir}/../../" />
+	<import file="${dita.dir}/integrator.xml" />
+
+	<target name="buildDemo" depends="integrate">
+		<delete dir="demo/xhtml" />
+		<delete dir="demo/temp" />
+		<ant antfile="${dita.dir}/build.xml" target="init">
+			<property name="args.input" value="demo/dita/map.ditamap" />
+			<property name="output.dir" value="demo/xhtml" />
+			<property name="dita.temp.dir" value="demo/temp" />
+			<property name="transtype" value="xhtml" />
+			<property name="clean.temp" value="yes" />
+
+			<property name="ancestors.doAncestors" value="yes" />
+			<property name="ancestors.includeLinkToIndexAsRootAncestor" value="yes" />
+			<property name="ancestors.indexLinkText" value="Index" />
+			<property name="ancestors.ancestorSeperator" value=" &gt; " />
+			<property name="ancestors.includePrevNextLinks" value="no" />
+			<property name="ancestors.includeTitleInTrail" value="no" />
+		</ant>
+	</target>
+
+
+</project>

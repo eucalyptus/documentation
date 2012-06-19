@@ -37,6 +37,7 @@
 <xsl:import href="xslhtml/abbrev-d.xsl"></xsl:import>
 
 
+<xsl:import href="../plugins/qwcode.ancestors/src/dita.xsl.xhtml.xsl"/>
 
 <!-- the dita to xhtml converter for element reference documents - not used now -->
 <!--<xsl:import href="elementrefdisp.xsl"/>-->
