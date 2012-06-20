@@ -6,7 +6,7 @@
 <xsl:param name="doAncestors" select="'yes'"/>
 <xsl:param name="includeLinkToIndexAsRootAncestor" select="'yes'"/>
 <xsl:param name="indexLink" select="'index'"/>
-<xsl:param name="indexLinkText" select="'Index'"/>
+<xsl:param name="indexLinkText" select="'Welcome'"/>
 <xsl:param name="OUTEXT" select="'.html'"/>
 
 
