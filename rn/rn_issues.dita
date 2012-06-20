@@ -15,109 +15,9 @@
  			</thead>
  			<tbody>
  				<row>
- 					<entry>In rare cases, Windows Server 2003R2 instances will be unresponsive</entry>
- 					<entry>Windows Server 2003R2 instance may stop responding when it is started after it has been stopped.
- 					</entry>
+ 					<entry></entry>
+ 					<entry></entry>
  				</row>
- 				<row>
- 					<entry>iSCSI target daemon shows poor performance on 32-bit RHEL 5</entry>
- 					<entry>The open source iSCSI target daemon (tgtd) on 32-bit RHEL 5 shows poor performance the first time it is started. </entry>
- 				</row>
- 				<row>
- 					<entry>A deregistered image appears in the deregistered state when the user runs euca-describe-images</entry>
- 					<entry>This indicates that the image is not usable and has been deregistered. If you want the image to disappear from the list returned  by euca-describe-images run euca-deregister again.</entry>
- 				</row>
- 				<row>
- 					<entry>The Typica library will not work without modifications</entry>
- 					<entry>The Typica client tools library expects an empty blockDeviceMapping element in the XML response returned by the RunInstances API call. Eucalyptus responds with a blockDeviceMapping element that contains the root device. For example, 
- 						<codeblock>&lt;blockDeviceMapping> 
-    &lt;item> 
-        &lt;deviceName>/dev/sda1&lt;/deviceName>
-    &lt;/item>
- &lt;/blockDeviceMapping> </codeblock></entry>
- 				</row>
- 				<row>
- 					<entry>Image preparation fails on some KVM NCs</entry>
- 					<entry>If you are using KVM and the size of the machine image (emi) is not a multiple of 512 bytes, image preparation on the Node Controller (NC) fails.</entry>
- 				</row>
- 				<row>
- 					<entry>Maximum volume attachment limit with VMware</entry>
- 					<entry>The maximum number of volumes that can be attached to a single Eucalyptus instance when using VMware is 14.</entry>
- 				</row>
- 				<row>
- 					<entry>Default architecture for images is x86_64</entry>
- 					<entry>When an EBS image is registered without supplying an architecture the image's architecture defaults to x86_64.</entry>
- 				</row>
- 				<row>
- 					<entry>DescribeInstances response has a different time format from the RunInstances response</entry>
- 					<entry>The format of the time stamp returned by the DescribeInstances API call slightly differs from the time stamp returned by the RunInstances call. For example, RunInstances might return 2012-01-11T17:32:01.894Z, whereas DescribeInstances might return 2012-01-11T17:32:01Z.</entry>
- 				</row>
- 				<row>
- 					<entry>Security issue with ATA over Ethernet (AoE) </entry>
- 					<entry>If you are using ATA over Ethernet (AoE) with Eucalyptus 2.0 and earlier, volumes exported on a subnet are accessible to all users on that network. We recommend that users use iSCSI with Eucalyptus 2.0 and later.</entry>
- 				</row>
- 				<row>
- 					<entry>Failure to delete a security group with instances that are running is reported as a non-intuitive error message</entry>
- 					<entry>An attempt to delete a security group with instances that are running will manifest as
- 						a non-intuitive error. For example:
- 						<codeblock>DeleteSecurityGroupType: Failed to delete security group: ec2opsgroup863 for arn:aws:euare::171316380579:user/admin because of: org.hibernate.exception.ConstraintViolationException: could not delete: [com.eucalyptus.network.ExtantNetwork#4028b3d533fc09620133fc15803f015a]</codeblock></entry>
- 				</row>
- 				<row>
- 					<entry>euca-authorize with an invalid network definition fails with a non-intuitive error message</entry>
- 					<entry>For example:
- 						<codeblock>euca-authorize -s 0.0.0.0 -P tcp -p 22 default
-AuthorizeSecurityGroupIngressType: 1</codeblock>
- 						This indicates that the request failed.</entry>
- 				</row>
- 				<row>
- 					<entry>Cannot use a Xen kernel on the SC host with 32-bit installations</entry>
- 					<entry>On 32-bit installations, the Xen kernel has a bug that prevents the Eucalyptus Storage Controller (SC) from creating volumes from snapshots. Please do not use a 32-bit Xen kernel on the SC host.</entry>
- 				</row>
- 				<row>
- 					<entry>Issue with euca-deregister on an image with a deleted bundle</entry>
- 					<entry>If an image is marked as deregistered, running the euca-deregister command again to get it to disappear from euca-describe-images will not work if the bundle has been deleted. The image is correctly deregistered and unusable, but will not disappear from the listing.</entry>
- 				</row>
- 				<row>
- 					<entry>Synchronizing user data from LDAP is slow</entry>
- 					<entry>Synchronizing over 1000 users from LDAP might take a few hours. This is generally a one-time administrative operation.</entry>
- 				</row>
- 				<row>
- 					<entry>euca-release-address may not release an IP address that is associated with an instance</entry>
- 					<entry>If euca-release-address is called on an IP address that was associated with an instance, the IP address will disassociated from the instance but not released until euca-release-address is called again.</entry>
- 				</row>
- 				<row>
- 					<entry>The mac category missing in instance metadata</entry>
- 					<entry>The mac category is not returned as part of instance metadata information.</entry>
- 				</row>
- 				<row>
- 					<entry>Unable to use block devices with names higher than sdq with Xen</entry>
- 					<entry>Due to a bug in Xen, when using Xen as the hypervisor, block devices with names that are "sdq" or higher cannot be attached to an instance. The user must use a device name that is smaller than sdq.</entry>
- 				</row>
- 				<row>
- 					<entry>sdb not a valid name</entry>
- 					<entry>Since "sdb" might be mapped to an ephemeral partition, Eucalyptus will not allow sdb as a valid name with "euca-attach-volume".</entry>
- 				</row>
- 				<row>
- 					<entry>Error when accessing http://169.254.169.254/</entry>
- 					<entry>When http://169.254.169.254/ a list of the available versions of the metadata is not returned. However, instance metadata is still available.</entry>
- 				</row>
- 				<row>
- 					<entry>Co-located SC and VMware load issue</entry>
- 					<entry>If you use the iSCSI open source backend driver and the SC host is busy creating large volumes or snapshots, or running large EBS-backed instances, the VMware Broker component might be disabled if it is running on the same host as the SC.</entry>
- 				</row>
- 				<row>
- 					<entry>Public address lost after HA failover</entry>
- 					<entry>When instances are running with assigned elastic IPs, an IP might be marked as available after a failover, when the new services go to enabled, even though they are still actually assigned to running instances.</entry>
- 				</row>
- 				<row>
- 					<entry>Issue upgrading Walrus when using NetApp</entry>
- 					<entry>Upgrades do not work correctly in environments that use NetApp NFS share as the Walrus backend. Eucalyptus tries to change permissions on the read-only .snapshot directory.</entry>
- 				</row>
- 				<row>
- 					<entry>Issue upgrading after a reboot on Ubuntu LTS 10.04</entry>
- 					<entry>If the CLC host is rebooted right before an upgrade without restarting Eucalyptus, the /var/run/eucalyptus directory does not exist and the upgrade will fail.</entry>
- 				</row>
- 				
  			</tbody>
  		</tgroup>
  	</table>

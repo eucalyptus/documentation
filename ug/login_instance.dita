@@ -20,10 +20,10 @@
             		<codeblock>euca-describe-instances</codeblock>
 
             	</info>
-            	<stepresult>Eucalyptus returns output similar to the following:
-            		<codeblock>RESERVATION	r-338206B5	alice	default
-INSTANCE	i-4DCF092C  emi-EC1410C1  192.168.7.24	  10.17.0.130 ↵ running 	mykey 	0 	m1.small  2010-03-15T21:57:45.134Z</codeblock>
-            		<p>Note that the public IP address appears after the image name, with the private address immediately following.</p></stepresult>
+            	<stepresult>Eucalyptus returns output similar to the following: <codeblock>RESERVATION	r-338206B5	alice	default
+INSTANCE	i-4DCF092C  emi-EC1410C1  192.168.7.24	  10.17.0.130 ↵ running 	alice-keypair 	0 	m1.small  2010-03-15T21:57:45.134Z</codeblock>
+						<p>Note that the public IP address appears after the image name, with the
+							private address immediately following.</p></stepresult>
             </step>
         	<step>
         		<cmd>Look for the instance ID in the second field and write it down. Use this ID to
@@ -33,7 +33,7 @@ INSTANCE	i-4DCF092C  emi-EC1410C1  192.168.7.24	  10.17.0.130 ↵ running 	mykey
         		<cmd>Use SSH to log into the instance, using your private key and the external IP address.
         			For example:</cmd>
         		<info>
-        			<codeblock>ssh -i mykey.private root@192.168.7.24 </codeblock>
+        			<codeblock>ssh -i alice-keypair.private root@192.168.7.24 </codeblock>
         		</info>
         	</step>
         </steps>
@@ -73,9 +73,10 @@ PERMISSION	955340183797	default	ALLOWS	tcp	3389	3389	FROM	CIDR	0.0.0.0/0</codebl
 				</info>
 			</step>
 			<step>
-				<cmd>Log into the RDP client using the public (external) IP address associated with the running Windows VM instance. (You can view the IP addresses associated with your Windows instance using the euca-describe-instances query command). </cmd>
+				<cmd>Log into the RDP client using the public (external) IP address associated with the running Windows VM 
+instance. Enter the following command to view the IP addresses of your instance: </cmd>
 				<info>
-					<codeblock></codeblock>
+					<codeblock>euca-describe-instances</codeblock>
 				</info>
 			</step>
 			<step>
