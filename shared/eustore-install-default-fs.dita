@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="eustore-install-default-fs">
+    <title>Install and Connect to the Default FastStart Image</title>
+    <shortdesc>Eucalyptus provides a default image that you can use to launch an instance
+        immediately.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To  install the default image included with FastStart:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Find the default image by typing the following command:</cmd>
+                <info>
+                    <codeblock> euca-describe-images </codeblock>
+                </info>
+                <tutorialinfo>This command returns a list of images available. For new FastStart
+                    installations, a default image is provided - in this example, the image ID is
+                        <codeph>emi-72613A2E</codeph>:</tutorialinfo>
+                <info>
+                    <codeblock> IMAGE eki-D313397A admin/vmlinuz-2.6.28-11-generic.manifest.xml 508678674223 available public
+      i386 kernel instance-store  
+IMAGE emi-72613A2E admin/euca-centos-5.8-2012.05.14-x86_64.manifest.xml 508678674223
+      available public i386 machine eki-D313397A eri-F9A83F12 instance-store  
+IMAGE eri-F9A83F12 admin/initrd.img-2.6.28-11-generic.manifest.xml 508678674223 available
+      public i386 ramdisk instance-store </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Create a key pair using the <apiname>euca-add-keypair</apiname> command. This command will store
+                    the public half of the key pair and keep it available for your Eucalyptus cloud
+                    instances, and will output the private half of the key pair. Save
+                    this output to a file for future use, as in the following example: </cmd>
+                <info>
+                    <codeblock>euca-add-keypair euca-demo > euca-demo.private</codeblock>                  
+                </info>
+                <info>
+                    <note type="tip">If you've already added a keypair, you can skip this step.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Change permissions on the private keypair file so that only you can access and change it: </cmd>
+                <info>
+                    <codeblock>chmod 0600 euca-demo.private</codeblock>
+                </info>
+            </step>
+            <step>
+            <cmd>Run the instance with the <apiname>euca-run-instances</apiname> command, specifying the
+                appropriate image ID and the name of the key pair you just created. For example: </cmd>
+            <info>
+                <codeblock>euca-run-instance -k euca-demo.private emi-72613A2E</codeblock>
+            </info>
+            <stepresult><p>This will return output similar to the following:</p> 
+                <codeblock>RESERVATION     r-CCE33FC0     449455269925     default
+INSTANCE     i-68A24092     emi-72613A2E     0.0.0.0     0.0.0.0     pending     euca-demo     0 
+m1.small     2012-05-17T10:36:46.232Z     PARTI00     eki-D313397A     eri-F9A83F12
+monitoring-disabled     0.0.0.0     0.0.0.0               instance-store </codeblock>
+                <p>Note that the initial state of the instance is 'pending' while the instance
+                    is being created.</p>
+            </stepresult>
+        </step>
+            <step>
+                <cmd>After a few moments, check to see if your instance is available for use yet by
+                    using the <apiname>euca-describe-instances</apiname> command:</cmd>
+                <info>
+                    <codeblock>euca-describe-insances  i-68A24092</codeblock>
+                </info>
+                <stepresult> <p>When the instance is ready, this command will return output similar to the
+                    following:</p> 
+                    <codeblock>RESERVATION     r-CCE33FC0     449455269925     default
+INSTANCE     i-68A24092     emi-72613A2E     192.168.9.91     10.93.7.76     running     euca-demo     0
+m1.small     2012-05-17T10:36:46.232Z     PARTI00     eki-D313397A     eri-F9A83F12
+monitoring-disabled     192.168.9.91     10.93.7.76               instance-store   </codeblock>
+                    <p>Note that the instance is now listed as 'running', and there's now an IP
+                        address - in this example, 192.168.9.91. You can use this IP address to connect
+                        to the instance.</p>
+                </stepresult>
+            </step>
+            <step>
+                <cmd>Connect to the running instance using SSH, specifying the private key file and the IP address of the instance. For example:
+                </cmd>
+                <info>
+                    <codeblock>ssh -i mytestkey.private 192.168.9.91 </codeblock>
+                </info>
+                <stepresult>
+                    <p>This command returns output similar to the following:</p>
+                    <codeblock>Warning: Permanently added '192.168.9.91' (RSA) to the list of known hosts.
+Last login: Thu May 17 03:39:58 2012 from eucahost-9-91.eucalyptus
+-bash-3.2# 
+                    </codeblock>
+                </stepresult>
+            </step>
+        </steps>
+        
+        <result>Congratulations! You've now successfully launched and connected to the default FastStart image.  </result>
+        <postreq> Please see the Eucalyptus User Guide for more tutorials.</postreq>
+    </taskbody>
+</task>
