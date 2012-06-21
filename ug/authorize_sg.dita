@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="authorize_sg">
+<task outputclass="docs one-sidebar sidebar-first" id="authorize_sg">
     <title>Authorize Security Groups</title>
     <shortdesc/>
     <taskbody>
@@ -22,11 +22,16 @@
             </step>
         </steps>
     	<example>
-    		<p>In the following example, the security group <codeph>default</codeph> is authorized
-    			unlimited network access using SSH (TCP, port 22) and remote desktop (TCP, port 3389):</p>
+    		<p>In the following example, the security group <codeph>default</codeph> is granted unlimited network access using SSH (TCP, port 22) and VNC (TCP, ports 5900 to 5910):</p>
 
     		<codeblock>euca-authorize -P tcp -p 22 -s 0.0.0.0/0 default
- euca-authorize -P tcp -p 3389 -s 0.0.0.0/0 default</codeblock>
+ euca-authorize -P tcp -p 5900-5910 -s 0.0.0.0/0 default</codeblock>
+
+    	</example>
+    	<example>
+    		<p>In the following example, the security group <codeph>windows</codeph> is granted unlimited network access using Windows Remote Desktop (TCP, port 3389):</p>
+
+    		<codeblock>euca-authorize -P tcp -p 3389 -s 0.0.0.0/0 windows</codeblock>
 
     	</example>
     	<!--<postreq>For more information about <codeph>euca-authorize</codeph>, see the CLI Reference

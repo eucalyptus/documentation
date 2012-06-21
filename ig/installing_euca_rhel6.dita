@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="installing_euca_rhel6" platform="rhel6">
+<task outputclass="docs one-sidebar sidebar-first" id="installing_euca_rhel6" platform="rhel6">
     <title>Install on RHEL 6</title>
     <shortdesc/>
     <taskbody>
@@ -11,66 +11,40 @@
         	<p>To install Eucalyptus on servers running RHEL 6:</p>
         </context>
         <steps>
+			<step props="subscribe">
+				<note type="tip">If you are a Eucalyptus subscriber, you should have received an rpm package file
+    			    that you will need to install. If you are not a Eucalyptus subscriber, skip this step.</note>
+				<cmd>On all servers, copy over your rpm package file and run the following command:</cmd>
+				<info>
+					<codeblock>rpm -Uvh eucalyptus-enterprise-release-3.1-*.rpm</codeblock>
+				</info>
+			</step>
+
         	<step>
-        	<cmd>Run the following command on all servers:</cmd>
-        	<info>
-        		<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/software/eucalyptus/
-3.1/rhel/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
-        	</info>
-        	</step>
-        	<step props="subscribe">
-        		<cmd>If you are a Eucalyptus subscriber, move your credentials so the package managers can
-        			locate them. If you are not a Eucalyptus subscriber, skip this step.</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>-1.3.1.crt /etc/pki/tls/certs/&lt;license_name>-1.3.1.crt</codeblock>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Place the private key in <filepath>/etc/pki/tls/private</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv &lt;license_name>.key /etc/pki/tls/private/&lt;license_name>.key</codeblock>
-        				</info>
-        			</substep>
-        			<substep>
-        				<cmd>Place the Eucalyptus GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
-        				<info>
-        					<codeblock>mv c1240596-eucalyptus-release-key.pub /etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub</codeblock>
-        				</info>
-        			</substep>  
-        		</substeps>
-        	</step>
-        	<step props="subscribe">
-        		<cmd>If you are a Eucalyptus subscriber, create a file on all servers in
-        			<filepath>/etc/yum.repos.d</filepath> called eucalyptus-enterprise.repo. Add the
-        			following content to this file:</cmd>
-        		<info>
-        			<codeblock>[eucalyptus-enterprise]
-name=Eucalyptus Enterprise 3.1
-baseurl=https://downloads.eucalyptus.com/software/enterprise/3.1/rhel/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.1.crt
-sslclientkey=/etc/pki/tls/private/&lt;license_name>.key</codeblock>
-        		</info>
+                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
+                <cmd>Run the following command on all servers:</cmd>
+                <info>
+					<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/software/
+eucalyptus/3.1/rhel/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+                </info>
         	</step>
         	<step>
+                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+
         		<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
         			command:</cmd>
         		<info>
-        			<codeblock>yum install -y http://downloads.eucalyptus.com/software/
+        			<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/software/
 euca2ools/2.1/rhel/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
         		</info>
         	</step>
         	
-        	
         	<step>
         		<cmd>Install the ELRepo repository on the machine that will run Walrus:</cmd>
         		<info>
-        			<codeblock>yum --nogpg install http://downloads.eucalyptus.com/software/eucalyptus/
-3.1/rhel/6/x86_64/elrepo-release-6.el6.elrepo.noarch.rpm</codeblock>
+        			<codeblock>yum --nogpg install -y http://downloads.eucalyptus.com/software/
+eucalyptus/3.1/rhel/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
         		</info>
         	</step>
         	<step>
@@ -112,7 +86,7 @@ yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				<info>
 					<codeblock>yum install eucalyptus-nc</codeblock>
 					<note type="important" product="vmware">If you are using VMware, you can skip this step.
-						Eucalyptus software is not installed on the node machines. The nodes are
+						Eucalyptus software is not installed on these machines. They are
 						running VMware.</note>
 				</info>
         	</step>
@@ -120,7 +94,7 @@ yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
         		<cmd>If you are a Eucalyptus subscriber and plan to use VMware, install the subscription only VMware Broker package
         			on each CC. Otherwise, skip this step.</cmd>
         		<info>
-        			<codeblock>yum install eucalyptus-broker</codeblock>
+        			<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
         		</info>
         	</step>
         	<step props="subscribe" product="san">

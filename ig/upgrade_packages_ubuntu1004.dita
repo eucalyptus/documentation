@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="upgrade_packages_ubuntu1004"
+	platform="ubuntu1004">
+ <title>Upgrade Eucalyptus Packages</title>
+ <shortdesc></shortdesc>
+	<taskbody>
+		<context>
+			<p>Use <codeblock>apt-get update</codeblock> to upgrade the Eucalyptus packages. </p>
+			<p>If you have previously customized your configuration files, <codeblock>apt</codeblock> will emit a warning, and install the new configuration files with a different name, to preserve your customizations. You should customize the new configuration files as necessary, and then rename these files, before proceeding.</p>
+			<note type="tip">For larger deployments, use a script to upgrade the component host machines. For
+				example:
+				<codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
+192.168.51.$host 'apt-get update -y $( rpm -qa | grep euca )' ; done</codeblock>
+			</note>
+		</context>
+ </taskbody>
+</task>

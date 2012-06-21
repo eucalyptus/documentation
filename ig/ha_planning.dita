@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="ha_planning">
+<concept outputclass="docs one-sidebar sidebar-first" id="ha_planning">
 	<title>HA Planning</title>
  <shortdesc></shortdesc>
  <conbody>
@@ -33,7 +33,7 @@
  		deployment strategy:</p>
  		
  		<ul>
- 			<li><b>Host/Service Redundancy:</b> Each component which is registered should have a complementary service registered on a redundant host. For example, the cloud and walrus services should be installed and registered on two hosts. Additionally, for example, each partition should have two cluster controllers and storage controllers (and vmware-brokers, if vmware is being used) configured. Each such complementary pair of services can suffer a single outage before system availability is compromised.</li>
+ 			<li><b>Host/Service Redundancy:</b> Each component which is registered should have a complementary service registered on a redundant host. For example, the cloud and walrus services should be installed and registered on two hosts. Additionally, for example, each partition should have two cluster controllers and storage controllers (and VMware Brokers, if VMware is being used) configured. Each such complementary pair of services can suffer a single outage before system availability is compromised.</li>
  			<li><b>Inter-component Network Redundancy:</b> Each host of a component service should have redundant and disjoint network connections to other internal component services and supporting systems (e.g., SANs, vSphere). The recommended approach is to have two ethernet devices (each connected to a disjoint layer-2 network) on each host and bonding the devices. Such a configuration is also suggested on node controllers. Then, the outage of a either layer-2 network or ethernet device on a host does not impact service availability or access to cloud resources.</li>
  			<li><b>User-facing Network Redundancy:</b> The wide area (where users are) network connection should be redundant and disjoint. Each such path should have an independent arbitrator host whose liveness (as determined by ICMP echo) is used to approximate the users' ability to access the system. Redundant network connections from the local area network to the wide area network and user reachability approximation (arbitrator)</li>
  			<li><b>System Reachability Approximation:</b> The wide area (where users are) network connection(s) path should have an independent host (arbitrator) whose liveness (as determined by ICMP echo) can serve as a reasonable approximation of users' ability to access the system. Ideally, the host “closest” to the user, but still within the domain of the deployment environment should be used (e.g., the border gateway of the hosting AS network). With such an arbitrator host in the network path between the user and the system, a failure by the user to reach an otherwise working service and allow the system to enable the complementary service (which should have a separate network route) restoring user access. </li>

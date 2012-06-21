@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="create_keypairs">
+<task outputclass="docs one-sidebar sidebar-first" id="create_keypairs">
     <title>Create Keypairs</title>
     <shortdesc/>
     <taskbody>
@@ -17,12 +17,15 @@
                 <cmd>Enter the following command:</cmd>
             	<info>
             		<codeblock>euca-add-keypair &lt;keypair_name> > &lt;keypair_name>.private</codeblock>
-            		<p>where <codeph>&lt;keypair_name></codeph> is a unique name for your keypair.</p>
+            		<p>where <codeph>&lt;keypair_name></codeph> is a unique name for your keypair. For
+						example:</p>
+            		<codeblock>euca-add-keypair alice-keypair > alice-keypair.private </codeblock>
             	</info>
-            	<stepresult>The private key is saved to your local directory.</stepresult>
+            	<stepresult>The private key is saved to to a file in your local directory.</stepresult>
             </step>
         	<step>
-        		<cmd>Change access permissions to enable the private key in the local directory:</cmd>
+        		<cmd>Change file permissions to enable access to the private key file in the local
+					directory:</cmd>
         		<info>
         			<codeblock>chmod 0600 &lt;keypair_name>.private</codeblock>
         		</info>
@@ -32,7 +35,11 @@
         		<info>
         			<codeblock>euca-describe-keypairs</codeblock>
         		</info>
+        			<stepresult>The command returns output similar to the following:
+        				<codeblock>KEYPAIR alice-keypair ad:0d:fc:6a:00:a7:e7:b2:bc:67:8e:31:12:22:c1:8a:77:8c:f9:c4</codeblock>
+        			</stepresult>
         	</step>
+        	
         </steps>
     </taskbody>
 </task>

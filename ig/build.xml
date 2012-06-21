@@ -21,6 +21,9 @@
 	<!-- Refer to build.properties file for OS and user-specific configurations. -->
 	<property file="build.properties"/>
 	
+	<!-- Generate temporary files to the "temp" folder. -->
+	<property name="dita.temp.dir" value="temp"/>
+	
 	<!-- Generate output to the "out" folder. -->
 	<property name="out" value="out"/>
 	
@@ -54,6 +57,7 @@
 			<property name="args.ftr" 
 				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}xhtml${file.separator}euca_footer.xml"/>
 			<property name="breadcrumbs" value="yes"/>
+			<property name="welcome.page" value="ig_toc/index.html"/>
 			<property name="transtype" value="xhtml"/>
 			<!--<property name="clean.temp" value="yes"/>-->
 		</ant>
@@ -134,8 +138,11 @@
 	</target>
 	
 	<target name="clean" description="Deletes output directory">
+		<!-- Remove all temporary and generated files -->
 		<echo message="Deleting ${out}"/>
 		<delete dir="${out}"></delete>
+		<echo message="Deleting ${dita.temp.dir}"/>
+		<delete dir="${dita.temp.dir}"/>
 	</target>
 	
 </project>
