@@ -16,14 +16,67 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry> Deregistering some components on Precise HA requires CLC
-							restart+failover (EUCA-2353)</entry>
+						<entry> The euca-register command currently defaults its architecture
+							parameter to i386 instead of omitting it by default (EUCA-1504)</entry>
+						<entry> The euca-register command currently defaults its architecture
+							parameter to i386. As a workaround, you should always supply an
+							architecture when using the euca-register and euca-bundle-image
+							commands. </entry>
+					</row>
+					<row>
+						<entry> Instances are not accessible if CC fails to start dhcpd
+							(EUCA-432)</entry>
+						<entry> If the CC cannot start the DHCP server and instances are not getting
+							addresses, an error will appear in the CC log file that will show the
+							dhcpd command that is being attempted, along with the error return code.
+							Searching the cc.log for EUCAERROR will find such a message.</entry>
+					</row>
+					<row>
+						<entry> Null point exception when accessing http://169.254.169.254/
+							(EUCA-1556)</entry>
+						<entry> In AWS, access to the metadata URL returns a list of namespace
+							versions. In Eucalyptus, the base URL (http://169.254.169.254) returns
+							an error value. You must specify
+							'http://169.254.169.254/latest/meta-data' as the version to obtain
+							metadata information.</entry>
+					</row>
+					<row>
+						<entry> Issue with LOGROLLNUMBER value in euca.conf (EUCA-2212)</entry>
+						<entry> The LOGROLLNUMBER in eucalyptus.conf only applies to the C-based
+							Eucalyptus components (cluster controller, node controller). This
+							configuration option does not have an effect on the java-based
+							Eucalyptus component log behavior.</entry>
+					</row>
+					<row>
+						<entry> EBS images default to the wrong architecture (EUCA-1504)</entry>
+						<entry> In AWS, boot from EBS image registration defaults to the 'i386'
+							architecture. In Eucalyptus, the default architecture is 'x86_64'. This
+							is a display issue and does not effect the execution of the image
+							itself.</entry>
+					</row>
+					<row>
+						<entry> CLC accepts RunInstances requests with MinCount > MaxCount
+							(EUCA-1792)</entry>
+						<entry> AWS throws an error if mincount is greater than maxcount as options
+							to run-instances. Eucalyptus will not throw an error, and will respect
+							the value specified in maxcount.</entry>
+					</row>
+					<row>
+						<entry> Denial of EC2 address resource not taking effect (EUCA-811)</entry>
+						<entry> Specifying a policy that denies a user from being able to assign a
+							specific elastic IP only works for allocated elastic IPs; the policy
+							will not currently apply for system-assigned elastic IPs.</entry>
+					</row>
+					<row>
+						<entry> Deregistering some components on Precise HA requires CLC restart
+							(EUCA-2353)</entry>
 						<entry> De-registration of components in HA will work, but may require a
 							restart of CLC in order for de-registered components to no longer
 							display in euca-describe-services. </entry>
 					</row>
 					<row>
-						<entry> Issue with security group rules referencing other security groups (EUCA-1064) </entry>
+						<entry> Issue with security group rules referencing other security groups
+							(EUCA-1064) </entry>
 						<entry> When in multi-cluster, MANAGED or MANAGED-NOVLAN mode, security
 							group rules that reference other security groups will not apply unless
 							an instance from each group is running in each cluster (availability
@@ -37,7 +90,8 @@
 							softlink in the path to result in failure to execute instances.</entry>
 					</row>
 					<row>
-						<entry>Incorrect information on the service components page (EUCA-2324)</entry>
+						<entry>Incorrect information on the service components page
+							(EUCA-2324)</entry>
 						<entry>The service components page in the web UI may display out-of-date or
 							incorrect information regarding the current service state. Correct and
 							up-to-date information can be obtained using the
@@ -56,7 +110,8 @@
 							bytes will fail to run in Eucalyptus.</entry>
 					</row>
 					<row>
-						<entry>Image is registered successfully, but fails to run (EUCA-2386)</entry>
+						<entry>Image is registered successfully, but fails to run
+							(EUCA-2386)</entry>
 						<entry>An image that is bundled (client-side) using credentials that are no
 							longer valid within Eucalyptus can be successfully uploaded and
 							registered. However, it will not be possible to run instances from this
