@@ -47,17 +47,14 @@
 				</info>
 			</step>
 			<step>
-				
-				<cmd> 
-					If your planned Walrus host runs a Xen kernel, install the kmod-drbd83-xen package on that
-					host. Otherwise, skip this step.
-					
-				</cmd>
-				
+
+				<cmd> If your planned Walrus host runs a Xen kernel, install the kmod-drbd83-xen
+					package on that host. Otherwise, skip this step. </cmd>
+
 				<info>
 					<codeblock>yum install kmod-drbd83-xen</codeblock>
 				</info>
-				
+
 			</step>
 			<step>
 				<cmd> Install the Eucalyptus cloud controller software on each planned CLC
@@ -76,8 +73,8 @@
 			</step>
 			<step>
 				<cmd> Install the software for the remaining Eucalyptus components. The following
-					example shows most components being installed on the same host. You can use
-					different hosts for each component.</cmd>
+					example shows most components being installed on the same host. We recommend
+					using different hosts for each component.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
@@ -97,33 +94,28 @@
 				</info>
 			</step>
 			<step>
-				<cmd> After you have installed Eucalyptus, test multicast connectivity between each CLC and Walrus, SC, and VMware broker host.</cmd>
+				<cmd> After you have installed Eucalyptus, test multicast connectivity between each
+					CLC and Walrus, SC, and VMware broker host.</cmd>
 				<substeps>
 					<substep>
-						<cmd>
-							Run the following receiver command on the CLC:
-						</cmd>
+						<cmd> Run the following receiver command on the CLC: </cmd>
 						<info>
 							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastReceiverTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd>
-							Run the following sender command on each Walrus host:
-						</cmd>
+						<cmd> Run the following sender command on each Walrus host: </cmd>
 						<info>
 							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd>
-							Repeat the previous step on each SC host and VMware broker host.
+						<cmd> Repeat the previous step on each SC host and VMware broker host.
 						</cmd>
 					</substep>
 					<substep>
-						<cmd>
-							If you are installing an HA environment, repeat these tasks with the second CLC.	
-						</cmd>
+						<cmd> If you are installing an HA environment, repeat these tasks with the
+							second CLC. </cmd>
 					</substep>
 				</substeps>
 			</step>
