@@ -16,6 +16,259 @@
 				</thead>
 				<tbody>
 					<row>
+						<entry> LDAP sync failure if the "group-partitions" contains capital letter
+							in group names (EUCA-2035)</entry>
+						<entry> When creating an AD sync license configuration, using capital
+							letters in the "groups-partition" setting can cause sync failures. Using
+							lower-case letters in "groups-partition" will avoid this issue.</entry>
+					</row>
+					<row>
+						<entry> Deregistered components still display as present (EUCA-2037)</entry>
+						<entry> When components are de-registered and a failover occurs in HA mode,
+							the de-registered components will still display as present until either
+							a cloud restart or another failover occurs.</entry>
+					</row>
+					<row>
+						<entry> Instance remains pending for long periods during failed image
+							downloads (EUCA-2265)</entry>
+						<entry> If an NC is failing to download an image from Walrus, the instance
+							will remain in pending for an extended period of time (2 hours by
+							default).</entry>
+					</row>
+					<row>
+						<entry> Unclear error message when attempting to create a volume larger than
+							permitted (EUCA-2366)</entry>
+						<entry> When a volume size limit is exceeded on volume create, the user will
+							be given an error message ("Channel was closed...") that is
+							unclear.</entry>
+					</row>
+					<row>
+						<entry> Windows server 2003 x86 does not work on RHEL 6.2, Centos 6.2, and
+							Precise (EUCA-2358)</entry>
+						<entry> The Windows Image preparation tool does not include 32-bit virtio
+							Windows drivers that are compatible with the versions of KVM shipped
+							with RHEL 6, CentOS 6 and Ubuntu Precise.</entry>
+					</row>
+					<row>
+						<entry> Instance rebooted with an EBS volume attached may fail to boot
+							(EUCA-2169)</entry>
+						<entry> With KVM hypervisor, with VIRTIO enabled for DISK (EBS) and a volume
+							attached, the VM may prefer the EBS volume on reboot instead of the
+							proper root device (VM configuration specific).</entry>
+					</row>
+					<row>
+						<entry> Instance bundling might fail because NC work space does not have
+							enough room (EUCA-2369)</entry>
+						<entry> If an NC does not have enough space allocated to its workspace (as
+							specified by the NC_WORK_SIZE parameter in eucalyptus.conf), instance
+							bundling may fail without a warning if the workspace limit is exceeded
+							by the bundling operation.</entry>
+					</row>
+					<row>
+						<entry> Policies with conditions using "numlteq" are rejected
+							(EUCA-2046)</entry>
+						<entry> Policies using the 'numlteq' shorthand will be treated as invalid.
+							Use the longhand 'NumericLessThanEquals' instead.</entry>
+					</row>
+
+					<row>
+						<entry> IP addresses remain mapped if instances are terminated while the CC
+							is down (EUCA-2295)</entry>
+						<entry> If instances are terminated while a cluster controller is down,
+							public IPs will remain mapped even after the instance terminates (after
+							the cluster controller is brought back up). This condition will last
+							until the IP is re-used for a new instance.</entry>
+					</row>
+					<row>
+						<entry> The format of the response message to a RunInstances request does
+							not conform to the EC2 XML schema (EUCA-1090)</entry>
+						<entry> The blockDeviceMapping aspect contained in the response from
+							RunInstances does not conform to the latest AWS EC2 format. This may
+							cause some EC2 clients to fail.</entry>
+					</row>
+					<row>
+						<entry> The euca-describe-regions command returns an error when the --region
+							parameter is used (EUCA-1623)</entry>
+						<entry> When a 'region' option is passed to 'euca-describe-regions', the
+							command will return an error.</entry>
+					</row>
+					<row>
+						<entry> The euca-describe-clouds command has no output when using HA
+							(EUCA-2299)</entry>
+						<entry> In HA mode, the 'euca-describe-clouds' command will not display
+							output. The 'euca-describe-services' command will contain the correct
+							output.</entry>
+					</row>
+					<row>
+						<entry> Instances launched in parallel against vCenter may fail
+							(BROKER-1)</entry>
+						<entry> When many instances are launched in parallel against a vCenter
+							backed Eucalyptus deployment, some of the instances may fail to
+							run.</entry>
+					</row>
+					<row>
+						<entry> Public IP address can be assigned to instance with private
+							addressing (EUCA-2204, EUCA-280)</entry>
+						<entry> If an instance is run with the '--addressing private' parameter and
+							later assigned an elastic IP, it will be assigned a system IP after the
+							elastic IP is disassociated.</entry>
+					</row>
+					<row>
+						<entry> Describe regions contains both EC2 and S3 end-point information
+							(EUCA-2198)</entry>
+						<entry> AWS EC2 describeRegions response does not contain S3 end-point
+							information. In Eucalyptus, describe regions contains both EC2 and S3
+							end-point information.</entry>
+					</row>
+					<row>
+						<entry> Cannot de-register a CC and re-register it with a different name
+							(EUCA-2304)</entry>
+						<entry> If an existing CC is registered, de-registered, and then
+							re-registered with a new name, the CC process will need to be 'clean
+							restarted' in order to return to service.</entry>
+					</row>
+					<row>
+						<entry> RunInstance expiration policy does not work (EUCA-2229)</entry>
+						<entry> Specifying an instance run expiration policy in the past will not
+							limit future instance runs.</entry>
+					</row>
+					<row>
+						<entry> Kernel and ramdisk images are not owned by the accounts that
+							register them (EUCA-1756)</entry>
+						<entry> Registered kernel/ramdisk images are listed as being owned by the
+							'nobody' account, instead of the account ID of the user who registered
+							the images.</entry>
+					</row>
+					<row>
+						<entry> Special characters in object key for Walrus object handled
+							inconsistently (EUCA-2024, EUCA-1598, EUCA-1779)</entry>
+						<entry> When an object key contains a special character such as a space or
+							tilde (~), Walrus translates it incorrectly, and subsequent key listings
+							will show the encoded equivalent instead of the correct
+							character.</entry>
+					</row>
+					<row>
+						<entry> Concurrent snapshot operations can allow the Walrus maximum total
+							snapshot size limit to be exceeded (EUCA-1527)</entry>
+						<entry> The Walrus 'storagemaxtotalsnapshotsizeingb' limit may be exceeded
+							temporarily if many snapshots (which, in aggregate will exceed the
+							limit) are in flight concurrently. Subsequent snapshot requests will be
+							limited by the set limit.</entry>
+					</row>
+					<row>
+						<entry> UI elements on small screens may not be visible (EUCA-1544)</entry>
+						<entry> WebUI elements may be hidden from view on small (low resolution)
+							screens.</entry>
+					</row>
+					<row>
+						<entry> Walrus XML response bodies do not contain XML document header
+							(EUCA-2182)</entry>
+						<entry> AWS S3 includes an XML document header in XML response bodies, while
+							Eucalyptus does not contain a header. This may cause some S3 clients to
+							fail.</entry>
+					</row>
+					<row>
+						<entry> Account deletion always requires "-r" even if there are no newly
+							created resources (EUCA-2332)</entry>
+						<entry> Full account deletion requires the use of the '-r' (recursive)
+							parameter for newly created accounts, even if they do not currently own
+							any resources.</entry>
+					</row>
+					<row>
+						<entry> Issue with non-actionable IAM policies (EUCA-1018)</entry>
+						<entry> Eucalyptus will accept IAM policies that are not actionable (for
+							example, if a non-existent user is specified in the policy
+							definition).</entry>
+					</row>
+					<row>
+						<entry> LDAP user/group synchronization slow (EUCA-1597)</entry>
+						<entry> LDAP user/group synchronization can be very slow if the entropy on
+							the cloud controller is low.</entry>
+					</row>
+					<row>
+						<entry> Walrus ListVersions response lists objects in reverse order by date
+							(EUCA-2342)</entry>
+						<entry> AWS S3 returns object versions in the order in which they were
+							stored, with the most recently stored returned first. Eucalyptus will
+							return object versions in the reverse order.</entry>
+					</row>
+					<row>
+						<entry> Orphaned uploads when Walrus max bucket size limit is reached
+							(EUCA-2275)</entry>
+						<entry> When a maximum bucket size is is exceeded by a put to Walrus, there
+							may be files left on the backing store after the put is
+							rejected.</entry>
+					</row>
+					<row>
+						<entry> Walrus response to HTTP HEAD request includes a body
+							(EUCA-2241)</entry>
+						<entry> When using an HTTP HEAD request to fetch metadata about an object in
+							a Walrus bucket, Walrus may return a body in the response when an error
+							such as an HTTP 404 Not-Found occurs. This only happens in the case of
+							errors where an exception or HTTP error occurs, and does not occur if
+							the object is found. This may cause incorrect client behavior.</entry>
+					</row>
+					<row>
+						<entry> Some Euare NotAuthorized error messages are incorrect
+							(EUCA-2220)</entry>
+						<entry> When specifying invalid options to several euare-* commands, the
+							content of the error response may not be accurate; you may get a
+							'NotAuthorized' when the error is actually regarding an invalid input
+							option.</entry>
+					</row>
+					<row>
+						<entry> Web UI dialogs hardcode text field text color but not text field
+							background color (EUCA-645)</entry>
+						<entry> Text fields in the Eucalyptus Web UI may be unreadable if the
+							browser background color is the same or similar to the WebUI text
+							color.</entry>
+					</row>
+					<row>
+						<entry> You can not restrict the launch of an image with launch permissions
+							(EUCA-1929)</entry>
+						<entry> Eucalyptus will respect the 'all' user for adding/removing image
+							launch permissions, but will not respect specific user/account IDs
+							(specifying them will have no effect).</entry>
+					</row>
+					<row>
+						<entry> Accounts cannot be disabled (EUCA-1649)</entry>
+						<entry> Eucalyptus 3.1 allows the disabling of 'users', but not
+							'accounts'.</entry>
+					</row>
+					<row>
+						<entry> Volume limitation with VMWare hypervisor (EUCA-1435)</entry>
+						<entry> When using the VMWare hypervisor with Eucalyptus, any one instance
+							can only support a total of 14 volumes attached at once.</entry>
+					</row>
+
+					<row>
+						<entry> Issue with vminstancenumber quota (EUCA-2333)</entry>
+						<entry> When a vminstancenumber quota is specified, a single 'run-instances'
+							command that specifies an instance count that exceeds the quota amount
+							will be accepted, even though only the quota specified max will
+							successfully execute.</entry>
+					</row>
+					<row>
+						<entry> Binding error when registering image with multiple device mappings
+							(EUCA-2264)</entry>
+						<entry> When registering an image, the client allows the specification of
+							mappings for devices/snapshots. If more than one mapping is specified
+							then the command will return a binding error.</entry>
+					</row>
+					<row>
+						<entry> AD/LDAP sync does not support none latin characters
+							(EUCA-2036)</entry>
+						<entry> When integrating with an AD/LDAP IDS, Eucalyptus sync will fail if
+							the IDS records contain non-latin characters.</entry>
+					</row>
+					<row>
+						<entry> WebUI does not honor change in port in presentation of Cloud URL
+							(EUCA-1777)</entry>
+						<entry> Changing the port aspect of the 'Cloud URL' field in the webUI does
+							not have an effect on the port that the to which the cloud controller
+							binds. </entry>
+					</row>
+					<row>
 						<entry> The euca-register command currently defaults its architecture
 							parameter to i386 instead of omitting it by default (EUCA-1504)</entry>
 						<entry> The euca-register command currently defaults its architecture
