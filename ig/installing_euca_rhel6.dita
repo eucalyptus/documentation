@@ -57,10 +57,30 @@
     		<step>
     			<note> Clouds that use the VMware hypervisor do not have NCs; if you plan to use
     				VMware then skip this step. </note>
-    			<cmd> Install the Eucalyptus node controller software on each planned NC host: </cmd>
-    			<info>
-    				<codeblock>yum install eucalyptus-nc</codeblock>
-    			</info>
+    			<cmd>asd </cmd>
+    			<substeps>
+    				<substep>
+    					<cmd>Install the KVM driver appropriate to your hardware.</cmd>
+    					
+    					<info>
+    						<p>For systems with Intel processors:</p>
+    						<codeblock>modprobe kvm_intel
+modprobe vhost_net</codeblock>
+    					</info>
+    					<info>
+    						<p>For systems with AMD processors:</p>
+    						<codeblock>modprobe kvm_amd
+modprobe vhost_net</codeblock>
+    					</info>
+    				</substep>
+    				<substep>
+    					<cmd> Install the Eucalyptus node controller software on each planned NC
+    						host: </cmd>
+    					<info>
+    						<codeblock>yum install eucalyptus-nc</codeblock>
+    					</info>
+    				</substep>
+    			</substeps>
     		</step>
     		<step>
     			<cmd>Install the software for the remaining Eucalyptus components. The following example shows
