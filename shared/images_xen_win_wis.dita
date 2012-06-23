@@ -10,21 +10,14 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Use yum or apt-get to download the Eucalyptus tool. </cmd>
-				<info>
-					<codeblock>yum install eucalyptus-windows-tools
-apt-get install eucalyptus-windows-tools</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>Copy <filepath>/usr/share/eucalyptus/eucawin.iso</filepath> to the working directory of your NC.</cmd>
+                                <cmd>Download the Windows Image Preparation Tool from <xref href='http://downloads.eucalyptus.com/software/tools/windows-prep/windows-prep-tools-3.1.0-iso'>http://downloads.eucalyptus.com/software/tools/windows-prep/windows-prep-tools-3.1.0.iso</xref> to the working directory of your NC.</cmd>
 			</step>
 			<step>
 				<cmd>Open the libvirt-xen-windows-example.xml file and make the following edits:</cmd>
 				<info>
 					<ul>
 						<li>Comment out the lines of XML code directing Xen to boot the Windows image from the CDROM.</li>
-						<li>Change the text so that <codeph>eucawin.iso</codeph> replaces the Windows .iso image and is mounted as <codeph>cdrom</codeph>.</li>
+						<li>Change the text so that <codeph>windows-prep-tools-3.1.0.iso</codeph> replaces the Windows .iso image and is mounted as <codeph>cdrom</codeph>.</li>
 						<li>Enter the path to the secondary disk file you created in the <xref
 							href="images_xen_win_baseos.dita#images_xen_win_baseos/xen_win_secondary_disk">previous task</xref>.</li>
 						<li>Uncomment the lines that direct attachment of a floppy disk and secondary disk.</li>
@@ -64,7 +57,7 @@ apt-get install eucalyptus-windows-tools</codeblock>
              &lt;target dev='fda'/>
         &lt;/disk>
         &lt;disk type='file' device='cdrom'>
-            &lt;source file='eucawin.iso'/>
+            &lt;source file='windows-prep-tools-3.1.0.iso'/>
             &lt;target dev='hdc'/>
             &lt;readonly/>
         &lt;/disk>
