@@ -1,25 +1,3 @@
-# simple build script
-# okay for real
-# no, really really this time
-# note that this will not work with the current build.properties
-# unless you have xep installed and remove the hardcoded kindlegen references
-
-#test to see if we're running under jenkins or not
-echo "Testing for jenkins execution... "
-if [ -n "$WORKSPACE" ]
-then
-echo "...running under jenkins; switching to $WORKSPACE and setting XEP_HOME"
-cd "$WORKSPACE"
-export XEP_HOME=/usr/local/RenderX/XEP
-else
-echo "...not running under jenkins"
-fi
-
-echo "----------------------------"
-echo "Logged in as: " $USER
-echo "----------------------------"
-
-
 echo "Setting environment variables…"
 
 export DITA_HOME="`pwd`/DITA-OT"
@@ -59,32 +37,5 @@ export CLASSPATH="$NEW_CLASSPATH":"$CLASSPATH"
 else
 export CLASSPATH="$NEW_CLASSPATH"
 fi
+ 
 
-# why do we wanna do this? nuking for now...
-#echo "*** COPY THE BUILD PROPERTIES FILE OVER ***"
-#cd $DOC_HOME/install_guide ; cp build.properties.buildy build.properties
-
-#echo "*** Building admin guide ***"
-#cd ag
-#ant pdf
-#cd ..
-#echo "*** Building user guide ***"
-#cd ug
-#ant pdf
-#cd ..
-#echo "*** Building install guide ***"
-#cd ig
-#ant pdf
-#cd ..
-#echo "*** Building CLI reference ***"
-#cd cli
-#ant pdf
-#cd ..
-#echo "*** Building FastStart ***"
-#cd fs
-#ant pdf
-#cd ..
-
-ant pdf
-
-echo "*** Builds done ***"
