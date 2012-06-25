@@ -10,52 +10,45 @@
         </context>
     	<steps>
     		<step>
-    			<cmd>Move your credentials so the package managers can locate them.</cmd>
-    			<substeps>
-    				<substep>
-    					<cmd>Place the entitlement certificate in <filepath>/etc/pki/tls/certs</filepath>.</cmd>
-    					<info>
-    						<codeblock>mv &lt;license_name>-1.3.0.crt /etc/pki/tls/certs/&lt;license_name>-1.3.0.crt</codeblock>
-    					</info>
-    				</substep>
-    				<substep>
-    					<cmd>Place the private key in <filepath>/etc/pki/tls/private</filepath>.</cmd>
-    					<info>
-    						<codeblock>mv &lt;license_name>.key /etc/pki/tls/private/&lt;license_name>.key</codeblock>
-    					</info>
-    				</substep>
-    				<substep>
-    					<cmd>Place the Eucalyptus GPG key in <filepath>/etc/pki/rpm-gpg</filepath>.</cmd>
-    					<info>
-    						<codeblock>mv c1240596-eucalyptus-release-key.pub /etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub</codeblock>
-    					</info>
-    				</substep>
-    			</substeps>
-    			
+    			<cmd> Remove any hand-written repository files for earlier versions of Eucalyptus and Euca2ools
+    				from <filepath>/etc/yum.repos.d</filepath>. </cmd>
     		</step>  
     		<step>
-    			<cmd>On all servers, create a file in <filepath>/etc/yum.repos.d</filepath> called
-    				<filepath>eucalyptus-enterprise.repo</filepath> with the following content:</cmd>
+    			<cmd>Configure the Eucalyptus package repository on each host that will run a
+    				Eucalyptus component:</cmd>
     			<info>
-    				<codeblock>[eucalyptus-enterprise]
-name=Eucalyptus Enterprise 3.1
-baseurl=https://downloads.eucalyptus.com/software/enterprise/3.1/rhel/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-sslclientcert=/etc/pki/tls/certs/&lt;license_name>-1.3.0.crt
-sslclientkey=/etc/pki/tls/private/&lt;license_name>.key
-</codeblock>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
     			</info>
     		</step>
     		<step>
-    			<cmd>On all servers that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/yum.repos.d</filepath> called <filepath>euca2ools.repo</filepath> with the following content:</cmd>
+    			<cmd>Configure the Euca2ools package repository on each host that will run a
+    				Eucalyptus component or Euca2ools:</cmd>
     			<info>
-    				<codeblock>[euca2ools]
-name=Euca2ools 2.1
-baseurl=http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/$releasever/$basearch
-gpgkey=file:///etc/pki/rpm-gpg/c1240596-eucalyptus-release-key.pub
-gpgcheck=1
-</codeblock>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Configure the EPEL package repository on each host that will run a Eucalyptus
+    				component or Euca2ools: </cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/epel-release-6.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Configure the ELRepo repository on each host that will run Walrus: </cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<note importance="high"> If upgrading from Eucalyptus 2.0, you can skip this step. This step is only
+    				necessary if you are upgrading from Eucalyptus 3.0. </note>
+    			<cmd>If you have a Eucalyptus subscription, you will have received a package that
+    				grants you access to VMware and SAN components. If you wish to use either of
+    				these components, install this package on each host that will run a Eucalyptus
+    				component using the following command. Otherwise, skip this step.</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh eucalyptus-enterprise-release-3.1-1.noarch.rpm</codeblock>
     			</info>
     		</step>
     	</steps>
