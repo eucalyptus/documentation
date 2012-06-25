@@ -17,21 +17,33 @@
 					<codeblock>dpkg -i eucalyptus-enterprise-release_3.1-*precise_all.deb</codeblock>
 				</info>
 			</step>
-
     		<step>
-                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+    			<cmd>Download the Eucalyptus key from <xref format="html"
+    				href="http://www.eucalyptus.com/eucalyptus-cloud/security/keys"
+    				>http://www.eucalyptus.com/eucalyptus-cloud/security/keys</xref></cmd>
+    		</step>
+    		<step>
+    			<cmd>Add the public key to the list of trusted keys.</cmd>
+    			<info>
+    				<codeblock>apt-key add 9d7b073c-eucalyptus-nightly-release-key.pub</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<!-- Removed per bthomason -->
+                <!--<note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>-->
 
     			<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called <filepath>eucalyptus.list</filepath> with the following content:</cmd>
     			<info>
-    				<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu precise universe</codeblock>
+    				<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu precise main</codeblock>
     			</info>
     		</step> 
     		<step>
-                <note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>
+    			<!-- Removed per bthomason -->
+                <!--<note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>-->
 
     			<cmd>On all machines that will run either Eucalyptus or Euca2ools, create a file in <filepath>/etc/apt/sources.list.d</filepath> called euca2ools.list with the following content:</cmd>
     			<info>
-    				<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu precise universe</codeblock>
+    				<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu precise main</codeblock>
     			</info>
     		</step>
     		<step>
