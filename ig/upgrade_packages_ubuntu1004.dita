@@ -7,13 +7,27 @@
  <shortdesc></shortdesc>
 	<taskbody>
 		<context>
-			<p>Use <codeblock>apt-get update</codeblock> to upgrade the Eucalyptus packages. </p>
-			<p>If you have previously customized your configuration files, <codeblock>apt</codeblock> will emit a warning, and install the new configuration files with a different name, to preserve your customizations. You should customize the new configuration files as necessary, and then rename these files, before proceeding.</p>
-			<note type="tip">For larger deployments, use a script to upgrade the component host machines. For
-				example:
-				<codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
-192.168.51.$host 'apt-get update -y $( rpm -qa | grep euca )' ; done</codeblock>
-			</note>
+			<p>To upgrade the Eucalyptus packages, perform the following steps.</p>
 		</context>
- </taskbody>
+		<steps>
+			<step>
+				<cmd>Enter the following command to upgrade the Eucalyptus packages:</cmd>
+				<info><codeblock>apt-get dist-upgrade</codeblock></info>
+				<stepresult>
+					<p>If you have previously customized your configuration files, <codeblock>apt</codeblock> returns a warning, and installs the new configuration files with a different name. This preserves your customizations. Before you continue, customize and rename the new configuration files.</p>
+					<note type="tip">For larger deployments, use a script to upgrade the component host machines. For
+						example:
+						<codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
+192.168.51.$host 'apt-get dist-upgrade -y $( rpm -qa | grep euca )' ; done</codeblock>
+					</note>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>Run the following command to install the required libraries for the upgrade to work properly:</cmd>
+				<info>
+					<codeblock>apt-get install libeucalyptus-enterprise-storage-san-java libeucalyptus-enterprise-vmware-broker-java</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
 </task>
