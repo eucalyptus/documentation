@@ -5,13 +5,13 @@
  <title>Managed Mode</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p>Managed mode offers the most features of the networking modes, but also carries with it the most potential constraints on the setup of the Eucalyptus administrator's network. In Managed mode, Eucalyptus manages the local network of VM instances and provides all networking features Eucalyptus currently supports, including VM network isolation, security groups, elastic IPs, and metadata service.</p>
+ 	<p>Managed mode offers the most features of the networking modes, but also carries with it the most potential constraints on the setup of the network. In Managed mode, Eucalyptus manages the local network of VM instances and provides all networking features Eucalyptus currently supports, including VM network isolation, security groups, elastic IPs, and metadata service.</p>
  	<p>In Managed mode, you define a large network (usually private, unroutable) from which VM
-			instances will draw their IP addresses. Eucalyptus maintains a DHCP server with static
+			instances will draw their private IP addresses. Eucalyptus maintains a DHCP server with static
 			mappings for each VM instance that is created.  When you create a new VM instance, you
-			can specify the name of the network group to which that VM will belong. Eucalyptus then
+			can specify the name of the security group to which that VM will belong. Eucalyptus then
 			selects a subset of the entire range of IPs, to hand out to other VMs in the same
-			network group. </p>
+			security group. </p>
 		<p>You can also define a number of security groups, and use those groups to apply network
 			ingress rules to any VM that runs within that network. In this way, Eucalyptus provides
 			functionality similar to Amazon's security groups. In addition, the administrator can
@@ -19,7 +19,7 @@
 			at boot or dynamically at run-time. This capability is similar to Amazon's 'elastic
 			IPs'. Eucalyptus administrators that require security groups, elastic IPs, and VM
 			network isolation must use this mode.</p>
- 	<p>Managed mode uses a Virtual LAN (VLAN) to enforce network isolation between instances. If your underlying physical network is also using a VLAN, there can be conflicts that prevent instances from being network accessible. So you have to determine if your network is VLAN clean (that is, if your VLANs are usable by Eucalyptus). To test if the network is VLAN clean, see VLAN Preparation.</p>
+ 	<p>Managed mode uses a Virtual LAN (VLAN) to enforce network between instances in different security groups. If your underlying physical network is also using a VLAN, there can be conflicts that prevent instances from being network accessible. So you have to determine if your network between the CC and NCs is VLAN clean (that is, if your VLANs are usable by Eucalyptus). To test if the network is VLAN clean, see VLAN Preparation.</p>
  	<p>Each VM receives two IP addresses: a public IP address and a private IP address. Eucalyptus maps public IP addresses to private IP addresses. Access control is managed through security groups. </p>
  	<section>
  		<title>Managed Mode Requirements</title>
@@ -27,7 +27,7 @@
 				<li>There must be an available range of IP addresses for the virtual subnets. This
 					range must not interfere with the physical network. Typically these IP addresses
 					are selected from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
-				<li>The network must be VLAN clean, meaning that all switch ports that Eucalyptus
+				<li>The network between the CC and NCs must be VLAN clean, meaning that all switch ports that Eucalyptus
 					components are connected to will allow and forward VLAN tagged packets.</li>
 				<li>Any firewall running on the Cluster Controller must be compatible with the
 					dynamic changes performed by Eucalyptus when working with security groups. (Note

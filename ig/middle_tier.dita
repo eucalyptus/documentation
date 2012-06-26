@@ -15,15 +15,15 @@
  		
  		<p>If you plan to use elastic IPs and security groups, the CC physical machine becomes a software IP gateway between VM instances and the public network. Because of this software routing function, the physical server on which the CC is deployed should have fast, dedicated network access to both the NC network, and the public network. </p>
  		<p>If you don’t plan to use elastic IPs or security groups, the CC physical machine will not act as a software gateway. Network traffic will be limited to small control messages. </p>
- 		<p>In all cases, place the CC on a machine that has TCP/IP connectivity to the Eucalyptus cloud
- 			machines and the NC machines in its cluster.</p> 
+ 		<p>In all cases, place the CC on a machine that has TCP/IP connectivity to the Eucalyptus front end servers 
+ 			and the NC servers in its cluster.</p> 
  		
  	</section>
  	
  	<section>
  		<title>SC Placement</title>
  		
- 		<p>The machine on which the SC is deployed must always have TCP/IP connectivity to the CLC. If you use one of Eucalyptus’ provided SAN integration drivers, the SC must also have TCP/IP connectivity to the chosen SAN device. In this case, the SC only sends control messages to the SAN. </p>
+ 		<p>The machine on which the SC is deployed must always have TCP/IP connectivity to the CLC. If you are a subscriber and use one of Eucalyptus’ provided SAN integration drivers, the SC must also have TCP/IP connectivity to the chosen SAN device. In this case, the SC only sends control messages to the SAN. </p>
  		<p>If you do not configure a SAN, the SC requires only TCP/IP connectivity to the NCs in the cluster. The SC will use this TCP/IP connectivity to provide the NCs network access to the dynamic block volumes residing on the SC’s storage. SC storage should consist of a fast, reliable disk pool (either local file-system or block-attached storage) so that the SC can create and maintain volumes for the NCs. The capacity of the disk pool should be sufficient to provide the NCs with enough space to accommodate all dynamic block volumes requests from end-users</p>
  		
  	</section>
