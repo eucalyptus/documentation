@@ -2,27 +2,30 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisors">
- <title>Configure Hypervisors</title>
- <shortdesc></shortdesc>
- <taskbody>
- 	<context><p>Eucalyptus interacts with both Xen and KVM hypervisors through libvirt. This section
- 		details steps to configuring these hypervisors.</p>
- 		<note type="important">Make sure that you enable hardware virtualization before you start these
- 			steps.</note>
- 	</context>
- </taskbody>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_centos" platform="centos5" product="xen">
+	<title>Configure Hypervisors</title>
+	<shortdesc/>
+	<taskbody>
+		<context><p>Eucalyptus interacts with both Xen and KVM hypervisors through libvirt. This
+				section details steps to configuring these hypervisors.</p>
+			<note type="important">Make sure that you enable hardware virtualization before you
+				start these steps.</note>
+		</context>
+	</taskbody>
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_centos"
+		platform="centos5" product="xen">
 		<title>CentOS 5</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>The default settings that ship with CentOS 5.6 are generally appropriate. However, you must
-					enable <codeph>xend-http-server</codeph> and restart the daemon to ensure the hypervisor is correctly configured.</p>
+				<p>The default settings that ship with CentOS 5.6 are generally appropriate.
+					However, you must enable <codeph>xend-http-server</codeph> and restart the
+					daemon to ensure the hypervisor is correctly configured.</p>
 				<p>To make sure the Xen daemon is set up correctly:</p>
 			</context>
 			<steps>
 				<step>
-					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
+					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath>
+						file.</cmd>
 				</step>
 				<step>
 					<cmd>Verify these Eucalyptus-recommended settings:</cmd>
@@ -45,15 +48,20 @@
 						<codeblock>service network restart</codeblock>
 					</info>
 				</step>
+				<step>
+					<cmd>If any changes are necessary, save the file and restart xend by running
+							<cmdname>service xend restart</cmdname></cmd>
+				</step>
 				<step conref="../shared/reuse_task.dita#reuse_task/xen_nc_config">
-					<cmd></cmd>
+					<cmd/>
 				</step>
 				<step>
 					<cmd>Open the <filepath>/etc/libvirt/libvirtd.conf</filepath> file.</cmd>
 				</step>
 				<step>
-					<cmd>Uncomment the following lines and change the value for <codeph>unix_sock_group</codeph>
-						from <codeph>libvirt</codeph> to <codeph>eucalyptus</codeph>:</cmd>
+					<cmd>Uncomment the following lines and change the value for
+							<codeph>unix_sock_group</codeph> from <codeph>libvirt</codeph> to
+							<codeph>eucalyptus</codeph>:</cmd>
 					<info>
 						<codeblock>unix_sock_group = "eucalyptus"
 unix_sock_ro_perms = "0777"
@@ -64,7 +72,8 @@ unix_sock_rw_perms = "0770"</codeblock>
 					<cmd>Save the file and restart the libvirtd daemon.</cmd>
 				</step>
 				<step>
-					<cmd>Use the virsh list command to confirm that the eucalyptus user can communicate with libvirt.</cmd>
+					<cmd>Use the virsh list command to confirm that the eucalyptus user can
+						communicate with libvirt.</cmd>
 					<info>
 						<codeblock>su -c "virsh list" eucalyptus
 Id Name             	State
@@ -72,34 +81,37 @@ Id Name             	State
 0 Domain-0
 </codeblock>
 					</info>
-					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command doesn’t succeed, double-check the steps and setting.</stepresult>
+					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command
+						doesn’t succeed, double-check the steps and setting.</stepresult>
 				</step>
 				<step>
 					<cmd>Use the virsh command to switch off virbr0.</cmd>
-				        <info>
-                                                <codeblock>
+					<info>
+						<codeblock>
 virsh net-destroy virbr0
 virsh net-undefine virbr0
 </codeblock>
-                                        </info>
-                                </step>
+					</info>
+				</step>
 				<step>
 					<cmd>Repeat for each NC server in your system.</cmd>
 				</step>
 			</steps>
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_centos6" platform="centos6" product="kvm">
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_centos6"
+		platform="centos6" product="kvm">
 		<title>CentOS 6</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
 				<p>No additional configuration is required for KVM or libvirt on CentOS 6.</p>
 			</context>
-			
+
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_rhel5" platform="rhel5" product="xen">
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_rhel5"
+		platform="rhel5" product="xen">
 		<title>RHEL 5</title>
 		<shortdesc/>
 		<taskbody>
@@ -108,7 +120,8 @@ virsh net-undefine virbr0
 			</context>
 			<steps>
 				<step>
-					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
+					<cmd>Log in to an NC and open the <filepath>/etc/xen/xend-config.sxp</filepath>
+						file.</cmd>
 				</step>
 				<step>
 					<cmd>Verify these Eucalyptus-recommended settings:</cmd>
@@ -132,11 +145,16 @@ virsh net-undefine virbr0
 					</info>
 				</step>
 				<step>
+					<cmd>If any changes are necessary, save the file and restart xend by running
+							<cmdname>service xend restart</cmdname></cmd>
+				</step>
+				<step>
 					<cmd>Open the <filepath>/etc/libvirt/libvirtd.conf</filepath> file.</cmd>
 				</step>
 				<step>
-					<cmd>Uncomment the following lines and change the value for <codeph>unix_sock_group</codeph>
-						from <codeph>libvirt</codeph> to <codeph>eucalyptus</codeph>:</cmd>
+					<cmd>Uncomment the following lines and change the value for
+							<codeph>unix_sock_group</codeph> from <codeph>libvirt</codeph> to
+							<codeph>eucalyptus</codeph>:</cmd>
 					<info>
 						<codeblock>unix_sock_group = "eucalyptus"
 unix_sock_ro_perms = "0777"
@@ -148,17 +166,19 @@ unix_sock_rw_perms = "0770"
 					<cmd>Save the file and restart the libvirtd daemon.</cmd>
 				</step>
 				<step>
-					<cmd>Use the virsh list command to confirm that the eucalyptus user can communicate with libvirt.</cmd>
+					<cmd>Use the virsh list command to confirm that the eucalyptus user can
+						communicate with libvirt.</cmd>
 					<info>
 						<codeblock>su -c "virsh list" eucalyptus
 Id Name             	State
 --------------------------------
 0 Domain-0</codeblock>
 					</info>
-					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command doesn’t succeed, double-check the steps and setting.</stepresult>
+					<stepresult>The command returns a Domain-0 for user eucalyptus. If the command
+						doesn’t succeed, double-check the steps and setting.</stepresult>
 				</step>
 				<step conref="../shared/reuse_task.dita#reuse_task/xen_nc_config">
-					<cmd></cmd>
+					<cmd/>
 				</step>
 				<step>
 					<cmd>Repeat for each NC server in your system.</cmd>
@@ -166,36 +186,41 @@ Id Name             	State
 			</steps>
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_rhel6" platform="rhel6" product="kvm">
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_rhel6"
+		platform="rhel6" product="kvm">
 		<title>RHEL 6</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
 				<p>No additional configuration is required for KVM or libvirt on RHEL 6.</p>
 			</context>
-			
+
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_ubuntu1004" platform="ubuntu1004">
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_ubuntu1004"
+		platform="ubuntu1004">
 		<title>Ubuntu 10.04 LTS</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>No additional configuration is required for KVM or libvirt on Ubuntu 10.04 LTS.</p>
+				<p>No additional configuration is required for KVM or libvirt on Ubuntu 10.04
+					LTS.</p>
 			</context>
-			
+
 		</taskbody>
 	</task>
-	
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_ubuntu1204" platform="ubuntu1204">
+
+	<task outputclass="docs one-sidebar sidebar-first" id="configuring_hypervisor_ubuntu1204"
+		platform="ubuntu1204">
 		<title>Ubuntu 12.04 LTS</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>No additional configuration is required for KVM or libvirt on Ubuntu 12.04 LTS.</p>
+				<p>No additional configuration is required for KVM or libvirt on Ubuntu 12.04
+					LTS.</p>
 			</context>
-			
+
 		</taskbody>
 	</task>
-	
+
 </task>
