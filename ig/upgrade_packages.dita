@@ -3,22 +3,29 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="upgrade_packages">
  <title>Upgrade Eucalyptus Packages</title>
- <shortdesc></shortdesc>
+ <shortdesc/>
  <taskbody id="upgrade_packages_task">
- 	<context>
- 	 <p>To upgrade Eucalyptus packages:</p>
-	
- 	</context>
+  <context>
+   <p>To upgrade Eucalyptus packages:</p>
+  </context>
   <steps>
    <step>
-    <cmd>Enter the following command:</cmd>
+    <cmd>Enter the following command on each machine running a Eucalyptus component:</cmd>
+    <info>
+     <codeblock>yum clean expire-cach</codeblock>
+    </info>
+   </step>
+   <step>
+    <cmd>Enter the following command on each machine running a Eucalyptus component:</cmd>
     <info>
      <codeblock>yum update</codeblock>
     </info>
     <stepresult>
-     <p>If you have previously customized your configuration files, <codeph>yum</codeph> returns a warning, and installs the new configuration files with a different name. This preserves your customizations. Before you continue, customize and rename the new configuration files.</p>
-     <note type="tip">For larger deployments, use a script to upgrade the component host machines. For
-      example:
+     <p>If you have previously customized your configuration files, <codeph>yum</codeph> returns a
+      warning, and installs the new configuration files with a different name. This preserves your
+      customizations. Before you continue, customize and rename the new configuration files.</p>
+     <note type="tip">For larger deployments, use a script to upgrade the component host machines.
+      For example:
       <codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
 192.168.51.$host 'yum update -y $( rpm -qa | grep euca )' ; done</codeblock>
      </note>
@@ -39,4 +46,3 @@
   </steps>
  </taskbody>
 </task>
-
