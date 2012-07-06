@@ -85,6 +85,6 @@ fi
 #ant pdf
 #cd ..
 
-ant
+#ant
 
 echo "*** Builds done ***"
