@@ -6,6 +6,8 @@
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
 	<property name="source.dir" value="${env.DOC_HOME}"/>
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
+	<property name="test.dir"
+		value="${file.separator}var${file.separator}www${file.separator}html${file.separator}test"/>
 	<property name="www.dir"
 		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}3.1${file.separator}beta"/>
 	<property name="wwwtest.dir"
@@ -43,7 +45,28 @@
 		<ant antfile="build.xml" target="qa" dir="ig"/>
 		<ant antfile="build.xml" target="qa" dir="ug"/>
 		<ant antfile="build.xml" target="qa" dir="rn"/>
+		<antcall target="move_test"/>
 		
+	</target>
+	
+	<target name="move_test">
+		<!-- Move the generated XHTML files to the www repo	-->
+		<move
+			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}qa{file.separator}ag"
+			todir="${test.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}qa${file.separator}cli"
+			todir="${test.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}qa${file.separator}fs"
+			todir="${test.dir}" overwrite="true"/>
+		<move
+			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}qa${file.separator}ig"
+			todir="${test.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}qa${file.separator}ug"
+			todir="${test.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}rn${file.separator}out${file.separator}qa${file.separator}rn"
+			todir="${test.dir}" overwrite="true"/>
 	</target>
 	
 	<target name="move_pdf">
