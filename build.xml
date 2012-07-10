@@ -39,12 +39,7 @@
 	
 	<target name="test">
 		<!-- Generate the PDF files	for all guides -->
-		<ant antfile="build.xml" target="qa" dir="ag"/>
-		<ant antfile="build.xml" target="qa" dir="cli"/>
-		<ant antfile="build.xml" target="qa" dir="fs"/>
-		<ant antfile="build.xml" target="qa" dir="ig"/>
-		<ant antfile="build.xml" target="qa" dir="ug"/>
-		<ant antfile="build.xml" target="qa" dir="rn"/>
+		<ant antfile="build.xml" target="qa" dir="qa_test"/>
 		<antcall target="move_test"/>
 		
 	</target>
@@ -52,23 +47,9 @@
 	<target name="move_test">
 		<!-- Move the generated XHTML files to the www repo	-->
 		<move
-			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}ag" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}cli" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}fs" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}ig" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}ug${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}ug" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}rn${file.separator}out${file.separator}qa"
-			todir="${test.dir}${file.separator}rn" overwrite="true"/>
+			file="${source.dir}${file.separator}qa_test${file.separator}out${file.separator}qa"
+			todir="${test.dir}${file.separator}qa" overwrite="true"/>
+		
 	</target>
 	
 	<target name="move_pdf">
