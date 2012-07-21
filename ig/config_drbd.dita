@@ -121,14 +121,16 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
         		</info>
         	</step>
         	<step>
-        		<cmd>Restart Walrus.</cmd>
+        		<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
+        			<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> files to the secondary Walrus server.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Restart Walrus, first on the primary, and then on the secondary. Restarting the primary Walrus
+                             will trigger an HA failover to the secondary, and restarting the secondary will fail back, preparing
+                             the entire system for the next steps.</cmd>
         		<info>
         			<codeblock>service eucalyptus-cloud restart</codeblock>
         		</info>
-        	</step>
-        	<step>
-        		<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
-        			<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> files to the secondary Walrus server.</cmd>
         	</step>
         	<step>
         		<cmd>On the primary Walrus, associate the DRBD block device (<filepath>/dev/drbd1</filepath>) with the disk
