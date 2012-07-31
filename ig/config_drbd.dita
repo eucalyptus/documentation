@@ -18,7 +18,7 @@
         		<li>The DRBD backing disk partition names on each Walrus. A partition (either on a new disk or an existing disk) should be dedicated to Walrus. The partition sizes should be identical.</li>
 		</ul>
 		<note type="tip">Consider backing the DRBD resource with a logical volume using LVM, this will make growing the backing store easier in the future if you are running low on disk space.</note>
-        	<p>Configuring DRBD requires that you complete edit the Eucalyptus DRBD file
+        	<p>Configuring DRBD requires that you edit the Eucalyptus DRBD file
         		to include your Walrus information, and edit the master DRBD file to tell it to look
         		for the Eucalyptus DRBD file. </p>
     	
@@ -91,8 +91,8 @@ resource r0 {
     after-sb-1pri discard-secondary;
   }
 }</codeblock>
-        			<note type="important">On RHEL 6, remove the <codeph>common</codeph> section
-        				(<codeph>common { protocol C; }</codeph>). The default configuration in RHEL 6 already includes a common section.</note>
+        			<note type="important">On RHEL 6 and Ubuntu, remove the <codeph>common</codeph> section
+        				(<codeph>common { protocol C; }</codeph>). The configuration in these distributions already include a common section.</note>
         		</stepresult>
         	</step>
         	<step>
@@ -102,6 +102,9 @@ resource r0 {
 					<cmd>Open the master DRBD file (<filepath>/etc/drbd.conf</filepath>) and append the following line:</cmd>
 					<info>
 						<codeblock>include "/etc/eucalyptus/drbd.conf";</codeblock>
+						<note type="important">For Ubuntu, you must also remove the <codeph>common</codeph> section
+							(<codeph>common { protocol C; }</codeph>) and the line <codeph>include
+								"drbd.d/*.res";</codeph>.</note>
 					</info>
 					<!--<stepresult>
 						<p>For example:</p>
