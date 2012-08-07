@@ -217,7 +217,7 @@ how deeply nedsted - and it gives me (will give me) all the content that needs t
       </xsl:otherwise>
      </xsl:choose>
     </xsl:variable>
-    <file datatype="plaintext" source-language="en" original="{@xtrf}" build-num="{generate-id()}" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file datatype="plaintext" source-language="en_US" original="{@xtrf}" build-num="{generate-id()}" xmlns="urn:oasis:names:tc:xliff:document:1.2">
      <header>
       <xsl:if test="local-name()='bookmap' or local-name()='dita' or local-name()='concept' or local-name()='task' 
                  or local-name()='topic' or local-name()='glossentry' or local-name()='glossgroup' or local-name()='learningAssessment' 

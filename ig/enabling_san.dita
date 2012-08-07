@@ -101,7 +101,7 @@
 			</steps>
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_jbod">
+	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_jbod" product="jbod">
 		<title>Enable Direct Attached Storage (JBOD) SANs</title>
 		<shortdesc/>
 		<taskbody>
@@ -124,7 +124,7 @@
 					</info>
 				</step>
 				<step>
-					<cmd>On the CLC, set the DAS device name property. The device name can be either a raw device (/dev/sdX, for example),
+					<cmd>On the CLC (the primary CLC in an HA setup), set the DAS device name property. The device name can be either a raw device (/dev/sdX, for example),
 						or the name of an existing Linux LVM volume group.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
@@ -146,7 +146,7 @@
 			</context>
 			<steps>
 				<step>
-					<cmd>Enter the following commands:</cmd>
+					<cmd>Enter the following commands on the CLC (the primary CLC in an HA setup):</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.sanhost=&lt;SAN_hostname_or_IP_address>
 euca-modify-property -p &lt;partition_name>.storage.sanuser=&lt;SAN_admin_user_name>
