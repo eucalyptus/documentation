@@ -195,31 +195,36 @@
 					<cmd/>
 				</step>
 				<step>
-					<cmd>Enter the username for the Challenge Handshake Authentication Protocol (CHAP). This
+					<cmd>On the CLC (the primary CLC in an HA setup), set the login scope for the
+						command line access. For most installs, the login scope will be <codeph>0</codeph>, which indicates
+						a global login scope for the device. <codeph>1</codeph> indicates a local scope. <codeph>2</codeph> indicates LDAP authentication for the SAN device. Use login scope value of <codeph>2</codeph> only if your SAN is configured to use LDAP authentication and you have an admin user configured to use LDAP.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.loginscope=&lt;login_scope></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the username for the Challenge Handshake Authentication Protocol (CHAP). This
 					can be any value, however it should be unique when sharing VNX on multiple Eucalyptus clusters.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.chapuser=&lt;chap_username></codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Enter the value for the unique storage pool that you have configured to use with the SC.</cmd>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the value for the unique storage pool that you have configured to use with the SC.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.storagepool=0</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Enter the values for storage processor, data port, and command line authentication. In most cases, the value
-						for the storage processor (<codeph>sp</codeph>) will be <codeph>a</codeph>. The values for
-						port and command line authentication (<codeph>loginscope</codeph>) will be dependent on your
-						configuration.</cmd>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the storage processor name and the data port for both LUN ownership and iSCSI
+						access. In most cases the SP value will be <codeph>a</codeph>.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.sp=a
-euca-modify-property -p &lt;partition_name>.storage.port=&lt;port_#>
-euca-modify-property -p &lt;partition_name>.storage.loginscope=&lt;login_scope></codeblock>
+euca-modify-property -p &lt;partition_name>.storage.port=&lt;port_#></codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Enter the path to Navisphere CLI that you downloaded earlier to the SC. The following
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the path to Navisphere CLI that you downloaded earlier to the SC. The following
 					example shows the default path.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.clipath=/opt/Navisphere/bin/naviseccli</codeblock>
