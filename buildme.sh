@@ -8,8 +8,9 @@
 echo "Testing for jenkins execution... "
 if [ -n "$WORKSPACE" ]
 then
-echo "...running under jenkins; switching to $WORKSPACE"
+echo "...running under jenkins; switching to $WORKSPACE and setting XEP_HOME"
 cd "$WORKSPACE"
+export XEP_HOME=/usr/local/RenderX/XEP
 else
 echo "...not running under jenkins"
 fi
@@ -63,24 +64,44 @@ fi
 #echo "*** COPY THE BUILD PROPERTIES FILE OVER ***"
 #cd $DOC_HOME/install_guide ; cp build.properties.buildy build.properties
 
-echo "*** Building admin guide ***"
-cd ag
-ant pdf
-cd ..
-echo "*** Building user guide ***"
-cd ug
-ant pdf
-cd ..
-echo "*** Building install guide ***"
-cd ig
-ant pdf
-cd ..
-echo "*** Building CLI reference ***"
-cd cli
-ant pdf
-cd ..
-echo "*** Building FastStart ***"
-cd fs
-ant pdf
-cd ..
+#echo "*** Building admin guide ***"
+#cd ag
+#ant pdf
+#cd ..
+#echo "*** Building user guide ***"
+#cd ug
+#ant pdf
+#cd ..
+#echo "*** Building install guide ***"
+#cd ig
+#ant pdf
+#cd ..
+#echo "*** Building CLI reference ***"
+#cd cli
+#ant pdf
+#cd ..
+#echo "*** Building FastStart ***"
+#cd fs
+#ant pdf
+#cd ..
+
+#!/bin/bash
+# use predefined variables to access passed arguments
+#echo arguments to the shell
+echo $1 $2 $3 ' -> echo $1 $2 $3'
+
+# We can also store arguments from bash command line in special array
+args=("$@")
+#echo arguments to the shell
+echo ${args[0]} ${args[1]} ${args[2]} ' -> args=("$@"); echo ${args[0]} ${args[1]} ${args[2]}'
+
+#use $@ to print out all arguments at once
+echo $@ ' -> echo $@'
+
+# use $# variable to print out
+# number of arguments passed to the bash script
+echo Number of arguments passed: $# ' -> echo Number of arguments passed: $#' 
+
+ant $@
+
 echo "*** Builds done ***"

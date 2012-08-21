@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="all" name="build_euca_docs">
-	<property name="pdf.formatter" value="xep"/>
-	<property name="xep.dir" value="/Users/scotmarvin/xep"/>
 	<property environment="env"/>
+	<property name="pdf.formatter" value="xep"/>
+	<property name="xep.dir" value="${env.XEP_HOME}"/>
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
 	<property name="source.dir" value="${env.DOC_HOME}"/>
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
+	<property name="test.dir"
+		value="${file.separator}var${file.separator}www${file.separator}html"/>
 	<property name="www.dir"
 		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}3.1${file.separator}beta"/>
 	<property name="wwwtest.dir"
@@ -18,18 +20,35 @@
 		<ant antfile="build.xml" target="pdf" dir="fs"/>
 		<ant antfile="build.xml" target="pdf" dir="ig"/>
 		<ant antfile="build.xml" target="pdf" dir="ug"/>
+		<ant antfile="build.xml" target="pdf" dir="rn"/>
 		<antcall target="move_pdf"/>
 		
 	</target>
 	
 	<target name="xhtml">
-		<!-- Generate the PDF files	for all guides -->
+		<!-- Generate the HTML files	for all guides -->
 		<ant antfile="build.xml" target="xhtml" dir="ag"/>
 		<ant antfile="build.xml" target="xhtml" dir="cli"/>
 		<ant antfile="build.xml" target="xhtml" dir="fs"/>
 		<ant antfile="build.xml" target="xhtml" dir="ig"/>
 		<ant antfile="build.xml" target="xhtml" dir="ug"/>
+		<ant antfile="build.xml" target="xhtml" dir="rn"/>
 		<antcall target="move_xhtml"/>
+		
+	</target>
+	
+	<target name="test">
+		<!-- Generate the PDF files	for all guides -->
+		<ant antfile="build.xml" target="qa" dir="qa_test"/>
+		<antcall target="move_test"/>
+		
+	</target>
+	
+	<target name="move_test">
+		<!-- Move the generated XHTML files to the www repo	-->
+		<move
+			file="${source.dir}${file.separator}qa_test${file.separator}out${file.separator}qa"
+			todir="${test.dir}${file.separator}qa" overwrite="true"/>
 		
 	</target>
 	
@@ -49,6 +68,8 @@
 			todir="${www.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
 			todir="${www.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}rn${file.separator}out${file.separator}pdf${file.separator}rn.pdf"
+			todir="${www.dir}" overwrite="true"/>
 	</target>
 	
 	<target name="move_xhtml">
@@ -67,6 +88,8 @@
 			todir="${wwwtest.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}xhtml${file.separator}ug"
 			todir="${wwwtest.dir}" overwrite="true"/>
+		<move file="${source.dir}${file.separator}rn${file.separator}out${file.separator}xhtml${file.separator}rn"
+			todir="${wwwtest.dir}" overwrite="true"/>
 	</target>
 	
 	<target name="all">
@@ -80,5 +103,6 @@
 		<ant antfile="build.xml" target="clean" dir="fs"/>
 		<ant antfile="build.xml" target="clean" dir="ig"/>
 		<ant antfile="build.xml" target="clean" dir="ug"/>
+		<ant antfile="build.xml" target="clean" dir="rn"/>
 	</target>
 </project>
