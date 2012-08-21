@@ -2,26 +2,19 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="enabling_san" props="subscribe">
-	<title>Configure SAN Support</title>
+	<title>Configure the SAN</title>
 	<shortdesc></shortdesc>
 	<taskbody>
 		<context>
 			<note conref="shared_notes.dita#shared_notes/tip_san_only"/>
 			
-			<p>To use the SAN integration feature that Eucalyptus provides, configure supported SAN devices
-				to allow Eucalyptus to manage the SAN. Eucalyptus automatically creates and tears down volumes,
+			<p>Eucalyptus offers SAN support for Eucalyptus block storage (EBS). Eucalyptus directs the Storage
+				Controller (SC) to manage any supported SAN devices. Eucalyptus automatically creates and tears down volumes,
 				snapshots, and data connections from guest instances. The administrator does not need to pre-allocate volumes or LUNs for Eucalyptus.</p>
-		<p>Eucalyptus offers SAN support for EBS. The SANManager module directs the Storage
-		Controller (SC) to manage supported SAN devices. Enabling the SANManager requires that you
-		configure the <codeph>CLOUD_OPTS</codeph> variable in eucalyptus.conf so that Eucalyptus loads the SANManager module and selects your SAN device at start time.</p>
-		
-		<p>To configure SAN support:</p>
-		<ol>
-			<li><xref href="#configuring_sanmanager">Enable SAN access on Eucalyptus</xref></li>
-			<li>Enable the specific SAN
-				device (<xref href="#enabling_san_dell">Dell</xref>, <xref
-					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_jbod">JBOD</xref>)</li>
-		</ol>
+
+			<p>To configure SAN support, follow the steps for your specific SAN device: <xref
+				href="#enabling_san_dell">Dell</xref>, <xref href="#enabling_san_jbod">JBOD</xref>, <xref
+					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_emc">VNX</xref></p>
 		</context>
 	</taskbody>
 	
@@ -41,9 +34,8 @@
  -Debs.san.provider=EquallogicProvider"</codeblock>
 					</info>
 				</step>
-				<step>
-					<note type="restriction">If you are not using HA, you can skip this task.</note>
-					<cmd>Copy the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file to the secondary SC machines.</cmd>
+				<step conref="../shared/shared_task.dita#shared_task/copy_conf">
+					<cmd/>
 				</step>
 				<step>
 					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
@@ -51,9 +43,61 @@
 						<codeblock>service eucalyptus-cloud restart</codeblock>
 					</info>
 				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
 			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
 		</taskbody>
 	</task>
+	
+	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_jbod" product="jbod">
+		<title>Enable Direct Attached Storage (JBOD) SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
+						following configuration:</cmd>
+					<info>
+						<codeblock>CLOUD_OPTS="-Debs.storage.manager=DASManager"
+</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/copy_conf">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
+					<info>
+						<codeblock>service eucalyptus-cloud restart</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), set the DAS device name property. The device name can be either a raw device (/dev/sdX, for example),
+						or the name of an existing Linux LVM volume group.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
+					</info>
+					<stepxmp>
+						<p>For example:</p>
+						<codeblock>euca-modify-property -p cluster0.storage.dasdevice=/dev/sdb</codeblock>
+					</stepxmp>
+				</step>
+			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	
 	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_netapp">
 		<title>Enable NetApp SANs</title>
 		<shortdesc/>
@@ -92,17 +136,28 @@
 						
 					</info>
 				</step>
+				<step conref="../shared/shared_task.dita#shared_task/copy_conf">
+					<cmd/>
+				</step>
 				<step>
 					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
 					<info>
 						<codeblock>service eucalyptus-cloud restart</codeblock>
 					</info>
 				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
 			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
 		</taskbody>
 	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_jbod" product="jbod">
-		<title>Enable Direct Attached Storage (JBOD) SANs</title>
+	
+	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_emc">
+		<title>Enable EMC VNX SANs</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
@@ -110,12 +165,25 @@
 			</context>
 			<steps>
 				<step>
+					<cmd>We assume that the Navisphere CLI is installed in <filepath>/opt/Navisphere</filepath> on the SC.</cmd>
+					<info>
+						<note type="important">Eucalyptus currently supports version 7.30.15.0.44 of the Navisphere CLI.</note>
+					</info>
+
+				</step>
+				
+				<step>
+
 					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
 						following configuration:</cmd>
 					<info>
-						<codeblock>CLOUD_OPTS="-Debs.storage.manager=DASManager"
-</codeblock>
+						<codeblock>CLOUD_OPTS="-Debs.storage.manager=SANManager 
+ -Debs.san.provider=EmcVnxProvider"</codeblock>
+						
 					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/copy_conf">
+					<cmd/>
 				</step>
 				<step>
 					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
@@ -123,37 +191,51 @@
 						<codeblock>service eucalyptus-cloud restart</codeblock>
 					</info>
 				</step>
-				<step>
-					<cmd>On the CLC (the primary CLC in an HA setup), set the DAS device name property. The device name can be either a raw device (/dev/sdX, for example),
-						or the name of an existing Linux LVM volume group.</cmd>
-					<info>
-						<codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
-					</info>
-					<stepxmp>
-						<p>For example:</p>
-						<codeblock>euca-modify-property -p cluster0.storage.dasdevice=/dev/sdb</codeblock>
-					</stepxmp>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
 				</step>
-			</steps>
-		</taskbody>
-	</task>
-	<task outputclass="docs one-sidebar sidebar-first" id="configuring_sanmanager">
-		<title>Enable SANManager</title>
-		<shortdesc/>
-		<taskbody>
-			<context>
-				<p>To enable the Eucalyptus SANManager:</p>
-			</context>
-			<steps>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
 				<step>
-					<cmd>Enter the following commands on the CLC (the primary CLC in an HA setup):</cmd>
+					<cmd>On the CLC (the primary CLC in an HA setup), set the login scope for the
+						command line access. For most installs, the login scope will be <codeph>0</codeph>, which indicates
+						a global login scope for the device. <codeph>1</codeph> indicates a local scope. <codeph>2</codeph> indicates LDAP authentication for the SAN device. Use login scope value of <codeph>2</codeph> only if your SAN is configured to use LDAP authentication and you have an admin user configured to use LDAP.</cmd>
 					<info>
-						<codeblock>euca-modify-property -p &lt;partition_name>.storage.sanhost=&lt;SAN_hostname_or_IP_address>
-euca-modify-property -p &lt;partition_name>.storage.sanuser=&lt;SAN_admin_user_name>
-euca-modify-property -p &lt;partition_name>.storage.sanpassword=&lt;SAN_admin_password></codeblock>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.loginscope=&lt;login_scope></codeblock>
 					</info>
 				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the username for the Challenge Handshake Authentication Protocol (CHAP). This
+					can be any value, however it should be unique when sharing VNX on multiple Eucalyptus clusters.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.chapuser=&lt;chap_username></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the value for the unique storage pool that you have configured to use with the SC.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.storagepool=0</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the storage processor name and the data port for both LUN ownership and iSCSI
+						access. In most cases the SP value will be <codeph>a</codeph>.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.sp=a
+euca-modify-property -p &lt;partition_name>.storage.port=&lt;port_#></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), enter the path to Navisphere CLI that you downloaded earlier to the SC. The following
+					example shows the default path.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.clipath=/opt/Navisphere/bin/naviseccli</codeblock>
+					</info>
+				</step>
 			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
 		</taskbody>
 	</task>
+	
 </task>
