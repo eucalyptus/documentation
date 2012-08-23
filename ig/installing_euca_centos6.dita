@@ -31,7 +31,7 @@
 				</info>
 			</step>
 			<step>
-				<cmd> Configure the ELRepo repository on each host that will run Walrus: </cmd>
+				<cmd>Configure the ELRepo repository on each host that will run Walrus: </cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
 				</info>
@@ -53,7 +53,7 @@
 				</info>
 			</step>
 			<step>
-				<note> Clouds that use the VMware hypervisor do not have NCs; if you plan to use
+				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use
 					VMware then skip this step. </note>
 				<cmd> </cmd>
 				<substeps>
@@ -89,9 +89,15 @@ modprobe vhost_net</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<note type="tip">If you do not have a Eucalyptus subscription and don't plan to use
-					Eucalyptus's SAN capabilities, skip this step.</note>
-				<cmd>Install the Eucalyptus SAN adapter software on each SC host:</cmd>
+				<cmd>If you have a Eucalyptus subscription and plan to use the VMware hypervisor,
+					install the Eucalyptus VMware broker software on each CC host:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
+				</info>
+			</step>
+			<step props="subscribe">
+				
+				<cmd>If you have a Eucalyptus subscription and plan to use a SAN, install the Eucalyptus SAN adapter software on each SC host:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
 				</info>
