@@ -140,6 +140,15 @@
 			</ant>
 	</target>
 	
+	<target name="mobile" description="Generates mobile output based on jQuery." depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+		<property name="output.dir"
+			value="out${file.separator}mobile"/>
+			<property name="args.indexshow" value="yes"/>
+		<property name="transtype" value="jqmobile"/>
+		</ant>
+	</target>
+	
 	<!-- This builds all files we intend to publish other than xliff and xliff2dita. -->
 	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub">
 		
