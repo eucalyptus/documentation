@@ -8,11 +8,11 @@
   <xsl:import href="index_xep.xsl"></xsl:import>
   
   
-<xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.ruby.fo/xsl/rubyDomain2fo.xsl"/>
 <xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.formatting-d.fo/xsl/formatting-d2fo.xsl"/>
 <xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.pubContent-d.fo/xsl/pubContent-d2fo.xsl"/>
 <xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.enumeration-d.fo/xsl/enumerationDomain2fo.xsl"/>
 <xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.xmldomain.fo/xsl/xml-d2fo.xsl"/>
+<xsl:import href="../../../../plugins/net.sourceforge.dita4publishers.ruby.fo/xsl/rubyDomain2fo.xsl"/>
   
   <xsl:import href="cfg:fo/attrs/custom.xsl"></xsl:import>
   <xsl:import href="cfg:fo/xsl/custom.xsl"></xsl:import>
