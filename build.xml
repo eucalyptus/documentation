@@ -13,7 +13,9 @@
 		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}${release.dir}"/>
 	<property name="wwwtest.dir"
 		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}${release.dir}"/>
- 
+ 	<property name="packages.dir"
+		value="/srv${file.separator}release${file.separator}repository${file.separator}release${file.separator}documentationwww${file.separator}${release.dir}"/>
+
 	<target name="pdf">
 <!-- Generate the PDF files	for all guides -->
 		<ant antfile="build.xml" target="pdf" dir="ag"/>
@@ -57,20 +59,20 @@
 <!-- Move the generated PDF files to the www repo	-->
 		<move
 			file="${source.dir}${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packages.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}cli${file.separator}out${file.separator}pdf${file.separator}cli.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packages.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}fs${file.separator}out${file.separator}pdf${file.separator}fs.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packges.dir}" overwrite="true"/>
 		<move
 			file="${source.dir}${file.separator}ig${file.separator}out${file.separator}pdf${file.separator}ig.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packages.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packages.dir}" overwrite="true"/>
 		<move file="${source.dir}${file.separator}rn${file.separator}out${file.separator}pdf${file.separator}rn.pdf"
-			todir="${www.dir}" overwrite="true"/>
+			todir="${packages.dir}" overwrite="true"/>
 	</target>
 	
 	<target name="move_xhtml">
