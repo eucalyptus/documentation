@@ -14,14 +14,19 @@
             <step>
                 <cmd>Install NTP on the machines that will host Eucalyptus components.</cmd>
             	<choices>
-            		<choice>For CentOS 5, RHEL 5, and RHEL 6, run <codeph>yum install ntp</codeph></choice>
-            		<choice>For Ubuntu 10.04 LTS and Ubuntu 12.04 LTS, run <codeph>apt-get install
+            		<choice platform="centos5">For CentOS 5, run <codeph>yum install ntp</codeph></choice>
+            		<choice platform="centos6">For CentOS 6, run <codeph>yum install ntp</codeph></choice>
+            		<choice platform="rhel5">For RHEL 5, run <codeph>yum install ntp</codeph></choice>
+            		<choice platform="rhel6">For RHEL 6, run <codeph>yum install ntp</codeph></choice>
+            		<choice platform="ubuntu1004">For Ubuntu 10.04 LTS, run run <codeph>apt-get install
+            			openntpd</codeph></choice>
+            		<choice platform="ubuntu1204">For Ubuntu 12.04 LTS, run <codeph>apt-get install
 							openntpd</codeph></choice>
             	</choices>
             </step>
         	<step>
-        		<cmd>Open the <filepath>/etc/ntp.conf</filepath> file
-        			(<filepath>/etc/openntpd/ntpd.conf</filepath> in Ubuntu) and add NTP servers, as in the
+        		<cmd>Open the <ph platform="centos5,centos6,rhel5,rhel6"><filepath>/etc/ntp.conf</filepath> file</ph>
+        			<ph platform="ubuntu1004,ubuntu1204">(<filepath>/etc/openntpd/ntpd.conf</filepath> in Ubuntu)</ph> and add NTP servers, as in the
         		following example.</cmd>
         		<info>
         			<codeblock>server 0.pool.ntp.org
@@ -33,13 +38,14 @@ server 2.pool.ntp.org</codeblock>
         		<cmd>Save and close the file.</cmd>
         	</step>
         	<step>
-        		<cmd>Configure NTP to run at reboot. (In Ubuntu, NTP is configured after you install it.)</cmd>
+        		<cmd>Configure NTP to run at reboot. <ph platform="ubuntu1004,ubuntu1204">(In Ubuntu, NTP
+        			is configured after you install it.)</ph></cmd>
         		<info>
         			<codeblock>chkconfig ntpd on</codeblock>
         		</info>
         	</step>
         	<step>
-        		<cmd>Start NTP. (In Ubuntu, NTP starts after you install it.)</cmd>
+        		<cmd>Start NTP. <ph platform="ubuntu1004,ubuntu1204">(In Ubuntu, NTP starts after you install it.)</ph></cmd>
         		<info>
         			<codeblock>service ntpd start</codeblock>
         		</info>
