@@ -10,7 +10,7 @@
 			on all NC machines. This bridge connects your local ethernet adapter to the cluster network.
 			Under normal operation, NCs will attach virtual machine instances to this bridge when the
 			instances are booted. </p>
-		<p>The process for setting up a Linux ethernet bridge differs depending on Linux distribution,
+		<!--<p>The process for setting up a Linux ethernet bridge differs depending on Linux distribution,
 			but the result is always the same. </p>
 		<p>If you use Xen, the distros typically set up a bridge for you, and you'll simply have to find
 			its name. For Xen versions 3.0 or earlier the bridge name is typically
@@ -21,13 +21,79 @@
 		<p>If you use KVM, or if you want to configure a bridge manually, the following sections
 			describe how to set up a bridge on various distributions. In this section we show examples for
 			configuring bridge devices that either obtain IP addresses using DHCP
-			or statically. </p>
-		
-			<note type="important">Before you configure a bridge, you must install the <codeph>bridge-utils</codeph> package.</note>
+			or statically. </p>-->
+			<p>To configure a bridge in CentOS 6 or RHEL6, you need to create a file with bridge configuration (for
+				example, ifcfg-brX) and modify the file for the physical interface (for example,
+				ifcfg-ethX). The following steps describe how to set up a bridge on both CentOS 6 and RHEL 6.
+				We show examples for configuring bridge devices that either obtain IP addresses using DHCP
+				or statically. </p>
+			
 		</context>
+		<steps>
+			<step>
+				<cmd>Install the <codeph>bridge-utils</codeph> package.</cmd>
+				<info>
+					<codeblock>yum install bridge-utils</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Go to the <filepath>/etc/sysconfig/network-scripts</filepath>
+					directory:</cmd>
+				<info>
+					<codeblock>cd /etc/sysconfig/network-scripts</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Open the network script for the device you are adding to the bridge and add your
+					bridge device to it. The edited file should look similar to the following:</cmd>
+				<info>
+					<codeblock>DEVICE=eth0
+# change the hardware address to match the hardware address your NIC uses
+HWADDR=00:16:76:D6:C9:45
+ONBOOT=yes
+BRIDGE=br0
+NM_CONTROLLED=no</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Create a new network script in the
+					<filepath>/etc/sysconfig/network-scripts</filepath> directory called
+					<filepath>ifcfg-br0</filepath> or something similar. The br0 is the name of the bridge,
+					but this can be anything as long as the name of the file is the
+					same as the <codeph>DEVICE</codeph> parameter, and the name is specified
+					correctly in the previously created physical interface
+					configuration (ifcfg-ethX).</cmd>
+				<choices>
+					<choice>If you are using DHCP, the configuration will look similar to:
+						<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=dhcp
+ONBOOT=yes
+DELAY=0</codeblock>
+					</choice>
+					<choice>If you are using a static IP address, the configuration will look similar to:
+						<codeblock>DEVICE=br0
+TYPE=Bridge
+BOOTPROTO=static
+IPADDR=&lt;static_IP_address>
+NETMASK=&lt;netmask>
+GATEWAY=&lt;gateway>
+ONBOOT=yes</codeblock>
+					</choice>
+				</choices>
+				
+			</step>
+			<step>
+				<cmd>Enter the following command:</cmd>
+				<info>
+					<codeblock>service network restart</codeblock>
+				</info>
+			</step>
+		</steps>
+		<postreq>You are now ready to <xref href="configuring_vmware.dita"/>.</postreq>
 		
 	</taskbody>
-	<task id="configuring_bridge_centos" platform="centos5">
+	<!--<task id="configuring_bridge_centos" platform="centos5">
 		<title>CentOS 5</title>
 		<shortdesc/>
 		<taskbody>
@@ -81,8 +147,8 @@ ONBOOT=yes</codeblock>
 				</step>
 			</steps>
 		</taskbody>
-	</task>
-	<task id="configuring_bridge_centos6" platform="centos6">
+	</task>-->
+	<!--<task id="configuring_bridge_centos6" platform="centos6">
 		<title>Centos 6</title>
 		<shortdesc/>
 		<taskbody>
@@ -153,8 +219,8 @@ ONBOOT=yes</codeblock>
 				</step>
 			</steps>
 		</taskbody>
-	</task>
-	<task id="configuring_bridge_rhel5" platform="rhel5">
+	</task>-->
+	<!--<task id="configuring_bridge_rhel5" platform="rhel5">
 		<title>RHEL 5</title>
 		<shortdesc/>
 		<taskbody>
@@ -225,8 +291,8 @@ ONBOOT=yes</codeblock>
 				</step>
 			</steps>
 		</taskbody>
-	</task>
-	<task id="configuring_bridge_rhel6" platform="rhel6">
+	</task>-->
+	<!--<task id="configuring_bridge_rhel6" platform="rhel6">
 		<title>RHEL 6</title>
 		<shortdesc/>
 		<taskbody>
@@ -353,5 +419,5 @@ iface br0 inet static
 		</taskbody>
 		
 	</task>
-	
+	-->
 </task>
