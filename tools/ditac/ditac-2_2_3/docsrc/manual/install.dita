@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+"http://docs.oasis-open.org/dita/dtd/task.dtd">
+<task id="install">
+  <title>Installing XMLmind DITA Converter</title>
+
+  <taskbody>
+    <prereq><p>XMLmind DITA Converter (<i>ditac</i> for short) requires the
+    Sun or Apple <tm tmtype="tm">Java</tm> runtime 1.5 or above.</p><p>On
+    Unix, make sure that the Java <filepath>bin/</filepath> directory is
+    referenced in the <tt>$PATH</tt> and, at the same time, check that the
+    Java runtime in the <tt>$PATH</tt> has the right version:</p><screen>$ java -version
+java version "1.6.0_16"
+Java(TM) SE Runtime Environment (build 1.6.0_16-b01)
+Java HotSpot(TM) Server VM (build 14.2-b01, mixed mode)</screen><p>On Windows
+    and on the Mac, this verification is in principle not needed as the
+    <cmdname>java</cmdname> executable is automatically found in the
+    <tt>$PATH</tt> when Java has been properly installed.</p></prereq>
+
+    <steps>
+      <step importance="required">
+        <cmd>Unzip the distribution in any directory you want.</cmd>
+
+        <stepxmp><screen>C:\&gt; mkdir ditac
+C:\&gt; cd ditac
+C:\ditac&gt; unzip ditac-2_2_3.zip
+C:\ditac&gt; dir ditac-2_2_3
+... &lt;DIR&gt; bin
+... &lt;DIR&gt; doc
+... &lt;DIR&gt; docsrc
+...</screen></stepxmp>
+
+        <stepresult>XMLmind DITA Converter is intended to be used directly
+        from the <filepath>ditac-2_2_3/</filepath> directory. That is, you can
+        run the <cmdname>ditac</cmdname> command by simply executing (in a
+        Command Prompt on windows, a terminal on Unix):<screen>C:\ditac&gt; ditac-2_2_3\bin\ditac</screen></stepresult>
+      </step>
+
+      <step importance="optional">
+        <cmd>Depending the output formats you want to generate, you'll need to
+        download and install third-party external tools.</cmd>
+
+        <choices>
+          <choice><p>If you want to generate PDF or PostScript®, download and
+          install <xref format="html"
+          href="http://xmlgraphics.apache.org/fop/" scope="external">Apache
+          FOP</xref>.</p><p>Alternatively, you may prefer to purchase <xref
+          format="html" href="http://www.renderx.com/tools/xep.html"
+          scope="external">RenderX XEP</xref> or <xref format="html"
+          href="http://www.antennahouse.com/" scope="external">Antenna House
+          Formatter</xref>. Note that <xref format="html"
+          href="http://www.renderx.com/download/personal.html"
+          scope="external">RenderX XEP Personal Edition</xref> is free to
+          use.</p></choice>
+
+          <choice><p>If you want to generate RTF (can be opened in Word
+          2000+), WordprocessingML (can be opened in Word 2003+), Office Open
+          XML (<tt>.docx</tt>, can be opened in Word 2007+) or OpenOffice
+          (<tt>.odt</tt>, can be opened in OpenOffice.org 2+), then you need
+          to purchase <xref format="html"
+          href="http://www.xmlmind.com/foconverter/" scope="external">XMLmind
+          XSL-FO Converter Professional Edition</xref>.</p><p>You can give
+          XMLmind XSL-FO Converter a try by downloading Evaluation Edition
+          from <xref format="html" href="http://www.xmlmind.com/foconverter/"
+          scope="external">XMLmind XSL-FO Converter web site</xref>. Do not be
+          surprised because XMLmind XSL-FO Converter Evaluation Edition
+          generates output containing <i>random duplicate letters</i>. Of
+          course, this does not happen with Professional Edition!</p></choice>
+
+          <choice><p>If you want to generate HTML Help, download and install
+          the <xref format="html" href="http://www.microsoft.com/downloads/"
+          scope="external">HTML Help Workshop</xref> (contains
+          <filepath>hhc.exe</filepath>).</p></choice>
+
+          <choice><p>If you want to generate Java Help, download and install
+          <xref format="html"
+          href="http://java.sun.com/javase/technologies/desktop/javahelp/"
+          scope="external">Java Help</xref> (contains
+          <filepath>jhindexer</filepath> and
+          <filepath>jhindexer.bat</filepath>).</p></choice>
+        </choices>
+      </step>
+
+      <step importance="optional">
+        <cmd>If you have installed any of the above external tools, you need
+        now to instruct ditac where to find them. This can be done using the
+        following command line options: <xref
+        href="commandLine.dita#commandLine/option-fop"><option>-fop</option></xref>,
+        <xref
+        href="commandLine.dita#commandLine/option-xep"><option>-xep</option></xref>,
+        <xref
+        href="commandLine.dita#commandLine/option-ahf"><option>-ahf</option></xref>,
+        <xref
+        href="commandLine.dita#commandLine/option-xfc"><option>-xfc</option></xref>,
+        <xref
+        href="commandLine.dita#commandLine/option-jhindexer"><option>-jhindexer</option></xref>,
+        <xref
+        href="commandLine.dita#commandLine/option-hhc"><option>-hhc</option></xref>.
+        However, it is much more convenient to specify these command-line
+        options once for all in a
+        <filepath>ditac.options</filepath><indexterm>ditac.options, options
+        file</indexterm> file.</cmd>
+
+        <substeps>
+          <substep>
+            <cmd>Create <filepath>ditac.options</filepath>, a plain text file
+            encoded using the native encoding of the platform (e.g.
+            <tt>Windows-1252</tt> on a Western Windows PC), in the ditac user
+            preferences directory.</cmd>
+
+            <info id="ditac_user_preferences_dir"><p>The ditac user
+            preferences directory is:</p><ul compact="yes">
+                <li><p><filepath><varname>$HOME</varname>/.ditac/</filepath>
+                on Linux.</p></li>
+
+                <li><p><filepath><varname>$HOME</varname>/Library/Application
+                Support/XMLmind/ditac/</filepath> on the Mac.</p></li>
+
+                <li><p><filepath><varname>%APPDATA%</varname>\XMLmind\ditac\</filepath>
+                on Windows 2000, XP, Vista, 7.</p><p>Example:
+                <filepath>C:\Documents and Settings\john\Application
+                Data\XMLmind\ditac\</filepath> on Windows 2000 and XP.
+                <filepath>C:\Users\john\AppData\Roaming\XMLmind\ditac\</filepath>
+                on Windows Vista and 7.</p></li>
+              </ul></info>
+          </substep>
+
+          <substep>
+            <cmd>Add the equivalent of a command-line option for each external
+            tool installed in the preceding step. Use one or more newline
+            characters to separate the options. More information in <xref
+            href="commandLine.dita#commandLine/ditac_options_file"/>.</cmd>
+
+            <stepxmp><pre>-fop E:\opt\fop-1.0\fop.bat
+
+-xfc E:\opt\xfc_eval_java-4_7_0\bin\fo2rtf.bat
+
+-jhindexer E:\opt\javahelp\javahelp\bin\jhindexer.bat
+
+-hhc "C:\Program Files\HTML Help Workshop\hhc.exe"</pre></stepxmp>
+          </substep>
+        </substeps>
+      </step>
+    </steps>
+  </taskbody>
+</task>

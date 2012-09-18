@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN"
+"http://docs.oasis-open.org/dita/dtd/topic.dtd">
+<topic id="limitations">
+  <title>Limitations and implementation specificities</title>
+
+  <body>
+    <section><title>Conversion to XHTML and XSL-FO</title><ul>
+        <li>XMLmind DITA Converter (ditac) has been tested only against "<xref
+        format="html"
+        href="http://docs.oasis-open.org/dita/v1.2/os/spec/archSpec-technicalContent.html#archspec-technicalcontent"
+        scope="external">Technical content elements</xref>". Other
+        vocabularies, "<xref format="html"
+        href="http://docs.oasis-open.org/dita/v1.2/os/spec/langRef-learningTraining.html#langRef-learningTraining"
+        scope="external">Learning and training elements</xref>". "<xref
+        format="html"
+        href="http://docs.oasis-open.org/dita/v1.2/os/spec/common/classification_elements.html#classification_elements"
+        scope="external">Classification elements</xref>", "<xref format="html"
+        href="http://docs.oasis-open.org/dita/v1.2/os/spec/common/mitask-d.html#mitask-d"
+        scope="external">Task requirements domain</xref>", etc, are not yet
+        officially supported.</li>
+
+        <li>The <tt>syntaxdiagram</tt> element and all its descendant elements
+        are not processed at all. (We plan to automatically convert this
+        element to SVG graphics.)</li>
+
+        <li>The <tt>titlealts</tt>/<tt>navtitle</tt> element of topic is
+        ignored.</li>
+
+        <li>It is not possible to flag (i.e. using a <tt>ditaval</tt>
+        specification) <i>all</i> elements.<ul>
+            <li>It is possible to flag the following inline elements (and of
+            course, as always, all their specializations): <tt>ph</tt>,
+            <tt>term</tt>, <tt>xref</tt>, <tt>cite</tt>, <tt>q</tt>,
+            <tt>boolean</tt>, <tt>state</tt>, <tt>keyword</tt>, <tt>tm</tt>,
+            <tt>image</tt>, <tt>foreign</tt>.</li>
+
+            <li>It is possible to flag the following block elements:
+            <tt>topic</tt>, <tt>p</tt>, <tt>lq</tt>, <tt>note</tt>,
+            <tt>dl</tt>, <tt>ul</tt>, <tt>ol</tt>, <tt>sl</tt>, <tt>pre</tt>,
+            <tt>lines</tt>, <tt>fig</tt>, <tt>object</tt>, <tt>table</tt>,
+            <tt>simpletable</tt>, <tt>section</tt>, <tt>example</tt>.</li>
+          </ul></li>
+
+        <li>Layout of <tt>simpletable</tt> elements:<ul>
+            <li>Attribute <tt>frame</tt> is ignored.</li>
+
+            <li>Conversion to XHTML:<ul compact="yes">
+                <li>Attribute <tt>expanse</tt> is partially supported. Its
+                value is considered to always be 100%.</li>
+              </ul></li>
+
+            <li>Conversion to XSL-FO:<ul compact="yes">
+                <li>Attribute <tt>expanse</tt> is ignored. The width of a
+                <tt>simpletable</tt> is always 100% and thus, you cannot
+                center a <tt>simpletable</tt> using the <xref
+                href="xsltParams.dita#xsltParams/center"><tt>center</tt></xref>
+                parameter.</li>
+              </ul></li>
+          </ul></li>
+
+        <li>Layout of (CALS) <tt>table</tt> element:<ul>
+            <li>Conversion to XHTML:<ul compact="yes">
+                <li>Attribute <tt>pgwide</tt> is partially supported. Its
+                value is considered to always be 100%.</li>
+
+                <li>Something like <tt>colwidth="2*+3pt"</tt> is treated as if
+                it were <tt>colwidth="2*"</tt>. Moreover, because no Web
+                browser seems to support relative lengths, a relative length
+                is approximated to a percentage.</li>
+              </ul></li>
+
+            <li>Conversion to XSL-FO:<ul compact="yes">
+                <li>Attribute <tt>pgwide</tt> is ignored. The width of a
+                <tt>table</tt> is always 100% and thus, you cannot center a
+                <tt>table</tt> using the <xref
+                href="xsltParams.dita#xsltParams/center"><tt>center</tt></xref>
+                parameter.</li>
+              </ul></li>
+          </ul></li>
+
+        <li id="conversion_of_dita_ids"><p>The qualified ID of a descendant
+        element of a topic is transformed as follows:
+        <tt><i>topicID</i>/<i>descendantID</i></tt> becomes
+        <tt><i>topicID</i>__<i>descendantID</i></tt> in the generated content.
+        (The separator string being used comprises <i>two</i> underscore
+        characters.)</p><p>Example: let's suppose a topic having
+        "<tt>parameters</tt>" as its <tt>id</tt> attribute, containing a table
+        having "<tt>default_values</tt>" as its <tt>id</tt> attribute, has
+        been converted to HTML. The generated HTML file which contains the
+        topic is called <filepath>userguide.html</filepath>.</p><ul
+            compact="yes">
+            <li>URL "<tt>userguide.html#parameters</tt>" allows to address the
+            topic.</li>
+
+            <li>URL "<tt>userguide.html#parameters__default_values</tt>"
+            allows to address the table.</li>
+          </ul></li>
+      </ul></section>
+
+    <section><title>Booklists</title><ul>
+        <li>Contents corresponding to the following empty <tt>bookmap</tt>
+        elements: <tt>toc</tt>, <tt>tablelist</tt>, <tt>figurelist</tt>,
+        <tt>indexlist</tt> can be automatically generated by ditac.</li>
+
+        <li>Contents corresponding to the following empty <tt>bookmap</tt>
+        elements: <tt>trademarklist</tt>, <tt>abbrevlist</tt>,
+        <tt>bibliolist</tt>, <tt>glossarylist</tt> <i>cannot</i> be
+        automatically generated by ditac.</li>
+
+        <li>About the automatically generated <tt>indexlist</tt>:<ul>
+            <li>Specifying an <tt>indexterm</tt> element in the
+            <tt>topicmeta</tt>/<tt>keywords</tt> element of a
+            <tt>topicref</tt> element is equivalent to specifying it in the
+            <tt>prolog</tt>/<tt>metadata</tt>/<tt>keywords</tt> element of the
+            corresponding topic. Any other <tt>indexterm</tt> element found in
+            a map is ignored.</li>
+
+            <li>In a topic, the implicit end of an index range is always after
+            the last child of the topic, not including nested topics.</li>
+
+            <li>Overlapping index ranges are not supported.</li>
+
+            <li>The markup possibly contained in an <tt>indexterm</tt>
+            (<tt>option</tt>, <tt>parmname</tt>, <tt>apiname</tt>, etc) is
+            ignored.</li>
+
+            <li>Because we consider this feature to be truly useful, we'll
+            generate page references and ``see also'' redirections even for
+            non-leaf index terms. No warnings will be reported in this case.
+            If you don't like this specificity, simply do not author such
+            <tt>indexterm</tt> elements.</li>
+
+            <li>Unless specified using the <tt>-lang</tt> command-line option,
+            the language of the document is taken from the <tt>xml:lang</tt>
+            attribute of the root element of the topic map. If there is no
+            such attribute, the language defaults to "<tt>en</tt>". Knowing
+            the language of the document is required to be able to generate
+            localized text (e.g. <ph xml:lang="de">"Kapitel"</ph>) and to sort
+            and group the index entries.</li>
+          </ul></li>
+      </ul></section>
+
+    <section><title>Keyref processing</title><ul>
+        <li>The effective value of a <tt>topicref</tt> element having a
+        <tt>keyref</tt> attribute is almost certainly not conforming as we
+        have not really understood the spec.</li>
+
+        <li>Matching element content taken from a key definition is limited to
+        the following cases:<ul compact="yes">
+            <li>A <tt>link</tt> element gets its <tt>linktext</tt> child from
+            <tt><i>key_definition</i>/topicmeta/linktext</tt> and its
+            <tt>desc</tt> child from
+            <tt><i>key_definition</i>/topicmeta/shortdesc</tt>.</li>
+
+            <li>An <tt>xref</tt> element gets its contents from
+            <tt><i>key_definition</i>/topicmeta/linktext</tt>.</li>
+
+            <li>Elements <tt>ph</tt>, <tt>cite</tt>, <tt>keyword</tt>,
+            <tt>dt</tt> and <tt>term</tt> all get their content from
+            <tt><i>key_definition</i>/topicmeta/keywords/keyword</tt>, if any.
+            Otherwise the contents of
+            <tt><i>key_definition</i>/topicmeta/linktext</tt> is used as a
+            fallback.</li>
+          </ul></li>
+      </ul></section>
+
+    <section><title>Transclusion</title><ul>
+        <li>During a conref transclusion, ditac does not check the
+        compatibility of the domains of the referencing document with the
+        domains of the referenced document. This can be changed by defining
+        system property <tt>DITAC_CHECK_DOMAINS</tt> (that is, adding
+        <tt>-DDITAC_CHECK_DOMAINS=1</tt> to the <filepath>bin/ditac</filepath>
+        shell script or to <filepath>bin/ditac.bat</filepath>). However, the
+        verifications performed by ditac are almost certainly not conforming
+        as we have not really understood the spec.</li>
+
+        <li>Transclusion does not implement automatic generalization. For
+        example, transcluding <tt>&lt;li conref="foo.dita#foo/item3"/&gt;</tt>
+        will report a fatal error if "<tt>foo/item3</tt>" is a <tt>step</tt>
+        element. <p>A <tt>step</tt> element is a specialization of a
+        <tt>li</tt> element. Some DITA processors are capable of automatically
+        converting a <tt>step</tt> element to an <tt>li</tt> element. This is
+        not the case of ditac.</p></li>
+      </ul></section>
+
+    <section><title>Cascading of attributes and metadata</title><ul>
+        <li>Filtering and flagging may be performed using any attribute.
+        However only the following attributes: <tt>audience</tt>,
+        <tt>platform</tt>, <tt>product</tt>, <tt>otherprops</tt>,
+        <tt>props</tt>, specializations of attributes <tt>props</tt> and
+        <tt>rev</tt> properly cascade with a map, within the
+        <tt>related-links</tt> element of a topic and from a <tt>topicref</tt>
+        element to the referenced <tt>topic</tt> element.</li>
+
+        <li>Both attribute (e.g. <tt>audience</tt>) and element (e.g.
+        <tt>audience</tt>) metadata are copied from a <tt>topicref</tt>
+        element to its referenced <tt>topic</tt> element.<p>By default
+        <tt>topicref/topicmeta/@lockmeta=yes</tt>.</p><p>If
+        <tt>topicref/topicmeta/@lockmeta=no</tt>, then conflicts (non-additive
+        metadata attributes or elements found in both the
+        <tt>topicref/topicmeta</tt> element and the <tt>topic/prolog
+        </tt>element) are resolved in favor of the
+        topic.</p><p><tt>Topicref/topicmeta/searchtitle</tt> and
+        <tt>topic/titlealts/searchtitle</tt> conflicts are also resolved using
+        <tt>topicref/topicmeta/@lockmeta</tt>.</p></li>
+
+        <li>In the following case, <tt>&lt;topicref href="foo.dita"/&gt;</tt>,
+        the <tt>topicref</tt> metadata is copied only to the first topic found
+        in <tt>foo.dita</tt>. An alternative would be to copy metadata to all
+        topics found in <tt>foo.dita</tt>.</li>
+      </ul></section>
+
+    <section><title>Conditional processing</title><ul>
+        <li><tt>double-underline</tt> is processed as if it were
+        <tt>underline</tt>.</li>
+
+        <li><tt>line-through</tt> is supported in addition to
+        <tt>underline</tt> and <tt>overline</tt>.</li>
+
+        <li>The value of the <tt>changebar</tt> attribute is ignored. That is,
+        a changebar cannot be styled.</li>
+
+        <li>Only the following elements (and, of course, their
+        specializations) can be flagged: <tt>topic</tt>, <tt>p</tt>,
+        <tt>lq</tt>, <tt>note</tt>, <tt>dl</tt>, <tt>ul</tt>, <tt>ol</tt>,
+        <tt>sl</tt>, <tt>pre</tt>, <tt>lines</tt>, <tt>fig</tt>,
+        <tt>object</tt>, <tt>table</tt>, <tt>simpletable</tt>,
+        <tt>section</tt>, <tt>example</tt>, <tt>ph</tt>, <tt>term</tt>,
+        <tt>xref</tt>, <tt>cite</tt>, <tt>q</tt>, <tt>boolean</tt>,
+        <tt>state</tt>, <tt>keyword</tt>, <tt>tm</tt>, <tt>image</tt>,
+        <tt>foreign</tt>.</li>
+
+        <li>Conditional processing is also applied to the information (e.g.
+        <tt>title</tt>, <tt>metadata</tt>) contained in a map. However, only
+        the exclude action will work. The flag action does not work in this
+        context.</li>
+
+        <li>Any attribute (that is, not only <tt>audience</tt>,
+        <tt>platform</tt>, <tt>product</tt>, <tt>rev</tt>, <tt>otherprops</tt>
+        and attributes specialized from <tt>props</tt>) may be used to filter
+        or flag an element.</li>
+
+        <li>Attribute <tt>otherprops</tt> is assumed to contain simple,
+        non-structured, strings.</li>
+      </ul></section>
+
+    <section><title>Generating links</title><ul>
+        <li>Attribute <tt>collection-type</tt>, whatever its value, is ignored
+        inside the <tt>reltable</tt> element.</li>
+
+        <li>Ditac cannot generate ``smart labels'' for related links. The
+        label is always "<tt>Related Links</tt>". It could have been
+        "<tt>Related Concepts</tt>", "<tt>Related Reference</tt>" or even
+        something determined using what is specified in the <tt>title</tt>
+        child element of a <tt>relcolspec</tt> element.</li>
+      </ul></section>
+
+    <section><title>Chunking</title><ul>
+        <li>The "<tt>to-navigation</tt>" <tt>chunk</tt> value is ignored.</li>
+
+        <li>When the <tt>copy-to</tt> attribute is used to specify an URI, the
+        parent path part (e.g. "<tt>foo</tt>" in "<tt>foo/bar.htm</tt>") and
+        the extension part (e.g. "<tt>.htm</tt>" in "<tt>foo/bar.htm</tt>")
+        are ignored. Only the ``root name'' (e.g. "<tt>bar</tt>" in
+        "<tt>foo/bar.htm</tt>") is taken into account during the processing of
+        the map.</li>
+
+        <li>The default chunking policy is <tt>by-document</tt>.</li>
+
+        <li>When the deliverable targets a print media, all chunk
+        specifications are removed and a <tt>chunk="to-content"</tt> attribute
+        is added to the root element of the map.</li>
+      </ul></section>
+
+    <section><title>Other limitations and specificities</title><ul>
+        <li>The following <tt>topicref</tt> elements are not treated
+        differently from the others: <tt>topicset</tt>,
+        <tt>topicsetref</tt>.</li>
+
+        <li>All attributes and elements — <tt>map/@anchorref</tt>,
+        <tt>anchorref</tt>, <tt>anchor</tt>, <tt>navref</tt> — related to
+        runtime integration of maps are ignored.</li>
+
+        <li id="points_outside_processed_topics">Ditac reports a
+        "<tt><i>topicB</i>, href points outside processed topics</tt>" warning
+        when <i>topicA</i> references <i>topicB</i> and <i>topicB</i> is not
+        referenced in the map. In order to suppress this warning, add to the
+        map a <tt>topicref</tt> having attribute <tt>toc="no"</tt> and
+        pointing to <i>topicB</i>.</li>
+      </ul></section>
+  </body>
+</topic>

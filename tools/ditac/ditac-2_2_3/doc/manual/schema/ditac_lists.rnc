@@ -1,0 +1,219 @@
+namespace ditac = "http://www.xmlmind.com/ditac/schema/ditac"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+### --------------------------------------------------------------------------
+### A .ditac_lists file contains a  ditac:chunkList element.
+### --------------------------------------------------------------------------
+
+start = lists-element
+
+lists-element = element ditac:lists {
+    attribute xml:lang { xsd:language }?,
+    chunkList-element,
+    titlePage-element,
+    frontmatterTOC-element,
+    toc-element,
+    backmatterTOC-element,
+    figureList-element,
+    tableList-element,
+    exampleList-element,
+    indexList-element
+}
+
+### --------------------------------------------------------------------------
+### chunkList
+### --------------------------------------------------------------------------
+
+chunkList-element = element ditac:chunkList {
+    chunk-element+
+}
+
+chunk-element = element ditac:chunk {
+    attribute file { nonEmptyURI },
+    (element ditac:titlePage { empty } |
+     element ditac:toc { empty } |
+     element ditac:figureList { empty } |
+     element ditac:tableList { empty } |
+     element ditac:exampleList { empty } |
+     element ditac:indexList { empty } |
+     topic-element)+    
+}
+
+topic-element = element ditac:topic {
+    topic-content
+}
+
+topic-content =
+    attribute number { numberList },
+    attribute role { 
+        "toc" | 
+        "figurelist" | 
+        "tablelist" | 
+        "examplelist" | 
+        "abbrevlist" | 
+        "trademarklist" | 
+        "bibliolist" | 
+        "glossarylist" | 
+        "indexlist" | 
+        "booklist" | 
+        "notices" | 
+        "dedication" | 
+        "colophon" | 
+        "bookabstract" | 
+        "draftintro" | 
+        "preface" | 
+        "part" |
+        "chapter" |
+        "appendices" |
+        "appendix" |
+        "amendments" |
+        "section1" |
+        "section2" |
+        "section3" |
+        "section4" |
+        "section5" |
+        "section6" |
+        "section7" |
+        "section8" |
+        "section9"
+    },
+    attribute title { nonEmptyToken },
+    attribute id { xsd:Name }
+
+nonEmptyURI = xsd:anyURI { minLength="1" }
+
+nonEmptyToken = xsd:token { minLength="1" }
+
+### Something like "part.1 chapter.2 section1.2"
+numberList = list { xsd:string { pattern="\w+\.\d+" }+ }
+
+### --------------------------------------------------------------------------
+### titlePage
+### --------------------------------------------------------------------------
+
+titlePage-element = element ditac:titlePage {
+    dita-element*
+}
+
+dita-element = element * - ditac:* { anyContent }
+anyContent = (attribute * - ditac:* { text } |
+              element * - ditac:* { anyContent } | 
+              text)*
+
+### --------------------------------------------------------------------------
+### frontmatterTOC, toc, backmatterTOC
+### --------------------------------------------------------------------------
+
+frontmatterTOC-element = element ditac:frontmatterTOC {
+    tocEntry-element+
+}
+
+toc-element = element ditac:toc {
+    tocEntry-element+
+}
+
+backmatterTOC-element = element ditac:backmatterTOC {
+    tocEntry-element+
+}
+
+### Inside frontmatterTOC and backmatterTOC, the title and/or id attributes
+### of a tocEntry may be set to "__AUTO__".
+
+tocEntry-element = element ditac:tocEntry {
+    attribute file { nonEmptyURI },
+    topic-content,
+    tocEntry-element*
+}
+
+### --------------------------------------------------------------------------
+### figureList
+### --------------------------------------------------------------------------
+
+figureList-element = element ditac:figureList {
+    element ditac:figure { formalElementContent }*
+}
+
+formalElementContent = 
+     ## Something like "part.1 chapter.2 table.5", "part.1 table.5", 
+     ## "appendices.1 appendix.2 table.5" "appendix.2 table.5" or 
+     ## just "table.25".
+     attribute number { numberList },
+     attribute title { nonEmptyToken },
+     attribute file { nonEmptyURI },
+     attribute id { xsd:Name },
+     element ditac:description { anyContent }?
+
+### --------------------------------------------------------------------------
+### tableList
+### --------------------------------------------------------------------------
+
+tableList-element = element ditac:tableList {
+    element ditac:table { formalElementContent }*
+}
+
+### --------------------------------------------------------------------------
+### exampleList
+### --------------------------------------------------------------------------
+
+exampleList-element = element ditac:exampleList {
+    element ditac:example { formalElementContent }*
+}
+
+### --------------------------------------------------------------------------
+### indexList
+### --------------------------------------------------------------------------
+
+indexList-element = element ditac:indexList {
+    div-element*
+}
+
+div-element = element ditac:div {
+    ## Normally the title is limited to: "symbols", "A", "B", "C", ... "Z".
+    attribute title { nonEmptyToken }?,
+    indexEntry-element+
+}
+
+indexEntry-element = element ditac:indexEntry {
+    attribute term { nonEmptyToken },
+
+    ## All entries are already sorted. 
+    ## This is just in case the XSLT style sheet wants to sort by itself
+    ## the entries.
+    attribute sortAs { nonEmptyToken }?,
+
+    attribute xml:id { xsd:ID },
+    (indexSee-element+ |
+     (indexAnchor-element*,
+      indexSeeAlso-element*,
+      indexEntry-element*))
+}
+
+indexSee-element = element ditac:indexSee {
+    indexEntryRefContent
+}
+
+indexSeeAlso-element = element ditac:indexSeeAlso {
+    indexEntryRefContent
+}
+
+indexEntryRefContent =
+    ## Here term may be hierarchical. 
+    ## Segments are separated by &#xA; ('\n') characters.
+    ##
+    ## Remember that if the unnormalized attribute value contains a character
+    ## reference to a white space character other than space (#x20), the
+    ## normalized value contains the referenced character itself (#xD, #xA or
+    ## #x9).
+    attribute term { nonEmptyString },
+    attribute ref { xsd:IDREF }?
+
+nonEmptyString = xsd:string { minLength="1" }
+
+indexAnchor-element = element ditac:indexAnchor {
+     attribute number { xsd:positiveInteger },
+     attribute file { nonEmptyURI },
+     attribute id { xsd:Name },
+     attribute number2 { xsd:positiveInteger }?,
+     attribute file2 { nonEmptyURI }?,
+     attribute id2 { xsd:Name }?
+}

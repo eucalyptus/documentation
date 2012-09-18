@@ -1,0 +1,203 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta><title>The ditac command-line utility</title><link rel="stylesheet" type="text/css" href="resources/basic.css"></link><meta name="generator" content="XMLmind DITA Converter 2.2.3"></meta></head><body><div id="commandLine" class="reference"><a name="commandLine"></a><h2 class="chapter-title">The <b class="cmdname">ditac</b> command-line utility</h2><div class="refbody"><div id="commandLine__I_sawqe3_" class="refsyn"><a name="commandLine__I_sawqe3_"></a><b class="cmdname">ditac</b> [<i class="i">option</i>]* <i class="i">output_file</i>
+    [<i class="i">in_dita_file</i>]+</div><div id="commandLine__I_gklg2c_" class="section"><a name="commandLine__I_gklg2c_"></a><h3 class="section-title">Command-line usage</h3><div class="p">Converts specified DITA input
+    files to specified output file.</div><div class="p">The input files must comprise a
+    single map or bookmap file or possibly several, possibly multi-topic,
+    topic files.</div><div class="p">Example: convert the
+    <tt class="filepath">userguide.ditamap</tt> map to multi-page
+    XHTML:</div><pre class="screen">C:\docsrc&gt; ditac -p center "fig table" ..\doc\userguide.htm userguide.ditamap</pre><div class="p">Example:
+    convert the <tt class="filepath">introduction.dita</tt> and
+    <tt class="filepath">quickstart.dita</tt> topics to PDF:</div><pre class="screen">C:\docsrc&gt; ditac draft1.pdf introduction.dita  quickstart.dita</pre><div class="p">An
+    input file may be specified using its URL or its filename.</div><div class="p">The
+    output directory is created if it does not already exist.</div><div class="p">In some
+    case, there is no need to specify a real output filename: the output
+    directory and the extension of the output files suffice. In such case,
+    specify "<tt class="tt">_</tt>" as the basename of the output file.</div><div class="p">Example:
+    convert <tt class="filepath">foo.ditamap</tt> to multi-page XHTML. The XHTML
+    pages must be generated in the <tt class="filepath">bar/</tt>
+    subdirectory.</div><pre class="screen">C:\docsrc&gt; ditac bar\_.html foo.ditamap</pre><div class="p">In
+    the above case, the basenames of the generated XHTML pages will be taken
+    from the <tt class="tt">chunk</tt> and <tt class="tt">copy-to</tt> attributes specified in
+    <tt class="filepath">foo.ditamap</tt> if any, and from the basename of the map
+    ("<tt class="tt">foo</tt>" in the case of our example) otherwise.</div></div><div id="commandLine__I_226ow1_" class="section"><a name="commandLine__I_226ow1_"></a><h3 class="section-title">Commonly used command-line options</h3><div class="p">Some options
+    have both a short name and a long name. Example: <b class="option">-p</b> is
+    equivalent to <b class="option">-param</b>.</div><dl class="dl"><dt id="commandLine__option-param" class="dt"><a name="commandLine__option-param"></a><b class="option">-p</b> <i class="i">param_name</i> <i class="i">param_value</i></dt><dt class="dt"><b class="option">-param</b> <i class="i">param_name</i>
+          <i class="i">param_value</i></dt><dd class="dd">Specifies a XSLT stylesheet parameter<a id="commandLine__I_r8wb6j_" name="commandLine__I_r8wb6j_"></a><a id="commandLine__I_2ro9l4_" name="commandLine__I_2ro9l4_"></a>. See <a href="xsltParams.html#xsltParams" class="xref">XSLT stylesheets parameters</a>.</dd><dt id="commandLine__option-xslt" class="dt"><a name="commandLine__option-xslt"></a><b class="option">-t</b> <i class="i">XSLT_stylesheet_URL_or_file</i></dt><dt class="dt"><b class="option">-xslt</b> <i class="i">XSLT_stylesheet_URL_or_file</i></dt><dd class="dd">Use the specified custom XSLT stylesheet rather than the stock
+          one<a id="commandLine__I_3b5ye3_" name="commandLine__I_3b5ye3_"></a><a id="commandLine__I_r0pku6_" name="commandLine__I_r0pku6_"></a>.</dd><dt id="commandLine__option-chunk" class="dt"><a name="commandLine__option-chunk"></a><b class="option">-c</b> none|single|auto</dt><dt class="dt"><b class="option">-chunk</b> none|single|auto</dt><dd class="dd">The "<tt class="tt">none</tt>" and "<tt class="tt">single</tt>" values may be used to
+          force the generation of a single output file<a id="commandLine__I_qsxums_" name="commandLine__I_qsxums_"></a><a id="commandLine__I_gh8bpq_" name="commandLine__I_gh8bpq_"></a>.<div class="p">For
+          example, "<tt class="tt">-chunk single</tt>" allows to reuse a map designed to
+          output multiple HTML pages in order to generate a PDF
+          file.</div><div class="p">For example, "<tt class="tt"><tt class="tt">-chunk none</tt></tt>" allows to
+          reuse a map designed to output a PDF file in order to generate a
+          single HTML page.</div><div class="p">By default, the chunk mode is <tt class="tt">auto</tt>
+          which means: generate a single output file (implicit "<tt class="tt">-chunk
+          none</tt>") for formats such as <tt class="tt">pdf</tt>, <tt class="tt">ps</tt>,
+          <tt class="tt">rtf</tt>, etc, and generate multiple output files for formats
+          such as <tt class="tt">html</tt>, <tt class="tt">xhtml</tt>, <tt class="tt">javahelp</tt>,
+          etc.</div></dd><dt id="commandLine__option-format" class="dt"><a name="commandLine__option-format"></a><b class="option">-f</b>
+          xhtml|xhtml1.1|html|javahelp|htmlhelp|ps|pdf|rtf|odt|wml|docx|fo</dt><dt class="dt"><b class="option">-format</b>
+          xhtml|xhtml1.1|html|javahelp|htmlhelp|ps|pdf|rtf|odt|wml|docx|fo</dt><dd class="dd">Explicitly specifies the output format<a id="commandLine__I_otgnd1_" name="commandLine__I_otgnd1_"></a><a id="commandLine__I_e7onsd_" name="commandLine__I_e7onsd_"></a>. By default,
+          the output format is determined using the extension of
+          <i class="i">output_file</i>.<div class="p">Note that a "<tt class="tt">htm</tt>" or "<tt class="tt">html</tt>"
+          filename extension implicitly specifies an XHTML 1.0 output format,
+          and not an HTML 4.1 output format. In order to generate HTML 4.1,
+          explicitly specify "<tt class="tt">-f html</tt>".</div></dd><dt id="commandLine__option-images" class="dt"><a name="commandLine__option-images"></a><b class="option">-i</b> <i class="i">image_path</i></dt><dt class="dt"><b class="option">-images</b> <i class="i">image_path</i></dt><dd class="dd">Copy the image files referenced in the source topics to
+          specified directory<a id="commandLine__I_i5at38_" name="commandLine__I_i5at38_"></a><a id="commandLine__I_z0vpzg_" name="commandLine__I_z0vpzg_"></a>. If
+          specified path is relative, it is relative to the output
+          directory.</dd><dt id="commandLine__option-imagehandler" class="dt"><a name="commandLine__option-imagehandler"></a><b class="option">-imagehandler</b> class_name parameters</dt><dd class="dd">Pass the image files referenced in the source topics to an
+          instance <tt class="tt">ImageHandler</tt> having specified <span class="tm">Java™</span> class<a id="commandLine__I_ohogc2_" name="commandLine__I_ohogc2_"></a>.
+          String <i class="i">parameters</i> is used to configure the newly created
+          <tt class="tt">ImageHandler</tt>.<div class="p">For example, "<tt class="tt">-images graphics</tt>" is
+          equivalent to "<tt class="tt">-imagehandler
+          com.xmlmind.ditac.convert.ImageCopier graphics</tt>". </div></dd><dt id="commandLine__option-filter" class="dt"><a name="commandLine__option-filter"></a><b class="option">-filter</b> <i class="i">ditaval_URL_or_file</i></dt><dd class="dd">Apply specified conditional processing profile
+          (<tt class="tt">.ditaval</tt> file) to the topics<a id="commandLine__I_k9bwyy_" name="commandLine__I_k9bwyy_"></a>.</dd><dt id="commandLine__option-toc" class="dt"><a name="commandLine__option-toc"></a><b class="option">-toc</b></dt><dd class="dd">Equivalent to "<tt class="tt">-frontmatter toc</tt>"<a id="commandLine__I_5htrpn_" name="commandLine__I_5htrpn_"></a>.<div class="p">Note that
+          this option will <i class="i">not</i> cause a <b class="b">Table of Contents</b> to be
+          generated when the map contains a single <tt class="tt">topicref</tt><a href="#I_d139e347_" class="fn-link"><sup class="fn-callout">(1)</sup></a> having no <tt class="tt">topicref</tt>
+          descendants.</div></dd><dt id="commandLine__option-index" class="dt"><a name="commandLine__option-index"></a><b class="option">-index</b></dt><dd class="dd">Equivalent to "<tt class="tt">-backmatter indexlist</tt>"<a id="commandLine__I_h5atpz_" name="commandLine__I_h5atpz_"></a>.</dd><dt id="commandLine__option-frontmatter" class="dt"><a name="commandLine__option-frontmatter"></a><b class="option">-frontmatter</b> <i class="i">spec</i></dt><dd class="dd">Automatically generate specified sections: <b class="b">Table of
+          Contents</b>, <b class="b">List of Tables</b>, etc, before the other
+          pages<a id="commandLine__I_fscdzd_" name="commandLine__I_fscdzd_"></a>.<div class="p">The
+          syntax of <i class="i">spec</i> is:</div><pre class="pre">spec -&gt; same_page [ ',' same_page ]*
+
+same_page -&gt; section [ '+' section ]*
+
+section -&gt; 'toc'|'figurelist'|'tablelist'|'examplelist'|'indexlist'</pre><div class="p">Example:
+          generate the <b class="b">Table Of Contents</b> in its own page, followed by
+          another page containing both the <b class="b">List of Figures</b> and the
+          <b class="b">List of Tables</b>.</div><pre class="pre">-frontmatter toc,figurelist+tablelist</pre></dd><dt id="commandLine__option-backmatter" class="dt"><a name="commandLine__option-backmatter"></a><b class="option">-backmatter</b> <i class="i">spec</i></dt><dd class="dd">Automatically generate specified sections: <b class="b">Table of
+          Contents</b>, <b class="b">List of Tables</b>, etc, after the other pages. See
+          <b class="option">-frontmatter</b> for more
+          information<a id="commandLine__I_mrninc_" name="commandLine__I_mrninc_"></a>.</dd><dt id="commandLine__option-addindex" class="dt"><a name="commandLine__option-addindex"></a><b class="option">-addindex</b></dt><dd class="dd">When an output file contains the <b class="b">Table of Contents</b> (let's
+          call this file <tt class="filepath">main.html</tt>) and when no file
+          called <tt class="filepath">index.html</tt> has been generated, this
+          option allows to copy <tt class="filepath">main.html</tt> to
+          <tt class="filepath">index.html</tt><a id="commandLine__I_je4do0_" name="commandLine__I_je4do0_"></a>. Applies
+          to formats: <tt class="tt">xhtml</tt>, <tt class="tt">xhtml1.1</tt>, <tt class="tt">html</tt>,
+          <tt class="tt">webhelp</tt>.</dd><dt id="commandLine__option-lang" class="dt"><a name="commandLine__option-lang"></a><b class="option">-lang</b> <i class="i">language_code</i></dt><dd class="dd">Specifies the main language of the document<a id="commandLine__I_lacbpk_" name="commandLine__I_lacbpk_"></a>. Examples:
+          "<tt class="tt">fr</tt>", "<tt class="tt">fr-CA</tt>". Needed to sort the index
+          entries.<div class="p">By default, this information is taken from the
+          <tt class="tt">xml:lang</tt> attribute of the root element of the topic map (if
+          any, "<tt class="tt">en</tt>" otherwise).</div></dd><dt id="commandLine__option-v" class="dt"><a name="commandLine__option-v"></a><b class="option">-v</b></dt><dt class="dt"><b class="option">-vv</b></dt><dt class="dt"><b class="option">-vvv</b></dt><dd class="dd">Turn verbosity on. More Vs means more verbose<a id="commandLine__I_himd4m_" name="commandLine__I_himd4m_"></a><a id="commandLine__I_wydp87_" name="commandLine__I_wydp87_"></a><a id="commandLine__I_mhv0n7_" name="commandLine__I_mhv0n7_"></a>.</dd><dt id="commandLine__option-option" class="dt"><a name="commandLine__option-option"></a><b class="option">-o</b> <i class="i">options_URL_or_file</i></dt><dt class="dt"><b class="option">-option</b> <i class="i">options_URL_or_file</i></dt><dd class="dd">This option allows to specify a text file containing
+          command-line arguments<a id="commandLine__I_835v24_" name="commandLine__I_835v24_"></a><a id="commandLine__I_3ntgbz_" name="commandLine__I_3ntgbz_"></a>. This text
+          file has the same format as <a href="#commandLine__ditac_options_file" class="xref">the
+          <tt class="filepath">ditac.options</tt> file</a>.<div class="p">Example:</div><pre class="pre">$ ditac -v <b class="b">-o html.options</b> foo.htm foo.ditamap</pre><div class="p">If
+          <tt class="filepath">html.options</tt> contains:</div><pre class="pre">-format html
+-p css http://www.acme.com/css/acme.css</pre><div class="p">then this is equivalent to
+          running:</div><pre class="pre">$ ditac -v -format html -p css http://www.acme.com/css/acme.css \
+    foo.htm foo.ditamap</pre></dd></dl></div><div id="commandLine__I_qjfz9a_" class="section"><a name="commandLine__I_qjfz9a_"></a><h3 class="section-title">Command-line options used to configure ditac</h3><dl class="dl"><dt id="commandLine__option-fop" class="dt"><a name="commandLine__option-fop"></a><b class="option">-fop</b> <i class="i">executable_file</i></dt><dd class="dd">Specifies the location of the <tt class="filepath">fop</tt> shell
+          script (<tt class="filepath">fop.bat</tt> on Windows)<a id="commandLine__I_2qt7n_" name="commandLine__I_2qt7n_"></a><a id="commandLine__I_j5na4b_" name="commandLine__I_j5na4b_"></a><a id="commandLine__I_ln0y06_" name="commandLine__I_ln0y06_"></a>.</dd><dt id="commandLine__option-xep" class="dt"><a name="commandLine__option-xep"></a><b class="option">-xep</b> <i class="i">executable_file</i></dt><dd class="dd">Specifies the location of the <tt class="filepath">xep</tt> shell
+          script (<tt class="filepath">xep.bat</tt> on Windows)<a id="commandLine__I_tghhh4_" name="commandLine__I_tghhh4_"></a><a id="commandLine__I_i65ekc_" name="commandLine__I_i65ekc_"></a><a id="commandLine__I_zdz1mi_" name="commandLine__I_zdz1mi_"></a>.</dd><dt id="commandLine__option-ahf" class="dt"><a name="commandLine__option-ahf"></a><b class="option">-ahf</b> <i class="i">executable_file</i></dt><dd class="dd">Specifies the location of <tt class="filepath">AHFCmd.exe</tt>
+          (<tt class="filepath">run.sh</tt> on platforms other than
+          Windows)<a id="commandLine__I_izz4o_" name="commandLine__I_izz4o_"></a><a id="commandLine__I_4dirqa_" name="commandLine__I_4dirqa_"></a><a id="commandLine__I_nmja84_" name="commandLine__I_nmja84_"></a>.</dd><dt id="commandLine__option-xfc" class="dt"><a name="commandLine__option-xfc"></a><b class="option">-xfc</b> <i class="i">executable_file</i></dt><dd class="dd">Specifies the location of the <tt class="filepath">fo2rtf</tt> shell
+          script (<tt class="filepath">fo2rtf.bat</tt> on Windows)<a id="commandLine__I_161wd7_" name="commandLine__I_161wd7_"></a><a id="commandLine__I_iwxhoi_" name="commandLine__I_iwxhoi_"></a><a id="commandLine__I_123zid_" name="commandLine__I_123zid_"></a>.<div class="p">Suffice to specify the location
+          of <tt class="filepath">fo2rtf</tt>. Using this location, ditac infers
+          the locations of <tt class="filepath">fo2wml</tt>,
+          <tt class="filepath">fo2docx</tt> and
+          <tt class="filepath">fo2odt</tt>.</div></dd><dt id="commandLine__option-foconverter" class="dt"><a name="commandLine__option-foconverter"></a><b class="option">-foconverter</b> <i class="i">processor_name</i>
+          <i class="i">target_format</i> <i class="i">command</i></dt><dd class="dd">Register specified XSL-FO converter with ditac, a lower-level
+          alternative to using <b class="option">-xep</b>, <b class="option">-fop</b>,
+          <b class="option">-ahf</b> or
+          <b class="option">-xfc</b><a id="commandLine__I_n7ufug_" name="commandLine__I_n7ufug_"></a>.
+          Example: <pre class="pre">-foconverter XFC rtf '/opt/xfc/bin/fo2rtf "%I" "%O"'</pre><div class="p">Note
+          that this option can be specified several times with different
+          values in the same command-line.</div></dd><dt id="commandLine__option-jhindexer" class="dt"><a name="commandLine__option-jhindexer"></a><b class="option">-jhindexer</b> <i class="i">executable_file</i></dt><dd class="dd">Specifies the location of the <tt class="filepath">jhindexer</tt>
+          shell script (<tt class="filepath">jhindexer.bat</tt> on
+          Windows)<a id="commandLine__I_ywznyb_" name="commandLine__I_ywznyb_"></a>, the <span class="tm">Java™</span> Help indexer.</dd><dt id="commandLine__option-hhc" class="dt"><a name="commandLine__option-hhc"></a><b class="option">-hhc</b> <i class="i">exe_file</i></dt><dd class="dd">Specifies the location of
+          <tt class="filepath">hhc.exe</tt><a id="commandLine__I_wd0pho_" name="commandLine__I_wd0pho_"></a>, the HTML Help
+          compiler.</dd><dt id="commandLine__option-plugin" class="dt"><a name="commandLine__option-plugin"></a><b class="option">-plugin</b> <i class="i">plugin_name</i></dt><dd class="dd">Use the DTDs/schemas and the XSLT stylesheets found in the
+          plug-in subdirectory having specified name <a id="commandLine__I_50tghz_" name="commandLine__I_50tghz_"></a> preferably
+          to those found in <tt class="tt"><i class="i">ditac_install_dir</i>/schema/</tt> and in
+          <tt class="tt"><i class="i">ditac_install_dir</i>/xsl/</tt>. See <a href="#commandLine__what_is_a_plugin" class="xref">What is a plug-in?</a>.</dd></dl></div><div id="commandLine__I_nrn4fu_" class="section"><a name="commandLine__I_nrn4fu_"></a><h3 class="section-title">Command-line options used to debug ditac</h3><dl class="dl"><dt id="commandLine__option-preprocess" class="dt"><a name="commandLine__option-preprocess"></a><b class="option">-preprocess</b></dt><dd class="dd">Stop after preprocessing input files<a id="commandLine__I_qmu6o2_" name="commandLine__I_qmu6o2_"></a>.</dd><dt id="commandLine__option-automap" class="dt"><a name="commandLine__option-automap"></a><b class="option">-automap</b> <i class="i">save_file</i></dt><dd class="dd">Save the automatically generated topic map (if any) to specified
+          file<a id="commandLine__I_ojpsaq_" name="commandLine__I_ojpsaq_"></a>.</dd><dt id="commandLine__option-keepfo" class="dt"><a name="commandLine__option-keepfo"></a><b class="option">-keepfo</b></dt><dd class="dd">When generating PDF, RTF, etc, do not delete the temporary
+          XSL-FO file<a id="commandLine__I_j89sik_" name="commandLine__I_j89sik_"></a>.</dd><dt id="commandLine__option-errout" class="dt"><a name="commandLine__option-errout"></a><b class="option">-errout</b></dt><dd class="dd">Output all messages, including errors and warnings, to
+          <tt class="tt">stdout</tt><a id="commandLine__I_qx0ly4_" name="commandLine__I_qx0ly4_"></a>.</dd><dt id="commandLine__option-ignoreoptionsfile" class="dt"><a name="commandLine__option-ignoreoptionsfile"></a><b class="option">-ignoreoptionsfile</b></dt><dd class="dd">Do not load the <tt class="filepath">ditac.options</tt> options
+          file<a id="commandLine__I_n4w9i8_" name="commandLine__I_n4w9i8_"></a>.
+          See below <a href="#commandLine__ditac_options_file" class="xref">The
+    <tt class="filepath">ditac.options</tt> file</a>.</dd><dt id="commandLine__option-dryrun" class="dt"><a name="commandLine__option-dryrun"></a><b class="option">-dryrun</b></dt><dd class="dd">Use <b class="cmdname">ditac</b> as a validator. That is, do not
+          generate any file; just report errors if any <a id="commandLine__I_ppimy8_" name="commandLine__I_ppimy8_"></a>.</dd><dt id="commandLine__option-version" class="dt"><a name="commandLine__option-version"></a><b class="option">-version</b></dt><dd class="dd">Print version number and exit<a id="commandLine__I_n243dp_" name="commandLine__I_n243dp_"></a>.</dd></dl></div><div id="commandLine__ditac_options_file" class="section"><a name="commandLine__ditac_options_file"></a><h3 class="section-title">The
+    <tt class="filepath">ditac.options</tt> file</h3><div class="p">It is also possible to
+    specify command-line options in the <tt class="filepath">ditac.options</tt>
+    options file<a id="commandLine__I_jei0is_" name="commandLine__I_jei0is_"></a>. The
+    content of this plain text file, encoded in the native encoding of the
+    platform (e.g. <tt class="tt">Windows-1252</tt> on a Western Windows PC), is
+    automatically loaded by <b class="cmdname">ditac</b> each time this command is
+    executed. The content of this file, command-line options separated by
+    whitespace, is <i class="i">prepended</i> to the options specified in the
+    command-line.</div><div class="p">Example: If <tt class="filepath">ditac.options</tt>
+    contains:</div><pre class="pre">-v -p number all</pre><div class="p">Running:</div><pre class="screen">~/docsrc$ ditac -p center "fig table" ../doc/userguide.htm userguide.ditamap</pre><div class="p">is
+    equivalent to running:</div><pre class="screen">~/docsrc$ ditac -v -p number all -p center "fig table" \
+    ../doc/userguide.htm userguide.ditamap</pre><div class="p">The
+    <tt class="filepath">ditac.options</tt> options file is found in the ditac user
+    preferences directory. This directory is:</div><ul class="compact-ul"><li class="li"><div class="p"><tt class="filepath"><i class="varname">$HOME</i>/.ditac/</tt> on
+        Linux.</div></li><li class="li"><div class="p"><tt class="filepath"><i class="varname">$HOME</i>/Library/Application
+        Support/XMLmind/ditac/</tt> on the Mac.</div></li><li class="li"><div class="p"><tt class="filepath"><i class="varname">%APPDATA%</i>\XMLmind\ditac\</tt>
+        on Windows 2000, XP, Vista, 7.</div><div class="p">Example: <tt class="filepath">C:\Documents
+        and Settings\john\Application Data\XMLmind\ditac\</tt> on
+        Windows 2000 and XP.
+        <tt class="filepath">C:\Users\john\AppData\Roaming\XMLmind\ditac\</tt> on
+        Windows Vista and 7.</div></li></ul><div class="p">The <tt class="filepath">ditac.options</tt> options file is mainly
+    useful to configure ditac once for all by specifying values for the <a href="#commandLine__option-fop" class="xref"><b class="option">-fop</b></a>, <a href="#commandLine__option-xep" class="xref"><b class="option">-xep</b></a>, <a href="#commandLine__option-xfc" class="xref"><b class="option">-xfc</b></a>, <a href="#commandLine__option-jhindexer" class="xref"><b class="option">-jhindexer</b></a>,
+    <a href="#commandLine__option-hhc" class="xref"><b class="option">-hhc</b></a>, <a href="#commandLine__option-plugin" class="xref"><b class="option">-plugin</b></a>
+    options.</div><div class="p">Example:</div><pre class="pre">-v
+-xep E:\opt\xep\xep.bat
+-fop E:\opt\fop-1.0\fop.bat
+-xfc E:\opt\xfc_eval_java-4_7_0\bin\fo2rtf.bat
+-jhindexer E:\opt\javahelp\javahelp\bin\jhindexer.bat
+-hhc "C:\Program Files\HTML Help Workshop\hhc.exe"</pre><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><ul class="ul"><li class="li">Relative filenames found in this file are relative to the current
+        working directory, and not to the <tt class="filepath">ditac.options</tt>
+        options file. Therefore it is recommended to always specify absolute
+        filenames.</li><li class="li">No comments (e.g. lines starting with <tt class="tt">'#'</tt>) are allowed in
+        <tt class="filepath">ditac.options</tt>. Options must be separated by
+        whitespace.</li><li class="li">In the above example, FOP is declared <i class="i">after</i> XEP. This
+        implies that it is FOP and not XEP, which will be used by ditac to
+        generate PDF and PostScript®.</li><li id="commandLine__out_of_memory_errors" class="li"><a name="commandLine__out_of_memory_errors"></a>An XSL-FO processor tend to consume a
+        lot of memory. If the DITA conversion fails with an out-of-memory
+        error<a id="commandLine__I_aab9sj_" name="commandLine__I_aab9sj_"></a>, you need to edit the
+        <tt class="filepath">xep</tt> (<tt class="filepath">xep.bat</tt>),
+        <tt class="filepath">fop</tt> (<tt class="filepath">fop.bat</tt>),
+        <tt class="filepath">fo2<i class="varname">xxx</i></tt>
+        (<tt class="filepath">fo2<i class="varname">xxx</i>.bat</tt>) scripts in order
+        to increase the maximum amount of memory that the <span class="tm">Java™</span> runtime may allocate. This is done by using the
+        <b class="option">-Xmx</b> option<a id="commandLine__I_t3w9j5_" name="commandLine__I_t3w9j5_"></a> of the <span class="tm">Java™</span> command-line. Example:
+        "<tt class="tt">java&nbsp;...&nbsp;-Xmx512m&nbsp;...</tt>".</li><li id="commandLine__bug_renderx_22766" class="li"><a name="commandLine__bug_renderx_22766"></a>Starting from <span class="tm">Java™</span>
+        1.6.0_23, converting XML documents to PDF using RenderX XEP randomly
+        fails with false XSL-FO errors (e.g. <tt class="tt">attribute "space-before" may
+        not be empty</tt>). This problem seems specific to the 64-bit
+        runtime.<div class="p">The workarounds for the above bug
+        ("<tt class="tt">renderx&nbsp;#22766</tt>") are: </div><ul class="compact-ul"><li class="li">Use a 32-bit <span class="tm">Java™</span> runtime.</li><li class="li">OR Use a 64-bit <span class="tm">Java™</span> runtime older than
+            1.6.0_23.</li><li class="li">OR Specify option <b class="option">-valid</b> in the
+            <b class="cmdname">xep</b> command-line.</li></ul></li></ul></div></td></tr></table></div></div><div id="commandLine__what_is_a_plugin" class="section"><a name="commandLine__what_is_a_plugin"></a><h3 class="section-title">What is a plug-in?</h3><div class="p">A
+    plug-in is simply a subdirectory of
+    <tt class="tt"><i class="i">ditac_install_dir</i>/plugin/</tt>. For example,
+    <tt class="tt"><i class="i">ditac_install_dir</i>/plugin/MyPlugin/</tt>.</div><div class="p">This
+    subdirectory may contain an <a href="https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html" class="xref" target="_blank">XML catalog file <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a>. This XML catalog file must be
+    named <tt class="tt">catalog.xml</tt>. In the case of a DITA specialization,
+    <tt class="tt">catalog.xml</tt> points to local copies of customized DTDs. Example:
+    <tt class="tt"><i class="i">ditac_install_dir</i>/plugin/MyPlugin/catalog.xml</tt>:</div><pre class="pre">&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+         prefer="public"&gt;
+  &lt;public publicId="-//OASIS//DTD DITA Concept//EN"
+          uri="dtd/concept.dtd"/&gt;
+  ...
+&lt;/catalog&gt;</pre><div class="p">This subdirectory may contain an <tt class="tt">xsl/</tt>
+    subdirectory organized <i class="i">exactly</i> like
+    <tt class="tt"><i class="i">ditac_install_dir</i>/xsl/</tt>. That is, this <tt class="tt">xsl/</tt>
+    subdirectory may contain one or more of the following XSLT
+    stylesheets:</div><div class="simpletable-container"><table border="1" class="simpletable" width="100%"><thead><tr class="sthead"><th class="header-stentry">XSLT stylesheet</th><th class="header-stentry">Description</th></tr></thead><tbody><tr class="strow"><td class="stentry"><tt class="filepath">xsl/fo/fo.xsl</tt></td><td class="stentry">Used to generate an intermediate XSL-FO file. After that,
+          the XSL-FO file is converted to PDF <a id="commandLine__I_q6wn7b_" name="commandLine__I_q6wn7b_"></a>, PostScript <a id="commandLine__I_rzgs97_" name="commandLine__I_rzgs97_"></a>, RTF <a id="commandLine__I_fnwb8o_" name="commandLine__I_fnwb8o_"></a>,
+          WordprocessingML <a id="commandLine__I_lawocs_" name="commandLine__I_lawocs_"></a>, Office Open XML (<tt class="tt">.docx</tt>)
+          <a id="commandLine__I_gzzw7a_" name="commandLine__I_gzzw7a_"></a> or OpenOffice
+          (<tt class="tt">.odt</tt>) <a id="commandLine__I_e20g5e_" name="commandLine__I_e20g5e_"></a> by
+          the means of an XSL-FO processor.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/xhtml/xhtml.xsl</tt></td><td class="stentry">Used to generate XHTML 1.0<a id="commandLine__I_6tw06h_" name="commandLine__I_6tw06h_"></a> pages.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/xhtml/xhtml1_1.xsl</tt></td><td class="stentry">Used to generate XHTML 1.1<a id="commandLine__I_j0by0f_" name="commandLine__I_j0by0f_"></a> pages.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/xhtml/html.xsl</tt></td><td class="stentry">Used to generate HTML 4.1<a id="commandLine__I_ul0dq3_" name="commandLine__I_ul0dq3_"></a> pages.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/webhelp/webhelp.xsl</tt></td><td class="stentry">Used to generate Web Help <a id="commandLine__I_k0pkys_" name="commandLine__I_k0pkys_"></a> files, which are then compiled using <a href="http://www.xmlmind.com/whc.shtml" class="xref" target="_blank">XMLmind Web Help Compiler <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a>.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/htmlhelp/htmlhelp.xsl</tt></td><td class="stentry">Used to generate HTML Help <a id="commandLine__I_hs02i5_" name="commandLine__I_hs02i5_"></a> files, which are then compiled using
+          <tt class="filepath">hhc.exe</tt>.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/eclipsehelp/eclipsehelp.xsl</tt></td><td class="stentry">Used to generate Eclipse Help<a id="commandLine__I_8zc1n4_" name="commandLine__I_8zc1n4_"></a> files.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/javahelp/javahelp.xsl</tt></td><td class="stentry">Used to generate <span class="tm">Java™</span>
+          Help<a id="commandLine__I_z0naqt_" name="commandLine__I_z0naqt_"></a> files, which are
+          then archived in a <tt class="tt">.jar</tt> file.</td></tr><tr class="strow"><td class="stentry"><tt class="filepath">xsl/epub/epub.xsl</tt></td><td class="stentry">Used to generate EPUB<a id="commandLine__I_vk4cr7_" name="commandLine__I_vk4cr7_"></a> files, which are then archived in a
+          <tt class="tt">.epub</tt> file (Zip archive having a <tt class="tt">.epub</tt>
+          extension).</td></tr></tbody></table></div><div class="p">When <b class="cmdname">ditac</b> is passed command-line
+    option <a href="#commandLine__option-plugin" class="xref"><b class="option">-plugin</b>&nbsp;<i class="i">plugin_name</i></a>,
+    it will use the DTDs/schemas and the XSLT stylesheets found in the plug-in
+    subdirectory having specified name preferably to those found in
+    <tt class="tt"><i class="i">ditac_install_dir</i>/schema/</tt> and in
+    <tt class="tt"><i class="i">ditac_install_dir</i>/xsl/</tt>.</div><div id="commandLine__DITAC_PLUGIN_DIR" class="note"><a name="commandLine__DITAC_PLUGIN_DIR"></a><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/tip.png" alt="Tip" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Tip</h5><div class="note-body"><div class="p">If you don't want your plug-ins to reside inside
+    <tt class="tt"><i class="i">ditac_install_dir</i>/plugin/</tt>, you may specify an alternate
+    parent directory by the means of the <tt class="tt">DITAC_PLUGIN_DIR</tt> environment
+    variable. Example: </div><ul class="compact-ul"><li class="li">On Windows:<pre class="screen" style="border-width: 1px; border-style: solid; padding: 0.5ex;">C:\&gt;set DITAC_PLUGIN_DIR=C:\Users\john\ditac_plugins</pre></li><li class="li">On Unix:<pre class="screen" style="border-width: 1px; border-style: solid; padding: 0.5ex;">$ export DITAC_PLUGIN_DIR=/home/john/ditac_plugins</pre></li></ul></div></td></tr></table></div></div></div><div class="related-links"><h3 class="related-links-title">Related information</h3><p class="link">‣ <a href="xsltParams.html#xsltParams">XSLT stylesheets parameters</a></p></div></div><hr class="footnote-separator"></hr><table border="0" cellspacing="0" cellpadding="0" class="fn-layout"><tr><td valign="baseline">&nbsp;<sup class="fn-callout">(1)</sup></td><td valign="baseline" id="I_d139e347_" class="fn"><a name="I_d139e347_"></a>Not
+          counting <tt class="tt">topicref</tt>s contained in <tt class="tt">frontmatter</tt> and
+          <tt class="tt">backmatter</tt>.</td></tr></table></body></html>

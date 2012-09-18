@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head><meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+      
+      <title>Part II, Chapter 7. Extensive customization</title>
+      <link href="resources/webhelp.css" rel="stylesheet" type="text/css" />
+      <meta content="XMLmind DITA Converter 2.2.3" name="generator" />
+   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">
+    </script><script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript">
+    </script><script charset="UTF-8" src="_wh/wh.min.js" type="text/javascript">
+    </script><script charset="UTF-8" src="_wh/search.js" type="text/javascript">
+    </script><link href="_wh/user/header_footer.css" rel="stylesheet" type="text/css" /></head>
+   
+<body>
+    <div id="wh-header">
+    <table cellpadding="0" cellspacing="0" id="page-header" width="100%">
+      <tr valign="middle">
+        <td width="110"><a href="http://www.xmlmind.com/"><img alt="XMLmind logo" border="0" height="50" src="_wh/user/header_footer_files/logo100x50.png" width="100" /></a></td>
+
+        <td><h1 id="page-header-title">XMLmind DITA Converter Manual</h1></td>
+
+        <td width="110"> </td>
+      </tr>
+    </table></div>
+
+    <div id="wh-body">
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a href="#wh-toc-pane"><span>Contents</span></a></li>
+          <li id="wh-index-tab"><a href="#wh-index-pane"><span>Index</span></a></li>
+          <li id="wh-search-tab"><a href="#wh-search-pane"><span>Search</span></a></li>
+        </ul>
+        <div id="wh-toc-pane">
+          <div id="wh-toc-form">
+            <span id="wh-toc-control"><a href="#">Collapse 
+            All</a><a href="#">Expand All</a></span>
+            <button id="wh-toc-previous">Previous</button>
+            <button id="wh-toc-next">Next</button>
+            <button id="wh-toc-print">Print</button>
+          </div>
+          <script charset="UTF-8" src="_wh/toc.js" type="text/javascript">
+          </script>
+        </div>
+        <div id="wh-index-pane">
+          <div id="wh-index-form">
+            <input id="wh-index-field" type="text" />
+          </div>
+          <script charset="UTF-8" src="_wh/index.js" type="text/javascript">
+          </script>
+        </div>
+        <div id="wh-search-pane">
+          <div id="wh-search-form">
+            <input id="wh-search-field" type="text" /><button id="wh-search-button">Search</button><span id="wh-highlight-group"><input checked="checked" id="wh-highlight-toggle" type="checkbox" /><label for="wh-highlight-toggle">Toggle Highlight</label></span>
+          </div>
+          <div id="wh-search-results">
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator">
+      </div>
+      <div id="wh-content">
+      
+      <div class="concept" id="howItWorks">
+         <h2 class="chapter-title">Chapter 7. Extensive customization <span class="topic-navigation-bar"><a accesskey="L" class="navigation-link" href="specialize.html#specialize" title="Previous topic: Chapter 6. Using ditac to convert documents conforming to a DITA specialization"><img alt="Previous topic" class="navigation-icon" height="16" src="resources/previous.png" width="16" /></a> <a accesskey="U" class="navigation-link" href="manual-5.html#I_hkbigm_" title="Parent topic: Part II. Customizing the output of XMLmind DITA Converter"><img alt="Parent topic" class="navigation-icon" height="16" src="resources/parent.png" width="16" /></a> <img alt="Child topic" class="navigation-icon-disabled" height="16" src="resources/child_disabled.png" title="Child topic" width="16" /> <img alt="Next topic" class="navigation-icon-disabled" height="16" src="resources/next_disabled.png" title="Next topic" width="16" /></span></h2>
+         <div class="conbody">
+            <div class="p">An extensive customization works exactly like a simple one:</div>
+            <ol class="compact-ol">
+               <li class="li">Create a custom XSLT 2.0 stylesheet which imports the stock
+                  one.
+               </li>
+               <li class="li">Redefine one or more attribute sets and/or one or more templates in
+                  the custom XSLT 2.0 stylesheet.
+               </li>
+            </ol>
+            <div class="p">The only difference is that this time, you need to know exactly what is
+               the format of the files you are going to transform. The bad news first:
+               the ditac XSLT 2.0 stylesheets do not transform plain DITA files. They
+               transform <tt class="tt">.ditac</tt> files, which are <i class="i">fully preprocessed DITA
+                  files</i>. Now, the good news: <tt class="tt">.ditac</tt> files mainly contains DITA
+               elements and because the ditac preprocessor performs all the grunt work
+               beforehand, <tt class="tt">.ditac</tt> files are really straightforward to
+               transform.
+            </div>
+            <div class="p">In fact, transforming <tt class="tt">.ditac</tt> files rather than plain DITA
+               files allows to concentrate on creating great-looking output.
+            </div>
+            <div class="section" id="howItWorks__how_it_works">
+               <h3 class="section-title">How it works</h3>
+               <div class="p">The ditac
+                  preprocessor generates a single
+                  <tt class="filepath">ditac_lists.ditac_list</tt> file and one or more
+                  <tt class="tt">.ditac</tt> files<a class="fn-link" href="#I_d277e43_"><sup class="fn-callout">(1)</sup></a> out of the
+                  source DITA files.
+               </div>
+               <div class="fig" id="howItWorks__I_75qzb0_">
+                  <h4 class="fig-title">Figure 7-1. The intermediate files generated by the ditac
+                     preprocessor
+                  </h4>
+                  <div class="fig-contents" style="border-width: 1px; border-style: solid; padding: 0.5ex;">
+                     <div class="image-container" style="text-align: center;"><img alt="how_it_works.png" class="image" src="images/how_it_works.png" /></div>
+                  </div>
+               </div>
+               <div class="p">Then, each <tt class="tt">.ditac</tt> file, which mainly contains fully
+                  preprocessed DITA topics, is transformed in turn by the ditac XSLT 2.0
+                  stylesheets.
+               </div>
+               <div class="p">The <tt class="filepath">ditac_lists.ditac_list</tt> file,
+                  which contains useful information about the overall DITA document being
+                  converted, is not directly transformed by the ditac XSLT 2.0 stylesheets.
+                  Instead, when needed to, the ditac XSLT 2.0 stylesheets <i class="i">query</i> the
+                  <tt class="filepath">ditac_lists.ditac_list</tt> file in order to generate
+                  optional items. Example: number topics, tables, figures, etc, when
+                  parameter <tt class="tt"><a class="xref" href="xsltParams.html#xsltParams__number">number</a>='<i class="i">XXX</i>'</tt>
+                  has been specified.
+               </div>
+               <div class="p">It is possible to examine the contents of the
+                  <tt class="filepath">ditac_lists.ditac_list</tt> file and those of the
+                  <tt class="tt">.ditac</tt> files by specifying the <a class="xref" href="commandLine.html#commandLine__option-preprocess"><b class="option">-preprocess</b></a>
+                  command-line option<a id="howItWorks__I_pw79lj_" name="howItWorks__I_pw79lj_"></a>.
+                  Example:
+               </div><pre class="screen">$ ditac <b class="b">-preprocess</b> \
+    -v -chunk single \
+    -images img -p xsl-resources-directory res \
+    out/manual.html manual.ditamap</pre></div>
+            <div class="section" id="howItWorks__I_s8cpcr_">
+               <h3 class="section-title">Contents of a <tt class="tt">.ditac</tt> file
+               </h3>
+               <div class="p">The root
+                  element of a <tt class="tt">.ditac</tt> file is <tt class="tt">ditac:chunk</tt>. A
+                  <tt class="tt">ditac:chunk</tt> element may have the following child elements (in any
+                  order and in any number):
+               </div>
+               <dl class="dl">
+                  <dt class="dt"><tt class="tt">ditac:titlePage</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate a ``title page''
+                     section here.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:toc</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate a <b class="b">Table of
+                        Contents</b> section here.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:figureList</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate a <b class="b">List of
+                        Figures</b> section here.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:tableList</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate a <b class="b">List of
+                        Tables</b> section here.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:exampleList</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate a <b class="b">List of
+                        Examples</b> section here.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:indexList</tt></dt>
+                  <dd class="dd">This empty placeholder element means: generate an <b class="b">Index</b>
+                     section here.
+                  </dd>
+                  <dt class="dt">A DITA topic of any kind</dt>
+                  <dd class="dd">A fully preprocessed topic. This topic is guaranteed not to
+                     contain nested topics.
+                  </dd>
+                  <dt class="dt"><tt class="tt">ditac:flags</tt></dt>
+                  <dd class="dd">A wrapper element for a DITA topic of any kind. A
+                     <tt class="tt">ditac:flags</tt> element is used to wrap any DITA element which
+                     has been flagged by the means of a conditional processing profile (a
+                     <tt class="tt">.ditaval</tt> file). See <a class="xref" href="commandLine.html#commandLine__option-filter">the
+                        <b class="option">-filter</b> command-line option</a>.
+                  </dd>
+               </dl>
+               <div class="p">More formally, the content model of <tt class="tt">ditac:chunk</tt> is
+                  specified by the <a class="xref" href="schema/ditac.rnc" target="_blank"><tt class="filepath">schema/ditac.rnc</tt> <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> RELAX NG
+                  grammar.
+               </div>
+               <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:chunk</b> xmlns:ditac=&quot;http://www.xmlmind.com/ditac/schema/ditac&quot;
+             xmlns:ditaarch=&quot;http://dita.oasis-open.org/architecture/2005/&quot;&gt;
+  &lt;<b class="b">ditac:titlePage</b>/&gt;
+  &lt;<b class="b">ditac:toc</b>/&gt;
+  &lt;<b class="b">topic</b> class=&quot;- topic/topic &quot;
+         domains=&quot;(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)
+                 (topic ut-d) (topic indexing-d)&quot;
+         id=&quot;introduction&quot; ditaarch:DITAArchVersion=&quot;1.1&quot;&gt;
+    &lt;title class=&quot;- topic/title &quot;&gt;Introduction&lt;/title&gt;
+    .
+    .
+    .  
+  &lt;/topic&gt;
+  &lt;<b class="b">topic</b> class=&quot;- topic/topic &quot; id=&quot;I_2yl4p_&quot;&gt;
+    &lt;title class=&quot;- topic/title &quot;&gt;Using XMLmind DITA Converter&lt;/title&gt;
+  &lt;/topic&gt;
+  &lt;<b class="b">task</b> class=&quot;- topic/topic task/task &quot;
+        domains=&quot;(topic ui-d) (topic hi-d) (topic pr-d) (topic sw-d)
+                 (topic ut-d) (topic indexing-d)&quot;
+        id=&quot;install&quot; ditaarch:DITAArchVersion=&quot;1.1&quot;&gt;
+    &lt;title class=&quot;- topic/title &quot;&gt;Installing XMLmind DITA Converter&lt;/title&gt;
+    .
+    .
+    .
+  &lt;/task&gt;
+  .
+  .
+  .
+  &lt;<b class="b">ditac:indexList</b>/&gt;
+&lt;/ditac:chunk&gt;</pre><div class="note">
+                  <table border="0" cellspacing="0" class="note-layout">
+                     <tr>
+                        <td class="note-icon"><img alt="Important" height="32" src="resources/important.png" width="32" /></td>
+                        <td class="note-text">
+                           <h5 class="note-head">Important</h5>
+                           <div class="note-body">The DITA topics contained in
+                              a <tt class="tt">.ditac</tt> file are fully preprocessed. What does this mean?
+                              Basically that they are ready to be transformed without further
+                              efforts:
+                              <ul class="ul">
+                                 <li class="li">Conref inclusions have been processed.</li>
+                                 <li class="li">Unspecified attributes having default values have been added to
+                                    the elements. Example: a <tt class="tt">&lt;p&gt;</tt> element becomes <tt class="tt">&lt;p
+                                       class=&quot;- topic/p &quot;&gt;</tt>.
+                                 </li>
+                                 <li class="li">Elements now have a ``flat'', globally unique, ID. Example: the
+                                    <tt class="tt">id</tt> attribute of this <tt class="tt">title</tt> element <tt class="tt">&lt;topic
+                                       id=&quot;introduction&quot;&gt;&lt;title id=&quot;start&quot;&gt;</tt> becomes
+                                    <tt class="tt">id=&quot;introduction__start&quot;</tt>.
+                                 </li>
+                                 <li class="li">The <tt class="tt">href</tt> attribute of <tt class="tt">xref</tt>, <tt class="tt">link</tt>,
+                                    <tt class="tt">image</tt> elements now point to the (future) output files.
+                                    Example: the <tt class="tt">href</tt> attribute of this <tt class="tt">xref</tt> element
+                                    <tt class="tt">&lt;xref href=&quot;intro.dita#introduction/start&quot;&gt;</tt> becomes
+                                    <tt class="tt">href=&quot;userguide-1.html#introduction__start&quot;</tt>.
+                                 </li>
+                                 <li class="li">Some text may have been added to empty <tt class="tt">xref</tt> and
+                                    <tt class="tt">link</tt> elements.
+                                 </li>
+                                 <li class="li">The <tt class="tt">reltable</tt> elements of the DITA map have been converted
+                                    to <tt class="tt">related-links</tt> sections or to extra <tt class="tt">link</tt>
+                                    elements.
+                                 </li>
+                                 <li class="li">Filtered elements have been removed. Flagged elements have been
+                                    wrapped in a <tt class="tt">ditac:flags</tt> element.
+                                 </li>
+                              </ul>
+                           </div>
+                        </td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+            <div class="section" id="howItWorks__I_ch78w8_">
+               <h3 class="section-title">Contents of the
+                  <tt class="filepath">ditac_lists.ditac_list</tt> file
+               </h3>
+               <div class="p">The root
+                  element of the <tt class="filepath">ditac_lists.ditac_list</tt> file is
+                  <tt class="tt">ditac:lists</tt>. A <tt class="tt">ditac:lists</tt> element may have the
+                  following child elements (in this exact order and in this exact
+                  number):
+               </div>
+               <dl class="dl">
+                  <dt class="dt"><tt class="tt">ditac:chunkList</tt></dt>
+                  <dd class="dd">A <tt class="tt">ditac:chunkList</tt> contains a <tt class="tt">ditac:chunk</tt>
+                     element for each <tt class="tt">.ditac</tt> file. A <tt class="tt">ditac:chunk</tt>
+                     element may be seen as the <i class="i">manifest</i> of a <tt class="tt">.ditac</tt>
+                     file.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:chunkList</b>&gt;
+  &lt;<b class="b">ditac:chunk</b> file=&quot;manual.html&quot;&gt;
+    &lt;<b class="b">ditac:titlePage</b>/&gt;
+    &lt;<b class="b">ditac:toc</b>/&gt;
+    &lt;<b class="b">ditac:topic</b> id=&quot;introduction&quot; number=&quot;bookabstract.1&quot;
+                 role=&quot;bookabstract&quot; title=&quot;Introduction&quot;/&gt;
+    .
+    .
+    .
+    &lt;<b class="b">ditac:topic</b> id=&quot;limitations&quot; number=&quot;appendix.1&quot; role=&quot;appendix&quot;
+                 title=&quot;Limitations and implementation specificities&quot;/&gt;
+    &lt;<b class="b">ditac:indexList</b>/&gt;
+  &lt;/ditac:chunk&gt;
+&lt;/ditac:chunkList&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:titlePage</tt></dt>
+                  <dd class="dd">Contains all the DITA elements needed to generate the ``title
+                     page'' section of a document. This element exists but is empty if
+                     the DITA document being converted has no title and no metadata (e.g.
+                     <tt class="tt">topicmeta</tt>/<tt class="tt">autor</tt>,
+                     <tt class="tt">bookmeta</tt>/<tt class="tt">publisherinformation</tt>,
+                     etc).
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:titlePage</b>&gt;
+  &lt;<b class="b">title</b> class=&quot;- topic/title &quot;&gt;XMLmind DITA Converter Manual&lt;/title&gt;
+  &lt;<b class="b">bookmeta</b> class=&quot;- map/topicmeta bookmap/bookmeta &quot;&gt;
+    &lt;authorinformation class=&quot;+ topic/author xnal-d/authorinformation &quot;&gt;
+    .
+    .
+    .
+    &lt;critdates class=&quot;- topic/critdates &quot;&gt;
+      &lt;created class=&quot;- topic/created &quot; date=&quot;September 17, 2009&quot;/&gt;
+    &lt;/critdates&gt;
+  &lt;/bookmeta&gt;
+&lt;/ditac:titlePage&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:toc</tt></dt>
+                  <dd class="dd">Contains all the information needed to generate <b class="b">Table of
+                        Contents</b> section of a document.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:toc</b>&gt;
+  &lt;<b class="b">ditac:tocEntry</b> file=&quot;manual.html&quot; id=&quot;I_2yl4p_&quot; number=&quot;part.1&quot;
+                  role=&quot;part&quot; title=&quot;Using XMLmind DITA Converter&quot;&gt;
+    &lt;<b class="b">ditac:tocEntry</b> file=&quot;manual.html&quot; id=&quot;install&quot;
+                    number=&quot;part.1 chapter.1&quot; role=&quot;chapter&quot;
+                    title=&quot;Installing XMLmind DITA Converter&quot;&gt;
+    .
+    .
+    .  
+    &lt;/ditac:tocEntry&gt;
+  &lt;/ditac:tocEntry&gt;
+  &lt;ditac:tocEntry file=&quot;manual.html&quot; id=&quot;limitations&quot; number=&quot;appendix.1&quot;
+                  role=&quot;appendix&quot;
+                  title=&quot;Limitations and implementation specificities&quot;/&gt;
+&lt;/ditac:toc&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:figureList</tt></dt>
+                  <dd class="dd">Contains all the information needed to generate the <b class="b">List of
+                        Figures</b> section of a document. This element exists but is empty
+                     if the DITA document being converted contains no <tt class="tt">fig</tt>
+                     elements having a <tt class="tt">title</tt> child element.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:figureList</b>&gt;
+  &lt;<b class="b">ditac:figure</b> file=&quot;manual.html&quot; id=&quot;xsltParams__page_areas&quot;
+                number=&quot;part.1 chapter.4 figure.1&quot; title=&quot;Page areas&quot;/&gt;
+  &lt;ditac:figure file=&quot;manual.html&quot; id=&quot;howItWorks__I_6gb2s_&quot;
+                number=&quot;part.2 chapter.3 figure.1&quot; 
+                title=&quot;The intermediate files generated by
+                       the ditac preprocessor&quot;/&gt;
+&lt;/ditac:figureList&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:tableList</tt></dt>
+                  <dd class="dd">Contains all the information needed to generate the <b class="b">List of
+                        Tables</b> section of a document. This element exists but is empty
+                     if the DITA document being converted contains no <tt class="tt">table</tt>
+                     elements having a <tt class="tt">title</tt> child element.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:tableList</b>&gt;
+  &lt;ditac:table file=&quot;manual.html&quot;
+               id=&quot;quickStart__supported_filename_extensions&quot;
+               number=&quot;part.1 chapter.2 table.1&quot;
+               title=&quot;Supported filename extensions&quot;/&gt;
+  &lt;ditac:table file=&quot;manual.html&quot;
+               id=&quot;quickStart__supported_output_formats&quot;
+               number=&quot;part.1 chapter.2 table.2&quot;
+               title=&quot;Supported output formats&quot;/&gt;
+&lt;/<b class="b">ditac:tableList</b>&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:exampleList</tt></dt>
+                  <dd class="dd">Contains all the information needed to generate the <b class="b">List of
+                        Examples</b> section of a document. This element exists but is empty
+                     if the DITA document being converted contains no <tt class="tt">example</tt>
+                     elements having a <tt class="tt">title</tt> child element.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:exampleList</b>&gt;
+  &lt;<b class="b">ditac:example</b> file=&quot;topicAAA.htm&quot; id=&quot;topicAAA__I_6wcr3_&quot;
+                 number=&quot;part.1 example.1&quot; title=&quot;Example AAA.1&quot;/&gt;
+  .
+  .
+  .
+  &lt;ditac:example file=&quot;topicHHH.htm&quot; id=&quot;topicHHH__exampleHHH.2&quot;
+                 number=&quot;appendix.2 example.2&quot; title=&quot;Example HHH.2&quot;/&gt;
+&lt;/ditac:exampleList&gt;</pre></dd>
+                  <dt class="dt"><tt class="tt">ditac:indexList</tt></dt>
+                  <dd class="dd">Contains all the information needed to generate the <b class="b">Index</b>
+                     section of a document. This element exists but is empty if the DITA
+                     document being converted contains no <tt class="tt">indexterm</tt>
+                     elements.
+                     <div class="p">Example:</div><pre class="pre">&lt;<b class="b">ditac:indexList</b>&gt;
+  &lt;<b class="b">ditac:div</b> title=&quot;A&quot;&gt;
+    &lt;<b class="b">ditac:indexEntry</b> term=&quot;appendix-number-format, parameter&quot;
+                      xml:id=&quot;I_hd1wr_&quot;&gt;
+      &lt;<b class="b">ditac:indexAnchor</b> file=&quot;manual.html&quot; 
+                         id=&quot;xsltParams__I_8bona_&quot;
+                         number=&quot;1&quot;/&gt;
+    &lt;/ditac:indexEntry&gt;
+    &lt;ditac:indexEntry sortAs=&quot;automap&quot; term=&quot;-automap, option&quot;
+                      xml:id=&quot;I_2gud9_&quot;&gt;
+      &lt;ditac:indexAnchor file=&quot;manual.html&quot;
+                         id=&quot;commandLine__I_5x8va_&quot;
+                         number=&quot;1&quot;/&gt;
+    &lt;/ditac:indexEntry&gt;
+  &lt;/ditac:div&gt;
+  .
+  .
+  .
+  &lt;ditac:div title=&quot;X&quot;&gt;
+    .
+    .
+    .
+    &lt;ditac:indexEntry sortAs=&quot;xslt2&quot; term=&quot;-xslt2, option&quot;
+                      xml:id=&quot;I_atn9k_&quot;&gt;
+      &lt;ditac:indexAnchor file=&quot;manual.html&quot;
+                         id=&quot;commandLine__I_cu3ew_&quot;
+                         number=&quot;1&quot;/&gt;
+      &lt;ditac:indexAnchor file=&quot;manual.html&quot;
+        id=&quot;customAttributeSet__I_gis5b_&quot; number=&quot;2&quot;/&gt;
+      &lt;ditac:indexAnchor file=&quot;manual.html&quot;
+                         id=&quot;specialize__I_11514_&quot;
+                         number=&quot;3&quot;/&gt;
+      &lt;<b class="b">ditac:indexSeeAlso</b> ref=&quot;I_bhy05_&quot; term=&quot;-t, option&quot;/&gt;
+      &lt;ditac:indexSeeAlso ref=&quot;I_f1jh_&quot; term=&quot;-xslt, option&quot;/&gt;
+    &lt;/ditac:indexEntry&gt;
+  &lt;/ditac:div&gt;
+&lt;/ditac:indexList&gt;</pre></dd>
+               </dl>
+               <div class="p">More formally, the content model of <tt class="tt">ditac:lists</tt> is
+                  specified by the <a class="xref" href="schema/ditac_lists.rnc" target="_blank"><tt class="filepath">schema/ditac_lists.rnc</tt> <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> RELAX
+                  NG grammar.
+               </div>
+               <div class="p">Currently the
+                  <tt class="filepath">ditac_lists.ditac_list</tt> file is used to
+                  generate:
+               </div>
+               <ul class="compact-ul">
+                  <li class="li">the ``title page'' section of a document;</li>
+                  <li class="li">the <b class="b">Table of Contents</b> section of a document;
+                  </li>
+                  <li class="li">the <b class="b">List of Figures</b>, <b class="b">List of Tables</b>, <b class="b">List of
+                        Examples</b> sections of a document;
+                  </li>
+                  <li class="li">the <b class="b">Index</b> section of a document;
+                  </li>
+                  <li class="li">the navigation icons in a multi-page HTML document;</li>
+                  <li class="li">all the files (<tt class="filepath">project.hhp</tt>,
+                     <tt class="filepath">toc.hhc</tt>, etc) required by the HTML Help
+                     system;
+                  </li>
+                  <li class="li">all the files (<tt class="filepath">jhelpset.hs</tt>,
+                     <tt class="filepath">jhelpmap.jhm</tt>, etc) required by the <span class="tm">Java™</span> Help system.
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <hr class="footnote-separator" />
+      <table border="0" cellpadding="0" cellspacing="0" class="fn-layout">
+         <tr>
+            <td valign="baseline"> <sup class="fn-callout">(1)</sup></td>
+            <td class="fn" id="I_d277e43_" valign="baseline">A single <tt class="tt">.ditac</tt> file for a print output;
+               one or more <tt class="tt">.ditac</tt> files for a screen output.
+            </td>
+         </tr>
+      </table>
+   </div>
+    </div>
+
+    <div id="wh-footer">
+    <p id="page-footer">Web Help generated using 
+  <a href="http://www.xmlmind.com/ditac/">XMLmind DITA Converter</a>.</p></div>
+  </body></html>

@@ -1,0 +1,215 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta><title>Getting started</title><link rel="stylesheet" type="text/css" href="resources/basic.css"></link><meta name="generator" content="XMLmind DITA Converter 2.2.3"></meta></head><body><div id="I_12s242_" class="topic"><a name="I_12s242_"></a><h2 class="chapter-title">Getting started</h2></div><div id="quickStart" class="topic"><a name="quickStart"></a><h2 class="section1-title">Using the <tt class="tt">ditac</tt> command-line utility</h2><div class="body"><div id="quickStart__I_p7nsux_" class="section"><a name="quickStart__I_p7nsux_"></a><div class="p">In this chapter, we'll explain how to run the
+    <b class="cmdname">ditac</b> command-line utility by using examples. You'll
+    find all the DITA input files used to run the following examples in the
+    <tt class="filepath"><i class="varname">ditac_install_dir</i>/docsrc/manual/</tt>
+    directory.</div><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/tip.png" alt="Tip" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Tip</h5><div class="note-body"><div class="p">XMLmind DITA Converter has
+    been integrated to <a href="http://www.xmlmind.com/foconverter/_distrib/doc/help/index.html" class="xref" target="_blank">XMLmind XSL Utility <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a>, which is part of the <a href="http://www.xmlmind.com/foconverter/" class="xref" target="_blank">XMLmind XSL-FO Converter <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a> commercial
+    product.</div><div class="p">Unlike <b class="cmdname">ditac</b>, which is a command-line
+    utility, XMLmind XSL Utility is a graphical tool. It makes it easy
+    parameterizing the DITA conversion process and then performing document
+    conversions.</div><div id="quickStart__I_xs5g1j_" class="fig"><a name="quickStart__I_xs5g1j_"></a><h4 class="fig-title">XMLmind XSL Utility main window</h4><div class="fig-contents"><div class="image-container"><img src="images/xslutil_dita_menu.png" class="image" alt="xslutil_dita_menu.png"></img></div></div></div><div class="p">Moreover, this graphical tool comes in a Windows,
+    auto-installable, self-contained, <tt class="tt">setup.exe</tt> distribution<a href="#I_d75e58_" class="fn-link"><sup class="fn-callout">(1)</sup></a> which includes <a href="http://xmlgraphics.apache.org/fop/" class="xref" target="_blank">Apache
+    FOP <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a>, <a href="http://www.xmlmind.com/foconverter/" class="xref" target="_blank">XMLmind XSL-FO Converter <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a> and ditac.</div><div class="p">If you
+    just want to quickly and easily evaluate all the potential of ditac, you
+    may want to download XMLmind XSL Utility Evaluation Edition from <a href="http://www.xmlmind.com/foconverter/" class="xref" target="_blank">XMLmind XSL-FO Converter web site <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a>. Do not be
+    surprised because XMLmind XSL Utility Evaluation Edition generates output
+    containing <i class="i">random duplicate letters</i>. Of course, this does not
+    happen with Professional Edition!</div></div></td></tr></table></div><h3 class="section-title">Converting
+    a document to PDF</h3><div class="p">Converting a document to PDF<a id="quickStart__I_c4et96_" name="quickStart__I_c4et96_"></a> is done by executing the following
+    command:</div><pre class="screen" style="font-size: 100%;">$ ditac out/manual.pdf manual.ditamap</pre><div class="p">The
+    output directory <tt class="filepath">out/</tt> is automatically created if it
+    does not already exist.</div><div class="p">Unless you have specified in <a href="commandLine.html#commandLine__ditac_options_file" class="xref">the
+    <tt class="filepath">ditac.options</tt> file</a> which XSL-FO processor to
+    use, you'll have to execute:<a id="quickStart__I_ipz4wk_" name="quickStart__I_ipz4wk_"></a></div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-fop" class="xref">-fop</a> /opt/fop/fop out/manual.pdf manual.ditamap</pre><div class="p">or:<a id="quickStart__I_rxu8fz_" name="quickStart__I_rxu8fz_"></a></div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-xep" class="xref">-xep</a> /opt/xep/xep out/manual.pdf manual.ditamap</pre><div class="p">or:<a id="quickStart__I_w5yuqs_" name="quickStart__I_w5yuqs_"></a></div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-ahf" class="xref">-ahf</a> "C:\AHFv6\AHFCmd.exe" out/manual.pdf manual.ditamap</pre><div class="p">The
+    XSL-FO processors allowing to generate PDF also allows to generate
+    PostScript®<a id="quickStart__I_nvr16w_" name="quickStart__I_nvr16w_"></a>.
+    Example:</div><pre class="screen">$ ditac out/manual.ps manual.ditamap</pre><div class="p">Notice
+    how the output format is determined by examining the filename extension of
+    the output file.</div><div id="quickStart__supported_filename_extensions" class="table"><a name="quickStart__supported_filename_extensions"></a><h4 class="table-title">Supported filename extensions</h4><table class="tgroup" border="1" width="100%"><thead class="thead"><tr class="row"><th class="header-entry" align="center">Format</th><th class="header-entry" align="center">Extensions</th></tr></thead><tbody class="tbody"><tr class="row"><td class="entry">XHTML 1.0<a id="quickStart__I_edvgv3_" name="quickStart__I_edvgv3_"></a></td><td class="entry"><tt class="tt">.html</tt>, <tt class="tt">.htm</tt>,
+              <tt class="tt">.xhtml</tt><a id="quickStart__I_kg0vag_" name="quickStart__I_kg0vag_"></a><a id="quickStart__I_vtshnh_" name="quickStart__I_vtshnh_"></a><a id="quickStart__I_t8026q_" name="quickStart__I_t8026q_"></a></td></tr><tr class="row"><td class="entry">HTML Help<a id="quickStart__I_nfjf39_" name="quickStart__I_nfjf39_"></a></td><td class="entry"><tt class="tt">.chm</tt><a id="quickStart__I_a4gk8a_" name="quickStart__I_a4gk8a_"></a></td></tr><tr class="row"><td class="entry">Java Help<a id="quickStart__I_n5meo9_" name="quickStart__I_n5meo9_"></a></td><td class="entry"><tt class="tt">.jar</tt><a id="quickStart__I_x82a42_" name="quickStart__I_x82a42_"></a></td></tr><tr class="row"><td class="entry">PDF<a id="quickStart__I_zh42y5_" name="quickStart__I_zh42y5_"></a></td><td class="entry"><tt class="tt">.pdf</tt><a id="quickStart__I_ln0bbz_" name="quickStart__I_ln0bbz_"></a></td></tr><tr class="row"><td class="entry">PostScript®<a id="quickStart__I_trlwlj_" name="quickStart__I_trlwlj_"></a></td><td class="entry"><tt class="tt">.ps</tt><a id="quickStart__I_uwf1rf_" name="quickStart__I_uwf1rf_"></a></td></tr><tr class="row"><td class="entry">RTF (can be opened in Word 2000+)<a id="quickStart__I_hue9fw_" name="quickStart__I_hue9fw_"></a></td><td class="entry"><tt class="tt">.rtf</tt>, <tt class="tt">.doc</tt><a id="quickStart__I_5mjmmj_" name="quickStart__I_5mjmmj_"></a><a id="quickStart__I_v65hir_" name="quickStart__I_v65hir_"></a></td></tr><tr class="row"><td class="entry">WordprocessingML( can be opened in Word
+              2003+)<a id="quickStart__I_m1eam9_" name="quickStart__I_m1eam9_"></a></td><td class="entry"><tt class="tt">.wml</tt>, <tt class="tt">.xml</tt><a id="quickStart__I_or3o4z_" name="quickStart__I_or3o4z_"></a><a id="quickStart__I_yhmky_" name="quickStart__I_yhmky_"></a></td></tr><tr class="row"><td class="entry">Office Open XML (can be opened in Word
+              2007+)<a id="quickStart__I_5lqqly_" name="quickStart__I_5lqqly_"></a></td><td class="entry"><tt class="tt">.docx</tt><a id="quickStart__I_x48s7n_" name="quickStart__I_x48s7n_"></a></td></tr><tr class="row"><td class="entry">OpenOffice (can be opened in OpenOffice.org
+              2+)<a id="quickStart__I_c8bzfo_" name="quickStart__I_c8bzfo_"></a></td><td class="entry"><tt class="tt">.odt</tt><a id="quickStart__I_8x5fuw_" name="quickStart__I_8x5fuw_"></a></td></tr></tbody></table></div><div class="p">Note that <b class="cmdname">ditac</b> also allows to convert one
+    or more topic files rather than a single map or bookmap file:</div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-toc" class="xref">-toc</a> \
+    out/draft.pdf embed1.dita embed2.dita</pre><div class="p">Ditac does not generate a
+    table of contents (TOC) by default. Unless the input file is a bookmap
+    containing an empty <tt class="tt">toc</tt> element in its
+    <tt class="tt">frontmatter</tt>/<tt class="tt">booklists</tt> descendant element, you'll have to
+    explicitly use the <b class="option">-toc</b> option<a id="quickStart__I_a591k0_" name="quickStart__I_a591k0_"></a>. Using the
+    <b class="option">-toc</b> option when the input file already specifies a TOC
+    is harmless, so you could as well add a <tt class="tt">-toc</tt> line to your <a href="commandLine.html#commandLine__ditac_options_file" class="xref"><tt class="filepath">ditac.options</tt>
+    file</a>.</div></div><div id="quickStart__I_zed9yi_" class="section"><a name="quickStart__I_zed9yi_"></a><h3 class="section-title">Converting a document to a word processor
+    format</h3><div class="p">Converting a document to a word processor format just
+    requires the use of an XSL-FO processor different from the one which
+    generates PDF or PostScript. Fortunately all this automatically handled by
+    <b class="cmdname">ditac</b>.</div><div class="p">Convert a document to RTF (can be opened
+    in Word 2000+)<a id="quickStart__I_gev6g9_" name="quickStart__I_gev6g9_"></a>:</div><pre class="screen">$ ditac out/manual.rtf manual.ditamap</pre><div class="p">Unless
+    you have specified in <a href="commandLine.html#commandLine__ditac_options_file" class="xref">the
+    <tt class="filepath">ditac.options</tt> file</a> which XSL-FO processor to
+    use, you'll have to execute:<a id="quickStart__I_v8m25a_" name="quickStart__I_v8m25a_"></a></div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-xfc" class="xref">-xfc</a> /opt/xfc/fo2rtf out/manual.rtf manual.ditamap</pre><div class="p">Suffice
+    to specify the location of <tt class="filepath">fo2rtf</tt>
+    (<tt class="filepath">fo2rtf.bat</tt> on Windows). Using this location, ditac
+    infers the locations of <tt class="filepath">fo2wml</tt>,
+    <tt class="filepath">fo2docx</tt> and
+    <tt class="filepath">fo2odt</tt>.</div><div class="p">Convert a document to WordprocessingML
+    (can be opened in Word 2003+)<a id="quickStart__I_uu236x_" name="quickStart__I_uu236x_"></a>:</div><pre class="screen">$ ditac out/manual.xml manual.ditamap</pre><div class="p">Convert
+    a document to Office Open XML (can be opened in Word
+    2007+)<a id="quickStart__I_lavzgx_" name="quickStart__I_lavzgx_"></a>:</div><pre class="screen">$ ditac out/manual.docx manual.ditamap</pre><div class="p">Convert
+    a document to OpenOffice (can be opened in OpenOffice.org
+    2+)<a id="quickStart__I_ucwc6a_" name="quickStart__I_ucwc6a_"></a>:</div><pre class="screen">$ ditac -v -p number all \
+    out/manual.odt manual.ditamap</pre><div class="note"><h5 class="note-head">Useful options</h5><div class="note-body"><ul class="ul"><li class="li"><tt class="tt"><a href="commandLine.html#commandLine__option-v" class="xref">-v</a></tt><a id="quickStart__I_hvehcv_" name="quickStart__I_hvehcv_"></a> instructs
+        <b class="cmdname">ditac</b> to print progress messages on the console.
+        Recommended when converting large documents.</li><li class="li">"<tt class="tt"><a href="commandLine.html#commandLine__option-param" class="xref">-p</a> <a href="xsltParams.html#xsltParams__number" class="xref">number</a> all</tt>"
+        passes parameter "<tt class="tt">number</tt>"<a id="quickStart__I_j3q14q_" name="quickStart__I_j3q14q_"></a> with value "<tt class="tt">all</tt>" to the XSLT
+        stylesheets which generate the XSL-FO. The XSL-FO are then converted
+        to OpenOffice format by the means of XMLmind XSL-FO
+        Converter<a id="quickStart__I_dhw6wu_" name="quickStart__I_dhw6wu_"></a>. The
+        <tt class="tt">number='all'</tt> parameter instructs the XSLT stylesheets to
+        number topics, tables and figures.</li></ul></div></div></div><div id="quickStart__I_cv7had_" class="section"><a name="quickStart__I_cv7had_"></a><h3 class="section-title">Converting a document to XHTML</h3><div class="p">Converting a
+    document to multi-page XHTML 1.0<a id="quickStart__I_805duk_" name="quickStart__I_805duk_"></a> is done by executing the following command:</div><pre class="screen" style="font-size: 100%;">$ ditac -images img -p xsl-resources-directory res \
+    out/manual/_.html manual.ditamap</pre><ul class="ul"><li class="li">All the files generated by <b class="cmdname">ditac</b> are created in
+        the <tt class="filepath">out/manual/</tt> directory.</li><li class="li">"<tt class="tt">-images img</tt>" instructs <b class="cmdname">ditac</b> to copy
+        all the image files referenced by the input DITA document to
+        <tt class="filepath">out/manual/img/</tt>. Specifying the <a href="commandLine.html#commandLine__option-images" class="xref"><b class="option">-images</b></a>
+        option when generating an output format based on XHTML/HTML is needed
+        in almost all the use cases.</li><li class="li">"<tt class="tt">-p xsl-resources-directory res</tt>" instructs
+        <b class="cmdname">ditac</b> to copy all the resources needed by the XSLT
+        stylesheets (CSS stylesheet, navigation icons, etc) to
+        <tt class="filepath">out/manual/res/</tt>. Specifying a value for the <a href="xsltParams.html#xsltParams__xsl-resources-directory" class="xref"><tt class="tt">xsl-resources-directory</tt></a>
+        parameter when generating an output format based on XHTML/HTML is
+        needed in almost all the use cases.</li><li class="li">Notice the strange name of the output file:
+        <tt class="filepath">out/manual/_.html</tt>. In fact, this name is just
+        used to specify the filename extension of the output files. The actual
+        basenames of the output files are determined by examining the
+        <tt class="tt">chunk</tt> and <tt class="tt">copy-to</tt> attributes possibly specified in
+        the DITA map.<div class="p">Note that a command-line like:</div><pre class="screen" style="font-size: 100%;">$ ditac -images img -p xsl-resources-directory res \
+    out/manual/<b class="b">foo</b>.html manual.ditamap</pre><div class="p">works fine too. The
+        only difference is that in such case, when a basename is needed and
+        cannot be determined by examining the <tt class="tt">chunk</tt> and
+        <tt class="tt">copy-to</tt> attributes specified in the DITA map,
+        <b class="cmdname">ditac</b> will use "<tt class="tt">foo</tt>" as a basename and you
+        <i class="i">may</i> end up having some output files called
+        <tt class="filepath">foo.html</tt>, <tt class="filepath">foo-2.html</tt>,
+        <tt class="filepath">foo-3.html</tt>, etc. When the basename is specified
+        as "<tt class="tt">_</tt>", it is the basename of the DITA map which is used.
+        That is, you may have some output files called
+        <tt class="filepath">manual.html</tt>, <tt class="filepath">manual-2.html</tt>,
+        <tt class="filepath">manual-3.html</tt>, etc.</div></li></ul><div class="p">What if you want to convert a document to HTML
+    4.1<a id="quickStart__I_f1yzgw_" name="quickStart__I_f1yzgw_"></a> or XHTML
+    1.1<a id="quickStart__I_dh1v7o_" name="quickStart__I_dh1v7o_"></a> rather than to XHTML
+    1.0? We have learned that there is no way to specify this using a <a href="#quickStart__supported_filename_extensions" class="xref">filename
+    extension</a>. The answer is: use the <a href="commandLine.html#commandLine__option-format" class="xref"><b class="option">-format</b></a>
+    option (or <b class="option">-f</b> in its short form). Example:</div><pre class="screen">$ ditac -format html \
+    -images img -p xsl-resources-directory res \
+    out/manual/_.html manual.ditamap</pre><div id="quickStart__supported_output_formats" class="table"><a name="quickStart__supported_output_formats"></a><h4 class="table-title">Supported output formats</h4><table class="tgroup" border="1" width="100%"><thead class="thead"><tr class="row"><th class="header-entry" align="center">Format</th><th class="header-entry" align="center">Name</th></tr></thead><tbody class="tbody"><tr class="row"><td class="entry">XHTML 1.0<a id="quickStart__I_aaonxf_" name="quickStart__I_aaonxf_"></a></td><td class="entry"><tt class="tt">xhtml</tt><a id="quickStart__I_gv203r_" name="quickStart__I_gv203r_"></a></td></tr><tr class="row"><td class="entry">XHTML 1.1<a id="quickStart__I_5xr6l6_" name="quickStart__I_5xr6l6_"></a></td><td class="entry"><tt class="tt">xhtml1.1</tt><a id="quickStart__I_gtkbrc_" name="quickStart__I_gtkbrc_"></a></td></tr><tr class="row"><td class="entry">HTML 4.1<a id="quickStart__I_wxszgl_" name="quickStart__I_wxszgl_"></a></td><td class="entry"><tt class="tt">html</tt><a id="quickStart__I_qjl92h_" name="quickStart__I_qjl92h_"></a></td></tr><tr class="row"><td class="entry">Web Help<a id="quickStart__I_dsesn6_" name="quickStart__I_dsesn6_"></a></td><td class="entry"><tt class="tt">webhelp</tt><a id="quickStart__I_5h2h94_" name="quickStart__I_5h2h94_"></a></td></tr><tr class="row"><td class="entry">HTML Help<a id="quickStart__I_ny32ys_" name="quickStart__I_ny32ys_"></a></td><td class="entry"><tt class="tt">htmlhelp</tt><a id="quickStart__I_3etpq1_" name="quickStart__I_3etpq1_"></a></td></tr><tr class="row"><td class="entry">Eclipse Help<a id="quickStart__I_uaut18_" name="quickStart__I_uaut18_"></a></td><td class="entry"><tt class="tt">eclipsehelp</tt><a id="quickStart__I_epqcm1_" name="quickStart__I_epqcm1_"></a></td></tr><tr class="row"><td class="entry">EPUB<a id="quickStart__I_t58q8r_" name="quickStart__I_t58q8r_"></a></td><td class="entry"><tt class="tt">epub</tt><a id="quickStart__I_k2mxab_" name="quickStart__I_k2mxab_"></a></td></tr><tr class="row"><td class="entry">Java Help<a id="quickStart__I_2ctmzx_" name="quickStart__I_2ctmzx_"></a></td><td class="entry"><tt class="tt">javahelp</tt><a id="quickStart__I_7mux60_" name="quickStart__I_7mux60_"></a></td></tr><tr class="row"><td class="entry">PDF<a id="quickStart__I_f81l6p_" name="quickStart__I_f81l6p_"></a></td><td class="entry"><tt class="tt">pdf</tt><a id="quickStart__I_ggw2ox_" name="quickStart__I_ggw2ox_"></a></td></tr><tr class="row"><td class="entry">PostScript®<a id="quickStart__I_e35se6_" name="quickStart__I_e35se6_"></a></td><td class="entry"><tt class="tt">ps</tt><a id="quickStart__I_baoodk_" name="quickStart__I_baoodk_"></a></td></tr><tr class="row"><td class="entry">RTF (can be opened in Word 2000+)<a id="quickStart__I_li0d_" name="quickStart__I_li0d_"></a></td><td class="entry"><tt class="tt">rtf</tt><a id="quickStart__I_jbiiwd_" name="quickStart__I_jbiiwd_"></a></td></tr><tr class="row"><td class="entry">WordprocessingML( can be opened in Word
+              2003+)<a id="quickStart__I_9145lb_" name="quickStart__I_9145lb_"></a></td><td class="entry"><tt class="tt">wml</tt><a id="quickStart__I_bunfpr_" name="quickStart__I_bunfpr_"></a></td></tr><tr class="row"><td class="entry">Office Open XML (can be opened in Word
+              2007+)<a id="quickStart__I_uyn1rl_" name="quickStart__I_uyn1rl_"></a></td><td class="entry"><tt class="tt">docx</tt><a id="quickStart__I_co2jdw_" name="quickStart__I_co2jdw_"></a></td></tr><tr class="row"><td class="entry">OpenOffice (can be opened in OpenOffice.org
+              2+)<a id="quickStart__I_9vquhy_" name="quickStart__I_9vquhy_"></a></td><td class="entry"><tt class="tt">odt</tt><a id="quickStart__I_nmlm2h_" name="quickStart__I_nmlm2h_"></a></td></tr><tr class="row"><td class="entry">XSL-FO<a id="quickStart__I_834s4z_" name="quickStart__I_834s4z_"></a></td><td class="entry"><tt class="tt">fo</tt><a id="quickStart__I_ao89ij_" name="quickStart__I_ao89ij_"></a></td></tr></tbody></table></div><div class="note"><h5 class="note-head">Useful options</h5><div class="note-body"><ul class="ul"><li class="li">"<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+        both</tt>". This XSLT stylesheet parameter specifies that a header and
+        a footer containing navigation icons should be generated in order to
+        link together all the HTML pages.</li><li class="li">"<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+        yes</tt>". This XSLT stylesheet parameter specifies that navigation
+        icons should be generated in order to link together all the
+        topics.</li><li class="li">"<tt class="tt">-p <a href="xsltParams.html#xsltParams__default-table-width" class="xref">default-table-width</a>
+        100%</tt>". Unless this XSLT stylesheet parameter is specified (or the
+        <tt class="tt">expanse="page"</tt> attribute is specified for all tables), web
+        browsers tend to layout the generated HTML tables in order to make
+        them as narrow as possible.</li></ul><div class="p">A full-fledged command-line is thus:</div><pre class="screen">$ ditac -images img -p xsl-resources-directory res \
+    <b class="b">-p number all</b> \
+    <b class="b">-p chain-pages both</b> \
+    <b class="b">-p chain-topics yes</b> \
+    <b class="b">-p default-table-width 100%</b> \
+    out/manual/_.html manual.ditamap</pre></div></div><div class="p">What if you want to
+    generate a single XHTML page rather than multiple XHTML page? No need to
+    create a new DITA map for that. Simply specify option "<tt class="tt"><a href="commandLine.html#commandLine__option-chunk" class="xref">-chunk</a>
+    single</tt>" (or <b class="option">-c</b> in its short form).</div><pre class="screen">$ ditac <b class="b">-chunk single</b> \
+    -images img -p xsl-resources-directory res \
+    out/manual.html manual.ditamap</pre></div><div id="quickStart__I_ugm0gd_" class="section"><a name="quickStart__I_ugm0gd_"></a><h3 class="section-title">Converting a document to Web Help</h3><div class="p">Converting a
+    document to <a href="http://en.wikipedia.org/wiki/Web_help" class="xref" target="_blank">Web
+    Help <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a> <a id="quickStart__I_vtm9iq_" name="quickStart__I_vtm9iq_"></a> is similar to
+    converting a document to multi-page XHTML. The main difference is that you
+    need to explicitly specify <tt class="tt">-format&nbsp;webhelp</tt>:</div><pre class="screen" style="font-size: 100%;">$ ditac <b class="b">-format webhelp</b> \
+    -images img -p xsl-resources-directory res \
+    webhelp/_.html manual.ditamap</pre><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><div class="p">Do not
+    specify any of the following command-line options when generating Web
+    Help: <a href="commandLine.html#commandLine__option-toc" class="xref"><b class="option">-toc</b></a>,
+    <a href="commandLine.html#commandLine__option-index" class="xref"><b class="option">-index</b></a>,
+    "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+    <i class="i">any_value_other_than_none</i></tt>", "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+    yes</tt>".</div></div></td></tr></table></div></div><div id="quickStart__I_hul40z_" class="section"><a name="quickStart__I_hul40z_"></a><h3 class="section-title">Converting a document to HTML Help</h3><div class="p">Converting a
+    document to HTML Help<a id="quickStart__I_w1fqt8_" name="quickStart__I_w1fqt8_"></a> is
+    done by executing the following command:</div><pre class="screen" style="font-size: 100%;">C:\&gt; ditac -images img -p xsl-resources-directory res \
+    out\manual.chm manual.ditamap</pre><div class="p">Unless you have specified in
+    <a href="commandLine.html#commandLine__ditac_options_file" class="xref">the
+    <tt class="filepath">ditac.options</tt> file</a> the location of
+    <tt class="filepath">hhc.exe</tt>, you'll have to execute:</div><pre class="screen">C:\&gt; ditac <a href="commandLine.html#commandLine__option-hhc" class="xref">-hhc</a> "C:\Program Files\HTML Help Workshop\hhc.exe" \
+    -images img -p xsl-resources-directory res \
+    out\manual.chm manual.ditamap</pre><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><div class="p">Do not
+    specify any of the following command-line options when generating HTML
+    Help: <a href="commandLine.html#commandLine__option-toc" class="xref"><b class="option">-toc</b></a>,
+    <a href="commandLine.html#commandLine__option-index" class="xref"><b class="option">-index</b></a>,
+    "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+    <i class="i">any_value_other_than_none</i></tt>", "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+    yes</tt>".</div></div></td></tr></table></div></div><div id="quickStart__I_mb2wqa_" class="section"><a name="quickStart__I_mb2wqa_"></a><h3 class="section-title">Converting a document to <span class="tm">Java™</span>
+    Help</h3><div class="p">Converting a document to <span class="tm">Java™</span>
+    Help<a id="quickStart__I_lr25fi_" name="quickStart__I_lr25fi_"></a> is done by executing
+    the following command:</div><pre class="screen" style="font-size: 100%;">$ ditac -images img -p xsl-resources-directory res \
+    out/manual.jar manual.ditamap</pre><div class="p">Unless you have specified in
+    <a href="commandLine.html#commandLine__ditac_options_file" class="xref">the
+    <tt class="filepath">ditac.options</tt> file</a> the location of
+    <tt class="filepath">jhindexer</tt> (<tt class="filepath">jhindexer.bat</tt> on
+    Windows), you'll have to execute:</div><pre class="screen">$ ditac <a href="commandLine.html#commandLine__option-jhindexer" class="xref">-jhindexer</a> /opt/jh2.0/javahelp/bin/jhindexer \
+    -images img -p xsl-resources-directory res \
+    out/manual.jar manual.ditamap</pre><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><div class="p">Do not
+    specify any of the following command-line options when generating <span class="tm">Java™</span> Help: <a href="commandLine.html#commandLine__option-toc" class="xref"><b class="option">-toc</b></a>,
+    <a href="commandLine.html#commandLine__option-index" class="xref"><b class="option">-index</b></a>,
+    "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+    <i class="i">any_value_other_than_none</i></tt>", "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+    yes</tt>".</div></div></td></tr></table></div></div><div id="quickStart__I_lutqx4_" class="section"><a name="quickStart__I_lutqx4_"></a><h3 class="section-title">Converting a document to Eclipse Help</h3><div class="p">Converting
+    a document to <a href="http://www.eclipse.org/" class="xref" target="_blank">Eclipse <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a> Help<a id="quickStart__I_ljrtgc_" name="quickStart__I_ljrtgc_"></a> is similar to converting a document to multi-page
+    XHTML. The main difference is that you need to explicitly specify
+    <tt class="tt">-format&nbsp;eclipsehelp</tt>:</div><pre class="screen" style="font-size: 100%;">$ ditac <b class="b">-format eclipsehelp</b> \
+    -images img -p xsl-resources-directory res \
+    out/com.acme.widget.userguide/_.html manual.ditamap</pre><div class="p">In order to
+    deploy the generated Eclipse Help, you need to copy the output directory
+    as a whole (<tt class="filepath">com.acme.widget.userguide/</tt> in the case of
+    the above example) to the <tt class="filepath">plugins/</tt> directory of
+    Eclipse and then use a text or XML editor to modify the generated
+    <tt class="filepath"><i class="varname">output_directory</i>/plugin.xml</tt>:</div><pre class="pre">&lt;plugin <b class="b">name="EDIT HERE: title of this help"</b> 
+        <b class="b">id="EDIT HERE: unique.id.of.this.plugin"</b>
+        <b class="b">provider-name="EDIT HERE: author, company or organization"</b>
+        version="1.0.0"&gt;
+   &lt;extension point="org.eclipse.help.toc"&gt;
+      &lt;toc file="toc.xml" primary="true"/&gt;
+   &lt;/extension&gt;
+   &lt;extension point="org.eclipse.help.index"&gt;
+      &lt;index file="index.xml"/&gt;
+   &lt;/extension&gt;
+&lt;/plugin&gt;</pre><div class="p">If you do not want to hand edit
+    <tt class="filepath">plugin.xml</tt>, suffice to pass extra XSLT stylesheet
+    parameters to ditac:</div><pre class="screen" style="font-size: 100%;">$ ditac -format eclipsehelp \
+    <b class="b">-p plugin-name "ACME Widget User's Guide"</b> \
+    <b class="b">-p plugin-id <i class="i">com.acme.widget.userguide</i></b> \
+    <b class="b">-p plugin-provider "ACME Corp."</b> \
+    -images img -p xsl-resources-directory res \
+    out/<b class="b"><i class="i">com.acme.widget.documentation</i></b>/_.html manual.ditamap</pre><div class="p">Parameter
+    <a href="xsltParams.html#xsltParams__plugin-id" class="xref">plugin-id</a> is
+    required to have the same value as the basename of the the output
+    directory (<tt class="filepath">com.acme.widget.userguide/</tt> in the case of
+    the above example). Otherwise, you'll not be able to see your document by
+    selecting <span class="menucascade"><b class="uicontrol">Help</b> → <b class="uicontrol">Help Contents</b></span> in Eclipse.</div><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><div class="p">Do not specify
+    any of the following command-line options when generating Eclipse Help:
+    <a href="commandLine.html#commandLine__option-toc" class="xref"><b class="option">-toc</b></a>,
+    <a href="commandLine.html#commandLine__option-index" class="xref"><b class="option">-index</b></a>,
+    "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+    <i class="i">any_value_other_than_none</i></tt>", "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+    yes</tt>".</div></div></td></tr></table></div></div><div id="quickStart__I_sluoim_" class="section"><a name="quickStart__I_sluoim_"></a><h3 class="section-title">Converting a document to EPUB</h3><div class="p">Converting a
+    document to <a href="http://www.idpf.org/" class="xref" target="_blank">EPUB <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10"></img></a> Help<a id="quickStart__I_fue0of_" name="quickStart__I_fue0of_"></a> is done by executing the following command:</div><pre class="screen" style="font-size: 100%;">$ ditac -images img -p xsl-resources-directory res \
+    out/manual.epub manual.ditamap</pre><div class="note"><table border="0" cellspacing="0" class="note-layout"><tr><td class="note-icon" valign="top"><img src="resources/remember.png" alt="Remember" width="32" height="32"></img></td><td class="note-text" valign="top"><h5 class="note-head">Remember</h5><div class="note-body"><div class="p">Do not
+    specify any of the following command-line options when generating EPUB:
+    <a href="commandLine.html#commandLine__option-toc" class="xref"><b class="option">-toc</b></a>
+    , "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-pages" class="xref">chain-pages</a>
+    <i class="i">any_value_other_than_none</i></tt>", "<tt class="tt">-p <a href="xsltParams.html#xsltParams__chain-topics" class="xref">chain-topics</a>
+    yes</tt>". However you may specify option <a href="commandLine.html#commandLine__option-index" class="xref"><b class="option">-index</b></a>.</div></div></td></tr></table></div></div></div><div class="related-links"><h3 class="related-links-title">Related information</h3><p class="link">‣ <a href="commandLine.html#commandLine">The <b class="cmdname">ditac</b> command-line utility</a></p></div></div><hr class="footnote-separator"></hr><table border="0" cellspacing="0" cellpadding="0" class="fn-layout"><tr><td valign="baseline">&nbsp;<sup class="fn-callout">(1)</sup></td><td valign="baseline" id="I_d75e58_" class="fn"><a name="I_d75e58_"></a>Of
+    course, a <tt class="tt">.zip</tt> distribution is also available for platforms other
+    than Windows.</td></tr></table></body></html>

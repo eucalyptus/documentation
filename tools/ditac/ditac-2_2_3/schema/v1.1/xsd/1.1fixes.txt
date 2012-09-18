@@ -1,0 +1,102 @@
+
+xnalDomain.xsd - <organizationnamedetails> content model should use <sequence> instead of <choice> as the particle.
+<xs:complexType name="organizationnamedetails.class">
+    <xs:sequence>
+        <xs:group ref="organizationname" minOccurs="0" />
+        <xs:group ref="otherinfo" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="univ-atts"/>
+    <xs:attribute name="keyref" type="xs:string"/>
+    <xs:attribute name="outputclass" type="xs:string"/>
+    <xs:attributeGroup ref="global-atts"/>        
+</xs:complexType>
+
+
+commonElementMod.xsd
+- Add localization-atts to the attribute Group univ-atts instead of using individual references to xml:lang and translate.
+- Fix the following items related to index-base
+- Fix outputclass attribute names in <foreign> and <unknown>
+<xs:element name="index-base">
+  <xs:annotation>
+    <xs:documentation>The &lt;index-base&gt; element allows indexing extensions to be added by specializing off this
+    element. It does not in itself have any meaning and should be ignored in processing.</xs:documentation>          
+  </xs:annotation>
+  <xs:complexType>
+    <xs:complexContent mixed="true">
+      <xs:extension base="index-base.class">
+        <xs:attribute ref="class" default="- topic/index-base "/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+
+
+<xs:complexType name="index-base.class" mixed="true">
+  <xs:choice minOccurs="0" maxOccurs="unbounded">
+    <xs:group ref="words.cnt"/>
+    <xs:group ref="indexterm"/>
+  </xs:choice>
+  <xs:attribute name="keyref" type="xs:string"/>
+  <xs:attributeGroup ref="univ-atts"/>
+  <xs:attributeGroup ref="global-atts"/>
+</xs:complexType>
+
+mapMod.xsd - <relcell> should accept <data> and <data-about> via the group data.element.incl
+<xs:complexType name="relcell.class">
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+	    <xs:group ref="topicref"  />
+	    <xs:group ref="data.element.incl"  /> 
+	</xs:choice>
+	<xs:attributeGroup ref="univ-atts" />
+	<xs:attributeGroup ref="topicref-atts" />
+	<xs:attribute name="outputclass" type="xs:string"/>
+	
+	<xs:attributeGroup ref="global-atts" />
+</xs:complexType>
+
+glossary.xsd
+Remove - <xs:include
+schemaLocation="urn:oasis:names:tc:dita:xsd:commonElementGrp.xsd:1.1"/>
+
+uidomain.xsd, utilities.xsd, programmingDomain.xsd, highlighDomain.xsd, and softwareDomain.xsd.
+ - Create groups for elements defined in the domains.
+ - Use group references instead of element references in content models in order to allow the element to pick up new specializations.
+ For instance:
+     <xs:complexType name="synph.class" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <!-- ph -->
+          <xs:group ref="codeph"/>
+          <xs:group ref="var"/>
+          <xs:group ref="oper"/>
+          <xs:group ref="delim"/>
+          <xs:group ref="sep"/>
+          <xs:group ref="synph"/>
+          <!-- keyword -->
+          <xs:group ref="option"/>
+          <xs:group ref="parmname"/>
+          <xs:group ref="kwd"/>
+        </xs:choice>
+        <xs:attribute name="outputclass" type="xs:string"/>
+        <xs:attributeGroup ref="global-atts"/>
+        <xs:attributeGroup ref="univ-atts"/>
+  </xs:complexType>
+  
+mapGroupMod.xsd
+  - reference to topicmeta should be it's group rather than the element.
+     <xs:group ref="topicmeta" minOccurs="0" />
+
+taskMod.xsd
+  - Fix class attribute for element chrow.
+  - Remove reference to data.element.incl from the element taskbody.
+  - Add importance attribute to <step> and <substep> content models.
+  - Add default value "1" for @keycol in <choicetable>
+  
+tblDeclMod.xsd
+  - remove attribute spanname from <entry>
+  - Change the type for attributes colsep, rowsep, pgwide from a string to a boolean (yesno-att.class).
+
+topicMod.xsd
+  - The group model info-types should not be empty.  The default element should be <topic>.
+
+catalog.xml
+  - added <uri> entries for the schema

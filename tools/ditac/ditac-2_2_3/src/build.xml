@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!-- =========================================================================
+| Copyright (c) 2009-2012 Pixware SARL. All rights reserved.
+|
+| Author: Hussein Shafie
+|
+| This file is part of the XMLmind DITA Converter project.
+| For conditions of distribution and use, see the accompanying LEGAL.txt file.
+========================================================================== -->
+
+<project name="ditac" basedir="." default="all">
+
+  <property name="lib.dir" value="../lib" />
+
+  <!-- =======================================================================
+       Specify here the location of the directory where .jar files 
+       are to be created.
+  ======================================================================== -->
+  <property name="jar.dir" value="${lib.dir}" />
+
+  <!-- =======================================================================
+       Specify here the location of the directory where
+       Javadoc will create its files.
+  ======================================================================== -->
+  <property name="javadoc.dir" value="../doc/api" />
+
+  <target name="init">
+    <tstamp />
+
+    <mkdir dir="build" />
+
+    <!-- Copy all message property files from the source tree. -->
+
+    <condition property="sep" value="/">
+      <os family="unix" />
+    </condition>
+    <condition property="sep" value="\\">
+      <os family="windows" />
+    </condition>
+
+    <copy todir="build">
+      <fileset dir=".">
+        <patternset>
+          <include name="**/messages/*.properties" />
+        </patternset>
+      </fileset>
+      <mapper type="regexp"
+              from="^(.*)${sep}messages${sep}(.*)$$" to="\1${sep}\2" />
+    </copy>
+  </target>
+
+  <path id="cp">
+    <pathelement location="build" />
+    <pathelement location="${lib.dir}/whcmin.jar" />
+    <pathelement location="${lib.dir}/resolver.jar" />
+    <pathelement location="${lib.dir}/saxon9.jar" />
+  </path>
+
+  <target name="compile" depends="init">
+    <javac debug="on" debuglevel="source,lines" deprecation="on"
+           classpathref="cp" source="1.5" target="1.5" 
+           destdir="build" srcdir="com" />
+  </target>
+
+  <target name="ditac_jar" depends="compile">
+    <jar jarfile="${jar.dir}/ditac.jar" basedir="build">
+      <include name="com/xmlmind/**" />
+
+      <manifest>
+        <attribute name="Main-Class"
+                   value="com.xmlmind.ditac.convert.Converter"/>
+        <attribute name="Class-Path"
+                   value="whcmin.jar resolver.jar saxon9.jar"/>
+        <attribute name="Implementation-Title" value="XMLmind DITA Converter"/>
+        <attribute name="Implementation-Version" value="2.2.3"/>
+        <attribute name="Implementation-Vendor" value="XMLmind"/>
+        <attribute name="Implementation-Vendor-Id" value="com.xmlmind"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="javadoc">
+    <javadoc destdir="${javadoc.dir}" classpathref="cp" public="on"
+      windowtitle="XMLmind DITA Converter Java[tm] API">
+
+      <fileset dir=".">
+        <include name="com/xmlmind/util/*.java"/>
+        <include name="com/xmlmind/ditac/util/*.java"/>
+        <include name="com/xmlmind/ditac/preprocess/*.java"/>
+        <include name="com/xmlmind/ditac/convert/*.java"/>
+        <include name="com/xmlmind/ditac/xslt/*.java"/>
+      </fileset>
+
+      <doctitle><![CDATA[XMLmind DITA Converter Java<sup><small>TM</small></sup> API]]></doctitle>
+      <link href="http://download.oracle.com/javase/1.5.0/docs/api"/>
+    </javadoc>
+  </target>
+
+  <!-- clean, distclean, realclean ======================================= -->
+
+  <target name="clean">
+    <delete>
+      <fileset dir="." defaultexcludes="no">
+        <patternset>
+          <include name="**/*~" />
+          <include name="**/*.BAK" />
+        </patternset>
+      </fileset>
+    </delete>
+    <delete dir="build" quiet="true" />
+  </target>
+
+  <target name="distclean" depends="clean" />
+
+  <target name="realclean" depends="distclean">
+    <delete>
+      <fileset dir="${jar.dir}" includes="ditac.jar"/>
+    </delete>
+    <delete includeemptydirs="true">
+      <fileset dir="${javadoc.dir}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <!-- all =============================================================== -->
+
+  <target name="all" depends="ditac_jar,clean" />
+
+</project>
