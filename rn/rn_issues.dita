@@ -5,7 +5,7 @@
 	<title>Known Issues</title>
 	<shortdesc/>
 	<conbody>
-		<p>The following known issues exist in Eucalyptus 3.1.1 and its dependencies. Please contact
+		<p>The following known issues exist in Eucalyptus 3.1.2 and its dependencies. Please contact
 			Eucalyptus support for known workarounds to these issues.</p>
 		<table>
 			<tgroup cols="2">
@@ -17,84 +17,119 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>CLC does not disable CC with invalid configuration
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2313">EUCA-2313</xref>)</entry>
-						<entry>When CC configuration is invalid and the CC is unable to launch instances, 
-							the CLC does not mark the CC as DISABLED.</entry>
+						<entry>euca-bundle-instance does not work with remote WALRUS
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3460">EUCA-3460</xref>)</entry>
+						<entry>When Walrus is running on a host different from the CLC host, euca-bundle-instance does not work.</entry>
 					</row>
 					<row>
-                                                <entry> "Invalid content length null" message is seen in Walrus logs
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1598">EUCA-1598</xref>)</entry>
-                                                <entry> On a successful snapshot upload to Walrus, a spurious "Invalid content length null"
-							message is seen in Walrus logs.</entry> 
-
+						<entry>Walrus does not failover in HA if eucalyptus-cloud process is forcibly killed on primary
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3202">EUCA-3202</xref>)</entry>
+						<entry>If the eucalyptus-cloud process is forcibly terminated (kill -9) on the primary Walrus, failover to the secondary Walrus is not automatically triggered.</entry>
 					</row>
 					<row>
-						<entry>Error message for Web UI failure to add user to group is obscure
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1611">EUCA-1611</xref>)</entry>
-						<entry> Error message on a failure to add user through the Web Dashboard is not descriptive enough and reads "failed to add users to selected groups"</entry>	
-					</row>	
-					<row>
-						<entry>A long property key in the Web Dashboard is not visible
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-683">EUCA-683</xref>)</entry>
-						<entry>Adding a property key to the Dashboard longer than around 20 chars 
-							pushes the value fields outside of viewable area in Properties window </entry>
+						<entry>Quota exceed message when quota is not actually exceeded.
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3612">EUCA-3612</xref>)</entry>
+						<entry>euca-allocate-address claims that user's quota has been exceeded when attempting to allocate the last address in the quota limit. Request actually succeeds despite failure message.</entry>
 					</row>
 					<row>
-						<entry>Column width should be resizable in main window
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-718">EUCA-718</xref>)</entry>
-						<entry>Column width should be resizable in the main window of the Web UI Dashboard</entry>
+						<entry>Quota limiting against vmtype doesn't work
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3613">EUCA-3613</xref>)</entry>
+						<entry>Quota which limits the number of instances against a resource of a specific vmtype has no effect.</entry>
 					</row>
 					<row>
-						<entry>Should add a refresh button for the main pane
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-743">EUCA-743</xref>)</entry>
-						<entry>The main pane of the Web Dashboard should have a refresh button</entry>
+						<entry>DescribeInstances api call does not return ip addresses
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2185">EUCA-2185</xref>)</entry>
+						<entry>With DNS mapping assigned to Instances the DescribeInstances command does not return the internal and external ip addresses. It returns the internal and external dns entries.</entry>
 					</row>
 					<row>
-						<entry>Make any in the header a link back to UI landing page
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-747">EUCA-747</xref>)</entry>
-						<entry>Common practice dictates that any logo in the header should link back to the Web Dashboard landing page</entry>
+						<entry>VNET_DNS value is not the only DNS IP in resolv.conf
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2281">EUCA-2281</xref>)</entry>
+						<entry>Along with the value of VNET_DNS a local loopback interface IP 127.0.0.1 is also set in the /etc/resolv.conf of the instance.</entry>
 					</row>
 					<row>
-						<entry>Buttons enabled in Web UI when nothing is selected in list
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-670">EUCA-670</xref>)</entry>
-						<entry>Buttons are spuriously enabled in the Web Dashboard when no account has been selected</entry>
+						<entry>Ephemeral targets left behind with BFEBS
+							  (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2291">EUCA-2291</xref>)</entry>
+						<entry>In case of BFEBS, LUN 0 is left behind when using tgt. This does not affect functionality, but it should be cleaned up</entry>
 					</row>
 					<row>
-						<entry>Walrus GetBucketAccessControlList response XML differs from S3
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2292">EUCA-2292</xref>)</entry>                  
-						<entry>When requesting an ACL for an object or bucket, Walrus currently returns an older 
-							version of the XML structure that S3 used to use.</entry>
+						<entry>L2TP tunnel does not get established in multi-cluster
+                                                          (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
+						<entry>When Eucalyptus is setup in multi-cluster, no tunnel is setup when instances run on different clusters in the same security group.</entry>
 					</row>
 					<row>
-						<entry>Path field in adding a new user should auto-populate
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-671">EUCA-671</xref>)</entry>
-						<entry>When adding a new user, the user path field should auto populate to match
-							username but with the "/" prepended</entry> 
+						<entry>euca-stop-instances does not return correct information
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
+						<entry>euca-stop-instances only returns the instance identifier and does not return the previous or the current state of the instance.</entry>
 					</row>
 					<row>
-						<entry>Quota policies can not be applied to groups so should be explicitly denied
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1032">EUCA-1032</xref>)</entry>   
-						<entry>Since quota policies only apply to groups, they should be denied when applied to users.</entry>
+						<entry>euca-start-instances does not return correct information
+ 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3311">EUCA-3311</xref>)</entry>                               
+						<entry>euca-start-instances only returns the instance identifier and does not return the previous or the current state of the instance.</entry>
 					</row>
 					<row>
-						<entry>The name of newly created resource is not restricted by IAM policy resource field
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1019">EUCA-1019</xref>)</entry>
-						<entry>IAM policy Resource field does not correctly restrict the name of the newly created resource</entry>
+						<entry>ENABLED CC have two NAT rules about 169.254.169.254
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3440">EUCA-3440</xref>)</entry>
+						<entry>In HA Mode, ENABLED CC can get into a state where it reports both ENABLED and DISABLED CLC in iptables for the metadata service.</entry>
 					</row>
 					<row>
-						<entry>Error message displayed in web GUI is not obvious enough
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1610">EUCA-1610</xref>)</entry>
-						<entry>Error messages should be displayed in a more obvious location than the bottom 
-							left of the Web Dashboard window.</entry>
+						<entry>euca-describe-nodes does not return consistent results
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3456">EUCA-3456</xref>)</entry>                              
+						<entry>The output of euca-describe-nodes is not consistent.</entry>
 					</row>
 					<row>
-						<entry>Web UI specifies button color but not button text color 
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-425">EUCA-425</xref>)</entry>
-						<entry>The Web Dashboard specifies a whitish color for buttons without also
-							specifying the color of the text that appears on buttons, essentially making
-							the button white-on-white on systems with white-on-black themes. It should
-							either specify both colors or neither.</entry>
+						<entry>Storage interface property does not have any effect
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
+						<entry>The storage.storageinterface is deprecated and does not have any effect.</entry>
+					</row>
+					<row>
+						<entry>BFEBS instance has a redundant device /dev/vdb
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
+						<entry>EBS backed instances should not expose ephemeral storage by default.</entry>
+					</row>
+					<row>
+						<entry>Terminating the ebs-backed instance in the middle of its creation doesn't delete its ebs volume
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3452">EUCA-3452</xref>)</entry>
+						<entry>If an EBS backed instance is terminated while it is still pending, the corresponding EBS volume remains in the "deleting" state.</entry>
+					</row>
+					<row>
+						<entry>Quota limiting run instances against availabilityzone resource does not work
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3614">EUCA-3614</xref>)</entry>
+						<entry>A policy which limits the number of instances which can be run within an availability zone has no effect.</entry>
+					</row>
+					<row>
+						<entry>euca-create-image from ebs backed instance fails, returns 0
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1333">EUCA-1333</xref>)</entry>
+						<entry>euca-create-image is currently unsupported.</entry>
+					</row>
+					<row>
+						<entry>EBS backed stopped instances still reports IPs
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
+						<entry>When an EBS backed instance is stopped , euca-describe-instances still shows an IP allocated and associated to the instance.</entry>
+					</row>
+					<row>
+						<entry>Incorrect Device Reported for EBS Root Volumes
+						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
+						<entry>When using VIRTIO, EBS root volumes reported by euca-describe-volumes appear as /dev/sda1 instead of /dev/vda1</entry>
+					</row>
+					<row>
+						<entry>You cannot restrict launch of an image with launch permissions
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1929">EUCA-1929</xref>)</entry>
+						<entry>Restricting launch permissions based on a user ID does not work.</entry>
+					</row>
+					<row>
+						<entry>File names with % embedded fail to upload to Walrus.
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3453">EUCA-3453</xref>)</entry>
+						<entry>Unable to upload files with an embedded % to Walrus</entry>
+					</row>
+					<row>
+						<entry>Cannot detach EBS volume from stopped instance
+						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2411">EUCA-2411</xref>)</entry>
+						<entry>Unable to detach root EBS volume when an instance is in the "stopped" state</entry>
+					</row>
+					<row>
+						<entry>CLC always returns A response for AAAA or TXT DNS query
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2329">EUCA-2329</xref>)</entry>
+						<entry>With DNS delegation enabled and eucalyptus subdomain configured in master DNS server, if the master DNS server sends a AAAA or TXT query the CLC always returns A response.</entry>
 					</row>
 				</tbody>
 			</tgroup>
