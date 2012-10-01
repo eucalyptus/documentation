@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="installing_euca_rhel5" platform="rhel5">
+    <title>Install on RHEL 5</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p conref="../shared/reuse.dita#reuse/euca_install_ha_note"/>
+            <p>To install Eucalyptus on servers running RHEL 5:</p>
+        </context>
+    	<steps>
+    		<step>
+    			<cmd>Enable the Cluster-Storage repository in Red Hat Network for each planned SC:</cmd>
+    			<substeps>
+    				<substep>
+    					<cmd>Go to <xref href='https://rhn.redhat.com/rhn/systems/SystemList.do' format='html'>https://rhn.redhat.com/rhn/systems/SystemList.do</xref></cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Navigate to the system that will run the SC.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Click the <uicontrol>Alter Channel Subscriptions</uicontrol> link.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Ensure that the <uicontrol>RHEL Cluster-Storage</uicontrol> checkbox is checked.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
+    				</substep>
+    			</substeps>
+    		</step>
+    		<step>
+    			<cmd>Enable the Virtualization repository in Red Hat Network for each planned NC:</cmd>
+    			<substeps>
+    				<substep>
+    					<cmd>Go to <xref href='https://rhn.redhat.com/rhn/systems/SystemList.do' format='html'>https://rhn.redhat.com/rhn/systems/SystemList.do</xref></cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Navigate to the system that will run the NC.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Click the <uicontrol>Alter Channel Subscriptions</uicontrol> link.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Ensure that the <uicontrol>RHEL Virtualization</uicontrol> checkbox is checked.</cmd>
+    				</substep>
+    				<substep>
+    					<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
+    				</substep>
+    			</substeps>
+    		</step>
+    		<step>
+    			<cmd>
+    				On each planned Walrus server, create a file in /etc/yum.repos.d called centos-extras.repo with the following content:
+    			</cmd>
+    			<info>
+    				<codeblock><![CDATA[[centos-extras]
+name=CentOS 5 - Extras
+mirrorlist=http://mirrorlist.centos.org/?release=5&arch=
+$basearch&repo=extras
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
+gpgcheck=1]]></codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>
+    				Download the key that CentOS uses to sign their packages:
+    			</cmd>
+    			<info>
+    				<codeblock>curl http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5 > /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Configure the Euca2ools package repository on each host that will run a
+    				Eucalyptus component or Euca2ools:</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/5/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Configure the Eucalyptus package repository on each host that will run a
+    				Eucalyptus component:</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/5/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Configure the EPEL package repository on each host that will run a Eucalyptus
+    				component or Euca2ools:</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/5/x86_64/epel-release-5.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		
+    		<step>
+    			<cmd>If you have a Eucalyptus subscription, you will have received a package that
+    				grants you access to VMware and SAN components. If you wish to use either of
+    				these components, install this package on each host that will run a Eucalyptus
+    				component using the following command. Otherwise, skip this step.</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh yum install eucalyptus-enterprise-release-3.1*.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			
+    			<cmd> If your planned Walrus host runs a Xen kernel, install the kmod-drbd83-xen
+    				package on that host. Otherwise, skip this step. </cmd>
+    			
+    			<info>
+    				<codeblock>yum install kmod-drbd83-xen</codeblock>
+    			</info>
+    			
+    		</step>
+    		<step>
+    			<cmd> Install the Eucalyptus cloud controller software on each planned CLC
+    				host:</cmd>
+    			<info>
+    				<codeblock>yum groupinstall eucalyptus-cloud-controller</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Install the Eucalyptus node controller software on each planned NC host.
+    				Clouds that use the VMware hypervisor do not have NCs; if you plan to use VMware
+    				then skip this step.</cmd>
+    			<info>
+    				<codeblock>yum install eucalyptus-nc</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Install the software for the remaining Eucalyptus components. The following
+    				example shows most components being installed on the same host. We recommend
+    				using different hosts for each component.</cmd>
+    			<info>
+    				<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> If you have a Eucalyptus subscription and plan to use the VMware hypervisor,
+    				install the Eucalyptus VMware broker software on each CC host:</cmd>
+    			<info>
+    				<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> If you have a Eucalyptus subscription and plan to use Eucalyptus's SAN
+    				capabilities, install the Eucalyptus SAN adapter software on each SC host:</cmd>
+    			<info>
+    				<codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> After you have installed Eucalyptus, test multicast connectivity between each
+    				CLC and Walrus, SC, and VMware broker host.</cmd>
+    			<substeps>
+    				<substep>
+    					<cmd> Run the following receiver command on the CLC: </cmd>
+    					<info>
+    						<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastReceiverTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
+    					</info>
+    				</substep>
+    				<substep>
+    					<cmd> Once the receiver command blocks, simultaneously run the following sender command on each Walrus host: </cmd>
+    					<info>
+    						<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
+						The two applications should be able to connect and arbitrary lines entered on the sender should appear on the receiver.
+    					</info>
+    				</substep>
+    				<substep>
+    					<cmd> Repeat the previous step on each SC host and VMware broker host.
+    					</cmd>
+    				</substep>
+    				<substep>
+    					<cmd> If you are installing an HA environment, repeat these tasks with the
+    						second CLC. </cmd>
+    				</substep>
+    			</substeps>
+    		</step>
+    	</steps>
+    	<result>Your installation is complete.</result>
+    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
+    </taskbody>
+</task>

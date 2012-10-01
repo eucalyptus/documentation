@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+"http://docs.oasis-open.org/dita/dtd/reference.dtd">
+<reference id="commandLine">
+  <title>The <cmdname>ditac</cmdname> command-line utility</title>
+
+  <refbody>
+    <refsyn><cmdname>ditac</cmdname> [<i>option</i>]* <i>output_file</i>
+    [<i>in_dita_file</i>]+</refsyn>
+
+    <section><title>Command-line usage</title><p>Converts specified DITA input
+    files to specified output file.</p><p>The input files must comprise a
+    single map or bookmap file or possibly several, possibly multi-topic,
+    topic files.</p><p>Example: convert the
+    <filepath>userguide.ditamap</filepath> map to multi-page
+    XHTML:</p><screen>C:\docsrc&gt; ditac -p center "fig table" ..\doc\userguide.htm userguide.ditamap</screen><p>Example:
+    convert the <filepath>introduction.dita</filepath> and
+    <filepath>quickstart.dita</filepath> topics to PDF:</p><screen>C:\docsrc&gt; ditac draft1.pdf introduction.dita  quickstart.dita</screen><p>An
+    input file may be specified using its URL or its filename.</p><p>The
+    output directory is created if it does not already exist.</p><p>In some
+    case, there is no need to specify a real output filename: the output
+    directory and the extension of the output files suffice. In such case,
+    specify "<tt>_</tt>" as the basename of the output file.</p><p>Example:
+    convert <filepath>foo.ditamap</filepath> to multi-page XHTML. The XHTML
+    pages must be generated in the <filepath>bar/</filepath>
+    subdirectory.</p><screen>C:\docsrc&gt; ditac bar\_.html foo.ditamap</screen><p>In
+    the above case, the basenames of the generated XHTML pages will be taken
+    from the <tt>chunk</tt> and <tt>copy-to</tt> attributes specified in
+    <filepath>foo.ditamap</filepath> if any, and from the basename of the map
+    ("<tt>foo</tt>" in the case of our example) otherwise.</p></section>
+
+    <section><title>Commonly used command-line options</title><p>Some options
+    have both a short name and a long name. Example: <option>-p</option> is
+    equivalent to <option>-param</option>.</p><dl>
+        <dlentry id="option-param">
+          <dt><option>-p</option> <i>param_name</i> <i>param_value</i></dt>
+
+          <dt><option>-param</option> <i>param_name</i>
+          <i>param_value</i></dt>
+
+          <dd>Specifies a XSLT stylesheet parameter<indexterm>-p,
+          option<index-sort-as>p</index-sort-as></indexterm><indexterm>-param,
+          option<index-sort-as>param</index-sort-as></indexterm>. See <xref
+          href="xsltParams.dita"/>.</dd>
+        </dlentry>
+
+        <dlentry id="option-xslt">
+          <dt><option>-t</option> <i>XSLT_stylesheet_URL_or_file</i></dt>
+
+          <dt><option>-xslt</option> <i>XSLT_stylesheet_URL_or_file</i></dt>
+
+          <dd>Use the specified custom XSLT stylesheet rather than the stock
+          one<indexterm>-t,
+          option<index-sort-as>t</index-sort-as></indexterm><indexterm>-xslt,
+          option<index-sort-as>xslt</index-sort-as><index-see-also>-xslt2,
+          option</index-see-also></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-chunk">
+          <dt><option>-c</option> none|single|auto</dt>
+
+          <dt><option>-chunk</option> none|single|auto</dt>
+
+          <dd>The "<tt>none</tt>" and "<tt>single</tt>" values may be used to
+          force the generation of a single output file<indexterm>-c,
+          option<index-sort-as>c</index-sort-as></indexterm><indexterm>-chunk,
+          option<index-sort-as>chunk</index-sort-as></indexterm>.<p>For
+          example, "<tt>-chunk single</tt>" allows to reuse a map designed to
+          output multiple HTML pages in order to generate a PDF
+          file.</p><p>For example, "<tt><tt>-chunk none</tt></tt>" allows to
+          reuse a map designed to output a PDF file in order to generate a
+          single HTML page.</p><p>By default, the chunk mode is <tt>auto</tt>
+          which means: generate a single output file (implicit "<tt>-chunk
+          none</tt>") for formats such as <tt>pdf</tt>, <tt>ps</tt>,
+          <tt>rtf</tt>, etc, and generate multiple output files for formats
+          such as <tt>html</tt>, <tt>xhtml</tt>, <tt>javahelp</tt>,
+          etc.</p></dd>
+        </dlentry>
+
+        <dlentry id="option-format">
+          <dt><option>-f</option>
+          xhtml|xhtml1.1|html|javahelp|htmlhelp|ps|pdf|rtf|odt|wml|docx|fo</dt>
+
+          <dt><option>-format</option>
+          xhtml|xhtml1.1|html|javahelp|htmlhelp|ps|pdf|rtf|odt|wml|docx|fo</dt>
+
+          <dd>Explicitly specifies the output format<indexterm>-f,
+          option<index-sort-as>f</index-sort-as></indexterm><indexterm>-format,
+          option<index-sort-as>format</index-sort-as></indexterm>. By default,
+          the output format is determined using the extension of
+          <i>output_file</i>.<p>Note that a "<tt>htm</tt>" or "<tt>html</tt>"
+          filename extension implicitly specifies an XHTML 1.0 output format,
+          and not an HTML 4.1 output format. In order to generate HTML 4.1,
+          explicitly specify "<tt>-f html</tt>".</p></dd>
+        </dlentry>
+
+        <dlentry id="option-images">
+          <dt><option>-i</option> <i>image_path</i></dt>
+
+          <dt><option>-images</option> <i>image_path</i></dt>
+
+          <dd>Copy the image files referenced in the source topics to
+          specified directory<indexterm>-i,
+          option<index-sort-as>i</index-sort-as></indexterm><indexterm>-images,
+          option<index-sort-as>images</index-sort-as></indexterm>. If
+          specified path is relative, it is relative to the output
+          directory.</dd>
+        </dlentry>
+
+        <dlentry id="option-imagehandler">
+          <dt><option>-imagehandler</option> class_name parameters</dt>
+
+          <dd>Pass the image files referenced in the source topics to an
+          instance <tt>ImageHandler</tt> having specified <tm
+          tmtype="tm">Java</tm> class<indexterm>-imagehandler,
+          option<index-sort-as>imagehandler</index-sort-as></indexterm>.
+          String <i>parameters</i> is used to configure the newly created
+          <tt>ImageHandler</tt>.<p>For example, "<tt>-images graphics</tt>" is
+          equivalent to "<tt>-imagehandler
+          com.xmlmind.ditac.convert.ImageCopier graphics</tt>". </p></dd>
+        </dlentry>
+
+        <dlentry id="option-filter">
+          <dt><option>-filter</option> <i>ditaval_URL_or_file</i></dt>
+
+          <dd>Apply specified conditional processing profile
+          (<tt>.ditaval</tt> file) to the topics<indexterm>-filter,
+          option<index-sort-as>filter</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-toc">
+          <dt><option>-toc</option></dt>
+
+          <dd>Equivalent to "<tt>-frontmatter toc</tt>"<indexterm>-toc,
+          option<index-sort-as>toc</index-sort-as></indexterm>.<p>Note that
+          this option will <i>not</i> cause a <b>Table of Contents</b> to be
+          generated when the map contains a single <tt>topicref</tt><fn>Not
+          counting <tt>topicref</tt>s contained in <tt>frontmatter</tt> and
+          <tt>backmatter</tt>.</fn> having no <tt>topicref</tt>
+          descendants.</p></dd>
+        </dlentry>
+
+        <dlentry id="option-index">
+          <dt><option>-index</option></dt>
+
+          <dd>Equivalent to "<tt>-backmatter indexlist</tt>"<indexterm>-index,
+          option<index-sort-as>index</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-frontmatter">
+          <dt><option>-frontmatter</option> <i>spec</i></dt>
+
+          <dd>Automatically generate specified sections: <b>Table of
+          Contents</b>, <b>List of Tables</b>, etc, before the other
+          pages<indexterm>-frontmatter,
+          option<index-sort-as>frontmatter</index-sort-as></indexterm>.<p>The
+          syntax of <i>spec</i> is:</p><pre>spec -&gt; same_page [ ',' same_page ]*
+
+same_page -&gt; section [ '+' section ]*
+
+section -&gt; 'toc'|'figurelist'|'tablelist'|'examplelist'|'indexlist'</pre><p>Example:
+          generate the <b>Table Of Contents</b> in its own page, followed by
+          another page containing both the <b>List of Figures</b> and the
+          <b>List of Tables</b>.</p><pre>-frontmatter toc,figurelist+tablelist</pre></dd>
+        </dlentry>
+
+        <dlentry id="option-backmatter">
+          <dt><option>-backmatter</option> <i>spec</i></dt>
+
+          <dd>Automatically generate specified sections: <b>Table of
+          Contents</b>, <b>List of Tables</b>, etc, after the other pages. See
+          <option>-frontmatter</option> for more
+          information<indexterm>-backmatter,
+          option<index-sort-as>backmatter</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-addindex">
+          <dt><option>-addindex</option></dt>
+
+          <dd>When an output file contains the <b>Table of Contents</b> (let's
+          call this file <filepath>main.html</filepath>) and when no file
+          called <filepath>index.html</filepath> has been generated, this
+          option allows to copy <filepath>main.html</filepath> to
+          <filepath>index.html</filepath><indexterm>-addindex,
+          option<index-sort-as>addindex</index-sort-as></indexterm>. Applies
+          to formats: <tt>xhtml</tt>, <tt>xhtml1.1</tt>, <tt>html</tt>,
+          <tt>webhelp</tt>.</dd>
+        </dlentry>
+
+        <dlentry id="option-lang">
+          <dt><option>-lang</option> <i>language_code</i></dt>
+
+          <dd>Specifies the main language of the document<indexterm>-lang,
+          option<index-sort-as>lang</index-sort-as></indexterm>. Examples:
+          "<tt>fr</tt>", "<tt>fr-CA</tt>". Needed to sort the index
+          entries.<p>By default, this information is taken from the
+          <tt>xml:lang</tt> attribute of the root element of the topic map (if
+          any, "<tt>en</tt>" otherwise).</p></dd>
+        </dlentry>
+
+        <dlentry id="option-v">
+          <dt><option>-v</option></dt>
+
+          <dt><option>-vv</option></dt>
+
+          <dt><option>-vvv</option></dt>
+
+          <dd>Turn verbosity on. More Vs means more verbose<indexterm>-v,
+          option<index-sort-as>v</index-sort-as></indexterm><indexterm>-vv,
+          option<index-sort-as>vv</index-sort-as></indexterm><indexterm>-vvv,
+          option<index-sort-as>vvv</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-option">
+          <dt><option>-o</option> <i>options_URL_or_file</i></dt>
+
+          <dt><option>-option</option> <i>options_URL_or_file</i></dt>
+
+          <dd>This option allows to specify a text file containing
+          command-line arguments<indexterm>-o,
+          option<index-sort-as>o</index-sort-as></indexterm><indexterm>-options,
+          option<index-sort-as>options</index-sort-as></indexterm>. This text
+          file has the same format as <xref
+          href="#commandLine/ditac_options_file">the
+          <filepath>ditac.options</filepath> file</xref>.<p>Example:</p><pre>$ ditac -v <b>-o html.options</b> foo.htm foo.ditamap</pre><p>If
+          <filepath>html.options</filepath> contains:</p><pre>-format html
+-p css http://www.acme.com/css/acme.css</pre><p>then this is equivalent to
+          running:</p><pre>$ ditac -v -format html -p css http://www.acme.com/css/acme.css \
+    foo.htm foo.ditamap</pre></dd>
+        </dlentry>
+      </dl></section>
+
+    <section><title>Command-line options used to configure ditac</title><dl>
+        <dlentry id="option-fop">
+          <dt><option>-fop</option> <i>executable_file</i></dt>
+
+          <dd>Specifies the location of the <filepath>fop</filepath> shell
+          script (<filepath>fop.bat</filepath> on Windows)<indexterm>-fop,
+          option<index-sort-as>fop</index-sort-as></indexterm><indexterm>FOP,
+          XSL-FO processor</indexterm><indexterm>Apache FOP<index-see>FOP,
+          XSL-FO processor</index-see></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-xep">
+          <dt><option>-xep</option> <i>executable_file</i></dt>
+
+          <dd>Specifies the location of the <filepath>xep</filepath> shell
+          script (<filepath>xep.bat</filepath> on Windows)<indexterm>-xep,
+          option<index-sort-as>xep</index-sort-as></indexterm><indexterm>XEP,
+          XSL-FO processor</indexterm><indexterm>RenderX XEP<index-see>XEP,
+          XSL-FO processor</index-see></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-ahf">
+          <dt><option>-ahf</option> <i>executable_file</i></dt>
+
+          <dd>Specifies the location of <filepath>AHFCmd.exe</filepath>
+          (<filepath>run.sh</filepath> on platforms other than
+          Windows)<indexterm>-ahf,
+          option<index-sort-as>ahf</index-sort-as></indexterm><indexterm>AHF,
+          XSL-FO processor</indexterm><indexterm>Antenna House
+          Formatter<index-see>AHF, XSL-FO
+          processor</index-see></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-xfc">
+          <dt><option>-xfc</option> <i>executable_file</i></dt>
+
+          <dd>Specifies the location of the <filepath>fo2rtf</filepath> shell
+          script (<filepath>fo2rtf.bat</filepath> on Windows)<indexterm>-xfc,
+          option<index-sort-as>xfc</index-sort-as></indexterm><indexterm>XFC,
+          XSL-FO processor</indexterm><indexterm>XMLmind XSL-FO
+          Converter<index-see>XFC, XSL-FO
+          processor</index-see></indexterm>.<p>Suffice to specify the location
+          of <filepath>fo2rtf</filepath>. Using this location, ditac infers
+          the locations of <filepath>fo2wml</filepath>,
+          <filepath>fo2docx</filepath> and
+          <filepath>fo2odt</filepath>.</p></dd>
+        </dlentry>
+
+        <dlentry id="option-foconverter">
+          <dt><option>-foconverter</option> <i>processor_name</i>
+          <i>target_format</i> <i>command</i></dt>
+
+          <dd>Register specified XSL-FO converter with ditac, a lower-level
+          alternative to using <option>-xep</option>, <option>-fop</option>,
+          <option>-ahf</option> or
+          <option>-xfc</option><indexterm>-foconverter,
+          option<index-sort-as>foconverter</index-sort-as></indexterm>.
+          Example: <pre>-foconverter XFC rtf '/opt/xfc/bin/fo2rtf "%I" "%O"'</pre><p>Note
+          that this option can be specified several times with different
+          values in the same command-line.</p></dd>
+        </dlentry>
+
+        <dlentry id="option-jhindexer">
+          <dt><option>-jhindexer</option> <i>executable_file</i></dt>
+
+          <dd>Specifies the location of the <filepath>jhindexer</filepath>
+          shell script (<filepath>jhindexer.bat</filepath> on
+          Windows)<indexterm>-jhindexer,
+          option<index-sort-as>jhindexer</index-sort-as></indexterm>, the <tm
+          tmtype="tm">Java</tm> Help indexer.</dd>
+        </dlentry>
+
+        <dlentry id="option-hhc">
+          <dt><option>-hhc</option> <i>exe_file</i></dt>
+
+          <dd>Specifies the location of
+          <filepath>hhc.exe</filepath><indexterm>-hhc,
+          option<index-sort-as>hhc</index-sort-as></indexterm>, the HTML Help
+          compiler.</dd>
+        </dlentry>
+
+        <dlentry id="option-plugin">
+          <dt><option>-plugin</option> <i>plugin_name</i></dt>
+
+          <dd>Use the DTDs/schemas and the XSLT stylesheets found in the
+          plug-in subdirectory having specified name <indexterm>-plugin,
+          option<index-sort-as>plugin</index-sort-as></indexterm> preferably
+          to those found in <tt><i>ditac_install_dir</i>/schema/</tt> and in
+          <tt><i>ditac_install_dir</i>/xsl/</tt>. See <xref
+          href="#commandLine/what_is_a_plugin"/>.</dd>
+        </dlentry>
+      </dl></section>
+
+    <section><title>Command-line options used to debug ditac</title><dl>
+        <dlentry id="option-preprocess">
+          <dt><option>-preprocess</option></dt>
+
+          <dd>Stop after preprocessing input files<indexterm>-preprocess,
+          option<index-sort-as>preprocess</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-automap">
+          <dt><option>-automap</option> <i>save_file</i></dt>
+
+          <dd>Save the automatically generated topic map (if any) to specified
+          file<indexterm>-automap,
+          option<index-sort-as>automap</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-keepfo">
+          <dt><option>-keepfo</option></dt>
+
+          <dd>When generating PDF, RTF, etc, do not delete the temporary
+          XSL-FO file<indexterm>-keepfo,
+          option<index-sort-as>keepfo</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-errout">
+          <dt><option>-errout</option></dt>
+
+          <dd>Output all messages, including errors and warnings, to
+          <tt>stdout</tt><indexterm>-errout,
+          option<index-sort-as>errout</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-ignoreoptionsfile">
+          <dt><option>-ignoreoptionsfile</option></dt>
+
+          <dd>Do not load the <filepath>ditac.options</filepath> options
+          file<indexterm>-ignoreoptionsfile,
+          option<index-sort-as>ignoreoptionsfile</index-sort-as></indexterm>.
+          See below <xref href="#commandLine/ditac_options_file"/>.</dd>
+        </dlentry>
+
+        <dlentry id="option-dryrun">
+          <dt><option>-dryrun</option></dt>
+
+          <dd>Use <cmdname>ditac</cmdname> as a validator. That is, do not
+          generate any file; just report errors if any <indexterm>-dryrun,
+          option<index-sort-as>dryrun</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="option-version">
+          <dt><option>-version</option></dt>
+
+          <dd>Print version number and exit<indexterm>-version,
+          option<index-sort-as>version</index-sort-as></indexterm>.</dd>
+        </dlentry>
+      </dl></section>
+
+    <section id="ditac_options_file"><title>The
+    <filepath>ditac.options</filepath> file</title><p>It is also possible to
+    specify command-line options in the <filepath>ditac.options</filepath>
+    options file<indexterm>ditac.options, options file</indexterm>. The
+    content of this plain text file, encoded in the native encoding of the
+    platform (e.g. <tt>Windows-1252</tt> on a Western Windows PC), is
+    automatically loaded by <cmdname>ditac</cmdname> each time this command is
+    executed. The content of this file, command-line options separated by
+    whitespace, is <i>prepended</i> to the options specified in the
+    command-line.</p><p>Example: If <filepath>ditac.options</filepath>
+    contains:</p><pre>-v -p number all</pre><p>Running:</p><screen>~/docsrc$ ditac -p center "fig table" ../doc/userguide.htm userguide.ditamap</screen><p>is
+    equivalent to running:</p><screen>~/docsrc$ ditac -v -p number all -p center "fig table" \
+    ../doc/userguide.htm userguide.ditamap</screen><p>The
+    <filepath>ditac.options</filepath> options file is found in the ditac user
+    preferences directory. This directory is:</p><ul compact="yes">
+        <li><p><filepath><varname>$HOME</varname>/.ditac/</filepath> on
+        Linux.</p></li>
+
+        <li><p><filepath><varname>$HOME</varname>/Library/Application
+        Support/XMLmind/ditac/</filepath> on the Mac.</p></li>
+
+        <li><p><filepath><varname>%APPDATA%</varname>\XMLmind\ditac\</filepath>
+        on Windows 2000, XP, Vista, 7.</p><p>Example: <filepath>C:\Documents
+        and Settings\john\Application Data\XMLmind\ditac\</filepath> on
+        Windows 2000 and XP.
+        <filepath>C:\Users\john\AppData\Roaming\XMLmind\ditac\</filepath> on
+        Windows Vista and 7.</p></li>
+      </ul><p>The <filepath>ditac.options</filepath> options file is mainly
+    useful to configure ditac once for all by specifying values for the <xref
+    href="#commandLine/option-fop"><option>-fop</option></xref>, <xref
+    href="#commandLine/option-xep"><option>-xep</option></xref>, <xref
+    href="#commandLine/option-xfc"><option>-xfc</option></xref>, <xref
+    href="#commandLine/option-jhindexer"><option>-jhindexer</option></xref>,
+    <xref href="#commandLine/option-hhc"><option>-hhc</option></xref>, <xref
+    href="#commandLine/option-plugin"><option>-plugin</option></xref>
+    options.</p><p>Example:</p><pre>-v
+-xep E:\opt\xep\xep.bat
+-fop E:\opt\fop-1.0\fop.bat
+-xfc E:\opt\xfc_eval_java-4_7_0\bin\fo2rtf.bat
+-jhindexer E:\opt\javahelp\javahelp\bin\jhindexer.bat
+-hhc "C:\Program Files\HTML Help Workshop\hhc.exe"</pre><note
+    type="remember"><ul>
+        <li>Relative filenames found in this file are relative to the current
+        working directory, and not to the <filepath>ditac.options</filepath>
+        options file. Therefore it is recommended to always specify absolute
+        filenames.</li>
+
+        <li>No comments (e.g. lines starting with <tt>'#'</tt>) are allowed in
+        <filepath>ditac.options</filepath>. Options must be separated by
+        whitespace.</li>
+
+        <li>In the above example, FOP is declared <i>after</i> XEP. This
+        implies that it is FOP and not XEP, which will be used by ditac to
+        generate PDF and PostScript®.</li>
+
+        <li id="out_of_memory_errors">An XSL-FO processor tend to consume a
+        lot of memory. If the DITA conversion fails with an out-of-memory
+        error<indexterm>out of memory error</indexterm>, you need to edit the
+        <filepath>xep</filepath> (<filepath>xep.bat</filepath>),
+        <filepath>fop</filepath> (<filepath>fop.bat</filepath>),
+        <filepath>fo2<varname>xxx</varname></filepath>
+        (<filepath>fo2<varname>xxx</varname>.bat</filepath>) scripts in order
+        to increase the maximum amount of memory that the <tm
+        tmtype="tm">Java</tm> runtime may allocate. This is done by using the
+        <option>-Xmx</option> option<indexterm>-Xmx, Java
+        option<index-sort-as>Xmx</index-sort-as></indexterm> of the <tm
+        tmtype="tm">Java</tm> command-line. Example:
+        "<tt>java ... -Xmx512m ...</tt>".</li>
+
+        <li id="bug_renderx_22766">Starting from <tm tmtype="tm">Java</tm>
+        1.6.0_23, converting XML documents to PDF using RenderX XEP randomly
+        fails with false XSL-FO errors (e.g. <tt>attribute "space-before" may
+        not be empty</tt>). This problem seems specific to the 64-bit
+        runtime.<p>The workarounds for the above bug
+        ("<tt>renderx #22766</tt>") are: </p><ul compact="yes">
+            <li>Use a 32-bit <tm tmtype="tm">Java</tm> runtime.</li>
+
+            <li>OR Use a 64-bit <tm tmtype="tm">Java</tm> runtime older than
+            1.6.0_23.</li>
+
+            <li>OR Specify option <option>-valid</option> in the
+            <cmdname>xep</cmdname> command-line.</li>
+          </ul></li>
+      </ul></note></section>
+
+    <section id="what_is_a_plugin"><title>What is a plug-in?</title><p>A
+    plug-in is simply a subdirectory of
+    <tt><i>ditac_install_dir</i>/plugin/</tt>. For example,
+    <tt><i>ditac_install_dir</i>/plugin/MyPlugin/</tt>.</p><p>This
+    subdirectory may contain an <xref format="html"
+    href="https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html"
+    scope="external">XML catalog file</xref>. This XML catalog file must be
+    named <tt>catalog.xml</tt>. In the case of a DITA specialization,
+    <tt>catalog.xml</tt> points to local copies of customized DTDs. Example:
+    <tt><i>ditac_install_dir</i>/plugin/MyPlugin/catalog.xml</tt>:</p><pre>&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+         prefer="public"&gt;
+  &lt;public publicId="-//OASIS//DTD DITA Concept//EN"
+          uri="dtd/concept.dtd"/&gt;
+  ...
+&lt;/catalog&gt;</pre><p>This subdirectory may contain an <tt>xsl/</tt>
+    subdirectory organized <i>exactly</i> like
+    <tt><i>ditac_install_dir</i>/xsl/</tt>. That is, this <tt>xsl/</tt>
+    subdirectory may contain one or more of the following XSLT
+    stylesheets:</p><simpletable>
+        <sthead>
+          <stentry>XSLT stylesheet</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry><filepath>xsl/fo/fo.xsl</filepath></stentry>
+
+          <stentry>Used to generate an intermediate XSL-FO file. After that,
+          the XSL-FO file is converted to PDF <indexterm>PDF, output
+          format</indexterm>, PostScript <indexterm>PostScript, output
+          format</indexterm>, RTF <indexterm>RTF, output format</indexterm>,
+          WordprocessingML <indexterm>WordprocessingML, output
+          format</indexterm>, Office Open XML (<tt>.docx</tt>)
+          <indexterm>Office Open XML, output format</indexterm> or OpenOffice
+          (<tt>.odt</tt>) <indexterm>OpenOffice, output format</indexterm> by
+          the means of an XSL-FO processor.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/xhtml/xhtml.xsl</filepath></stentry>
+
+          <stentry>Used to generate XHTML 1.0<indexterm>XHTML 1.0, output
+          format</indexterm> pages.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/xhtml/xhtml1_1.xsl</filepath></stentry>
+
+          <stentry>Used to generate XHTML 1.1<indexterm>XHTML 1.1, output
+          format</indexterm> pages.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/xhtml/html.xsl</filepath></stentry>
+
+          <stentry>Used to generate HTML 4.1<indexterm>HTML 4.1, output
+          format</indexterm> pages.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/webhelp/webhelp.xsl</filepath></stentry>
+
+          <stentry>Used to generate Web Help <indexterm>Web Help, output
+          format</indexterm> files, which are then compiled using <xref
+          format="html" href="http://www.xmlmind.com/whc.shtml"
+          scope="external">XMLmind Web Help Compiler</xref>.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/htmlhelp/htmlhelp.xsl</filepath></stentry>
+
+          <stentry>Used to generate HTML Help <indexterm>HTML Help, output
+          format</indexterm> files, which are then compiled using
+          <filepath>hhc.exe</filepath>.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/eclipsehelp/eclipsehelp.xsl</filepath></stentry>
+
+          <stentry>Used to generate Eclipse Help<indexterm>Eclipse Help,
+          output format</indexterm> files.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/javahelp/javahelp.xsl</filepath></stentry>
+
+          <stentry>Used to generate <tm tmtype="tm">Java</tm>
+          Help<indexterm>Java Help, output format</indexterm> files, which are
+          then archived in a <tt>.jar</tt> file.</stentry>
+        </strow>
+
+        <strow>
+          <stentry><filepath>xsl/epub/epub.xsl</filepath></stentry>
+
+          <stentry>Used to generate EPUB<indexterm>EPUB, output
+          format</indexterm> files, which are then archived in a
+          <tt>.epub</tt> file (Zip archive having a <tt>.epub</tt>
+          extension).</stentry>
+        </strow>
+      </simpletable><p>When <cmdname>ditac</cmdname> is passed command-line
+    option <xref
+    href="#commandLine/option-plugin"><option>-plugin</option> <i>plugin_name</i></xref>,
+    it will use the DTDs/schemas and the XSLT stylesheets found in the plug-in
+    subdirectory having specified name preferably to those found in
+    <tt><i>ditac_install_dir</i>/schema/</tt> and in
+    <tt><i>ditac_install_dir</i>/xsl/</tt>.</p><note id="DITAC_PLUGIN_DIR"
+    type="tip"><p>If you don't want your plug-ins to reside inside
+    <tt><i>ditac_install_dir</i>/plugin/</tt>, you may specify an alternate
+    parent directory by the means of the <tt>DITAC_PLUGIN_DIR</tt> environment
+    variable. Example: </p><ul compact="yes">
+        <li>On Windows:<screen frame="all">C:\&gt;set DITAC_PLUGIN_DIR=C:\Users\john\ditac_plugins</screen></li>
+
+        <li>On Unix:<screen frame="all">$ export DITAC_PLUGIN_DIR=/home/john/ditac_plugins</screen></li>
+      </ul></note></section>
+  </refbody>
+
+  <related-links>
+    <link href="xsltParams.dita">
+      <linktext/>
+    </link>
+  </related-links>
+</reference>

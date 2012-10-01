@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head><meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+      
+      <title>Part III, Chapter 9. Low-level method: embedding com.xmlmind.ditac.preprocess.PreProcessor</title>
+      <link href="resources/webhelp.css" rel="stylesheet" type="text/css" />
+      <meta content="XMLmind DITA Converter 2.2.3" name="generator" />
+   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" /><link href="_wh/wh.css" rel="stylesheet" type="text/css" /><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">
+    </script><script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript">
+    </script><script charset="UTF-8" src="_wh/wh.min.js" type="text/javascript">
+    </script><script charset="UTF-8" src="_wh/search.js" type="text/javascript">
+    </script><link href="_wh/user/header_footer.css" rel="stylesheet" type="text/css" /></head>
+   
+<body>
+    <div id="wh-header">
+    <table cellpadding="0" cellspacing="0" id="page-header" width="100%">
+      <tr valign="middle">
+        <td width="110"><a href="http://www.xmlmind.com/"><img alt="XMLmind logo" border="0" height="50" src="_wh/user/header_footer_files/logo100x50.png" width="100" /></a></td>
+
+        <td><h1 id="page-header-title">XMLmind DITA Converter Manual</h1></td>
+
+        <td width="110"> </td>
+      </tr>
+    </table></div>
+
+    <div id="wh-body">
+      <div id="wh-navigation">
+        <ul id="wh-tabs">
+          <li id="wh-toc-tab"><a href="#wh-toc-pane"><span>Contents</span></a></li>
+          <li id="wh-index-tab"><a href="#wh-index-pane"><span>Index</span></a></li>
+          <li id="wh-search-tab"><a href="#wh-search-pane"><span>Search</span></a></li>
+        </ul>
+        <div id="wh-toc-pane">
+          <div id="wh-toc-form">
+            <span id="wh-toc-control"><a href="#">Collapse 
+            All</a><a href="#">Expand All</a></span>
+            <button id="wh-toc-previous">Previous</button>
+            <button id="wh-toc-next">Next</button>
+            <button id="wh-toc-print">Print</button>
+          </div>
+          <script charset="UTF-8" src="_wh/toc.js" type="text/javascript">
+          </script>
+        </div>
+        <div id="wh-index-pane">
+          <div id="wh-index-form">
+            <input id="wh-index-field" type="text" />
+          </div>
+          <script charset="UTF-8" src="_wh/index.js" type="text/javascript">
+          </script>
+        </div>
+        <div id="wh-search-pane">
+          <div id="wh-search-form">
+            <input id="wh-search-field" type="text" /><button id="wh-search-button">Search</button><span id="wh-highlight-group"><input checked="checked" id="wh-highlight-toggle" type="checkbox" /><label for="wh-highlight-toggle">Toggle Highlight</label></span>
+          </div>
+          <div id="wh-search-results">
+          </div>
+        </div>
+      </div>
+      <div id="wh-separator">
+      </div>
+      <div id="wh-content">
+      
+      <div class="topic" id="embed2">
+         <h2 class="chapter-title">Chapter 9. Low-level method: embedding
+            <tt class="apiname">com.xmlmind.ditac.preprocess.PreProcessor</tt> <span class="topic-navigation-bar"><a accesskey="L" class="navigation-link" href="embed1.html#embed1" title="Previous topic: Chapter 8. High-level method: embedding com.xmlmind.ditac.convert.Converter"><img alt="Previous topic" class="navigation-icon" height="16" src="resources/previous.png" width="16" /></a> <a accesskey="U" class="navigation-link" href="manual-7.html#I_r8cd23_" title="Parent topic: Part III. Embedding XMLmind DITA Converter in a Java™ application"><img alt="Parent topic" class="navigation-icon" height="16" src="resources/parent.png" width="16" /></a> <img alt="Child topic" class="navigation-icon-disabled" height="16" src="resources/child_disabled.png" title="Child topic" width="16" /> <img alt="Next topic" class="navigation-icon-disabled" height="16" src="resources/next_disabled.png" title="Next topic" width="16" /></span></h2>
+         <div class="body">
+            <div class="p">This method consists in first invoking the <a class="xref" href="../api/com/xmlmind/ditac/preprocess/PreProcessor.html" target="_blank">PreProcessor <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> in order to pre-process the DITA
+               source files into a <tt class="filepath">ditac_lists.ditac_lists</tt> file and
+               one or more <tt class="filepath">.ditac</tt> files; then invoking the <a class="xref" href="http://saxon.sourceforge.net/" target="_blank">Saxon <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> XSLT 2.0 engine in order to transform all
+               the <tt class="filepath">.ditac</tt> files.
+            </div>
+            <div class="p">For some output formats, PDF, RTF, etc, the final third step consists
+               in invoking an XSL-FO processor such as <a class="xref" href="http://xmlgraphics.apache.org/fop/" target="_blank">Apache
+                  FOP <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> in order to convert the XSL-FO generated by the XSLT
+               stylesheets to the desired output format.
+            </div>
+            <div class="p">The full source code of the <tt class="apiname">Embed2</tt> sample is found
+               in <a class="xref" href="embed/Embed2.java" target="_blank"><tt class="filepath">Embed2.java</tt> <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+            </div>
+            <ol class="ol">
+               <li class="li">
+                  <div class="p">Invoke the ditac <tt class="apiname">PreProcessor</tt> to pre-process
+                     the DITA source files into a
+                     <tt class="filepath">ditac_lists.ditac_lists</tt> file and one or more
+                     <tt class="filepath">.ditac</tt> files.
+                  </div>
+                  <ol class="ol">
+                     <li class="li">
+                        <div class="p">Create and configure the
+                           <tt class="apiname">PreProcessor</tt>.
+                        </div><pre class="pre">Console console = new Console() {
+    public void showMessage(String message, MessageType messageType) {
+        System.err.println(message);
+    }
+};
+
+PreProcessor preProc = new PreProcessor(console);
+preProc.setChunking(Chunking.SINGLE);
+preProc.setMedia(Media.SCREEN);
+
+ImageCopier imageCopier = new ImageCopier();
+imageCopier.parseParameters(&quot;img&quot;);
+preProc.setImageHandler(imageCopier);</pre><ul class="ul">
+                           <li class="li">
+                              <div class="p"><a class="xref" href="../api/com/xmlmind/util/Console.html" target="_blank">Console <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> is a very simple interface.
+                                 Implementing this interface allows to do whatever you want with
+                                 the messages reported by a
+                                 <tt class="apiname">PreProcessor</tt>.
+                              </div>
+                           </li>
+                           <li class="li">
+                              <div class="p">Specifiying <a class="xref" href="../api/com/xmlmind/ditac/preprocess/PreProcessor.html#setChunking(com.xmlmind.ditac.preprocess.Chunking)" target="_blank"><tt class="codeph">preProc.setChunking(Chunking.SINGLE)</tt> <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>
+                                 allows to generate a single HTML page using a DITA map designed
+                                 to generate multiple HTML pages.
+                              </div>
+                           </li>
+                           <li class="li">
+                              <div class="p">A <tt class="apiname">PreProcessor</tt> is not concerned about
+                                 the <i class="i">exact</i> output format. However its behaves differently
+                                 depending on the target <a class="xref" href="../api/com/xmlmind/ditac/preprocess/Media.html" target="_blank">Media <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+                              </div>
+                           </li>
+                           <li class="li">
+                              <div class="p">A <tt class="apiname">PreProcessor</tt> handles to an <a class="xref" href="../api/com/xmlmind/ditac/preprocess/ImageHandler.html" target="_blank">ImageHandler <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> all the images files
+                                 referenced in the DITA source using relative URLs. An
+                                 <tt class="apiname">ImageHandler</tt> is registered with a
+                                 <tt class="apiname">PreProcessor</tt> using method <a class="xref" href="../api/com/xmlmind/ditac/preprocess/PreProcessor.html#setImageHandler(com.xmlmind.ditac.preprocess.ImageHandler)" target="_blank">setImageHandler <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+                              </div>
+                              <div class="p">In the case of
+                                 the <tt class="apiname">Embed2</tt> sample, we use the simplest
+                                 possible <tt class="apiname">ImageHandler</tt> which is <a class="xref" href="../api/com/xmlmind/ditac/convert/ImageCopier.html" target="_blank">ImageCopier <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+                              </div>
+                           </li>
+                        </ul>
+                     </li>
+                     <li class="li">
+                        <div class="p">Pre-process the DITA source files.</div><pre class="pre">URL inFileURL = null;
+try {
+    inFileURL = inFile.toURI().toURL();
+} catch (MalformedURLException cannotHappen) {}
+
+File[] preProcFiles = null;
+try {
+    preProcFiles = preProc.process(new URL[] { inFileURL }, outFile);
+} catch (IOException e) {
+    console.showMessage(e.toString(), Console.MessageType.ERROR);
+}
+if (preProcFiles == null) {
+    return false;
+}</pre><div class="p">The <a class="xref" href="../api/com/xmlmind/ditac/preprocess/PreProcessor.html#process(java.net.URL[],%20java.io.File)" target="_blank">process <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> method of a PreProcessor returns
+                           <tt class="codeph">null</tt> if an error other than an
+                           <tt class="apiname">IOException</tt> has caused the pre-processing to
+                           fail. When this is the case, errors messages are displayed on the
+                           <tt class="apiname">Console</tt>.
+                        </div>
+                        <div class="p">Note that a
+                           <tt class="apiname">PreProcessor</tt> is not thread-safe. Each thread must
+                           own its <tt class="apiname">PreProcessor</tt>. However, the
+                           <tt class="apiname">process</tt> method of a
+                           <tt class="apiname">PreProcessor</tt> may be invoked several
+                           times.
+                        </div>
+                     </li>
+                  </ol>
+               </li>
+               <li class="li">
+                  <div class="p">Invoke the Saxon XSLT 2.0 engine, in order to transform all the
+                     <tt class="filepath">.ditac</tt> files. Note that this is done using the
+                     standard <a class="xref" href="http://java.sun.com/j2ee/1.4/docs/tutorial/doc/JAXPIntro.html" target="_blank">JAXP <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> API.
+                  </div>
+                  <ol class="ol">
+                     <li class="li">
+                        <div class="p">Pass <i class="i">required system parameters</i> to the XSLT
+                           stylesheets, in addition to the normal, user, parameters.
+                        </div><pre class="pre">String ditacListsURI = &quot;&quot;;
+
+int count = preProcFiles.length;
+for (int i = 0; i &lt; count; ++i) {
+    File ditacFile = preProcFiles[i];
+
+    if (ditacFile.getPath().endsWith(&quot;.ditac_lists&quot;)) {
+        ditacListsURI = ditacFile.toURI().toASCIIString();
+        break;
+    }
+}
+
+String[] params = {
+    &quot;ditacListsURI&quot;, ditacListsURI,
+    &quot;xsl-resources-directory&quot;, &quot;res&quot;,
+    &quot;use-note-icon&quot;, &quot;yes&quot;,
+    &quot;default-table-width&quot;, &quot;100%&quot;
+};</pre><div class="p">These required system parameters are:</div>
+                        <ul class="ul">
+                           <li class="li"><a class="xref" href="xsltParams.html#xsltParams__ditacListsURI">ditacListsURI</a>,
+                              always required.
+                           </li>
+                           <li class="li"><a class="xref" href="xsltParams.html#xsltParams__foProcessor">foProcessor</a>,
+                              required by the XSLT stylesheets that generate XSL-FO.
+                           </li>
+                           <li class="li"><a class="xref" href="xsltParams.html#xsltParams__chmBasename">chmBasename</a>,
+                              <a class="xref" href="xsltParams.html#xsltParams__hhpBasename">hhpBasename</a>,
+                              required by the XSLT stylesheets that generate HTML Help.
+                           </li>
+                        </ul>
+                     </li>
+                     <li class="li">
+                        <div class="p">Use the Saxon XSLT 2.0 engine to create a
+                           <tt class="apiname">TransformerFactory</tt>, then configure this
+                           <tt class="apiname">TransformerFactory</tt>.
+                        </div><pre class="pre">private static
+TransformerFactory createTransformerFactory(URIResolver uriResolver, 
+                                            ErrorListener errorListener) 
+    throws Exception {
+    Class&lt;?&gt; cls = Class.forName(&quot;net.sf.saxon.TransformerFactoryImpl&quot;);
+    TransformerFactory transformerFactory = 
+        (TransformerFactory) cls.newInstance();
+
+    ExtensionFunctions.registerAll(transformerFactory);
+
+    transformerFactory.setURIResolver(uriResolver);
+    transformerFactory.setErrorListener(errorListener);
+
+    return transformerFactory;
+}</pre><ul class="ul">
+                           <li class="li">
+                              <div class="p" id="embed2__saxon_9_2_plus">Creating an instance of Saxon 9.2+ is
+                                 absolutely needed. XMLmind DITA Converter is not designed to
+                                 work with any other XSLT engine (e.g. the Xalan XSLT 1.0 engine,
+                                 which is part of the <span class="tm">Java™</span>
+                                 runtime).
+                              </div>
+                           </li>
+                           <li class="li">
+                              <div class="p">The ditac XSLT 2.0 stylesheets make use of a few XSLT
+                                 extension functions written in <span class="tm">Java™</span>. These
+                                 extension functions must be registered with Saxon. This is done
+                                 using <a class="xref" href="../api/com/xmlmind/ditac/xslt/ExtensionFunctions.html#registerAll(javax.xml.transform.TransformerFactory)" target="_blank">ExtensionFunctions.registerAll <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+                              </div>
+                           </li>
+                        </ul>
+                     </li>
+                     <li class="li">
+                        <div class="p">Create and configure a
+                           <tt class="apiname">Transformer</tt>.
+                        </div><pre class="pre">private static Transformer createTransformer(String[] params, 
+                                             Console console) 
+    throws Exception {
+    URIResolver uriResolver = Resolve.createURIResolver();
+    ErrorListener errorListener = new ConsoleErrorListener(console);
+
+    TransformerFactory factory = createTransformerFactory(uriResolver,
+                                                          errorListener);
+
+    File xslFile = new File(path(&quot;../../../xsl/xhtml/html.xsl&quot;));
+    Transformer transformer = 
+        factory.newTransformer(new StreamSource(xslFile));
+
+    transformer.setURIResolver(uriResolver);
+    transformer.setErrorListener(errorListener);
+
+    for (int i = 0; i &lt; params.length; i += 2) {
+        transformer.setParameter(params[i], params[i+1]);
+    }
+
+    return transformer;
+}</pre><ul class="ul">
+                           <li class="li">
+                              <div class="p"><a class="xref" href="../api/com/xmlmind/ditac/util/Resolve.html" target="_blank">Resolve <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> is a helper class making it easy
+                                 to use the services of <a class="xref" href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=entity" target="_blank">XML Catalog resolvers <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a>.
+                              </div>
+                              <div class="p">By default,
+                                 <tt class="apiname">Resolve</tt> automatically loads all the XML
+                                 catalogs specified using the <tt class="tt">xml.catalog.files</tt> <span class="tm">Java™</span> system property. Excerpts of the
+                                 <b class="cmdname">ant</b> <a class="xref" href="embed/build.xml" target="_blank">build.xml <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> file:
+                              </div><pre class="pre">&lt;target name=&quot;embed2&quot; depends=&quot;compile,clean_embed2&quot;&gt;
+  &lt;java classpathref=&quot;cp&quot; fork=&quot;yes&quot; classname=&quot;Embed2&quot;&gt;
+    <b class="b">&lt;sysproperty key=&quot;xml.catalog.files&quot; 
+                 value=&quot;${ditac.dir}/schema/catalog.xml&quot; /&gt;</b>
+    &lt;arg value=&quot;${ditac.dir}/docsrc/manual/manual.ditamap&quot; /&gt;
+    &lt;arg value=&quot;manual.html&quot; /&gt;
+  &lt;/java&gt;
+&lt;/target&gt;</pre><div class="p">However, static method <a class="xref" href="../api/com/xmlmind/ditac/util/Resolve.html#setResolverFactory(com.xmlmind.ditac.util.ResolverFactory)" target="_blank">setResolverFactory <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> allows to configure
+                                 this thread-safe utility class (used by ditac in many places)
+                                 differently.
+                              </div>
+                           </li>
+                           <li class="li">
+                              <div class="p"><a class="xref" href="../api/com/xmlmind/ditac/convert/ConsoleErrorListener.html" target="_blank">ConsoleErrorListener <img alt="Opens in new window" border="0" height="10" src="resources/new_window.png" width="11" /></a> is an
+                                 implementation of <tt class="apiname">ErrorListener</tt> which
+                                 displays its messages on a <tt class="apiname">Console</tt>. 
+                              </div>
+                           </li>
+                        </ul>
+                     </li>
+                     <li class="li">
+                        <div class="p">Invoke the Transformer to transform each
+                           <tt class="filepath">.ditac</tt> file.
+                        </div><pre class="pre">for (int i = 0; i &lt; count; ++i) {
+    File ditacFile = preProcFiles[i];
+
+    String ditacFilePath = ditacFile.getPath();
+    if (ditacFilePath.endsWith(&quot;.ditac&quot;)) {
+        File transformedFile = new File(
+            ditacFilePath.substring(0, ditacFilePath.length()-5) + 
+            &quot;html&quot;);
+
+        try {
+            transformer.transform(new StreamSource(ditacFile), 
+                                  new StreamResult(transformedFile));
+        } catch (Exception e) {
+            console.showMessage(e.toString(), 
+                                Console.MessageType.ERROR);
+            cleanUp(preProcFiles);
+            return false;
+        }
+    }
+}</pre><div class="p">In the case of <tt class="apiname">Embed2</tt>, the above loop is not
+                           strictly needed. We specified
+                           <tt class="codeph">preProc.setChunking(Chunking.SINGLE)</tt> and therefore
+                           the <tt class="apiname">PreProcessor</tt> generates a single
+                           <tt class="tt">.ditac</tt> file.
+                        </div>
+                     </li>
+                  </ol>
+               </li>
+               <li class="li">
+                  <div class="p">Copy the resources of the XSLT stylesheets (CSS stylesheets,
+                     icons, etc) to output subdirectory <tt class="filepath">res/</tt>. Note that
+                     the images referenced in the DITA source, if any, have already been
+                     copied to output subdirectory <tt class="filepath">img/</tt> by the
+                     <tt class="apiname">ImageCopier</tt>.
+                  </div><pre class="pre">File dstDir = new File(&quot;res&quot;);
+if (!dstDir.exists()) {
+    File srcDir = new File(path(&quot;../../../xsl/xhtml/resources&quot;));
+    try {
+        FileUtil.copyDir(srcDir, dstDir, false);
+    } catch (IOException e) {
+        console.showMessage(e.toString(), Console.MessageType.ERROR);
+        cleanUp(preProcFiles);
+        return false;
+    }
+}</pre></li>
+               <li class="li">
+                  <div class="p">Delete the <tt class="filepath">ditac_lists.ditac_lists</tt> and
+                     <tt class="filepath">.ditac</tt> files.
+                  </div><pre class="pre">cleanUp(preProcFiles);</pre></li>
+            </ol>
+            <div class="section" id="embed2__I_3milvu_">
+               <h3 class="section-title">Compiling and executing the <tt class="apiname">Embed2</tt>
+                  sample
+               </h3>
+               <div class="p">Compile the <tt class="apiname">Embed2</tt> sample by running
+                  <b class="cmdname">ant</b> in
+                  <tt class="filepath"><i class="varname">ditac_install_dir</i>/doc/manual/embed/</tt>.
+               </div>
+               <div class="p">Execute
+                  the <tt class="apiname">Embed2</tt> sample by running
+                  <b class="cmdname">ant</b> <tt class="tt">embed2</tt> in
+                  <tt class="filepath"><i class="varname">ditac_install_dir</i>/doc/manual/embed/</tt>.
+                  This will convert
+                  <tt class="filepath"><i class="varname">ditac_install_dir</i>/docsrc/manual/manual.ditamap</tt>
+                  to single HTML 4.1 page
+                  <tt class="filepath"><i class="varname">ditac_install_dir</i>/doc/manual/embed/manual.html</tt>.
+               </div>
+               <div class="p">Note
+                  that <tt class="filepath">Embed2.java</tt> contains ``hardwired filenames''.
+                  This means that this sample cannot be run from elsewhere than
+                  <tt class="filepath"><i class="varname">ditac_install_dir</i>/doc/manual/embed/</tt>.
+               </div>
+            </div>
+         </div>
+         <div class="related-links">
+            <h3 class="related-links-title">Related information</h3>
+            <p class="link">‣ <a href="howItWorks.html#howItWorks__how_it_works">How it works</a></p>
+            <p class="link">‣ <a href="embed1.html#embed1">Chapter 8. High-level method: embedding
+                  <tt class="apiname">com.xmlmind.ditac.convert.Converter</tt></a></p>
+         </div>
+      </div>
+   </div>
+    </div>
+
+    <div id="wh-footer">
+    <p id="page-footer">Web Help generated using 
+  <a href="http://www.xmlmind.com/ditac/">XMLmind DITA Converter</a>.</p></div>
+  </body></html>

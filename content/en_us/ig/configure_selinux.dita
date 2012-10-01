@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="configure_selinux">
+    <title>Configure SELinux</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Security-enabled Linux (SELinux) is security feature for Linux that lets you to set access control through policies. Eucalyptus is not compatible with SELinux.</p>
+        	<!--<note type="tip">If you are installing on Ubuntu 10.04 LTS, you can skip this section.</note>-->
+        	
+        	<p>To configure SELinux to allow Eucalyptus access:</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Open <filepath>/etc/selinux/config</filepath> and edit the line <codeph>SELINUX=enforcing</codeph> to
+						<codeph>SELINUX=permissive</codeph>.</cmd>
+            	
+            </step>
+        	<step>
+        		<cmd>Save the file.</cmd>
+        	</step>
+        	<step>
+        		<cmd>Run the following command:</cmd>
+        		<info>
+        			<codeblock>setenforce 0</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    </taskbody>
+</task>

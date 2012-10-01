@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference outputclass="docs one-sidebar sidebar-first" id="euca-describe-addresses">
+	<title>euca-describe-addresses</title>
+
+	<shortdesc>Shows a list of public IP address that you have allocated. If you have assigned these to
+		an instance, this list also includes the associated instance for each IP.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-addresses [--filter <b>name=value</b>] [ <b>ip</b> ]
+</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry/>
+							<entry/>
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/instance-id">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/public-ip">
+							<entry/>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("ADDRESS")</li>
+				<li>Elastic IP address</li>
+				<li>Instance ID that the IP address is assigned to</li>
+
+				<li>IP address domain</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Examples</title>
+			<p>As a user:</p>
+			<codeblock>euca-describe-addresses
+ADDRESS 86.75.30.9  None    standard
+ADDRESS 86.75.30.10 i-E7AC420A      standard</codeblock>
+			<p>As a cloud administrator:</p>
+			<codeblock>euca-describe-addresses
+ADDRESS 86.75.30.9  available
+(arn:aws:euare::790547641019:user/admin)  standard
+ADDRESS 86.75.30.10 i-E7AC420A
+(arn:aws:euare::790547641019:user/admin)  standard
+ADDRESS 86.75.30.11 nobody  standard</codeblock>
+		</section>
+	</refbody>
+
+</reference>

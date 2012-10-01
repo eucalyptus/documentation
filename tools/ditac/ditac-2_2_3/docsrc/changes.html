@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Change History</title>
+
+    <meta content="Change history and release notes for XMLmind DITA Converter."
+          name="description" />
+  </head>
+
+  <body><h1 class="title" title="title">Change History</h1><h2
+  id="v2.2.3">2.2.3 (July 18, 2012)</h2><p><strong>Now supports simple <a
+  href="_distrib/doc/manual/commandLine.html#commandLine__what_is_a_plugin">plug-ins</a>.</strong>
+  </p><p>A plug-in is simply a subdirectory of
+  <tt><i>ditac_install_dir</i>/plugin/</tt>. For example,
+  <tt><i>ditac_install_dir</i>/plugin/MyPlugin/</tt>.</p><p>This subdirectory
+  may contain an XML catalog file. This XML catalog file must be named
+  <tt>catalog.xml</tt>. In the case of a DITA specialization,
+  <tt>catalog.xml</tt> points to local copies of customized DTDs. Example:
+  <tt><i>ditac_install_dir</i>/plugin/MyPlugin/catalog.xml</tt>:</p><pre>&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+         prefer="public"&gt;
+  &lt;public publicId="-//OASIS//DTD DITA Concept//EN"
+          uri="dtd/concept.dtd"/&gt;
+  ...
+&lt;/catalog&gt;</pre><p>This subdirectory may contain an <tt>xsl/</tt>
+  subdirectory organized <em>exactly</em> like
+  <tt><i>ditac_install_dir</i>/xsl/</tt>. That is, this <tt>xsl/</tt>
+  subdirectory may contain one or more of the following XSLT
+  stylesheets:</p><table border="1">
+      <thead>
+        <tr>
+          <th>XSLT stylesheet</th>
+
+          <th>Description</th>
+        </tr>
+      </thead>
+
+      <tbody valign="baseline">
+        <tr>
+          <td><tt>xsl/fo/fo.xsl</tt></td>
+
+          <td>Used to generate an intermediate XSL-FO file. After that, the
+          XSL-FO file is converted to PDF, PostScript, RTF, WordprocessingML,
+          Office Open XML (<tt>.docx</tt>) or OpenOffice (<tt>.odt</tt>) by
+          the means of an XSL-FO processor.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/xhtml/xhtml.xsl</tt></td>
+
+          <td>Used to generate XHTML 1.0 pages.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/xhtml/xhtml1_1.xsl</tt></td>
+
+          <td>Used to generate XHTML 1.1 pages.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/xhtml/html.xsl</tt></td>
+
+          <td>Used to generate HTML 4.1 pages.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/webhelp/webhelp.xsl</tt></td>
+
+          <td>Used to generate Web Help files, which are then compiled using
+          <a href="http://www.xmlmind.com/whc.shtml">XMLmind Web Help
+          Compiler</a>.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/htmlhelp/htmlhelp.xsl</tt></td>
+
+          <td>Used to generate HTML Help files, which are then compiled using
+          <tt>hhc.exe</tt>.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/eclipsehelp/eclipsehelp.xsl</tt></td>
+
+          <td>Used to generate Eclipse Help files.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/javahelp/javahelp.xsl</tt></td>
+
+          <td>Used to generate Java Help files, which are then archived in a
+          <tt>.jar</tt> file.</td>
+        </tr>
+
+        <tr>
+          <td><tt>xsl/epub/epub.xsl</tt></td>
+
+          <td>Used to generate EPUB files, which are then archived in a
+          <tt>.epub</tt> file (Zip archive having a <tt>.epub</tt>
+          extension).</td>
+        </tr>
+      </tbody>
+    </table><p>When <tt>ditac</tt> is passed command-line option
+  <tt>-plugin <i>plugin_name</i></tt>, it will use the DTDs/schemas and the
+  XSLT stylesheets found in the plug-in subdirectory having specified name
+  preferably to those found in <tt><i>ditac_install_dir</i>/schema/</tt> and
+  in
+  <tt><i>ditac_install_dir</i>/xsl/</tt>.</p><p><b>Incompatibilities:</b></p><ul>
+      <li>Removed support for system property/environment variable
+      <tt>XML_CATALOG_FILES</tt>. Removed command-line option <tt>-xslt2</tt>.
+      These facilities were mainly useful to convert documents conforming to a
+      DITA specialization. You now need to package your DITA specialization as
+      a ditac plug-in.</li>
+
+      <li>Java<sup>TM</sup> API changes: removed the following
+      <code>com.xmlmind.ditac.convert.Converter</code> methods:
+      <code>registerCustomStyleSheet</code>,
+      <code>setStyleSheetDirectory</code> (instead, now set system property
+      <tt>DITAC_XSL_DIR</tt>), <code>getStyleSheetDirectory</code>.</li>
+    </ul><hr /><h2 id="v2.2.2">2.2.2 (June 15,
+  2012)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Embeds <a href="http://www.xmlmind.com/whc.shtml">XMLmind Web Help
+      Compiler</a> (<abbr>whc</abbr> for short) v1.1.3.</li>
+
+      <li>Upgraded <a href="http://www.saxonica.com/">Saxon</a> to version
+      9.3.0.11.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>Ditac generated some dead links when the map being converted
+      referenced more than 999 topics having the same ID (e.g.
+      <tt>id="topic"</tt>).</li>
+    </ul><hr /><h2 id="v2.2.1">2.2.1 (April 30,
+  2012)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Ditac now allows to automatically generate navigation links whatever
+      the value of the <tt>collection-type</tt> attribute set on a
+      <tt>topicref</tt> element. Previously,
+      <tt>collection-type="unordered"</tt> and
+      <tt>collection-type="choice"</tt> were ignored.<p>For these navigation
+      links to be generated, XSLT stylesheet parameter
+      <tt>ignore-navigation-links</tt> must be either specified as
+      '<tt>no</tt>' or '<tt>auto</tt>'. And, if
+      <tt>ignore-navigation-links</tt> is specified as '<tt>auto</tt>', then
+      XSLT stylesheet parameter <tt>chain-topics</tt> must not be specified as
+      '<tt>yes</tt>' <small>(in other words, '<tt>auto</tt>' means: same value
+      as <tt>chain-topics</tt>)</small>.</p><p>The default value of
+      <tt>ignore-navigation-links</tt> is: '<tt>auto</tt>' for XHTML and its
+      variants; '<tt>yes</tt>' for Web Help, Java Help, HTML Help, Eclipse
+      Help and EPUB.</p></li>
+
+      <li>Embeds <a href="http://www.xmlmind.com/whc.shtml">XMLmind Web Help
+      Compiler</a> (<abbr>whc</abbr> for short) v1.1.2.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>Bookmap: chapter numbers were automatically restarted at 1 for each
+      new part. Chapters are now numbered continuously across parts.</li>
+
+      <li>Conref push is now performed within topics <em>after</em>
+      conditional processing. This change was needed to allow combining conref
+      push and conditional processing. Example:<pre>&lt;concept id="intro"&gt;
+  &lt;title id="title"&gt;Introduction&lt;/title&gt;
+
+  &lt;prolog&gt;
+    &lt;data <b>audience="newbie"</b>&gt;&lt;title <b>conaction="pushreplace"</b>
+    <b>conref="#intro/title"</b>&gt;Introduction for newbies&lt;/title&gt;&lt;/data&gt;
+
+    &lt;data <b>audience="expert"</b>&gt;&lt;title <b>conaction="pushreplace"</b>
+    <b>conref="#intro/title"</b>&gt;Introduction for experts&lt;/title&gt;&lt;/data&gt;
+  &lt;/prolog&gt;
+  ...
+&lt;/concept&gt;</pre></li>
+    </ul><hr /><h2 id="v2.2.0">2.2 (March 13,
+  2012)</h2><p><b>Enhancements:</b></p><ul>
+      <li>All output formats: new <tt>extended-toc</tt> XSLT stylesheet
+      parameter allows to add <tt>frontmatter</tt> and <tt>backmatter</tt>
+      <tt>topicref</tt>s to the Table of Contents (<abbr>TOC</abbr>) of a
+      document. Note that the <tt>toc</tt>, <tt>navtitle</tt>,
+      <tt>locktitle</tt>, etc, attributes are applied normally to
+      <tt>frontmatter</tt> and <tt>backmatter</tt> <tt>topicref</tt>s when an
+      extended <abbr>TOC</abbr> is generated.</li>
+
+      <li>New option <tt>-addindex</tt> will copy the output file containing
+      the <abbr>TOC</abbr> to <tt>index.html</tt>. This option is ignored
+      unless the output format is <tt>xhtml</tt>, <tt>xhtml1.1</tt>,
+      <tt>html</tt> or <tt>webhelp</tt>.</li>
+
+      <li>Web Help output format: new <tt>wh-collapse-toc</tt> XSLT stylesheet
+      parameter specifies whether the <abbr>TOC</abbr> of a Web Help should be
+      initially collapsed.</li>
+
+      <li>XSL-FO intermediate format: more powerful and more flexible
+      specification of page headers and footers.</li>
+
+      <li>XSL-FO intermediate format: added XSLT stylesheet parameters and
+      attribute-sets allowing to customize more easily and more extensively
+      the presentation of the output files generated out of the XSL-FO
+      intermediate file (PDF, RTF, etc) .<p>New XSLT stylesheet parameters:
+      </p><ul compact="compact">
+          <li><tt>body-font-family</tt>, <tt>title-font-family</tt>,
+          <tt>title-color</tt>.</li>
+
+          <li><tt>ul-li-bullets</tt>, <tt>unordered-step-bullets</tt>,
+          <tt>choice-bullets</tt>.</li>
+
+          <li><tt>link-bullet</tt>, <tt>menucascade-separator</tt>.</li>
+        </ul><p>New attribute-sets:</p><ul compact="compact">
+          <li><tt>ol-li-label</tt>, <tt>step-label</tt>,
+          <tt>unordered-step-label</tt>.</li>
+
+          <li><tt>ul-li-label</tt>, <tt>unordered-step-label</tt>,
+          <tt>choice-label</tt>.</li>
+
+          <li><tt>link-bullet</tt>, <tt>menucascade-separator</tt>.</li>
+
+          <li><tt>tm-symbol</tt>, <tt>tm-service-symbol</tt>,
+          <tt>q-quote</tt>.</li>
+
+          <li><tt>frontmattersection-title</tt>,
+          <tt>backmattersection-title</tt>, <tt>amendments-title</tt>,
+          <tt>bookabstract-title</tt>, <tt>colophon-title</tt>,
+          <tt>dedication-title</tt>, <tt>draftintro-title</tt>,
+          <tt>notices-title</tt>, <tt>preface-title</tt></li>
+        </ul></li>
+
+      <li>Added support for <a href="http://www.antennahouse.com/">Antenna
+      House Formatter</a>, an advanced, commercial, XSL-FO processor which may
+      be used to render XSL-FO as PDF and PostScript.</li>
+
+      <li>Embeds <a href="http://www.xmlmind.com/whc.shtml">XMLmind Web Help
+      Compiler</a> (<abbr>whc</abbr> for short) v1.1.1.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>The <tt>coderef</tt> element (allowing to include the contents of a
+      text file in its parent <tt>codeblock</tt> element) was not styled.</li>
+
+      <li>Some icons were missing in the directory containing the files
+      generated by ditac when <tt>-p chain-topics yes</tt> and/or
+      <tt>-p chain-pages top|bottom|both</tt> were used for output formats
+      other than HTML (Web Help, HTML Help, etc).</li>
+
+      <li>Ditac processed <tt>id</tt> and <tt>href</tt> attributes inside
+      embedded SVG and MathML elements (e.g. contained in a <tt>foreign</tt>
+      parent element) as if these were native DITA elements.</li>
+    </ul><p><b>Incompatibilities:</b></p><ul>
+      <li>XSL-FO intermediate format: the new specification of page headers
+      and footers is <strong><em>completely incompatible</em></strong> with
+      the kind of specification supported by ditac 2.1:<ul>
+          <li>Parameters <tt>header-left-image</tt>,
+          <tt>header-center-image</tt>, <tt>header-right-image</tt>,
+          <tt>footer-left-image</tt>, <tt>footer-center-image</tt>,
+          <tt>footer-right-image</tt> have been suppressed. Instead please use
+          the new <tt>{{image(<i>URI</i>)}}</tt> variable. For example:
+          <tt>-p header-left-image logo/logo.svg</tt> becomes
+          <tt>-p header-left {{image(logo/logo.svg)}}</tt>.</li>
+
+          <li>Header/footer variables <tt>%odd-page-number%</tt> and
+          <tt>%even-page-number%</tt> have been suppressed. Instead please
+          specify a conditional header/footer. For example:
+          <tt>-p footer-left %even-page-number%</tt> becomes
+          <tt>-p footer-left "two-sides even:: {{page-number}}"</tt>.</li>
+        </ul></li>
+
+      <li>By default, the <abbr>TOC</abbr> of an EPUB document no longer has
+      <b>List of Figures</b>, <b>Lists of Tables</b> and <b>Index</b> entries.
+      If you want to restore these entries, pass XSLT stylesheet parameter
+      <tt>extended-toc=both</tt> to ditac.</li>
+
+      <li>By default, all the HTML pages generated by ditac now contain:<pre>&lt;meta name="generator" 
+      content="XMLmind DITA Converter <i>VERSION</i>" /&gt;</pre><p>The name
+      of the software which has been used to create the HTML pages is
+      specified by new XSLT stylesheet parameter
+      <tt>generator-info</tt>.</p></li>
+    </ul><hr /><h2 id="v2.1.0_01">2.1.0_01 (December 15, 2011)</h2><p>If you
+  have <a href="http://www.xmlmind.com/foconverter/">XMLmind XSL-FO
+  Converter</a> v4.6+, XMLmind DITA Converter will now automatically generate
+  <i>outline levels</i> for the RTF, WordprocessingML, Office Open XML
+  (<tt>.docx</tt>), OpenOffice (<tt>.odt</tt>) output formats. In practice,
+  this allows to use the Document Map and the Outline View in MS-Word and to
+  use the Navigator Window in OpenOffice/LibreOffice.</p><hr /><h2
+  id="v2.1.0">2.1 (December 6, 2011)</h2><p>XMLmind DITA Converter
+  (<abbr>ditac</abbr> for short) now allows to generate <a
+  href="http://en.wikipedia.org/wiki/Web_help" target="_blank"
+  title="Wikipedia article">Web Help</a>.</p><blockquote class="note"><p>This
+  feature leverages a new, free, open source, component: <a
+  href="http://www.xmlmind.com/whc.shtml">XMLmind Web Help Compiler</a>.
+  </p><p>XMLmind Web Help Compiler (<abbr>whc</abbr> for short) is a generic
+  &mdash;that is, not depending on <abbr>ditac</abbr> in any way&mdash; tool
+  which can be used to convert a set of static XHTML pages to a standalone,
+  interactive, Web Help application running in a Web browser. More information
+  in <a
+  href="http://www.xmlmind.com/_whc/doc/index.html#features">Features</a>.</p><p><abbr>whc</abbr>
+  has been <em>embedded</em> in <abbr>ditac</abbr>, so there is no need for a
+  <abbr>ditac</abbr> user to download and install <abbr>whc</abbr>. We mention
+  this tool merely because its documentation describes quite precisely the
+  kind of Web Help application which can now be generated by
+  <abbr>ditac</abbr>.</p></blockquote><p>We plan to integrate
+  <abbr>ditac</abbr> v2.1 in the following products: <a
+  href="http://www.xmlmind.com/foconverter/xsl_utility.html">XMLmind XSL
+  Utility</a>, <a
+  href="http://www.xmlmind.com/foconverter/xsl_server.html">XMLmind XSL
+  Server</a>, <a href="http://www.xmlmind.com/xmleditor/">XMLmind XML
+  Editor</a> Professional Edition, very shortly. Note <abbr>whc</abbr> will
+  also be used by XMLmind XML Editor to generate Web Help out of DocBook
+  documents.</p><p><b>Bug fixes:</b></p><ul>
+      <li>In some cases, for example when generating HTML Help (<tt>.chm</tt>)
+      or Eclipse Help, an index was automatically generated when any of the
+      topics being converted contained <tt>indexterm</tt> elements. This is no
+      longer the case. Your bookmap needs now to explicitly reference an
+      <tt>indexlist</tt> element for an index to be automatically generated.
+      Alternatively, if you use a plain map rather than a bookmap, specify the
+      <tt>-index</tt> command-line option.</li>
+
+      <li>When loading the set of keys specified in a map, the <tt>print</tt>
+      attribute was not used to filter the key definitions. Example: let's
+      suppose the target format of the deliverable is PDF (i.e. the target
+      medium is print):<pre>&lt;keydef print="no" keys="screenshot" href="screenshot.png" /&gt;
+&lt;keydef print="printlonly" keys="screenshot" href="screenshot.svg" /&gt;</pre><p>Before
+      the bug fix, key <tt>screenshot</tt> points to <tt>screenshot.png</tt>.
+      After the bug fix, key <tt>screenshot</tt> points to
+      <tt>screenshot.svg</tt>.</p></li>
+    </ul><p><b>Other changes:</b></p><ul>
+      <li>Internal API changes needed to implement <a
+      href="http://www.xmlmind.com/xmleditor/">XMLmind XML Editor</a> v5.</li>
+    </ul><hr /><h2 id="v2.0.4">2.0.4 (July 22, 2011)</h2><p><b>Bug
+  fixes:</b></p><ul>
+      <li>A map referencing topics having IDs and/or file basenames starting
+      with the same prefix (for example, "<tt>foo.dita</tt>",
+      "<tt>foo.bar.dita</tt>", "<tt>foo.bar.wiz.dita</tt>" all start with the
+      same "<tt>foo.</tt>" prefix) caused <acronym>ditac</acronym> to fail
+      with the following error: "<tt>A sequence of more than one item is not
+      allowed as the result of function u:currentChunk()...</tt>".</li>
+
+      <li>A map pulling the content of the same topic several times (i.e.
+      through several <tt>topicref</tt>s) caused <acronym>ditac</acronym> to
+      fail with the following error: "<tt>A sequence of more than one item is
+      not allowed as the result of function u:tocEntry()...</tt>".</li>
+    </ul><hr /><h2 id="v2.0.3">2.0.3 (June 24,
+  2011)</h2><p><b>Enhancements:</b></p><ul>
+      <li>In the previous 2.x releases, the only way to exclude a topic was to
+      specify the proper conditional processing attribute on the
+      <tt>topicref</tt> pointing to this topic. It's now possible to exclude a
+      topic by specifying the proper conditional processing attribute on the
+      topic itself.</li>
+
+      <li>XSL-FO intermediate format: when the XSL-FO processor being used is
+      <a href="http://www.xmlmind.com/foconverter/">XMLmind XSL-FO
+      Converter</a>, <acronym>ditac</acronym> makes use of the <small>(new to
+      XFC v4.5)</small> <a
+      href="http://www.xmlmind.com/foconverter/_distrib/doc/user/implementation.html#xfc_label-format"><tt>xfc:label-format</tt>
+      proprietary attribute</a> in order to convert the <tt>choices</tt>
+      element to a proper list.</li>
+
+      <li><acronym>Ditac</acronym> now reports a warning when it automatically
+      replaces an invalid <tt>id</tt> attribute. <p>Note that
+      <acronym>ditac</acronym> is not a DITA validator. It checks the value of
+      the <tt>id</tt> attribute only in a few cases and it requires such value
+      to be a mere <tt>NMTOKEN</tt>.</p></li>
+    </ul><hr /><h2 id="v2.0.2">2.0.2 (June 2,
+  2011)</h2><p><b>Enhancements:</b></p><ul>
+      <li>New XSLT stylesheet parameter <tt>cover-image</tt> makes it easy
+      adding fancy cover pages to the EPUB files generated by
+      <acronym>ditac</acronym>.<p>This feature has been tested with: <a
+      href="http://www.adobe.com/products/digitaleditions/">Adobe Digital
+      Editions</a> (ADE), <a href="http://calibre-ebook.com/">Calibre</a>, <a
+      href="http://www.apple.com/ipad/built-in-apps/ibooks.html">iBooks</a> on
+      the iPad and <a
+      href="http://bookworm.oreilly.com/">Bookworm</a>.</p></li>
+
+      <li>Nicer layout of the <tt>note</tt> element.</li>
+
+      <li>Upgraded <a href="http://www.saxonica.com/">Saxon</a> to version
+      9.3.0.5.</li>
+    </ul><hr /><h2 id="v2.0.1">2.0.1 (April 12, 2011)</h2><p><b>Bug
+  fixes:</b></p><ul>
+      <li>Java<sup>TM</sup> Help output format: the <tt>jhelpmap.jhm</tt> file
+      generated by ditac contained only the IDs of the elements pointed to by
+      the TOC and the Index entries. This was insufficient to implement a
+      contextual online help. Now the <tt>jhelpmap.jhm contains</tt> the IDs
+      of all elements.</li>
+
+      <li>Java<sup>TM</sup> Help output format: all the links created by ditac
+      and having a fragment (example: <tt>&lt;a href="foo.html#bar"&gt;</tt>)
+      were broken. We have found that the Java Help system is not able to
+      scroll to an HTML element identified by its <tt>id</tt> attribute and
+      that, instead, it relied on named anchors (example:
+      <tt>&lt;a name="bar"&gt;</tt> somewhere in <tt>foo.html</tt>).</li>
+
+      <li>In a <tt>bookmap</tt>, a <tt>preface</tt> containing nested topics
+      caused ditac to raise a <tt>NullPointerException</tt>.</li>
+    </ul><p><b>Incompatible changes:</b></p><ul>
+      <li>During conref transclusion, ditac no longer checks the compatibility
+      of the domains of the referencing document with the domains of the
+      referenced document. This can be changed by defining system property
+      <tt>DITAC_CHECK_DOMAINS</tt> (that is, adding
+      <tt>-DDITAC_CHECK_DOMAINS=1</tt> to the <tt>bin/ditac</tt> shell script
+      or to <tt>bin/ditac.bat</tt>). However, the verifications performed by
+      ditac are almost certainly not conforming as we have not really
+      understood the spec.</li>
+    </ul><hr /><h2 id="v2.0.0_02">2.0.0_02 (March 10,
+  2011)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Added a <tt>-dryrun</tt> option to command <tt>ditac</tt>. This
+      command allows to use <tt>ditac</tt> as a validator. That is, when the
+      <tt>-dryrun</tt> option is specified, <tt>ditac</tt> will not generate
+      any file. It will just report errors (if any).</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>XSL-FO intermediate format: <tt>q</tt> elements were not surrounded
+      by quotes.</li>
+
+      <li>XHTML output format: image dimensions specifying a unit
+      (<tt>pc</tt>, <tt>pt</tt>, <tt>px</tt>, <tt>in</tt>, <tt>cm</tt>,
+      <tt>mm</tt>, <tt>em</tt>) in addition to a value were not correctly
+      converted to pixels. For example, <tt>width="10.5cm"</tt> was not
+      correctly processed by ditac.</li>
+    </ul><hr /><h2 id="v2.0.0_01">2.0.0_01 (January 11,
+  2011)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Updated the translation of the generated messages (<tt><b>Table of
+      Contents</b></tt>, <tt><b>Chapter</b></tt>, etc) to Czech and Russian
+      thanks to Vít Profant and to Nikolay Rastegaev.</li>
+    </ul><hr /><h2 id="v2.0.0">2.0 (December 29, 2010)</h2><p>XMLmind DITA
+  Converter (ditac) has now extensive support for the <a
+  href="http://docs.oasis-open.org/dita/v1.2/spec/DITA1.2-spec.html">DITA 1.2
+  standard</a>. Ditac 2.0 has less limitations and less specificities than
+  ditac 1.x. It is also more conforming to the DITA 1.2 standard than ditac
+  1.x was to the <a
+  href="http://docs.oasis-open.org/dita/v1.1/CS01/overview/overview.html">DITA
+  1.1 standard</a>. All in all, even if you do not intend to use any of the
+  DITA 1.2 features in your documents, upgrading to ditac 2.0 is strongly
+  recommended. And if you gave up the idea of using ditac 1.x because of its
+  limitations and specificities, then may be you should give ditac 2.0 a
+  try.</p><p>We plan to integrate XMLmind DITA Converter v2.0 in the following
+  products: <a
+  href="http://www.xmlmind.com/foconverter/xsl_utility.html">XMLmind XSL
+  Utility</a>, <a
+  href="http://www.xmlmind.com/foconverter/xsl_server.html">XMLmind XSL
+  Server</a>, and <a href="http://www.xmlmind.com/xmleditor/">XMLmind XML
+  Editor</a> Professional Edition within a couple of weeks.</p><p><b>Other
+  enhancements:</b></p><ul>
+      <li>Upgraded <a href="http://www.saxonica.com/">Saxon</a> to version
+      9.2.1.5.</li>
+    </ul><p><b>Removed limitations and specificities <small>(compared to ditac
+  1.x)</small>:</b></p><ul>
+      <li>Ditac no longer requires all topic IDs to be unique within a given
+      deliverable.</li>
+
+      <li>A <tt>reltable</tt> element may now be used to add related links,
+      not only to local topics, but also to non-DITA, external,
+      resources.</li>
+
+      <li>Navigation links are now automatically generated for
+      <tt>topicref</tt> elements having attribute
+      <tt>collection-type="sequence"</tt> or
+      <tt>collection-type="family"</tt>.</li>
+
+      <li><tt>Topicref</tt> attribute <tt>search="no"</tt> is now supported.
+      It means: ignore <tt>indexterm</tt> elements found in the <tt>topic</tt>
+      element referenced by the <tt>topicref</tt> element.</li>
+
+      <li>Chunking is now almost conforming to the spec. Almost because
+      "<tt>to-navigation</tt>" is still completely ignored.<p>For example, a
+      map author is no longer required to manually specify
+      <tt>chunk="to-content"</tt> on almost all <tt>topicref</tt>
+      elements.</p></li>
+    </ul><p><b>Incompatible changes other than regressions <small>(compared to
+  ditac 1.x)</small>:</b></p><ul>
+      <li>When the <tt>chunk</tt> attribute is missing or does not contain
+      "<tt>select-<i>XXX</i></tt>",<ul>
+          <li><tt>&lt;topicref href="foo.dita"/&gt;</tt> pulls all the topics,
+          including nested topics, found in <tt>foo.dita</tt>. That is, it has
+          an implicit <tt>chunk="select-document"</tt> attribute.</li>
+
+          <li><tt>&lt;topicref href="bar.dita#bar"/&gt;</tt> pulls topic
+          <tt>bar</tt>, but not nested topics. That is, it has an implicit
+          <tt>chunk="select-topic"</tt> attribute.</li>
+        </ul></li>
+
+      <li>XSLT stylesheet parameter "<tt>-p number all</tt>" will not number
+      <tt>example</tt> elements, only <tt>topic</tt>, <tt>table</tt> and
+      <tt>fig</tt> elements.</li>
+    </ul><p><b>Regressions <small>(compared to ditac 1.x)</small>:</b></p><ul>
+      <li>Because DITA processors are not required to perform conditional
+      processing using metadata elements, ditac no longer considers that
+      metadata elements (e.g. element <tt>audience</tt>) and conditional
+      processing attributes (e.g. attribute <tt>audience</tt>) are equivalent
+      when performing conditional processing.</li>
+
+      <li><tt>Topicref</tt> elements found in <tt>reltable</tt> elements may
+      not be used to pull topics into the deliverable. That's why a map only
+      containing <tt>reltable</tt> elements may not be used to create a
+      deliverable.</li>
+    </ul><hr /><h2 id="v1.2.2_01">1.2.2_01 (September 2, 2010)</h2><p><b>Bug
+  fixes:</b></p><ul>
+      <li>The <tt>id</tt> attribute of a descendant element of a topic element
+      was erroneously considered to be a <tt>NCName</tt>. In fact, it's an
+      <tt>NMTOKEN</tt>. This bug lead to false "<tt>don't know how to generate
+      link text for this element; please specify the link text manually</tt>"
+      warnings.</li>
+    </ul><hr /><h2 id="v1.2.2">1.2.2 (August 7,
+  2010)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Improved the rendering of complex tables. For example, removed the
+      following limitations:<ul compact="compact">
+          <li>In order to inherit <tt>align</tt>, <tt>rowsep</tt> and
+          <tt>colsep</tt> from a <tt>colspec</tt>, an <tt>entry</tt> must
+          refer to it explicitly using its <tt>colname</tt> or its
+          <tt>namest</tt> attribute.</li>
+
+          <li>Attributes <tt>colname</tt> or <tt>namest</tt> cannot be used to
+          skip columns.</li>
+
+          <li>Something like <tt>colwidth="2*+3pt"</tt> is ignored (i.e.
+          treated as if it were <tt>colwidth="1*"</tt>).</li>
+        </ul></li>
+
+      <li>Added parameter <tt>xhtml-mime-type</tt>. Its default value is
+      "<tt>text/html</tt>", which means serve XHTML as HTML. However Web
+      browsers such as Firefox or Opera will <em>not</em> render the MathML
+      embedded in XHTML, if this XHTML is served as HTML. Therefore when your
+      DITA document contains MathML equations, you'll have to generate
+      "<tt>.xhtml</tt>" files ("<tt>.html</tt>" files won't work) and also,
+      preferably, to specify <tt>xhtml-mime-type="application/xhtml+xml"</tt>
+      or xhtml-mime-type="".</li>
+    </ul><hr /><h2 id="v1.2.1_02">1.2.1_02 (July 18,
+  2010)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Made much more customizable the header and footer created by the
+      stylesheets that generate XSL-FO. Added properties:
+      <tt>header-left-width</tt>, <tt>header-center-width</tt>,
+      <tt>header-right-width</tt>, <tt>footer-left-width</tt>,
+      <tt>footer-center-width</tt>, <tt>footer-right-width</tt>, and
+      attribute-sets: <tt>header</tt>, <tt>footer</tt>, <tt>header-left</tt>,
+      <tt>header-center</tt>, <tt>header-right</tt>, <tt>footer-left</tt>,
+      <tt>footer-center</tt>, <tt>footer-right</tt>, for that. See
+      <tt>xsl/fo/pagination.xsl</tt>.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>MS-Word 2003 failed to properly render the WordprocessingML
+      generated for the <b>List of Tables</b>, the <b>List of Figures</b>,
+      etc.</li>
+    </ul><hr /><h2 id="v1.2.1_01">1.2.1_01 (May 31, 2010)</h2><p><b>Bug
+  fixes:</b></p><ul>
+      <li>Failed to transclude ``conref-ed'' images, that is, elements such as
+      <tt>&lt;image <b>href="???"</b> conref="foo/bar.png"/&gt;</tt>.</li>
+    </ul><hr /><h2 id="v1.2.1">1.2.1 (April 13,
+  2010)</h2><p><b>Enhancements:</b></p><ul>
+      <li>Conditional processing attributes specialized from <tt>props</tt>
+      <small>(e.g. attribute <tt>customer</tt> because the <tt>domains</tt>
+      attribute of a map includes something like
+      "<tt>a(props customer)</tt>")</small> and added to <tt>topicref</tt>
+      elements are now taken into account.</li>
+
+      <li>Conditional processing is now also applied to the information (title
+      of a map, metadata of a map) collected by ditac in order to generate the
+      title page of a document.</li>
+
+      <li>The generated messages (<tt><b>Table of Contents</b></tt>,
+      <tt><b>Chapter</b></tt>, etc) have been translated to Czech by Vít
+      Profant.</li>
+
+      <li>Upgraded <a href="http://www.saxonica.com/">Saxon</a> to version
+      9.2.0.6.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>When option <tt>-p title-page <i>custom_title_page</i></tt> was
+      specified and the map to be converted didn't have a <tt>title</tt>
+      attribute or child element, the generated document had no title
+      page.</li>
+
+      <li>XMLmind DITA Converter (ditac) always returned a 0 (success) exit
+      code even when XMLmind XSL-FO Converter (XFC) failed with a non-zero
+      exit code. Note that in order to fix this bug, you need to use ditac
+      with XFC v4.4+.</li>
+    </ul><hr /><h2 id="v1.2.0">1.2 (March 6,
+  2010)</h2><p><b>Enhancements:</b></p><ul>
+      <li>XMLmind DITA Converter now allows to convert DITA documents to <a
+      href="http://www.idpf.org/">EPUB</a> (standard e-book format).<p>The
+      generated EPUB files have been tested against <a
+      href="http://code.google.com/p/epubcheck/">epubcheck</a>, <a
+      href="http://www.adobe.com/products/digitaleditions/">Adobe Digital
+      Edition</a>, <a href="http://bookworm.oreilly.com/">Bookworm</a> and <a
+      href="http://calibre-ebook.com/">Calibre</a>.</p></li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>XSL-FO intermediate format: a footnote inherited its font style and
+      its font weight from its container.</li>
+
+      <li>XSL-FO intermediate format: converting a map which ends with a
+      <tt>reltable</tt> pulling topics <small>(that is, these topics are not
+      referenced directly or indirectly anywhere in the <tt>topicref</tt>
+      hierarchy)</small> and instructing <tt>ditac</tt> to generate an index
+      at the end of the document caused the conversion to fail with error
+      message: "<tt>fatal error reported by the XSLT engine: A sequence of
+      more than one item is not allowed as the first operand of
+      'eq'</tt>".</li>
+
+      <li>A <tt>notices</tt> element having no <tt>href</tt> attribute caused
+      the conversion to fail with error message: "<tt>An empty sequence is not
+      allowed as the result of function u:nextSequenceName()</tt>".</li>
+
+      <li>Made all the IDs automatically generated by ditac as short as
+      possible. The reason of this change is that some output formats (e.g.
+      <tt>.docx</tt>) do not support cross-references having long IDs.<p>The
+      following <tt>sed</tt> script may be used to convert old automatically
+      generated IDs to new automatically generated IDs:</p><pre>s/__XSL_RESOURCE_\([0-9]*\)__/__RES\1/g
+s/__TOC__/__TOC/g
+s/__TOC_ENTRY_\([0-9]*\)__/__TOCE\1/g
+s/__TITLE__/__TT/g
+s/__TITLE_PAGE__/__TP/g
+s/__TABLE_LIST__/__LOT/g
+s/__MAP__\.ditamap/__MAP.ditamap/g
+s/__INDEX_LIST__/__IDX/g
+s/__IMAGE_\([0-9]*\)__/__IMG\1/g
+s/__IDENTIFIER__/__ID/g
+s/__ID\([0-9A-Za-z]*\)__/I_\1_/g
+s/__FIGURE_LIST__/__LOF/g
+s/__EXAMPLE_LIST__/__LOE/g
+s/__END_OF_TOPIC__/__EOT/g
+s/__END_OF_FRONTMATTER__/__EOFM/g
+s/__END_OF_BODYMATTER__/__EOBO/g
+s/__END_OF_BACKMATTER__/__EOBM/g
+<b>s/__-__/__/g</b></pre></li>
+    </ul><p><b>Incompatibilities:</b></p><ul>
+      <li>Though not mandated by the DITA standard, XMLmind DITA Converter now
+      checks that all the topics which compose the document to be converted
+      have distinct IDs. If this is not the case, a <em>fatal error</em> is
+      reported.</li>
+
+      <li>The qualified ID of a descendant element of a topic is now
+      transformed as follows: <i>topicID</i><b>/</b><i>descendantID</i>
+      becomes <i>topicID</i><b>__</b><i>descendantID</i> in the generated
+      content.<small> (The separator string being used comprises <em>two</em>
+      underscore characters.)</small> Previously, it was
+      <i>topicID</i><b>__-__</b><i>descendantID</i>, which was longer and less
+      readable.</li>
+    </ul><hr /><h2 id="v1.1.0_02">1.1.0_02 (December 4,
+  2009)</h2><p><b>Enhancements:</b></p><ul>
+      <li>XMLmind DITA Converter now detects the following suspicious case and
+      reports a warning: a topic is referenced in the map but does not appear
+      in the output document. This is generally caused by a missing or
+      erroneous <tt>chunk</tt> specification.</li>
+    </ul><hr /><h2 id="v1.1.0_01">1.1.0_01 (November 10, 2009)</h2><p>This is
+  just a patch release. Its distribution differs from the 1.1 distribution
+  only by the <tt>ditac.jar</tt> it contains.</p><p><b>Bug fixes:</b></p><ul>
+      <li>Using a <tt>topicref</tt> to include a map <em>containing only
+      <tt>reltable</tt>s</em> into another map (see example below) didn't
+      work.<pre>&lt;topicref href="TS_EX_reltable.ditamap" format="ditamap"/&gt;</pre></li>
+    </ul><hr /><h2 id="v1.1.0">1.1.0 (November 9,
+  2009)</h2><p><b>Enhancements:</b></p><ul>
+      <li>XMLmind DITA Converter now allows to convert DITA documents to <a
+      href="http://www.eclipse.org/">Eclipse</a> Help.</li>
+
+      <li>Replaced parameters <tt>page-header</tt> and <tt>page-footer</tt> by
+      the following parameters: <tt>header-left</tt>, <tt>header-center</tt>,
+      <tt>header-right</tt>, <tt>header-separator</tt>,
+      <tt>header-left-image</tt>, <tt>header-center-image</tt>,
+      <tt>header-right-image</tt>, <tt>footer-left</tt>,
+      <tt>footer-center</tt>, <tt>footer-right</tt>,
+      <tt>footer-separator</tt>, <tt>footer-left-image</tt>,
+      <tt>footer-center-image</tt>, <tt>footer-right-image</tt>. The new
+      parameters allow to better control the contents of page headers and
+      footers. For example, such parameters may now be used to display a logo
+      in a page header or footer:<pre>-p header-left-image in/icon_small.svg 
+-p footer-center "Page %page-number% of %page-count%"</pre><p>Notice the mix
+      of text and variables in <tt>footer-center</tt>.</p></li>
+
+      <li>Added a <tt>title-page</tt> parameter to all the XSLT stylesheets.
+      The possible values of this parameter are:<dl>
+          <dt>auto</dt>
+
+          <dd>Default value. Automatically generate a ``title page'' based on
+          the title and metadata of the map.</dd>
+
+          <dt>none</dt>
+
+          <dd>Do not generate a title page.</dd>
+
+          <dt>URI_of_custom_title_page</dt>
+
+          <dd>Specifies the URI of a custom title page. This custom title page
+          is an XHTML file for XHTML-based formats (XHTML, HTML Help, etc).
+          This custom title page is an XSL-FO file for FO-based formats (PDF,
+          RTF, etc). Such custom title pages are generally hand-written.</dd>
+        </dl></li>
+
+      <li>The automatically generated title page now includes the last
+      <tt>created</tt> or <tt>revised</tt> child element of the
+      <tt>critdates</tt> element found in the metadata of a map. The value of
+      the <tt>golive</tt> attribute (publication date) has priority over the
+      value of <tt>created/@date</tt> and <tt>revised/@modified</tt>
+      (modification date).<p>If the value of a date is formatted as
+      <i>YYYY-MM-DD</i>, then the generated title page contains a localized
+      form corresponding to the language of the map. Otherwise, the value of
+      the date (e.g. "<tt>October 12, 2007</tt>") is copied as is to the
+      generated title page.</p></li>
+
+      <li>The <tt>searchtitle</tt> of a topic, if any, is now used to specify
+      the title of the generated HTML page. The <tt>searchtitle</tt> element
+      may be specified in <tt>topic</tt>/<tt>titlealts</tt> or in
+      <tt>topicref</tt>/<tt>topicmeta</tt>.</li>
+
+      <li>Added the <tt>-options</tt> (short name <tt>-o</tt>) option. This
+      option allows to specify a text file containing command-line arguments.
+      Example:<pre>$ ditac -v <b>-o html.options</b> foo.htm foo.ditamap</pre><p>If
+      <tt>html.options</tt> contains:</p><pre>-format html
+-p css http://www.acme.com/css/acme.css</pre><p>then this is equivalent to
+      running:</p><pre>$ ditac -v -format html -p css http://www.acme.com/css/acme.css \
+    foo.htm foo.ditamap</pre></li>
+
+      <li>The <tt>-toc</tt> option will <em>not</em> add a <tt>toc</tt>
+      element to a map when this map contains a single <tt>topicref</tt>
+      having no nested <tt>topicref</tt> descendants.</li>
+
+      <li>Slightly changed the default chunking policy of ditac. When a map
+      does not specify <tt>chunk="to-content"</tt> at all and when this map is
+      to be converted to a screen media (XHTML, HTML Help, etc), ditac adds
+      <tt>chunk="to-content"</tt> to all <tt>topicref</tt>s which are direct
+      children of the map. However, if a map contains a single
+      <tt>topicref</tt>, ditac will also add <tt>chunk="to-content"</tt> to
+      all <tt>topicref</tt>s which are direct children of this root
+      <tt>topicref</tt>.</li>
+
+      <li>Added a minimal workaround for the following RenderX XEP limitation:
+      <tt>space-after.conditionality="discard"</tt> is not implemented,
+      fallback value is <tt>"retain"</tt>. As a consequence of this
+      limitation, there was much too space between list items.</li>
+
+      <li>The generated messages (<tt><b>Table of Contents</b></tt>,
+      <tt><b>Chapter</b></tt>, etc) have been translated to Russian by Nikolay
+      Rastegaev.</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>No content was generated for the <tt>itemgroup</tt> element.</li>
+    </ul><p><b>Incompatibilities</b></p><ul>
+      <li>Replaced parameters <tt>page-header</tt> and <tt>page-footer</tt> by
+      parameters: <tt>header-left</tt>, <tt>header-center</tt>,
+      <tt>header-right</tt>, <tt>header-separator</tt>,
+      <tt>header-left-image</tt>, <tt>header-center-image</tt>,
+      <tt>header-right-image</tt>, <tt>footer-left</tt>,
+      <tt>footer-center</tt>, <tt>footer-right</tt>,
+      <tt>footer-separator</tt>, <tt>footer-left-image</tt>,
+      <tt>footer-center-image</tt>, <tt>footer-right-image</tt>.</li>
+
+      <li>Java Help/HTML Help parameter <tt>show-title-page</tt> has been
+      replaced by a combination of new common parameter <tt>title-page</tt>
+      and of new Java Help/HTML Help parameter <tt>add-toc-root</tt>:<table
+          frame="box" rules="all">
+          <thead align="center">
+            <tr>
+              <th><tt>show-title-page</tt></th>
+
+              <th>Equivalent <tt>title-page</tt> and
+              <tt>add-toc-root</tt></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><tt>show-title-page</tt>=<tt>yes</tt></td>
+
+              <td><tt>title-page</tt>=<tt>auto</tt> and
+              <tt>add-toc-root</tt>=<tt>no</tt></td>
+            </tr>
+
+            <tr>
+              <td><tt>show-title-page</tt>=<tt>no</tt></td>
+
+              <td><tt>title-page</tt>=<tt>no</tt> and
+              <tt>add-toc-root</tt>=<tt>no</tt></td>
+            </tr>
+
+            <tr>
+              <td><tt>show-title-page</tt>=<tt>toc-root</tt></td>
+
+              <td><tt>title-page</tt>=<tt>auto</tt> and
+              <tt>add-toc-root</tt>=<tt>yes</tt></td>
+            </tr>
+          </tbody>
+        </table></li>
+
+      <li>The value of Java Help/HTML Help parameter
+      <tt>number-toc-entries</tt> is now <tt>no</tt> by default. This is
+      consistent with the default value of common parameter <tt>number</tt>
+      which is an empty string. That is, by default, nothing is numbered.</li>
+    </ul><hr /><h2 id="v1.0.0_01">1.0.0_01 (October 22, 2009)</h2><p>This is
+  just a patch release. Its distribution differs from the 1.0 distribution
+  only by the <tt>ditac.jar</tt> it
+  contains.</p><p><b>Enhancements:</b></p><ul>
+      <li>Any attribute (that is, not only <tt>audience</tt>,
+      <tt>platform</tt>, <tt>product</tt>, <tt>rev</tt>, <tt>otherprops</tt>
+      and <tt>props</tt>) can be used to filter or flag an element.
+      Previously, it was not possible to use attributes belonging to a
+      namespace (e.g. <tt>xml:lang</tt>).</li>
+    </ul><p><b>Bug fixes:</b></p><ul>
+      <li>When a <tt>.ditaval</tt> file contained the following
+      specification<pre>&lt;prop att="audience" action="exclude" /&gt; 
+&lt;prop att="audience" val="external" action="include" /&gt; </pre><p>elements
+      having a <tt>audience="external"</tt> attribute were excluded too. This
+      was caused by the fact that <tt>action="include"</tt> and
+      <tt>action="passthrough"</tt> were parsed but after that, such actions
+      were completely ignored.</p></li>
+    </ul><hr /><h2 id="v1.0.0">1.0 (September 23, 2009)</h2><p>Initial
+  release.</p></body>
+</html>

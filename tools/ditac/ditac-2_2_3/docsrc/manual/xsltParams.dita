@@ -1,0 +1,2197 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+"http://docs.oasis-open.org/dita/dtd/reference.dtd">
+<reference id="xsltParams">
+  <title>XSLT stylesheets parameters</title>
+
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Parameters<index-see>XSLT stylesheets
+        parameters</index-see></indexterm>
+
+        <indexterm>XSLT stylesheets parameters</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+
+  <refbody>
+    <section><title>Parameters common to all stylesheets</title><note
+    type="note"><ul>
+        <li id="systemParam">Parameters marked using this icon <image
+        alt="System parameter" href="images/systemParam.png"/> are
+        <term>system parameters</term>. They are automatically specified by
+        the application executing the XSLT stylesheets. Such system parameters
+        must not be specified by the end-user. Such system parameters are
+        documented here only because the end-user may see them referenced in
+        some configuration files.</li>
+
+        <li id="pseudoParam">Parameters marked using this icon <image
+        alt="Pseudo parameter" href="images/pseudoParam.png"/> are
+        <term>pseudo-parameters</term>. They may or may not be passed to the
+        XSLT stylesheets, but the important thing to remember is that they are
+        also interpreted by ditac itself. By consequence, you cannot specify
+        them in an XSLT stylesheet which customizes the stock ones (as
+        explained in <xref href="customAttributeSet.dita"/>).</li>
+      </ul></note><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="appendix-number-format"><tt>appendix-number-format</tt><indexterm>appendix-number-format,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'I'</tt>, <tt>'i'</tt>,
+          <tt>'A'</tt>, <tt>'a'</tt>, <tt>'1'</tt>.</p><p>Default value:
+          <tt>'A'</tt>.</p></stentry>
+
+          <stentry><p>The number format of topics referenced in a bookmap as
+          <tt>appendix</tt>. By default, such topics are numbered as follows:
+          <b>Appendix A.</b> <i>Title of first appendix</i>, <b>Appendix
+          B.</b> <i>Title of second appendix</i>, etc.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="body-font-family"><tt>body-font-family</tt><indexterm>body-font-family,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing one or more font families separated
+          by commas.</p><p>Default value: <tt>'serif'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the family of the font used for the text of
+          all elements except topic titles.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="center"><tt>center</tt><indexterm>center,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of element names separated by
+          whitespace.</p><p>Example: <tt>'fig simpletable
+          table'</tt>.</p><p>Default value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Specifies which elements are to be centered horizontally
+          on the page.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="choice-bullets"><tt>choice-bullets</tt><indexterm>choice-bullets,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing one or more single characters
+          separated by whitespace.</p><p>Default value: <tt>'&amp;#x2022;'
+          (BULLET)</tt>.</p></stentry>
+
+          <stentry><p>Specify which bullet character to use for a
+          <tt>choice</tt> element. Additional characters are used for nested
+          <tt>choice</tt> elements.</p><p>Changing the value of this parameter
+          may imply changing the <tt>font-family</tt> attribute of the
+          attribute-set <tt>choice-label</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="ditacListsURI"><image
+          href="images/systemParam.png"/><tt>ditacListsURI</tt><indexterm>ditacListsURI,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL<fn>Unlike a filename, an URL must contain properly
+          quoted characters. For example, do not specify
+          <tt>'Hello world.htm'</tt>, instead specify
+          <tt>'Hello%20world.htm'</tt>.</fn>.</p><p>Default value:
+          <tt><i>output_dir</i>/ditac_lists.ditac_lists</tt>.</p></stentry>
+
+          <stentry><p>The URL of file
+          <filepath>ditac_lists.ditac_lists</filepath>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="extended-toc"><tt>extended-toc</tt><indexterm>extended-toc,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'frontmatter'</tt>,
+          <tt>'backmatter'</tt>, <tt>'both'</tt>,
+          <tt>'none'</tt>.</p><p>Default value: <tt>'none'</tt>.</p></stentry>
+
+          <stentry><p>Allows to add <tt>frontmatter</tt> and
+          <tt>backmatter</tt> <tt>topicref</tt>s to the <b>Table of
+          Contents</b> (TOC) of a document.</p><p>Note that the <tt>toc</tt>,
+          <tt>navtitle</tt>, <tt>locktitle</tt>, etc, attributes are applied
+          normally to <tt>frontmatter</tt> and <tt>backmatter</tt>
+          <tt>topicref</tt>s when an extended TOC is generated.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="index-range-separator"><tt>index-range-separator</tt><indexterm>index-range-separator,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'&amp;#x2013;'</tt> (EN
+          DASH).</p></stentry>
+
+          <stentry><p>The string used to separate the first page number from
+          the last page number in a page range of an indexed term. Example:
+          <tt>index-range-separator='&lt;--&gt;'</tt>:</p><pre><b>C</b>
+Cat 54, 87&lt;--&gt;90</pre></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="link-auto-text"><tt>link-auto-text</tt><indexterm>link-auto-text,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of values separated by whitespace. Allowed values
+          are: <tt>'number'</tt> and <tt>'text'</tt>.</p><p>Default value:
+          <tt>'number text'</tt>.</p></stentry>
+
+          <stentry><p>This parameter specifies which text to generate for a
+          <tt>link</tt> element, when this <tt>link</tt> element has no
+          <tt>linktext</tt> child element or when this <tt>linktext</tt> child
+          element is empty.</p><p>Similar to above parameter <xref
+          href="#xsltParams/xref-auto-text">xref-auto-text</xref> but for
+          <tt>link</tt> elements.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="link-bullet"><tt>link-bullet</tt><indexterm>link-bullet,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing a single character.</p><p>Default
+          value: <tt>'&amp;#x2022;' (BULLET)</tt>.</p></stentry>
+
+          <stentry><p>Specify which character is inserted before the text of a
+          <tt>link</tt> element.</p><p>Changing the value of this parameter
+          may imply changing the <tt>font-family</tt> attribute of the
+          attribute-set <tt>link-bullet</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="menucascade-separator"><tt>menucascade-separator</tt><indexterm>menucascade-separator,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing a single character.</p><p>Default
+          value: <tt>'&amp;#x2192;'</tt> (RIGHTWARDS ARROW).</p></stentry>
+
+          <stentry><p>Specify which character is used to separate the child
+          elements of a <tt>menucascade</tt> element.</p><p>Changing the value
+          of this parameter may imply changing the <tt>font-family</tt>
+          attribute of the attribute-set
+          <tt>menucascade-separator</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="note-icon-height"><tt>note-icon-height</tt><indexterm>note-icon-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>.</p><p>Default value: <tt>'32'</tt>. <tt>'7mm'</tt> for
+          the XSLT stylesheets that generate XSL-FO.</p></stentry>
+
+          <stentry><p>The height of a note icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="note-icon-list"><tt>note-icon-list</tt><indexterm>note-icon-list,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of <tt>type</tt> attribute values separated by
+          whitespace.</p><p>Default value: <tt>'attention caution danger
+          fastpath important note notes remember restriction
+          tip'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the type (attribute <tt>type</tt>) of the
+          <tt>note</tt> elements for which icons should be used rather than
+          text in order to represent note labels.</p><p>Ignored unless
+          <tt>use-note-icon='yes'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="note-icon-suffix"><tt>note-icon-suffix</tt><indexterm>note-icon-suffix,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Default value: <tt>'.png'</tt>.</p></stentry>
+
+          <stentry><p>The suffix of a note icon.</p><p>The root name of a note
+          icon should be identical to the value of the <tt>type</tt> attribute
+          it represents. For example, if <tt>note-icon-suffix='.svg'</tt>, the
+          default resources directory is expected to contain
+          <filepath>note.svg</filepath>, <filepath>important.svg</filepath>,
+          <filepath>caution.svg</filepath>, etc.</p><p>In principle, there is
+          no need for an end-user to specify any of the
+          <tt>note-icon-suffix</tt>, <tt>note-icon-width</tt> or
+          <tt>note-icon-height</tt> parameters.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="note-icon-width"><tt>note-icon-width</tt><indexterm>note-icon-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>. </p><p>Default value: <tt>'32'</tt>. <tt>'7mm'</tt> for
+          the XSLT stylesheets that generate XSL-FO.</p></stentry>
+
+          <stentry><p>The width of a note icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="number"><tt>number</tt><indexterm>number,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of values separated by whitespace. Allowed values
+          are: <tt>'topic'</tt>, <tt>'chapter-only'</tt>, <tt>'table'</tt>,
+          <tt>'fig'</tt>, <tt>'example'</tt>, <tt>'all'</tt>.</p><p>Default
+          value: <tt>''</tt> (number nothing).</p></stentry>
+
+          <stentry><p>Specifies which elements are to be numbered.
+          </p><p><tt>'all'</tt> is a short form for <tt>'topic table
+          fig'</tt>.</p><p><tt>'chapter-only'</tt> means: number topics, but
+          only those referenced in a bookmap as <tt>part</tt>,
+          <tt>chapter</tt> and <tt>appendix</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="number-separator1"><tt>number-separator1</tt><indexterm>number-separator1,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'.'</tt>.</p></stentry>
+
+          <stentry><p>The string used to separate the hierarchical number of
+          topics acting as sections.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="number-separator2"><tt>number-separator2</tt><indexterm>number-separator2,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'-'</tt>.</p></stentry>
+
+          <stentry><p>The string used to separate the hierarchical number of
+          figures, tables and examples.</p><p>When possible, the number of
+          figure, table or example is made relative to the number of the
+          ancestor chapter or appendix. This gives for example (for
+          descendants of chapter 5): <b>Figure 5-1.</b> <i>Title of first
+          figure of chapter 5</i>, <b>Figure 5-2.</b> <i>Title of second
+          figure of chapter 5</i>, etc.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="part-number-format"><tt>part-number-format</tt><indexterm>part-number-format,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'I'</tt>, <tt>'i'</tt>,
+          <tt>'A'</tt>, <tt>'a'</tt>, <tt>'1'</tt>.</p><p>Default value:
+          <tt>'I'</tt>.</p></stentry>
+
+          <stentry><p>The number format of topics referenced in a bookmap as
+          <tt>part</tt>. By default, such topics are numbered as follows:
+          <b>Part I.</b> <i>Title of first part</i>, <b>Part II.</b> <i>Title
+          of second part</i>, etc.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="prepend-chapter-to-section-number"><tt>prepend-chapter-to-section-number</tt><indexterm>prepend-chapter-to-section-number,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Normally topics which are descendants of chapters (that
+          is, topics referenced in a bookmap as <tt>chapter</tt>) are numbered
+          as follows: <b>1.</b> <i>Title of first section</i>, <b>1.1.</b>
+          <i>Title of first subsection</i>, etc.</p><p>Specifying
+          <tt>prepend-chapter-to-section-number='yes'</tt> prepends the number
+          of the chapter ancestor to the section number. This gives for
+          example (for descendants of chapter 5): <b>5.1.</b> <i>Title of
+          first section</i>, <b>5.1.1.</b> <i>Title of first subsection</i>,
+          etc.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="show-draft-comments"><tt>show-draft-comments</tt><indexterm>show-draft-comments,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether <tt>draft-comments</tt> elements
+          should be rendered.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="text-file-encoding"><tt>text-file-encoding</tt><indexterm>text-file-encoding,
+          parameter</indexterm></stentry>
+
+          <stentry><p>An encoding name such as UTF-8 or
+          ISO-8859-1.</p><p>Default value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Encoding of the text file referenced by
+          <tt>coderef</tt>/<tt>@href</tt>. An empty string means: to be
+          determined automatically.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="title-after"><tt>title-after</tt><indexterm>title-after,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of element names separated by
+          whitespace.</p><p>Example: <tt>'fig table'</tt>.</p><p>Default
+          value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Specifies which elements should have their titles
+          displayed after their bodies.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="title-color"><tt>title-color</tt><indexterm>title-color,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string representing a color.</p><p>Default value:
+          <tt>'black'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the color used for the text of topic (of any
+          kind) titles.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="title-font-family"><tt>title-font-family</tt><indexterm>title-font-family,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing one or more font families separated
+          by commas.</p><p>Default value: <tt>'sans-serif'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the family of the font used for the text of
+          topic (of any kind) titles.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="title-page"><tt>title-page</tt><indexterm>title-page,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'auto'</tt>, <tt>'none'</tt> or
+          the URI of a custom title page.</p><p>Default value:
+          <tt>'auto'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the kind of ``title page'' (contains the title
+          of the document, its author, etc) to be generated before the actual
+          contents of the document.</p><dl>
+              <dlentry>
+                <dt><tt>'auto'</tt></dt>
+
+                <dd>Automatically generate a title page based on the title and
+                metadata of the map.</dd>
+              </dlentry>
+
+              <dlentry>
+                <dt><tt>'none'</tt></dt>
+
+                <dd>Do not generate a title page.</dd>
+              </dlentry>
+
+              <dlentry>
+                <dt><i>URI of a custom title page</i></dt>
+
+                <dd>Specifies the URI of a custom title page. If the URI is
+                relative, it is relative to the current working directory of
+                the user.<p>This custom title page is an XHTML file for
+                XHTML-based formats (XHTML, HTML Help, etc). This custom title
+                page is an XSL-FO file for FO-based formats (PDF, RTF, etc).
+                Such custom title pages are generally hand-written.</p><ul>
+                    <li>The child nodes of the <tt>body</tt> element of the
+                    custom XHTML title page are wrapped in a <tt>div</tt>
+                    contained in the XHTML/HTML file being generated by the
+                    XSLT stylesheet.<p>Do not add a <tt>&lt;!DOCTYPE&gt;</tt>
+                    to such custom XHTML title page because otherwise, the
+                    XSLT stylesheet may fail loading it.</p><p>See <xref
+                    format="xhtml" href="samples/titlepage.xhtml"
+                    scope="external">sample custom XHTML title
+                    page</xref>.</p></li>
+
+                    <li>The child nodes of the first
+                    <tt>fo:flow[@flow-name='xsl-region-body']</tt> element of
+                    the custom XSL-FO title page are wrapped in a
+                    <tt>fo:block</tt> contained the XSL-FO file being
+                    generated by the XSLT stylesheet.<p>See <xref format="fo"
+                    href="samples/titlepage.fo" scope="external">sample custom
+                    XSL-FO title page</xref>.</p></li>
+                  </ul></dd>
+              </dlentry>
+            </dl></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="title-prefix-separator1"><tt>title-prefix-separator1</tt><indexterm>title-prefix-separator1,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'.
+          '</tt>.</p></stentry>
+
+          <stentry><p>The string used to separate the number of an formal
+          object from its title.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="ul-li-bullets"><tt>ul-li-bullets</tt><indexterm>ul-li-bullets,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing one or more single characters
+          separated by whitespace.</p><p>Default value: <tt>'&amp;#x2022;
+          &amp;#x2013;'</tt> (BULLET, EN DASH).</p></stentry>
+
+          <stentry><p>Specify which bullet character to use for an
+          <tt>ul</tt>/<tt>li</tt> element. Additional characters are used for
+          nested <tt>li</tt> elements.</p><p>For example, if
+          <tt>ul-li-bullets="* - +", "<tt>*</tt>"</tt> will be used for
+          <tt>ul</tt>/<tt>li</tt> elements, "<tt>-</tt>" will be used for
+          <tt>ul</tt>/<tt>li</tt> elements contained in a
+          <tt>ul</tt>/<tt>li</tt> element and "<tt>+</tt>" will be used for
+          <tt>ul</tt>/<tt>li</tt> elements nested in two
+          <tt>ul</tt>/<tt>li</tt> elements.</p><p>Changing the value of this
+          parameter may imply changing the <tt>font-family</tt> attribute of
+          the attribute-set <tt>ul-li-label</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="unordered-step-bullets"><tt>unordered-step-bullets</tt><indexterm>unordered-step-bullets,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A string containing one or more single characters
+          separated by whitespace.</p><p>Default value: <tt>'&amp;#x2022;'
+          (BULLET, EN DASH)</tt>.</p></stentry>
+
+          <stentry><p>Specify which bullet character to use for a
+          <tt>steps-unordered</tt>/<tt>step</tt> element. Additional
+          characters are used for nested
+          <tt>steps-unordered</tt>/<tt>step</tt> elements.</p><p>Changing the
+          value of this parameter may imply changing the <tt>font-family</tt>
+          attribute of the attribute-set
+          <tt>unordered-step-label</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="use-note-icon"><tt>use-note-icon</tt><indexterm>use-note-icon,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether icons should be used rather than text
+          in order to represent the label of a <tt>note</tt>
+          element.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="xref-auto-text"><tt>xref-auto-text</tt><indexterm>xref-auto-text,
+          parameter</indexterm></stentry>
+
+          <stentry><p>List of values separated by whitespace. Allowed values
+          are: <tt>'number'</tt> and <tt>'text'</tt>.</p><p>Default value:
+          <tt>'number'</tt>.</p></stentry>
+
+          <stentry><p>This parameter specifies which text to generate for an
+          <tt>xref</tt> element, when this <tt>xref</tt> element contains no
+          text at all<fn>This implies that the <tt>xref-auto-text</tt>
+          parameter is ignored when an <tt>xref</tt> element contains some
+          text.</fn>.</p><p>Let's suppose that an <tt>xref</tt> element
+          containing no text at all points to a topic titled
+          "<tt>Installation</tt>".</p><p>Because the <tt>xref</tt> element
+          points to an element having a <tt>title</tt> child element, ditac
+          may use this title as a starting point for the generated
+          text.</p><p>Now let's suppose that topics are numbered and that the
+          number of the "<tt>Installation</tt>" topic is "<tt>Chapter
+          5</tt>".</p><p>The text generated for this <tt>xref</tt> element is
+          thus:</p><dl>
+              <dlentry>
+                <dt>If <tt>xref-auto-text='number'</tt></dt>
+
+                <dd><tt>Chapter 5</tt></dd>
+              </dlentry>
+
+              <dlentry>
+                <dt>If <tt>xref-auto-text='text'</tt></dt>
+
+                <dd><tt>Installation</tt></dd>
+              </dlentry>
+
+              <dlentry>
+                <dt>If <tt>xref-auto-text='number text'</tt></dt>
+
+                <dd><tt>Chapter 5. Installation</tt></dd>
+              </dlentry>
+            </dl><p>Note that this specification is just a hint because ditac
+          needs anyway to generate some text. For example, if topics are not
+          numbered and <tt>xref-auto-text='number'</tt>, the generated text
+          will be "<tt>Installation</tt>".</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="xsl-resources-directory"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>xsl-resources-directory</tt><indexterm>xsl-resources-directory,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL. A relative URL is relative to the output
+          directory.</p><p>Default value: <tt>'resources/'</tt> resolved
+          against the directory which contains the XSLT
+          stylesheets.</p></stentry>
+
+          <stentry><p>Most XSLT stylesheets generate files which reference
+          resources such as icons or CSS stylesheets. This parameter specifies
+          the target directory which is to contain such resources.</p><p>If
+          this directory does not exist, it is automatically created.</p><p>If
+          this directory does not already contain the resources needed by the
+          XSLT stylesheets, such resources are automatically copied to this
+          directory.</p><p>The default value of this parameter is something
+          like <filepath>file:/opt/ditac/xsl/xhtml/resources/</filepath> for
+          the stylesheets generating XHTML. URL
+          <filepath>file:/opt/ditac/xsl/xhtml/resources/</filepath> specifies
+          an existing directory containing <filepath>basic.css</filepath>,
+          <filepath>note.png</filepath>, <filepath>important.png</filepath>,
+          etc. This means that by default, no directory is created and no
+          resource is copied.</p><p>If the value of this parameter is an
+          absolute URI, then ditac assumes that no resource directory is to be
+          created and no resource is to be copied because this has already
+          been done by the user.</p><note type="important"><ul>
+              <li>Explicitly specifying something like
+              <tt>xsl-resources-directory='res'</tt> is almost <i>always
+              required</i> when generating files having an XHTML/HTML based
+              format (XHTML, HTML Help, etc).</li>
+
+              <li>Explicitly specifying something like
+              <tt>xsl-resources-directory='res'</tt> is almost <i>never
+              required</i> when generating files converted from XSL-FO (PDF,
+              RTF, etc).</li>
+            </ul></note></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters common to the stylesheets that basically
+    generate XHTML or HTML</title><p>This applies to the stylesheets that
+    generate XHTML 1.0, XHTML 1.1, HTML, Web Help, <tm tmtype="tm">Java</tm>
+    Help, HTML Help, Eclipse Help, EPUB.</p><simpletable
+        relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="chain-pages"><tt>chain-pages</tt><indexterm>chain-pages,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'none'</tt>, <tt>'top'</tt>,
+          <tt>'bottom'</tt> or <tt>'both'</tt>.</p><p>Default value:
+          <tt>'none'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether a header and/or a footer containing
+          navigation icons should be generated in order to link together all
+          the HTML pages.</p><note>There is no need to specify a value other
+          than <tt>'none'</tt> when generating Web Help, HTML Help, Eclipse
+          Help, EPUB and <tm tmtype="tm">Java</tm> Help.</note></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="chain-topics"><tt>chain-topics</tt><indexterm>chain-topics,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether navigation icons should be generated
+          in order to link together all the topics.</p><note>There is no need
+          to specify a value other than <tt>'no'</tt> when generating Web
+          Help, HTML Help, Eclipse Help, EPUB and <tm tmtype="tm">Java</tm>
+          Help.</note></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="css"><tt>css</tt><indexterm>css,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL.</p><p>Default value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Specifies which CSS stylesheet to use. Has priority over
+          the CSS stylesheet specified by the <xref
+          href="#xsltParams/css-name">css-name parameter</xref>.</p><p>An
+          end-user wishing to use a custom CSS must typically:</p><ol
+              compact="yes">
+              <li>Import the <filepath>basic.css</filepath> stock stylesheet
+              in its own <filepath>custom.css</filepath> as follows:<pre>@import url(basic.css);</pre></li>
+
+              <li>Invoke <cmdname>ditac</cmdname> with the following
+              parameters: <tt>xsl-resources-directory='res'</tt>,
+              <tt>css='res/custom.css'</tt>.</li>
+
+              <li>Copy by hand <filepath>custom.css</filepath> to
+              <tt><i>output_dir</i>/res/</tt> after <cmdname>ditac</cmdname>
+              has finished its job.</li>
+            </ol><note type="restriction"><p>Not supported by the stylesheets
+          that generate EPUB. </p></note></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="css-name"><tt>css-name</tt><indexterm>css-name,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename relative to the directory specified by
+          <xref href="#xsltParams/xsl-resources-directory">parameter
+          xsl-resources-directory</xref>.</p><p>Default value:
+          <tt>'basic.css'</tt>; <tt>'javahelp.css'</tt> when the output format
+          is <tm tmtype="tm">Java</tm> Help.</p></stentry>
+
+          <stentry><p>Specifies which CSS stylesheet to use. This CSS
+          stylesheet is expected to be found in the resources
+          directory.</p><note type="restriction"><p>Not supported by the
+          stylesheets that generate EPUB. </p></note></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="default-table-width"><tt>default-table-width</tt><indexterm>default-table-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A percentage, typically something like <tt>'100%'</tt>
+          or <tt>'90%'</tt>.</p><p>Default value: <tt>''</tt> (as narrow as
+          possible).</p></stentry>
+
+          <stentry><p>The default width of <tt>table</tt> and
+          <tt>simpletable</tt> elements.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="external-link-icon-height"><tt>external-link-icon-height</tt><indexterm>external-link-icon-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>.</p><p>Default value: <tt>'10'</tt>.</p></stentry>
+
+          <stentry><p>The height of the ``opens in new window''
+          icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="external-link-icon-suffix"><tt>external-link-icon-suffix</tt><indexterm>external-link-icon-suffix,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Basename.</p><p>Default value:
+          <tt>'new_window.png'</tt>.</p></stentry>
+
+          <stentry><p>The basename of the ``opens in new window'' icon. This
+          icon is found in the resources directory.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="external-link-icon-width"><tt>external-link-icon-width</tt><indexterm>external-link-icon-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>.</p><p>Default value: <tt>'11'</tt>.</p></stentry>
+
+          <stentry><p>The width of the ``opens in new window''
+          icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="generator-info"><tt>generator-info</tt><indexterm>generator-info,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>Default value: <tt>'XMLmind DITA Converter
+          <i>VERSION</i>'</tt>.</p></stentry>
+
+          <stentry><p>The name of the software which has been used to create
+          the HTML pages. </p><p>Specify an empty string if you don't want to
+          have a <tt>&lt;meta name="generator" content="<i>XXX</i>"/&gt;</tt>
+          element added to your HTML pages.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="ignore-navigation-links"><tt>ignore-navigation-links</tt><indexterm>ignore-navigation-links,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt>, '<tt>no</tt>' and
+          <tt>'auto'</tt>.</p><p>Default value: <tt>'auto'</tt> for XHTML and
+          its variants; <tt>'yes'</tt> for Web Help, Java Help, HTML Help,
+          Eclipse Help and EPUB</p></stentry>
+
+          <stentry><p>If <tt>'yes'</tt>, do not generate the navigation links
+          corresponding to <tt>topicref</tt> attribute
+          <tt>collection-type</tt>.</p><p>If <tt>'no'</tt>, generate the
+          navigation links corresponding to <tt>topicref</tt> attribute
+          <tt>collection-type</tt>.</p><p>If <tt>'auto'</tt>, generate the
+          navigation links corresponding to <tt>topicref</tt> attribute
+          <tt>collection-type</tt>, unless <xref
+          href="#xsltParams/chain-topics"><tt>chain-topics=yes</tt></xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="mark-external-links"><tt>mark-external-links</tt><indexterm>mark-external-links,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether an external link should be marked
+          using a ``opens in new window'' icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="navigation-icon-height"><tt>navigation-icon-height</tt><indexterm>navigation-icon-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>.</p><p>Default value: <tt>'16'</tt>.</p></stentry>
+
+          <stentry><p>The height of a navigation icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="navigation-icon-suffix"><tt>navigation-icon-suffix</tt><indexterm>navigation-icon-suffix,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value:
+          <tt>'.png'</tt>.</p></stentry>
+
+          <stentry><p>The suffix of a navigation icon.</p><p>The root names of
+          navigation icons are fixed: <sl compact="yes">
+              <sli><tt>first</tt>, <tt>first_disabled</tt>,</sli>
+
+              <sli><tt>last</tt>, <tt>last_disabled</tt>,</sli>
+
+              <sli><tt>next</tt>, <tt>next_disabled</tt>,</sli>
+
+              <sli><tt>previous</tt>, <tt>previous_disabled</tt>,</sli>
+
+              <sli><tt>parent</tt>, <tt>parent_disabled</tt>,</sli>
+
+              <sli><tt>child</tt>, <tt>child_disabled</tt>.</sli>
+            </sl></p><p>For example, if <tt>note-icon-suffix='.svg'</tt>, the
+          default resources directory is expected to contain
+          <filepath>first.svg</filepath>,
+          <filepath>first_disabled.svg</filepath>,
+          <filepath>last.svg</filepath>, etc.</p><p>In principle, there is no
+          need for an end-user to specify any of the
+          <tt>navigation-icon-suffix</tt>, <tt>navigation-icon-width</tt> or
+          <tt>navigation-icon-height</tt> parameters.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="navigation-icon-width"><tt>navigation-icon-width</tt><indexterm>navigation-icon-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. A length may have a unit. Default is
+          <tt>px</tt>.</p><p>Default value: <tt>'16'</tt>.</p></stentry>
+
+          <stentry><p>The width of a navigation icon.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="screen-resolution"><tt>screen-resolution</tt><indexterm>screen-resolution,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Positive integer.</p><p>Default value:
+          <tt>'96'</tt>.</p></stentry>
+
+          <stentry><p>The resolution of the screen in dot per inch (DPI). This
+          resolution is used to convert image dimensions such as <tt>3cm</tt>
+          to pixels.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="xhtml-mime-type"><tt>xhtml-mime-type</tt><indexterm>xhtml-mime-type,
+          parameter</indexterm></stentry>
+
+          <stentry><p>A MIME type without a parameter such as
+          <tt>'text/html'</tt>, <tt>'application/xhtml+xml'</tt>,
+          <tt>'application/xml'</tt> or the empty string
+          (<tt>''</tt>).</p><p>Default value:
+          <tt>'text/html'</tt>.</p></stentry>
+
+          <stentry><p>Applies to all the XHTM-based formats (XHTML, EPUB), not
+          to the HTML-based formats (Web Help, <tm tmtype="tm">Java</tm> Help,
+          HTML Help, Eclipse Help).</p><p>By default (<tt>'text/html'</tt>),
+          serve XHTML as HTML.</p><p>Specify <tt>'application/xhtml+xml'</tt>
+          if you prefer to serve XHTML as XML.</p><p>Specify an empty string
+          if you prefer not to generate <tt>&lt;meta
+          http-equiv="Content-Type"...&gt;</tt>.</p><note type="tip">Web
+          browsers such as Firefox or Opera will <i>not</i> render the MathML
+          embedded in XHTML, if this XHTML is served as HTML. Therefore when
+          your DITA document contains MathML equations, you'll have to
+          generate "<tt>.xhtml</tt>" files ("<tt>.html</tt>" files won't work)
+          and also, preferably, to specify
+          <tt>xhtml-mime-type="application/xhtml+xml"</tt> or
+          <tt>xhtml-mime-type=""</tt>.</note></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters common to the stylesheets that generate <tm
+    tmtype="tm">Web Help, Java</tm> Help, HTML Help, Eclipse Help and
+    EPUB</title><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="show-title-page"><tt>add-toc-root</tt><indexterm>add-toc-root,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'yes'</tt>.</p></stentry>
+
+          <stentry><p>If <tt>'yes'</tt>, add a pseudo TOC entry, bearing the
+          title of the document, containing all the actual TOC
+          entries.</p><note type="restriction"><ul compact="yes">
+              <li>Value <tt>'no'</tt> is not supported by the stylesheets that
+              generate Eclipse Help.</li>
+
+              <li>Ignored by the stylesheets that generate Web Help and
+              EPUB.</li>
+            </ul></note></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="number-toc-entries"><tt>number-toc-entries</tt><indexterm>number-toc-entries,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: 'yes' for Web Help,
+          <tt>'no'</tt> for the other formats.</p></stentry>
+
+          <stentry><p>If <tt>'yes'</tt>, number the TOC entries. No effect
+          unless the <xref href="#xsltParams/number">number parameter</xref>
+          is used to specify that topics should be numbered.</p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate Web
+    Help</title><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry id="wh-collapse-toc"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-collapse-toc</tt><indexterm>wh-collapse-toc,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether the TOC should be initially
+          collapsed.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-jquery"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-jquery</tt><indexterm>wh-jquery,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI. A relative URI is relative to
+          the URI of a page of the Web Help.</p><p>Default value: absolute URI
+          of the corresponding file found on the Google CDN.</p></stentry>
+
+          <stentry><p>Specifies the location of the JavaScript file containing
+          <xref format="html" href="http://jquery.com/"
+          scope="external">jQuery</xref> .</p><p>Example:
+          <tt>'http://ajax.aspnetcdn.com/ajax/¬
+          jQuery/jquery-1.7.1.min.js'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-jquery-css"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-jquery-css</tt><indexterm>wh-jquery-css,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI. A relative URI is relative to
+          the URI of a page of the Web Help.</p><p>Default value: absolute URI
+          of the corresponding file found on the Google CDN.</p></stentry>
+
+          <stentry><p>Specifies the location of the CSS stylesheet of <xref
+          format="html" href="http://jqueryui.com/" scope="external">jQuery
+          UI</xref> .</p><p>Example: <tt>'http://ajax.aspnetcdn.com/ajax/¬
+          jquery.ui/1.8.16/themes/redmond/jquery-ui.css'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-jquery-theme"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-jquery-theme</tt><indexterm>wh-jquery-theme,
+          parameter</indexterm></stentry>
+
+          <stentry><p>The name of a theme. Examples: <tt>'redmond'</tt>,
+          <tt>'cupertino'</tt>.</p><p>Default value:
+          <tt>'smoothness'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the name of the <xref format="html"
+          href="http://jqueryui.com/" scope="external">jQuery UI</xref> theme
+          used by the compiler.</p><p>Ignored if parameter
+          <tt>wh-jquery-css</tt> has been used to specify the CSS stylesheet
+          of jQuery UI.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-jquery-ui"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-jquery-ui</tt><indexterm>wh-jquery-ui,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI. A relative URI is relative to
+          the URI of a page of the Web Help.</p><p>Default value: absolute URI
+          of the corresponding file found on the Google CDN.</p></stentry>
+
+          <stentry><p>Specifies the location of the JavaScript file containing
+          <xref format="html" href="http://jqueryui.com/"
+          scope="external">jQuery UI</xref> .</p><p>Example:
+          <tt>'http://ajax.aspnetcdn.com/ajax/¬
+          jquery.ui/1.8.16/jquery-ui.min.js'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-user-css"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-user-css</tt><indexterm>wh-user-css,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI of a CSS file. A relative URI
+          is relative to the current working directory.</p></stentry>
+
+          <stentry><p>Specifies the user's CSS stylesheet which is to be added
+          to each page of the Web Help.</p><p>This file is copied to
+          <i><tt>output_directory</tt></i><tt>/_wh/user/</tt>.</p><p>Sample
+          user's CSS: <xref format="xml" href="wh_resources/header_footer.css"
+          scope="external">wh_resources/header_footer.css</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-user-footer"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-user-footer</tt><indexterm>wh-user-footer,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI of an XHTML file. A relative
+          URI is relative to the current working directory.</p></stentry>
+
+          <stentry><p>Specifies the user's footer which is to be added to each
+          page of the Web Help.</p><p>The content of the <tt>body</tt> element
+          of <tt>wh-user-footer</tt> is inserted as is in the
+          <tt>&lt;div id="wh-footer"&gt;</tt> found in a page of the Web
+          Help.</p><p>Same remark as for parameter <tt>wh-user-header</tt>
+          about the resources referenced by a user's footer.</p><p>Sample
+          user's footer: <xref format="xml" href="wh_resources/footer.html"
+          scope="external">wh_resources/footer.html</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-user-header"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-user-header</tt><indexterm>wh-user-header,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Relative or absolute URI of an XHTML file. A relative
+          URI is relative to the current working directory.</p></stentry>
+
+          <stentry><p>Specifies the user's header which is to be added to each
+          page of the Web Help.</p><p>The content of the <tt>body</tt> element
+          of <tt>wh-user-header</tt> is inserted as is in the
+          <tt>&lt;div id="wh-header"&gt;</tt> found in a page of the Web
+          Help.</p><p>If a user's header references resources (e.g. image
+          files), then these resources must either be referenced using
+          absolute URLs or these resources must be found in a user's resource
+          directory and parameter <tt>wh-user-resources</tt> must be
+          specified.</p><p>Example:</p><ul>
+              <li>The user's resource directory is called <tt>user2/</tt> and
+              contains <tt>user2/logo100x50.png</tt>.</li>
+
+              <li>ditac is passed parameters: <tt>-p user-resources user2</tt>
+              and <tt>-p user-header header2.html</tt>.</li>
+
+              <li><p><tt>header2.html</tt> looks like this:</p><pre>&lt;html&gt;
+...
+&lt;body&gt;
+...
+&lt;img src="<b>_wh/user/user2</b>/¬
+logo100x50.png" /&gt;
+...
+&lt;/body&gt;
+&lt;/html&gt;</pre><p>Notice the path used to reference
+              <tt>logo100x50.png</tt>.</p></li>
+            </ul><p>Sample user's header: <xref format="xml"
+          href="wh_resources/header.html"
+          scope="external">wh_resources/header.html</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="wh-user-resources"><image alt="Pseudo parameter"
+          href="images/pseudoParam.png"/><tt>wh-user-resources</tt><indexterm>wh-user-resources,
+          parameter</indexterm></stentry>
+
+          <stentry><p><i>Filename</i> of a directory. A relative filename is
+          relative to the current working directory.</p></stentry>
+
+          <stentry><p>Specifies a user's resource directory which is to be
+          recursively copied to
+          <tt><i>output_directory</i>/_wh/user/</tt>.</p><p>This directory
+          typically contains image files referenced by the user's header,
+          footer or CSS stylesheet.</p><p>Sample user's resource directory:
+          <xref format="directory" href="wh_resources/header_footer_files/"
+          scope="external">wh_resources/header_footer_files/</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="whc-index-basename"><tt>whc-index-basename</tt><indexterm>whc-index-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'whc_index.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the Index XML input file of XMLmind Web Help
+          Compiler.</p><p>In principle, there is no need for an end-user to
+          specify this parameter.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="whc-toc-basename"><tt>whc-toc-basename</tt><indexterm>whc-toc-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'whc_toc.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the TOC XML input file of XMLmind Web Help
+          Compiler.</p><p>In principle, there is no need for an end-user to
+          specify this parameter.</p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate <tm
+    tmtype="tm">Java</tm> Help</title><p>In principle, there is no need for an
+    end-user to specify any of the following parameters.</p><simpletable
+        relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="helpset-basename"><tt>helpset-basename</tt><indexterm>helpset-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'jhelpset.hs'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the <tm tmtype="tm">Java</tm> Help HelpSet
+          file.</p></stentry>
+        </strow>
+
+        <strow id="index-basename">
+          <stentry><tt>index-basename</tt><indexterm>index-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'jhelpidx.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the <tm tmtype="tm">Java</tm> Help Index
+          file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="indexer-directory-basename"><tt>indexer-directory-basename</tt><indexterm>indexer-directory-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'JavaHelpSearch'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the directory which will contain the data
+          generated by running
+          <cmdname>jhindexer</cmdname><indexterm>jhindexer</indexterm>. A
+          properly quoted relative URL, not a filename.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="map-basename"><tt>map-basename</tt><indexterm>map-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'jhelpmap.jhm'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the <tm tmtype="tm">Java</tm> Help Map
+          file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="toc-basename"><tt>toc-basename</tt><indexterm>toc-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'jhelptoc.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the <tm tmtype="tm">Java</tm> Help Contents
+          file.</p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate HTML
+    Help</title><p>In principle, there is no need for an end-user to specify
+    any of the following parameters.</p><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry id="chmBasename"><image
+          href="images/systemParam.png"/><tt>chmBasename</tt><indexterm>chmBasename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'help.chm'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the compiled HTML Help file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="hhc-basename"><tt>hhc-basename</tt><indexterm>hhc-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'toc.hhc'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the HTML Help contents file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry><tt>hhp-template</tt><indexterm>hhp-template,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'template.hhp'</tt> resolved against the directory which
+          contains the XSLT stylesheets.</p></stentry>
+
+          <stentry><p>URL of the file containing the template of the HTML Help
+          project file. This plain text file encoded in UTF-8 contains
+          variables such as <varname>%compiledFile%</varname>,
+          <varname>%contentsFile%</varname>,
+          <varname>%defaultTopic%</varname>, etc, which are substituted with
+          their values.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="hhpBasename"><image
+          href="images/systemParam.png"/><tt>hhpBasename</tt><indexterm>hhpBasename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'project.hhp'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the HTML Help project file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="hhx-basename"><tt>hhx-basename</tt><indexterm>hhx-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'index.hhx'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the HTML Help index file. </p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate
+    Eclipse Help</title><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry id="plugin-id"><tt>plugin-id</tt><indexterm>plugin-id,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>No default value.</p></stentry>
+
+          <stentry><p>An ID uniquely identifying the plug-in, typically a
+          Java-like fully qualified name. Example:
+          <tt>'com.acme.widget.userguide'</tt>.</p><note
+          type="important"><p>The subdirectory of
+          <filepath>plugins/</filepath> containing the plug-in must have the
+          same basename as the value of parameter
+          <tt>plugin-id</tt>.</p></note></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="plugin-index-basename"><tt>plugin-index-basename</tt><indexterm>plugin-index-basename</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'index.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the index file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="plugin-name"><tt>plugin-name</tt><indexterm>plugin-name,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>No default value.</p></stentry>
+
+          <stentry><p>The name of the plug-in, typically the title of the
+          document. Example: <tt>'ACME Widget User&amp;apos;s
+          Guide'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="plugin-provider"><tt>plugin-provider</tt><indexterm>plugin-provider,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>No default value.</p></stentry>
+
+          <stentry><p>The author, company or organization which has
+          contributed the plug-in. Example: <tt>'ACME
+          Corp.'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="plugin-toc-basename"><tt>plugin-toc-basename</tt><indexterm>plugin-toc-basename,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URL basename.</p><p>Default value:
+          <tt>'toc.xml'</tt>.</p></stentry>
+
+          <stentry><p>Basename of the table of contents file.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="plugin-version"><tt>plugin-version</tt><indexterm>plugin-version,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>Default value:
+          <tt>'1.0.0'</tt>.</p></stentry>
+
+          <stentry><p>The version of the plug-in.</p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate
+    EPUB</title><simpletable relcolwidth="1* 1* 2*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="cover-image"><tt>cover-image</tt><indexterm>cover-image,
+          parameter</indexterm></stentry>
+
+          <stentry><p>URI. If the URI is relative, it is relative to the
+          current working directory of the user.</p><p>No default
+          value.</p></stentry>
+
+          <stentry><p>Specifies an image file which is to be used as the cover
+          page of the EPUB file. This image must be a PNG or JPEG image. Its
+          size must not exceed 1000x1000 pixels.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="epub-identifier"><tt>epub-identifier</tt><indexterm>epub-identifier,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String</p><p>Default value: dynamically generated UUID
+          URN.</p></stentry>
+
+          <stentry><p>A globally unique identifier for the generated EPUB
+          document (typically the permanent URL of the EPUB
+          document).</p></stentry>
+        </strow>
+      </simpletable></section>
+
+    <section><title>Parameters specific to the stylesheets that generate
+    XSL-FO</title><p>The XSL-FO file generated by the XSLT stylesheets is
+    converted to PDF, PostScript®, RTF, WordprocessingML, Office Open XML
+    (<tt>.docx</tt>), OpenOffice (<tt>.odt</tt>) by the means of XSL-FO
+    processors such as <xref href="http://xmlgraphics.apache.org/fop/"
+    scope="external">Apache FOP</xref>, <xref
+    href="http://www.renderx.com/tools/xep.html" scope="external">RenderX
+    XEP</xref>, <xref
+    href="http://www.antennahouse.com/product/axfo40/axfo4top.htm"
+    scope="external">Antenna House XSL Formatter</xref> or <xref
+    href="http://www.xmlmind.com/foconverter/" scope="external">XMLmind XSL-FO
+    Converter</xref>.</p><simpletable relcolwidth="1* 1* 3*">
+        <sthead>
+          <stentry>Parameter</stentry>
+
+          <stentry>Value</stentry>
+
+          <stentry>Description</stentry>
+        </sthead>
+
+        <strow>
+          <stentry
+          id="base-font-size"><tt>base-font-size</tt><indexterm>base-font-size,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Default value: <tt>'10pt'</tt>.</p></stentry>
+
+          <stentry><p>The size of the ``main font'' of the document. All the
+          other font sizes are computed relatively to this font
+          size</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="body-bottom-margin"><tt>body-bottom-margin</tt><indexterm>body-bottom-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.5in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="body-top-margin"><tt>body-top-margin</tt><indexterm>body-top-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.5in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="external-href-after"><tt>external-href-after</tt><indexterm>external-href-after,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>']'</tt>.</p></stentry>
+
+          <stentry><p>Appended after the external URL referenced by an
+          <tt>xref</tt> or <tt>link</tt> element. Ignored unless
+          <tt>show-external-links='yes'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="external-href-before"><tt>external-href-before</tt><indexterm>external-href-before,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'
+          ['</tt>.</p></stentry>
+
+          <stentry><p>Separates the text of an <tt>xref</tt> or <tt>link</tt>
+          element from its referenced external URL. Ignored unless
+          <tt>show-external-links='yes'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="foProcessor"><image
+          href="images/systemParam.png"/><tt>foProcessor</tt><indexterm>foProcessor,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String. Examples: <tt>'FOP'</tt>, <tt>'XEP'</tt>,
+          <tt>'AHF'</tt>, <tt>'XFC'</tt>.</p><p>Default value:
+          <tt>''</tt>.</p></stentry>
+
+          <stentry><p>The name of the XSL-FO processor used to convert the
+          XSL-FO file generated by the XSLT stylesheets to the target output
+          format.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-center"><tt>footer-center</tt><indexterm>footer-center,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p></stentry>
+
+          <stentry><p>Specifies the contents of the central part of a page
+          footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p><p>Default value:</p><pre scale="80">two-sides even:: {{chapter-title}};;
+two-sides part||chapter||appendices||appendix odd::¬
+{{section1-title}};;
+one-side even||odd:: {{chapter-title}}</pre></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-center-width"><tt>footer-center-width</tt><indexterm>footer-center-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'6'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the central part of
+          a page footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-height"><tt>footer-height</tt><indexterm>footer-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.4in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-left"><tt>footer-left</tt><indexterm>footer-left,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p></stentry>
+
+          <stentry><p>Specifies the contents of the left part of a page
+          footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p><p>Default value:</p><pre scale="80">two-sides even:: {{page-number}}</pre></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-left-width"><tt>footer-left-width</tt><indexterm>footer-left-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'2'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the left part of a
+          page footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-right"><tt>footer-right</tt><indexterm>footer-right,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p></stentry>
+
+          <stentry><p>Specifies the contents of the right part of a page
+          footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p><p>Default value:</p><pre scale="80">two-sides first||odd:: {{page-number}};;
+one-side:: {{page-number}}</pre></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-right-width"><tt>footer-right-width</tt><indexterm>footer-right-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'2'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the right part of a
+          page footer. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="footer-separator"><tt>footer-separator</tt><indexterm>footer-separator,
+          parameter</indexterm></stentry>
+
+          <stentry>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.<p>Default value: <tt>'yes'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether an horizontal rule should be drawn
+          above the page footer.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-center"><tt>header-center</tt><indexterm>header-center,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value:
+          <tt>'{{document-title}}'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the contents of the central part of a page
+          header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-center-width"><tt>header-center-width</tt><indexterm>header-center-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'6'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the central part of
+          a page header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-height"><tt>header-height</tt><indexterm>header-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.4in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-left"><tt>header-left</tt><indexterm>header-left,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Specifies the contents of the left part of a page
+          header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-left-width"><tt>header-left-width</tt><indexterm>header-left-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'2'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the left part of a
+          page header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-right"><tt>header-right</tt><indexterm>header-right,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>''</tt>.</p></stentry>
+
+          <stentry><p>Specifies the contents of the right part of a page
+          header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="header-right-width"><tt>header-right-width</tt><indexterm>header-right-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String representing an integer larger than or equal to
+          1.</p><p>Default value: <tt>'2'</tt>.</p></stentry>
+
+          <stentry><p>Specifies the proportional width of the right part of a
+          page header. See <xref
+          href="#xsltParams/header_footer_spec"/>.</p><p>Supports a <xref
+          href="#xsltParams/conditional_header_footer">conditional
+          specification</xref>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="hyphenate"><tt>hyphenate</tt><indexterm>hyphenate,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether words may be hyphenated.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="index-column-count"><tt>index-column-count</tt></stentry>
+
+          <stentry><p>Positive integer.</p><p>Default value:
+          <tt>'2'</tt>.</p></stentry>
+
+          <stentry><p>The number of columns of index pages.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="index-column-gap"><tt>index-column-gap</tt><indexterm>index-column-gap,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'12pt'</tt>.</p></stentry>
+
+          <stentry><p>The distance which separates columns in index
+          pages.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="justified"><tt>justified</tt><indexterm>justified,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether text (e.g. in paragraphs) should be
+          justified (that is, flush left and right) or just left aligned (that
+          is, flush left and ragged right).</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-bottom-margin"><tt>page-bottom-margin</tt><indexterm>page-bottom-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.5in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-height"><tt>page-height</tt><indexterm>page-height,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. Example: '297mm'.</p><p>Default value: depends
+          on paper-type.</p></stentry>
+
+          <stentry><p>The height of the printed page.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-inner-margin"><tt>page-inner-margin</tt><indexterm>page-inner-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value: if parameter
+          <tt>two-sided</tt> is specified as <tt>'yes'</tt> then
+          <tt>'1.25in'</tt> otherwise <tt>'1in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-orientation"><tt>page-orientation</tt><indexterm>page-orientation,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'portrait'</tt> and
+          <tt>'landscape'</tt>.</p><p>Default value:
+          <tt>'portrait'</tt>.</p></stentry>
+
+          <stentry><p>The orientation of the printed page.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-outer-margin"><tt>page-outer-margin</tt><indexterm>page-outer-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value: if parameter
+          <tt>two-sided</tt> is specified as <tt>'yes'</tt> then
+          <tt>'0.75in'</tt> otherwise <tt>'1in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-ref-after"><tt>page-ref-after</tt><indexterm>page-ref-after,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>']'</tt>.</p></stentry>
+
+          <stentry><p>Appended after the page number pointed to by an
+          <tt>xref</tt> or <tt>link</tt> element. Ignored unless
+          <tt>show-xref-page='yes'</tt> or
+          <tt>show-link-page='yes'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-ref-before"><tt>page-ref-before</tt><indexterm>page-ref-before,
+          parameter</indexterm></stentry>
+
+          <stentry><p>String.</p><p>Default value: <tt>'
+          ['</tt>.</p></stentry>
+
+          <stentry><p>Separates the text of an <tt>xref</tt> or <tt>link</tt>
+          element from the page number it points to. Ignored unless
+          <tt>show-xref-page='yes'</tt> or
+          <tt>show-link-page='yes'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="page-top-margin"><tt>page-top-margin</tt><indexterm>page-top-margin,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length.</p><p>Default value:
+          <tt>'0.5in'</tt>.</p></stentry>
+
+          <stentry><p>See <xref href="#xsltParams/page_areas"/>
+          below.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="page-width"><tt>page-width</tt><indexterm>page-width,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Length. Example: '8.5in'.</p><p>Default value: depends
+          on paper-type.</p></stentry>
+
+          <stentry><p>The width of the printed page.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="paper-type"><tt>paper-type</tt><indexterm>paper-type,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'Letter'</tt>, <tt>'Legal'</tt>,
+          <tt>'Ledger'</tt>, <tt>'Tabloid'</tt>, <tt>'A0'</tt>, <tt>'A1'</tt>,
+          <tt>'A2'</tt>, <tt>'A3'</tt>, <tt>'A4'</tt>, <tt>'A5'</tt>,
+          <tt>'A6'</tt>, <tt>'A7'</tt>, <tt>'A8'</tt>, <tt>'A9'</tt>,
+          <tt>'A10'</tt>, <tt>'B0'</tt>, <tt>'B1'</tt>, <tt>'B2'</tt>,
+          <tt>'B3'</tt>, <tt>'B4'</tt>, <tt>'B5'</tt>, <tt>'B6'</tt>,
+          <tt>'B7'</tt>, <tt>'B8'</tt>, <tt>'B9'</tt>, <tt>'B10'</tt>,
+          <tt>'C0'</tt>, <tt>'C1'</tt>, <tt>'C2'</tt>, <tt>'C3'</tt>,
+          <tt>'C4'</tt>, <tt>'C5'</tt>, <tt>'C6'</tt>, <tt>'C7'</tt>,
+          <tt>'C8'</tt>, <tt>'C9'</tt>, <tt>'C10'</tt>
+          (case-insensitive).</p><p>Default value:
+          <tt>'A4'</tt>.</p></stentry>
+
+          <stentry><p>A convenient way to specify the size of the printed
+          page.</p><p>It is also possible to specify a custom paper type by
+          ignoring the paper-type parameter and directly specifying the <xref
+          href="#xsltParams/page-width">page-width</xref> and <xref
+          href="#xsltParams/page-height">page-height</xref>
+          parameters.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="pdf-outline"><tt>pdf-outline</tt><indexterm>pdf-outline,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether PDF bookmarks should be generated.
+          </p><p>Supported by both the <tt>'XEP'</tt> and <tt>'FOP'</tt>
+          XSL-FO processors. Not relevant, and thus ignored by
+          <tt>'XFC'</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="show-external-links"><tt>show-external-links</tt><indexterm>show-external-links,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether the <i>external URL</i> referenced by
+          an <tt>xref</tt> or <tt>link</tt> element should be displayed right
+          after the text contained by this element.</p><p>Example:
+          <tt>show-external-links='yes'</tt>causes <tt>&lt;xref
+          href="http://www.oasis-open.org/"&gt;Oasis&lt;/xref&gt;</tt> to be
+          rendered as follows:
+          <tt>Oasis [http://www.oasis-open.org/]</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="show-link-page"><tt>show-link-page</tt><indexterm>show-link-page,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Same as <xref
+          href="#xsltParams/show-xref-page">show-xref-page</xref> but for
+          <tt>link</tt> elements.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry
+          id="show-xref-page"><tt>show-xref-page</tt><indexterm>show-xref-page,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether the page number corresponding to the
+          <i>internal link target</i> referenced by an <tt>xref</tt> element
+          should be displayed right after the text contained by this
+          element.</p><p>Example: <tt>show-xref-page='yes'</tt>causes
+          <tt>&lt;xref
+          href="introduction.dita"&gt;Introduction&lt;/xref&gt;</tt> to be
+          rendered as follows: <tt>Oasis [3]</tt>.</p></stentry>
+        </strow>
+
+        <strow>
+          <stentry id="two-sided"><tt>two-sided</tt><indexterm>two-sided,
+          parameter</indexterm></stentry>
+
+          <stentry><p>Allowed values are: <tt>'yes'</tt> and
+          <tt>'no'</tt>.</p><p>Default value: <tt>'no'</tt>.</p></stentry>
+
+          <stentry><p>Specifies whether the document should be printed double
+          sided.</p></stentry>
+        </strow>
+      </simpletable><fig frame="all" id="page_areas">
+        <title>Page areas</title>
+
+        <image align="center" href="images/page_areas.svg"
+               otherprops="media=print" width="15cm"/>
+
+        <image align="center" href="images/page_areas.png"
+               otherprops="media=screen"/>
+      </fig></section>
+
+    <section id="header_footer_spec"><title>Specifying a header or a
+    footer</title><p>The header or the footer of a generated PDF, RTF, etc,
+    page has 3 columns.</p><fig frame="all">
+        <title>Layout of a header</title>
+
+        <image align="center" href="images/header_layout.svg"
+               otherprops="media=print" width="15cm"/>
+
+        <image align="center" href="images/header_layout.png"
+               otherprops="media=screen"/>
+      </fig><p>The width of these columns may be specified using the <tt><xref
+    href="#xsltParams/header-left-width">header-left-width</xref></tt>,
+    <tt><xref
+    href="#xsltParams/header-center-width">header-center-width</xref></tt>,
+    <tt><xref
+    href="#xsltParams/header-right-width">header-right-width</xref></tt>
+    parameters for the header and the <tt><xref
+    href="#xsltParams/footer-left-width">footer-left-width</xref></tt>,
+    <tt><xref
+    href="#xsltParams/footer-center-width">footer-center-width</xref></tt>,
+    <tt><xref
+    href="#xsltParams/footer-right-width">footer-right-width</xref></tt>
+    parameters for the footer.</p><p>The width of a column is specified as an
+    integer which is larger than or equal to 1. This value is the
+    <term>proportional width of the column</term>. For example, if the left
+    column has a width equal to 2 and the right column has a width equal to 4,
+    this simply means that the right column is twice (4/2 = 2) as wide as the
+    left column.</p><p>The contents of these columns may be specified using
+    the <tt><xref href="#xsltParams/header-left">header-left</xref></tt>,
+    <tt><xref href="#xsltParams/header-center">header-center</xref></tt>,
+    <tt><xref href="#xsltParams/header-right">header-right</xref></tt>
+    parameters for the header and the <tt><xref
+    href="#xsltParams/footer-left">footer-left</xref></tt>, <tt><xref
+    href="#xsltParams/footer-center">footer-center</xref></tt>, <tt><xref
+    href="#xsltParams/footer-right">footer-right</xref></tt> parameters for
+    the footer.</p><p>When <tt>header-left</tt>, <tt>header-center</tt>,
+    <tt>header-right</tt> are all specified as the empty string, no header is
+    generated. When <tt>footer-left</tt>, <tt>footer-center</tt>,
+    <tt>footer-right</tt> are all specified as the empty string, no footer is
+    generated.</p><p>The content of a column is basically a mix of text and
+    variables. Example: "<tt>Page {{page-number}} of
+    {{page-count}}</tt>".</p><p>Supported variables are:</p><dl>
+        <dlentry id="document-title_variable">
+          <dt><tt>{{document-title}}</tt></dt>
+
+          <dd>The title of the document<indexterm>{{document-title}}, page
+          header/footer
+          variable<index-sort-as>document-title</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="document-date_variable">
+          <dt><tt>{{document-date}}</tt></dt>
+
+          <dd>The publication date of the
+          document<indexterm>{{document-date}}, page header/footer
+          variable<index-sort-as>document-date</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="chapter-title_variable">
+          <dt><tt>{{chapter-title}}</tt></dt>
+
+          <dd>The title of the current <tt>part</tt>, <tt>chapter</tt>,
+          <tt>appendices</tt> or <tt>appendix</tt>
+          <indexterm>{{chapter-title}}, page header/footer
+          variable<index-sort-as>chapter-title</index-sort-as></indexterm>.
+          Empty if the map being converted is not a <tt>bookmap</tt>.</dd>
+        </dlentry>
+
+        <dlentry id="section1-title_variable">
+          <dt><tt>{{section1-title}}</tt></dt>
+
+          <dd>The title of the current <tt>part</tt>, <tt>chapter</tt>,
+          <tt>appendices</tt> or <tt>appendix</tt> or <term>section 1</term>
+          <indexterm>{{section1-title}}, page header/footer
+          variable<index-sort-as>section1-title</index-sort-as></indexterm>. A
+          section 1 is specified by a non-typed <tt>topicref</tt> (that is,
+          not a <tt>part</tt>, <tt>chapter</tt>, <tt>preface</tt>,
+          <tt>appendix</tt>, <tt>dedication</tt>, etc) which is a direct child
+          of a <tt>map</tt> or <tt>bookmap</tt>.</dd>
+        </dlentry>
+
+        <dlentry id="topic-title_variable">
+          <dt><tt>{{topic-title}}</tt></dt>
+
+          <dd>The title of the current topic<indexterm>{{topic-title}}, page
+          header/footer
+          variable<index-sort-as>topic-title</index-sort-as></indexterm>. All
+          topics are guaranteed to have a corresponding
+          <tt>{{topic-title}}</tt>. Even automatically generated topics such
+          as <tt>toc</tt> or <tt>indexlist</tt> have a corresponding
+          <tt>{{topic-title}}</tt><fn>The <tt>{{topic-title}}</tt> of a
+          <tt>toc</tt> is "<b>Table of Contents</b>", properly localized. The
+          <tt>{{topic-title}}</tt> of a <tt>indexlist</tt> is "<b>Index</b>",
+          properly localized.</fn>.</dd>
+        </dlentry>
+
+        <dlentry id="page-number_variable">
+          <dt><tt>{{page-number}}</tt></dt>
+
+          <dd>Current page number within the current document division (front
+          matter, body matter or back matter) <indexterm>{{page-number}}, page
+          header/footer
+          variable<index-sort-as>page-number</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="page-count_variable">
+          <dt><tt>{{page-count}}</tt></dt>
+
+          <dd>Total number of pages of the current document division (front
+          matter, body matter or back matter)<indexterm>{{page-count}}, page
+          header/footer
+          variable<index-sort-as>page-count</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="break_variable">
+          <dt><tt>{{break}}</tt></dt>
+
+          <dd>A line break<indexterm>{{break}}, page header/footer
+          variable<index-sort-as>break</index-sort-as></indexterm>.</dd>
+        </dlentry>
+
+        <dlentry id="image_URI_variable">
+          <dt><tt>{{image(URI)}}</tt></dt>
+
+          <dd>An image having specified URI<indexterm>{{image(URI)}}, page
+          header/footer
+          variable<index-sort-as>image(URI)</index-sort-as></indexterm>. A
+          relative URI is resolved against the current working directory.
+          Example: "<tt>{{image(artwork/logo.svg)}}</tt>".</dd>
+        </dlentry>
+
+        <dlentry id="page-sequence_variable">
+          <dt><tt>{{page-sequence}}</tt></dt>
+
+          <dd>Not for production use. Inserts in the header/footer the name of
+          the current page sequence <indexterm>{{page-sequence}}, page
+          header/footer
+          variable<index-sort-as>page-sequence</index-sort-as></indexterm>.
+          This allows to learn which name to use in a <term>conditional header
+          or footer</term>. See <xref
+          href="#xsltParams/conditional_header_footer">below</xref>.</dd>
+        </dlentry>
+      </dl></section>
+
+    <section id="conditional_header_footer"><title>Conditional headers and
+    footers</title><p>The default value of <tt>header-center</tt> is
+    <tt>'{{document-title}}'</tt>. This means that each page of the generated
+    PDF, RTF, etc, file will have the document title centered on its top. But
+    what if you want the pages containing the Table of Contents have a
+    "<b>Contents</b>" header? Is there a way to specify: use "<b>Contents</b>"
+    for the pages containing the Table of Contents and use the title of the
+    document for any other page? </p><p>This is done by specifying the
+    following conditional value for parameter <xref
+    href="#xsltParams/header-center"><tt>header-center</tt></xref>: <tt>'toc::
+    Contents;; {{document-title}}'</tt>.</p><p>A conditional value may contain
+    one or more cases separated by "<tt>;;</tt>". Each case is tested against
+    the page being generated. The first case which matches the page being
+    generated is the one which is selected.</p><lines><i>conditional_value</i> --&gt; <i>case</i> [ "<b>;;</b>" <i>case</i> ]*
+
+<i>case</i> --&gt; [ <i>condition</i> "<b>::</b>" ]* <i>value</i>
+
+<i>condition</i> --&gt; [ <i>test_page_sequence</i> ]?
+                     &amp; [ S <i>test_page_layout</i> ]?
+                     &amp; [ S <i>test_page_side</i> ]?</lines><p>Let's
+    suppose you also want the the pages containing the Index have a
+    "<b>Index</b>" header. Specifying <tt>'toc:: Contents;;
+    {{document-title}};; indexList:: Index'</tt> won't work as expected
+    because the second case (having no condition at all) matches any page,
+    including the Index pages. You need to specify: <tt>'toc:: Contents;;
+    indexlist:: Index;; {{document-title}}'</tt>.</p><p>Let's remember that
+    variable <xref
+    href="#xsltParams/topic-title_variable"><tt>{{topic-title}}</tt></xref> is
+    substituted with the title of the current topic, including automatically
+    generated topics such <tt>toc</tt> and
+    <tt>indexlist</tt>.<indexterm>{{topic-title}}, page header/footer
+    variable<index-sort-as>topic-title</index-sort-as></indexterm></p><p>Therefore
+    our conditional value is better expressed as: <tt>'toc:: indexlist::
+    {{topic-title}};; {{document-title}}'</tt>. Notice how a case may have
+    several conditions. Suffice for any of these conditions to match the page
+    being generated for the case to be selected.</p><p>Even better, specify
+    <tt>'toc||indexlist:: {{topic-title}};; {{document-title}}'</tt>. String
+    "<tt>||</tt>" may be used to separate alternative values to be tested
+    against the page being generated.</p><lines><i>test_page_sequence</i> --&gt; <i>page_sequence</i> [ "<b>||</b>" <i>page_sequence</i> ]*
+
+<i>page_sequence</i> --&gt; "<b>abbrevlist</b>" | "<b>amendments</b>" | "<b>appendices</b>" | "<b>appendix</b>"
+                              | "<b>backmattersection</b>" | "<b>bibliolist</b>" | "<b>bookabstract</b>" | "<b>booklist</b>" 
+                              | "<b>chapter</b>" | "<b>colophon</b>" | "<b>dedication</b>" | "<b>draftintro</b>" 
+                              | "<b>figurelist</b>" | "<b>glossarylist</b>" | "<b>indexlist</b>" | "<b>notices</b>" 
+                              | "<b>part</b>" | "<b>preface</b>" | "<b>section1</b>" | "<b>tablelist</b>" 
+                              | "<b>toc</b>" | "<b>trademarklist</b>"</lines><note
+    type="tip"><p>It's not difficult to guess that the name of the page
+    sequence corresponding to the Table of Contents is <tt>toc</tt> and that
+    the name of the page sequence corresponding to the Index is
+    <tt>indexlist</tt>. However the simplest way to learn what is the name of
+    the page sequence being generated is to reference variable <xref
+    href="#xsltParams/page-sequence_variable"><tt>{{page-sequence}}</tt></xref>
+    in the specification of a header or a footer.<indexterm>{{page-sequence}},
+    page header/footer
+    variable<index-sort-as>page-sequence</index-sort-as></indexterm></p></note><p>Now
+    let's suppose that we want to suppress the document title on the first
+    page of a part, chapter or appendix. This is specified as follows:
+    <tt>'first part||chapter||appendix:: ;; toc||indexlist:: {{topic-title}};;
+    {{document-title}}'</tt>.</p><p>For now, we have only described a
+    condition about the page sequence being generated: TOC, Index, etc. In
+    fact, a condition may test up to 3 facets of the page being
+    generated:</p><ul compact="yes">
+        <li>The page sequence to which belongs the page being generated.</li>
+
+        <li>Whether the page being generated is part of a one-sided or a
+        two-sided document.</li>
+
+        <li>Whether the page being generated is the first page of its
+        sequence. When the the page being generated is <i>not</i> the first
+        page of its sequence, if the page being generated has an odd or an
+        even page number.</li>
+      </ul><lines><i>test_page_layout</i> --&gt; <i>page_layout</i> [ "<b>||</b>" <i>page_layout</i> ]*
+
+<i>page_layout</i> --&gt; "<b>two-sides</b>" | "<b>one-side</b>"
+
+<i>test_page_side</i> --&gt; <i>page_side</i> [ "<b>||</b>" <i>page_side</i> ]*
+
+<i>page_side</i> --&gt; "<b>first</b>" | "<b>odd</b>" | "<b>even</b>"</lines><note
+    type="remember"><p>When the document has one side, there is no difference
+    between <tt>even</tt> and <tt>odd</tt>. That is, <tt>even</tt>,
+    <tt>odd</tt>, <tt>even||odd</tt> all simply mean: other than
+    <tt>first</tt>.</p></note><p>The order of the tests is not significant.
+    For example, <tt>'first part||chapter||appendix'</tt> is equivalent to
+    <tt>'part||chapter||appendix first'</tt>.</p><p>Therefore <tt>'first
+    part||chapter||appendix:: ;; toc||indexlist:: {{topic-title}};;
+    {{document-title}}'</tt> reads as follows:</p><ol compact="yes">
+        <li>Use the empty string for the first page of a part, chapter or
+        appendix.</li>
+
+        <li>Use the topic title for the pages containing the Table of
+        Contents. This title is "<b>Table of Contents</b>", but localized
+        according to the main language of the DITA document being
+        converted.</li>
+
+        <li>Use the topic title for the pages containing the Index. This title
+        is "<b>Index</b>", but localized according to the main language of the
+        DITA document being converted.</li>
+
+        <li>For any other page, use the title of the DITA document.</li>
+      </ol><note>Everything explained in this section applies not only to the
+    contents of a column of a header or footer, but also to the proportional
+    width of a column of a header or footer. Example:
+    <tt>-p footer-right-width "first||odd:: 4;; even:: 1"</tt>.</note></section>
+  </refbody>
+</reference>

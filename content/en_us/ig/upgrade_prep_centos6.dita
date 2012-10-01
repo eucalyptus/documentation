@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="upgrade_prep_centos6">
+	<title>Prepare the Configuration File</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	
+        	<p>To update the distro in CentOS 6:</p>
+        	<note importance="high">
+        		If you're upgrading from 3.1.0 to 3.1.1, you can skip this section.
+        	</note>
+        	<note type="important">
+        		The steps in this section should be performed on all machines with Eucalyptus installed.
+        	</note>
+        </context>
+    	<steps>
+    		<step>
+    			<cmd> Remove any hand-written repository files for earlier versions of Eucalyptus and Euca2ools
+    				from <filepath>/etc/yum.repos.d</filepath>. </cmd>
+    		</step>  
+    		<step>
+    			<cmd>Configure the Eucalyptus package repository on each host that will run a
+    				Eucalyptus component:</cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Configure the Euca2ools package repository on each host that will run a
+    				Eucalyptus component or Euca2ools:</cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Configure the EPEL package repository on each host that will run a Eucalyptus
+    				component or Euca2ools: </cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/epel-release-6.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd> Configure the ELRepo repository on each host that will run Walrus: </cmd>
+    			<info>
+    				<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<note importance="high"> If upgrading from Eucalyptus 2.0, you can skip this step. This step is only
+    				necessary if you are upgrading from Eucalyptus 3.0. </note>
+    			<cmd>If you have a Eucalyptus subscription, you will have received a package that
+    				grants you access to VMware and SAN components. If you wish to use either of
+    				these components, install this package on each host that will run a Eucalyptus
+    				component using the following command. Otherwise, skip this step.</cmd>
+    			<info>
+    				<codeblock>rpm -Uvh eucalyptus-enterprise-release-3.1-1.noarch.rpm</codeblock>
+    			</info>
+    		</step>
+    	</steps>
+    </taskbody>
+</task>

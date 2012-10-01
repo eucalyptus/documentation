@@ -1,0 +1,24 @@
+#!/bin/sh
+set +u
+
+os=`uname -s`
+if [ "$os" = "Linux" ]; then
+    scriptFile=`readlink -f "$0"`
+else
+    scriptFile="$0"
+fi
+binDir=`dirname "$scriptFile"`
+libDir="$binDir/../lib"
+
+cp="$libDir/ditac.jar:$libDir/whcmin.jar:$libDir/resolver.jar:$libDir/saxon9.jar"
+
+### --------------------------------------------------------------------------
+### Do not increase the maximum amount of memory here when XEP, FOP or XFC 
+### report out of memory errors. Please do this in XEP, FOP or XFC
+### own shell scripts.
+### --------------------------------------------------------------------------
+
+java -Xss2m -Xmx256m \
+    -DDITAC_PLUGIN_DIR="$DITAC_PLUGIN_DIR" \
+    -classpath "$cp" \
+    com.xmlmind.ditac.convert.Converter "$@"

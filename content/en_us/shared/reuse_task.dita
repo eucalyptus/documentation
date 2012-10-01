@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="reuse_task">
+    <title>Task title</title>
+    <shortdesc/>
+    <taskbody>
+    	<context id="install_xen_body">
+    		<note type="tip">Skip this section if you selected <codeph>Virtualization</codeph> as an option
+    			when you installed the kernel.</note>
+    		<p>Before installing Eucalyptus, make sure that each NC server has
+    			a kernel with Xen support, and that this is the default kernel loaded at boot time.</p>
+    		<p>To determine the current kernel, enter the following command on an NC server:</p>
+    		<codeblock>uname -r | grep xen | wc -l</codeblock>
+    		<p>If the command returns a zero, the Xen kernel is either not installed or not setup
+    		correctly. You must install a Xen kernel.</p>
+    	<p>To install a Xen kernel:</p>
+    	</context>
+        <steps>
+        	<step id="xen_nc_config">
+        		<cmd>If you are running Xen on your NC, the <codeph>euca-get-console-output</codeph> command will not work,
+        			unless you do the following:</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>On the NC, open the <filepath>/etc/sysconfig/xend</filepath>.</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Uncomment the following line:</cmd>
+        				<info>
+        					<codeblock>XENCONSOLED_LOG_GUESTS=yes</codeblock>
+        				</info>
+        			</substep>
+        			<substep>
+        				<cmd>Save the file and restart xend.</cmd>
+        			</substep>
+        		</substeps>
+        	</step>
+        	<step id="multicast">
+        		<cmd>After you have installed Eucalyptus, test multicast connectivity between the CLC 
+        		and Walrus, SC, and the VMware Broker.</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>Run the following receiver command on the CLC:</cmd>
+        				<info>
+        					<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastReceiverTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
+        				</info>
+        			</substep>
+        			<substep>
+        				<cmd>Once the receiver command blocks, simultaneously run the following sender command on Walrus:</cmd>
+        				<info>
+        					<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
+						The two applications should be able to connect and arbitrary lines entered on the sender should appear on the receiver.
+        				</info>
+        			</substep>
+        			<substep>
+        				<cmd>Repeat the previous step on the SC and then on the VMware Broker.</cmd>
+        				<info>
+        					<note type="restriction">If you are installing an HA environment, repeat these tasks on secondary
+        						CLC, Walrus, SC, and VMware Broker.</note>
+        				</info>
+        			</substep>
+        		</substeps>
+        		
+        	</step>
+        </steps>
+    </taskbody>
+</task>
