@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="task_u2c_3t1_vh">
+<task id="console_configure_polling_frequency">
     <title>Configuring Polling Frequency</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>To configure the polling frequency for console updates from the CLC: </p>            
         </context>
         <steps>
             <step>
-                <cmd>Task step.</cmd>
+                <cmd>Modify the <codeph>pollfreq</codeph> entry in the <codeph>[server]</codeph> section of the
+                    configuration file with a polling value in seconds. For example:</cmd>
+                <info>
+                    <codeblock>pollfreq: 20</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>You can optionally override the main polling frequency value specified in <codeph>pollfreq</codeph> by adding an entry in the form <codeph>pollfreq.&gt;resouce_name&lt;</codeph>.
+                Valid resource name values are: <codeph>images</codeph>, <codeph>instances</codeph>, <codeph>keypairs</codeph>, <codeph>groups</codeph>, 
+                    <codeph>addresses</codeph>, <codeph>volumes</codeph>, and <codeph>snapshots</codeph>. For example: </cmd>
+                <info>
+                    <codeblock>pollfreq.images: 60
+pollfreq.snapshots: 10
+pollfreq.instances: 5
+pollfreq.groups: 20
+pollfreq.addresses: 30
+pollfreq.volumes: 30
+pollfreq.keypairs: 60</codeblock>
+                </info>
             </step>
         </steps>
     </taskbody>
