@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="console_install_console_centos_rhel6_package">
+    <title>Install on Centos / RHEL 6.3</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>To install the Eucalyptus Console from packages on Centos and RHEL 6.3:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Configure the EPEL repository by editing the file <codeph>/etc/yum.repos.d/epel.repo</codeph>:</cmd>
+                <info>
+                    <codeblock>[epel]
+name=Extra Packages for Enterprise Linux - $basearch
+baseurl=http://mirror.eucalyptus/epel/$releasever/$basearch
+enabled=1
+gpgcheck=0</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>
+                    Create a new file mamed <codeph>/etc/yum.repos.d/eucalyptus-ui.repo</codeph> and add the following content:
+                </cmd>
+                <info>
+                    <codeblock>[eucalyptus-ui]
+name = Eucalyptus UI
+mirrorlist = http://packages.release.eucalyptus-systems.com/api/1/genrepo/?distro=centos&amp;releasever=6&amp;arch=x86_64&amp;url=git://github.com/eucalyptus/eucalyptus-ui.git&amp;ref=master
+enabled = 1
+gpgcheck = 0</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Install dependencies:</cmd>
+                <info>
+                    <codeblock>yum install python-boto python-tornado</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Install the package using yum:</cmd>
+                <info>
+                    <codeblock>yum install python-eucalyptus-ui</codeblock>
+                </info>
+            </step>
+        </steps>
+        <result>
+            Your installation is now complete.
+        </result>
+        <postreq>
+            You are now ready to <xref href="console_configure_intro.dita">configure
+                the Eucalyptus Console</xref>.
+        </postreq>
+    </taskbody>
+</task>
