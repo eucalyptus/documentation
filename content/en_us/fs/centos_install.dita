@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="taskId">
-    <title>Install CentOS</title>
+    <title>Install Faststart from DVD</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <!--<p></p>-->
+            	<p>The Faststart DVD is a single DVD.  From this one DVD, you can install and configure the various Eucalyptus 
+		components in different configurations, depending on the option chosen at boot time.</p>
         </context>
         <steps>
-        	<step><cmd>Make sure the CentOS CD is in the CD drive and boot the computer from the CD drive.</cmd></step>
         	<step>
-        		<cmd>At the boot prompt, press ENTER for the graphical installer. You can skip the media verification.</cmd>
+			<cmd>Make sure the Faststart DVD is in the DVD drive and boot the computer from the DVD drive.</cmd>
+		</step>
+        	<step>
+        		<cmd>Wait for the Eucalyptus boot screen to appear, and then select the appropriate option:</cmd>
+			<substeps>
+				<substep><cmd>Choose <uicontrol>Cloud-in-a-Box</uicontrol> if you want your entire Eucalyptus 
+				cloud installed on this single system.</cmd></substep>
+				<substep><cmd>Choose <uicontrol>Node Controller</uicontrol> if you want to set up Eucalyptus 
+				across multiple physical systems.  Node Contollers should be configured first.</cmd></substep>
+				<substep><cmd>Choose <uicontrol>Frontend</uicontrol> if you want to set up Eucalyptus across multiple 
+				physical systems and you've already installed all of your Node Controllers.</cmd></substep>
+			</substeps>
         	</step>
         	
-        	<step><cmd>Accept the defaults, except for the network interface configuration. At the page
+        	<step>
+			<cmd>You may safely accept all defaults, except for the network interface configuration. At the page
         		where you set your hostname, click the <uicontrol>Configure Network</uicontrol> button.</cmd>
         		<stepresult>The Network Connections window displays.</stepresult>
         		</step>
-        		<step>
-        			<cmd>In the Network Connections window, select the network interface and click <uicontrol>Edit</uicontrol>.</cmd>
-        			<stepresult>The <uicontrol>Editing System</uicontrol> window for the connection displays.</stepresult>
-        		</step>
+        	<step>
+        		<cmd>In the Network Connections window, select the network interface and click <uicontrol>Edit</uicontrol>.</cmd>
+        		<stepresult>The <uicontrol>Editing System</uicontrol> window for the connection displays.</stepresult>
+        	</step>
         	<step>
         		<cmd>In the Editing System window, click <uicontrol>Connect automatically</uicontrol>.</cmd>
         	</step>
@@ -49,6 +61,9 @@
         </step>	
         
         </steps>
-    	<postreq>You are now ready to <xref href="faststart_install_node.dita">install the FastStart Node</xref>.</postreq>
+    	<postreq>Now that FastStart has been installed on all systems, you are ready to configure your systems.  For a multi-system
+	install, proceed to <xref href="faststart_configure_nc.dita">Node Controller Configuration</xref> (after which you will 
+	configure the Frontend).  For a cloud-in-a-box install, proceed to <xref href="faststart_configure_ciab.dita">Cloud-in-a-Box 
+	Configuration</xref>.</postreq>
     </taskbody>
 </task>
