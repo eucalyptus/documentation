@@ -4,7 +4,16 @@
 <concept outputclass="docs one-sidebar sidebar-first" id="euca_architecture">
 	<title>Understanding the Eucalyptus Architecture</title>
  <shortdesc></shortdesc>
- <conbody>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>architecture</indexterm>
+				<indexterm>components</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<conbody>
  	<p>The following image depicts the logical relationship between Eucalyptus components in a generalized deployment.</p>
  	<image href="../shared/images/euca-arch-basic-one-cluster.png" alt="Eucalyptus components in a
  		regular deployment"/>
@@ -20,12 +29,12 @@
  	<section>
  		<title>Eucalyptus HA</title>
  		
- 		<p>If you configure Eucalyptus for high availability (HA), the you will have primary and secondary cloud and
+ 		<p>If you configure Eucalyptus for high availability (HA), you must have primary and secondary cloud and
  			cluster components. In the
  			event of a failure, the secondary component becomes the primary component.</p>
  			
  		<image href="../shared/images/euca-arch-ha-one-cluster.png" alt="Image depicting the Eucalyptus HA"/>
- 		<p>Eucalyptus HA uses a service called Arbitrator that monitors connectivity
+ 		<p>Eucalyptus HA uses a service called an Arbitrator that monitors connectivity
  			between a user and a user-facing component (CLC, Walrus, and CC). An Arbitrator 
  			approximates reachability to a user. Each Arbitrator uses ICMP messages
  			to periodically test reachability to an external entity (for example, a
@@ -33,7 +42,7 @@
  			google.com).</p>
  		<p>An Arbitrator is not required in HA. However, it is nice to have in order to test
  			connectivity with a user.</p>
- 		<p>If all Arbitrators fail to reach its monitored
+ 		<p>If all Arbitrators fail to reach a monitored
  			entity, Eucalyptus assumes there is a loss of connectivity between a user and the
  			component. At that point a failover occurs. To allow for normal outages and
  			maintenance, we recommend that you register more than one Arbitrator for
