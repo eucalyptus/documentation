@@ -12,12 +12,21 @@
 <!-- Product specific terminology -->
 <xsl:if test=".//*[$excludes]/text()[contains(.,'client device')]"><li class="prodterm">client device should be "user device"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'endpoint device')]"><li class="prodterm">endpoint device should be "user device"</li></xsl:if>
-<xsl:if test=".//*[$excludes]/text()[contains(.,'knowledge base')]"><li class="prodterm">knowledge base should be "Knowledge Center"</li></xsl:if>
+<xsl:if test=".//*[$excludes]/text()[contains(.,'knowledge base')]"><li class="prodterm">knowledge
+	base should be "Engage"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'print driver')]"><li class="prodterm">print driver should be "printer driver"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'server farm')]"><li class="prodterm">server farm should be "farm"</li></xsl:if>
+	
+<xsl:if test=".//*[$excludes]/text()[contains(.,'above')]"><li class="genterm">Use only for physical space or screen descriptions, e.g., "the outlet above the floor," or "the foo button above the bar pane." For orientation within a document use previous, preceding, or earlier.</li></xsl:if>
+
+	<xsl:if test=".//*[$excludes]/text()[contains(.,'affect')]"><li class="genterm">affect vs. effect -
+		An affect is an influence; an effect is a result. If you affect the outcome, you modify it. If you effect the outcome, you cause it.</li></xsl:if>
+	
+	<xsl:if test=".//*[$excludes]/text()[contains(.,'effect')]"><li class="genterm">affect vs. effect -
+		An affect is an influence; an effect is a result. If you affect the outcome, you modify it. If you effect the outcome, you cause it.</li></xsl:if>
 
 <!-- General phrasing/terminology based on Microsoft Manual of Style for Technical Publications -->
-<xsl:if test=".//*[$excludes]/text()[contains(.,'and/or')]"><li class="genterm">and/or - Expand sentence to be more specific</li></xsl:if>
+<xsl:if test=".//*[$excludes]/text()[contains(.,'and/or')]"><li class="genterm">and/or - Although popular, the phrase is ambiguous and unnecessary in technical writing. Use either "both...and" or "either...or," as the situation requires.</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'anti-virus')]"><li class="genterm">anti-virus - Do not hyphenate</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'boot')]"><li class="genterm">boot - Use "turn on" (for physical machines) or "start" (for virtual machines)</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'click on')]"><li class="genterm">click on - Use "click"</li></xsl:if>

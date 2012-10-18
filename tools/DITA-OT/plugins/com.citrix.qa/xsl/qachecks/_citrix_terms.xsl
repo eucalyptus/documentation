@@ -12,11 +12,13 @@
 
 <!-- Product specific terminology -->
 <xsl:if test=".//*[$excludes]/text()[contains(.,'access management console')]"><li class="prodterm">access management console should be "AppCenter"</li></xsl:if>
-<xsl:if test=".//*[$excludes]/text()[contains(.,'best practice')]"><li class="prodterm">best practice should be "Citrix recommends"</li></xsl:if>
+<xsl:if test=".//*[$excludes]/text()[contains(.,'best practice')]"><li class="prodterm">best
+	practice should be "Eucalyptus recommends"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'dazzle')]"><li class="prodterm">dazzle should be "Receiver"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'delivery services console')]"><li class="prodterm">delivery services console should be "AppCenter"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'easycall')]"><li class="prodterm">EasyCall is EOL; remove all references</li></xsl:if>
-<xsl:if test=".//*[$excludes]/text()[contains(.,'http://support.citrix.com/proddocs')]"><li class="prodterm">http://support.citrix.com/proddocs should be "http://edocs.citrix.com"</li></xsl:if>
+<xsl:if test=".//*[$excludes]/text()[contains(.,'http://www.eucalyptus.com/documentation')]"><li
+	class="prodterm">http://www.eucalyptus.com/documentation should be "http://www.eucalyptus.com/docs"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'presentation server')]"><li class="prodterm">presentation server should be "XenApp"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'secure gateway')]"><li class="prodterm">secure gateway should be "Focus on Access Gateway"</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'xenapp advanced console')]"><li class="prodterm">xenapp advanced console should be "AppCenter"</li></xsl:if>
