@@ -2,97 +2,57 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="faststart_configure_frontend">
     <title>Configure the Frontend Components</title>
-    <shortdesc>In FastStart, all Eucalyptus components other than the Node Controller are installed
-    	on one machine. This machine is known as the Frontend. The Frontend is the entry point to the
-    	cloud for both administrators and users.</shortdesc>
+    <shortdesc>In FastStart, all Eucalyptus components besides the Node Controller are called 
+	the Frontend.  In a multiple system install, the Frontend lives on its own system;
+	in Cloud-in-a-Box, the Frontend and the Node Controller live on the same system.
+    	The Frontend is the entry point to the cloud for both administrators and users.</shortdesc>
     <taskbody>
         <context>
-            <p>To install the Frontend components:</p>
+            <p>To configure the Frontend:</p>
         </context>
         <steps>
-            <step>
-            	<cmd>On the machine you plan to use as the Frontend, mount the Eucalyptus FastStart media and run fastinstall.sh.</cmd>
-            	<info>
-            		<codeblock>mkdir /media/usb; mount -t vfat /dev/sdb1 /media/usb; cd /media/usb; ./fastinstall.sh</codeblock>
-	                <note type="tip">In this example, we assume that the Fast Start media appears as <cmdname>/dev/sdb1</cmdname>. Please replace with the actual device name (check the output of <cmdname>dmesg</cmdname>).</note>
-             	</info>
-           </step>
         	<step>
-        		<cmd>At the prompt for the front-end server, answer Y to the first question.</cmd>
-        		<info>
-        			<codeblock>Will this be the front-end server in your cloud? [Y|n]Y</codeblock>
-        		</info>
-        	</step>
+            		<cmd>Boot your Frontend or Cloud-in-a-Box system, depending on your configuration.
+			Log in as root at the prompt.</cmd>
+           	</step>
         	<step>
-        		<cmd>At the prompt to check for a network connection, enter <userinput>Y</userinput>.</cmd>
-        		<info>
-        			<codeblock>A network connection is recommended to download any extra packages and to
-        				configure ntp.
-Is it OK to check that connection now? [Y|n]Y</codeblock>
-        		</info>
-        		<stepresult>FastStart updates needed OS packages, and installs and configures the Frontend.</stepresult>
+        		<cmd>You will be asked a number of configuration questions.  If you are an
+			experienced user of Eucalyptus, you may enter whatever values you choose; please
+			consult the administrator's guide for details on specific parameters.  <b>If you 
+			are not an experienced user, we strongly recommend that you accept all default
+			values.</b></cmd>
         	</step>
-        	<step>
-        		<cmd>At the prompt enter the name of machine's public and private ethernet devices. The default is
-        			<userinput>em1</userinput> and you can use the same device for both public and private.</cmd>
-        		<info>
-        			<codeblock>We need to confirm the name of the ethernet device. Often, it's em1 or eth0.
-The public ethernet interface [em1]:
-The private ethernet interface (can be the same as public) [em1]:</codeblock>
-        		</info>
-        		
-        	</step>
-        	<step>
-        		<cmd>At the prompt for the dedicated subnet, enter the subnet address you will use for the Frontend.</cmd>
-        	</step>
-        	<step>
-        		<cmd>At the prompt for the subnet netmask, enter the netmask you will use for the Frontend's subnet.</cmd>
-        	</step>
-        	<step>
-        		<cmd>At the prompt for the range of IPs, enter a range of available IP addresses that
-        			Eucalyptus can choose from to assign to virtual machine instances. Use a hyphen to separate the lower and upper range (for example,192.168.9.212-192.168.9.229).</cmd>
-        	</step>
-        	<step>
-        		<cmd>The configuration process will initialize the database, start and register the
-        			Eucalyptus component services, and then wait for the CLC to start.
-        			During this process you are asked to provide the root password for the machine running
-        			the Node Controller.</cmd>
-        		<info>
-<codeblock>Wed May 2 09:38:59 PDT 2012- Initializing Database.....Ready to 
-register node controllers. Once they are installed, enter their IP addresses here,
-one by one (ENTER when done) 
-Node IP: 192.168.9.211
-The authenticity of host 192.168.9.211 (192.168.9.211) can't be established.
-RSA key fingerprint is 84:34:b4:49:1e:54:40:c3:80:7d:b1:d4:0d:93:0a:32. Are you 
-sure you want to continue connecting (yes/no)? yes
-root@192.168.9.211's password: 
-INFO: We expect all nodes to have eucalyptus installed in $EUCALYPTUS for key 
-synchronization. Trying rsync to sync keys with 192.168.9.211...done</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>At the prompt, enter the IP address of each machine running a Node Controller. Press ENTER when you are done.</cmd>
-        		<stepresult>When the installation process is finished, the machine will reboot automatically.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>After the reboot, configure the Eucalyptus Dashboard:</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Open a web browser and go to <filepath>https://&lt;your_frontend_IP_address>:8443/</filepath></cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Login as admin with the password admin.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Enter a new admin password, your email address, and the server IP address.</cmd>
-        			</substep>
-        		</substeps>
-        	</step>
-        </steps>
+		<step>
+			<cmd>When asked for a range of public IP addresses, enter two IP addresses with
+			a dash between them (e.g.: 192.168.1.200-192.168.1.240).
+			New virtual machines created by Eucalyptus will receive public IP addresses
+			from within this specified range.</cmd>
+		</step>
+		<step>
+			<cmd>If you are configuring a standalone Frontend, you will now be asked to enter the IP 
+			addresses for all of your Node Controllers.  Enter them one by one; as each Node Controller
+			attaches, you will be presented with an ssh connection prompt.  Enter the root password for 
+			each Node Controller.  When you're finished adding Node Controllers, press enter.  <b>Note:
+			the Cloud-in-a-Box configuration does not require this step.</b></cmd>
+		</step>
+		<step>
+			<cmd>You will now be asked whether your want to create an EMI for your cloud. Again,
+			we recommend that you accept the defaults.  For details on creating EMIs, please
+			consult the administrator's guide.</cmd>
+		</step>
+		<step>
+			<cmd>Finally, you will be asked if you want to install a graphical user interface
+			on this system.  The default choice is no.  Experienced Linux users who would like
+			to test the Eucalyptus web interface on this system may want to choose "yes" here 
+			instead; otherwise, users will need to connect from a separate system.</cmd>
+		</step>
+	</steps>
     	<result>The installation is now complete.</result>
     	<postreq>
     		<note type="tip">Normally, you would download a credentials file and use it to configure the
-    			client tools. As part of the FastStart process, credentials are downloaded and pre-installed on an image for you. To get these credentials,copy <filepath>/root/credentials.zip</filepath> from the Frontend server.</note>
+    		client tools. As part of the FastStart process, credentials are downloaded and pre-installed 
+		for you. To get these credentials, copy <filepath>/root/credentials.zip</filepath> from the Frontend 
+		server.</note>
     	</postreq>
     </taskbody>
 </task>
