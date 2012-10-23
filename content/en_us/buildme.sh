@@ -4,6 +4,8 @@
 # note that this will not work with the current build.properties
 # unless you have xep installed and remove the hardcoded kindlegen references
 
+# JSB 2012-10-23: Updated for new doc repo directory structure
+
 #test to see if we're running under jenkins or not
 echo "Testing for jenkins execution... "
 if [ -n "$WORKSPACE" ]
@@ -13,6 +15,10 @@ cd "$WORKSPACE"
 export XEP_HOME=/usr/local/RenderX/XEP
 else
 echo "...not running under jenkins"
+
+# JSB 2012-10-21: this was hardcoded for testing and is left for future testing; 
+# your actual XEP_HOME variable should be defined in your shell profile:
+#export XEP_HOME="/Users/scottb/xep"
 fi
 
 echo "----------------------------"
@@ -22,18 +28,21 @@ echo "----------------------------"
 
 echo "Setting environment variables…"
 
-export DITA_HOME="`pwd`/DITA-OT"
-export DOC_HOME=`pwd`
+# ugly parent directory hacks to avoid breaking other build stuff:
+export DITA_HOME="`pwd`/../../tools/DITA-OT"
+export DOC_HOME="`pwd`/.."
 export ANT_HOME="$DITA_HOME/tools/ant"
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
 echo ANT_HOME is $ANT_HOME
 
+CUR_PWD="`pwd`"
+
 # Get the absolute path of DITAOT's home directory
 cd "$DITA_HOME"
 DITA_DIR="`pwd`"
 echo DITA_DIR is $DITA_DIR
-cd ..
+cd "$CUR_PWD"
 
 # Make sure ant binary is executable
 if [ -f "$DITA_DIR"/tools/ant/bin/ant ] && [ ! -x "$DITA_DIR"/tools/ant/bin/ant ]; then
@@ -60,47 +69,13 @@ else
 export CLASSPATH="$NEW_CLASSPATH"
 fi
 
-# why do we wanna do this? nuking for now...
-#echo "*** COPY THE BUILD PROPERTIES FILE OVER ***"
-#cd $DOC_HOME/install_guide ; cp build.properties.buildy build.properties
-
-#echo "*** Building admin guide ***"
-#cd ag
-#ant pdf
-#cd ..
-#echo "*** Building user guide ***"
-#cd ug
-#ant pdf
-#cd ..
-#echo "*** Building install guide ***"
-#cd ig
-#ant pdf
-#cd ..
-#echo "*** Building CLI reference ***"
-#cd cli
-#ant pdf
-#cd ..
-#echo "*** Building FastStart ***"
-#cd fs
-#ant pdf
-#cd ..
-
-#!/bin/bash
-# use predefined variables to access passed arguments
-#echo arguments to the shell
-echo $1 $2 $3 ' -> echo $1 $2 $3'
-
-# We can also store arguments from bash command line in special array
 args=("$@")
-#echo arguments to the shell
-echo ${args[0]} ${args[1]} ${args[2]} ' -> args=("$@"); echo ${args[0]} ${args[1]} ${args[2]}'
 
-#use $@ to print out all arguments at once
-echo $@ ' -> echo $@'
+echo $@ 
 
 # use $# variable to print out
 # number of arguments passed to the bash script
-echo Number of arguments passed: $# ' -> echo Number of arguments passed: $#' 
+echo Number of arguments passed: $# 
 
 ant $@
 

@@ -1,17 +1,22 @@
 echo "Setting environment variables…"
 
-export DITA_HOME="`pwd`/DITA-OT"
-export DOC_HOME=`pwd`
+# this assumes you've already exported XEP_HOME (if you're using XEP)
+
+# ugly parent directory hacks to avoid breaking other build stuff:
+export DITA_HOME="`pwd`/../../tools/DITA-OT"
+export DOC_HOME="`pwd`/.."
 export ANT_HOME="$DITA_HOME/tools/ant"
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
 echo ANT_HOME is $ANT_HOME
 
+CUR_PWD="`pwd`"
+
 # Get the absolute path of DITAOT's home directory
 cd "$DITA_HOME"
 DITA_DIR="`pwd`"
 echo DITA_DIR is $DITA_DIR
-cd ..
+cd "$CUR_PWD"
 
 # Make sure ant binary is executable
 if [ -f "$DITA_DIR"/tools/ant/bin/ant ] && [ ! -x "$DITA_DIR"/tools/ant/bin/ant ]; then
