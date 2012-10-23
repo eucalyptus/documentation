@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="fs_requirements">
+<concept id="index">
  <title>Welcome</title>
  <shortdesc></shortdesc>
  <conbody>
  	<p>Welcome to the FastStart Guide. This guide provides instructions for installing
- 		Eucalyptus on two machines, though you have the option to add more
- 		machines.</p>
+ 		Eucalyptus in two different configurations:</p>
+		<ul>
+			<li>Cloud-in-a-box: a Eucalyptus cloud with all components on a single machine</li>
+			<li>Frontend and Node Controllers: a Eucalyptus cloud with all Frontend
+				components on a single system, and one or more Node Controllers
+				on separate machines</li>
+		</ul>
  	<section>
  		<title>Overview</title>
  		<p>Eucalyptus consists of the following components:</p>
@@ -19,22 +24,29 @@
  			<li>Storage Controller (SC): this component provides EBS functionality</li>
  			<li>Node Controller (NC): this component controls virtual machine instances</li>
  		</ul>
- 		<p>In FastStart, the CLC, Walrus, CC, and SC are installed on one machine. This machine is called
- 			the Frontend. The NC is installed on another machine, called the Node. In FastStart you can have
- 		one Frontend and one or more Nodes.</p>
+ 		<p>In the Frontend+NC configuration, the CLC, Walrus, CC, and SC are installed on one machine, called
+ 			the Frontend. The NC is installed on another machine, called the Node. In this configuration you can have
+ 			one Frontend and one or more Nodes.</p>
+		<p>In the Cloud-in-a-box configuration, all components are installed on one machine.</p>
  	</section>
  	
  	<section>
  		<title>Hardware Requirements</title>
- 		<p>Before installing FastStart, make sure you have at least two machines. Each machine must
- 		have:</p>
+ 		<p>Before installing FastStart in the Cloud-in-a-box configuration, make sure you have 
+			a machine with:</p>
+ 		<ul>
+ 			<li>a minimum of 200GB of disk space</li>
+ 			<li>a minimum of 4GB of memory</li>
+ 			<li>at least one ethernet NIC</li>
+ 		</ul>
+
+ 		<p>Before installing FastStart in the Frontend+NC configuration, make sure you have 
+			at least two machines with:</p>
  		<ul>
  			<li>a minimum of 100GB of disk space</li>
  			<li>a minimum of 4GB of memory</li>
- 			<li>one NIC per machine</li>
- 			<li>a common network switch</li>
- 		</ul>
-
+ 			<li>at least one ethernet NIC</li>
+		</ul>
  		
  		<p>Test that each machine allows SSH login and that root access is available (sudo is okay).</p>
  		<!--<table>
@@ -69,24 +81,31 @@
  	<section>
  		<title>Network Requirements</title>
  		<ul>
- 		<li>You must have access to a DHCP server.</li>
- 			<li>You must have internet access.</li>
- 		<li>You must have range of available public IP addresses. These will be assigned to VM instances.</li>
- 		<li>You must have large range of available private IP addresses. These will be used by a virtual
- 			subnet. They can't overlap or contain any part of a physical network IP address space.</li>
+ 		<li>You must have access to the internet.</li>
+ 		<li>You must be able to assign static IP addresses within your network.</li>
+		<li>You must set aside a static IP address for each physical system.</li>
+ 		<li>You must set aside a range of available public IP addresses. Eucalyptus will assign these to VM instances.</li>
+ 		<li>You must set aside a large range of available private IP addresses.  These will be used by a virtual subnet. 
+			They can not overlap or contain any part of a physical network IP address space.  Note: Eucalyptus will
+			set aside, by default, the subnet 172.16.0.0 unless you choose to set different values.</li>
  		</ul>
+		<p>A sample set of IP addresses might go as follows:</p>
+		<ul>
+			<li>192.168.1.98 for the Frontend system</li>
+			<li>192.168.1.99 for the first Node Controller</li>
+			<li>192.168.1.100 for the second Node Controller</li>
+			<li>192.168.1.101-192.168.1.149 for the public IP address range</li>
+		</ul>
  	</section>
- 
- <section>
- 	<title>Software Requirements</title>
- 	<p>You must have access to the following:</p>
- 	<ul>
- 		<li><b>CentOS 6.3 install CD:</b> You can get an image on one of the mirrors at <xref
- 			href="http://isoredirect.centos.org/centos/6.3/isos/x86_64/" scope="external" format="html">http://isoredirect.centos.org/centos/6.3/isos/x86_64/</xref>.</li>
- 		<li><b>Eucalyptus FastStart media:</b> You can get Faststart at <xref
- 			href="http://www.eucalyptus.com/download/faststart" scope="external" format="html">http://www.eucalyptus.com/download/faststart</xref></li>
- 	</ul>
- </section>
+
+	 <section>
+ 		<title>Software Requirements</title>
+ 		<p>You must have access to the <b>Eucalyptus FastStart ISO</b>. You can get the FastStart ISO from <xref
+ 			href="http://www.eucalyptus.com/download/faststart" scope="external" 
+			format="html">http://www.eucalyptus.com/download/faststart</xref>.  You should 
+			then burn this ISO to a DVD.  This DVD will be used for installation on all physical machines
+			in your cloud.</p>
+	 </section>
  
  </conbody>
 </concept>

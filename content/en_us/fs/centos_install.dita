@@ -2,43 +2,54 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task outputclass="docs one-sidebar sidebar-first" id="taskId">
-    <title>Install CentOS</title>
+    <title>Install Faststart from DVD</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <!--<p></p>-->
+            	<p>The Faststart DVD is a single DVD.  From this one DVD, you can install and configure the various Eucalyptus 
+		components in different configurations, depending on the option chosen at boot time.</p>
         </context>
         <steps>
-        	<step><cmd>Make sure the CentOS CD is in the CD drive and boot the computer from the CD drive.</cmd></step>
         	<step>
-        		<cmd>At the boot prompt, press ENTER for the graphical installer. You can skip the media verification.</cmd>
+			<cmd>Make sure the Faststart DVD is in the DVD drive and boot the computer from the DVD drive.</cmd>
+		</step>
+        	<step>
+        		<cmd>Wait for the Eucalyptus boot screen to appear, and then select the appropriate option:</cmd>
+			<substeps>
+				<substep><cmd>Choose <uicontrol>Cloud-in-a-Box</uicontrol> if you want your entire Eucalyptus 
+				cloud installed on this single system.</cmd></substep>
+				<substep><cmd>Choose <uicontrol>Node Controller</uicontrol> if you want to set up Eucalyptus 
+				across multiple physical systems.  Node Contollers should be configured first.</cmd></substep>
+				<substep><cmd>Choose <uicontrol>Frontend</uicontrol> if you want to set up Eucalyptus across multiple 
+				physical systems and you've already installed all of your Node Controllers.</cmd></substep>
+			</substeps>
         	</step>
         	
-        	<step><cmd>Accept the defaults, except for the network interface configuration. At the page
+        	<step>
+			<cmd>You may safely accept all defaults, except for the network interface configuration. At the page
         		where you set your hostname, click the <uicontrol>Configure Network</uicontrol> button.</cmd>
         		<stepresult>The Network Connections window displays.</stepresult>
         		</step>
-        		<step>
-        			<cmd>In the Network Connections window, select the network interface and click <uicontrol>Edit</uicontrol>.</cmd>
-        			<stepresult>The <uicontrol>Editing System</uicontrol> window for the connection displays.</stepresult>
-        		</step>
         	<step>
-        		<cmd>In the Editing System window, click <uicontrol>Connect automatically</uicontrol>.</cmd>
+        		<cmd>In the Network Connections window, select the network interface and click <uicontrol>Edit</uicontrol>.</cmd>
+        		<stepresult>The <uicontrol>Editing System Interface</uicontrol> window for the connection displays.</stepresult>
+        	</step>
+        	<step>
+        		<cmd>In the Editing System Interface window, click <uicontrol>Connect automatically</uicontrol>.</cmd>
         	</step>
         	<step>
         		<cmd>Click the <uicontrol>IPv4 Settings</uicontrol> tab and do the following:</cmd>
         		<substeps>
-        			<!-- David K says this should be Manual...Manual is the default. Scot M tested with
-        				Automatic.
-        				<substep>
-        				<cmd>In the <uicontrol>Method</uicontrol> drop-down, select <uicontrol>Automatic</uicontrol>.</cmd>
-        			</substep>-->
+				<substep>
+					<cmd>Change the Method from "Automatic (DHCP)" to "Manual".  <b>It is not recommended
+					to run Eucalyptus under DHCP.</b></cmd>
+				</substep>
         			<substep>
         				<cmd>In the <uicontrol>Address</uicontrol> area, click <uicontrol>Add</uicontrol> and
-        					fill in the machine's IP address, netmask, and gateway.</cmd>
+        					fill in the system's IP address and gateway.  (Netmask should be filled automatically.)</cmd>
         			</substep>
         			<substep>
-        				<cmd>In the <uicontrol>DNS servers</uicontrol> field, enter a URL for a DNS server (for example, 8.8.8.8).</cmd>
+        				<cmd>In the <uicontrol>DNS servers</uicontrol> field, enter the IP address for your DNS servers, comma-delimited (for example, 8.8.8.8, 8.8.4.4).</cmd>
         			</substep>
         		</substeps>
         	</step>
@@ -50,6 +61,9 @@
         </step>	
         
         </steps>
-    	<postreq>You are now ready to <xref href="faststart_install_node.dita">install the FastStart Node</xref>.</postreq>
+    	<postreq>Now that FastStart has been installed on all systems, you are ready to configure your systems.  For a multi-system
+	install, proceed to <xref href="faststart_configure_nc.dita">Node Controller Configuration</xref> (after which you will 
+	configure the Frontend).  For a cloud-in-a-box install, proceed directly to <xref href="faststart_configure_frontend.dita">Frontend
+	Configuration</xref>.</postreq>
     </taskbody>
 </task>

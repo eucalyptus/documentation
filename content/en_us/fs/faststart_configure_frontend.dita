@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task outputclass="docs one-sidebar sidebar-first" id="faststart_configure_frontend">
+    <title>Configure the Frontend Components</title>
+    <shortdesc>In FastStart, all Eucalyptus components besides the Node Controller are called 
+	the Frontend.  In a multiple system install, the Frontend lives on its own system;
+	in Cloud-in-a-Box, the Frontend and the Node Controller live on the same system.
+    	The Frontend is the entry point to the cloud for both administrators and users.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To configure the Frontend:</p>
+        </context>
+        <steps>
+        	<step>
+            		<cmd>Boot your Frontend or Cloud-in-a-Box system, depending on your configuration.
+			Log in as root at the prompt.</cmd>
+           	</step>
+        	<step>
+        		<cmd>You will be asked a number of configuration questions.  If you are an
+			experienced user of Eucalyptus, you may enter whatever values you choose; please
+			consult the administrator's guide for details on specific parameters.  <b>If you 
+			are not an experienced user, we strongly recommend that you accept all default
+			values.</b></cmd>
+        	</step>
+		<step>
+			<cmd>When asked for a range of public IP addresses, enter two IP addresses with
+			a dash between them (e.g.: 192.168.1.200-192.168.1.240).
+			New virtual machines created by Eucalyptus will receive public IP addresses
+			from within this specified range.</cmd>
+		</step>
+		<step>
+			<cmd>If you are configuring a standalone Frontend, you will now be asked to enter the IP 
+			addresses for all of your Node Controllers.  Enter them one by one; as each Node Controller
+			attaches, you will be presented with an ssh connection prompt.  Enter the root password for 
+			each Node Controller.  When you're finished adding Node Controllers, press enter.  <b>Note:
+			the Cloud-in-a-Box configuration does not require this step.</b></cmd>
+		</step>
+		<step>
+			<cmd>You will now be asked whether your want to create an EMI for your cloud. Again,
+			we recommend that you accept the defaults.  For details on creating EMIs, please
+			consult the administrator's guide.</cmd>
+		</step>
+		<step>
+			<cmd>Finally, you will be asked if you want to install a graphical user interface
+			on this system.  The default choice is no.  Experienced Linux users who would like
+			to test the Eucalyptus web interface on this system may want to choose "yes" here 
+			instead; otherwise, users will need to connect from a separate system.</cmd>
+		</step>
+	</steps>
+    	<result>The installation is now complete.</result>
+    	<postreq>
+    		<note type="tip">Normally, you would download a credentials file and use it to configure the
+    		client tools. As part of the FastStart process, credentials are downloaded and pre-installed 
+		for you. To get these credentials, copy <filepath>/root/credentials.zip</filepath> from the Frontend 
+		server.</note>
+    	</postreq>
+    </taskbody>
+</task>
