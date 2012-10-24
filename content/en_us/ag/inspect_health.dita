@@ -69,9 +69,13 @@
 			</context>
 			<steps>
 				<step>
-					<cmd>Enter the following command:</cmd>
+					<cmd>Enter the following command on the CLC, Walrus, SC, or VMWareBroker machines:</cmd>
 					<info>
-						<codeblock>euca-modify-service &lt;service_name> -s &lt;new_service_state></codeblock>
+						<codeblock>eucalyptus-cloud stop</codeblock>
+					</info>
+					<info>
+						<p>On the CC, use the following command:</p>
+						<codeblock>eucalyptus-cc stop</codeblock>
 					</info>
 				</step>
 			</steps>
@@ -81,19 +85,21 @@
 					primary SC is <codeph>SC00</codeph> and the secondary SC is <codeph>SC01</codeph>.
 					<codeph>SC00</codeph> is <codeph>ENABLED</codeph> and <codeph>SC01</codeph> is
 					<codeph>DISABLED</codeph>.</p>
-				<p>To disable <codeph>SC00</codeph> and cause <codeph>SC01</codeph> to take over, you would
-				enter:</p>
-				<codeblock>euca-modify-service SC00 -s DISABLED</codeblock>
+				<p>To stop <codeph>SC00</codeph> and cause <codeph>SC01</codeph> to take over, you would enter
+					the following command on SC00:</p>
+				<codeblock>eucalyptus-cloud stop</codeblock>
 				<p>To check status of services, you would enter:</p>
 				<codeblock>euca-describe-services</codeblock>
-				<p>When <codeph>SC01</codeph> is marked <codeph>ENABLED</codeph>, the eucalyptus-cloud process
-					on the host that SC00 is running can be safely shutdown and maintenance tasks can be performed.
-					When maintenance is complete, you can start the eucalyptus-cloud process on
-					<codeph>SC00</codeph>. <codeph>SC00</codeph> will enter the <codeph>DISABLED</codeph> state by
-					default. You can chose to let <codeph>SC00</codeph> continue to be the primary and <codeph>SC01</codeph> will be the secondary.</p>
+				<p>When <codeph>SC01</codeph> starts, the eucalyptus-cloud process on the host that SC00 is
+					shutdown and maintenance tasks can be performed. When maintenance is complete,
+					you can start the eucalyptus-cloud process on <codeph>SC00</codeph>.
+						<codeph>SC00</codeph> will enter the <codeph>DISABLED</codeph> state by
+					default. You can chose to let <codeph>SC01</codeph> continue to be the primary
+					and <codeph>SC00</codeph> will be the secondary.</p>
 				<p>If you want to designate <codeph>SC00</codeph> as the primary, make sure no volumes or
-					snapshots are being created and that no volumes are being attached or detached, and then enter:</p>
-				<codeblock>euca-modify-service SC01 -s DISABLED</codeblock>
+					snapshots are being created and that no volumes are being attached or detached,
+					and then enter on SC01:</p>
+				<codeblock>eucalyptus-cloud stop</codeblock>
 				<p>Monitor the state of services using <codeph>euca-describe-services</codeph> until
 					<codeph>SC01</codeph> is marked <codeph>DISABLED</codeph> and <codeph>SC00</codeph> is <codeph>ENABLED</codeph>.</p>
 			</example>
