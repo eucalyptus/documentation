@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="rn_issues">
 	<title>Known Issues</title>
 	<shortdesc/>
 	<conbody>
-		<p>The following known issues exist in Eucalyptus 3.1 and its dependencies. Please contact
+		<p>The following known issues exist in Eucalyptus 3.1.2 and its dependencies. Please contact
 			Eucalyptus support for known workarounds to these issues.</p>
 		<table>
 			<tgroup cols="2">
@@ -16,388 +17,119 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry> LDAP sync failure if the "group-partitions" contains capital letter
-							in group names (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2035">EUCA-2035</xref>)</entry>
-						<entry> When creating an AD sync license configuration, using capital
-							letters in the "groups-partition" setting can cause sync failures. Using
-							lower-case letters in "groups-partition" will avoid this issue.</entry>
+						<entry>euca-bundle-instance does not work with remote WALRUS
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3460">EUCA-3460</xref>)</entry>
+						<entry>When Walrus is running on a host different from the CLC host, euca-bundle-instance does not work.</entry>
 					</row>
 					<row>
-						<entry> Deregistered components still display as present (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2037">EUCA-2037</xref>)</entry>
-						<entry> When components are de-registered and a failover occurs in HA mode,
-							the de-registered components will still display as present until either
-							a cloud restart or another failover occurs.</entry>
+						<entry>Walrus does not failover in HA if eucalyptus-cloud process is forcibly killed on primary
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3202">EUCA-3202</xref>)</entry>
+						<entry>If the eucalyptus-cloud process is forcibly terminated (kill -9) on the primary Walrus, failover to the secondary Walrus is not automatically triggered.</entry>
 					</row>
 					<row>
-						<entry> Instance remains pending for long periods during failed image
-							downloads (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2265">EUCA-2265</xref>)</entry>
-						<entry> If an NC is failing to download an image from Walrus, the instance
-							will remain in pending for an extended period of time (2 hours by
-							default).</entry>
+						<entry>Quota exceed message when quota is not actually exceeded.
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3612">EUCA-3612</xref>)</entry>
+						<entry>euca-allocate-address claims that user's quota has been exceeded when attempting to allocate the last address in the quota limit. Request actually succeeds despite failure message.</entry>
 					</row>
 					<row>
-						<entry> Unclear error message when attempting to create a volume larger than
-							permitted (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2366">EUCA-2366</xref>)</entry>
-						<entry> When a volume size limit is exceeded on volume create, the user will
-							be given an error message ("Channel was closed...") that is
-							unclear.</entry>
+						<entry>Quota limiting against vmtype doesn't work
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3613">EUCA-3613</xref>)</entry>
+						<entry>Quota which limits the number of instances against a resource of a specific vmtype has no effect.</entry>
 					</row>
 					<row>
-						<entry> Windows server 2003 x86 does not work on RHEL 6.2, Centos 6.2, and
-							Precise (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2358">EUCA-2358</xref>)</entry>
-						<entry> The Windows Image preparation tool does not include 32-bit virtio
-							Windows drivers that are compatible with the versions of KVM shipped
-							with RHEL 6, CentOS 6 and Ubuntu Precise.</entry>
+						<entry>DescribeInstances api call does not return ip addresses
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2185">EUCA-2185</xref>)</entry>
+						<entry>With DNS mapping assigned to Instances the DescribeInstances command does not return the internal and external ip addresses. It returns the internal and external dns entries.</entry>
 					</row>
 					<row>
-						<entry> Instance rebooted with an EBS volume attached may fail to boot
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2169">EUCA-2169</xref>)</entry>
-						<entry> With KVM hypervisor, with VIRTIO enabled for DISK (EBS) and a volume
-							attached, the VM may prefer the EBS volume on reboot instead of the
-							proper root device (VM configuration specific).</entry>
+						<entry>VNET_DNS value is not the only DNS IP in resolv.conf
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2281">EUCA-2281</xref>)</entry>
+						<entry>Along with the value of VNET_DNS a local loopback interface IP 127.0.0.1 is also set in the /etc/resolv.conf of the instance.</entry>
 					</row>
 					<row>
-						<entry> Instance bundling might fail because NC work space does not have
-							enough room (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2369">EUCA-2369</xref>)</entry>
-						<entry> If an NC does not have enough space allocated to its workspace (as
-							specified by the NC_WORK_SIZE parameter in eucalyptus.conf), instance
-							bundling may fail without a warning if the workspace limit is exceeded
-							by the bundling operation.</entry>
+						<entry>Ephemeral targets left behind with BFEBS
+							  (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2291">EUCA-2291</xref>)</entry>
+						<entry>In case of BFEBS, LUN 0 is left behind when using tgt. This does not affect functionality, but it should be cleaned up</entry>
 					</row>
 					<row>
-						<entry> Policies with conditions using "numlteq" are rejected
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2046">EUCA-2046</xref>)</entry>
-						<entry> Policies using the 'numlteq' shorthand will be treated as invalid.
-							Use the longhand 'NumericLessThanEquals' instead.</entry>
-					</row>
-
-					<row>
-						<entry> IP addresses remain mapped if instances are terminated while the CC
-							is down (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2295">EUCA-2295</xref>)</entry>
-						<entry> If instances are terminated while a cluster controller is down,
-							public IPs will remain mapped even after the instance terminates (after
-							the cluster controller is brought back up). This condition will last
-							until the IP is re-used for a new instance.</entry>
+						<entry>L2TP tunnel does not get established in multi-cluster
+                                                          (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
+						<entry>When Eucalyptus is setup in multi-cluster, no tunnel is setup when instances run on different clusters in the same security group.</entry>
 					</row>
 					<row>
-						<entry> The format of the response message to a RunInstances request does
-							not conform to the EC2 XML schema (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1090">EUCA-1090</xref>)</entry>
-						<entry> The blockDeviceMapping aspect contained in the response from
-							RunInstances does not conform to the latest AWS EC2 format. This may
-							cause some EC2 clients to fail.</entry>
+						<entry>euca-stop-instances does not return correct information
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
+						<entry>euca-stop-instances only returns the instance identifier and does not return the previous or the current state of the instance.</entry>
 					</row>
 					<row>
-						<entry> The euca-describe-regions command returns an error when the --region
-							parameter is used (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1623">EUCA-1623</xref>)</entry>
-						<entry> When a 'region' option is passed to 'euca-describe-regions', the
-							command will return an error.</entry>
+						<entry>euca-start-instances does not return correct information
+ 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3311">EUCA-3311</xref>)</entry>                               
+						<entry>euca-start-instances only returns the instance identifier and does not return the previous or the current state of the instance.</entry>
 					</row>
 					<row>
-						<entry> The euca-describe-clouds command has no output when using HA
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2299">EUCA-2299</xref>)</entry>
-						<entry> In HA mode, the 'euca-describe-clouds' command will not display
-							output. The 'euca-describe-services' command will contain the correct
-							output.</entry>
+						<entry>ENABLED CC have two NAT rules about 169.254.169.254
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3440">EUCA-3440</xref>)</entry>
+						<entry>In HA Mode, ENABLED CC can get into a state where it reports both ENABLED and DISABLED CLC in iptables for the metadata service.</entry>
 					</row>
 					<row>
-						<entry> Instances launched in parallel against vCenter may fail
-							(BROKER-1)</entry>
-						<entry> When many instances are launched in parallel against a vCenter
-							backed Eucalyptus deployment, some of the instances may fail to
-							run.</entry>
+						<entry>euca-describe-nodes does not return consistent results
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3456">EUCA-3456</xref>)</entry>                              
+						<entry>The output of euca-describe-nodes is not consistent.</entry>
 					</row>
 					<row>
-						<entry> Public IP address can be assigned to instance with private
-							addressing (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2204">EUCA-2204</xref>, 
-								    <xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-280">EUCA-280</xref>)</entry>
-						<entry> If an instance is run with the '--addressing private' parameter and
-							later assigned an elastic IP, it will be assigned a system IP after the
-							elastic IP is disassociated.</entry>
+						<entry>Storage interface property does not have any effect
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
+						<entry>The storage.storageinterface is deprecated and does not have any effect.</entry>
 					</row>
 					<row>
-						<entry> Describe regions contains both EC2 and S3 end-point information
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2198">EUCA-2198</xref>)</entry>
-						<entry> AWS EC2 describeRegions response does not contain S3 end-point
-							information. In Eucalyptus, describe regions contains both EC2 and S3
-							end-point information.</entry>
+						<entry>BFEBS instance has a redundant device /dev/vdb
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
+						<entry>EBS backed instances should not expose ephemeral storage by default.</entry>
 					</row>
 					<row>
-						<entry> Cannot de-register a CC and re-register it with a different name
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2304">EUCA-2304</xref>)</entry>
-						<entry> If an existing CC is registered, de-registered, and then
-							re-registered with a new name, the CC process will need to be 'clean
-							restarted' in order to return to service.</entry>
+						<entry>Terminating the ebs-backed instance in the middle of its creation doesn't delete its ebs volume
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3452">EUCA-3452</xref>)</entry>
+						<entry>If an EBS backed instance is terminated while it is still pending, the corresponding EBS volume remains in the "deleting" state.</entry>
 					</row>
 					<row>
-						<entry> RunInstance expiration policy does not work (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2229">EUCA-2229</xref>)</entry>
-						<entry> Specifying an instance run expiration policy in the past will not
-							limit future instance runs.</entry>
+						<entry>Quota limiting run instances against availabilityzone resource does not work
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3614">EUCA-3614</xref>)</entry>
+						<entry>A policy which limits the number of instances which can be run within an availability zone has no effect.</entry>
 					</row>
 					<row>
-						<entry> Kernel and ramdisk images are not owned by the accounts that
-							register them (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1756">EUCA-1756</xref>)</entry>
-						<entry> Registered kernel/ramdisk images are listed as being owned by the
-							'nobody' account, instead of the account ID of the user who registered
-							the images.</entry>
+						<entry>euca-create-image from ebs backed instance fails, returns 0
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1333">EUCA-1333</xref>)</entry>
+						<entry>euca-create-image is currently unsupported.</entry>
 					</row>
 					<row>
-						<entry> Special characters in object key for Walrus object handled
-							inconsistently (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2024">EUCA-2024</xref>, 
-								        <xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1598">EUCA-1598</xref>, 
-									<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1779">EUCA-1779</xref>)</entry>
-						<entry> When an object key contains a special character such as a space or
-							tilde (~), Walrus translates it incorrectly, and subsequent key listings
-							will show the encoded equivalent instead of the correct
-							character.</entry>
+						<entry>EBS backed stopped instances still reports IPs
+                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
+						<entry>When an EBS backed instance is stopped , euca-describe-instances still shows an IP allocated and associated to the instance.</entry>
 					</row>
 					<row>
-						<entry> Concurrent snapshot operations can allow the Walrus maximum total
-							snapshot size limit to be exceeded (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1527">EUCA-1527</xref>)</entry>
-						<entry> The Walrus 'storagemaxtotalsnapshotsizeingb' limit may be exceeded
-							temporarily if many snapshots (which, in aggregate will exceed the
-							limit) are in flight concurrently. Subsequent snapshot requests will be
-							limited by the set limit.</entry>
+						<entry>Incorrect Device Reported for EBS Root Volumes
+						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
+						<entry>When using VIRTIO, EBS root volumes reported by euca-describe-volumes appear as /dev/sda1 instead of /dev/vda1</entry>
 					</row>
 					<row>
-						<entry> UI elements on small screens may not be visible (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1544">EUCA-1544</xref>)</entry>
-						<entry> WebUI elements may be hidden from view on small (low resolution)
-							screens.</entry>
+						<entry>You cannot restrict launch of an image with launch permissions
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1929">EUCA-1929</xref>)</entry>
+						<entry>Restricting launch permissions based on a user ID does not work.</entry>
 					</row>
 					<row>
-						<entry> Walrus XML response bodies do not contain XML document header
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2182">EUCA-2182</xref>)</entry>
-						<entry> AWS S3 includes an XML document header in XML response bodies, while
-							Eucalyptus does not contain a header. This may cause some S3 clients to
-							fail.</entry>
+						<entry>File names with % embedded fail to upload to Walrus.
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3453">EUCA-3453</xref>)</entry>
+						<entry>Unable to upload files with an embedded % to Walrus</entry>
 					</row>
 					<row>
-						<entry> Account deletion always requires "-r" even if there are no newly
-							created resources (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2332">EUCA-2332</xref>)</entry>
-						<entry> Full account deletion requires the use of the '-r' (recursive)
-							parameter for newly created accounts, even if they do not currently own
-							any resources.</entry>
+						<entry>Cannot detach EBS volume from stopped instance
+						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2411">EUCA-2411</xref>)</entry>
+						<entry>Unable to detach root EBS volume when an instance is in the "stopped" state</entry>
 					</row>
 					<row>
-						<entry> Issue with non-actionable IAM policies (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1018">EUCA-1018</xref>)</entry>
-						<entry> Eucalyptus will accept IAM policies that are not actionable (for
-							example, if a non-existent user is specified in the policy
-							definition).</entry>
-					</row>
-					<row>
-						<entry> LDAP user/group synchronization slow (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1597">EUCA-1597</xref>)</entry>
-						<entry> LDAP user/group synchronization can be very slow if the entropy on
-							the cloud controller is low.</entry>
-					</row>
-					<row>
-						<entry> Walrus ListVersions response lists objects in reverse order by date
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2342">EUCA-2342</xref>)</entry>
-						<entry> AWS S3 returns object versions in the order in which they were
-							stored, with the most recently stored returned first. Eucalyptus will
-							return object versions in the reverse order.</entry>
-					</row>
-					<row>
-						<entry> Orphaned uploads when Walrus max bucket size limit is reached
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2275">EUCA-2275</xref>)</entry>
-						<entry> When a maximum bucket size is is exceeded by a put to Walrus, there
-							may be files left on the backing store after the put is
-							rejected.</entry>
-					</row>
-					<row>
-						<entry> Walrus response to HTTP HEAD request includes a body
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2241">EUCA-2241</xref>)</entry>
-						<entry> When using an HTTP HEAD request to fetch metadata about an object in
-							a Walrus bucket, Walrus may return a body in the response when an error
-							such as an HTTP 404 Not-Found occurs. This only happens in the case of
-							errors where an exception or HTTP error occurs, and does not occur if
-							the object is found. This may cause incorrect client behavior.</entry>
-					</row>
-					<row>
-						<entry> Some Euare NotAuthorized error messages are incorrect
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2220">EUCA-2220</xref>)</entry>
-						<entry> When specifying invalid options to several euare-* commands, the
-							content of the error response may not be accurate; you may get a
-							'NotAuthorized' when the error is actually regarding an invalid input
-							option.</entry>
-					</row>
-					<row>
-						<entry> Web UI dialogs hardcode text field text color but not text field
-							background color (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-645">EUCA-645</xref>)</entry>
-						<entry> Text fields in the Eucalyptus Web UI may be unreadable if the
-							browser background color is the same or similar to the WebUI text
-							color.</entry>
-					</row>
-					<row>
-						<entry> You can not restrict the launch of an image with launch permissions
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1929">EUCA-1929</xref>)</entry>
-						<entry> Eucalyptus will respect the 'all' user for adding/removing image
-							launch permissions, but will not respect specific user/account IDs
-							(specifying them will have no effect).</entry>
-					</row>
-					<row>
-						<entry> Accounts cannot be disabled (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1649">EUCA-1649</xref>)</entry>
-						<entry> Eucalyptus 3.1 allows the disabling of 'users', but not
-							'accounts'.</entry>
-					</row>
-					<row>
-						<entry> Volume limitation with VMWare hypervisor (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1435">EUCA-1435</xref>)</entry>
-						<entry> When using the VMWare hypervisor with Eucalyptus, any one instance
-							can only support a total of 14 volumes attached at once.</entry>
-					</row>
-
-					<row>
-						<entry> Issue with vminstancenumber quota (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2333">EUCA-2333</xref>)</entry>
-						<entry> When a vminstancenumber quota is specified, a single 'run-instances'
-							command that specifies an instance count that exceeds the quota amount
-							will be accepted, even though only the quota specified max will
-							successfully execute.</entry>
-					</row>
-					<row>
-						<entry> Binding error when registering image with multiple device mappings
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2264">EUCA-2264</xref>)</entry>
-						<entry> When registering an image, the client allows the specification of
-							mappings for devices/snapshots. If more than one mapping is specified
-							then the command will return a binding error.</entry>
-					</row>
-					<row>
-						<entry> AD/LDAP sync does not support none latin characters
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2036">EUCA-2036</xref>)</entry>
-						<entry> When integrating with an AD/LDAP IDS, Eucalyptus sync will fail if
-							the IDS records contain non-latin characters.</entry>
-					</row>
-					<row>
-						<entry> WebUI does not honor change in port in presentation of Cloud URL
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1777">EUCA-1777</xref>)</entry>
-						<entry> Changing the port aspect of the 'Cloud URL' field in the webUI does
-							not have an effect on the port that the to which the cloud controller
-							binds. </entry>
-					</row>
-					<row>
-						<entry> The euca-register command currently defaults its architecture
-							parameter to i386 instead of omitting it by default (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1504">EUCA-1504</xref>)</entry>
-						<entry> The euca-register command currently defaults its architecture
-							parameter to i386. As a workaround, you should always supply an
-							architecture when using the euca-register and euca-bundle-image
-							commands. </entry>
-					</row>
-					<row>
-						<entry> Instances are not accessible if CC fails to start dhcpd
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-432">EUCA-432</xref>)</entry>
-						<entry> If the CC cannot start the DHCP server and instances are not getting
-							addresses, an error will appear in the CC log file that will show the
-							dhcpd command that is being attempted, along with the error return code.
-							Searching the cc.log for EUCAERROR will find such a message.</entry>
-					</row>
-					<row>
-						<entry> Null point exception when accessing http://169.254.169.254/
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1556">EUCA-1556</xref>)</entry>
-						<entry> In AWS, access to the metadata URL returns a list of namespace
-							versions. In Eucalyptus, the base URL (http://169.254.169.254) returns
-							an error value. You must specify
-							'http://169.254.169.254/latest/meta-data' as the version to obtain
-							metadata information.</entry>
-					</row>
-					<row>
-						<entry> Issue with LOGROLLNUMBER value in euca.conf (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2212">EUCA-2212</xref>)</entry>
-						<entry> The LOGROLLNUMBER in eucalyptus.conf only applies to the C-based
-							Eucalyptus components (cluster controller, node controller). This
-							configuration option does not have an effect on the java-based
-							Eucalyptus component log behavior.</entry>
-					</row>
-					<row>
-						<entry> EBS images default to the wrong architecture (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1504">EUCA-1504</xref>)</entry>
-						<entry> In AWS, boot from EBS image registration defaults to the 'i386'
-							architecture. In Eucalyptus, the default architecture is 'x86_64'. This
-							is a display issue and does not effect the execution of the image
-							itself.</entry>
-					</row>
-					<row>
-						<entry> CLC accepts RunInstances requests with MinCount > MaxCount
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1792">EUCA-1792</xref>)</entry>
-						<entry> AWS throws an error if mincount is greater than maxcount as options
-							to run-instances. Eucalyptus will not throw an error, and will respect
-							the value specified in maxcount.</entry>
-					</row>
-					<row>
-						<entry> Denial of EC2 address resource not taking effect (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-811">EUCA-811</xref>)</entry>
-						<entry> Specifying a policy that denies a user from being able to assign a
-							specific elastic IP only works for allocated elastic IPs; the policy
-							will not currently apply for system-assigned elastic IPs.</entry>
-					</row>
-					<row>
-						<entry> Deregistering some components on Precise HA requires CLC restart
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2353">EUCA-2353</xref>)</entry>
-						<entry> De-registration of components in HA will work, but may require a
-							restart of CLC in order for de-registered components to no longer
-							display in euca-describe-services. </entry>
-					</row>
-					<row>
-						<entry> Issue with security group rules referencing other security groups
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1064">EUCA-1064</xref>) </entry>
-						<entry> When in multi-cluster, MANAGED or MANAGED-NOVLAN mode, security
-							group rules that reference other security groups will not apply unless
-							an instance from each group is running in each cluster (availability
-							zone). </entry>
-					</row>
-					<row>
-						<entry>Issues with INSTANCES_PATH on Ubuntu (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2257">EUCA-2257</xref>)</entry>
-						<entry>On Ubuntu, the path specified as a parameter to INSTANCES_PATH in
-							eucalyptus.conf on node controllers must not contain a softlink. There
-							is an issue with an apparmor/libvirt configuration that will cause a
-							softlink in the path to result in failure to execute instances.</entry>
-					</row>
-					<row>
-						<entry>Incorrect information on the service components page
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2324">EUCA-2324</xref>)</entry>
-						<entry>The service components page in the web UI may display out-of-date or
-							incorrect information regarding the current service state. Correct and
-							up-to-date information can be obtained using the
-							'euca-describe-services' CLI tool.</entry>
-					</row>
-					<row>
-						<entry>Problems attaching/detaching volumes (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2385">EUCA-2385</xref>)</entry>
-						<entry>When using the VMWare hypervisor, attaching and detaching volumes can
-							run more slowly than expected. In particular, updating the state of the
-							volume as returned by 'euca-describe-volumes' can take up to 30
-							seconds.</entry>
-					</row>
-					<row>
-						<entry>Uploaded images fail to run (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2387">EUCA-2387</xref>)</entry>
-						<entry>An image uploaded to Walrus with a size that is not a multiple of 512
-							bytes will fail to run in Eucalyptus.</entry>
-					</row>
-					<row>
-						<entry>Image is registered successfully, but fails to run
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2386">EUCA-2386</xref>)</entry>
-						<entry>An image that is bundled (client-side) using credentials that are no
-							longer valid within Eucalyptus can be successfully uploaded and
-							registered. However, it will not be possible to run instances from this
-							image.</entry>
-					</row>
-					<row>
-						<entry>User loginprofiles reset during 3.0.2 to 3.1 upgrade 
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2393">EUCA-2393</xref>)</entry>
-						<entry>On upgrade from Eucalyptus 3.0.2 to 3.1.0, user email address information will be lost 
-							resulting in users being presented the 'first time login' form upon access to 
-							the Web UI. The email address information will be stored subsequently.</entry>
-					</row>
-					<row>
-						<entry>Instance DNS service cannot be turned on after upgrade from 2.0.3 to 3.1.0 
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2393">
-							EUCA-2396</xref>)</entry>
-						<entry>On upgrade from eucalyptus (open source) version 2.0.3 to eucalyptus 3.1.0, 
-							the user is not able to enable instance DNS feature of Eucalyptus 3.1.0 
-							(bootstrap.webservices.use_instance_dns=true).</entry>
-					</row>
-					<row>
-						<entry>Unable to launch public BFEBS image from account other than the one who 
-							owns the snapshot 
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2393">EUCA-2396</xref>)</entry>
-						<entry>EBS backed images created/registered by one account will not be 
-							executable by users in a different account.</entry>
-					</row>
-					<row>
-						<entry/>
-						<entry/>
+						<entry>CLC always returns A response for AAAA or TXT DNS query
+                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2329">EUCA-2329</xref>)</entry>
+						<entry>With DNS delegation enabled and eucalyptus subdomain configured in master DNS server, if the master DNS server sends a AAAA or TXT query the CLC always returns A response.</entry>
 					</row>
 				</tbody>
 			</tgroup>
