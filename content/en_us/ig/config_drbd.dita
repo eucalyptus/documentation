@@ -159,6 +159,7 @@ drbdadm up r0</codeblock>
         	</step>
         	<step>
         		<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
+				<note type="tip">With a large DRBD device, the initial synchronization can take a considerable amount of time. Consult the next section for instructions on how to skip the synchronization.</note>
         		<info>
         			<codeblock>drbdsetup /dev/drbd1 syncer -r 110M
 drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
@@ -198,5 +199,3 @@ euca-modify-property -p walrus.resource=r0</codeblock>
 		</taskbody>
 
 </task>
-
-
