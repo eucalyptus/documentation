@@ -7,6 +7,7 @@
 # JSB 2012-10-23: Updated for new doc repo directory structure
 
 #test to see if we're running under jenkins or not
+echo "*** BUILDME v5.0 ***" 
 echo "Testing for jenkins execution... "
 if [ -n "$WORKSPACE" ]
 then
