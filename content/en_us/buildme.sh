@@ -38,8 +38,6 @@ echo "Logged in as: " $USER
 echo "----------------------------"
 
 
-
-
 # ugly parent directory hacks to avoid breaking other build stuff:
 
 export ANT_HOME="$DITA_HOME/tools/ant"
@@ -87,8 +85,6 @@ echo $@
 # use $# variable to print out
 # number of arguments passed to the bash script
 echo Number of arguments passed: $# 
-
-cd "content/en_us"
 
 ant $@
 
