@@ -68,6 +68,10 @@ echo "*** Setting ant environment variables ***"
 export ANT_OPTS="-Xmx512m $ANT_OPTS"
 export ANT_OPTS="$ANT_OPTS -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl"
 export ANT_HOME="$DITA_DIR"/tools/ant
+echo "ANT_OPTS = " $ANT_OPTS
+echo "ANT_HOME = " $ANT_HOME
+
+
 
 echo "*** Adding project-specific version of ant to path ***"
 export PATH="$DITA_DIR"/tools/ant/bin:"$PATH"
@@ -84,6 +88,10 @@ export CLASSPATH="$NEW_CLASSPATH":"$CLASSPATH"
 else
 export CLASSPATH="$NEW_CLASSPATH"
 fi
+
+cd "content/en_us"
+echo "Changed to dir:
+pwd
 
 args=("$@")
 
