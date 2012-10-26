@@ -89,10 +89,6 @@ else
 export CLASSPATH="$NEW_CLASSPATH"
 fi
 
-cd "content/en_us"
-echo "Changed to dir:"
-pwd
-
 args=("$@")
 
 echo $@ 
@@ -101,6 +97,6 @@ echo $@
 # number of arguments passed to the bash script
 echo Number of arguments passed: $# 
 
-ant $@
+ant $@ "content/en_us/build.xml"
 
 echo "*** Builds done ***"
