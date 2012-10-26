@@ -67,7 +67,7 @@ fi
 echo "*** Setting ant environment variables ***"
 export ANT_OPTS="-Xmx512m $ANT_OPTS"
 export ANT_OPTS="$ANT_OPTS -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl"
-#export ANT_HOME="$DITA_DIR"/tools/ant
+export ANT_HOME="$DITA_DIR"/tools/ant
 
 echo "*** Adding project-specific version of ant to path ***"
 export PATH="$DITA_DIR"/tools/ant/bin:"$PATH"
