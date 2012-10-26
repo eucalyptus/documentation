@@ -88,6 +88,8 @@ echo $@
 # number of arguments passed to the bash script
 echo Number of arguments passed: $# 
 
+cd "content/en_us"
+
 ant $@
 
 echo "*** Builds done ***"
