@@ -90,7 +90,7 @@ export CLASSPATH="$NEW_CLASSPATH"
 fi
 
 cd "content/en_us"
-echo "Changed to dir:
+echo "Changed to dir:"
 pwd
 
 args=("$@")
