@@ -43,10 +43,10 @@ echo ANT_HOME is $ANT_HOME
 CUR_PWD="`pwd`"
 
 # Get the absolute path of DITAOT's home directory
-cd "$DITA_HOME"
-DITA_DIR="`pwd`"
-echo DITA_DIR is $DITA_DIR
-cd "$CUR_PWD"
+#cd "$DITA_HOME"
+#DITA_DIR="`pwd`"
+#echo DITA_DIR is $DITA_DIR
+#cd "$CUR_PWD"
 
 # Make sure ant binary is executable
 if [ -f "$DITA_DIR"/tools/ant/bin/ant ] && [ ! -x "$DITA_DIR"/tools/ant/bin/ant ]; then
