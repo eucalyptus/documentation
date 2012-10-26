@@ -48,7 +48,7 @@ echo ANT_HOME is $ANT_HOME
 echo PATH is $PATH
 
 # Get the absolute path of DITAOT's home directory
-CUR_PWD="="`pwd`"
+CUR_PWD="`pwd`"
 echo "Saving current pwd: " $CUR_PWD
 cd "$DITA_HOME"
 DITA_DIR="`pwd`"
