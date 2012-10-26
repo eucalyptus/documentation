@@ -43,7 +43,7 @@ echo "----------------------------"
 # ugly parent directory hacks to avoid breaking other build stuff:
 
 export ANT_HOME="$DITA_HOME/tools/ant"
-PATH=$PATH:/$ANT_HOME
+PATH=$PATH:/$ANT_HOME/bin
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
 echo ANT_HOME is $ANT_HOME
