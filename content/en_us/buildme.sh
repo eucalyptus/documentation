@@ -19,7 +19,8 @@ pwd
 
 export XEP_HOME=/usr/local/RenderX/XEP
 export DITA_HOME="/srv/jenkins/workspace/product-docs/tools/DITA-OT"
-ecport DOC_HOME="/srv/jenkins/workspace/product-docs"
+export DOC_HOME="/srv/jenkins/workspace/product-docs"
+export PATH=$PATH:/$ANT_HOME
 else
 
 echo "...not running under jenkins..."
@@ -42,9 +43,11 @@ echo "----------------------------"
 # ugly parent directory hacks to avoid breaking other build stuff:
 
 export ANT_HOME="$DITA_HOME/tools/ant"
+PATH=$PATH:/$ANT_HOME
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
 echo ANT_HOME is $ANT_HOME
+echo PATH is $PATH
 
 # Get the absolute path of DITAOT's home directory
 #cd "$DITA_HOME"
