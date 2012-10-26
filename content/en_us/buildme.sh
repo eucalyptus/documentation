@@ -13,6 +13,9 @@ if [ -n "$WORKSPACE" ]
 then
 echo "...running under jenkins; switching to $WORKSPACE and setting XEP_HOME"
 cd "$WORKSPACE"
+echo "Current PWD: "
+pwd
+echo "---"
 export XEP_HOME=/usr/local/RenderX/XEP
 else
 echo "...not running under jenkins"
