@@ -11,18 +11,25 @@ echo "*** BUILDME v5.0 ***"
 echo "Testing for jenkins execution... "
 if [ -n "$WORKSPACE" ]
 then
-echo "...running under jenkins; switching to $WORKSPACE and setting XEP_HOME"
+echo "...running under jenkins; switching to $WORKSPACE and setting up environment"
+
 cd "$WORKSPACE"
 echo "Current PWD: "
 pwd
-echo "---"
+
 export XEP_HOME=/usr/local/RenderX/XEP
+export DITA_HOME="/srv/jenkins/workspace/product-docs/tools/DITA-OT"
+ecport DOC_HOME="/srv/jenkins/workspace/product-docs"
 else
-echo "...not running under jenkins"
+
+echo "...not running under jenkins..."
 
 # JSB 2012-10-21: this was hardcoded for testing and is left for future testing; 
 # your actual XEP_HOME variable should be defined in your shell profile:
 #export XEP_HOME="/Users/scottb/xep"
+
+export DITA_HOME="`pwd`/../../tools/DITA-OT"
+export DOC_HOME="`pwd`/.."
 fi
 
 echo "----------------------------"
@@ -30,17 +37,14 @@ echo "Logged in as: " $USER
 echo "----------------------------"
 
 
-echo "Setting environment variables…"
+
 
 # ugly parent directory hacks to avoid breaking other build stuff:
-export DITA_HOME="`pwd`/../../tools/DITA-OT"
-export DOC_HOME="`pwd`/.."
+
 export ANT_HOME="$DITA_HOME/tools/ant"
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
 echo ANT_HOME is $ANT_HOME
-
-CUR_PWD="`pwd`"
 
 # Get the absolute path of DITAOT's home directory
 #cd "$DITA_HOME"
