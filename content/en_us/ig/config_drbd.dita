@@ -148,18 +148,23 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
         			<codeblock>service eucalyptus-cloud restart</codeblock>
         		</info>
         	</step>
-        	<step>
+		<step>
+			<cmd>Monitor the failover with euca-describe-services.  If successful, stop the eucalyptus-cloud service again on both Walruses whilst you configure the DRBD device.</cmd>
+			<info>
+				<codeblock>service eucalyptus-cloud stop</codeblock>
+			</info>
+		<step>
         		<cmd>On the primary Walrus, associate the DRBD block device (<filepath>/dev/drbd1</filepath>) with the disk
         			partition allocated for Walrus (<filepath>/dev/sdb1</filepath>).</cmd>
         		<info>
         			<codeblock>drbdmeta --force /dev/drbd1 v08 /dev/sdb1 internal create-md
-drbdadm attach r0
-drbdadm connect r0</codeblock>
+drbdadm up r0</codeblock>
 				<note type="important">Repeat this step on the secondary Walrus.</note>
         		</info>
         	</step>
         	<step>
         		<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
+				<note type="tip">With a large DRBD device, the initial synchronization can take a considerable amount of time. Consult the next section for instructions on how to skip the synchronization.</note>
         		<info>
         			<codeblock>drbdsetup /dev/drbd1 syncer -r 110M
 drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
@@ -186,7 +191,12 @@ drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
         		</info>
         		
         	</step>
-        	<step>
+		<step>	
+			<cmd>With the DRBD device now configured, restart the eucalyptus-cloud service on both Walruses.</cmd>
+			<info>
+				<codeblock>service eucalyptus-cloud start</codeblock>
+			</info>
+		<step>
         		<cmd>On the primary CLC, tell Eucalyptus to use DRBD parameters configured in the DRBD
         			config file so Walrus can write to the correct device:</cmd>
         		<info>
