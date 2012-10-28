@@ -19,9 +19,10 @@
 	
 	<taskbody>
 	<context>
-        	<note type="restriction">This section provides instructions for registering additional Eucalyptus components (specifically Walrus) in an existing environment for High Availability.</note>
-		<p>Registering redundant components to your existing Eucalyptus installation will take your platform into a Highly Available configuration.  
-		Registering the Cloud Controller, Cluster Controller and Storage Controller (with SAN adapter only) is fairly trivial but adding an additional Walrus requires that the user configure DRBD for bukkit storage replication.</p>
+        	<p>This section provides instructions for registering additional Eucalyptus components
+        	(specifically Walrus) in an existing environment for High Availability.</p>
+		<note type="important">Adding an additional Walrus will require downtime of your cloud platform.</note>
+		<p>Registering redundant components to your existing Eucalyptus installation will take your platform into a Highly Available configuration.  Registering the Cloud Controller, Cluster Controller and Storage Controller (with SAN adapter only) is fairly trivial but adding an additional Walrus requires that the user configure DRBD for bukkit storage replication.</p>
 		
 		<p>Before you begin, ensure that you have completed the following:</p>
                 <ul>
@@ -30,13 +31,14 @@
 			<li>If registering an additional Walrus, ensure you are able to move the contents of /var/lib/eucalyptus/bukkits/ to a temporary storage area.</li>
 			<li>A block device (disk or partition) is available for use as a DRBD device. Consider using LVM for future growth.</li>
 		</ul>
-			<note type="important">Configuration of High Availiablity components must match, please see the install guide for more information.</note>
+			<note type="important">Configuration of High Availiablity components must match. For more
+				information, see <xref
+				href="ha_planning.dita"/>.</note>
 	</context>
 	<steps>
 	  <step>
 	    <cmd>To register an additional Cloud Controller, Cluster Controller or Storage Controller please follow the installation guide on page X</cmd>
 	  </step>
-	  			<note type="important">Adding an additional Walrus will require downtime of the cloud platform.</note>
 
 	  <step>
 	    <cmd>To register an additional Walrus first follow the relevant steps in the installation guide on page X</cmd>
@@ -54,9 +56,13 @@
 	    </info>
 	  </step>
 	  <step>
-	    <cmd>Next, refer to the "Configure DRBD" chapter in the Eucalyptus Installation Guide and configure your new DRBD resource.</cmd>
+	  	<cmd>Configure your new DRBD resource. For more information, see <xref
+	  		href="config_drbd.dita"/>. After you are finished, complete the following steps.</cmd>
+	  	<info>
+	  		<note type="important">Though the DRBD configuration section asks you to restart the eucalyptus-cloud service, ensure you stop the service again before configuring the DRBD device.</note>
+	  	</info>
 	  </step>
-	  	  			<note type="important">Whilst the DRBD configuration section asks you to restart the eucalyptus-cloud service, ensure you stop the service again before configuring the DRBD device.</note>
+	  	  			
 	  <step>
 	    <cmd>On the primary Walrus which has the new DRBD resource in a primary state (visible with drbd-overview), copy the preserved contents of /var/lib/eucalyptus/bukkits to the new DRBD device.</cmd>
 	    <info>
@@ -69,10 +75,9 @@
 	      <codeblock>drbd-overview</codeblock>
 	    </info>
 	  </step>
-	    
-	    
         
 	</steps>
+		<result>Your HA environment is now ready.</result>
 	</taskbody>
 	</task>
 	
