@@ -111,7 +111,7 @@ resource r0 {
         	<step>
         		<cmd>Save and close the file.</cmd>
         	</step>
-				<step>
+		<step>
 					<cmd>Open the master DRBD file (<filepath>/etc/drbd.conf</filepath>) and append the following line:</cmd>
 					<info>
 						<codeblock>include "/etc/eucalyptus/drbd.conf";</codeblock>
@@ -128,7 +128,16 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
 				</step>
         	<step>
         		<cmd>Save and close the file.</cmd>
-        	</step>
+		</step>
+		<step>
+			<cmd>On both primary and secondary Walrus, open the file <filepath>/etc/fstab</filepath> and append the following line for the DRBD resource to allow the <codeph>eucalyptus</codeph> user to mount and unmount the device:</cmd>
+			<info>
+				<codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>
+			</info>
+		</step>
+		<step>
+			<cmd>Save and close the file.</cmd>
+		</step>
         	<step>
         		<cmd>Open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
         			following configuration:</cmd>
