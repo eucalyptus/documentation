@@ -123,7 +123,6 @@
                                 <step>
                                 <cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi service</codeph></cmd>
                                 </step>
-
 				<step>
 					<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
 					<choices>
@@ -132,6 +131,9 @@
 						<choice>If an aggregate with spare capacity does not exist, create
 							one using the <codeph>aggr create</codeph> command.</choice>
 					</choices>
+					<info>
+					  <note type="note">By default Eucalyptus assumes aggr1 as the aggregate name. If you wish to use a different aggregate see step 14.</note>
+					</info>
 				</step>
 				<step>
 					<cmd>Verify that you have a license for FlexClone installed. At the shell prompt, enter
@@ -163,6 +165,12 @@
 				</step>
 				<step conref="../shared/shared_task.dita#shared_task/enable_san">
 					<cmd/>
+				</step>
+				<step>
+					<cmd>If you need to change the aggregate to something other than the default "aggr1" based on your SAN configuration, use the following command:</cmd>
+					<info>
+					  <codeblock>euca-modify-property -p &lt;partition_name>.storage.aggregate=&lt;SAN_aggregate_name></codeblock>
+					</info>
 				</step>
 			</steps>
 			<result>Your SAN is now ready to use with Eucalyptus.</result>
