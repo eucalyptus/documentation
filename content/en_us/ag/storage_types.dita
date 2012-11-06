@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="storage_types">
+ <title>Storage Types</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>Eucalyptus uses three types of storage:</p>
+ 	<ul>
+ 		<li>Buckets (provided by Walrus)</li>
+ 		<li>Elastic block storage (EBS) volumes (provided by the Storage Controller)</li>
+ 		<li>Ephemeral (provided by the Node Controller)</li>
+ 	</ul>
+ 	<p>Buckets and volumes keep the data across instance termination. This is called persistent
+ 		storage. Volumes and ephemeral provide the familiar block interface and appear  and are used as
+ 		hard disks. Buckets are designed to be massively scalable. Ephemeral storage is only meant to be temporary.</p>
+ 	
+ 	<!--  
+ 		Instances and Storage
+ 		Instances by default are sitting on Ephemeral Storage. Uploaded images (EMIs) are the master copies, and all instances will start as a fresh copy of the that very image. All changes made to the instance (e.g. packages installed, configuration, application data) will disappear once the instance terminates. Notice that the termination of an instance can be voluntary (i.e. the Cloud User issue a terminate-instance command) or accidental (e.g. the hardware running the instance fail, or the software within the instance fails badly). This kind of instances are called instance store. 
+ 		
+ 		Instances can also use Volumes for their root file system: they are aptly called boot from EBS instance. In this case, at instance creation, a Volume is cloned from a specific EMI snapshot. The instance will then have exclusive access to this Volume, throughout its lifetime, allowing for stopping and re-starting without loss of any changes made. The instance can be restarted wherever the Volume is available (i.e. EBS Storage is only available on a cluster basis, or availability zone), and its performance is driven by the Volume performance (e.g. network speed to a SAN, or DAS serviced by the Storage Controller).
+ 		
+ 		The main different in Storage speed between instance store and boot from EBS,  is a trade between speed of the local disk (in the case of instance store), and the speed of accessing a SAN (or DAS) across a network. Things gets more complicated when multiple instances competes for shared resource (e.g. common disks on a Node Controller, or network access to the SAN).
+ 		
+ 		
+ 		Cloud Admin
+ 		The Cloud Admin, although not a user of these Storage types, needs to  have a clear deploy plan to provide enough Storage space for each type, limit contention on shared resources, and ensure that the performance and reliability meets the expected levels. An understanding of the specific load, will go a long way to size the cloud properly.
+ 		
+ 		The deployment of Walrus and the Storage Controller, respectively providers of  Buckets and Volumes, is key to ensure the right level of reliable Nines of the Persistent Storage types. Walrus get/put interface, helps to ensure the scalabilty of the service, but a slow host (CPU is needed to decrypt uploaded images, and serve concurrent streams), or limited space (Walrus stores uploaded images and Buckets) can severely crippled the normal functioning of a cloud.  The Storage Controller serve Volumes to a cluster, both for EBS attachment and boot from EBS: under-sizing the network between Storage Controller and Node Controllers,  can slow down to a crawling halt each instance request to disk.
+ 		
+ 		Ephemeral is served by the Node Controller. Sizing the physical storage subsystem for the expected number and type of instances is needed to ensure the full load can be achieved. Also, with the current multi-cores CPUs, quite a few instances can run on the same Node Controller. Too many concurrent disk requests can easily overwhelm the Node Controller's host, causing instances to time out, or unpredictable and erratic behavior: the storage subsystem needs to be properly tested for the expected concurrent load.
+ 		
+ 		Cloud Application Architect
+ 		The Application Architect is reasonably isolated from the underlying hardware used to build the private cloud, insofar as the Cloud Admin has planned properly the Storage Types availability, performances and reliability. Thus the main decisions for the Architect is which Storage Type to use and when. 
+ 		Persistent vs Ephemeral 
+ 		When I started to drink champagne, I went for what I was accustomed to, that is, very well know servers, well taken care of (ie very persistent). In short an environment where a server rebuild is an exceptional case. The ancient version of Eucalyptus we used then, didn't have boot from EBS, so we effectively implemented it using Volumes and chroot environment. As a bonus, backups were as easy as to create a Snapshot (euca-create-snapshot).
+ 		
+ 		After few cloud moves and upgrades (both of software and hardware), I started to embrace the idea of the chaos monkey, where no single instance is central to the service. Now I'm relying more and more on scripts to configure defaults images on the fly, and on Buckets to store the backups needed to recover the last good state. In the case of essential database I would still use a combination of Volumes and Bucket for availability and backups.
+ 		
+ 		I think my experience is common, and  I see how administrators coming from datacenter tend to start with the Storage is Persistent idea, looking for the comfort of boot from EBS. Administrators coming from the public cloud, are already familiar with the dynamic approach of the cloud, and are more comfortable with the idea that some Storage is Ephemeral, and plan accordingly for instances to be disposable. 
+ 	-->
+ </conbody>
+</concept>
