@@ -10,10 +10,18 @@
  		generate reports for instances, volume, elastic IP, and compute.</p>
  	
  	<ul>
- 		<li><b>Instances:</b> Shows a count and duration of instances running, sorted by image size, as well as I/O net and disk, during the date range specified. If desired, the report can be displayed on a per-user, per-account, per-cluster or per-availability zone basis.  Once filtered, reports can be grouped using the same criteria as filters. For example, you might display the results by user, and then group the results so that they are displayed based on accounts, e.g. each user in account A is shown followed by each user in account B, etc.</li>
- 		<li><b>Volume:</b> </li>
- 		<li><b>Elastic IP:</b> </li>
- 		<li><b>Compute:</b> </li>
+ 		<li><b>Instances:</b> Provides utilization within an instance. You may see CPU spiking,
+ 			reconsider the VM type. Health of the instance and how it's being utilized. Shows a count and duration of instances running, sorted by image size, as well as I/O net and disk, during the date range specified. If desired, the report can be displayed on a per-user, per-account, per-cluster or per-availability zone basis.  Once filtered, reports can be grouped using the same criteria as filters. For example, you might display the results by user, and then group the results so that they are displayed based on accounts, e.g. each user in account A is shown followed by each user in account B, etc.</li>
+ 		<li><b>Volume: Tells you how many volumes in use, the size of each, and number of days in use.
+ 			Use for capacity, billing, who uses what. </b> </li>
+ 		<li><b>Elastic IP:</b>  Lifeccyle of EIP in your cloud. For billing by EIP. Which user is using
+ 			which IPs, which are in use, how often does some allocate an IP and for how long.</li>
+ 		<li><b>Capacity:</b> Do a cloud capacity report: how much storage, IP, etc. available to
+ 		determine how many resources are available in your cloud.</li>
+ 		<li>S3: Same as IPs: we know when an object is created, deleted, how many objects a user has
+ 			within a bucket. Empty buckets aren't reported. <!--No gets and puts on objects yet.--></li>
+ 		<li>Snapshots: Same as IPs: when created, deleted. Help you determine how many snapshots you
+ 			have.</li>
  		<!--<li><b>Storage:</b>Shows GB of storage used (max and GB-days) for volumes and snapshots during the date range specified. Display filters and grouping are the same as for instances.</li>
  			<li><b>Walrus:</b> Shows maximum buckets and objects used through Walrus during the date range specified. Display filters and grouping are available on a per-user or per-account basis.</li>-->
  	</ul>
@@ -23,5 +31,20 @@
  	<p>If you want to use the CLC for your reports, see <xref href="reporting_tasks_clc.dita"/>.</p>
  	<p>If you want to use the data warehouse for your reports, see <xref
  		href="setting_up_dw.dita"/>.</p>
+ 	
+<!-- 
+	
+	DW: to remove data from DB ensuring you have enough disk space to operate the CLC.
+	
+	Two configurables with Reporting:
+	
+	- euca-describe-properties
+	 - reporting_default_poll_interval_mins: collects data at this time interval
+	 - reporting_default_write_interval_mins: writes what it has collected during that period. to limit amount of DB transactions 
+	Disk Time: Hours, within a polling period of the lifetime of the instance. need larger storage based on these metrics. read: checking data, write: writing to disk 
+	
+	
+
+-->
  </conbody>
 </concept>
