@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- This file is part of the DITA Open Toolkit project hosted on 
+	Sourceforge.net. See the accompanying license.txt file for 
+	applicable licenses.-->
+<!-- (c) Copyright IBM Corp. 2004, 2006 All Rights Reserved. -->
+
+<!-- 
+	| basedir can be specified to other places base on your need.
+	|
+	| Note: input, output, and temp directories will base on the basedir if 
+	| they are relative paths.
+	* -->
+
+<project name="console_guide" default="all" basedir=".">
+	<!-- Use environment variables. -->
+	<property environment="env"/>
+	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
+	<property name="source.dir" value="${env.DOC_HOME}"/>
+	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
+	
+	<!-- Refer to build.properties file for OS and user-specific configurations. -->
+	<property file="build.properties"/>
+	
+	<!-- Generate output to the "out" folder. -->
+	<property name="out" value="out"/>
+	
+	<!-- Import the DITA-OT integrator.xml file. -->
+	<import file="${dita-ot.dir}${file.separator}integrator.xml"/>
+	
+	<target name="pdf" depends="integrate" description="Builds a PDF file.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}pdf"/>
+			<property name="transtype" value="pdf"/>
+			<!--<property name="clean.temp" value="yes"/>-->
+		</ant>
+	</target>
+	
+	<target name="html2" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="${out}${file.separator}html2"/>
+			<property name="transtype" value="html2"/>
+		</ant>
+	</target>
+	
+	<target name="xhtml" depends="integrate" description="Builds XHTML files and TOC.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}xhtml${file.separator}cg"/>
+			<property name="args.breadcrumbs" value="yes"/>
+			<property name="chunk" value="to-content select-topic"/>
+			<property name="args.xhtml.classattr" value="no"/>
+			<property name="args.hdr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}xhtml${file.separator}euca_header.xml"/>
+			<property name="args.ftr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}xhtml${file.separator}euca_footer.xml"/>
+			<property name="transtype" value="xhtml"/>
+			<!--<property name="clean.temp" value="yes"/>-->
+		</ant>
+	</target>
+	
+	<target name="epub" depends="integrate" description="Builds an EPUB file.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}epub"/>
+			<property name="transtype" value="epub"/>
+			<!--<property name="cover.graphic.file"
+				value="${source.dir}${file.separator}images${file.separator}logo.png"/>	-->
+		</ant>
+	</target>
+	
+	<target name="kindle" depends="integrate" description="Builds a Kindle (mobi) file.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}kindle"/>
+			<property name="transtype" value="kindle"/>
+		</ant>
+	</target>
+	
+	<target name="odt" depends="integrate" description="Builds an Open Office file.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}odt"/>
+			<property name="transtype" value="odt"/>
+		</ant>
+	</target>
+	
+	<target name="wordrtf" depends="integrate" description="Builds an RTF file.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}wordrtf"/>
+			<property name="transtype" value="wordrtf"/>
+		</ant>
+	</target>
+	
+	<target name="xliff" depends="integrate" description="Builds an XLIFF file from a ditamap">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			
+			<property name="output.dir"
+				value="out${file.separator}xliff"/>
+			<property name="transtype" value="xliff"/>
+		</ant>
+	</target>
+	
+	<target name="xliff2dita" depends="integrate" description="Builds dita files from an XLIFF
+		translated file">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="input.dir" value="${source.dir}${file.separator}translate"/>
+			<property name="output.dir"
+				value="out${file.separator}xliff2dita"/>
+			<property name="transtype" value="ditafromxliff"/>
+		</ant>
+	</target>
+	
+	<target name="docbook" description="Build Docbook files" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}docbook"/>
+			<property name="transtype" value="docbook"/>
+		</ant>
+	</target>
+	
+	<target name="qa" description="Generates quality assurance report" depends="integrate">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}qa"/>
+			<property name="transtype" value="qa"/>
+		</ant>
+	</target>
+	
+	<!-- This builds all files we intend to publish other than xliff and xliff2dita. -->
+	<target name="all" depends="integrate, pdf, xhtml, odt, wordrtf, epub">
+		
+	</target>
+	
+	<target name="clean" description="Deletes output directory">
+		<echo message="Deleting ${out}"/>
+		<delete dir="${out}"></delete>
+	</target>
+	
+</project>
