@@ -5,17 +5,9 @@
 	<property name="xep.dir" value="${env.XEP_HOME}"/>
 	<property name="dita-ot.dir" value="${env.DITA_HOME}"/>
 	<property name="source.dir" value="${env.DOC_HOME}"/>
+	<property name="product.dir" value="${env.PRODUCT_DIR}"/>
 	<property name="antfile" value="${dita-ot.dir}/build.xml"/>
-	<property name="release.dir" value="3.2.0"/>
 	<property name="test.dir" value="${env.HOME}${file.separator}Desktop${file.separator}nightly"/>
-	<property name="www.dir"
-		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}${release.dir}"/>
-	<property name="wwwtest.dir"
-		value="${env.HOME}${file.separator}Documents${file.separator}www${file.separator}httpdocs${file.separator}docs${file.separator}${release.dir}"/>
-	<property name="packages.dir"
-		value="/srv${file.separator}release${file.separator}repository${file.separator}release${file.separator}documentation${file.separator}${release.dir}"/>
-	<property name="packages_www.dir"
-		value="/srv${file.separator}release${file.separator}repository${file.separator}release${file.separator}documentation${file.separator}${release.dir}${file.separator}www"/>
 
 	<target name="pdf">
 		<!-- Generate the PDF files	for all guides -->
@@ -25,7 +17,6 @@
 		<ant antfile="build.xml" target="pdf" dir="ig"/>
 		<ant antfile="build.xml" target="pdf" dir="ug"/>
 		<ant antfile="build.xml" target="pdf" dir="rn"/>
-		<ant antfile="build.xml" target="pdf" dir="cg"/>
 		<antcall target="copy_pdf"/>
 
 	</target>
@@ -38,7 +29,6 @@
 		<ant antfile="build.xml" target="xhtml" dir="ig"/>
 		<ant antfile="build.xml" target="xhtml" dir="ug"/>
 		<ant antfile="build.xml" target="xhtml" dir="rn"/>
-		<ant antfile="build.xml" target="xhtml" dir="cg"/>
 		<antcall target="copy_xhtml"/>
 
 	</target>
@@ -59,96 +49,70 @@
 
 	<target name="copy_pdf">
 		<!-- Copy the generated PDF files to the packages directory	-->
-		<copy
-			file="${source.dir}${file.separator}en_us${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+		<mkdir dir="${product.dir}${file.separator}en_us"/>
+		
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}cli${file.separator}out${file.separator}pdf${file.separator}cli.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
+		<copy
+			file="${source.dir}${file.separator}en_us${file.separator}ag${file.separator}out${file.separator}pdf${file.separator}ag.pdf"
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}fs${file.separator}out${file.separator}pdf${file.separator}fs.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}ig${file.separator}out${file.separator}pdf${file.separator}ig.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}ug${file.separator}out${file.separator}pdf${file.separator}ug.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}rn${file.separator}out${file.separator}pdf${file.separator}rn.pdf"
-			todir="${packages.dir}" overwrite="true"/>
-		<copy
-			file="${source.dir}${file.separator}en_us${file.separator}cg${file.separator}out${file.separator}pdf${file.separator}cg.pdf"
-			todir="${packages.dir}" overwrite="true"/>
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 	</target>
-
-	<!--<target name="move_xhtml">
-		<move
-			file="${source.dir}${file.separator}en_us${file.separator}ag${file.separator}out${file.separator}xhtml${file.separator}ag"
-			todir="${wwwtest.dir}" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}en_us${file.separator}cli${file.separator}out${file.separator}xhtml${file.separator}cli"
-			todir="${wwwtest.dir}" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}en_us${file.separator}fs${file.separator}out${file.separator}xhtml${file.separator}fs"
-			todir="${wwwtest.dir}" overwrite="true"/>
-		<move
-			file="${source.dir}${file.separator}en_us${file.separator}ig${file.separator}out${file.separator}xhtml${file.separator}ig"
-			todir="${wwwtest.dir}" overwrite="true"/>
-		<move file="${source.dir}${file.separator}en_us${file.separator}ug${file.separator}out${file.separator}xhtml${file.separator}ug"
-			todir="${wwwtest.dir}" overwrite="true"/>
-		<move file="${source.dir}${file.separator}en_us${file.separator}rn${file.separator}out${file.separator}xhtml${file.separator}rn"
-			todir="${wwwtest.dir}" overwrite="true"/>
-	</target>-->
 
 	<target name="copy_xhtml">
 		<!-- Copy the generated XHTML files to the packages directory	-->
+		<mkdir dir="${product.dir}${file.separator}en_us"/>
 
-		<copy todir="${packages_www.dir}${file.separator}ag" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
-				dir="${source.dir}${file.separator}en_us${file.separator}ag${file.separator}out${file.separator}xhtml${file.separator}ag">
+				file="${source.dir}${file.separator}en_us${file.separator}ag${file.separator}out${file.separator}xhtml${file.separator}ag">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${packages_www.dir}${file.separator}cli" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
 				file="${source.dir}${file.separator}en_us${file.separator}cli${file.separator}out${file.separator}xhtml${file.separator}cli">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${packages_www.dir}${file.separator}fs" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
 				file="${source.dir}${file.separator}en_us${file.separator}fs${file.separator}out${file.separator}xhtml${file.separator}fs">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${packages_www.dir}${file.separator}ig" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
 				file="${source.dir}${file.separator}en_us${file.separator}ig${file.separator}out${file.separator}xhtml${file.separator}ig">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${packages_www.dir}${file.separator}ug" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
 				file="${source.dir}${file.separator}en_us${file.separator}ug${file.separator}out${file.separator}xhtml${file.separator}ug">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${packages_www.dir}${file.separator}rn" overwrite="true">
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
 			<fileset
 				file="${source.dir}${file.separator}en_us${file.separator}rn${file.separator}out${file.separator}xhtml${file.separator}rn">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>
-		
-		<copy todir="${packages_www.dir}${file.separator}cg" overwrite="true">
-			<fileset
-				file="${source.dir}${file.separator}en_us${file.separator}cg${file.separator}out${file.separator}xhtml${file.separator}cg">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
@@ -167,6 +131,5 @@
 		<ant antfile="build.xml" target="clean" dir="ig"/>
 		<ant antfile="build.xml" target="clean" dir="ug"/>
 		<ant antfile="build.xml" target="clean" dir="rn"/>
-		<ant antfile="build.xml" target="clean" dir="cg"/>
 	</target>
 </project>
