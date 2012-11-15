@@ -29,6 +29,7 @@
 		<ant antfile="build.xml" target="xhtml" dir="ig"/>
 		<ant antfile="build.xml" target="xhtml" dir="ug"/>
 		<ant antfile="build.xml" target="xhtml" dir="rn"/>
+		<ant antfile="build.xml" target="xhtml" dir="cg"/>
 		<antcall target="copy_xhtml"/>
 
 	</target>
@@ -68,6 +69,9 @@
 			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}rn${file.separator}out${file.separator}pdf${file.separator}rn.pdf"
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
+		<copy
+			file="${source.dir}${file.separator}en_us${file.separator}cg${file.separator}out${file.separator}pdf${file.separator}cg.pdf"
 			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 	</target>
 
@@ -116,6 +120,14 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
+		
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
+			<fileset
+				file="${source.dir}${file.separator}en_us${file.separator}cg${file.separator}out${file.separator}xhtml${file.separator}cg">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
+
 
 	</target>
 
@@ -131,5 +143,6 @@
 		<ant antfile="build.xml" target="clean" dir="ig"/>
 		<ant antfile="build.xml" target="clean" dir="ug"/>
 		<ant antfile="build.xml" target="clean" dir="rn"/>
+		<ant antfile="build.xml" target="clean" dir="cg"/>
 	</target>
 </project>
