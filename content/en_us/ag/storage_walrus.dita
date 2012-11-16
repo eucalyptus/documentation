@@ -4,9 +4,18 @@
 <concept id="storage_walrus">
  <title>Walrus</title>
  <shortdesc></shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>storage
+				<indexterm>Walrus</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
  <conbody>
  	<section>
- 		<p>Currently, Walrus requires a POSIX filesystem to store buckets and objects. It uses, by default, the filesystem at $EUCALYPTUS/var/lib/eucalyptus/bukkits and creates a directory per bucket and each object is stored as a single file within that bucket directory.</p>
+ 		<p>Currently, Walrus requires a POSIX filesystem to store buckets and objects. It uses the filesystem at <filepath>$EUCALYPTUS/var/lib/eucalyptus/bukkits</filepath> and creates a directory per bucket and each object is stored as a single file within that bucket directory.</p>
  		<title>How is the Backing Store Used</title>
 
  		<p>Bucket directories are named exactly as the bucket itself, so bukkits/bucket01 is the directory for the 'bucket01' bucket, as expected. However, object files do not retain their name on the filesystem for several reasons and are instead stored as files which have a random hash as the name. This prevents name conflicts due to object versioning and allows the system to handle object names which are not valid POSIX filenames (as the S3 API allows '/' in object names, for example).</p>
