@@ -5,9 +5,11 @@ echo "Setting environment variables…"
 # ugly parent directory hacks to avoid breaking other build stuff:
 export DITA_HOME="`pwd`/../../tools/DITA-OT"
 export DOC_HOME="`pwd`/.."
+export PRODUCT_DIR="`pwd`/../../products"
 export ANT_HOME="$DITA_HOME/tools/ant"
 echo DITA_HOME IS $DITA_HOME
 echo DOC_HOME is $DOC_HOME
+echo PRODUCT_DIR is $PRODUCT_DIR
 echo ANT_HOME is $ANT_HOME
 
 CUR_PWD="`pwd`"
