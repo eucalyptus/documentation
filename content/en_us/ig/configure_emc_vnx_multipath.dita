@@ -2,10 +2,14 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="task_jpv_vnd_g3">
     <title>Configure EMC VNX Multipathing</title>
-    <shortdesc/>
+    <shortdesc>Use multipathing to provide network-and-SP-redundancy for the iSCSI data path between the EMC VNX SAN and NCs</shortdesc>
     <taskbody>
         <context>
-            <p>To configure multipathing for the EMC VNX SAN:</p>
+            <note type="important">It is <b>HIGHLY</b> recommended that you get your system up and running and able to create
+            volumes and snapshots using the EMC VNX prior to configuring multipathing. Multipathing can be configured after
+            the cloud is fully functional and will apply to any volumes attached/snapshotted after multipathing is configured. 
+            Configuring multipathing on a non-multipathed system does not require a restart of the SC, NC, or CLC. </note>
+            <p>To configure multipathing for a EMC VNX SAN:</p>
         </context>
         <steps>
             <step>
@@ -62,42 +66,6 @@
                     exists.</cmd>
             </step>
             <step>
-                <note>
-                    <p>Before using the emc‐vnx-fastsnap provider you must have the VNX Snapshot
-                        feature installed on the SAN in FLARE 5.32 or later. You must also have
-                        installed the proper license files to enable the feature on the VNX. You can
-                        test that it is working using the ‘naviseccli &lt;user info for login&gt;
-                        snap –feature –info’ command to verify that the feature is working.</p>
-                </note>
-                <cmd>Set the the *.storage.blockmanager property for the partition you're adding.
-                    For example: </cmd>
-                <info>
-                    <codeph>euca-modify-property -p
-                        mypartition.storage.blockstoragemanager=emc-vnx-fastsnap</codeph>
-                </info>
-                <info>
-                    <p>The SC should transition to the <codeph>DISABLED</codeph> state when viewed
-                        with the <codeph>euca-describe-services -E</codeph> command.</p>
-                </info>
-            </step>
-            <step>
-                <cmd> Configure the IP address, user name, and password for the SAN. For example: </cmd>
-                <info>
-                    <codeblock>euca-modify-property -p mypartition.storage.sanhost=127.0.0.1
-euca-modify-property -p mypartition.storage.sanuser=sanusername
-euca-modify-property -p mypartition.storage.sanpassword=mysecretsanpassword</codeblock>
-                </info>
-            </step>
-            <step>
-                <cmd> Configure EMC-specific SAN properties (chapuser, clipath, and storagepool).
-                    For example: </cmd>
-                <info>
-                    <codeblock>euca-modify-property -p mypartition.storage.chapuser=eucalyptus
-euca-modify-property -p mypartition.storage.clipath=/opt/Navisphere/bin/naviseccli
-euca-modify-property -p mypartition.storage.storagepool=0</codeblock>
-                </info>
-            </step>
-            <step>
                 <cmd> Set the ISCSI paths: </cmd>
                 <info>
                     <note> The path specification format is iface0:ip0,iface1:ip1,...,ifaceN:ipN
@@ -129,7 +97,7 @@ euca-modify-property -p mypartition.storage.storagepool=0</codeblock>
                             <codeph> euca-modify-property -p
                                 mypartition.storage.scpaths=iface0:127.0.0.1 </codeph>
                             <note> The NC and SC may each have different path lists, or you can
-                                optionally only enable multipathing on the NCs or SC if desire.d
+                                optionally only enable multipathing on the NCs or SC if desire.
                             </note>
                         </info>
                     </substep>
