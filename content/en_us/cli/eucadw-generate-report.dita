@@ -6,8 +6,12 @@
   <refbody>
   	<section>
   		<title>Syntax</title>
-  		<codeblock>eucadw-generate-report [<b>filename</b>] [-t <b>report_type</b>] [-f <b>report_format</b>]
-   [-s <b>start_date</b>] [-e <b>end_date</b>] [-F</codeblock>]
+  		<codeblock>eucadw-generate-report -p <b>password</b>[<b>filename</b>] 
+  			[-t <b>report_type</b>] [-f <b>report_format</b>] [-s <b>start_date</b>] 
+  			[-e <b>end_date</b>] [--size-unit <b>size_unit</b>] 
+  			[--time-unit <b>time_unit</b>] 
+  			[--size-time-size-unit <b>size_time_size_unit</b>]
+  			[--size-time-time-unit <b>size_time_time_unit</b>] [-d] [-F]</codeblock>
   	</section>
   	<section>
   		<title>Options</title>
@@ -25,6 +29,11 @@
   				</thead>
   				
   				<tbody>
+  					<row>
+  						<entry><codeph>-p, <i>password</i></codeph></entry>
+  						<entry>Administrator password you configured in the data warehouse installation.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
   					<row>
   						<entry><codeph><i>filename</i></codeph></entry>
   						<entry>Name of the file to output report data to. If you do not enter a filename, Eucalyptus
@@ -48,9 +57,61 @@
   					</row>
   					<row>
   						<entry><codeph>-s, --start_date <i>start_date</i></codeph></entry>
-  						<entry>Date to start report from.
+  						<entry>Inclusive start date for the exported data in YYYY-MM-DD format. For example, <codeph>2012-08-19</codeph>.
   							<p>Default: <codeph>html</codeph></p></entry>
   						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-e, --end-date <i>end_date</i></codeph></entry>
+  						<entry>Exclusive end date for the exported data in YYYY-MM-DD format. For example,
+  							<codeph>2012-08-26</codeph>.</entry>
+  						<entry align="center">Yes</entry>
+  						
+  					</row>
+  					<row>
+  						<entry><codeph>--size-unit <i>size_unit</i></codeph></entry>
+  						<entry>The level of granularity for reporting metrics by size alone.
+  							<p>Valid values: <codeph>b</codeph> | <codeph>kb</codeph> | <codeph>mb</codeph> |
+  								<codeph>gb</codeph></p>
+  							<p>Default: <codeph>gb</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--time-unit <i>time_unit</i></codeph></entry>
+  						<entry>The level of granularity for reporting interval.
+  							<p>Valid values: <codeph>seconds</codeph> | <codeph>minutes</codeph> |
+  								<codeph>hours</codeph> | <codeph>days</codeph></p>
+  							<p>Default: <codeph>days</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--size-time-size-unit <i>size_time_size_unit</i></codeph></entry>
+  						<entry>The level of granularity for reporting size metrics for the time interval.
+  							<p>Valid values: <codeph>b</codeph> | <codeph>kb</codeph> | <codeph>mb</codeph> |
+  								<codeph>gb</codeph></p>
+  							<p>Default: <codeph>gb</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--size-time-time-unit <i>size_time_time_unit</i></codeph></entry>
+  						<entry>The level of granularity for reporting size metrics for the time interval.
+  							<p>Valid values: <codeph>seconds</codeph> | <codeph>minutes</codeph> |
+  								<codeph>hours</codeph> | <codeph>days</codeph></p>
+  							<p>Default: <codeph>DAYS</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-d, --dependencies</codeph></entry>
+  						<entry>Include event dependencies from outside the requested time period.</entry>
+  						<entry align="center">No</entry>
+  						
+  					</row>
+  					
+  					<row>
+  						<entry><codeph>-F, --force</codeph></entry>
+  						<entry>Overwrite output file if it exists.</entry>
+  						<entry align="center">No</entry>
+  						
   					</row>
   				</tbody>
   			</tgroup>
@@ -69,7 +130,8 @@
   	
   	<section>
   		<title>Example</title>
-  		<codeblock>eucadw-generate-report -s 2012-11-05 -e 2012-11-07 --size-unit=b --size-time-size-unit=b -t instance Report2.html
+  		<codeblock>eucadw-generate-report -s 2012-11-05 -e 2012-11-07 --size-unit=b
+  			--size-time-size-unit=b -t instance Report2.html -p mypassword
 Exported data to Report2.html
 </codeblock>
   	</section>

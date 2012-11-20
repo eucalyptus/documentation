@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_storage_controller" props="subscribe">
+	<title>Configure the Storage Controller</title>
+	<shortdesc></shortdesc>
+	<taskbody>
+		<context>
+			<p>Eucalyptus offers SAN support for Eucalyptus block storage (EBS). Eucalyptus directs
+				the Storage Controller (SC) to manage any supported SAN devices. Eucalyptus
+				automatically creates and tears down volumes, snapshots, and data connections from
+				guest instances. The administrator does not need to pre-allocate volumes or LUNs for
+				Eucalyptus.</p>
+			
+			<p>Eucalyptus currently offers several backend providers for the Storage Controller:
+				Overlay, DAS, Equallogic, Netapp, and EMC-VNX. </p>
+			
+			<p>The Eucalyptus Storage Controller must be configured explicitly upon registration. This is a
+				change from previous versions (pre-3.2) of Eucalyptus, which would configure
+				themselves to a default configuration using a tgtd-based filesystem-backed storage controller to
+				provide volumes and snapshots directly from the Storage Controller. As of version
+				3.2, Eucalyptus Storage Controllers automatically go to the BROKEN state after being
+				registered with the CLC and will remain in that state until the administrator
+				explicitly configures the SC by telling it which backend storage provider to
+				use.</p>
+			<p>You can check the state of a storage controller by running <codeblock>euca-describe-services -E</codeblock> 
+				and note the state and status message of the Storage Controller(s). The output for an unconfigured SC will look like:</p>
+			<p>
+			<codeblock>SERVICE	storage        	PARTI00        	SC71           	
+				BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	ERROR
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	Sun Nov 18 22:11:13 PST 2012
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset).  
+                                                        Legal values are: das,overlay</codeblock>></p>
+		<p>
+			Note the <codeph>SC blockstoragemanager not configured. Found empty or unset manager(unset). Legal values are: das,overlay</codeph>. 
+			That indicates that that SC is not yet configured, but can be configured by setting the <codeph>&lt;partition>.storage.blockstoragemanager</codeph> property to either 'das' or 'overlay'.
+			If you have installed the Eucalyptus Enterprise packages for your SAN, you will also see additional options in that output line
+			indicating 'netapp','emc-vnx','emc-vnx-fastsnap', and/or 'equallogic' as well.</p>
+			
+			<p>You can verify that the SC blockstoragemanager is '&lt;unset>' with: 
+				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+			</p>
+			
+			<p>To configure SAN support, follow the steps for your desired backend storage device: 
+				<xref href="#enabling_overlay">Open-Source ISCSI Filesystem-backed</xref>, <xref
+				href="#enabling_san_dell">Dell Equallogic</xref>, <xref href="#enabling_san_jbod">JBOD</xref>, <xref
+					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_emc">EMC VNX</xref>.</p>
+		</context>
+	</taskbody>
+	<task id="enabling_overlay">
+		<title>Configuring the SC to use the local filesystem (Overlay)</title>
+		<shortdesc>This was the default configuration option for the SC in pre-3.2 Eucalyptus. In this configuration
+		the SC itself hosts the volume and snapshots for EBS and stores them as files on the local filesystem. It uses standard
+		linux iSCSI tools to serve the volumes to instances running on NCs.</shortdesc>
+		<taskbody>
+			<steps>
+			<step>
+				<cmd>Configure the SC to use the OverlayManager for storage.</cmd>
+				<info>
+				<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
+				The output of the command should be similar to:
+				<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Verify that the propery value is now: 'overlay'</cmd>
+				<info>
+				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+				</info>
+			</step>
+			</steps>
+		</taskbody>
+		</task>
+	<task id="enabling_san_dell">
+		<title>Enable Dell Equallogic SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>Configure the SC to use the EquallogicManager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=equallogic</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	equallogic was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the propery value is now: 'equallogic'</cmd>
+					<info>
+						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
+			</steps>
+			<result>Your Equallogic SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	
+	<task id="enabling_san_jbod" product="jbod">
+		<title>Enable Direct Attached Storage (JBOD) SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				
+			</context>
+			<steps>
+				<step>
+					<cmd>Configure the SC to use the (Direct Attached Storage) DASManager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=das</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	das was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the propery value is now: 'das'</cmd>
+					<info>
+						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>On the CLC (the primary CLC in an HA setup), set the DAS device name property. The device name can be either a raw device (/dev/sdX, for example),
+						or the name of an existing Linux LVM volume group.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
+					</info>
+					<stepxmp>
+						<p>For example:</p>
+						<codeblock>euca-modify-property -p cluster0.storage.dasdevice=/dev/sdb</codeblock>
+					</stepxmp>
+				</step>
+			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	
+	<task id="enabling_san_netapp">
+		<title>Enable NetApp SANs</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>NetApp Filer devices (FAS 2000 and FAS 6000 series) are managed by Eucalyptus using NetApp
+					ONTAPI (version 7.3.3 or above). Enable ONTAPI and provide administrative Eucalyptus with access
+					to OTAPI. To configure NetApp Filer and enable NetApp SANs:</p>
+			</context>
+			<steps>
+				<step>
+                    <cmd>Enable and verify API access to NetApp Filer.</cmd>
+                    </step>
+                    <step>
+                    <cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
+                    </step>
+                    <step>
+                    <cmd>If marked inactive, enable with <codeph>secureadmin setup ssl</codeph> and generate a new certificate.</cmd>
+                    </step>
+                    <step>
+                    <cmd>Finally turn on SSL access with <codeph>options httpd.admin.ssl.enable on</codeph></cmd>
+                    </step>
+                    <step>
+                    <cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi service</codeph></cmd>
+                    </step>
+				<step>
+					<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
+					<choices>
+						<choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
+							show_space</codeph>.</choice>
+						<choice>If an aggregate with spare capacity does not exist, create
+							one using the <codeph>aggr create</codeph> command.</choice>
+					</choices>
+					<info>
+					  <note type="note">By default Eucalyptus assumes aggr1 as the aggregate name. If you wish to use a different aggregate see step 13.</note>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that you have a license for FlexClone installed. At the shell prompt, enter
+						<codeph>license</codeph> to see the list of all installed licenses.</cmd>
+				</step>
+				<step>
+					<cmd>Write down the administrator credentials (or create an administrator account for Eucalyptus). You will need to configure Eucalyptus with these credentials later.</cmd>
+				</step>
+				<step>
+					<cmd>Configure the SC to use the NetappManager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	netapp was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the propery value is now: 'netapp'</cmd>
+					<info>
+						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>If you need to change the aggregate to something other than the default "aggr1" based on your SAN configuration, use the following command:</cmd>
+					<info>
+					  <codeblock>euca-modify-property -p &lt;partition_name>.storage.aggregate=&lt;SAN_aggregate_name></codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>Your Netapp SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	<task id="enabling_san_emc_fastsnap">
+		<title>Enable EMC VNX SANs with FLARE v5.32 or later</title>
+		<shortdesc>EMC VNX integration using the new (as of August, 2012) VNX-Snapshot feature.</shortdesc>
+		<taskbody>
+			<context>
+				<p>This adapter, dubbed 'emc-vnx-fastsnap' uses the newer VNX-Snapshot feature available on VNX devices running
+				FLARE v5.32 or later and which have a VNX-Snapshot license.
+				
+				supports VNX SANs that do not have FLARE v5.32 or later installed. Its behavior will exhibit slower snapshot
+				time and the consistency point for snapshots will not be set immediately, so applications must take this
+				into account. This is, however, the only option if your VNX SAN does not have FLARE 5.32 or later installed.
+				</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>We assume that the Navisphere CLI is installed in <filepath>/opt/Navisphere</filepath> on the SC.</cmd>
+					<info>
+						<note type="important">Eucalyptus currently supports version 7.32.0.5.54 or later of the
+							Navisphere CLI.</note>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the cli is installed an can communicate with the VNX from the SC(s).</cmd>
+					<info>On each SC that you are configuring, test the naviseccli command as follows:
+						<codeblock>/opt/Navisphere/bin/naviseccli -User &lt;your SAN username> -Password &lt;your SAN password> -Scope 0 -Address &lt;management port IP> connection -pingnode -address &lt;a data port IP on your VNX></codeblock>
+						Verify that the command runs successfully and the ping gets replies from the SAN.
+					</info>
+				</step>
+				<step>
+					<cmd>Configure the SC to use the EMC VNX VNX-Snapshot-based manager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=emc-vnx-fastsnap</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	emc-vnx-fastsnap was &lt;unset></codeblock>
+					</info>
+				</step>
+				
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the login scope for the
+						command line access. For most installs, the login scope will be <codeph>0</codeph>, which indicates
+						a global login scope for the device. <codeph>1</codeph> indicates a local scope. <codeph>2</codeph> indicates LDAP authentication for the SAN device. Use login scope value of <codeph>2</codeph> only if your SAN is configured to use LDAP authentication and you have an admin user configured to use LDAP.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.loginscope=&lt;login_scope></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the username for the Challenge Handshake Authentication Protocol (CHAP). This
+						can be any value, however it should be unique when sharing VNX on multiple Eucalyptus clusters.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.chapuser=&lt;chap_username></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the value for the unique storage pool that you have configured to use with the SC.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.storagepool=0</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the iSCSI data port IP for NCs to use to perform disk operations on the SAN. 
+						If you want to configure multiple IPs, see <xref href="configure_emc_vnx_multipath">Configure EMC VNX Multipathing</xref>.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.ncpaths=&lt;ip></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the iSCSI data port IP for SCs to use to perform disk operations on the SAN.
+						The SCs connect to the data ports on the SAN in order to transfer snapshots to Walrus during snapshot operations.
+						If you want to configure multiple IPs, see the section on 'multipathing.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.scpaths=&lt;ip></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the path to Navisphere CLI that you downloaded earlier to the SC. The following
+						example shows the default path. This is that path on the SC, not on the CLC.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.clipath=/opt/Navisphere/bin/naviseccli</codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>Your EMC VNX SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	<task id="enabling_san_emc_clone">
+		<title>Enable EMC VNX SANs with FLARE v5.31 or earlier</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				This adapter, dubbed 'emc-vnx', uses the EMC SnapView/SnapClone features for creating snapshots and 
+				supports VNX SANs that do not have FLARE v5.32 or later installed. Its behavior will exhibit slower snapshot
+				time and the consistency point for snapshots will not be set immediately, so applications must take this
+				into account. This is, however, the only option if your VNX SAN does not have FLARE 5.32 or later installed.				
+			</context>
+			<steps>
+				<step>
+					<cmd>Verify that the SnapView feature is installed and licensed on the SAN</cmd> 
+				</step>
+				<step>
+					<cmd>Verify that there is a 1GB "Clone Private LUN" available on each SP (SP A and SP B).</cmd>
+				</step>
+				<step>
+					<cmd>We assume that the Navisphere CLI is installed in <filepath>/opt/Navisphere</filepath> on the SC.</cmd>
+					<info>
+						<note type="important">Eucalyptus currently supports version 7.32.0.5.54 or later of the
+							Navisphere CLI.</note>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the cli is installed an can communicate with the VNX from the SC(s).</cmd>
+					<info>On each SC that you are configuring, test the naviseccli command as follows:
+						<codeblock>/opt/Navisphere/bin/naviseccli -User &lt;your SAN user> -Password &lt;your SAN password> -Scope 0 -Address &lt;management port IP> connection -pingnode -address &lt;a data port IP on your VNX></codeblock>
+						Verify that the command runs successfully and the ping gets replies from the SAN.
+					</info>
+				</step>
+				<step>
+					<cmd>Configure the SC to use the EMC VNX VNX-Snapshot-based manager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=emc-vnx-fastsnap</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	emc-vnx-fastsnap was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Configure the SC to use the EMC VNX clone-based manager for storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=emc-vnx</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the propery value is now: 'emc-vnx'</cmd>
+					<info>
+						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+					</info>
+				</step>
+
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/enable_san">
+					<cmd/>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the login scope for the
+						command line access. For most installs, the login scope will be <codeph>0</codeph>, which indicates
+						a global login scope for the device. <codeph>1</codeph> indicates a local scope. <codeph>2</codeph> indicates LDAP authentication for the SAN device. Use login scope value of <codeph>2</codeph> only if your SAN is configured to use LDAP authentication and you have an admin user configured to use LDAP.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.loginscope=&lt;login_scope></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the username for the Challenge Handshake Authentication Protocol (CHAP). This
+						can be any value, however it should be unique when sharing VNX on multiple Eucalyptus clusters.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.chapuser=&lt;chap_username></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the value for the unique storage pool that you have configured to use with the SC.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.storagepool=0</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the iSCSI data port IP for NCs to use to perform disk operations on the SAN. 
+						If you want to configure multiple IPs, see the section on 'multipathing.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.ncpaths=&lt;ip></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the iSCSI data port IP for SCs to use to perform disk operations on the SAN.
+						The SCs connect to the data ports on the SAN in order to transfer snapshots to Walrus during snapshot operations.
+						If you want to configure multiple IPs, see <xref href="configure_emc_vnx_multipath">Configure EMC VNX Multipathing</xref>.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.scpaths=&lt;ip></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>On the ENABLED CLC, set the path to Navisphere CLI that you downloaded earlier to the SC. The following
+						example shows the default path. This is that path on the SC, not on the CLC.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition_name>.storage.clipath=/opt/Navisphere/bin/naviseccli</codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>Your SAN is now ready to use with Eucalyptus.</result>
+		</taskbody>
+	</task>
+	
+</task>
