@@ -24,13 +24,16 @@
 				explicitly configures the SC by telling it which backend storage provider to
 				use.</p>
 			<p>You can check the state of a storage controller by running <codeblock>euca-describe-services -E</codeblock> 
-				and note the state and status message of the Storage Controller(s). The output for an unconfigured SC will look like:
-			<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+				and note the state and status message of the Storage Controller(s). The output for an unconfigured SC will look like:</p>
+			<p>
+			<codeblock>SERVICE	storage        	PARTI00        	SC71           	
+				BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	ERROR
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	Sun Nov 18 22:11:13 PST 2012
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset).  Legal values are: das,overlay
-</codeblock>
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset).  
+                                                        Legal values are: das,overlay</codeblock>></p>
+		<p>
 			Note the <codeph>SC blockstoragemanager not configured. Found empty or unset manager(unset). Legal values are: das,overlay</codeph>. 
 			That indicates that that SC is not yet configured, but can be configured by setting the <codeph>&lt;partition>.storage.blockstoragemanager</codeph> property to either 'das' or 'overlay'.
 			If you have installed the Eucalyptus Enterprise packages for your SAN, you will also see additional options in that output line
@@ -41,9 +44,9 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 			</p>
 			
 			<p>To configure SAN support, follow the steps for your desired backend storage device: 
-				<xref href="#enabling_overlay">Open-Source ISCSI Filesystem-backed</xref>.<xref
+				<xref href="#enabling_overlay">Open-Source ISCSI Filesystem-backed</xref>, <xref
 				href="#enabling_san_dell">Dell Equallogic</xref>, <xref href="#enabling_san_jbod">JBOD</xref>, <xref
-					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_emc">EMC VNX</xref></p>
+					href="#enabling_san_netapp">Netapp</xref>, or <xref href="#enabling_san_emc">EMC VNX</xref>.</p>
 		</context>
 	</taskbody>
 	<task id="enabling_overlay">
@@ -175,7 +178,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 							one using the <codeph>aggr create</codeph> command.</choice>
 					</choices>
 					<info>
-					  <note type="note">By default Eucalyptus assumes aggr1 as the aggregate name. If you wish to use a different aggregate see step 14.</note>
+					  <note type="note">By default Eucalyptus assumes aggr1 as the aggregate name. If you wish to use a different aggregate see step 13.</note>
 					</info>
 				</step>
 				<step>
@@ -281,7 +284,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 				</step>
 				<step>
 					<cmd>On the ENABLED CLC, set the iSCSI data port IP for NCs to use to perform disk operations on the SAN. 
-						If you want to configure multiple IPs, see the section on 'multipathing.<!--INSERT REF TO MULTIPATH CONFIG HERE--></cmd>
+						If you want to configure multiple IPs, see <xref href="configure_emc_vnx_multipath">Configure EMC VNX Multipathing</xref>.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.ncpaths=&lt;ip></codeblock>
 					</info>
@@ -396,7 +399,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 				<step>
 					<cmd>On the ENABLED CLC, set the iSCSI data port IP for SCs to use to perform disk operations on the SAN.
 						The SCs connect to the data ports on the SAN in order to transfer snapshots to Walrus during snapshot operations.
-						If you want to configure multiple IPs, see the section on 'multipathing.<!--INSERT REF TO MULTIPATH CONFIG HERE--></cmd>
+						If you want to configure multiple IPs, see <xref href="configure_emc_vnx_multipath">Configure EMC VNX Multipathing</xref>.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;partition_name>.storage.scpaths=&lt;ip></codeblock>
 					</info>
