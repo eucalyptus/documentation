@@ -25,22 +25,31 @@
 <p>To register the SC:</p>
         </context>
         <steps>
-            <step>
-            	<cmd>On the CLC, enter the following command:</cmd>
-            	<info>
-            		<codeblock>/usr/sbin/euca_conf --register-sc --partition &lt;partition_name> --host &lt;SC_IP_address> 
+			<step>
+				<cmd>On the CLC, enter the following command:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca_conf --register-sc --partition &lt;partition_name> --host &lt;SC_IP_address> 
 	--component &lt;SC_name></codeblock>
-                        <p>
-				An SC must have the same <codeph>partition</codeph> name as the CC in the same cluster. Like the other components,
-                                the <codeph>component</codeph> is a unique name for this particular component: we recommend a format such as <codeph>sc-&lt;hostname&gt;</codeph>.
-			</p>
-            	</info>
-            </step>
-        	<step>
-        		<cmd>Repeat for each cluster, replacing the SC name, partition name, SC IP address, and SC name.</cmd>
-        		
-        	</step>
-        </steps>
+					<p> An SC must have the same <codeph>partition</codeph> name as the CC in the
+						same cluster. Like the other components, the <codeph>component</codeph> is a
+						unique name for this particular component: we recommend a format such as
+							<codeph>sc-&lt;hostname&gt;</codeph>.</p>
+					<note type="warning">Newly registered SCs will be in the BROKEN state until they are explicitly
+						configured to use a backend storage provider. The output of the registration for the
+					first SC registered in a partition will look like:
+				<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+Registered the first storage controller in partition 'PARTI00'.  You must choose a storage back end with ``euca-modify-property -p PARTI00.storage.blockstoragemanager=$BACKEND''</codeblock>
+				This is completely normal and simply indicates that further action must be taken to
+				configure the SC before it will become fully functional. Instructions on how to configure the SC are found in <xref href="#configure_storage_controller">Configure the Runtime Environment->Configure the Storage Controller</xref>
+					</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Repeat for each cluster, replacing the SC name, partition name, SC IP address,
+					and SC name.</cmd>
+			</step>
+			
+		</steps>
     	<postreq>
     		<note type="restriction">For HA, register the secondary SC the same way, using the
     			secondary SC IP address and SC name, but using the same partition name as the primary
