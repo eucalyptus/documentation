@@ -1,95 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task outputclass="docs one-sidebar sidebar-first" id="concimages_kvm_lineptId">
- <title>Create Linux Image (KVM)</title>
- <shortdesc></shortdesc>
-	<prolog>
-		<metadata>
-			<keywords>
-
-				<indexterm>image tasks
-					<indexterm>create a KVM image
-						<indexterm>Linux</indexterm>
-					</indexterm>
-
-				</indexterm>
-			</keywords>
-		</metadata>
-	</prolog>
-
+<task id="concimages_kvm_lineptId">
+	<title>Create Linux Image (KVM)</title>
+	<shortdesc></shortdesc>
 	<taskbody>
- 	<context>
- 	<note type="important">Before you begin, make sure that KVM installed and properly functioning for the account you are going to use.</note>
- 	<p>To create a root filesystem to be used with Eucalyptus using KVM and an ISO image of the guest
- 		OS you want to install:</p>
- 	</context>
- 	<steps>
- 		<step>
- 			<cmd>Download the ISO image of the distro (guest OS) you want to install.</cmd>
- 			
- 		</step>
- 		<step>
- 			<cmd>Create a virtual disk with the desired size. For example, to create a 4 GiB disk:</cmd>
- 			<info>
- 				<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
- 			</info>
- 		</step>
- 		<step>
- 			<cmd>Start KVM using the CDROM as the boot device and new image as the disk.</cmd>
- 			<info>
- 				<codeblock>qemu-kvm -cdrom iso_image -drive if=scsi,file=&lt;image_name>,boot=off</codeblock>
- 				<note type="note">You need to have a SCSI as a bus because Eucalyptus expects the disk to be in
- 					<filepath>/dev/sda</filepath>.</note>
- 					
- 			</info>
- 		</step>
- 			<step>
- 				<cmd>Install the distro as you would normally would. Do not use <codeph>lvm</codeph> or <codeph>md</codeph> and install everything in one partition. Remember the partition in which the distro is installed.</cmd>
- 				
- 				<info><note type="important">Most distributions will remember the network interfaces by the MAC
- 					address, so interfaces will always be the same (that is, <codeph>eth0</codeph> and
- 					<codeph>eth1</codeph> will not be inverted accidentally). In Eucalyptus you have to get the
- 					distribution to forget the NIC, so that every instance will see the interface as the first
- 					interface. To do so you may want to refer to the specific distribution. For example Debian and
- 					Ubuntu use <codeph>udev</codeph> so check <filepath>/etc/udev/rules.d/*net*</filepath>. CentOS
- 					might have something in <filepath>/etc/network-scripts/ifcfg-eth0</filepath>. Failure to do so
- 					may leave your instance without network.</note></info>
- 			
- 			</step>
- 		<step>
- 			<cmd>Find out the starting block and the block size of the root file system.</cmd>
- 			<info>
- 				<codeblock>parted &lt;image_name></codeblock>
- 			</info>
- 		</step>
- 		<step>
- 			<cmd>Change the units to blocks.</cmd>
- 			<info>
- 				<codeblock>(parted) u
+		<context>
+			<note type="important">Before you begin, make sure that KVM installed and properly functioning for the account you are going to use.</note>
+			<p>To create a root filesystem to be used with Eucalyptus using KVM and an ISO image of the guest
+				OS you want to install:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Download the ISO image of the distro (guest OS) you want to install.</cmd>
+				
+			</step>
+			<step>
+				<cmd>Create a virtual disk with the desired size. For example, to create a 4 GiB disk:</cmd>
+				<info>
+					<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start KVM using the CDROM as the boot device and new image as the disk.</cmd>
+				<info>
+					<codeblock>/usr/libexec/qemu-kvm -cdrom iso_image -drive if=scsi,file=&lt;image_name>,boot=off</codeblock>
+					<note type="note">You need to have a SCSI as a bus because Eucalyptus expects the disk to be in
+						<filepath>/dev/sda</filepath>.</note>
+					
+				</info>
+			</step>
+			<step>
+				<cmd>Install the distro as you would normally would. Do not use <codeph>lvm</codeph> or <codeph>md</codeph> and install everything in one partition. Remember the partition in which the distro is installed.</cmd>
+				
+				<info><note type="important">Most distributions will remember the network interfaces by the MAC
+					address, so interfaces will always be the same (that is, <codeph>eth0</codeph> and
+					<codeph>eth1</codeph> will not be inverted accidentally). In Eucalyptus you have to get the
+					distribution to forget the NIC, so that every instance will see the interface as the first
+					interface. To do so you may want to refer to the specific distribution. For example Debian and
+					Ubuntu use <codeph>udev</codeph> so check <filepath>/etc/udev/rules.d/*net*</filepath>. CentOS
+					might have something in <filepath>/etc/network-scripts/ifcfg-eth0</filepath>. Failure to do so
+					may leave your instance without network.</note></info>
+				
+			</step>
+			<step>
+				<cmd>Find out the starting block and the block size of the root file system.</cmd>
+				<info>
+					<codeblock>parted &lt;image_name></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Change the units to blocks.</cmd>
+				<info>
+					<codeblock>(parted) u
 Unit? [compact]? b</codeblock>
- 			</info>
- 		</step>
- 		<step>
- 			<cmd>Print the current partition table using <codeph>p</codeph>.</cmd>
- 			<stepresult>Note the start for the partition you are interested in and the size. For this
- 				example we'll say that the start is <codeph>32256</codeph> and the size is <codeph>1024000</codeph>.</stepresult>
- 		</step>
- 		<step>
- 			<cmd>Extract the file system.</cmd>
- 			<info>
- 				<codeblock>dd if=&lt;image_name> of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
- 				<note type="tip">To speed up the process, you can increase the block size. Divide the size and
- 					the skip count by the new block size (512 in this example) and you get
- 					<codeph>dd if=&lt;image_name> of=rootfs.img bs=512 skip=63 count=2000</codeph>.</note>
- 			</info>
- 		</step>
- 	</steps>
- 	<result>You now have a root filesystem. Make sure that it is compatible with the kernel/initrd you are using in your
- 		cloud environment. In particular you may want to be sure you have the
- 		modules of the kernel you are going to use. Then you are ready to <xref
- 			href="add_existing.dita">add the image</xref> to
- 		Eucalyptus.</result>
- 	</taskbody>
+				</info>
+			</step>
+			<step>
+				<cmd>Print the current partition table using <codeph>p</codeph>.</cmd>
+				<stepresult>Note the start for the partition you are interested in and the size. For this
+					example we'll say that the start is <codeph>32256</codeph> and the size is <codeph>1024000</codeph>.</stepresult>
+			</step>
+			<step>
+				<cmd>Extract the file system.</cmd>
+				<info>
+					<codeblock>dd if=&lt;image_name> of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
+					<note type="tip">To speed up the process, you can increase the block size. Divide the size and
+						the skip count by the new block size (512 in this example) and you get
+						<codeph>dd if=&lt;image_name> of=rootfs.img bs=512 skip=63 count=2000</codeph>.</note>
+				</info>
+			</step>
+		</steps>
+		<result>You now have a root filesystem. Make sure that it is compatible with the kernel/initrd you are using in your
+			cloud environment. In particular you may want to be sure you have the
+			modules of the kernel you are going to use. Then you are ready to <xref
+				href="add_existing.dita">add the image</xref> to
+			Eucalyptus.</result>
+	</taskbody>
 </task>
 

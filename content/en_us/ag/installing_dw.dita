@@ -5,44 +5,28 @@
     <title>Install the Data Warehouse</title>
     <taskbody>
         <context>
-        	
-        	<p>To build from source, be sure that the data warehouse machine as the following:</p>
-        	<ul>
-        		<li>CentOS 6 or RHEL 6</li>
-        		<li>Java 1.6.0 or greater</li>
-        		<li>Apache Ant</li>
-        		<li>Apache Ivy</li>
-        		<li>Python 2.6.x</li>
-        	</ul>
-        	<p>Also, make sure there is an installed copy of Eucalyptus from the testing branch (the DW needs jar
-        		files located in /usr/share/eucalyptus).</p>
-        	<note type="important">Do not install the data warehouse on a machine running Eucalyptus. </note>
+	  <p>To install the Data Warehouse on hosts running RHEL 6 or CentOS 6:</p>
+          <note type="important">Do not install the Data Warehouse on a machine running Eucalyptus services. </note>
         </context>
         <steps>
             <step>
-            	<cmd>Check out the DW repository.</cmd>
+            	<cmd>Configure the Eucalyptus package repository on the Data Warehouse host:</cmd>
             	<info>
-            		<codeblock>git clone git://github.com/eucalyptus/bodega.git
-cd bodega</codeblock>
+					<codeblock>yum --nogpgcheck install -y http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm</codeblock>
             	</info>
             </step>
-        	<step>
-        		<cmd>Build and install java components.</cmd>
-        		<info>
-        			<codeblock>nt -Ddistro.name=centos
-mkdir -p /usr/share/java/eucadw
-cp -a lib/*.jar /usr/share/java/eucadw
-cp -a dist/*.jar /usr/share/java/eucadw</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Build and install python components.</cmd>
-        		<info>
-        			<codeblock>cd eucadw
-python setup.py build
-python setup.py install</codeblock>
-        		</info>
-        	</step>
+	    <step>
+	      <cmd>Install the Data Warehouse packages:</cmd>
+	      <info>
+		<codeblock>yum install eucadw</codeblock>
+	      </info>
+	    </step>
+	    <step>
+	      <cmd>Install the PostgreSQL server:</cmd>
+	      <info>
+		<codeblock>yum install postgresql91-server</codeblock>
+	      </info>
+	    </step>
         </steps>
     	<postreq>You are now ready to <xref href="configuring_dw.dita"/>.</postreq>
     </taskbody>

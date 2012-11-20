@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="reporting_enabling">
+    <title>Enable Reporting</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>Eucalyptus installs with reporting functionality. However, this functionality is not
+            	enabled by default. To enable reporting functionality, perform the following steps.</p>
+        </context>
+        <steps>
+            <step>
+            	<cmd>Use the <codeph>euca-describe-properties</codeph> command to set up polling
+            	intervals. Polling intervals are in minutes.</cmd>
+            	<info>
+            		<codeblock>euca-describe-properties --reporting_default_poll_interval_mins 5</codeblock>
+            		<p>By default, the polling interval is set to <codeph>0</codeph>, which means that
+            			reporting is disabled. </p>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>Use the <codeph>euca-describe-properties</codeph> command to set up write intervals.
+        			This interval, in minutes, determines how often you want Eucalyptus to write what it has
+        			collected in its polling intervals.</cmd>
+        		<info>
+        			<codeblock>euca-describe-properties --reporting_default_write_interval_mins 30</codeblock>
+        		</info>
+        	</step>
+        </steps>
+    	<result>You have now enabled reporting.</result>
+    </taskbody>
+</task>

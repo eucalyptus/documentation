@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task outputclass="docs one-sidebar sidebar-first" id="enabling_san" props="subscribe">
+<task id="enabling_san" props="subscribe">
 	<title>Configure the SAN</title>
 	<shortdesc></shortdesc>
 	<taskbody>
@@ -18,7 +18,7 @@
 		</context>
 	</taskbody>
 	
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_dell">
+	<task id="enabling_san_dell">
 		<title>Enable Dell Equallogic SANs</title>
 		<shortdesc/>
 		<taskbody>
@@ -54,7 +54,7 @@
 		</taskbody>
 	</task>
 	
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_jbod" product="jbod">
+	<task id="enabling_san_jbod" product="jbod">
 		<title>Enable Direct Attached Storage (JBOD) SANs</title>
 		<shortdesc/>
 		<taskbody>
@@ -98,7 +98,7 @@
 		</taskbody>
 	</task>
 	
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_netapp">
+	<task id="enabling_san_netapp">
 		<title>Enable NetApp SANs</title>
 		<shortdesc/>
 		<taskbody>
@@ -123,7 +123,6 @@
                                 <step>
                                 <cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi service</codeph></cmd>
                                 </step>
-
 				<step>
 					<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
 					<choices>
@@ -132,6 +131,9 @@
 						<choice>If an aggregate with spare capacity does not exist, create
 							one using the <codeph>aggr create</codeph> command.</choice>
 					</choices>
+					<info>
+					  <note type="note">By default Eucalyptus assumes aggr1 as the aggregate name. If you wish to use a different aggregate see step 14.</note>
+					</info>
 				</step>
 				<step>
 					<cmd>Verify that you have a license for FlexClone installed. At the shell prompt, enter
@@ -164,12 +166,18 @@
 				<step conref="../shared/shared_task.dita#shared_task/enable_san">
 					<cmd/>
 				</step>
+				<step>
+					<cmd>If you need to change the aggregate to something other than the default "aggr1" based on your SAN configuration, use the following command:</cmd>
+					<info>
+					  <codeblock>euca-modify-property -p &lt;partition_name>.storage.aggregate=&lt;SAN_aggregate_name></codeblock>
+					</info>
+				</step>
 			</steps>
 			<result>Your SAN is now ready to use with Eucalyptus.</result>
 		</taskbody>
 	</task>
 	
-	<task outputclass="docs one-sidebar sidebar-first" id="enabling_san_emc">
+	<task id="enabling_san_emc">
 		<title>Enable EMC VNX SANs</title>
 		<shortdesc/>
 		<taskbody>
@@ -186,33 +194,28 @@
 				<step>
 					<cmd>We assume that the Navisphere CLI is installed in <filepath>/opt/Navisphere</filepath> on the SC.</cmd>
 					<info>
-						<note type="important">Eucalyptus currently supports version 7.30.15.0.44 of the Navisphere CLI.</note>
+						<note type="important">Eucalyptus currently supports version 7.30.15.0.44 or later of the
+							Navisphere CLI.</note>
 					</info>
 
 				</step>
-				
-				<step>
 
-					<cmd>On the SC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
-						following configuration:</cmd>
-					<info>
-						<codeblock>CLOUD_OPTS="-Debs.storage.manager=SANManager 
- -Debs.san.provider=EmcVnxProvider"</codeblock>
-						
-					</info>
-				</step>
-				<step conref="../shared/shared_task.dita#shared_task/copy_conf">
-					<cmd/>
-				</step>
-				<step>
-					<cmd>Restart the SC. If the SC is not installed separately, restart the CLC.</cmd>
-					<info>
-						<codeblock>service eucalyptus-cloud restart</codeblock>
-					</info>
-				</step>
 				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
 					<cmd/>
 				</step>
+				<step>
+					<cmd>
+						Configure the SC storage back end:
+					</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;PARTITION&gt;.storage.blockstoragemanager=emc-vnx</codeblock>
+					</info>
+					<info>
+						euca-modify-property -p &lt;PARTITION&gt;.storage.blockstoragemanager=emc-vnx-fastsnap
+					</info>
+				</step>
+
+
 				<step conref="../shared/shared_task.dita#shared_task/enable_san">
 					<cmd/>
 				</step>

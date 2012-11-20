@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept outputclass="docs one-sidebar sidebar-first" id="configuring_security_groups">
+<concept id="configuring_security_groups">
 	<title>Set Up Security Groups</title>
  <shortdesc></shortdesc>
 	<prolog>
@@ -29,16 +29,16 @@
  	</ul>
  	<p>The CC will read <codeph>VNET_SUBNET</codeph> and <codeph>VNET_NETMASK</codeph> to construct a
  		range of IP addresses that are available to all security groups. This range will then be further
- 		divided into smaller networks of the size specified in <codeph>VNET_ADDRSPERNET</codeph>.</p>
+ 		divided into smaller networks based on the size specified in <codeph>VNET_ADDRSPERNET</codeph>. Note that Eucalyptus reserves eleven addresses per security group, so these networks will be smaller than the value specified in <codeph>VNET_ADDRSPERNET</codeph>.</p>
  	
  	<p>The first time an instance runs in a given security group, Eucalyptus chooses an unused range
  		of IPs of size specified in <codeph>VNET_ADDRSPERNET</codeph>. Eucalyptus then implements this
  		network across all CCs. All instances that run within this given security group obtain a specific
  		IP from this range.</p>
  	
- 	<note type="tip">Ten of the IP addresses within each security group network are 
+ 	<note type="tip">Eleven of the IP addresses within each security group network are 
  		reserved for Eucalyptus to use as gateway addresses, broadcast address, etc.  For example, if you
- 		set <codeph>VNET_ADDRSPERNET</codeph> to <codeph>32</codeph>, there will be 22 free IPs that are available for
+ 		set <codeph>VNET_ADDRSPERNET</codeph> to <codeph>32</codeph>, there will be 21 free IPs that are available for
  		instances running in that security group.  </note>
  	
  	<p>In Managed mode, each security group network is assigned an additional parameter that is used
@@ -61,12 +61,12 @@ euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></
  	</ol>
  
  <!--	<p>To determine the number of active security groups, divide the number of IP addresses available
- 		by the number of addresses per network. In our example there are 65536 addresses available (192.168.0.0/16). If we divide by the number of addresses per network (set to 32 below), we find the maximum number of subnets is (65536 / 32 = 2048). We also need to know the number of VLANs available to Eucalyptus. You can find this in the Eucalyptus Dashboard under the configuration tab > Clusters > Use VLAN tags.</p> 
+ 	by the number of addresses per network. In our example there are 65536 addresses available (192.168.0.0/16). If we divide by the number of addresses per network (set to 32 below), we find the maximum number of subnets is (65536 / 32 = 2048). We also need to know the number of VLANs available to Eucalyptus. You can find this in the Eucalyptus Administrator Console under the configuration tab > Clusters > Use VLAN tags.</p> 
  		<p>For the purposes of illustration, let's assume the default range of available VLANs in the
- 			Dashboard is set from 10 to 4095. The total number of available security groups is computed as</p>
+ 		Eucalyptus Administrator Console is set from 10 to 4095. The total number of available security groups is computed as</p>
  		<codeblock>#security groups = min(VLAN-end, #subnet) - VLAN-start</codeblock>
  	<p>In our example:</p>
  		<codeblock>min(4095, 2048) - 10 =  2038</codeblock>
- 		<p>Thus we can have 2038 active security groups at any given time if the Eucalyptus Dashboard is set to “10 to 4095.”  If the Dashboard value is changed to “2 to 4095” then the available security groups would be 2046. It is using the Web UI restriction mechanism that a site can specify a VLAN range Eucalyptus to use. Calculating the total number of security groups, each of which requires a separate VLAN and subnet, requires this specific computation.</p>-->
+ 		<p>Thus we can have 2038 active security groups at any given time if the Eucalyptus Administrator Console is set to “10 to 4095.”  If the Eucalyptus Administrator Console value is changed to “2 to 4095” then the available security groups would be 2046. It is using the Web UI restriction mechanism that a site can specify a VLAN range Eucalyptus to use. Calculating the total number of security groups, each of which requires a separate VLAN and subnet, requires this specific computation.</p>-->
  </conbody>
 </concept>

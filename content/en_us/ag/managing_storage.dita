@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept outputclass="docs one-sidebar sidebar-first" id="managing_storage">
+<concept id="managing_storage">
  <title>Managing Storage</title>
  <shortdesc></shortdesc>
  <conbody>
- 	<p><draft-comment>Concept definition.</draft-comment></p>
+ 	<p>Eucalyptus uses buckets and volumens for storage. Buckets are based on the Amazon S3 API.
+ 		Volumens are based on the Amazon EC2 API. For more information about
+ 		Amazon S3, go to <xref href="http://aws.amazon.com/s3/" scope="external"
+ 			format="html">http://aws.amazon.com/s3/</xref>. For more information about the Amazon EC2 API, go
+ 		to <xref href="http://aws.amazon.com/ebs/" scope="external"
+ 			format="html">http://aws.amazon.com/ebs/</xref>.</p>
+ 		
+ 		<p>Walrus uses buckets, that is the Amazon S3 interface. S3 implements a simple get/put
+ 			interface: there are quite a few commands/programs that can be used with Walrus (check out http://www.eucalyptus.com/eucalyptus-cloud/tools/s3 for a sample of tools). Files needs can be added to or removed from the bucket: this is considered and atomic operation, either the full action succeed, in which case the file will be added/removed, or, in case of failure, the old content will remain in the bucket.</p>
+ 		
+ 		<p>The Storage Controller is the Eucalyptus component in charge of the Elastic Block Storage
+ 			(EBS). EBS allows instances to use volumes. You can create and delete volumes. You can attach
+ 			volumes to running instances. Then they can be, detached, and snapshotted using the EC2
+ 			interface, thus the euca2ools has all the needed command to operate on the Volumes. Volumes will appear to the running instance as a new disk: unlike ephemeral storage, this disk will persist across instance termination, and instance failures, until the user explicitly deletes it.</p>
+ 		
+ 		<p>To recap, both storages are persistent, but buckets are accessed only via the API or commands, meaning that the application will have to account for staging the files somewhere else, while volumes will have the familiar block device interface.</p>
  </conbody>
 </concept>

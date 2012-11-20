@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="config_drbd_sync">
+    <title>Skipping Initial Device Synchronisation</title>
+    <shortdesc/>
+    <taskbody>
+            <context>
+		    <note type="restriction">Only perform these steps if you have no existing data on your DRBD
+		    	devices. We assume you have completed the steps up to and including step <xref
+		    		href="config_drbd.dita#config_drbd/copy_drbd_conf"/> in <xref
+		    			href="config_drbd.dita"/>.</note>
+            </context>
+            <steps>
+                    <step>
+                            <cmd>Before promoting the DRBD resource to primary, generate a new UUID and clear the bitmap on the primary Walrus ONLY.</cmd>
+                            <info>
+                                    <codeblock>drbdadm -- --clear-bitmap new-current-uuid r0</codeblock>
+                            </info>
+                    </step>
+                    <step>
+                            <cmd>On the same Walrus, promote the resource to primary:</cmd>
+                            <info>
+                                    <codeblock>drbdadm primary r0</codeblock>
+                            </info>
+                    </step>
+                    <step>
+                    	<cmd>Resume the configuration at step <xref
+                    		href="config_drbd.dita#config_drbd/setup_drbd_bd"/> in <xref
+                    			href="config_drbd.dita"/>.</cmd>
+                    </step>
+            </steps>
+        </taskbody>
+</task>

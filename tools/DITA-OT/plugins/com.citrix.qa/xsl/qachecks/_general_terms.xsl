@@ -105,6 +105,9 @@
 <xsl:if test=".//*[$excludes]/text()[contains(.,'on the other hand')]"><li class="genterm">Avoid "on the other hand" Use "however" or "alternatively" instead.</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'punch')]"><li class="genterm">Avoid punch." Use "enter," "press," or "type" instead.</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'(s)')]"><li class="genterm">Avoid using "(s)" to indicate plural. Use the plural form of the word instead, such as "devices."</li></xsl:if>
+	<xsl:if test=".//*[$excludes]/text()[contains(.,'system')]"><li class="genterm">Avoid using
+		"system" to indicate cloud or network or group of machines. Use the specific term like "cloud" or
+		network instead.</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'via')]"><li class="genterm">Avoid "via." Use "across," "along," "by," "from," "on," "through," or "using" instead.</li></xsl:if>
 <xsl:if test=".//*[$excludes]/text()[contains(.,'wish')]"><li class="genterm">Avoid "wish." Use "want" instead.</li></xsl:if>
 

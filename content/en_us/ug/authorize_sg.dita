@@ -1,48 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task outputclass="docs one-sidebar sidebar-first" id="authorize_sg">
-    <title>Authorize Security Groups</title>
-    <shortdesc/>
-	<prolog>
-		<metadata>
-			<keywords>
-				<indexterm>Instances
-					<indexterm>Authorizing Security Groups</indexterm>
-				</indexterm>
-			</keywords>
-		</metadata>
-	</prolog>
+<task id="authorize_sg">
+	<title>Authorize Security Groups</title>
+	<shortdesc/>
 	<taskbody>
-        <context>
-        	<p>Before you can log in to an instance, you must authorize access to that instance. This
-        		done by configuring a security group for that instance.</p>
-        	<p>A security group is a set of networking rules applied to instances
-        		associated with a group. When you first create an instance, it is assigned to a default security group that denies incoming network traffic from all sources. To allow login and usage of a new instance, you must authorize network access to the default security group with the euca-authorize command.</p>
-        	<p>To authorize a security group:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Enter <codeph>euca-authorize</codeph>, followed by the name of the security group,
-            	and the options of the network rules you want to apply.</cmd>
-            	<info>
-            		<codeblock>euca-authorize &lt;security_group></codeblock>
-            	</info>
-            </step>
-        </steps>
-    	<example>
-    		<p>In the following example, the security group <codeph>default</codeph> is granted unlimited network access using SSH (TCP, port 22) and VNC (TCP, ports 5900 to 5910):</p>
-
-    		<codeblock>euca-authorize -P tcp -p 22 -s 0.0.0.0/0 default
- euca-authorize -P tcp -p 5900-5910 -s 0.0.0.0/0 default</codeblock>
-    		
-    		<p>In the following example, the security group <codeph>windows</codeph> is granted unlimited network access using Windows Remote Desktop (TCP, port 3389):</p>
-
-    		<codeblock>euca-authorize -P tcp -p 3389 -s 0.0.0.0/0 windows</codeblock>
-
-    	</example>
-    	
-    	<!--<postreq>For more information about <codeph>euca-authorize</codeph>, see the CLI Reference
-    		Guide.</postreq>-->
-    </taskbody>
+		<context>
+			<p>Before you can log in to an instance, you must authorize access to that instance. This done by configuring a security group for that instance.</p>
+			<p>A security group is a set of networking rules applied to instances associated with a group.
+				When you first create an instance, it is assigned to a default security group that denies incoming network traffic from all sources. To allow login and usage of a new instance, you must authorize network access to the default security group with the euca-authorize command.</p>
+				<p>To authorize a security group, use euca-authorize with the name of the security group, and the options of the network rules you want to apply.</p>
+			<codeblock>euca-authorize &lt;security_group></codeblock>
+			<p>Use the following command to grant unlimited network access using SSH (TCP, port 22) and VNC (TCP, ports 5900 to 5910) to the security group <codeph>default</codeph>: </p>
+			<codeblock>euca-authorize -P tcp -p 22 -s 0.0.0.0/0 default
+euca-authorize -P tcp -p 5900-5910 -s 0.0.0.0/0 default</codeblock>
+			<p>Use the following command to grant unlimited network access using Windows Remote Desktop (TCP, port 3389) to the security group <codeph>windows</codeph>: </p>
+			<codeblock>euca-authorize -P tcp -p 3389 -s 0.0.0.0/0 windows</codeblock>
+		</context>
+		
+	</taskbody>
 </task>

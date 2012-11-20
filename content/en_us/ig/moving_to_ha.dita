@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="config_drbd">
+    <title>Appendix C: Moving to High Availability</title>
+    <shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>
+					<indexterm></indexterm>
+				</indexterm>
+				<indexterm>
+					<indexterm></indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+	<context>
+        	<p>With Eucalyptus 3.2 users may register additional components to bring high availability to an existing cloud. This section provides instructions for registering additional Eucalyptus components
+        	(specifically Walrus) in an existing environment for the purpose of achieving high availability.</p>
+		<note type="important">Adding an additional Walrus will require downtime of your cloud platform.</note>
+		<p>Registering redundant components to your existing Eucalyptus installation will take your platform into a highly available configuration.  Registering the Cloud Controller, Cluster Controller and Storage Controller (with SAN adapter only) is fairly trivial but adding an additional Walrus requires that the user configure DRBD for bukkit storage replication.</p>
+		
+		<p>Before you begin, ensure that you have completed the following:</p>
+                <ul>
+			<li>Installed the same operating system on any additional server you will add for High Availability of a Eucalyptus component.</li>
+			<li>Installed and configured Eucalyptus with matching configuration on any additional system you will be adding.</li>
+			<li>If registering an additional Walrus, ensure you are able to move the contents of /var/lib/eucalyptus/bukkits/ to a temporary storage area.</li>
+			<li>A block device (disk or partition) is available for use as a DRBD device. Consider using LVM for future growth.</li>
+		</ul>
+			<note type="important">The configuration of Highly Availiable components must match. For more
+				information, see <xref href="ha_planning.dita"/>.</note>
+	</context>
+	<steps>
+	  <step>
+	    <cmd>To register an additional Eucalyptus component please follow the instructions in <xref href="registering_components.dita"/>.</cmd>
+	  </step>
+	  <step>
+	    <cmd>Additional steps are required for adding another Walrus component. You will need to configure a DRBD device for the bukkit store.  Start by shutting down the eucalyptus-cloud service on both Walrus servers.</cmd>
+	    <info>
+	      <codeblock>service eucalyptus-cloud stop</codeblock>
+	    </info>
+	  </step>
+	  <step>
+	    <cmd>On the original primary system, copy the current contents of /var/lib/eucalyptus/bukkits to a temporary location.</cmd>
+	    <info>
+	      <codeblock>cp -R --preserve /var/lib/eucalyptus/bukkits /newlocation/</codeblock>
+	    </info>
+	  </step>
+	  <step>
+	  	<cmd>Configure your new DRBD device. For more information, see <xref
+	  		href="config_drbd.dita"/>. After you are finished configuring your device, move to the next step.</cmd>
+	  </step> 			
+	  <step>
+		<cmd>On the primary Walrus, ensure the new DRBD resource is in a primary state before proceeding.</cmd>
+		<info>
+			<codeblock>drbd-overview</codeblock>
+		</info>
+	  </step>
+	  <step>
+	    <cmd>On the primary Walrus, copy the preserved contents of /var/lib/eucalyptus/bukkits from the temporary location to the new DRBD device.</cmd>
+	      <info>
+		<note type="tip">At this point you should run <codeph>service eucalyptus-cloud stop</codeph> to ensure cloud services are stopped during migration.</note>
+		<codeblock>cp -R --preserve /newlocation/* /var/lib/eucalyptus/bukkits/</codeblock>
+		<note type="tip">If you are migrating large amounts of data, consider skipping initial device synchronization as explained in <xref href="config_drbd_sync.dita"/>.</note>
+	      </info>
+	      </step>
+	  <step>
+	    <cmd>On the primary Walrus, monitor the state of the resource with <codeph>drbd-overview</codeph> to observe the sync. Data will not be replicated until the resource is marked UpToDate/UpToDate.</cmd>
+	      <info>
+		<codeblock>drbd-overview</codeblock>
+	      </info>
+	  </step>
+	  <step>
+	    <cmd>With the synchronization complete, start the eucalyptus-cloud service to bring up Walrus.</cmd>
+	  </step>
+        </steps>
+		<result>Your HA environment is now ready.</result>
+	</taskbody>
+	</task>
+	
