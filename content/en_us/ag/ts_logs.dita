@@ -2,15 +2,16 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_logs">
+	<title>Log Files</title>
+	<shortdesc></shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<indexterm>troubleshooting
-				<indexterm>log files</indexterm>
-			</indexterm></keywords>
+					<indexterm>log files</indexterm>
+				</indexterm></keywords>
 		</metadata>
 	</prolog>
-	<title>Log Files</title>
 	<conbody>
 		<p>Usually when an issue arises in Eucalyptus, you can find information that points to the nature
 			of the problem either in the Eucalyptus log files or in the system log files. By
@@ -71,11 +72,11 @@
 		<section>
 			<title>Configuring Logging</title>
 			<p>For the cluster controller and the node controller, log level is configured using the <codeph>LOGLEVEL</codeph> parameter in <filepath>eucalyptus.conf</filepath>. This parameter will be picked up dynamically when the value is changed in the config file, without requiring a restart of the component.</p>
-			<p>For all other components, the log level can be configured by passing an appropriate <codeph>--log-level</codeph> argument in the init script. It can also be dynamically changed using <codeph>euca-modify-property</codeph> to set an appropriate value for <codeph>troubleshooting.euca_log_level</codeph>. This takes precedence over the value specified in the init script. If no value is specified, the default <codeph>INFO</codeph> is used.</p>
+			<p>For all other components, the log level can be configured by passing an appropriate <codeph>--log-level</codeph> argument in the init script. It can also be dynamically changed using <codeph>euca-modify-property</codeph> to set an appropriate value for <codeph>cloud.euca_log_level</codeph>. This takes precedence over the value specified in the init script. If no value is specified, the default <codeph>INFO</codeph> is used.</p>
 		</section>
 		<section>
 			<title>Fault Logs</title>
-			<p>Eucalyptus includes fault logs for easy identification of conditions outside of Eucalyptus's control that may cause it to fail. These messages are logged per component, and each fault is logged only once per component. The messages include a suggested resolution, and can be customized. Where they have been translated, Eucalyptus will use the system-configured <codeph>LOCALE</codeph> variable to serve appropriate messages.</p>
+			<p>Eucalyptus includes fault logs for easy identification of conditions outside of Eucalyptus's control that may cause it to fail. These messages are logged per component, and each fault is logged only once per component, in <filepath>/var/log/eucalyptus/[component]-fault.log</filepath>. The messages include a suggested resolution, and can be customized. Where they have been translated, Eucalyptus will use the system-configured <codeph>LOCALE</codeph> variable to serve appropriate messages.</p>
 			<p>Fault messages are based on XML-formatted templates, stored in a per-locale directory structure, with one file per fault message, and one file storing common strings. Default templates are shipped with Eucalyptus. These are stored in <filepath>/usr/share/eucalyptus/faults/</filepath> as follows:</p>
 <codeblock>/usr/share/eucalyptus/faults/en_US/0001.xml
 ...

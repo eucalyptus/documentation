@@ -29,16 +29,16 @@
  	</ul>
  	<p>The CC will read <codeph>VNET_SUBNET</codeph> and <codeph>VNET_NETMASK</codeph> to construct a
  		range of IP addresses that are available to all security groups. This range will then be further
- 		divided into smaller networks of the size specified in <codeph>VNET_ADDRSPERNET</codeph>.</p>
+ 		divided into smaller networks based on the size specified in <codeph>VNET_ADDRSPERNET</codeph>. Note that Eucalyptus reserves eleven addresses per security group, so these networks will be smaller than the value specified in <codeph>VNET_ADDRSPERNET</codeph>.</p>
  	
  	<p>The first time an instance runs in a given security group, Eucalyptus chooses an unused range
  		of IPs of size specified in <codeph>VNET_ADDRSPERNET</codeph>. Eucalyptus then implements this
  		network across all CCs. All instances that run within this given security group obtain a specific
  		IP from this range.</p>
  	
- 	<note type="tip">Ten of the IP addresses within each security group network are 
+ 	<note type="tip">Eleven of the IP addresses within each security group network are 
  		reserved for Eucalyptus to use as gateway addresses, broadcast address, etc.  For example, if you
- 		set <codeph>VNET_ADDRSPERNET</codeph> to <codeph>32</codeph>, there will be 22 free IPs that are available for
+ 		set <codeph>VNET_ADDRSPERNET</codeph> to <codeph>32</codeph>, there will be 21 free IPs that are available for
  		instances running in that security group.  </note>
  	
  	<p>In Managed mode, each security group network is assigned an additional parameter that is used
