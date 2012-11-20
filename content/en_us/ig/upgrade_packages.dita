@@ -38,10 +38,38 @@
     </info>
    </step>
    <step props="subscribe">
-    <cmd>If you are a subscriber and use SAN, run the following command on the SC:</cmd>
+    <cmd>If you have a Eucalyptus subscription and use SAN support, install the Eucalyptus SAN
+     adapter software that matches your SAN adapter on each SC host:</cmd>
     <info>
-     <codeblock>yum install eucalyptus-enterprise-storage-san</codeblock>
+     <codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
+     <p>...or...</p>
+     <codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
+     <p>...or...</p>
+     <codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
     </info>
+    
+   </step>
+   <step props="subscribe">
+    <cmd>If you are using NetApp SAN support, you will need to install NetApp specific libs packages</cmd>
+    <substeps>
+     <substep>
+      <cmd>Install the NetApp SAN libs package on each CLC host:</cmd>
+      <info>
+       <codeblock>yum install eucalyptus-enterprise-storage-san-netapp-libs</codeblock>
+      </info>
+     </substep>
+    </substeps>
+   </step>
+   <step props="subscribe">
+    <cmd>If you are using EMC SAN support, you will need to install EMC specific libs packages</cmd>
+    <substeps>
+     <substep>
+      <cmd>Install the EMC SAN libs package on each CLC host:</cmd>
+      <info>
+       <codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
+      </info>
+     </substep>
+    </substeps>
    </step>
   </steps>
  </taskbody>
