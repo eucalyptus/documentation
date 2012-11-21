@@ -7,13 +7,12 @@
 	<taskbody>
 		<context>
 			
-			<p>To upgrade to Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/> on
-				CentOS:</p>
-			<note importance="high">
-				If you're upgrading from 3.1.0 to 3.1.2, you can skip this section.
-			</note>
+			<p>Complete the following steps to upgrade to Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/> on
+				CentOS 6 or RHEL 6.</p>
 			<note type="important">
-				The steps in this section should be performed on all machines with Eucalyptus installed.
+				<p>You should already have the repositories installed for euca2ools, EPEL, and ELRepo from your 3.1.x installation. 
+					If you do not have these installed, refer to the installation instructions to find out how to add these to your machines.</p>
+				<p>The steps in this section should be performed on all machines with Eucalyptus installed.</p>
 			</note>
 		</context>
 		<steps id="update_distro">
@@ -21,41 +20,20 @@
 				<cmd> Remove any hand-written repository files for earlier versions of Eucalyptus and Euca2ools
 					from <codeph>/etc/yum.repos.d</codeph>. </cmd>
 			</step>
-			<step>
-				<cmd>Configure the Euca2ools package repository on each host that will run a
-					Eucalyptus component or Euca2ools:</cmd>
+				<step>
+					<cmd>Install the new Eucalyptus release package on each host that will run a Eucalyptus component:</cmd>
 				<info>
-					<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/5/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
-				</info>
-			</step>
+					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm</codeblock>
+				</info>		
+			</step>		
 			<step>
-				<cmd>Configure the Eucalyptus package repository on each host that will run a
-					Eucalyptus component:</cmd>
-				<info>
-					<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/5/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>Configure the EPEL package repository on each host that will run a Eucalyptus
-					component or Euca2ools:</cmd>
-				<info>
-					<codeblock>rpm -Uvh http://downloads.eucalyptus.com/software/eucalyptus/3.1/rhel/5/x86_64/epel-release-5.noarch.rpm</codeblock>
-				</info>
-			</step>
-			
-			<step>
-				<note importance="high"> If upgrading from Eucalyptus 2.0, you can skip this step. This step is only
-					necessary if you are upgrading from Eucalyptus 3.0. </note>
 				<cmd> If you have a Eucalyptus subscription, you will have received a package that grants you
-					access to VMware and SAN components. If you are upgrading from Eucalyptus 3.0,
-					you must install this package. </cmd>
+					access to VMware and SAN components. If you wish to use either of these components, 
+					install this package on each host that will run a Eucalyptus component with this command:</cmd>
 				<info>
-					<codeblock>rpm -Uvh eucalyptus-enterprise-release-3.1-1.noarch.rpm</codeblock>
+					<codeblock>yum install eucalyptus-enterprise-release-3.2*.noarch.rpm</codeblock>
 				</info>
 			</step>
-
-
-
-		</steps>
+		</steps>		
 	</taskbody>
 </task>

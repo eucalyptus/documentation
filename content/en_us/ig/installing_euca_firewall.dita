@@ -1,13 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="installing_euca_firewall">
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_firewall">
     <title>Appendix B: Creating a Local Eucalyptus Package Repository</title>
     <shortdesc></shortdesc>
-    <conbody>
-        <p>In certain situations (such as installing Eucalyptus from behind a firewall), you might
-            need to install Eucalyptus from a local repository. This section augments the standard
-            installation instructions with additional instructions for downloading and installing
-            Eucalyptus from a local repository.</p>
-    </conbody>
-</concept>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>installing
+                    <indexterm>local repository
+                        <indexterm>CentOS</indexterm>
+                    </indexterm>
+                </indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    
+    <taskbody>
+        <prereq>In certain situations (such as installing Eucalyptus from behind a firewall), you might
+            need to install Eucalyptus from a local repository. This section augments the <xref 
+                href="installing_euca_release.dita">standard
+            installation instructions</xref> with additional instructions for downloading and installing
+            Eucalyptus from a local repository.</prereq>
+        <context>
+            <p>To install Eucalyptus from behind a firewall on CentOS 6 or RHEL 6:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Download the Eucalyptus repository to a local directory. For example:</cmd>
+                <info>
+                    <codeblock>wget -r --no-parent \ 
+http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/ \
+-P /tmp/eucalyptus </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Download euca2ools:</cmd>
+                <info>
+                    <codeblock>wget -r --no-parent \
+http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64/ \
+-P /tmp/euca2ools </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> In step 1 of the <xref href="installing_euca_release.dita">existing installation instructions</xref>, 
+                    modify the baseurl to point to your Eucalyptus local repository: </cmd>
+                <info>
+                    <codeblock>baseurl=file:///tmp/eucalyptus/downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>In step 2 of the <xref href="installing_euca_release.dita">existing installation
+                    instructions</xref>, modify the baseurl to point to your local Euca2ools
+                    repository:</cmd>
+                <info>
+                    <codeblock>baseurl=file:///tmp/euca2ools/downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Run <codeph>yum update</codeph>.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>
 
