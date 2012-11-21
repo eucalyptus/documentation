@@ -8,63 +8,38 @@
 		<metadata>
 			<keywords>
 				<indexterm>upgrading</indexterm>
-				<indexterm>users
-					<indexterm>migrating</indexterm>
-				</indexterm>
-				<indexterm>VLANs
-					<indexterm>migrating</indexterm>
-				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
 	
 	<conbody>
- 	<p>If you are upgrading from a previous version of Eucalyptus, follow the directions detailed
- 		in this section.</p>
- 	
- 	<section>
- 		<title>Migrating Users</title>
- 		<p>There are two considerations for migrating users during the upgrade process:</p>
- 		<ul>
-
- 		<li>In Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/> the concept of <b>user</b> has changed. What used to be a user is now an
- 			<b>account</b>, and the user is an identity within the account. In the upgrade process to
- 			Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/>, users are converted to accounts.</li>
- 			<li>Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/> enforces case insensitivity. So a user labeled <uicontrol>john</uicontrol>
-
- 			and another user labeled <uicontrol>JOHN</uicontrol> will collide during the upgrade process. You
- 			must either relabel conflicting accounts or be aware that Eucalyptus will relabel
- 			these accounts. For example, the upgrade process will
-maintain the <uicontrol>john</uicontrol> label but will relabel the other one as
- 			<uicontrol>john-</uicontrol>.</li></ul>
- 	</section>
- 	<section>
- 		<title>Migrating VLAN Range</title>
- 		<p>In Eucalyptus 2.x, there were per-cluster settings in the web user interface for
- 			<uicontrol>Min VLANs</uicontrol> and <uicontrol>Max VLANs</uicontrol>. These values defined the
- 			range of numeric VLAN tags allowed for that cluster. In some cases, this was necessary due to
- 			limitations of the network switches being used. Failing to preserve these values might break
- 			your cloud's network configuration.</p>
- 		
-
- 		<p>In Eucalyptus <ph conref="../shared/conrefs.dita#prod/version"/>, the VLAN tag range is a global setting. The safest thing is to
-
- 			choose a range that is the intersection of the user's per-cluster settings from 2.x. However, this will
- 			not always be the preferred configuration for each user.</p>
- 		
- 		<p>Use the <cmdname>euca-describe-properties</cmdname> command to display the new settings:
- 		</p>
- 		<codeblock>PROPERTY    cloud.network.global_max_network_tag    1000
-PROPERTY    cloud.network.global_min_network_tag    2</codeblock>
- 	</section>
- 	<section>
- 		<title>Finding Backup Files</title>
- 		<p>The upgrade process creates a backup to
- 			<codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>. For example:</p>
- 		<codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
- 		<p>If the upgrade fails and needs to be reverted to your earlier version, you can find your preserved data in this
- 			directory.</p>
- 	</section>
- 	
- </conbody>
+		<p>To upgrade from Eucalyptus 3.1.2 to Eucalyptus 3.2.0, follow the directions detailed in
+			this section. To upgrade from any other version of Eucalyptus, you should first upgrade
+			to 3.1.2 following the directions in the previous Install Guide, and then upgrade to
+			3.2.0 using these directions.</p>
+		<section>
+			<title>Setting Block Storage Manager</title>
+			<p>In Eucalyptus 3.2, there are a variety of new block storage managers. After upgrading, you
+				must specify the block storage manager for each zone before you can connect to the
+				storage backend, as follows:</p>
+			<codeblock>euca-modify-property -p [zone].storage.blockstoragemanager=[ebs_manager]</codeblock>
+			<p>The <codeph>ebs_manager</codeph> should be one of the following options:</p>
+			<ul>
+				<li><codeph>das</codeph> - for DAS Manager</li>
+				<li><codeph>san</codeph> - for SAN Manager</li>
+				<li><codeph>equallogic</codeph> - for EqualLogic Provider</li>
+				<li><codeph>netapp</codeph> - for Netapp Provider</li>
+				<li><codeph>emc-fastsnap</codeph> - for EMC VNX Provider</li>
+			</ul>
+		</section>
+		<section>
+			<title>Finding Backup Files</title>
+			<p>The upgrade process creates a backup to
+					<codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>.
+				For example:</p>
+			<codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
+			<p>If the upgrade fails and needs to be reverted to your earlier version, you can find
+				your preserved data in this directory.</p>
+		</section>
+	</conbody>
 </concept>
