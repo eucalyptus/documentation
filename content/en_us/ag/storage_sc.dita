@@ -15,9 +15,16 @@
 	</prolog>
  <conbody>
  		
- 		<p>The Storage Controller (SC) is the component of Eucalyptus that manages EBS volumes. Eucalyptus uses the iSCSI protocol to connect EBS volumes to instances (NCs actually), and uses standard linux commands for configuring and exporting the volumes to instances. Volumes are represented as files on the filesystem of the machine hosting the SC. The SC manages creating, deleting, snapshotting, and exporting volumes in response to both user commands (example: euca-create-volume and euca-create-snapshot) and system operations (example: euca-run-instances of a boot-from-ebs instance).</p>
+ 		<p>The Storage Controller (SC) is the component of Eucalyptus that manages EBS volumes.
+			Eucalyptus uses the iSCSI protocol to connect EBS volumes to Node Controllers (NCs) and
+			instances, and uses standard linux commands for configuring and exporting the volumes to
+			instances. Volumes are represented as files on the filesystem of the machine hosting the
+			SC. The SC manages creating, deleting, snapshotting, and exporting volumes in response
+			to both user commands (for example: <codeph>euca-create-volume</codeph> and
+				<codeph>euca-create-snapshot</codeph>) and system operations (examples include
+			running a Boot from EBS (BfEBS) instance).</p>
  		
- 		<p>There are two broad SC configurations: filesystem-backed SC and SAN-backed SC.</p>
+ 		<p>There are two broad SC configurations: filesystem-backed SCs and SAN-backed SCs.</p>
  		
  		<p>For filesystem-backed SCs, the SC machine is both on the control and data path for the volumes and snapshots. This means the machine running the SC component will host the volume and snapshot data, manage the iSCSI connections to the volumes, and service iSCSI block requests as NCs (and vm instances) read and write to the volume. In this configuration it is important to understand and plan-for the I/O requirements your specific deployment will have and ensure that the machine hosting the SC is up to the task. We recommend lots of memory and as many high-speed disks as possible in a reliable and performant configuration (RAID 10,01,5,6 but not just 0 or 1). SSDs would also make an excellent addition to an SC machine due to their very high IOPS capability. For more recommendations on hardware configurations and best-practices, see our Storage:Best Practices section.</p>
  		
@@ -47,7 +54,7 @@
  		
  		<p>Filesystem-backed SCs A snapshot operation is a simple file-copy in this case. However, there are some complexities due to the headers added to the file when it becomes an lvm volume. For that reason, we snapshot by copying (using dd) the source file into the destination file after the destination has been created and configured as an lvm volume independently of the source. The SC only copies the final lvm volume devices so that all lvm header and metadata information stays unique to each file.</p>
  	</section>
- 	<section>
+ 	<!--<section>
  		
  		<title>Lifecycle of a Request</title>
  		
@@ -59,7 +66,7 @@
  			<li>CLC creates its own metadata about the volume to be created and gives it a name: vol-abc0123</li>
  			<li>CLC sets status of volume to 'creating' and sends a message to Storage Controller in the appropriate zone/cluster/partition to actually create the volume.</li>
  			<li>SC checks that permissions are okay, sets up some metadata of its own, and starts the asynchronous volume create operation. Then, immediately replies back to the CLC, which has been waiting for the reply.</li>
- 			<!--<li>SC creates the volume itself using these steps below for Filesystem- or SAN-backed</li>-->
+ 			<!-\-<li>SC creates the volume itself using these steps below for Filesystem- or SAN-backed</li>-\->
  			<li>Assuming /dev/loop0 is open and there are no other volumes, so target-id 1 is unused as well.</li>
  			<li>Create a file: $EUCALYPTUS/var/lib/eucalyptus/volumes/vol-abc0123 of size 1GB + lvm header size (~4MB): dd -if /dev/zero -of $EUCALYPTUS/var/lib/eucalyptus/volumes/vol-X count=1 bs=1M</li>
  			<li>Find unused loopback: losetup -f</li>
@@ -67,11 +74,11 @@
  			<li>Create physical volume from loopback: pvcreate /dev/loop0.</li>
  			<li>Create volume group: vgcreate /dev/loop0 vg-xyza (the volume group name is a 4 char random hash).</li>
  			<li>Create logical volume: lvcreate -n lv-jklm -l 100%FREE vg-xyza</li>
- 			<li>Create new iSCSI target: tgtadm --lld iscsi --op new --mode target --tid 1 -T
+ 			<li>Create new iSCSI target: tgtadm -\-lld iscsi -\-op new -\-mode target -\-tid 1 -T
  				&lt;some_prefix>&lt;SC_NAME>:store0</li>
- 			<li>Create new lun in the target: tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 1 -b /dev/vg-xyza/lv-jklm</li>
- 			<li>Add eucalyptus CHAP user to target: tgtadm --lld iscsi --op bind --mode account --tid 1 --user eucalyptus</li>
- 			<li>Bind the target to all interfaces: tgtadm --lld iscsi --op bind --mode target --tid 1 -I ALL
+ 			<li>Create new lun in the target: tgtadm -\-lld iscsi -\-op new -\-mode logicalunit -\-tid 1 -\-lun 1 -b /dev/vg-xyza/lv-jklm</li>
+ 			<li>Add eucalyptus CHAP user to target: tgtadm -\-lld iscsi -\-op bind -\-mode account -\-tid 1 -\-user eucalyptus</li>
+ 			<li>Bind the target to all interfaces: tgtadm -\-lld iscsi -\-op bind -\-mode target -\-tid 1 -I ALL
  			</li>
  			
  		</ol>
@@ -90,7 +97,7 @@
  			<p>In this case the SC issues the proper commands to the SAN device directly to have the SAN create a LUN of the proper size and setup the proper credentials for connection later.</p>
  		<p>Concurrently, the CLC is periodically checking the state of all volumes on every SC, so now that the volume is ready, the CLC sees it and sets the volume state to 'available' as viewable by the user via euca-describe-volumes commands.</p>
  			
- 	</section>
+ 	</section>-->
  	<section>
  		<title>Attach volume</title>
  			
