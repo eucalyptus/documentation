@@ -65,16 +65,12 @@
 			</ul>
 		</section>
 		<section>
-			<title>Log Format</title>
-			<p>Eucalyptus logs now have a standard format, as follows:</p>
-			<codeblock>YYYY-MM-DD HH:MM:SS LEVEL PROCESS:THREAD loggingMethodOrClass     | message </codeblock>
-		</section>
-		<section>
 			<title>Configuring Logging</title>
 			<p>For the cluster controller and the node controller, log level is configured using the <codeph>LOGLEVEL</codeph> parameter in <filepath>eucalyptus.conf</filepath>. This parameter will be picked up dynamically when the value is changed in the config file, without requiring a restart of the component.</p>
 			<p>For all other components, the log level can be configured by passing an appropriate <codeph>--log-level</codeph> argument in the init script. It can also be dynamically changed using <codeph>euca-modify-property</codeph> to set an appropriate value for <codeph>cloud.euca_log_level</codeph>. This takes precedence over the value specified in the init script.</p>
 <p>Valid log levels are as follows, from most to least verbose:</p>
 <ul>
+<li>ALL</li>
 <li>EXTREME</li>
 <li>TRACE</li>
 <li>DEBUG</li>
@@ -82,8 +78,19 @@
 <li>WARN</li>
 <li>ERROR</li>
 <li>FATAL</li>
+<li>OFF</li>
 </ul>
-<p>If no value is specified, the default <codeph>DEBUG</codeph> is used.</p>
+<p>If no value is specified, the default <codeph>INFO</codeph> is used.</p>
+		</section>
+		<section>
+			<title>Log Format</title>
+			<p>Eucalyptus logs now have a standard format, which varies slightly per log level.</p>
+			<p>For log levels FATAL, ERROR, WARN and INFO:</p>
+			<codeblock>YYYY-MM-DD HH:MM:SS LEVEL | message </codeblock>
+			<p>For log levels DEBUG and TRACE:</p>
+			<codeblock>YYYY-MM-DD HH:MM:SS LEVEL PROCESS:THREAD loggingMethodOrClass     | message </codeblock>
+			<p>For log level EXTREME and ALL:</p>
+			<codeblock>YYYY-MM-DD HH:MM:SS LEVEL PROCESS:THREAD loggingMethodOrClass   FILENAME:LineNumber | message </codeblock>
 		</section>
 		<section>
 			<title>Fault Logs</title>
