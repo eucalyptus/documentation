@@ -47,19 +47,35 @@
  		The maximum is dependent on how many security group networks of the size specified in
  		<codeph>VNET_ADDRSPERNET</codeph> fit in the network defined by <codeph>VNET_SUBNET</codeph> and <codeph>VNET_NETMASK</codeph>. </p>
  	<p>If your networking environment is already using VLANs for other reasons, Eucalyptus supports
- 		the definition of a smaller range of VLANs that are available to Eucalyptus. To set this range
- 		with a running and configured Eucalyptus installation:</p>
- 	
- 	<ol>
- 		<li>Determine the range that your cluster controllers are configured to support.
+ 		the definition of a smaller range of VLANs that are available to Eucalyptus. To configure 
+        Eucalyptus to use VLANs within a specified range:
+ 		</p>
+
+    <ol>
+        <li>Choose your range (a contiguous range of VLANs between 2 and 4095).</li>
+        <li>Configure your cluster controllers with the VNET_SUBNET/VNET_NETMASK/VNET_ADDRSPERNET that
+            is large enough to encapsulate your desired range. For example, if working with a VLAN
+            range of 1024-2048, you would set VNET_NETMASK to 255.254.0.0 to get a large enough
+            network (131072 addresses). Dividing that number by 64 gives 2048, which is larger than
+            the range we're trying to achive, but not too large. Set VNET_ADDRSPERNET to 64. Yo</li>
+        <li>Configure your cloud controller to work within that range. Following with the example,
+            you can verify the range is now set to be 2-2048, which is a superset of the desired range.
  			<codeblock>euca-describe-properties | grep cluster.maxnetworktag  
 euca-describe-properties | grep cluster.minnetworktag</codeblock>
- 		</li>
- 		<li>Define a range that is a proper subset of the above bounds.
- 		<codeblock>euca-modify-property -p cloud.network.global_max_network_tag=&lt;max_vlan_tag>
-euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></codeblock></li>
- 	</ol>
- 
+            We can constrict the range to be within the range that the CC can support.
+ 		    <codeblock>euca-modify-property -p cloud.network.global_max_network_tag=&lt;max_vlan_tag>
+euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></codeblock>
+            Now, Eualyptus will only use tags between 1024 and 2048, giving you a total of 1024 security
+            groups, one VLAN per security group.
+            <li>
+    </ol>
+    <note type="tip">
+        if VMs are already running in the system using a VLAN tag that is outside the range
+        specified by global_min_network_tag-global_max_network_tag, that network will continue to run
+        until all VMs within the network are terminated and the system removes reference to that network.
+        Best practice is to configure these values in advance of running virtual machines.
+    </note>
+ 	
  <!--	<p>To determine the number of active security groups, divide the number of IP addresses available
  	by the number of addresses per network. In our example there are 65536 addresses available (192.168.0.0/16). If we divide by the number of addresses per network (set to 32 below), we find the maximum number of subnets is (65536 / 32 = 2048). We also need to know the number of VLANs available to Eucalyptus. You can find this in the Eucalyptus Administrator Console under the configuration tab > Clusters > Use VLAN tags.</p> 
  		<p>For the purposes of illustration, let's assume the default range of available VLANs in the
