@@ -53,24 +53,23 @@
 
     <ol>
         <li>Choose your range (a contiguous range of VLANs between 2 and 4095).</li>
-        <li>Configure your cluster controllers with the VNET_SUBNET/VNET_NETMASK/VNET_ADDRSPERNET that
-            is large enough to encapsulate your desired range. For example, if working with a VLAN
-            range of 1024-2048, you would set VNET_NETMASK to 255.254.0.0 to get a large enough
-            network (131072 addresses). Dividing that number by 64 gives 2048, which is larger than
-            the range we're trying to achive, but not too large. Set VNET_ADDRSPERNET to 64. Yo</li>
-        <li>Configure your cloud controller to work within that range. Following with the example,
-            you can verify the range is now set to be 2-2048, which is a superset of the desired range.
+        <li>Configure your cluster controllers with a VNET_SUBNET/VNET_NETMASK/VNET_ADDRSPERNET that
+            is large enough to encapsulate your desired range. For example, for a VLAN
+            range of 1024-2048, you could set VNET_NETMASK to 255.254.0.0 to get a large enough
+            network (131072 addresses), and VNET_ADDRSPERNET to 64, to give 2048 possible VLANs.</li>
+	<li>Configure your cloud controller to work within that range. Use the following commands to 
+	verify that the range is now set to be 2-2048, a superset of the desired range.
  			<codeblock>euca-describe-properties | grep cluster.maxnetworktag  
 euca-describe-properties | grep cluster.minnetworktag</codeblock>
-            We can constrict the range to be within the range that the CC can support.
+            Constrict the range to be within the range that the CC can support as follows:
  		    <codeblock>euca-modify-property -p cloud.network.global_max_network_tag=&lt;max_vlan_tag>
 euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></codeblock>
-            Now, Eualyptus will only use tags between 1024 and 2048, giving you a total of 1024 security
+            This ensures that Eucalyptus will only use tags between 1024 and 2048, giving you a total of 1024 security
             groups, one VLAN per security group.
             <li>
     </ol>
     <note type="tip">
-        if VMs are already running in the system using a VLAN tag that is outside the range
+        If VMs are already running in the system using a VLAN tag that is outside the range
         specified by global_min_network_tag-global_max_network_tag, that network will continue to run
         until all VMs within the network are terminated and the system removes reference to that network.
         Best practice is to configure these values in advance of running virtual machines.
