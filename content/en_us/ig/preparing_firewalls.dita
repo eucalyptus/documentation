@@ -2,13 +2,79 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="preparing_firewalls">
-	<title>Prepare Internal Firewalls</title>
+	<title>Eucalyptus Port Usage</title>
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p> Open ports 8443 and ports 8773 through 8777 in any firewalls on your network to allow the
-				various Eucalyptus components to communicate. </p>
+			<p> Eucalyptus components use a variety of ports to communicate. The following table
+				lists the all of the important ports used by Eucalyptus.   </p>
+			<table >
+				<tgroup cols="2">
+					<colspec colname="COLSPEC0" colwidth="1*"/>
+					<colspec colname="COLSPEC1" colwidth="4*"/>
+					<thead>
+						<row>
+							<entry>Port</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>TCP 8443</entry>
+							<entry>SSL port for the administrative web user interface. Configurable
+								with <codeph>euca-modify-property</codeph>.</entry>
+						</row>
+						<row>
+							<entry>TCP 8773</entry>
+							<entry>Web services port for the CLC, Walrus, SC, and VB; also used for
+								external and internal communications by the CLC and Walrus.
+								Configurable with <codeph>euca-modify-property</codeph>.</entry>
+						</row>
+						<row>
+							<entry>TCP 8777</entry>
+							<entry>Database port on the CLC.</entry>
+						</row>
+						<row>
+							<entry>TCP 8774</entry>
+							<entry>Web services port on the CLC. Configured in the <codeph>eucalyptus.conf</codeph> configuration file.</entry>
+						</row>
+						<row>
+							<entry>TCP 8775</entry>
+							<entry>Web services port for the NC. Configured in the <codeph>eucalyptus.conf</codeph> configuration file.</entry>
+						</row>
+						<row>
+							<entry>TCP 8776</entry>
+							<entry>Used by the image cacher on the CC. Configured in the <codeph>eucalyptus.conf</codeph> configuration file.</entry>
+						</row>
+						<row>
+							<entry>UDP 7500</entry>
+							<entry>Distributed cache port on the CLC, Walrus, SC, and VB.</entry>
+						</row>
+						<row>
+							<entry>UDP 8773</entry>
+							<entry>HA membership port.</entry>
+						</row>
+						<row>
+							<entry>TCP/UDP 53</entry>
+							<entry>DNS port for the CLC, Walrus, SC, and VB.</entry>
+						</row>
+						<row>
+							<entry>TCP 8772</entry>
+							<entry>DEBUG ONLY: JMX port. This is disabled by default, and can be enabled with the <codeph>--debug</codeph> or <codeph>--jmx</codeph> options for <codeph>CLOUD_OPTS</codeph>.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note importance="high">
+				The CLC, Walrus, VB and SC open a random port for detection of component failures.
+			</note>
+			<note importance="high">
+				Any firewall running on the CC must be compatible
+				with the dynamic changes performed by Eucalyptus when working with
+				security groups. Eucalyptus will flush the 'filter' and
+				'nat' tables upon boot.
+			</note>
 		</context>
-		
+
 	</taskbody>
 </task>

@@ -5,7 +5,7 @@
 	<title>Known Issues</title>
 	<shortdesc/>
 	<conbody>
-		<p>The following known issues exist in Eucalyptus 3.1.2 and its dependencies. Please contact
+		<p>The following known issues exist in Eucalyptus 3.2 and its dependencies. Please contact
 			Eucalyptus support for known workarounds to these issues.</p>
 		<table>
 			<tgroup cols="2">
@@ -53,62 +53,11 @@
 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3707">EUCA-3707</xref>)</entry>
 						<entry>When running a capacity report, the VM types are not ordered from smallest to largest instance type when displayed at the cloud or AZ property level.</entry>
 					</row>
-				</tbody>
-			</tgroup>
-		</table>
-		<table>
-			<tgroup cols="2">
-				<thead>
-					<row>
-						<entry>Issue</entry>
-						<entry>Description</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>euca-bundle-instance does not work with remote WALRUS
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3460">EUCA-3460</xref>)</entry>
-						<entry>When Walrus is running on a host different from the CLC host, euca-bundle-instance does not work.</entry>
-					</row>
+<!--these are issues carried over...discuss-->
 					<row>
 						<entry>Walrus does not failover in HA if eucalyptus-cloud process is forcibly killed on primary
                                                         (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3202">EUCA-3202</xref>)</entry>
 						<entry>If the eucalyptus-cloud process is forcibly terminated (kill -9) on the primary Walrus, failover to the secondary Walrus is not automatically triggered.</entry>
-					</row>
-					<row>
-						<entry>Quota exceed message when quota is not actually exceeded.
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3612">EUCA-3612</xref>)</entry>
-						<entry>euca-allocate-address claims that user's quota has been exceeded when attempting to allocate the last address in the quota limit. Request actually succeeds despite failure message.</entry>
-					</row>
-					<row>
-						<entry>Quota limiting against vmtype doesn't work
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3613">EUCA-3613</xref>)</entry>
-						<entry>Quota which limits the number of instances against a resource of a specific vmtype has no effect.</entry>
-					</row>
-					<row>
-						<entry>DescribeInstances api call does not return ip addresses
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2185">EUCA-2185</xref>)</entry>
-						<entry>With DNS mapping assigned to Instances the DescribeInstances command does not return the internal and external ip addresses. It returns the internal and external dns entries.</entry>
-					</row>
-					<row>
-						<entry>VNET_DNS value is not the only DNS IP in resolv.conf
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2281">EUCA-2281</xref>)</entry>
-						<entry>Along with the value of VNET_DNS a local loopback interface IP 127.0.0.1 is also set in the /etc/resolv.conf of the instance.</entry>
-					</row>
-					<row>
-						<entry>Ephemeral targets left behind with BFEBS
-							  (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2291">EUCA-2291</xref>)</entry>
-						<entry>In case of BFEBS, LUN 0 is left behind when using tgt. This does not affect functionality, but it should be cleaned up</entry>
-					</row>
-					<row>
-						<entry>L2TP tunnel does not get established in multi-cluster
-                                                          (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
-						<entry>When Eucalyptus is setup in multi-cluster, no tunnel is setup when instances run on different clusters in the same security group.</entry>
-					</row>
-					<row>
-						<entry>euca-stop-instances does not return correct information
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3294">EUCA-3294</xref>)</entry>
-						<entry>euca-stop-instances only returns the instance identifier and does not return the previous or the current state of the instance.</entry>
 					</row>
 					<row>
 						<entry>euca-start-instances does not return correct information
@@ -126,21 +75,6 @@
 						<entry>The output of euca-describe-nodes is not consistent.</entry>
 					</row>
 					<row>
-						<entry>Storage interface property does not have any effect
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
-						<entry>The storage.storageinterface is deprecated and does not have any effect.</entry>
-					</row>
-					<row>
-						<entry>BFEBS instance has a redundant device /dev/vdb
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3458">EUCA-3458</xref>)</entry>                               
-						<entry>EBS backed instances should not expose ephemeral storage by default.</entry>
-					</row>
-					<row>
-						<entry>Terminating the ebs-backed instance in the middle of its creation doesn't delete its ebs volume
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3452">EUCA-3452</xref>)</entry>
-						<entry>If an EBS backed instance is terminated while it is still pending, the corresponding EBS volume remains in the "deleting" state.</entry>
-					</row>
-					<row>
 						<entry>Quota limiting run instances against availabilityzone resource does not work
                                                         (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3614">EUCA-3614</xref>)</entry>
 						<entry>A policy which limits the number of instances which can be run within an availability zone has no effect.</entry>
@@ -151,64 +85,9 @@
 						<entry>euca-create-image is currently unsupported.</entry>
 					</row>
 					<row>
-						<entry>EBS backed stopped instances still reports IPs
-                                                        (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
-						<entry>When an EBS backed instance is stopped , euca-describe-instances still shows an IP allocated and associated to the instance.</entry>
-					</row>
-					<row>
-						<entry>Incorrect Device Reported for EBS Root Volumes
-						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2184">EUCA-2184</xref>)</entry>
-						<entry>When using VIRTIO, EBS root volumes reported by euca-describe-volumes appear as /dev/sda1 instead of /dev/vda1</entry>
-					</row>
-					<row>
-						<entry>You cannot restrict launch of an image with launch permissions
-                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-1929">EUCA-1929</xref>)</entry>
-						<entry>Restricting launch permissions based on a user ID does not work.</entry>
-					</row>
-					<row>
-						<entry>File names with % embedded fail to upload to Walrus.
-                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3453">EUCA-3453</xref>)</entry>
-						<entry>Unable to upload files with an embedded % to Walrus</entry>
-					</row>
-					<row>
-						<entry>Cannot detach EBS volume from stopped instance
-						    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2411">EUCA-2411</xref>)</entry>
-						<entry>Unable to detach root EBS volume when an instance is in the "stopped" state</entry>
-					</row>
-					<row>
-						<entry>CLC always returns A response for AAAA or TXT DNS query
-                                                    (<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-2329">EUCA-2329</xref>)</entry>
-						<entry>With DNS delegation enabled and eucalyptus subdomain configured in master DNS server, if the master DNS server sends a AAAA or TXT query the CLC always returns A response.</entry>
-					</row>
-					<row>
-						<entry>Eucalyptus Console https redirect doesn't work
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4104">EUCA-4104</xref>)</entry>
-						<entry>When SSL is enabled for the user console, http requests do not automatically redirect to the proper https address, which can result in a blank page.</entry>
-					</row>
-					<row>
 						<entry>The <codeph>euca-describe-bundle-tasks</codeph> command does not keep task status after task completes
 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4140">EUCA-4140</xref>)</entry>
 						<entry>When bundling a Windows instance, the task is removed from the task list as soon as the bundle completes, so euca-describe-bundle-tasks never shows a 'complete' status.</entry>
-					</row>
-					<row>
-						<entry>ERR-1009 "Mismatched cryptographical keys" gets written too many times in cc-fault.log
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-3986">EUCA-3986</xref>)</entry>
-						<entry>Currently, CC may log this fault once for each process in the pool. This is because the logic that suppresses duplicate faults relies on process-local memory rather than memory regions shared across CC processes.</entry>
-					</row>
-					<row>
-						<entry>Inconsistent/confusing UI display of newly-added second-cluster Storage Controller
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/DOC-463">DOC-463</xref>)</entry>
-						<entry>After registering a new CC and SC (for a second cluster) with an existing Precise-based, HA cloud, there is inconsistent output between 'euca-describe-storage-controllers' and the web UI.</entry>
-					</row>
-					<row>
-						<entry>The reporting feature in the Eucalyptus Administrator Console show no metrics. 
-							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4168">EUCA-4168</xref>)</entry>
-						<entry>This occurs only if you run a report that includes the current date. The metrics that
-							show no data are: <uicontrol>CpuUsage%</uicontrol>, <uicontrol>Net Total In/Out</uicontrol>,
-							<uicontrol>Disk R/W</uicontrol>, <uicontrol>Disk IOPS R/W</uicontrol>, and  <uicontrol>DiskTime</uicontrol>. For a
-							workaround, use the CLI command, <apiname>eureport-generate-report</apiname>, to run reports
-							from the Cloud Controller for a time period that includes the current date. You can also use
-							the Eucalyptus Administrator Console and move the end date up the previous day.</entry>
 					</row>
 				</tbody>
 			</tgroup>
