@@ -81,29 +81,27 @@
 				<cmd> </cmd>
 				<substeps>
 					<substep>
-						<cmd>Install the KVM driver appropriate to your hardware.</cmd>
-						
-						<info>
-							<p>For systems with Intel processors:</p>
-							<codeblock>modprobe kvm_intel
-modprobe vhost_net</codeblock>
-						</info>
-						<info>
-							<p>For systems with AMD processors:</p>
-							<codeblock>modprobe kvm_amd
-modprobe vhost_net</codeblock>
-						</info>
-					</substep>
-					<substep>
-						<cmd>Restart libvirtd by running <cmdname>service libvirtd restart</cmdname></cmd>
-					</substep>
-					<substep>
 						<cmd> Install the Eucalyptus node controller software on each planned NC
 							host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
 					</substep>
+                    <substep>
+                        <cmd>Check that the KVM device node has proper permissions.</cmd>
+
+                        <info>
+                            <p>Run the following command:</p>
+                            <codeblock>ls -l /dev/kvm</codeblock>
+                        </info>
+                        <info>
+                            <p>Verify the output shows that the device node is owned by user root and group kvm.</p>
+                            <codeblock>crw-rw-rw- 1 root kvm 10, 232 Nov 30 10:27 /dev/kvm</codeblock>
+                        </info>
+                        <info>
+                            <p>If your kvm device node does not have proper permissions, you need to reboot your NC host.</p>
+                        </info>
+                    </substep>
 				</substeps>
 			</step>
 			<step>
