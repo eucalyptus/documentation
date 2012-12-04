@@ -7,7 +7,7 @@
     <taskbody>
         <context>
             <note type="warning"> Multipathing is available only for the EMC VNX SAN. </note>
-            <note type="important">It is <b>Strongly</b> recommended that you get your system up and
+            <note type="important">It is <b>strongly</b> recommended that you get your system up and
                 running and able to create volumes and snapshots using the EMC VNX prior to
                 configuring multipathing. Multipathing can be configured after the cloud is fully
                 functional and will apply to any volumes attached/snapshotted after multipathing is
@@ -19,7 +19,7 @@
             <step>
                 <cmd>Ensure that the mutipathd service is running on each NC:</cmd>
                 <info>
-                    <codeph>mpathconf -enable</codeph>
+                    <codeph>mpathconf --enable</codeph>
                 </info>
             </step>
             <step>
@@ -27,15 +27,14 @@
                 <info>
                     <note> An example configuration for EMC VNX is installed with Eucalyptus. This
                         file is located in
-                            <codeph>/usr/share/doc/eucalyptus-enterprise‐storage‐san‐emc‐
-                            3.2.0/eucalyptus.multipath.conf.example</codeph> on each SC. You may
+                            <codeph>/usr/share/doc/eucalyptus-3.2.0/eucalyptus.multipath.conf.example</codeph> on each SC. You may
                         need to copy that file to each NC. </note>
                 </info>
             </step>
             <step>
                 <cmd> Start the mutipathd service: </cmd>
                 <info>
-                    <codeph>service multipathd start</codeph>
+                    <codeblock>service multipathd start</codeblock>
                 </info>
             </step>
             <step>
@@ -45,28 +44,28 @@
                     <substep>
                         <cmd> Restart the multipathd service: </cmd>
                         <info>
-                            <codeph>service multipathd restart</codeph>
+                            <codeblock>service multipathd restart</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>Run multipathd -k:</cmd>
                         <info>
-                            <codeph>multipathd -k</codeph>
+                            <codeblock>multipathd -k</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>Enter the following commands at the multipathd interactive
                             prompt:</cmd>
                         <info>
-                            <codeph>reconfigure</codeph>
-                            <codeph>quit</codeph>
+                            <codeblock>reconfigure
+quit</codeblock>
                         </info>
                     </substep>
                 </substeps>
             </step>
             <step>
                 <cmd>Check that the multipath udev rules file is installed by verifying that the
-                    file <codeph>/etc/udev/rules.d/12-dm-permission.rules</codeph> file
+                    file <codeph>/etc/udev/rules.d/12-dm-permissions.rules</codeph> file
                     exists.</cmd>
             </step>
             <step>
@@ -127,7 +126,7 @@
                 <cmd> Verify that multipathing is working on an NC by attaching a volume to an
                     instance on that NC and running the following command: </cmd>
                 <info>
-                    <codeph> multipath -ll </codeph>
+                    <codeblock> multipath -ll </codeblock>
                     <p> This command should return output similar to the following: </p>
                     <codeblock>
 mpathb (36006016098b0300080722f971b2ee211) dm-­‐0 DGC,VRAID 
