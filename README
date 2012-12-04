@@ -22,23 +22,24 @@ list is used for user discussions, problem reports, and other communications.
 Information about how to subscribe is available at
 http://lists.eucalyptus.com/cgi-bin/mailman/listinfo/community.
 
-Building Documentation
-----------------------
+Building PDF Documentation
+--------------------------
 
-If you want to generate HTML or PDF from the files in this repository, perform
+If you want to generate PDF from the files in this repository, perform
 the following tasks:
 
   * Make sure that you have Java and ANT.
 
-  * Create environment variables for DOC_HOME (path to the euca/content/ directory
-    is), DITA_HOME (path to the euca/tools/DITA-OT directory), JAVA_HOME, and
-    ANT_HOME.
+  * Create environment variables for DOC_HOME (path to the /content/ directory), 
+    DITA_HOME (path to the /tools/DITA-OT directory), JAVA_HOME, and ANT_HOME.
 
-  * In the build.properties file for the guide you want to build, change the
-    pdf.formatter value from xep to fop:
+  * In the build.properties file for the guide you want to build, make sure that the
+    pdf.formatter value is set to fop. The pdf.formatter value for xep should be 
+    commented out.
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     pdf.formatter=fop
+    #pdf.formatter=xep
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   * Run the shell script DITA-OT/startcmd.sh (or startcmd.bat in Windows) to set
@@ -47,8 +48,59 @@ the following tasks:
   * In the same shell window, change directories to the directory you want to
     generate documentation for.
 
-  * Enter ant and the type of output you want (pdf or xhtml):
+  * Enter the ant command and the output format type:
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ant pdf
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Building HTML Documentation
+---------------------------
+
+If you want to generate HTML from the files in this repository, perform
+the following tasks:
+
+  * Make sure that you have Java.
+
+  * Create environment variables for DOC_HOME (path to the /content/ directory
+    is), DITAC_HOME (path to the /tools/tools/ditac/ditac-2_2_3 directory), 
+    and JAVA_HOME.
+
+  * Open a terminal and run the following command:
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ( DOC_NAME=ig DOC_VER=3.2;
+   $DITAC_HOME/bin/ditac \
+    -f webhelp \
+    -images img \
+    -p use-note-icon yes \
+    -p xsl-resources-directory css \
+    -toc \
+    -p chain-pages both \
+    -p wh-jquery-ui ../../jquery-ui/js/jquery-ui-1.8.23.custom.min.js \
+    -p wh-jquery-css ../../jquery-ui/css/custom-theme/jquery-ui-1.8.23.custom.css \
+    -p wh-user-header ./whc_template/_wh/euca/header_$DOC_NAME.html \
+    -p wh-user-resources ./whc_template/_wh/euca \
+    -p wh-user-css ./whc_template/_wh/euca/eucadoc.css \
+    -p wh-user-footer ./whc_template/_wh/euca/footer.html \
+    -p wh-collapse-toc yes \
+    -index \
+    out/docs/$DOC_VER/$DOC_NAME/_.html \
+    $DOC_HOME/en_us/$DOC_NAME.ditamap )
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  * To generate other guides, change the value for DOC_NAME to the initials of the
+    guide you want to generate: 
+    * ag  - Administration Guide
+    * cli - Command Line Reference Guide
+    * fs  - FastStart Guide
+    * ig  - Installation Guide
+    * ug  - User Guide
+
+  * To open the generated set of HTML file, go to:
+    $DITAC_HOME/out/docs/3.2/$DOC_NAME/index.html
+
+  * Note that the Eucalyptus logo will not display in your output. You can edit this 
+    path or image file by editing each header file located in:
+    $DITAC_HOME/whc_template/_wh/euca/header_$DOC_NAME.html
+
