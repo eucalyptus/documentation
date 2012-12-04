@@ -26,20 +26,17 @@
 			<p>You can check the state of a storage controller by running <codeblock>euca-describe-services -E</codeblock> 
 				and note the state and status message of the Storage Controller(s). The output for an unconfigured SC will look like:</p>
 			<p>
-			<codeblock>SERVICE	storage        	PARTI00        	SC71           	
-				BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+			<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	ERROR
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	Sun Nov 18 22:11:13 PST 2012
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset).  
-                                                        Legal values are: das,overlay</codeblock>></p>
-		<p>
-			Note the <codeph>SC blockstoragemanager not configured. Found empty or unset manager(unset). Legal values are: das,overlay</codeph>. 
-			That indicates that that SC is not yet configured, but can be configured by setting the <codeph>&lt;partition>.storage.blockstoragemanager</codeph> property to either 'das' or 'overlay'.
-			If you have installed the Eucalyptus Enterprise packages for your SAN, you will also see additional options in that output line
-			indicating 'netapp','emc-vnx','emc-vnx-fastsnap', and/or 'equallogic' as well.</p>
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset). Legal values are: das,overlay</codeblock></p>
+		<p>Note the error above: <codeph>SC blockstoragemanager not configured. Found empty or unset manager(unset). Legal values are: das,overlay</codeph>.</p>
+		<p>This indicates that the SC is not yet configured. It can be configured by setting the <codeph>[partition].storage.blockstoragemanager</codeph> property to either 'das' or 'overlay'.</p>
+		<p>If you have installed the Eucalyptus Enterprise packages for your SAN, you will also see additional options in the output line above, 
+			and can set the block storage manager to 'netapp','emc-vnx-flare31','emc-vnx', or 'equallogic' as appropriate.</p>
 			
-			<p>You can verify that the SC blockstoragemanager is '&lt;unset>' with: 
+			<p>You can verify that the SC blockstoragemanager is unset using: 
 				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
 			</p>
 			
@@ -220,13 +217,11 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 	</task>
 	<task id="enabling_san_emc_vnx">
 		<title>Enable EMC VNX SANs</title>
-		<shortdesc>EMC VNX integration using the new (as of August, 2012) VNX-Snapshot feature available
-			in EMC FLARE v5.32 or later.</shortdesc>
 		<taskbody>
 			<context>
 				<p>This adapter uses the newer VNX-Snapshot feature available on VNX devices running FLARE v5.32
-					or later and have a VNX-Snapshot license. This adapter also requires the
-					Navisphere Secure CLI to be installed on the SC(s). The Navisphere CLI must be
+					or later that have a VNX-Snapshot license. This adapter also requires the
+					Navisphere Secure CLI to be installed on the SCs. The Navisphere CLI must be
 					version 7.32.0.5.54 or later.</p>
 			</context>
 			<steps>
@@ -238,7 +233,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					</info>
 				</step>
 				<step>
-					<cmd>Verify that the cli is installed an can communicate with the VNX from the SC(s).</cmd>
+					<cmd>Verify that the CLI is installed and can communicate with the VNX from the SCs.</cmd>
 					<info>On each SC that you are configuring, test the naviseccli command as follows:
 						<codeblock>/opt/Navisphere/bin/naviseccli -User &lt;your SAN username> -Password &lt;your SAN password> -Scope 0 -Address &lt;management port IP> connection -pingnode -address &lt;a data port IP on your VNX></codeblock>
 						Verify that the command runs successfully and the ping gets replies from the SAN.
