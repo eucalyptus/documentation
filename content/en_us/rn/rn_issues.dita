@@ -51,6 +51,13 @@
 						<entry>When bundling a Windows instance, the task is removed from the task list as soon as the bundle completes, so euca-describe-bundle-tasks never shows a 'complete' status.</entry>
 					</row>
 					<row>
+						<entry>Attempts to create an instance from an uncached image stay pending indefinitely 
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4112">EUCA-4112</xref>)</entry>
+						<entry>If the cluster controller image cache is set to zero, attempts to create an instance from an uncached image
+							will remain pending indefinitely. To prevent images being cached, remove the <codeph>CC_IMAGE_PROXY</codeph> line
+							from <filepath>eucalyptus.conf</filepath>.</entry>
+					</row>
+					<row>
 						<entry>[error:0290] message printed on upgrade
 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4027">EUCA-4027</xref>)</entry>
 						<entry>The Eucalyptus upgrade process requires a large number of file descriptors, and an error may occur if <codeph>ulimit</codeph> is not 
