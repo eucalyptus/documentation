@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="images_lin">
+	<title>Create Linux Image (Xen/KVM)</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>image tasks
+					<indexterm>create an image
+						<indexterm>Linux</indexterm>
+					</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<note type="important">Before you begin, make sure that your hypervisor is installed and properly functioning for the account you are going to use.</note>
+			<p>To create a root filesystem to be used with Eucalyptus using Xen or KVM and an ISO image of the guest
+				OS you want to install:</p>
+			
+		</context>
+		<steps>
+			<step>
+				<cmd>Download the ISO image of the distro (guest OS) you want to install.</cmd>
+			</step>
+			<step>
+				<cmd>Create a virtual disk with the desired size. For example, to create a 4 GiB disk:</cmd>
+				<info>
+					<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>If you are using Xen, complete the following steps:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Create a configuration file (for example, <filepath>xen.cfg</filepath>) to boot off the
+							ISO image. The file should look like the following:</cmd>
+				<info>
+					<codeblock>name = "bootFromISO"
+kernel = "/usr/lib/xen/boot/hvmloader"
+memory = 1024
+builder = "hvm"
+device_model = "/usr/lib64/xen/bin/qemu-dm"
+boot = "d"
+disk = ['file:PATH_TO_ISO,hdc:cdrom,r',
+'file:PATH_TO/&lt;image_name>,sda,w']
+vif = ['mac=00:01:01:00:00:03, bridge=xenbr0']
+dhcp="on"
+vnc = 1
+vncdisplay = 7
+pae = 1</codeblock>
+					<note type="important">You must modify <codeph>device_model</codeph> and <codeph>kernel</codeph> since they depend on where the
+						distribution puts such files. Look into the Xen package file list. Also be sure that all the options are correct for your needs.</note>
+				</info>
+			</substep>
+			<substep>
+				<cmd>Start the domU.</cmd>
+				<info>
+					<codeblock>xen create xen.cfg</codeblock>
+				</info>
+			</substep>
+			<substep>
+				<cmd>Connect with a VNC viewer. For example:</cmd>
+				<info>
+					<codeblock>xvncviewer localhost:7</codeblock>
+				</info>
+				</substep>
+			</substeps>
+			</step>
+			<step>
+				<cmd>If you are using KVM, start KVM using the CDROM as the boot device and new image as the disk.</cmd>
+						<info>
+							<codeblock>/usr/libexec/qemu-kvm -cdrom iso_image -drive if=scsi,file=&lt;image_name>,boot=off</codeblock>
+							<note type="note">You need to have a SCSI as a bus because Eucalyptus expects the disk to be in
+								<filepath>/dev/sda</filepath>.</note>
+							
+						</info>
+			</step>
+							
+			<step>
+				<cmd>Install the distro as you would normally would. Do not use <codeph>lvm</codeph> or <codeph>md</codeph>.
+					Install everything on one partition. Remember the partition on which the distro is installed.</cmd>
+				<info><note type="important">Most distributions use the MAC address to associate each network interface
+					with an interface name. To ensure that each instance started from the image sees the appropriate
+					network interfaces as <codeph>eth0</codeph> etc, you must remove this association. Refer to your distribution's
+					documentation for information on how to do this. On Debian and Ubuntu, <filepath>/etc/udev/rules.d/*net*</filepath> 
+					may be relevant. On CentOS and RHEL, <filepath>/etc/network-scripts/ifcfg-eth0</filepath> may be relevant. 
+					Failure to remove this association may leave your instance unable to connect to the network.</note></info>
+			</step>
+			<step>
+				<cmd>If you are using Xen, stop the domU.</cmd>
+			</step>
+			<step>
+				<cmd>Run <codeph>parted</codeph> to find out the starting block and the block size of the root file system, in bytes.</cmd>
+				<info>
+					<codeblock>parted &lt;image_name></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Change the units shown by <codeph>parted</codeph>to blocks.</cmd>
+				<info>
+					<codeblock>(parted) u
+Unit? [compact]? b</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Print the current partition table using <codeph>p</codeph>.</cmd>
+				<stepresult>Note the start block and block size for the partition to which you will extract the file system. 
+					This example uses a start block of <codeph>32256</codeph> and a block size of <codeph>1024000</codeph>.</stepresult>
+			</step>
+			<step>
+				<cmd>Extract the file system.</cmd>
+				<info>
+					<codeblock>dd if=&lt;image_name> of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
+					<note type="tip">If this process is running slowly, you can increase the block size. 
+						Set <codeph>bs</codeph> to a power of two, and divide <codeph>skip</codeph> and <codeph>count</codeph>
+						by the same number. For example, using a block size of 512, the above becomes
+						<codeph>dd if=&lt;image_name> of=rootfs.img bs=512 skip=63 count=2000</codeph>.</note>
+				</info>
+			</step>
+		</steps>
+		<result>You now have a root filesystem. Make sure that it is compatible with the kernel/initrd you are using in your
+			cloud environment. In particular you may want to be sure you have the
+			modules of the kernel you are going to use. Then you are ready to <xref
+				href="add_existing.dita">add the image</xref> to
+			Eucalyptus.</result>
+	</taskbody>
+	
+</task>
