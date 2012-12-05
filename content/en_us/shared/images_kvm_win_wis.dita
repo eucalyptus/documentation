@@ -14,7 +14,8 @@
 				<cmd>Download the Windows Image Preparation Tool from <xref href='http://downloads.eucalyptus.com/software/tools/windows-prep/windows-prep-tools-3.1.0.iso' format="iso">http://downloads.eucalyptus.com/software/tools/windows-prep/windows-prep-tools-3.1.0.iso</xref> to the working directory of your NC.</cmd>
 			</step>
 			<step>
-				<cmd>Open the libvirt-kvm-windows-example.xml file and make the following edits:</cmd>
+				<cmd>Open the libvirt-kvm-windows.xml file you used in the previous section and make the following edits:</cmd>
+				<note type="tip">If you plan on using virtio networking for instances (via USE_VIRTIO_NET option on node controllers), uncommenting the virtio interface in the xml is mandatory</note>
 				<info>
 					<ul>
 						<li>Comment out the lines of XML code directing KVM to boot the Windows image from the CDROM.</li>
@@ -68,6 +69,10 @@
 &lt;/domain></codeblock>
 				</info>
 			</step>
+			<cmd>Start the VM with the newly modified libvirt xml file:</cmd>
+				<info>
+					<codeblock>virsh create libvirt-kvm-windows.xml</codeblock>
+				</info> 	
 			<step>
 				<cmd>Log in to Windows and find the Eucalyptus installation files in the CDROM drive.</cmd>
 				<choices>
