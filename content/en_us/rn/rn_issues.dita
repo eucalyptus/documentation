@@ -40,6 +40,14 @@
 							to log in to a Windows instance that has been stopped and restarted.</entry>					
 					</row>
 					<row>
+						<entry>BFEBS fails in some cases when running new instances, with error <codeph>RollbackException: Error while committing the transaction</codeph>
+							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4271">EUCA-4271</xref>)</entry>
+						<entry>If a new instance is constructed in a group concurrently with network resources being freed in that group, a <codeph>RollbackException: Error while committing the transaction</codeph>
+							error is thrown. This also results in an orphaned volume that cannot be deleted until the VM metadata has timed out and the volume is 
+							recognised as unused. Running the new instance a second time should succeed.
+						</entry>					
+					</row>
+					<row>
 						<entry>User console hangs when launching an instance with large user data file 
 							(<xref format='html' href="https://eucalyptus.atlassian.net/browse/EUCA-4223">EUCA-4223</xref>)</entry>
 						<entry>Launching an instance through the console may hang if the user data file is too big. Launch 
