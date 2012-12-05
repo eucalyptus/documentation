@@ -60,8 +60,61 @@
 					<note type="tip">brctrl show command shows bridge name—ensure that it’s the same.</note>
 					</info>-->
 				<stepresult>
-					<p>Your file should look similar to this example:</p>
-					<codeblock>&lt;domain type='[hypervisor]'>
+					<p>Your file should look similar to one of the following examples.</p>
+					<p>For Xen:</p>
+					<codeblock>&lt;domain type='xen'>
+    &lt;name>eucalyptus-windows&lt;/name>
+    &lt;os>
+            &lt;type>hvm&lt;/type>
+            &lt;loader>/usr/lib/xen/boot/hvmloader&lt;/loader>
+            &lt;boot dev='cdrom'/>
+    &lt;/os>
+  &lt;features>
+    &lt;acpi/>
+    &lt;apic/>
+    &lt;pae/>
+  &lt;/features>
+  &lt;clock offset='localtime'/>
+  &lt;on_poweroff>destroy&lt;/on_poweroff>
+  &lt;on_reboot>restart&lt;/on_reboot>
+  &lt;on_crash>destroy&lt;/on_crash>
+    &lt;memory>524288&lt;/memory>
+    &lt;vcpu>1&lt;/vcpu>
+    &lt;devices>
+        &lt;emulator>/usr/lib64/xen/bin/qemu-dm&lt;/emulator>
+        &lt;disk type='file'>
+            &lt;source file='/root/windows_2003.img'/>
+            &lt;target dev='hda' bus='ide'/>
+        &lt;/disk>
+        &lt;!--&lt;disk type='file' device='disk'>
+            &lt;driver name='tap' type='aio'/>
+            &lt;source file='fully_qualified_path_to_secondary_disk'/>
+            &lt;target dev='xvda' bus='xen'/>
+        &lt;/disk>
+        &lt;disk type='file' device='floppy'>
+             &lt;source file='fully_qualified_path_to_floppy_disk'/>
+             &lt;target dev='fda'/>
+        &lt;/disk> -->
+        &lt;disk type='file' device='cdrom'>
+            &lt;source file='/root/en_win_srv_2003_r2_enterprise_with_sp2_cd1_x13-05460.iso'/>
+            &lt;target dev='hdc'/>
+            &lt;readonly/>
+        &lt;/disk>
+        &lt;interface type='bridge'>
+            &lt;source bridge='xenbr0'/>
+            &lt;script path='/etc/xen/scripts/vif-bridge'/>
+        &lt;/interface>
+        &lt;serial type='pty'>
+           &lt;source path='/dev/pts/3'/>
+           &lt;target port='0'/>
+        &lt;/serial>
+        &lt;input type='tablet' bus='usb'/>
+        &lt;input type='mouse' bus='ps2'/>
+        &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
+    &lt;/devices>
+&lt;/domain></codeblock>
+				<p>For KVM:</p>
+					<codeblock>&lt;domain type='kvm'>
 	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
     &lt;type>hvm&lt;/type>

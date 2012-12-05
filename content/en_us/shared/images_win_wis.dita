@@ -23,7 +23,60 @@
 						<li>Enter the path to the secondary disk file you created in the previous task.</li>
 						<li>Uncomment the lines that direct attachment of a floppy disk, secondary disk, and secondary network interface.</li>
 					</ul>
-					<p>Your finished file should look similar to the following example:</p>
+					<p>Your finished file should look similar to one of the following examples.</p>
+					<p>For Xen:</p>
+					<codeblock>&lt;domain type='xen'>
+    &lt;name>eucalyptus-windows&lt;/name>
+    &lt;os>
+            &lt;type>hvm&lt;/type>
+            &lt;loader>/usr/lib/xen/boot/hvmloader&lt;/loader>
+            &lt;!-- &lt;boot dev='cdrom'/> -->
+    &lt;/os>
+  &lt;features>
+    &lt;acpi/>
+    &lt;apic/>
+    &lt;pae/>
+  &lt;/features>
+  &lt;clock offset='localtime'/>
+  &lt;on_poweroff>destroy&lt;/on_poweroff>
+  &lt;on_reboot>restart&lt;/on_reboot>
+  &lt;on_crash>destroy&lt;/on_crash>
+    &lt;memory>524288&lt;/memory>
+    &lt;vcpu>1&lt;/vcpu>
+    &lt;devices>
+        &lt;emulator>/usr/lib64/xen/bin/qemu-dm&lt;/emulator>
+        &lt;disk type='file'>
+            &lt;source file='/root/windows_2003.img'/>
+            &lt;target dev='hda' bus='ide'/>
+        &lt;/disk>
+        &lt;disk type='file' device='disk'>
+            &lt;driver name='tap' type='aio'/>
+            &lt;source file='/root/secondary.img'/>
+            &lt;target dev='xvda' bus='xen'/>
+        &lt;/disk>
+        &lt;disk type='file' device='floppy'>
+             &lt;source file='/root/floppy.img'/>
+             &lt;target dev='fda'/>
+        &lt;/disk>
+        &lt;disk type='file' device='cdrom'>
+            &lt;source file='windows-prep-tools-3.1.0.iso'/>
+            &lt;target dev='hdc'/>
+            &lt;readonly/>
+        &lt;/disk>
+        &lt;interface type='bridge'>
+            &lt;source bridge='xenbr0'/>
+            &lt;script path='/etc/xen/scripts/vif-bridge'/>
+        &lt;/interface>
+        &lt;serial type='pty'>
+           &lt;source path='/dev/pts/3'/>
+           &lt;target port='0'/>
+        &lt;/serial>
+        &lt;input type='tablet' bus='usb'/>
+        &lt;input type='mouse' bus='ps2'/>
+        &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
+    &lt;/devices>
+&lt;/domain></codeblock>
+					<p>For KVM:</p>
 					<codeblock>&lt;domain type="kvm">
 	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
