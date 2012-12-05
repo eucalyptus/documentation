@@ -15,7 +15,9 @@
 					to the working directory of your NC or the host running the vSphere client.</cmd>
 			</step>
 			<step>
-				<cmd>For KVM and Xen, open the libvirt-[hypervisor]-windows-example.xml file and make the following edits:</cmd>
+				<cmd>For KVM and Xen, open the libvirt-[hypervisor]-windows-example.xml file you used in the previous section and make the following 
+					edits:</cmd>
+				<note type="tip">If you plan on using virtio networking for instances (via USE_VIRTIO_NET option on node controllers), uncommenting the virtio interface in the xml is mandatory</note>
 				<info>
 					<ul>
 						<li>Comment out the lines of XML code directing the hypervisor to boot the Windows image from the CDROM.</li>
@@ -139,6 +141,12 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 						<cmd>Reboot the VM.</cmd>
 					</substep>
 				</substeps>
+			</step>
+			<step>
+				<cmd>Start the VM with the newly modified libvirt xml file:</cmd>
+				<info>
+					<codeblock>virsh create libvirt-[hypervisor]-windows.xml</codeblock>
+				</info> 	
 			</step>
 			<step>
 				<cmd>For VMware, use the VMware vSphere client to upload the ISO file to the VSphere datastore. Attach the <filepath>windows-prep-tools-3.1.0.iso</filepath> to the Windows VM.</cmd>
