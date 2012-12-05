@@ -253,7 +253,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 				<step>
 					<cmd>Check the SC to be sure that it has transitioned out of the BROKEN state and is in either
 						NOTREADY or DISABLED before configuring the rest of the properties for the
-						SC.</cmd>
+						SC. The following commands should be run on the ENABLED CLC to configure the SC.</cmd>
 					<info>On the ENABLED CLC, run:
 						<codeblock>euca_conf --list-scs</codeblock></info>
 				</step>
@@ -304,7 +304,14 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					</info>
 				</step>
 			</steps>
-			<result>Your EMC VNX SAN is now ready to use with Eucalyptus.</result>
+			<result>Your EMC VNX SAN is now ready to use with Eucalyptus.
+				<note type="tip">Note: The time it takes for a LUN migration to complete will depend on the exact VNX model, workload, 
+					and volume size, and the amount of data actually stored in the volume. The default timeout for LUN migrations is 
+					1200 seconds. If your deployment uses volumes >50GB, or if you find that snapshots fail and a "migration timeout" message 
+					is seen in the SC logs, then you should increase the timeout to a larger value. It is recommended that if you plan on using 
+					volumes in the 100GB range that you set that timeout to 3600 or larger. You can set the timeout using 
+					<codeph>euca-modify-property</codeph> as follows:
+					<codeblock>euca-modify-property -p [partition].storage.lunmigrationtimeout=[time in seconds]</codeblock></note></result>
 		</taskbody>
 	</task>
 </task>
