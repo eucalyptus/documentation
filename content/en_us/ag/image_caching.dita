@@ -56,9 +56,10 @@ CC_IMAGE_PROXY_PATH="/disk1/storage/cc_cache"
 # The default is 32768, or 32 gigabytes.
 CC_IMAGE_PROXY_CACHE_SIZE="32768"
 							</codeblock>
-							<note type="important">Setting <codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to
-								<codeph>0</codeph> will cause any attempts to create an instance from an
-								uncached image to remain pending indefinitely. To disable image caching, comment
+							<note type="important">Setting
+									<codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to <codeph>0</codeph>
+								will cause any attempts to create an instance from an uncached image
+								to remain pending indefinitely. To disable image caching, comment
 								out the <codeph>CC_IMAGE_PROXY</codeph> line.</note>
 						</info>
 					</substep>
@@ -66,8 +67,8 @@ CC_IMAGE_PROXY_CACHE_SIZE="32768"
 			</step>
 			<step>
 				<cmd>Create a <codeph>data</codeph> directory at the location specified in
-						<codeph>CC_IMAGE_PROXY_PATH</codeph>, and give the “eucalyptus” user
-					full access to the directory.</cmd>
+						<codeph>CC_IMAGE_PROXY_PATH</codeph>, and give the “eucalyptus” user full
+					access to the directory.</cmd>
 				<info>
 					<codeblock>
 mkdir -p /disk1/storage/cc_cache/data
@@ -78,6 +79,12 @@ chmod -R 777 /disk1/storage/cc_cache
 			<step>
 				<cmd>Perform a clean restart of the cluster controller.</cmd>
 				<info>
+					<note type="important">A clean restart should only be performed when no
+						instances are running, or when instance service interruption can be
+						tolerated. A clean restart causes the CC to reset its networking
+						configuration, regardless of whether or not it is in use. A clean restart of
+						a CC managing active VMs can cause the network connectivity of those VMs to
+						be irreparably lost.</note>
 					<codeblock>
 service eucalyptus-cc cleanrestart 
 					</codeblock>
