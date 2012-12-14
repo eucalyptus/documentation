@@ -7,6 +7,10 @@
  <taskbody id="upgrade_packages_task">
   <context>
    <p>Before upgrading Eucalyptus packages, we suggest fully updating your systems using <codeph>yum update</codeph> where possible.
+    <note importance="high">If Walrus HA is configured, on both primary and secondary Walrus, make sure and add an entry to the <filepath>/etc/fstab</filepath> to mount the DRBD device to the bukkits directory under <filepath>/var/lib/eucalyptus</filepath>.  For example, if the DRBD device in the Eucalyptus DRBD resource file is defined as <filepath>/dev/drbd1</filepath> and the filesystem format is ext3, open the file <filepath>/etc/fstab</filepath> and append the following line for the DRBD resource to allow the <codeph>eucalyptus</codeph> user to mount and unmount the device:   
+                <codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>
+   This change is due to the fact that Walrus HA switched from using <xref href='http://linux.die.net/man/2/mount' format='html'>mount(2)</xref> to <xref href='http://linux.die.net/man/8/mount' format='html'>mount(8)</xref> for mounting/unmounting the DRBD deviceto <filepath>/var/lib/eucalyptus/bukkits</filepath>.
+    </note>
    To upgrade Eucalyptus packages:</p>
   </context>
   <steps>
