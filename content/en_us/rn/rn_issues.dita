@@ -31,13 +31,15 @@
 							the necessary files.</entry>
 					</row>
 					<row>
-						<entry>Some components are initialized rather than disabled after an unexpected reboot (<xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-4354"
-							>EUCA-4293</xref>)</entry>
-						<entry>This only occurs when CLC, Walrus, and SC are located on the same machine in an HA
-							setting. In an unexpected reboot within that setting, when the redundant components switch
-							roles, some secondary components can become initialized rather than disabled. For a
-							workaround, restart the initialized components. We strongly recommend that you use one
+						<entry>Some components are initialized rather than disabled after an
+							unexpected reboot (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4354"
+								>EUCA-4293</xref>)</entry>
+						<entry>This only occurs when CLC, Walrus, and SC are located on the same
+							machine in an HA setting. In an unexpected reboot within that setting,
+							when the redundant components switch roles, some secondary components
+							can become initialized rather than disabled. For a workaround, restart
+							the initialized components. We strongly recommend that you use one
 							machine for each Eucalyptus component in HA mode.</entry>
 					</row>
 					<row>
@@ -86,14 +88,15 @@
 								<codeph>euca-reboot-instances</codeph> once per instance.</entry>
 					</row>
 					<row>
-						<entry>Changing LOCALE does not change the language of the fault message in fault logs 
-							(<xref format="html"
+						<entry>Changing LOCALE does not change the language of the fault message in
+							fault logs (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4233"
 								>EUCA-4233</xref>)</entry>
-						<entry>Changing the system LOCALE does not change the language of the fault message logged
-							in <filepath>[component]-fault.log</filepath>. Create customized fault messages in the 
-							<filepath>/etc/eucalyptus/faults/en_US</filepath> directory if you do not wish to use the
-							provided messages.</entry>
+						<entry>Changing the system LOCALE does not change the language of the fault
+							message logged in <filepath>[component]-fault.log</filepath>. Create
+							customized fault messages in the
+								<filepath>/etc/eucalyptus/faults/en_US</filepath> directory if you
+							do not wish to use the provided messages.</entry>
 					</row>
 					<row>
 						<entry>User console hangs when launching an instance with large user data
@@ -273,6 +276,25 @@
 							names instead of WWID for the multipath device names, so the
 							"user_friendly_names" option must be enabled in /etc/multipath.conf.
 						</entry>
+					</row>
+
+					<row>
+						<entry>RollbackException error while committing transaction failure when
+							attempting to run a BFEBS instance(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
+								>EUCA-4271</xref>)</entry>
+						<entry> In some cases, network resources (primarily vlan tags for the network group) are freed
+							concurrently while a new instance is being constructed in that same
+							group. If the network group is seen to have no more instances, then the
+							CC can timeout the vlan tag and then inform the CLC, which frees the
+							vlan tag resource. If there is a concurrent instance being constructed,
+							however, an attempt may be made to use that vlan tag, and upon volume
+							attach the database update fails because the vlan/network tag record
+							doesn't exist. When this happens, the instance will stay in a 'pending'
+							state with an IP address of 0.0.0.0 for a very long time. There is no
+							long-term negative effect of this condition. To resolve this issue, you
+							should proceed with terminating the instance, deleting its resulting
+							volume if necessary, and then re-running the instance. </entry>
 					</row>
 
 				</tbody>
