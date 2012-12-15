@@ -6,8 +6,20 @@
  <shortdesc/>
  <taskbody id="upgrade_packages_task">
   <context>
-   <p>Before upgrading Eucalyptus packages, we suggest fully updating your systems using <codeph>yum update</codeph> where possible.
-   To upgrade Eucalyptus packages:</p>
+   <p>Before upgrading Eucalyptus packages, we suggest fully updating your systems using <codeph>yum
+     update</codeph> where possible.</p>
+   <note importance="high">When using Walrus in a high availability (HA) configuration, <xref
+    href="http://linux.die.net/man/8/mount" format="html">mount(8)</xref> is now used for mounting
+    and unmounting the DRBD device, instead of <xref href="http://linux.die.net/man/2/mount"
+     format="html">mount(2)</xref>. If Walrus HA is configured, add an entry to the
+    <filepath>/etc/fstab</filepath> to mount the DRBD device to
+    <filepath>/var/lib/eucalyptus/bukkits</filepath> on both primary and secondary Walrus. For
+    example, if the DRBD device in the Eucalyptus DRBD resource file is defined as
+    <filepath>/dev/drbd1</filepath> and the filesystem format is ext3, add the following line to
+    <filepath>/etc/fstab</filepath>:
+    <codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>.</note>
+   
+   <p>To upgrade Eucalyptus packages:</p>
   </context>
   <steps>
    <step>
@@ -39,7 +51,8 @@
     </info>
    </step>
    <step props="subscribe">
-    <cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each machine hosting a CLC:</cmd>
+    <cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each
+     machine hosting a CLC:</cmd>
     <info>
      <p>For EMC SAN:</p>
      <codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
@@ -49,7 +62,8 @@
     </info>
    </step>
    <step props="subscribe">
-    <cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each machine hosting a SC:</cmd>
+    <cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each
+     machine hosting a SC:</cmd>
     <info>
      <p>For EMC SAN:</p>
      <codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
@@ -58,8 +72,7 @@
      <p>For NetApp SAN:</p>
      <codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
     </info>
-    
-   </step>
+   </step>    
   </steps>
  </taskbody>
 </task>
