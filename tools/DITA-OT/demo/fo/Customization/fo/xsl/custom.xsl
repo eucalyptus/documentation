@@ -95,9 +95,12 @@ See the accompanying license.txt file for applicable licenses.
                             <xsl:when test="//*[contains(@class, ' map/map ')]/@title">
                                 <xsl:value-of select="//*[contains(@class, ' map/map ')]/@title"/>
                             </xsl:when>
-                            <xsl:otherwise>
+                            <!--<xsl:otherwise>
                                 <xsl:value-of select="/descendant::*[contains(@class, ' topic/topic ')][1]/*[contains(@class, ' topic/title ')]"/>
-                            </xsl:otherwise>
+                                </xsl:otherwise>-->
+                        	<xsl:otherwise>
+                        		<xsl:value-of select="/descendant::title"/>
+                        	</xsl:otherwise>
                         </xsl:choose>
                     </fo:block>
 
