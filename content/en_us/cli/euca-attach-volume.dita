@@ -3,74 +3,74 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-attach-volume">
 	<title>euca-attach-volume</title>
-	<shortdesc>Attaches an EBS volume to an instance. Not all volumes can be attached using this
-		command. <codeph>/dev/sda</codeph> and <codeph>/dev/sdb</codeph> are restricted.</shortdesc>
-  <refbody>
-    <section>
-    	<title>Syntax</title>
+	<shortdesc>Attaches an EBS volume to an instance. Not all volumes can be
+		attached using this command. <codeph>/dev/sda</codeph> and
+			<codeph>/dev/sdb</codeph> are restricted.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-attach-volume  -i <b>instance_id</b> -d <b>device</b> <b>volume_id</b></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
 
-    	<codeblock>euca-attach-volume  -i <b>instance_id</b> -d <b>device</b> <b>volume_id</b></codeblock>
-    </section>
-  	<section>
-  		<title>Options</title>
-  		<table>
-  			<tgroup cols="3">
-  				<colspec colwidth="25*"/>
-  				<colspec colwidth="60*"/>
-  				<colspec colwidth="15*"/>
-  				<thead>
-  					<row> 
-  						<entry>Option</entry>
-  						<entry>Description</entry> 
-  						<entry>Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>-i,--instance</codeph></entry>
+							<entry>Unique ID of a running instance to attach the
+								volume to. </entry>
 
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-i,--instance</codeph></entry>
-  						<entry>Unique ID of a running instance to attach
-  							the volume to.
-  						</entry>
+							<entry align="center">Yes</entry>
 
-  						<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-d,--device</codeph></entry>
+							<entry>Local device name (inside the guest VM) to
+								use. Depending on your hypervisor, this might be
+								ignored. </entry>
+							<entry align="center">Yes</entry>
 
-  					</row>
-  					<row>
-  						<entry><codeph>-d,--device</codeph></entry>
-  						<entry>Local device name (inside the guest VM) to
+						</row>
+						<row>
+							<entry><codeph>volume_id</codeph></entry>
+							<entry>Unique id for the volume to be
+								attached.</entry>
 
-  							use. Depending on your hypervisor, this might be ignored.
-  						</entry>
-  						<entry align="center">Yes</entry>
+							<entry align="center">Yes</entry>
 
-  					</row>
-  					<row>
-  						<entry><codeph>volume_id</codeph></entry>
-  						<entry>Unique id for the volume to be attached.</entry>
+						</row>
 
-  						<entry align="center">Yes</entry>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
 
-  					</row>
-  					
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
-
-  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
-  	<section>
-  		<title>Output</title>
-  		<ul>
-  			<li>Output type identifier ("VOLUME")</li>
-  			<li>Volume ID</li>
-  		</ul>
-  	</section>
-  	<section>
-  		<title>Example</title>
-  		<codeblock>euca-attach-volume -i i-3C66428A -d /dev/sdf vol-639C3E6C
+		<section
+			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("VOLUME")</li>
+				<li>Volume ID</li>
+			</ul>
+		</section>
+		<section>
+			<title>Example</title>
+			<codeblock>euca-attach-volume -i i-3C66428A -d /dev/sdf vol-639C3E6C
 VOLUME  vol-639C3E6C</codeblock>
-  	</section>
+		</section>
 
-  </refbody>
+	</refbody>
 </reference>

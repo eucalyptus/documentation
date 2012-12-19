@@ -3,9 +3,10 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-register">
 	<title>euca-register</title>
-	<shortdesc>Registers a manifest for use with the cloud. Note that the registered image by default
-		is set to private. To make publically available, use the
-		<apiname>euca-modify-image-attribute</apiname> and set the <codeph>--add</codeph> value to
+	<shortdesc>Registers a manifest for use with the cloud. Note that the
+		registered image by default is set to private. To make publically
+		available, use the <apiname>euca-modify-image-attribute</apiname> and
+		set the <codeph>--add</codeph> value to
 		<codeph>all</codeph>.</shortdesc>
 
 	<refbody>
@@ -34,28 +35,32 @@
 					<tbody>
 						<row>
 							<entry><codeph><i>manifest</i></codeph></entry>
-							<entry>Path to the uploaded image (bucket/manifest). Required if you are registering
-								an S3-based image.</entry>
+							<entry>Path to the uploaded image (bucket/manifest).
+								Required if you are registering an S3-based
+								image.</entry>
 							<entry align="center">Conditional</entry>
 						</row>
 						<row>
 							<entry><codeph>-n,--name</codeph></entry>
-							<entry>Name of the image.
-								<p>Constraints: 3-128 alphanumeric characters,
-									parenthesis (()), commas (,), slashes (/), dashes (-),
-									or underscores(_)</p></entry>
+							<entry>Name of the image. <p>Constraints: 3-128
+									alphanumeric characters, parenthesis (()),
+									commas (,), slashes (/), dashes (-), or
+									underscores(_)</p></entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-d,--description <i>description</i></codeph></entry>
-							<entry>Description of the image
-								<p>Constraints: Up to 255 characters.</p></entry>
+							<entry><codeph>-d,--description
+									<i>description</i></codeph></entry>
+							<entry>Description of the image <p>Constraints: Up
+									to 255 characters.</p></entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-a,--architecture <i>architecture</i></codeph></entry>
-							<entry>The architecture of the image 
-								<p>Valid Values: <codeph>i386</codeph> | <codeph>x86_64</codeph></p></entry>
+							<entry><codeph>-a,--architecture
+									<i>architecture</i></codeph></entry>
+							<entry>The architecture of the image <p>Valid
+									Values: <codeph>i386</codeph> |
+										<codeph>x86_64</codeph></p></entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
@@ -69,45 +74,61 @@
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>--root-device-name <i>name</i></codeph></entry>
-							<entry>Root device name (for example, /dev/sda1, or xvda) </entry>
+							<entry><codeph>--root-device-name
+									<i>name</i></codeph></entry>
+							<entry>Root device name (for example, /dev/sda1, or
+								xvda) </entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-b,--block-device-mapping <i>mapping</i></codeph></entry>
-							<entry>Block device mapping for the instance. This is passed in the form of
-								&lt;devicename>=&lt;blockdevice>, where: <codeph>devicename</codeph>
-									is the device name of the physical device on the
-									instance to map and <codeph>blockdevice</codeph> is one of
-									the following values:
-									<ul>
-									<li><codeph>none</codeph>: Use this value to suppress existing mapping on the
-									specified image for this device. For example: <codeph>/dev/sdc=none</codeph></li>
-									<li><codeph>ephemeral[0..3]</codeph>: Use this value to indicate that an instance local
-									storage device should be mapped to this device. For example: <codeph>/dev/sdc=ephemeral0</codeph></li>
+							<entry><codeph>-b,--block-device-mapping
+										<i>mapping</i></codeph></entry>
+							<entry>Block device mapping for the instance. This
+								is passed in the form of
+								&lt;devicename>=&lt;blockdevice>, where:
+									<codeph>devicename</codeph> is the device
+								name of the physical device on the instance to
+								map and <codeph>blockdevice</codeph> is one of
+								the following values: <ul>
+									<li><codeph>none</codeph>: Use this value to
+										suppress existing mapping on the
+										specified image for this device. For
+										example:
+										<codeph>/dev/sdc=none</codeph></li>
+									<li><codeph>ephemeral[0..3]</codeph>: Use
+										this value to indicate that an instance
+										local storage device should be mapped to
+										this device. For example:
+										<codeph>/dev/sdc=ephemeral0</codeph></li>
 									<li><codeph>[snapshot-id]:[size]:[delete-on-termination
-									(true|false)]</codeph>: Use this value to map
-										a device to an existing EBS-backed volume, and to specify
+										(true|false)]</codeph>: Use this value
+										to map a device to an existing
+										EBS-backed volume, and to specify
 										whether the EBS volume should be deleted
-										on termination. This value defaults to <codeph>true</codeph>.
-										<p>To specify a new EBS-backed volume, skip the snapshot
-									ID and pass in a volume size instead. For
-									example:<codeph> /dev/sdb=:20</codeph>.</p></li>
-									</ul>
+										on termination. This value defaults to
+										<codeph>true</codeph>. <p>To specify a
+										new EBS-backed volume, skip the snapshot
+										ID and pass in a volume size instead.
+										For example:<codeph>
+										/dev/sdb=:20</codeph>.</p></li>
+								</ul>
 							</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-s,--snapshot <i>snapshot</i></codeph></entry>
-							<entry>EBS snapshot ID to use as the root device</entry>
+							<entry><codeph>-s,--snapshot
+									<i>snapshot</i></codeph></entry>
+							<entry>EBS snapshot ID to use as the root
+								device</entry>
 							<entry align="center">No</entry>
 						</row>
-						
+
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
-		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+		<section
+			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
 
 		<section>
 			<title>Output</title>
