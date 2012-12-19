@@ -2,52 +2,82 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="access_policy_algorithms">
- <title>Algorithms</title>
- <shortdesc></shortdesc>
- <conbody>
- 	
- 	<p>Eucalyptus uses two types of algorithms to determine access.</p>
- 	<section>
- 		<title>Policy Evaluation Algorithm</title>
- 	<p>You can associated multiple policies and permission statements with a user. The way these are
- 		combined together to control the access to resources in an account is defined by the policy evaluation algorithm. Eucalyptus implements the same policy evaluation algorithm as IAM:</p>
- 	<ol>
- 		<li>If the request user is account admin, access is allowed.</li>
- 		<li>Otherwise, collect all the policy statements associated with the request user (attached to the user and all the groups the user belongs to), which match the incoming request (i.e. based on the API being invoked and the resources it is going to access).
- 		<ol>
- 			<li>If there is no matched policy statement, access is denied (default implicit deny).</li>
- 			<li>Otherwise, evaluate each policy statement that matches.
- 			<ul>
- 				<li>If there is a statement that explicitly denies the access, the request is denied.</li>
- 				<li>If there is no explicit deny, which means there is at least one explicit allow, access is allowed.</li>
- 			</ul>
- 			</li>
- 		</ol>
- 		</li>
- 	</ol>
- </section>
- 	<section>
- 		<title>Access Evaluation Algorithm</title>
- 		<p>Now we give the overall access evaluation combining both account level permissions and IAM permissions, which decides whether a request is accepted by Eucalyptus:</p>
- 		<ol>
- 			<li>If the request user is sys admin, access is allowed.</li>
- 			<li>Otherwise, check account level permissions, e.g. image launch permission, to see if the request user’s account has access to the specific resources.
- 			<ol>
- 				<li>If not, the access is denied.</li>
- 				<li>Otherwise, invoke the policy evaluation algorithm to check if the request user has access to the resources based on IAM policies.</li>
- 			</ol>
- 			</li>
- 		</ol>
- 	</section>
- 	<section>
- 		<title>Quota Evaluation Algorithm</title>
- 		<p>Like the normal IAM policies, a user may be associated with multiple quota policies (and multiple quota statements). How all the quota policies are combined to take effect is defined by the quota evaluation algorithm:</p>
- 		<ol>
- 			<li>If the request user is sys admin, there is no limit on resource usage.</li>
- 			<li>Otherwise, collect all the quotas associated with the request user, including those attached to the request user’s account and those attached to the request user himself/herself (for account admin, we only need collect account quotas).</li>
- 			<li>Evaluate each quota one by one. Reject the request as long as there is one quota being exceeded by the request. Otherwise, accept the request.</li>
- 		</ol>
- 		<note>The hard limits on some resources override quota limits. For example, <codeph>walrus.storagemaxbucketsizeinmb</codeph> (system property) overrides the <codeph>s3:quota-bucketsize</codeph> (quota key).</note>
- 	</section>
- </conbody>
+	<title>Algorithms</title>
+	<shortdesc/>
+	<conbody>
+
+		<p>Eucalyptus uses two types of algorithms to determine access.</p>
+		<section>
+			<title>Policy Evaluation Algorithm</title>
+			<p>You can associated multiple policies and permission statements
+				with a user. The way these are combined together to control the
+				access to resources in an account is defined by the policy
+				evaluation algorithm. Eucalyptus implements the same policy
+				evaluation algorithm as IAM:</p>
+			<ol>
+				<li>If the request user is account admin, access is
+					allowed.</li>
+				<li>Otherwise, collect all the policy statements associated with
+					the request user (attached to the user and all the groups
+					the user belongs to), which match the incoming request (i.e.
+					based on the API being invoked and the resources it is going
+					to access). <ol>
+						<li>If there is no matched policy statement, access is
+							denied (default implicit deny).</li>
+						<li>Otherwise, evaluate each policy statement that
+							matches. <ul>
+								<li>If there is a statement that explicitly
+									denies the access, the request is
+									denied.</li>
+								<li>If there is no explicit deny, which means
+									there is at least one explicit allow, access
+									is allowed.</li>
+							</ul>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</section>
+		<section>
+			<title>Access Evaluation Algorithm</title>
+			<p>Now we give the overall access evaluation combining both account
+				level permissions and IAM permissions, which decides whether a
+				request is accepted by Eucalyptus:</p>
+			<ol>
+				<li>If the request user is sys admin, access is allowed.</li>
+				<li>Otherwise, check account level permissions, e.g. image
+					launch permission, to see if the request user’s account has
+					access to the specific resources. <ol>
+						<li>If not, the access is denied.</li>
+						<li>Otherwise, invoke the policy evaluation algorithm to
+							check if the request user has access to the
+							resources based on IAM policies.</li>
+					</ol>
+				</li>
+			</ol>
+		</section>
+		<section>
+			<title>Quota Evaluation Algorithm</title>
+			<p>Like the normal IAM policies, a user may be associated with
+				multiple quota policies (and multiple quota statements). How all
+				the quota policies are combined to take effect is defined by the
+				quota evaluation algorithm:</p>
+			<ol>
+				<li>If the request user is sys admin, there is no limit on
+					resource usage.</li>
+				<li>Otherwise, collect all the quotas associated with the
+					request user, including those attached to the request user’s
+					account and those attached to the request user
+					himself/herself (for account admin, we only need collect
+					account quotas).</li>
+				<li>Evaluate each quota one by one. Reject the request as long
+					as there is one quota being exceeded by the request.
+					Otherwise, accept the request.</li>
+			</ol>
+			<note>The hard limits on some resources override quota limits. For
+				example, <codeph>walrus.storagemaxbucketsizeinmb</codeph>
+				(system property) overrides the
+					<codeph>s3:quota-bucketsize</codeph> (quota key).</note>
+		</section>
+	</conbody>
 </concept>

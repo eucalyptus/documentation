@@ -2,92 +2,112 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="failover">
- <title>Recovering from a Failure: Walrus</title>
- <shortdesc></shortdesc>
+	<title>Recovering from a Failure: Walrus</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>fail
-					<indexterm>recovering from
-					</indexterm>
+				<indexterm>fail <indexterm>recovering from </indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	
- 	<p>In these examples, we will assume that Walrus <codeph>WS00</codeph> is the primary and <codeph>WS01</codeph> is the secondary Walrus server.</p>
- 	<section>
- 		<title>Software Failure Example</title>
- 	
- 	
- 	<p>In this scenario, <codeph>WS01</codeph> refuses to go to <codeph>DISABLED</codeph> state. DRBD complains that it is in split brain mode. <codeph>drbdadm cstate r0</codeph> shows that DRBD is in WFConnection state.</p>
- 	
- 	<p>If you are sure that data on <codeph>WS01</codeph> is out of date and can be discarded, execute
- 		the following commands to restore HA mode.</p>
- 	<ol>
- 	<li>Shut down the eucalyptus-cloud process on WS01.</li>
- 	
- 	<li>Ensure that the DRBD connection is down by typing "drbdadm disconnect r0" on any of the two Walrus hosts.</li>
- 	
- 	<li>On the primary Walrus, WS00, set drbd as the primary by executing "drbdadm primary r0"</li>
- 	
- <li>	On the secondary Walrus, WS01, execute the following command:
- <codeblock>drbdadm -- --discard-my-data connect</codeblock>
- 	<note type="warning">This command will discard all data on WS01 and synchronize data from WS00.</note>
- </li>
- 
- 	
- 	<li>Monitor the state of DRBD by running:
- 	<codeblock>watch -n 2 cat /proc/drbd</codeblock></li>
- 	
- 	<li>When the data on WS01 is synced, start the eucalyptus-cloud process on WS01.</li>
- 	</ol>
- 	</section>
- 	
- 	<section>
- 		<title>Hardware Failure Example</title>
- 		<p>In this example, the primary <codeph>WS00</codeph> needs to be taken out of service due to a
- 		hardware failure, such as a failed disk.</p>
- 		<ol>
- 			<li>Shut down the eucalyptus-cloud process on WS00 if it is still running.</li>
- 			
- 			<li>Monitor service status by running <cmdname>euca-describe-services</cmdname> on WS01 and ensure that WS01 has taken over as the new primary (state: ENABLED).</li>
- 			
- 			<li>Shut down the host running WS00.</li>
- 			
- 			<li>If the host running WS00 is to be replaced entirely or the OS reinstalled:
- 			<ul>
- 			<li>On the primary CLC, enter the following to deregister WS00:
- 				<codeblock>euca_conf --deregister-walrus --component WS00 partition &lt;name of partition>
- 					--host &lt;WS00 host></codeblock>
- 				</li>
- 				<li>After Linux has been installed on the new WS00 host and it is ready for use, please reinstall the "eucalyptus-walrus" package.</li>
- 				<li>Synchronize the DRBD configuration (/etc/drbd.conf and /etc/eucalyptus/drbd*) from the WS01 host.</li>
- 				<li>On WS00, re-configure DRBD by following the Configure DRBD section of the Installation Guide and performing the steps that are relevant to the secondary Walrus server (WS00 is the new secondary Walrus server, in this example).</li>
- 				<li>Re-register WS00 with a new host name if necessary. This will synchronize keys.</li>
- 			</ul>
- 			</li>
- 				
- 				<li>On WS00, execute the following command:
- 				
- 				<codeblock>drbdadm -- --discard-my-data connect</codeblock>
- 				
- 				<note type="warning">This command will discard all data on WS00 and synchronize data from WS01.</note>
- 				</li>
- 				<li>Monitor the state of DRBD by entering:
- 					<codeblock>watch -n 2 cat /proc/drbd</codeblock>
- 					<p>WS01 should be marked as the primary and WS00 is the new secondary. Wait until data is synchronized.</p>
- 				</li>
+	<conbody>
 
- 				<li>When the data on WS00 is synced from WS01, start the eucalyptus-cloud process on WS00.</li>
- 				
- 			
- 				
- 				<li>Monitor service status by running "euca-describe-services" on the primary CLC and ensure that WS00 is DISABLED and WS01 is ENABLED.</li>
- 		</ol>
- 				<p>At this point, the Walrus service is back in HA mode.</p>
- 		<!-- Vika says "the last time I tried that, it did not work as
+		<p>In these examples, we will assume that Walrus <codeph>WS00</codeph>
+			is the primary and <codeph>WS01</codeph> is the secondary Walrus
+			server.</p>
+		<section>
+			<title>Software Failure Example</title>
+			<p>In this scenario, <codeph>WS01</codeph> refuses to go to
+					<codeph>DISABLED</codeph> state. DRBD complains that it is
+				in split brain mode. <codeph>drbdadm cstate r0</codeph> shows
+				that DRBD is in WFConnection state.</p>
+			<p>If you are sure that data on <codeph>WS01</codeph> is out of date
+				and can be discarded, execute the following commands to restore
+				HA mode.</p>
+			<ol>
+				<li>Shut down the eucalyptus-cloud process on WS01.</li>
+
+				<li>Ensure that the DRBD connection is down by typing "drbdadm
+					disconnect r0" on any of the two Walrus hosts.</li>
+
+				<li>On the primary Walrus, WS00, set drbd as the primary by
+					executing "drbdadm primary r0"</li>
+
+				<li> On the secondary Walrus, WS01, execute the following
+					command: <codeblock>drbdadm -- --discard-my-data connect</codeblock>
+					<note type="warning">This command will discard all data on
+						WS01 and synchronize data from WS00.</note>
+				</li>
+
+
+				<li>Monitor the state of DRBD by running:
+					<codeblock>watch -n 2 cat /proc/drbd</codeblock></li>
+
+				<li>When the data on WS01 is synced, start the eucalyptus-cloud
+					process on WS01.</li>
+			</ol>
+		</section>
+
+		<section>
+			<title>Hardware Failure Example</title>
+			<p>In this example, the primary <codeph>WS00</codeph> needs to be
+				taken out of service due to a hardware failure, such as a failed
+				disk.</p>
+			<ol>
+				<li>Shut down the eucalyptus-cloud process on WS00 if it is
+					still running.</li>
+
+				<li>Monitor service status by running
+						<cmdname>euca-describe-services</cmdname> on WS01 and
+					ensure that WS01 has taken over as the new primary (state:
+					ENABLED).</li>
+
+				<li>Shut down the host running WS00.</li>
+
+				<li>If the host running WS00 is to be replaced entirely or the
+					OS reinstalled: <ul>
+						<li>On the primary CLC, enter the following to
+							deregister WS00:
+							<codeblock>euca_conf --deregister-walrus --component WS00 partition &lt;name of partition>
+ 					--host &lt;WS00 host></codeblock>
+						</li>
+						<li>After Linux has been installed on the new WS00 host
+							and it is ready for use, please reinstall the
+							"eucalyptus-walrus" package.</li>
+						<li>Synchronize the DRBD configuration (/etc/drbd.conf
+							and /etc/eucalyptus/drbd*) from the WS01 host.</li>
+						<li>On WS00, re-configure DRBD by following the
+							Configure DRBD section of the Installation Guide and
+							performing the steps that are relevant to the
+							secondary Walrus server (WS00 is the new secondary
+							Walrus server, in this example).</li>
+						<li>Re-register WS00 with a new host name if necessary.
+							This will synchronize keys.</li>
+					</ul>
+				</li>
+
+				<li>On WS00, execute the following command: <codeblock>drbdadm -- --discard-my-data connect</codeblock>
+					<note type="warning">This command will discard all data on
+						WS00 and synchronize data from WS01.</note>
+				</li>
+				<li>Monitor the state of DRBD by entering: <codeblock>watch -n 2 cat /proc/drbd</codeblock>
+					<p>WS01 should be marked as the primary and WS00 is the new
+						secondary. Wait until data is synchronized.</p>
+				</li>
+
+				<li>When the data on WS00 is synced from WS01, start the
+					eucalyptus-cloud process on WS00.</li>
+
+
+
+				<li>Monitor service status by running "euca-describe-services"
+					on the primary CLC and ensure that WS00 is DISABLED and WS01
+					is ENABLED.</li>
+			</ol>
+			<p>At this point, the Walrus service is back in HA mode.</p>
+			<!-- Vika says "the last time I tried that, it did not work as
  			described and this command, in general, should only be a last resort
  			and should not advertised to users."
  						<p>If you wish for WS00 (newly installed server) to take over as the primary Walrus, please run,</p>
@@ -95,12 +115,10 @@
  				<codeblock>euca-modify-server WS01 -s DISABLED</codeblock>
  				
  				<p>Monitor service status by running "euca-describe-services" on the primary CLC and ensure that WS00 is ENABLED and WS01 is DISABLED.</p>-->
- 		
- 		
- 	</section>
- 
- 	
-  <!--<draft-comment>
+		</section>
+
+
+		<!--<draft-comment>
   	<ul>
   		<li>process failure (euca service problem)</li>
   		<li>host failure (physical server shutdown)</li>
@@ -125,5 +143,5 @@
   		Account admin: account manager ala AWS account. </p>
   	
   </draft-comment>-->
- </conbody>
+	</conbody>
 </concept>

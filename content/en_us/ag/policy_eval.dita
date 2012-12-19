@@ -3,33 +3,49 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="policy_eval">
 	<title>Policy Evaluation</title>
- <shortdesc></shortdesc>
- <conbody>
- 	
- 	<p>When a user request is made in Eucalyptus, all user policies are evaluated against the request.
- 		Each policy statement is a single permission. A policy can contain multiple statements and there
- 		are multiple policies. All the statements from all the policies have a relationship of logic OR.
- 		<draft-comment>What does this mean?</draft-comment></p>
- 	<p>When Eucalyptus receives a request, it uses everything about the request and the current system status to match the statement. The identity of the user who sends the request, the type of the request (i.e. the API being called) and the target resource of the request are compared to the statement’s “Principal” (implicitly usually), “Action” (or “NotAction”) and “Resource” (or “NotResource”) elements, respectively. The conditions are also evaluated based on the request and the current system status. If all matches, the statement’s effect is taken into effect, being “Allow” or “Deny”.</p>
- 	<p>The Eucalyptus policy evaluation process is an extension of the IAM algorithm, with added the support for account-level permissions. The following describes the process:</p>
- 	<ol>
- 		<li>If the request user is a system administrator (a user in the <uicontrol>eucalyptus</uicontrol> account), access is granted.</li>
- 		<!--<li>If granted, Eucalyptus collects the following for the user who sent the request: permissions attached to the user’s account, the groups that the user belongs to, and the request user himself.</li>-->
- 		<!--<li>Otherwise, check account level permissions:
+	<shortdesc/>
+	<conbody>
+
+		<p>When a user request is made in Eucalyptus, all user policies are
+			evaluated against the request. Each policy statement is a single
+			permission. A policy can contain multiple statements and there are
+			multiple policies. All the statements from all the policies have a
+			relationship of logic OR. <draft-comment>What does this
+				mean?</draft-comment></p>
+		<p>When Eucalyptus receives a request, it uses everything about the
+			request and the current system status to match the statement. The
+			identity of the user who sends the request, the type of the request
+			(i.e. the API being called) and the target resource of the request
+			are compared to the statement’s “Principal” (implicitly usually),
+			“Action” (or “NotAction”) and “Resource” (or “NotResource”)
+			elements, respectively. The conditions are also evaluated based on
+			the request and the current system status. If all matches, the
+			statement’s effect is taken into effect, being “Allow” or
+			“Deny”.</p>
+		<p>The Eucalyptus policy evaluation process is an extension of the IAM
+			algorithm, with added the support for account-level permissions. The
+			following describes the process:</p>
+		<ol>
+			<li>If the request user is a system administrator (a user in the
+					<uicontrol>eucalyptus</uicontrol> account), access is
+				granted.</li>
+			<!--<li>If granted, Eucalyptus collects the following for the user who sent the request: permissions attached to the user’s account, the groups that the user belongs to, and the request user himself.</li>-->
+			<!--<li>Otherwise, check account level permissions:
  		<ul>
  			<li>If explicitly denied (i.e. there is a matched permission statement’s effect is Deny), access is denied.</li>
  			<li>If explicitly allowed (i.e. a there is matched permission statement’s effect is Allow), continue to the next step.</li>
  			<li>If no matching permissions, check the account of the request user and the account of the requested resource. If not match, access is denied. If match, continue to the next step.</li>
  		</ul>
  		</li>-->
- 		<li>If the request user is an account administrator (a eucaadmin user in an account), access is granted.</li>
- 		<li>Otherwise, check local permissions (user- and group-level permissions):
- 		<ul>
- 			<li>If explicitly denied, access is denied.</li>
- 			<li>If explicitly allowed, access is granted.</li>
- 			<li>If no matching permissions, access is denied.</li>
- 		</ul>
- 		</li>
- 	</ol>
- </conbody>
+			<li>If the request user is an account administrator (a eucaadmin
+				user in an account), access is granted.</li>
+			<li>Otherwise, check local permissions (user- and group-level
+				permissions): <ul>
+					<li>If explicitly denied, access is denied.</li>
+					<li>If explicitly allowed, access is granted.</li>
+					<li>If no matching permissions, access is denied.</li>
+				</ul>
+			</li>
+		</ol>
+	</conbody>
 </concept>

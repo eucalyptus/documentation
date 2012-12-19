@@ -2,83 +2,99 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="storage_walrus">
- <title>Walrus</title>
- <shortdesc></shortdesc>
+	<title>Walrus</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>storage
-				<indexterm>Walrus</indexterm>
+				<indexterm>storage <indexterm>Walrus</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	<section>
- 		<p>Currently, Walrus requires a POSIX filesystem to store buckets and objects. It uses the filesystem at <filepath>$EUCALYPTUS/var/lib/eucalyptus/bukkits</filepath> and creates a directory per bucket and each object is stored as a single file within that bucket directory.</p>
- 		<title>How is the Backing Store Used</title>
-
- 		<p>Bucket directories are named exactly as the bucket itself, so bukkits/bucket01 is the directory for the 'bucket01' bucket, as expected. However, object files do not retain their name on the filesystem for several reasons and are instead stored as files which have a random hash as the name. This prevents name conflicts due to object versioning and allows the system to handle object names which are not valid POSIX filenames (as the S3 API allows '/' in object names, for example).</p>
- 		
- 		<p>The number of buckets in a single Walrus installation is limited by the number of
-				subdirectories allowed by the filesystem. For ext3 that number is 32,000 and for
-				ext4 it is 64,000. Other filesystems can be used to back Walrus, but our testing and
+	<conbody>
+		<section>
+			<p>Currently, Walrus requires a POSIX filesystem to store buckets
+				and objects. It uses the filesystem at
+					<filepath>$EUCALYPTUS/var/lib/eucalyptus/bukkits</filepath>
+				and creates a directory per bucket and each object is stored as
+				a single file within that bucket directory.</p>
+			<title>How is the Backing Store Used</title>
+			<p>Bucket directories are named exactly as the bucket itself, so
+				bukkits/bucket01 is the directory for the 'bucket01' bucket, as
+				expected. However, object files do not retain their name on the
+				filesystem for several reasons and are instead stored as files
+				which have a random hash as the name. This prevents name
+				conflicts due to object versioning and allows the system to
+				handle object names which are not valid POSIX filenames (as the
+				S3 API allows '/' in object names, for example).</p>
+			<p>The number of buckets in a single Walrus installation is limited
+				by the number of subdirectories allowed by the filesystem. For
+				ext3 that number is 32,000 and for ext4 it is 64,000. Other
+				filesystems can be used to back Walrus, but our testing and
 				validation has focused on ext4 primarily.</p>
- 		
- 		<p>Walrus does not utilize the filesystem for storing metadata, that is all persisted in the database managed by the Cloud Controller (CLC). Therefore, Walrus does not require extended metadata support from the filesystem itself.</p>
- 	</section>
- 	
- 	<section>
- 		<title>High Availability</title>
- 		
- 		<p>To provide high-availability, Walrus leverages DRBD to replicate the backing block storage
-				device at the block level. This was chosen for several reasons, one of which is that
-				it handles replication such that once the block device reports a write is complete
-				the system can be sure that it has been written to disk on both hosts and is not
-				simply in a memory buffer somewhere awaiting a lazy write. One of the key issues
-				with distributed and/or shared filesystems as a replication mechanism is that they
-				typically heavily utilize caching to boost performance at the cost of data
-				consistency in the case of unexpected failures. Walrus uses a local filesystem on
-				top of a replicated block device to ensure that completed writes are truly completed
-				on both hosts.</p>
- 		
- 		<p>Walrus uses DRBD for a single volume replicated using replication Protocol C (synchronous
-				replication) in an active-passive configuration. Like all of Eucalyptus's HA
-				components, one Walrus node is ENABLED and one is DISABLED and only the ENABLED node
-				services user requests. The ENABLED Walrus has a DRBD device mounted to the
-				filesystem at $EUCALYPTUS/var/lib/eucalyptus/bukkits and acts as primary role. On
-				the disabled Walrus node the DRBD device is not mounted in the filesystem and is the
-				secondary role in DRBD terms. </p>
-			<p>If the disabled Walrus node becomes enabled it becomes primary on the DRBD volume and
-				mounts it in the filesystem. In the event of a node failure or network disconnect,
-				DRBD will automatically promote the secondary device to the primary role on the
-				DISABLED Walrus node. The DISABLED Walrus itself will become ENABLED if the
-				currently ENABLED Walrus drops out of the system for any reason. Walrus will ensure
-				that its DRBD device is in the primary role and is mounted on the local filesystem
-				prior to changing to ENABLED mode to guarantee that it can service requests and that
-				data remains available.</p>
- 		
- 		<p>Walrus does not configure DRBD itself, but expects the administrator to have configured a
-				DRBD device, volume, and resource and specifies that device and resource to Walrus
-				via the walrus.blockdevice=&lt;device> and walrus.resourcename=&lt;drbd resource,
-				i.e. r0> properties. Those properties are set using euca-modify-property -p
+			<p>Walrus does not utilize the filesystem for storing metadata, that
+				is all persisted in the database managed by the Cloud Controller
+				(CLC). Therefore, Walrus does not require extended metadata
+				support from the filesystem itself.</p>
+		</section>
+
+		<section>
+			<title>High Availability</title>
+			<p>To provide high-availability, Walrus leverages DRBD to replicate
+				the backing block storage device at the block level. This was
+				chosen for several reasons, one of which is that it handles
+				replication such that once the block device reports a write is
+				complete the system can be sure that it has been written to disk
+				on both hosts and is not simply in a memory buffer somewhere
+				awaiting a lazy write. One of the key issues with distributed
+				and/or shared filesystems as a replication mechanism is that
+				they typically heavily utilize caching to boost performance at
+				the cost of data consistency in the case of unexpected failures.
+				Walrus uses a local filesystem on top of a replicated block
+				device to ensure that completed writes are truly completed on
+				both hosts.</p>
+			<p>Walrus uses DRBD for a single volume replicated using replication
+				Protocol C (synchronous replication) in an active-passive
+				configuration. Like all of Eucalyptus's HA components, one
+				Walrus node is ENABLED and one is DISABLED and only the ENABLED
+				node services user requests. The ENABLED Walrus has a DRBD
+				device mounted to the filesystem at
+				$EUCALYPTUS/var/lib/eucalyptus/bukkits and acts as primary role.
+				On the disabled Walrus node the DRBD device is not mounted in
+				the filesystem and is the secondary role in DRBD terms. </p>
+			<p>If the disabled Walrus node becomes enabled it becomes primary on
+				the DRBD volume and mounts it in the filesystem. In the event of
+				a node failure or network disconnect, DRBD will automatically
+				promote the secondary device to the primary role on the DISABLED
+				Walrus node. The DISABLED Walrus itself will become ENABLED if
+				the currently ENABLED Walrus drops out of the system for any
+				reason. Walrus will ensure that its DRBD device is in the
+				primary role and is mounted on the local filesystem prior to
+				changing to ENABLED mode to guarantee that it can service
+				requests and that data remains available.</p>
+			<p>Walrus does not configure DRBD itself, but expects the
+				administrator to have configured a DRBD device, volume, and
+				resource and specifies that device and resource to Walrus via
+				the walrus.blockdevice=&lt;device> and
+				walrus.resourcename=&lt;drbd resource, i.e. r0> properties.
+				Those properties are set using euca-modify-property -p
 				&lt;propertyname>=&lt;propertyvalue> and can be displayed using
 				euca-describe-properties.</p>
- 	</section>
- 			
- 			<section>
- 				<title>Walrus and the Database</title>
- 				
- 				
- 				<p>Walrus uses a database to manage metadata for buckets and objects as well as ACLs and
-				policies. Walrus has its own database, which is currently co-hosted by the Cloud
-				Controller (CLC) with all of the other databases that Eucalyptus uses.</p>
- 				
- 				<p>Walrus, like all Eucalyptus components written in Java, utilizes database HA via a
-				replicating JDBC connection and other database synchronization mechanisms to ensure
-				that its database is replicated and synchronized across both HA CLC hosts.</p>
- 			</section>
- 			
+		</section>
 
- </conbody>
+		<section>
+			<title>Walrus and the Database</title>
+			<p>Walrus uses a database to manage metadata for buckets and objects
+				as well as ACLs and policies. Walrus has its own database, which
+				is currently co-hosted by the Cloud Controller (CLC) with all of
+				the other databases that Eucalyptus uses.</p>
+			<p>Walrus, like all Eucalyptus components written in Java, utilizes
+				database HA via a replicating JDBC connection and other database
+				synchronization mechanisms to ensure that its database is
+				replicated and synchronized across both HA CLC hosts.</p>
+		</section>
+
+
+	</conbody>
 </concept>

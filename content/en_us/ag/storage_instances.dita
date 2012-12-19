@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="storage_instances">
- <title>Node Controller</title>
- <shortdesc></shortdesc>
+	<title>Node Controller</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>storage
-					<indexterm>Node Controller</indexterm>
+				<indexterm>storage <indexterm>Node Controller</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	<p>The Node Controller (NC) launches instances. Instances start as fresh copy of an uploaded image
- 		(EMI). All changes made to the instance (for
- 	example, packages installed, configuration, application data) disappear once the instance
- 	terminates. An instance can be terminated voluntarily (for example, you run a
- 		<apiname>euca-terminate-instance</apiname> command) or by accident (for example, when the
- 		hardware running the instance fails, or the software within the instance fails). This kind of
- 		instance is called instance store. </p>
- 	
- 	<p>Instances can also use volumes for their root file system. This type of instance is called
- 		block store instance. In this case, at instance creation, a volume is cloned from a specific EMI
- 		snapshot. The instance will then have exclusive access to this volume, throughout its lifetime,
- 		allowing for stopping and re-starting without loss of any changes made. The instance can be
- 		restarted wherever the volume is available. This means that block store is only available on a
- 		cluster basis, or availability zone. The block store's performance is driven by the volume performance (network speed to a SAN, or DAS serviced by the Storage Controller).</p>
- 	
- 	<p>The main different in storage speed between instance store and block store is a trade between
- 		the speed of the local disk (in the case of instance store), and the speed of accessing a SAN (or
- 		DAS) across a network. Things gets more complicated when multiple instances competes for shared
- 		resource (for example, common disks on a Node Controller, or network access to the SAN).</p>
- 	
- 	<!--  
+	<conbody>
+		<p>The Node Controller (NC) launches instances. Instances start as fresh
+			copy of an uploaded image (EMI). All changes made to the instance
+			(for example, packages installed, configuration, application data)
+			disappear once the instance terminates. An instance can be
+			terminated voluntarily (for example, you run a
+				<apiname>euca-terminate-instance</apiname> command) or by
+			accident (for example, when the hardware running the instance fails,
+			or the software within the instance fails). This kind of instance is
+			called instance store. </p>
+
+		<p>Instances can also use volumes for their root file system. This type
+			of instance is called block store instance. In this case, at
+			instance creation, a volume is cloned from a specific EMI snapshot.
+			The instance will then have exclusive access to this volume,
+			throughout its lifetime, allowing for stopping and re-starting
+			without loss of any changes made. The instance can be restarted
+			wherever the volume is available. This means that block store is
+			only available on a cluster basis, or availability zone. The block
+			store's performance is driven by the volume performance (network
+			speed to a SAN, or DAS serviced by the Storage Controller).</p>
+
+		<p>The main different in storage speed between instance store and block
+			store is a trade between the speed of the local disk (in the case of
+			instance store), and the speed of accessing a SAN (or DAS) across a
+			network. Things gets more complicated when multiple instances
+			competes for shared resource (for example, common disks on a Node
+			Controller, or network access to the SAN).</p>
+
+		<!--  
  		Instances and Storage
  		
  		
@@ -41,5 +48,5 @@
  		Cloud Admin
  		
  	-->
- </conbody>
+	</conbody>
 </concept>

@@ -2,43 +2,50 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="restore">
-    <title>Restore Eucalyptus from a Backup</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<p>In case your system experiences a failure, you can restore Eucalyptus from a backup by performing the following tasks:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Shut down any running Eucalyptus components. For further information about the
-            		shut down process, see <xref href="shut_down.dita"/>.</cmd>
-            </step>
-        	
-        	<step>
-        		<cmd>If you are trying to recover from a broken upgrade by rolling back or by trying the
-        		upgrade again, this would be the right time to:</cmd>
-        		<info>
-        			<ul>
-        				<li>Remove all software components related to Eucalyptus (for example, <codeph>rpm -e</codeph> or <codeph>apt-get
-        					remove</codeph>).</li>
-        				<li>Install the appropriate version. For more information, go to the Eucalyptus
-        					Installation Guide.</li>
-        			</ul>
-        			<note type="warning">DEBs will restart the services. Be sure you stop them again before copying back the backed-up files.</note>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Replace the saved state.</cmd>
-        		<choices>
-        			<choice>If you backed up with cp, enter the following:
-        			<codeblock>cp -a $BACKUP/eucalyptus.conf /etc/eucalyptus
+	<title>Restore Eucalyptus from a Backup</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>In case your system experiences a failure, you can restore
+				Eucalyptus from a backup by performing the following tasks:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Shut down any running Eucalyptus components. For further
+					information about the shut down process, see <xref
+						href="shut_down.dita"/>.</cmd>
+			</step>
+
+			<step>
+				<cmd>If you are trying to recover from a broken upgrade by
+					rolling back or by trying the upgrade again, this would be
+					the right time to:</cmd>
+				<info>
+					<ul>
+						<li>Remove all software components related to Eucalyptus
+							(for example, <codeph>rpm -e</codeph> or
+								<codeph>apt-get remove</codeph>).</li>
+						<li>Install the appropriate version. For more
+							information, go to the Eucalyptus Installation
+							Guide.</li>
+					</ul>
+					<note type="warning">DEBs will restart the services. Be sure
+						you stop them again before copying back the backed-up
+						files.</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Replace the saved state.</cmd>
+				<choices>
+					<choice>If you backed up with cp, enter the following:
+						<codeblock>cp -a $BACKUP/eucalyptus.conf /etc/eucalyptus
 cp -a $BACKUP/keys $BACKUP/db $BACKUP/bukkits $BACKUP/volumes /var/lib/eucalyptus</codeblock>
-        			</choice>
-        			<choice>If you backed up with tar, enter the following:
-        			<codeblock>tar xvf $BACKUP/eucalyptus-backup.tar</codeblock>
-        			</choice>
-        		</choices>
-        	</step>
-        </steps>
-    </taskbody>
+					</choice>
+					<choice>If you backed up with tar, enter the following:
+						<codeblock>tar xvf $BACKUP/eucalyptus-backup.tar</codeblock>
+					</choice>
+				</choices>
+			</step>
+		</steps>
+	</taskbody>
 </task>

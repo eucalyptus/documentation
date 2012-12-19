@@ -2,176 +2,225 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="bp_ha">
- <title>High Availability</title>
- <shortdesc></shortdesc>
+	<title>High Availability</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>cloud
-					<indexterm>high availability in</indexterm>
+				<indexterm>cloud <indexterm>high availability in</indexterm>
 					<indexterm>best practices</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
-	<conbody>
- <p>High availability is the result of the combination of functionality provided by Eucalyptus and
- 	the environmental and  operational support to maintain the constituent systems's proper operation. Eucalyptus provides functionality aimed at enabling highly available operation:</p>
- 	<ul>
- 		<li>Detection of service faults and monitoring of system health: gather service status, determine current service topology, admit requests which can be satisfied using only healthy services in that topology</li>
- 		<li>Tools for interrogating the system's health: access to service state information</li>
- 		<li>Error gathering to aid in determining the cause: access to fault information as it impacts service function</li>
- 		<li>Automated failover when redundant services are configured: removal of faulty services and enabling of healthy services</li>
- 		<li>Service state control: ability to remove individual component-services (when configured with HA pair) from operation without disrupting service</li>
- 		<li>Replacement/restoration of component-services: procedures for restoring/replacing a component service after a total-loss failure (e.g., disk failure, host combustion, etc.)</li>
- 	</ul>
- 	 	
- 	<p>In addition to previously detailed deployment recommendations, delivering highly available
- 	services with Eucalyptus depends on appropriate operational and maintenance support. The following sections detail the related system functionality and procedures.</p>
- 	
- 	<section>
- 		<title>Understanding Service State</title>
- 		<p>The system monitors service health and enables healthy services to process user requests while marking faulty services as being NOTREADY. Each component service is interrogated by the system to determine its current state. Faults are detected either:</p>
- 		<ul>
- 		<li>The service reporting a fault has been detected (for example, due to misconfiguration, dependency service failure, environmental fault, etc.)</li>
- 		<li>Failure to contact the service</li>
- 		</ul>
- 		 		
- 		<p>The following table overviews the relevant states</p>
- 		<table>
- 			<tgroup cols="4">
- 				<thead>
- 					<row>
- 						<entry>State</entry>
- 						<entry>Operational</entry>
- 						<entry>In use by system</entry>
- 						<entry>Description</entry>
- 					</row>
- 				</thead>
- 				<tbody>
- 					<row>
- 						<entry><codeph>ENABLED</codeph></entry>
- 						<entry>Yes</entry>
- 						<entry>Yes</entry>
- 						<entry>Service is operating correctly and is selected for processing requests</entry>
- 					</row>
- 					<row>
- 						<entry><codeph>DISABLED</codeph></entry>
- 						<entry>Yes</entry>
- 						<entry>No</entry>
- 						<entry>Service is operating correctly but is not selected for processing requests</entry>
- 					</row>
- 					<row>
- 						<entry><codeph>NOTREADY</codeph></entry>
- 						<entry>No</entry>
- 						<entry>No</entry>
- 						<entry>Service is failing to operate correctly</entry>
- 					</row>
- 					<row>
- 						<entry><codeph>BROKEN</codeph></entry>
- 						<entry>No</entry>
- 						<entry>No</entry>
- 						<entry>Service is not contactable by the system</entry>
- 					</row>
- 					<row>
- 						<entry><codeph>STOPPED</codeph></entry>
- 						<entry>N/A</entry>
- 						<entry>No</entry>
- 						<entry>Service has been stopped by an administrator</entry>
- 					</row>
- 					
- 				</tbody>
- 			</tgroup>
- 		</table>
- 		
- 		
- 		<p>The following diagram indicates the set of relevant states and transitions between them. Black
- 			arrows indicate a transition between states that is initiated by the system or an administrator
- 			request. Red errors indicate a failure to transition into the originating state that results in a transition to the destination error state. </p>
- 		<image href="images/ha_state.jpg" alt="Service state diagram" scale="60"/>
- 		
- 		<p>Based on the collected service state, the system will:	</p>
- 		<ul>
- 			<li>Attempt to advance previously non-functioning services to a functional state</li>
- 			<li>Determine whether any functioning services can be <codeph>ENABLED</codeph> and added to the set used for serving requests</li>
- 		</ul>
 
-		<p>On the Cloud Controller host, with eucalyptus admin credentials loaded, run <cmdname>euca-describe-services</cmdname> to see up-to-date service information including the state of each service as described in the above table.
-		</p>
- 	</section>
- 	
- 	<section>
- 		<title>Understanding System Availability</title>
- 		<p>The impact of a service fault on the system's availability depends upon the deployment and configuration of the system. The following table details the scope a service fault can have on system availability for each component type.</p>
- 		<table>
- 			<tgroup cols="3">
- 				<thead>
- 					<row>
- 						<entry>Component</entry>
- 						<entry>Scope (Fault Region)</entry>
- 						<entry>Description</entry>
- 					</row>
- 				</thead>
- 				<tbody>
- 					<row>
- 						<entry>Cloud Controller</entry>
- 						<entry>Cloud</entry>
- 						<entry>The CLC is a cloud-wide service and must have at least one operation service.</entry>
- 					</row>
- 					<row>
- 						<entry>Walrus</entry>
- 						<entry>Cloud</entry>
- 						<entry>Walrus is a cloud-wide service and must have at least one operation service.</entry>
- 					</row>
- 					<row>
- 						<entry>Cluster Controller</entry>
- 						<entry>Availability Zone</entry>
- 						<entry>CCs are associated with a partition and service requests specific to
- 							an availability zone. Should an availability zone not have an operational CC, instance
- 							requests will be rejected for the corresponding zone.</entry>
- 					</row>
- 					<row>
- 						<entry>Storage Controller</entry>
- 						<entry>Availability Zone</entry>
- 						<entry>Storage controllers are associated with a partition and service requests specific to
- 							an availability zone. Should an availability zone not have an operational storage controller volume and snapshot creation requests will be rejected for the corresponding zone</entry>
- 					</row>
- 					<row>
- 						<entry>VMware Broker</entry>
- 						<entry>Availability Zone</entry>
- 						<entry>VMware Broker are associated with a partition and service requests specific to an
- 							availability zone. Should an availability zone not have an operational VMware Broker instance requests will be rejected for the corresponding zone</entry>
- 					</row>
- 					<row>
- 						<entry>Arbitrators</entry>
- 						<entry>User-facing Service Host</entry>
- 						<entry>Arbitrators are associated with a host that runs user-facing component services (CLC,
- 							Walrus). Each host must have an operational Arbitrator. Should a
- 							component service host have a configured but faulty Arbitrator, a fail-stop condition occurs
- 							and locally hosted services report a <codeph>NOTREADY</codeph> error.</entry>
- 					</row>
- 					<row>
- 						<entry>Node Controller </entry>
- 						<entry>Compute Host</entry>
- 						<entry>NCs are associated with each node and interact with the hypervisor to service node-specific requests. </entry>
- 					</row>
- 				</tbody>
- 			</tgroup>
- 		</table>
- 		
- 		<p>A quick way to evaluate system availability is to determine whether:</p>
- 		<ul>
- 			<li>The cloud has an enabled CLC</li>
- 			<li>The cloud has an enabled Walrus</li>
- 			<li>The availability zone has an enabled CC</li>
- 			<li>The availability zone has an enabled SC</li>
- 			<li>The user-facing service host has one reachable Arbitrator per host (if you configure an
- 				Arbitrator)</li>
- 		</ul>
- 		
- 	</section>
- 	
- </conbody>
-	<related-links><link href="inspect_health.dita"/></related-links>
+	<conbody>
+		<p>High availability is the result of the combination of functionality
+			provided by Eucalyptus and the environmental and operational support
+			to maintain the constituent systems's proper operation. Eucalyptus
+			provides functionality aimed at enabling highly available
+			operation:</p>
+		<ul>
+			<li>Detection of service faults and monitoring of system health:
+				gather service status, determine current service topology, admit
+				requests which can be satisfied using only healthy services in
+				that topology</li>
+			<li>Tools for interrogating the system's health: access to service
+				state information</li>
+			<li>Error gathering to aid in determining the cause: access to fault
+				information as it impacts service function</li>
+			<li>Automated failover when redundant services are configured:
+				removal of faulty services and enabling of healthy services</li>
+			<li>Service state control: ability to remove individual
+				component-services (when configured with HA pair) from operation
+				without disrupting service</li>
+			<li>Replacement/restoration of component-services: procedures for
+				restoring/replacing a component service after a total-loss
+				failure (e.g., disk failure, host combustion, etc.)</li>
+		</ul>
+
+		<p>In addition to previously detailed deployment recommendations,
+			delivering highly available services with Eucalyptus depends on
+			appropriate operational and maintenance support. The following
+			sections detail the related system functionality and procedures.</p>
+
+		<section>
+			<title>Understanding Service State</title>
+			<p>The system monitors service health and enables healthy services
+				to process user requests while marking faulty services as being
+				NOTREADY. Each component service is interrogated by the system
+				to determine its current state. Faults are detected either:</p>
+			<ul>
+				<li>The service reporting a fault has been detected (for
+					example, due to misconfiguration, dependency service
+					failure, environmental fault, etc.)</li>
+				<li>Failure to contact the service</li>
+			</ul>
+			<p>The following table overviews the relevant states</p>
+			<table>
+				<tgroup cols="4">
+					<thead>
+						<row>
+							<entry>State</entry>
+							<entry>Operational</entry>
+							<entry>In use by system</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>ENABLED</codeph></entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Service is operating correctly and is
+								selected for processing requests</entry>
+						</row>
+						<row>
+							<entry><codeph>DISABLED</codeph></entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+							<entry>Service is operating correctly but is not
+								selected for processing requests</entry>
+						</row>
+						<row>
+							<entry><codeph>NOTREADY</codeph></entry>
+							<entry>No</entry>
+							<entry>No</entry>
+							<entry>Service is failing to operate
+								correctly</entry>
+						</row>
+						<row>
+							<entry><codeph>BROKEN</codeph></entry>
+							<entry>No</entry>
+							<entry>No</entry>
+							<entry>Service is not contactable by the
+								system</entry>
+						</row>
+						<row>
+							<entry><codeph>STOPPED</codeph></entry>
+							<entry>N/A</entry>
+							<entry>No</entry>
+							<entry>Service has been stopped by an
+								administrator</entry>
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+			<p>The following diagram indicates the set of relevant states and
+				transitions between them. Black arrows indicate a transition
+				between states that is initiated by the system or an
+				administrator request. Red errors indicate a failure to
+				transition into the originating state that results in a
+				transition to the destination error state. </p>
+			<image href="images/ha_state.jpg" alt="Service state diagram"
+				scale="60"/>
+			<p>Based on the collected service state, the system will: </p>
+			<ul>
+				<li>Attempt to advance previously non-functioning services to a
+					functional state</li>
+				<li>Determine whether any functioning services can be
+						<codeph>ENABLED</codeph> and added to the set used for
+					serving requests</li>
+			</ul>
+			<p>On the Cloud Controller host, with eucalyptus admin credentials
+				loaded, run <cmdname>euca-describe-services</cmdname> to see
+				up-to-date service information including the state of each
+				service as described in the above table. </p>
+		</section>
+
+		<section>
+			<title>Understanding System Availability</title>
+			<p>The impact of a service fault on the system's availability
+				depends upon the deployment and configuration of the system. The
+				following table details the scope a service fault can have on
+				system availability for each component type.</p>
+			<table>
+				<tgroup cols="3">
+					<thead>
+						<row>
+							<entry>Component</entry>
+							<entry>Scope (Fault Region)</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Cloud Controller</entry>
+							<entry>Cloud</entry>
+							<entry>The CLC is a cloud-wide service and must have
+								at least one operation service.</entry>
+						</row>
+						<row>
+							<entry>Walrus</entry>
+							<entry>Cloud</entry>
+							<entry>Walrus is a cloud-wide service and must have
+								at least one operation service.</entry>
+						</row>
+						<row>
+							<entry>Cluster Controller</entry>
+							<entry>Availability Zone</entry>
+							<entry>CCs are associated with a partition and
+								service requests specific to an availability
+								zone. Should an availability zone not have an
+								operational CC, instance requests will be
+								rejected for the corresponding zone.</entry>
+						</row>
+						<row>
+							<entry>Storage Controller</entry>
+							<entry>Availability Zone</entry>
+							<entry>Storage controllers are associated with a
+								partition and service requests specific to an
+								availability zone. Should an availability zone
+								not have an operational storage controller
+								volume and snapshot creation requests will be
+								rejected for the corresponding zone</entry>
+						</row>
+						<row>
+							<entry>VMware Broker</entry>
+							<entry>Availability Zone</entry>
+							<entry>VMware Broker are associated with a partition
+								and service requests specific to an availability
+								zone. Should an availability zone not have an
+								operational VMware Broker instance requests will
+								be rejected for the corresponding zone</entry>
+						</row>
+						<row>
+							<entry>Arbitrators</entry>
+							<entry>User-facing Service Host</entry>
+							<entry>Arbitrators are associated with a host that
+								runs user-facing component services (CLC,
+								Walrus). Each host must have an operational
+								Arbitrator. Should a component service host have
+								a configured but faulty Arbitrator, a fail-stop
+								condition occurs and locally hosted services
+								report a <codeph>NOTREADY</codeph>
+								error.</entry>
+						</row>
+						<row>
+							<entry>Node Controller </entry>
+							<entry>Compute Host</entry>
+							<entry>NCs are associated with each node and
+								interact with the hypervisor to service
+								node-specific requests. </entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<p>A quick way to evaluate system availability is to determine
+				whether:</p>
+			<ul>
+				<li>The cloud has an enabled CLC</li>
+				<li>The cloud has an enabled Walrus</li>
+				<li>The availability zone has an enabled CC</li>
+				<li>The availability zone has an enabled SC</li>
+				<li>The user-facing service host has one reachable Arbitrator
+					per host (if you configure an Arbitrator)</li>
+			</ul>
+		</section>
+
+	</conbody>
+	<related-links>
+		<link href="inspect_health.dita"/>
+	</related-links>
 </concept>
