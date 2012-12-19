@@ -2,80 +2,98 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="config_drbd">
-    <title>Configure DRBD</title>
-    <shortdesc/>
+	<title>Configure DRBD</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>configuring
-					<indexterm>DRBD</indexterm>
+				<indexterm>configuring <indexterm>DRBD</indexterm>
 				</indexterm>
-				<indexterm>high availability
-					<indexterm>DRBD</indexterm>
+				<indexterm>high availability <indexterm>DRBD</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
-        <context>
-        	<note type="restriction">This section is for Eucalyptus HA. If you are not using HA, skip this section.</note>
-        	
-        	
-        	
-        	<p>Before you begin, ensure that you have the following information:</p>
-        	<ul>
-        		<li>The IP address and hostname of each Walrus</li>
-        		<li>The DRBD block device name of each Walrus. In the following examples, we assume that
-        			DRBD block device name is <filepath>/dev/drbd1</filepath>.</li>
-        		<li>The DRBD backing disk partition names on each Walrus. A partition (either on a new disk or an existing disk) should be dedicated to Walrus. The partition sizes should be identical.</li>
-		</ul>
-		<note type="tip">Consider backing the DRBD resource with a logical volume using LVM, this will make growing the backing store easier in the future if you are running low on disk space.</note>
-        	<p>Configuring DRBD requires that you edit the Eucalyptus DRBD file
-        		to include your Walrus information, and edit the master DRBD file to tell it to look
-        		for the Eucalyptus DRBD file. </p>
-    	
-        	<p>To configure DRBD:</p>
-        </context>
-        <steps>
-          <step>
-          	<cmd>Log in to the primary Walrus.</cmd>
-          </step>  
-        	<step>
-            	<cmd>Load the DRBD module</cmd>
-            	<info>
-            		<codeblock>modprobe drbd</codeblock>
-            	</info>
-        		<stepresult>There is no output from this command.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Copy the example Eucalyptus DRBD file
-        			(<filepath>/etc/eucalyptus/drbd.conf.example</filepath>) to
-        			<filepath>/etc/eucalyptus/drbd.conf</filepath>.</cmd>
-        	</step>
-        	<step>
-        		<cmd>Open the <filepath>/etc/eucalyptus/drbd.conf</filepath> file and make the following edits:</cmd>
-        		<info>
-        			<ul>
-        				<li>Change the value of <codeph>&lt;walrus-host-1></codeph> to the hostname (output of `uname -n`) of the primary Walrus.</li>
-        				<li>Change the value of <codeph>&lt;drbd-block-dev, e.g., /dev/drbd1></codeph> to
-        					<codeph>/dev/drbd1</codeph></li>
-        				<li>Change the value of <codeph>&lt;drbd-backing-disk-dev, e.g. /dev/sdb1></codeph> to
-        					<codeph>/dev/sdb1</codeph></li>
-        				<li>Change the value of <codeph>&lt;walrus-host-1-ip></codeph> to the IP address of the primary Walrus.</li>
-        				<li>Change the value of <codeph>&lt;walrus-host-2></codeph> to the hostname (output of `uname -n`) of the
-        					secondary Walrus.</li>
-        				<li>Change the value of <codeph>&lt;drbd-block-dev, e.g., /dev/drbd1></codeph> to
-        					<codeph>/dev/drbd1</codeph></li>
-        				<li>Change the value of <codeph>&lt;drbd-backing-disk-dev, e.g. /dev/sdb1></codeph> to
-        					<codeph>/dev/sdb1</codeph></li>
-        				<li>Change the value of <codeph>&lt;walrus-host-2-ip></codeph> to the IP address of the
-        					secondary Walrus.</li>
-        			</ul>
-        		</info>
-        		<stepresult>
-        			<p>The file should look like the following example:</p>
-        			<codeblock>common {
+		<context>
+			<note type="restriction">This section is for Eucalyptus HA. If you
+				are not using HA, skip this section.</note>
+			<p>Before you begin, ensure that you have the following
+				information:</p>
+			<ul>
+				<li>The IP address and hostname of each Walrus</li>
+				<li>The DRBD block device name of each Walrus. In the following
+					examples, we assume that DRBD block device name is
+						<filepath>/dev/drbd1</filepath>.</li>
+				<li>The DRBD backing disk partition names on each Walrus. A
+					partition (either on a new disk or an existing disk) should
+					be dedicated to Walrus. The partition sizes should be
+					identical.</li>
+			</ul>
+			<note type="tip">Consider backing the DRBD resource with a logical
+				volume using LVM, this will make growing the backing store
+				easier in the future if you are running low on disk
+				space.</note>
+			<p>Configuring DRBD requires that you edit the Eucalyptus DRBD file
+				to include your Walrus information, and edit the master DRBD
+				file to tell it to look for the Eucalyptus DRBD file. </p>
+			<p>To configure DRBD:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the primary Walrus.</cmd>
+			</step>
+			<step>
+				<cmd>Load the DRBD module</cmd>
+				<info>
+					<codeblock>modprobe drbd</codeblock>
+				</info>
+				<stepresult>There is no output from this command.</stepresult>
+			</step>
+			<step>
+				<cmd>Copy the example Eucalyptus DRBD file
+						(<filepath>/etc/eucalyptus/drbd.conf.example</filepath>)
+					to <filepath>/etc/eucalyptus/drbd.conf</filepath>.</cmd>
+			</step>
+			<step>
+				<cmd>Open the <filepath>/etc/eucalyptus/drbd.conf</filepath>
+					file and make the following edits:</cmd>
+				<info>
+					<ul>
+						<li>Change the value of
+								<codeph>&lt;walrus-host-1></codeph> to the
+							hostname (output of `uname -n`) of the primary
+							Walrus.</li>
+						<li>Change the value of <codeph>&lt;drbd-block-dev,
+								e.g., /dev/drbd1></codeph> to
+								<codeph>/dev/drbd1</codeph></li>
+						<li>Change the value of
+								<codeph>&lt;drbd-backing-disk-dev, e.g.
+								/dev/sdb1></codeph> to
+								<codeph>/dev/sdb1</codeph></li>
+						<li>Change the value of
+								<codeph>&lt;walrus-host-1-ip></codeph> to the IP
+							address of the primary Walrus.</li>
+						<li>Change the value of
+								<codeph>&lt;walrus-host-2></codeph> to the
+							hostname (output of `uname -n`) of the secondary
+							Walrus.</li>
+						<li>Change the value of <codeph>&lt;drbd-block-dev,
+								e.g., /dev/drbd1></codeph> to
+								<codeph>/dev/drbd1</codeph></li>
+						<li>Change the value of
+								<codeph>&lt;drbd-backing-disk-dev, e.g.
+								/dev/sdb1></codeph> to
+								<codeph>/dev/sdb1</codeph></li>
+						<li>Change the value of
+								<codeph>&lt;walrus-host-2-ip></codeph> to the IP
+							address of the secondary Walrus.</li>
+					</ul>
+				</info>
+				<stepresult>
+					<p>The file should look like the following example:</p>
+					<codeblock>common {
   protocol C;
 }
 
@@ -104,120 +122,146 @@ resource r0 {
     after-sb-1pri discard-secondary;
   }
 }</codeblock>
-        			<note type="important">On RHEL 6 and Ubuntu, remove the <codeph>common</codeph> section
-        				(<codeph>common { protocol C; }</codeph>). The configuration in these distributions already include a common section.</note>
-        		</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Save and close the file.</cmd>
-        	</step>
-		<step>
-					<cmd>Open the master DRBD file (<filepath>/etc/drbd.conf</filepath>) and append the following line:</cmd>
-					<info>
-						<codeblock>include "/etc/eucalyptus/drbd.conf";</codeblock>
-						<note type="important">For Ubuntu, you must also remove the <codeph>common</codeph> section
-							(<codeph>common { protocol C; }</codeph>) and the line <codeph>include
-								"drbd.d/*.res";</codeph>.</note>
-					</info>
-					<!--<stepresult>
+					<note type="important">On RHEL 6 and Ubuntu, remove the
+							<codeph>common</codeph> section (<codeph>common {
+							protocol C; }</codeph>). The configuration in these
+						distributions already include a common section.</note>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>Save and close the file.</cmd>
+			</step>
+			<step>
+				<cmd>Open the master DRBD file
+						(<filepath>/etc/drbd.conf</filepath>) and append the
+					following line:</cmd>
+				<info>
+					<codeblock>include "/etc/eucalyptus/drbd.conf";</codeblock>
+					<note type="important">For Ubuntu, you must also remove the
+							<codeph>common</codeph> section (<codeph>common {
+							protocol C; }</codeph>) and the line <codeph>include
+							"drbd.d/*.res";</codeph>.</note>
+				</info>
+				<!--<stepresult>
 						<p>For example:</p>
 						<codeblock>include "drbd.d/global_common.conf";
 include "drbd.d/*.res";
 include "/etc/eucalyptus/drbd.conf";</codeblock>
 					</stepresult>-->
-				</step>
-        	<step>
-        		<cmd>Save and close the file.</cmd>
-		</step>
-		<step>
-			<cmd>On both primary and secondary Walrus, open the file <filepath>/etc/fstab</filepath> and append the following line for the DRBD resource to allow the <codeph>eucalyptus</codeph> user to mount and unmount the device:</cmd>
-			<info>
-				<codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>
-			</info>
-		</step>
-		<step>
-			<cmd>Save and close the file.</cmd>
-		</step>
-        	<step>
-        		<cmd>Open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file and make the
-        			following configuration:</cmd>
-        		<info>
-        			<codeblock>CLOUD_OPTS="-Dwalrus.storage.manager=DRBDStorageManager"</codeblock>
-        		</info>
-        	</step>
-        	<step id="copy_drbd_conf">
-        		<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
-        			<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> files to the secondary Walrus server.</cmd>
-        	</step>
-        	<step>
-        		<cmd>Restart Walrus, first on the primary, and then on the secondary. Restarting the primary Walrus
-                             will trigger an HA failover to the secondary, and restarting the secondary will fail back, preparing
-                             the entire system for the next steps.</cmd>
-        		<info>
-        			<codeblock>service eucalyptus-cloud restart</codeblock>
-        		</info>
-        	</step>
-		<step>
-			<cmd>Monitor the failover with euca-describe-services.  If successful, stop the eucalyptus-cloud service again on both Walruses whilst you configure the DRBD device.</cmd>
-			<info>
-				<codeblock>service eucalyptus-cloud stop</codeblock>
-			</info>
 			</step>
-		<step>
-        		<cmd>On the primary Walrus, associate the DRBD block device (<filepath>/dev/drbd1</filepath>) with the disk
-        			partition allocated for Walrus (<filepath>/dev/sdb1</filepath>).</cmd>
-        		<info>
-        			<codeblock>drbdmeta --force /dev/drbd1 v08 /dev/sdb1 internal create-md
+			<step>
+				<cmd>Save and close the file.</cmd>
+			</step>
+			<step>
+				<cmd>On both primary and secondary Walrus, open the file
+						<filepath>/etc/fstab</filepath> and append the following
+					line for the DRBD resource to allow the
+						<codeph>eucalyptus</codeph> user to mount and unmount
+					the device:</cmd>
+				<info>
+					<codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Save and close the file.</cmd>
+			</step>
+			<step>
+				<cmd>Open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file and make the following configuration:</cmd>
+				<info>
+					<codeblock>CLOUD_OPTS="-Dwalrus.storage.manager=DRBDStorageManager"</codeblock>
+				</info>
+			</step>
+			<step id="copy_drbd_conf">
+				<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
+						<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					files to the secondary Walrus server.</cmd>
+			</step>
+			<step>
+				<cmd>Restart Walrus, first on the primary, and then on the
+					secondary. Restarting the primary Walrus will trigger an HA
+					failover to the secondary, and restarting the secondary will
+					fail back, preparing the entire system for the next
+					steps.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud restart</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Monitor the failover with euca-describe-services. If
+					successful, stop the eucalyptus-cloud service again on both
+					Walruses whilst you configure the DRBD device.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On the primary Walrus, associate the DRBD block device
+						(<filepath>/dev/drbd1</filepath>) with the disk
+					partition allocated for Walrus
+						(<filepath>/dev/sdb1</filepath>).</cmd>
+				<info>
+					<codeblock>drbdmeta --force /dev/drbd1 v08 /dev/sdb1 internal create-md
 drbdadm up r0</codeblock>
-				<note type="important">Repeat this step on the secondary Walrus.</note>
-        		</info>
-        	</step>
-        	<step id="setup_drbd_bd">
-        		<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
-				
-        		<info>
-				<note type="tip">With a large DRBD device, the initial synchronization can take a considerable amount of time. Consult <xref href="config_drbd_sync.dita"/> for instructions on how to skip the synchronization.</note>
-        			<codeblock>drbdsetup /dev/drbd1 syncer -r 110M
-drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
-
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>On the primary Walrus only, run the following command to indicate whether the data on
-        			the DRBD primary and secondary is consistent:</cmd>
-        		<info>
-        			<codeblock>drbdadm dstate r0</codeblock>
-        		</info>
-        		<stepresult>Wait for the output to display <codeph>UpToDate/UpToDate</codeph>, then
-        			continue to the next step.
-        			<note type="tip">To view the synchronization process in near-realtime, run <codeph>watch
-        				-n 2 cat /proc/drbd</codeph>.</note>
-        		</stepresult>
-        	</step>
-        	<step>
-        		<cmd>On the primary Walrus, create a filesystem on <filepath>/dev/drbd1</filepath>.
-        			Eucalyptus supports ext3 or ext4. For example: </cmd>
-        		<info>
-        			<codeblock>mkfs.ext3 /dev/drbd1</codeblock>
-        		</info>
-        		
-        	</step>
-		<step>	
-			<cmd>With the DRBD device now configured, start the eucalyptus-cloud service on both Walruses.</cmd>
-			<info>
-				<codeblock>service eucalyptus-cloud start</codeblock>
-			</info>
+					<note type="important">Repeat this step on the secondary
+						Walrus.</note>
+				</info>
 			</step>
-		<step>
-        		<cmd>On the primary CLC, tell Eucalyptus to use DRBD parameters configured in the DRBD
-        			config file so Walrus can write to the correct device:</cmd>
-        		<info>
-        			<codeblock>euca-modify-property -p walrus.blockdevice=/dev/drbd1
+			<step id="setup_drbd_bd">
+				<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
+
+				<info>
+					<note type="tip">With a large DRBD device, the initial
+						synchronization can take a considerable amount of time.
+						Consult <xref href="config_drbd_sync.dita"/> for
+						instructions on how to skip the synchronization.</note>
+					<codeblock>drbdsetup /dev/drbd1 syncer -r 110M
+drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On the primary Walrus only, run the following command to
+					indicate whether the data on the DRBD primary and secondary
+					is consistent:</cmd>
+				<info>
+					<codeblock>drbdadm dstate r0</codeblock>
+				</info>
+				<stepresult>Wait for the output to display
+						<codeph>UpToDate/UpToDate</codeph>, then continue to the
+					next step. <note type="tip">To view the synchronization
+						process in near-realtime, run <codeph>watch -n 2 cat
+							/proc/drbd</codeph>.</note>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>On the primary Walrus, create a filesystem on
+						<filepath>/dev/drbd1</filepath>. Eucalyptus supports
+					ext3 or ext4. For example: </cmd>
+				<info>
+					<codeblock>mkfs.ext3 /dev/drbd1</codeblock>
+				</info>
+
+			</step>
+			<step>
+				<cmd>With the DRBD device now configured, start the
+					eucalyptus-cloud service on both Walruses.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On the primary CLC, tell Eucalyptus to use DRBD parameters
+					configured in the DRBD config file so Walrus can write to
+					the correct device:</cmd>
+				<info>
+					<codeblock>euca-modify-property -p walrus.blockdevice=/dev/drbd1
 euca-modify-property -p walrus.resource=r0</codeblock>
-        		</info>
-        	</step>
-        </steps>
-			
-		</taskbody>
+				</info>
+			</step>
+		</steps>
+
+	</taskbody>
 
 </task>

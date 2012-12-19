@@ -6,44 +6,51 @@
 	<shortdesc/>
 	<conbody>
 
-		<p>HA Eucalyptus requires the same requirements as non-HA Eucalyptus. However, the
-			infrastructure HA Eucalyptus will be deployed on must meet some additional requirements,
-			listed in the following sections.</p>
+		<p>HA Eucalyptus requires the same requirements as non-HA Eucalyptus.
+			However, the infrastructure HA Eucalyptus will be deployed on must
+			meet some additional requirements, listed in the following
+			sections.</p>
 		<section>
 			<title>Redundant Physical Servers for Eucalyptus Components</title>
-			<p>Each cloud component (CLC and Walrus) and cluster component (CC, SC, and VMware Broker) in an HA deployment has a redundant hot backup.
-				These redundant Eucalyptus components occur in pairs, and each member of a pair must be
-				mapped to a separated physical server to ensure high availability. </p>
-			<note type="important">HA pairs must be able to connect to each other.</note>
-			<p>If the HA deployment is to be able to tolerate the failure of networking hardware,
-				additional network interfaces are required for the physical servers that host Eucalyptus
-				components. The physical servers hosting a CLC, Walrus, or CC and VMware Broker must each
-				have three network interface cards (NICs). Each remaining physical server (except the NC
-				components) requires two NICs.</p>
+			<p>Each cloud component (CLC and Walrus) and cluster component (CC,
+				SC, and VMware Broker) in an HA deployment has a redundant hot
+				backup. These redundant Eucalyptus components occur in pairs,
+				and each member of a pair must be mapped to a separated physical
+				server to ensure high availability. </p>
+			<note type="important">HA pairs must be able to connect to each
+				other.</note>
+			<p>If the HA deployment is to be able to tolerate the failure of
+				networking hardware, additional network interfaces are required
+				for the physical servers that host Eucalyptus components. The
+				physical servers hosting a CLC, Walrus, or CC and VMware Broker
+				must each have three network interface cards (NICs). Each
+				remaining physical server (except the NC components) requires
+				two NICs.</p>
 		</section>
 
-		
+
 		<section>
 			<title>DNS Round-Robin Support</title>
-			<p>The DNS entries for the externally visible IP addresses of the physical servers hosting CLC
-				or Walrus components must be configured to change round-robin style in an HA deployment.</p>
+			<p>The DNS entries for the externally visible IP addresses of the
+				physical servers hosting CLC or Walrus components must be
+				configured to change round-robin style in an HA deployment.</p>
 		</section>
 
 		<section><title>Storage Mirroring</title>
-			<p>HA Eucalyptus uses a kernel-level storage technology called DRBD for storage integrity.
-				DRBD must be configured to mirror data operations between physical servers that host Walrus
-				components. For more
-				information about DRBD, go to <xref href="http://www.drbd.org/" format="html"
-					type="external">What is DRBD</xref>.</p>
-			
+			<p>HA Eucalyptus uses a kernel-level storage technology called DRBD
+				for storage integrity. DRBD must be configured to mirror data
+				operations between physical servers that host Walrus components.
+				For more information about DRBD, go to <xref
+					href="http://www.drbd.org/" format="html" type="external"
+					>What is DRBD</xref>.</p>
 		</section>
 		<section>
 			<title>Storage Controllers</title>
-			<p>For HA
-				Storage Controllers, you must be using a supported SAN. Only use HA SCs with NetApp or
-				Equallogic drivers, not with the iSCSI or JBOD SC driver.</p>
+			<p>For HA Storage Controllers, you must be using a supported SAN.
+				Only use HA SCs with NetApp or Equallogic drivers, not with the
+				iSCSI or JBOD SC driver.</p>
 		</section>
-		
+
 		<!--<section><title>Email Notification</title>
 			<p>HA Eucalyptus notifies the system administrator of failure events via email. The Linux MTA
 				(Mail Transfer Agent) must be configured to deliver these notifications on any machine

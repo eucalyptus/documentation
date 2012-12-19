@@ -2,36 +2,50 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="config_drbd_sync">
-    <title>Synchronizing Configuration in Eucalyptus HA</title>
-    <shortdesc/>
-    <taskbody>
-            <context>
-	      <p>This section provides guidance on how to keep configuration files sychronized between Eucalyptus HA component pairs.  The csync2 utility can be used to achieve this, it's designed to keep configuration consistent between systems in large clusters. 
-	      Two standalone Walrus systems assumed to be in HA are used in the following example.</p>
-		<note type="restriction">Only perform these steps between HA pairs containing the same components to ensure the configuration matches. For assistance in
-			    implementing more advanced tasks the csync2 man pages should be consulted directly.
-		</note>
-		<note type="note">Completion of this section is optional. You may also wish to expand on this example and generate your own more complex configurations for other components, adding more groups and including additional files in the sychronization tasks.
-		</note>
-            </context>
-	    <steps>
-            <step>
-		  <cmd>Install the csync2 utility via the EPEL repository on both systems:</cmd>
-                  <info>
-		      <codeblock>yum -y install csync2</codeblock>
-                  </info>
-            </step>
-            <step>
-                  <cmd>On the primary system, generate a pre-shared key for the hosts you wish to sync:</cmd>
-                  <info>
-		      <codeblock>csync2 -k /etc/csync2/eucalyptus.key</codeblock>
-                  </info>
-            </step>
-	    <step>
-		  <cmd>On the primary system edit the /etc/csync2/csync2.cfg configuration file to create the synchronization template. Use the one below as an example, creating a group
-		  for your two Walrus hosts and adding the eucalyptus and drbd configuration files.  Replace the host lines below with the full hostnames of your Walrus systems:</cmd>
-		  <info>
-		      <codeblock>
+	<title>Synchronizing Configuration in Eucalyptus HA</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>This section provides guidance on how to keep configuration files
+				sychronized between Eucalyptus HA component pairs. The csync2
+				utility can be used to achieve this, it's designed to keep
+				configuration consistent between systems in large clusters. Two
+				standalone Walrus systems assumed to be in HA are used in the
+				following example.</p>
+			<note type="restriction">Only perform these steps between HA pairs
+				containing the same components to ensure the configuration
+				matches. For assistance in implementing more advanced tasks the
+				csync2 man pages should be consulted directly. </note>
+			<note type="note">Completion of this section is optional. You may
+				also wish to expand on this example and generate your own more
+				complex configurations for other components, adding more groups
+				and including additional files in the sychronization tasks.
+			</note>
+		</context>
+		<steps>
+			<step>
+				<cmd>Install the csync2 utility via the EPEL repository on both
+					systems:</cmd>
+				<info>
+					<codeblock>yum -y install csync2</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On the primary system, generate a pre-shared key for the
+					hosts you wish to sync:</cmd>
+				<info>
+					<codeblock>csync2 -k /etc/csync2/eucalyptus.key</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On the primary system edit the /etc/csync2/csync2.cfg
+					configuration file to create the synchronization template.
+					Use the one below as an example, creating a group for your
+					two Walrus hosts and adding the eucalyptus and drbd
+					configuration files. Replace the host lines below with the
+					full hostnames of your Walrus systems:</cmd>
+				<info>
+					<codeblock>
 				group eucalyptus {
 				host euca-walrus-ha-1; 
 				host euca-walrus-ha-2;
@@ -42,43 +56,52 @@
 				include /etc/drbd.conf; 
 				}
 		      </codeblock>
-		  </info>
-            </step>
-	    <step>
-	      <cmd>Copy the base configuration file and pre-shared key generated earlier to the secondary Walrus server:</cmd>
-	      <info>
-		<codeblock>scp /etc/csync2/csync2.cfg /etc/csync2/eucalyptus.key euca-walrus-ha-2:/etc/csync2/</codeblock>
-	      </info>
-	    </step>
-	    <step>
-	      <cmd>Next, ensure the csync2 service and xinetd are set to start at boot on both Walrus systems:</cmd>
-	      <info>
-		<codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Copy the base configuration file and pre-shared key
+					generated earlier to the secondary Walrus server:</cmd>
+				<info>
+					<codeblock>scp /etc/csync2/csync2.cfg /etc/csync2/eucalyptus.key euca-walrus-ha-2:/etc/csync2/</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Next, ensure the csync2 service and xinetd are set to start
+					at boot on both Walrus systems:</cmd>
+				<info>
+					<codeblock>
 		chkconfig csync2 on 
 		chkconfig xinetd on
 		service xinetd restart
 		</codeblock>
-	      </info>
-	    </step>
-	    <step>
-	      <cmd>Next, perform a dry-run sync to check for proposed changes.  Run this on your primary Walrus.</cmd>
-	      <info>
-		<codeblock>csync2 -xvd</codeblock>
-	      </info>
-	    </step>
-	    <step>
-	      <cmd>If you are happy with the proposed changes, go ahead and perform the sync.</cmd>
-	      <info>
-		<codeblock>csync2 -xv</codeblock>
-	      </info>
-	    </step>
-	    <step>
-	      <cmd>With the initial synchronization complete, a periodic compare and sync could be run via a cronjob which runs the csync2 utility every 5 minutes. 
-	      In the future, changes can be made to the synchronized files on your primary Walrus and these would be propogated to the other system by the cronjob. Add the following to /etc/cron.d/csync2 as root on the primary Walrus:</cmd>
-	      <info>
-		<codeblock>*/5 * * * * root csync2 -x</codeblock>
-	      </info>
-	    </step>
-            </steps>
-        </taskbody>
+				</info>
+			</step>
+			<step>
+				<cmd>Next, perform a dry-run sync to check for proposed changes.
+					Run this on your primary Walrus.</cmd>
+				<info>
+					<codeblock>csync2 -xvd</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>If you are happy with the proposed changes, go ahead and
+					perform the sync.</cmd>
+				<info>
+					<codeblock>csync2 -xv</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>With the initial synchronization complete, a periodic
+					compare and sync could be run via a cronjob which runs the
+					csync2 utility every 5 minutes. In the future, changes can
+					be made to the synchronized files on your primary Walrus and
+					these would be propogated to the other system by the
+					cronjob. Add the following to /etc/cron.d/csync2 as root on
+					the primary Walrus:</cmd>
+				<info>
+					<codeblock>*/5 * * * * root csync2 -x</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
 </task>

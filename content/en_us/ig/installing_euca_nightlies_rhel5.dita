@@ -2,147 +2,175 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="installing_euca_nightlies_rhel5" platform="rhel5">
-    <title>Installing Eucalyptus Nightly Packages on RHEL 5</title>
-    <shortdesc/>
-    <taskbody>
-     
-        <context>
-        	<p>To install Eucalyptus nightly builds on servers running RHEL 5</p>
-        </context>
-        <steps>
-       		<step>
-        			<cmd>Run the following command on all servers:</cmd>
-        			<info>
-        				<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/
+	<title>Installing Eucalyptus Nightly Packages on RHEL 5</title>
+	<shortdesc/>
+	<taskbody>
+
+		<context>
+			<p>To install Eucalyptus nightly builds on servers running RHEL
+				5</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Run the following command on all servers:</cmd>
+				<info>
+					<codeblock>wget http://downloads.eucalyptus.com/software/eucalyptus/
 nightly/3.1/rhel/5/x86_64/eucalyptus-release-nightly-3.1.noarch.rpm
 rpm -Uvh eucalyptus-release-3.1.noarch.rpm</codeblock>
-        			</info>
-        		</step>
-                <step>          
-                        <cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
-                                command:</cmd>
-                        <info>
-                                <codeblock>wget http://downloads.eucalyptus.com/software/euca2ools/
+				</info>
+			</step>
+			<step>
+				<cmd>On all systems that will run either Eucalyptus or
+					Euca2ools, run the following command:</cmd>
+				<info>
+					<codeblock>wget http://downloads.eucalyptus.com/software/euca2ools/
 nightly/2.1/rhel/5/x86_64/euca2ools-release-2.1.noarch.rpm
 rpm -Uvh euca2ools-release-2.1.noarch.rpm</codeblock>
-                        </info> 
-                </step>         
-        	<step>
-        		<cmd>Enable the Cluster-Storage repository in Red Hat Network for each SC:</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Go to <xref format="html" scope="external" href="https://rhn.redhat.com">https://rhn.redhat.com</xref></cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Navigate to the system that will run the SC.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Click <uicontrol>Alter Channel Subscriptions</uicontrol>.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Make sure the <uicontrol>RHEL Cluster Storage</uicontrol> checkbox is checked.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
-        			</substep>
-        		</substeps>
-        	</step>
-        	<step>
-        		<cmd>Enable the Virtualization repository in Red Hat Network for each NC:</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>On <xref format="html" href="http://rhn.redhat.com">http://rhn.redhat.com</xref>, navigate to the system that will run the NC.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Click <uicontrol>Alter Channel Subscriptions</uicontrol>.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Make sure the <uicontrol>RHEL Virtualization</uicontrol> checkbox is checked.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
-        			</substep>
-        		</substeps>
-        	</step>
-        	<step>
-        		<cmd>On the machine(s) that will run Walrus, create a file in <filepath>/etc/yum.repos.d</filepath> called <filepath>centos-extras.repo</filepath> with the following content:</cmd>
-        		<info>
-        			<codeblock>[centos-extras]
+				</info>
+			</step>
+			<step>
+				<cmd>Enable the Cluster-Storage repository in Red Hat Network
+					for each SC:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Go to <xref format="html" scope="external"
+								href="https://rhn.redhat.com"
+								>https://rhn.redhat.com</xref></cmd>
+					</substep>
+					<substep>
+						<cmd>Navigate to the system that will run the SC.</cmd>
+					</substep>
+					<substep>
+						<cmd>Click <uicontrol>Alter Channel
+								Subscriptions</uicontrol>.</cmd>
+					</substep>
+					<substep>
+						<cmd>Make sure the <uicontrol>RHEL Cluster
+								Storage</uicontrol> checkbox is checked.</cmd>
+					</substep>
+					<substep>
+						<cmd>Click <uicontrol>Change
+							Subscriptions</uicontrol>.</cmd>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>Enable the Virtualization repository in Red Hat Network for
+					each NC:</cmd>
+				<substeps>
+					<substep>
+						<cmd>On <xref format="html" href="http://rhn.redhat.com"
+								>http://rhn.redhat.com</xref>, navigate to the
+							system that will run the NC.</cmd>
+					</substep>
+					<substep>
+						<cmd>Click <uicontrol>Alter Channel
+								Subscriptions</uicontrol>.</cmd>
+					</substep>
+					<substep>
+						<cmd>Make sure the <uicontrol>RHEL
+								Virtualization</uicontrol> checkbox is
+							checked.</cmd>
+					</substep>
+					<substep>
+						<cmd>Click <uicontrol>Change
+							Subscriptions</uicontrol>.</cmd>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>On the machine(s) that will run Walrus, create a file in
+						<filepath>/etc/yum.repos.d</filepath> called
+						<filepath>centos-extras.repo</filepath> with the
+					following content:</cmd>
+				<info>
+					<codeblock>[centos-extras]
 name=CentOS 5 - Extras
 mirrorlist=http://mirrorlist.centos.org/?release=5&amp;arch=$basearch&amp;repo=extras
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
 gpgcheck=1</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Download the key that CentOS uses to sign their packages:</cmd>
-        		<info>
-        			<codeblock>wget http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Copy the resulting file to
-        			<filepath>/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5</filepath>:</cmd>
-        		<info>
-        			<codeblock>mv RPM-GPG-KEY-CentOS-5 /etc/pki/rpm-gpg</codeblock>
-        		</info>
-        	</step>
-         	<step>
-        		<cmd>Configure the EPEL repository:</cmd>
-        		<substeps>
-        			<substep>
-        				<cmd>Go to <xref format="html" href="http://fedoraproject.org/wiki/EPEL">http://fedoraproject.org/wiki/EPEL</xref></cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Navigate to <uicontrol>How can I use these extra packages?</uicontrol> and select the newest version for EPEL5.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Click the package link to download the RPM.</cmd>
-        			</substep>
-        			<substep>
-        				<cmd>Install the resultant RPM package with the following command, as root:</cmd>
-        				<info>
-        					<codeblock>rpm -Uvh epel-release-<i>X</i>-<i>Y</i>.noarch.rpm</codeblock>
-        				</info>
-        			</substep>
-        		</substeps>
-        	</step>
-        	<step>
-        		<cmd>On all servers, enter:</cmd>
-        		<info>
-        			<codeblock>yum update</codeblock>
-        		</info>
-        	</step>
-        	
-		<step>
-        		<cmd>If your planned Walrus server is running Xen (possible, but not recommended), install
-        			<filepath>kmod-drbd83-xen</filepath> package. Otherwise, skip this step.</cmd>
-        		<info>
-        			<codeblock>yum install kmod-drbd83-xen</codeblock>
-        		</info>
-        	</step>  
-        	
-        	<step>
-        		<cmd>Install Eucalyptus packages. The following example shows most components being installed all on the same server. You can use different servers for each component.</cmd>
-        		<info>
-        			<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
-        			<note conref="../shared/reuse.dita#reuse/install_ha_note" />
-        		</info>
-        	</step>
-        	<step>
+				</info>
+			</step>
+			<step>
+				<cmd>Download the key that CentOS uses to sign their
+					packages:</cmd>
+				<info>
+					<codeblock>wget http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-5</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Copy the resulting file to
+						<filepath>/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5</filepath>:</cmd>
+				<info>
+					<codeblock>mv RPM-GPG-KEY-CentOS-5 /etc/pki/rpm-gpg</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Configure the EPEL repository:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Go to <xref format="html"
+								href="http://fedoraproject.org/wiki/EPEL"
+								>http://fedoraproject.org/wiki/EPEL</xref></cmd>
+					</substep>
+					<substep>
+						<cmd>Navigate to <uicontrol>How can I use these extra
+								packages?</uicontrol> and select the newest
+							version for EPEL5.</cmd>
+					</substep>
+					<substep>
+						<cmd>Click the package link to download the RPM.</cmd>
+					</substep>
+					<substep>
+						<cmd>Install the resultant RPM package with the
+							following command, as root:</cmd>
+						<info>
+							<codeblock>rpm -Uvh epel-release-<i>X</i>-<i>Y</i>.noarch.rpm</codeblock>
+						</info>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>On all servers, enter:</cmd>
+				<info>
+					<codeblock>yum update</codeblock>
+				</info>
+			</step>
+
+			<step>
+				<cmd>If your planned Walrus server is running Xen (possible, but
+					not recommended), install
+						<filepath>kmod-drbd83-xen</filepath> package. Otherwise,
+					skip this step.</cmd>
+				<info>
+					<codeblock>yum install kmod-drbd83-xen</codeblock>
+				</info>
+			</step>
+
+			<step>
+				<cmd>Install Eucalyptus packages. The following example shows
+					most components being installed all on the same server. You
+					can use different servers for each component.</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+					<note conref="../shared/reuse.dita#reuse/install_ha_note"/>
+				</info>
+			</step>
+			<step>
 				<cmd>On each planned NC server, install the NC package:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-nc </codeblock>
-					<note type="important">If you are using VMware, you can skip this step.
-						Eucalyptus software is not installed on these machines. They are
-						running VMware.</note>
+					<note type="important">If you are using VMware, you can skip
+						this step. Eucalyptus software is not installed on these
+						machines. They are running VMware.</note>
 				</info>
-        	</step>
-        	<step conref="../shared/reuse_task.dita#reuse_task/multicast">
-        		<cmd></cmd>
-        	</step>
-        </steps>
-    	<result>Your installation is complete.</result>
-    	<postreq>You are now ready to <xref href="configuring_euca.dita">Configure Eucalyptus</xref>.</postreq>
-    </taskbody>
+			</step>
+			<step conref="../shared/reuse_task.dita#reuse_task/multicast">
+				<cmd/>
+			</step>
+		</steps>
+		<result>Your installation is complete.</result>
+		<postreq>You are now ready to <xref href="configuring_euca.dita"
+				>Configure Eucalyptus</xref>.</postreq>
+	</taskbody>
 </task>

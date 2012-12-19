@@ -2,59 +2,65 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_scs">
-    <title>Register the SC</title>
-    <shortdesc/>
+	<title>Register the SC</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>storage controller
-					<indexterm>registering</indexterm>
+				<indexterm>storage controller <indexterm>registering</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
-        <context>
-        	<!--<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
+		<context>
+			<!--<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
         	of SCs.</p>
         	<ul>
         		<li>&lt;SC #1 IPAddress> is the IP address of the physical server hosting one SC component.</li>
         		<li>&lt;SC #2 IPAddress> is the IP address of the physical server hosting the other.</li>
         	</ul>-->
-<p>To register the SC:</p>
-        </context>
-        <steps>
+			<p>To register the SC:</p>
+		</context>
+		<steps>
 			<step>
 				<cmd>On the CLC, enter the following command:</cmd>
 				<info>
 					<codeblock>/usr/sbin/euca_conf --register-sc --partition [partition_name] --host [SC_IP_address] 
 	--component [SC_name]</codeblock>
-					<p> An SC must have the same <codeph>partition</codeph> name as the CC in the
-						same cluster. Like the other components, the <codeph>component</codeph> is a
-						unique name for this particular component: we recommend a format such as
-							<codeph>sc-[hostname]</codeph>.</p>
-					<note type="warning">Newly registered SCs will be in the BROKEN state until they are explicitly
-						configured to use a backend storage provider. The output of the registration for the
-					first SC registered in a partition will look like:
-				<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+					<p> An SC must have the same <codeph>partition</codeph> name
+						as the CC in the same cluster. Like the other
+						components, the <codeph>component</codeph> is a unique
+						name for this particular component: we recommend a
+						format such as <codeph>sc-[hostname]</codeph>.</p>
+					<note type="warning">Newly registered SCs will be in the
+						BROKEN state until they are explicitly configured to use
+						a backend storage provider. The output of the
+						registration for the first SC registered in a partition
+						will look like:
+						<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
 Registered the first storage controller in partition 'PARTI00'.  You must choose a storage back end with ``euca-modify-property -p PARTI00.storage.blockstoragemanager=$BACKEND''</codeblock>
-				This is completely normal and simply indicates that further action must be taken to
-				configure the SC before it will become fully functional. For information about configuring the
-				SC, see <xref href="configure_storage_controller.dita">Configure the Runtime Environment->Configure the Storage Controller</xref>
+						This is completely normal and simply indicates that
+						further action must be taken to configure the SC before
+						it will become fully functional. For information about
+						configuring the SC, see <xref
+							href="configure_storage_controller.dita">Configure
+							the Runtime Environment->Configure the Storage
+							Controller</xref>
 					</note>
 				</info>
 			</step>
 			<step>
-				<cmd>Repeat for each cluster, replacing the SC name, partition name, SC IP address,
-					and SC name.</cmd>
+				<cmd>Repeat for each cluster, replacing the SC name, partition
+					name, SC IP address, and SC name.</cmd>
 			</step>
-			
+
 		</steps>
-    	<postreq>
-    		<note type="restriction">For HA, register the secondary SC the same way, using the
-    			secondary SC IP address and SC name, but using the same partition name as the primary
-    			SC.</note>
-    	</postreq>
-    </taskbody>
+		<postreq>
+			<note type="restriction">For HA, register the secondary SC the same
+				way, using the secondary SC IP address and SC name, but using
+				the same partition name as the primary SC.</note>
+		</postreq>
+	</taskbody>
 </task>

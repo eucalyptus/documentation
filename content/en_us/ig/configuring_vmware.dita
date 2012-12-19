@@ -2,55 +2,59 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 	<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configuring_vmware" otherprops="subscription">
- <title>Configure VMware</title>
- <shortdesc></shortdesc>
+	<title>Configure VMware</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>VMware
-				    <indexterm>configuring</indexterm>
+				<indexterm>VMware <indexterm>configuring</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-<!--Test -->
+	<!--Test -->
 	<taskbody>
- 	<context>
-			<note type="tip">VMware support is available by subscription only. If you are not using
-				VMware, skip this section.</note>
-			<p>The easiest way to configure vSphere for Eucalyptus is to give Eucalyptus
-				unrestricted access to all vSphere endpoint(s). This way does not require complex
-				modifications to local access permission settings. You can grant this access to
-				Eucalyptus by using an existing administrative account and password or by creating a
-				new account for Eucalyptus and associating it with vSphere’s standard Administrator
-				role at the top level of the vSphere hierarchy as seen in the vSphere client.</p>
+		<context>
+			<note type="tip">VMware support is available by subscription only.
+				If you are not using VMware, skip this section.</note>
+			<p>The easiest way to configure vSphere for Eucalyptus is to give
+				Eucalyptus unrestricted access to all vSphere endpoint(s). This
+				way does not require complex modifications to local access
+				permission settings. You can grant this access to Eucalyptus by
+				using an existing administrative account and password or by
+				creating a new account for Eucalyptus and associating it with
+				vSphere’s standard Administrator role at the top level of the
+				vSphere hierarchy as seen in the vSphere client.</p>
 			<image href="images/vmware_assign_permissions.png" scale="90"
 				alt="Assing Persmissions windows"/>
-			<p>To give a more limited amount of control to Eucalyptus over your vSphere
-				infrastructure managed by a vCenter server, create one new user and two new roles as
-				described next.</p>
+			<p>To give a more limited amount of control to Eucalyptus over your
+				vSphere infrastructure managed by a vCenter server, create one
+				new user and two new roles as described next.</p>
 		</context>
- 	
- </taskbody>
-	
+
+	</taskbody>
+
 	<task id="vmware_create_user">
 		<title>Create New User</title>
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>To give the minimal required amount of control to Eucalyptus over your
-					vSphere infrastructure managed on vCenter, create one new user and two new
-					roles. The new user and its password will be used for granting Eucalyptus access
-					to the infrastructure.</p>
+				<p>To give the minimal required amount of control to Eucalyptus
+					over your vSphere infrastructure managed on vCenter, create
+					one new user and two new roles. The new user and its
+					password will be used for granting Eucalyptus access to the
+					infrastructure.</p>
 			</context>
 			<steps>
 				<step>
-					<cmd>Create a user (e.g., named <userinput>eucalyptus</userinput>) on the system
+					<cmd>Create a user (e.g., named
+							<userinput>eucalyptus</userinput>) on the system
 						where vCenter server is running.</cmd>
 				</step>
 				<step>
-					<cmd>Create a role (e.g., named <userinput>Eucalyptus vSphere</userinput>), for
-						use at the top level of the vSphere hierarchy, with the following
+					<cmd>Create a role (e.g., named <userinput>Eucalyptus
+							vSphere</userinput>), for use at the top level of
+						the vSphere hierarchy, with the following
 						privileges:</cmd>
 					<info><ul>
 							<li>Global<ul>
@@ -59,9 +63,10 @@
 						</ul></info>
 				</step>
 				<step>
-					<cmd>Create a role (e.g., named <userinput>Eucalyptus</userinput>), for use with
-						vSphere resources to be used by Eucalyptus, with the following
-						privileges:</cmd>
+					<cmd>Create a role (e.g., named
+							<userinput>Eucalyptus</userinput>), for use with
+						vSphere resources to be used by Eucalyptus, with the
+						following privileges:</cmd>
 					<info><ul>
 							<li>Datastore<ul>
 									<li>Allocate Space</li>
@@ -73,8 +78,8 @@
 								</ul></li>
 							<li>Host<ul>
 									<li>Configuration <ul>
-											<li>Network Configuration</li>
-											<li>Storage partition configuration</li>
+										<li>Network Configuration</li>
+										<li>Storage partition configuration</li>
 										</ul></li>
 								</ul></li>
 							<li>Network<ul>
@@ -82,7 +87,8 @@
 									<li>Remove</li>
 								</ul></li>
 							<li>Resource<ul>
-									<li>Assign Virtual Machine to Resource Pool</li>
+									<li>Assign Virtual Machine to Resource
+										Pool</li>
 								</ul></li>
 							<li>Virtual Machine<ul>
 									<li>(all Virtual Machine permissions)</li>
@@ -93,37 +99,53 @@
 					<cmd>Associate the user with the top-level role</cmd>
 					<substeps>
 						<substep>
-							<cmd>Right-click on the top-level resource, named after vCenter, and select <uicontrol>Add Permission...</uicontrol></cmd>
+							<cmd>Right-click on the top-level resource, named
+								after vCenter, and select <uicontrol>Add
+									Permission...</uicontrol></cmd>
 						</substep>
 						<substep>
-							<cmd>In <uicontrol>Users and groups</uicontrol> section click <uicontrol>Add...</uicontrol></cmd>
+							<cmd>In <uicontrol>Users and groups</uicontrol>
+								section click
+								<uicontrol>Add...</uicontrol></cmd>
 						</substep>
 						<substep>
-							<cmd>Add user <userinput>eucalyptus</userinput> with assigned role
-									<userinput>Eucalyptus vSphere</userinput> and
-									<uicontrol>Propagate to Child Objects</uicontrol> set to
+							<cmd>Add user <userinput>eucalyptus</userinput> with
+								assigned role <userinput>Eucalyptus
+									vSphere</userinput> and <uicontrol>Propagate
+									to Child Objects</uicontrol> set to
 									<uicontrol>No</uicontrol></cmd>
 						</substep>
 					</substeps>
 				</step>
 				<step>
 					<cmd>Associate the user with the resource-level role</cmd>
-					<info>For each resource or collection of resources that you want Eucalyptus to use, the <userinput>eucalyptus</userinput> user must be given
-						sufficient privileges by using the <userinput>Eucalyptus</userinput> role. For example, you can create a new virtual datacenter for Eucalyptus to use,
-						add to it the relevant hosts or clusters, and assign the <userinput>eucalyptus</userinput> user
-						<userinput>Eucalyptus</userinput> role just for that datacenter.</info>
+					<info>For each resource or collection of resources that you
+						want Eucalyptus to use, the
+							<userinput>eucalyptus</userinput> user must be given
+						sufficient privileges by using the
+							<userinput>Eucalyptus</userinput> role. For example,
+						you can create a new virtual datacenter for Eucalyptus
+						to use, add to it the relevant hosts or clusters, and
+						assign the <userinput>eucalyptus</userinput> user
+							<userinput>Eucalyptus</userinput> role just for that
+						datacenter.</info>
 					<substeps>
 						<substep>
-							<cmd>Right-click on each of the resources to be used by Eucalyptus and select <uicontrol>Add Permission...</uicontrol></cmd>
+							<cmd>Right-click on each of the resources to be used
+								by Eucalyptus and select <uicontrol>Add
+									Permission...</uicontrol></cmd>
 						</substep>
 						<substep>
-							<cmd>In <uicontrol>Users and groups</uicontrol> section click <uicontrol>Add...</uicontrol></cmd>
+							<cmd>In <uicontrol>Users and groups</uicontrol>
+								section click
+								<uicontrol>Add...</uicontrol></cmd>
 						</substep>
 						<substep>
-							<cmd>Add user <userinput>eucalyptus</userinput> with assigned role
-								<userinput>Eucalyptus</userinput> and
-								<uicontrol>Propagate to Child Objects</uicontrol> set to
-								<uicontrol>Yes</uicontrol></cmd>
+							<cmd>Add user <userinput>eucalyptus</userinput> with
+								assigned role <userinput>Eucalyptus</userinput>
+								and <uicontrol>Propagate to Child
+									Objects</uicontrol> set to
+									<uicontrol>Yes</uicontrol></cmd>
 						</substep>
 					</substeps>
 				</step>
@@ -136,22 +158,31 @@
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>Each node requires at least one datastore (either local or one shared by multiple nodes). If more than one datastore is available to a node, Eucalyptus will choose the datastore arbitrarily. If Eucalyptus is to be restricted in its use of available datastores, specify a datastore in Eucalyptus’s configuration for VMware.</p>
-				<p>To determine the datastores that are available on a host, perform the following steps with
-					vSphere client referencing either at vCenter Server or at a specific ESX/ESXi node:</p>
+				<p>Each node requires at least one datastore (either local or
+					one shared by multiple nodes). If more than one datastore is
+					available to a node, Eucalyptus will choose the datastore
+					arbitrarily. If Eucalyptus is to be restricted in its use of
+					available datastores, specify a datastore in Eucalyptus’s
+					configuration for VMware.</p>
+				<p>To determine the datastores that are available on a host,
+					perform the following steps with vSphere client referencing
+					either at vCenter Server or at a specific ESX/ESXi node:</p>
 			</context>
 			<steps>
 				<step>
 					<cmd>Choose a host in left-hand-side panel.</cmd>
 				</step>
 				<step>
-					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+					<cmd>Click the <uicontrol>Configuration</uicontrol>
+						tab.</cmd>
 				</step>
 				<step>
-					<cmd>Click <uicontrol>Storage</uicontrol> in the secondary left-hand side panel.</cmd>
+					<cmd>Click <uicontrol>Storage</uicontrol> in the secondary
+						left-hand side panel.</cmd>
 				</step>
 				<step>
-					<cmd>Click <uicontrol>View: Datastores</uicontrol> at the top of the panel.</cmd>
+					<cmd>Click <uicontrol>View: Datastores</uicontrol> at the
+						top of the panel.</cmd>
 				</step>
 			</steps>
 			<postreq>You're now ready to create a network.</postreq>
@@ -162,40 +193,57 @@
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>Each node must have a network reachable by the node running the Eucalyptus VMware Broker.</p>
-				<note type="tip">If more than one network is available, specify the network name in Eucalyptus configuration explicitly. Eucalyptus assumes that this network resides on the switch named "vSwitch0".</note>
-				<p>To check the network settings and create a network (if necessary) perform the following steps
-					with vSphere client pointed either at vCenter Server or at a particular ESX/ESXi node:</p>
+				<p>Each node must have a network reachable by the node running
+					the Eucalyptus VMware Broker.</p>
+				<note type="tip">If more than one network is available, specify
+					the network name in Eucalyptus configuration explicitly.
+					Eucalyptus assumes that this network resides on the switch
+					named "vSwitch0".</note>
+				<p>To check the network settings and create a network (if
+					necessary) perform the following steps with vSphere client
+					pointed either at vCenter Server or at a particular ESX/ESXi
+					node:</p>
 			</context>
 			<steps>
 				<step>
 					<cmd>Click a host in left-hand side panel.</cmd>
 				</step>
 				<step>
-					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+					<cmd>Click the <uicontrol>Configuration</uicontrol>
+						tab.</cmd>
 				</step>
 				<step>
-					<cmd>Click <uicontrol>Networking</uicontrol> in the secondary left-hand-side panel.</cmd>
+					<cmd>Click <uicontrol>Networking</uicontrol> in the
+						secondary left-hand-side panel.</cmd>
 				</step>
 				<step>
-					<cmd>If there is no VM Network in the list, add it by performing these steps:</cmd>
+					<cmd>If there is no VM Network in the list, add it by
+						performing these steps:</cmd>
 					<substeps>
 						<substep>
-							<cmd>Click <uicontrol>Add Networking...</uicontrol> in the upper-right corner.</cmd>
+							<cmd>Click <uicontrol>Add Networking...</uicontrol>
+								in the upper-right corner.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click <uicontrol>Virtual Machine</uicontrol> and click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Click <uicontrol>Virtual Machine</uicontrol>
+								and click <uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click a switch (e.g., <uicontrol>Use vSwitch0</uicontrol>) and click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Click a switch (e.g., <uicontrol>Use
+									vSwitch0</uicontrol>) and click
+									<uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Enter <uicontrol>VM Network for Network Label</uicontrol>, leave <uicontrol>VLAN ID</uicontrol> blank, and click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Enter <uicontrol>VM Network for Network
+									Label</uicontrol>, leave <uicontrol>VLAN
+									ID</uicontrol> blank, and click
+									<uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Check the summary and click <uicontrol>Finish</uicontrol>.</cmd>
+							<cmd>Check the summary and click
+									<uicontrol>Finish</uicontrol>.</cmd>
 						</substep>
-						
+
 					</substeps>
 				</step>
 			</steps>
@@ -206,37 +254,55 @@
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>To enable VMware support for dynamic block volume support (like Amazon’s Elastic Block Store) in Eucalyptus, configure each of the ESX/ESXi nodes in your infrastructure to support iSCSI. Given a node that is licensed for iSCSI support, this amounts to enabling and configuring the gateway for the VMkernel network. To accomplish that, perform the following steps with vSphere client pointed either at vCenter or at a particular ESX/ESXi node:</p>
+				<p>To enable VMware support for dynamic block volume support
+					(like Amazon’s Elastic Block Store) in Eucalyptus, configure
+					each of the ESX/ESXi nodes in your infrastructure to support
+					iSCSI. Given a node that is licensed for iSCSI support, this
+					amounts to enabling and configuring the gateway for the
+					VMkernel network. To accomplish that, perform the following
+					steps with vSphere client pointed either at vCenter or at a
+					particular ESX/ESXi node:</p>
 			</context>
 			<steps>
 				<step>
 					<cmd>Click a host in left-hand-side panel.</cmd>
 				</step>
 				<step>
-					<cmd>Click the <uicontrol>Configuration</uicontrol> tab.</cmd>
+					<cmd>Click the <uicontrol>Configuration</uicontrol>
+						tab.</cmd>
 				</step>
 				<step>
-					<cmd>Select <uicontrol>Networking</uicontrol> in the secondary left-hand-side panel.</cmd>
+					<cmd>Select <uicontrol>Networking</uicontrol> in the
+						secondary left-hand-side panel.</cmd>
 				</step>
 				<step>
-					<cmd>If there is no <uicontrol>VMkernel</uicontrol> network listed, add it by performing the following tasks:</cmd>
+					<cmd>If there is no <uicontrol>VMkernel</uicontrol> network
+						listed, add it by performing the following tasks:</cmd>
 					<substeps>
 						<substep>
-							<cmd>Click <uicontrol>Add Networking...</uicontrol> in the upper-right corner.</cmd>
+							<cmd>Click <uicontrol>Add Networking...</uicontrol>
+								in the upper-right corner.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click <uicontrol>VMkernel</uicontrol> and click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Click <uicontrol>VMkernel</uicontrol> and click
+									<uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click a switch (e.g., <uicontrol>Use vSwitch0</uicontrol>) and click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Click a switch (e.g., <uicontrol>Use
+									vSwitch0</uicontrol>) and click
+									<uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click the label <uicontrol>VLAN ID</uicontrol> and make sure that
-								<uicontrol>None(0)</uicontrol> is selected, then click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Click the label <uicontrol>VLAN ID</uicontrol>
+								and make sure that
+									<uicontrol>None(0)</uicontrol> is selected,
+								then click <uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
-							<cmd>Choose either dynamic network config or static IP assignment, depending on your
-								environment. When your are done, click <uicontrol>Next</uicontrol>.</cmd>
+							<cmd>Choose either dynamic network config or static
+								IP assignment, depending on your environment.
+								When your are done, click
+									<uicontrol>Next</uicontrol>.</cmd>
 						</substep>
 						<substep>
 							<cmd>Click <uicontrol>Finish</uicontrol>.</cmd>
@@ -244,23 +310,30 @@
 					</substeps>
 				</step>
 				<step>
-					<cmd>Click <uicontrol>DNS and Routing</uicontrol> in the secondary left-hand-side panel.</cmd>
-					
+					<cmd>Click <uicontrol>DNS and Routing</uicontrol> in the
+						secondary left-hand-side panel.</cmd>
+
 				</step>
 				<step>
-					<cmd>If VMkernel does not have a gateway, add it by performing these steps:</cmd>
+					<cmd>If VMkernel does not have a gateway, add it by
+						performing these steps:</cmd>
 					<substeps>
 						<substep>
-							<cmd>Click <uicontrol>Properties...</uicontrol> in upper-right corner.</cmd>
+							<cmd>Click <uicontrol>Properties...</uicontrol> in
+								upper-right corner.</cmd>
 						</substep>
 						<substep>
-							<cmd>Click the <uicontrol>Routing</uicontrol> tab, enter the gateway's IP, and click <uicontrol>OK</uicontrol>.</cmd>
+							<cmd>Click the <uicontrol>Routing</uicontrol> tab,
+								enter the gateway's IP, and click
+									<uicontrol>OK</uicontrol>.</cmd>
 						</substep>
 					</substeps>
 				</step>
 			</steps>
-			<postreq>For more information about configuring vSphere, go to the VMware website at <xref
-				format="html" href="http://www.vmware.com/support/pubs/vs_pubs.html">http://www.vmware.com/support/pubs/vs_pubs.html</xref>.</postreq>
+			<postreq>For more information about configuring vSphere, go to the
+				VMware website at <xref format="html"
+					href="http://www.vmware.com/support/pubs/vs_pubs.html"
+					>http://www.vmware.com/support/pubs/vs_pubs.html</xref>.</postreq>
 		</taskbody>
 	</task>
 	<task id="configuring_vmware_tools">
@@ -268,15 +341,19 @@
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>Ensure that VMware Tools are installed in the images that will be installed and run
-					within the Eucalyptus cloud. These tools allow Eucalyptus to discover an instance’s IP
-					address in System networking mode. They also are required for using the
-					<cmdname>euca-bundle-instance</cmdname> command when running Windows VMs in Eucalyptus,
-					since VMware Tools enable clean shutdown of VMs from outside the instance. For
-					information about installing VMware
-					Tools, go to the VMware documentation at <xref format="html" href="http://www.vmware.com">http://www.vmware.com</xref>.</p>
+				<p>Ensure that VMware Tools are installed in the images that
+					will be installed and run within the Eucalyptus cloud. These
+					tools allow Eucalyptus to discover an instance’s IP address
+					in System networking mode. They also are required for using
+					the <cmdname>euca-bundle-instance</cmdname> command when
+					running Windows VMs in Eucalyptus, since VMware Tools enable
+					clean shutdown of VMs from outside the instance. For
+					information about installing VMware Tools, go to the VMware
+					documentation at <xref format="html"
+						href="http://www.vmware.com"
+						>http://www.vmware.com</xref>.</p>
 			</context>
-			
+
 		</taskbody>
-	</task>	
+	</task>
 </task>

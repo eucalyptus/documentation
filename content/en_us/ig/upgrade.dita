@@ -2,8 +2,8 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="upgrade">
- <title>Appendix A: Upgrading Eucalyptus</title>
- <shortdesc></shortdesc>
+	<title>Appendix A: Upgrading Eucalyptus</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -11,29 +11,33 @@
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<conbody>
-		<p>To upgrade from Eucalyptus 3.1 to Eucalyptus 3.2.0, follow the directions detailed in this
-			section. To upgrade from any other version of Eucalyptus, you should first upgrade to
-			3.1 following the directions in the previous Install Guide, and then upgrade to 3.2.0
+		<p>To upgrade from Eucalyptus 3.1 to Eucalyptus 3.2.0, follow the
+			directions detailed in this section. To upgrade from any other
+			version of Eucalyptus, you should first upgrade to 3.1 following the
+			directions in the previous Install Guide, and then upgrade to 3.2.0
 			using these directions.</p>
 		<section>
 			<title>Setting Block Storage Manager</title>
-			<p>In Eucalyptus 3.2, there are a variety of new block storage managers. After upgrading, you
-				must specify the block storage manager for each zone before you can connect to the
-				storage backend, as follows:</p>
+			<p>In Eucalyptus 3.2, there are a variety of new block storage
+				managers. After upgrading, you must specify the block storage
+				manager for each zone before you can connect to the storage
+				backend, as follows:</p>
 			<codeblock>euca-modify-property -p [zone].storage.blockstoragemanager=[ebs_manager]</codeblock>
-			<p>The <codeph>ebs_manager</codeph> should be one of the following options:</p>
+			<p>The <codeph>ebs_manager</codeph> should be one of the following
+				options:</p>
 			<ul>
 				<li><codeph>das</codeph> - for DAS Manager</li>
 				<li><codeph>san</codeph> - for SAN Manager</li>
 				<li><codeph>equallogic</codeph> - for EqualLogic Provider</li>
 				<li><codeph>netapp</codeph> - for Netapp Provider</li>
 				<li><codeph>emc-vnx</codeph> - for EMC VNX Provider</li>
-				<li><codeph>emc-vnx-flare31</codeph> - for EMC VNX Provider running FLARE v5.31</li>
+				<li><codeph>emc-vnx-flare31</codeph> - for EMC VNX Provider
+					running FLARE v5.31</li>
 			</ul>
-			<p>See <xref href="configure_storage_controller.dita">Configure the Storage Controller</xref> 
-			for more information.</p>
+			<p>See <xref href="configure_storage_controller.dita">Configure the
+					Storage Controller</xref> for more information.</p>
 		</section>
 		<section>
 			<title>Finding Backup Files</title>
@@ -41,8 +45,8 @@
 					<codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>.
 				For example:</p>
 			<codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
-			<p>If the upgrade fails and needs to be reverted to your earlier version, you can find
-				your preserved data in this directory.</p>
+			<p>If the upgrade fails and needs to be reverted to your earlier
+				version, you can find your preserved data in this directory.</p>
 		</section>
 	</conbody>
 </concept>

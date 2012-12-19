@@ -2,51 +2,54 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configuring_bridge_centos">
-    <title>CentOS</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>To configure a bridge in CentOS 5 or CentOS 6:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Create a new ethernet bridge configuration file <filepath>/etc/sysconfig/network-scripts/ifcfg-br0</filepath>
-            	and enter the following:</cmd>
-            	<info>
-            		<codeblock>DEVICE=br0
+	<title>CentOS</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To configure a bridge in CentOS 5 or CentOS 6:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Create a new ethernet bridge configuration file
+						<filepath>/etc/sysconfig/network-scripts/ifcfg-br0</filepath>
+					and enter the following:</cmd>
+				<info>
+					<codeblock>DEVICE=br0
 BOOTPROTO=dhcp
 ONBOOT=yes
 TYPE=Bridge</codeblock>
-            	</info>
-            </step>
-        	<step>
-        		<cmd>Add your physical ethernet device to the bridge by editing  your physical ethernet device
-        			configuration file (<filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath>).</cmd>
-        		<choices>
-        			<choice>If you are using DHCP, the configuration will look similar to the following
-        				example:
-        			<codeblock>DEVICE=eth0
+				</info>
+			</step>
+			<step>
+				<cmd>Add your physical ethernet device to the bridge by editing
+					your physical ethernet device configuration file
+						(<filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath>).</cmd>
+				<choices>
+					<choice>If you are using DHCP, the configuration will look
+						similar to the following example:
+						<codeblock>DEVICE=eth0
 TYPE=Ethernet
 BRIDGE=br0</codeblock>
-        			</choice>
-        			<choice>If you are using a static IP address, the configuration will look similar to the
-        				following example:
-        			<codeblock>DEVICE=br0
+					</choice>
+					<choice>If you are using a static IP address, the
+						configuration will look similar to the following
+						example:
+						<codeblock>DEVICE=br0
 TYPE=Bridge
 BOOTPROTO=static
 IPADDR=&lt;static_IP_address>
 NETMASK=&lt;netmask>
 GATEWAY=&lt;gateway>
 ONBOOT=yes</codeblock>
-        			</choice>
-        		</choices>
-        	</step>
-        	<step>
-        		<cmd>Enter the following command:</cmd>
-        		<info>
-        			<codeblock>service network restart</codeblock>
-        		</info>
-        	</step>
-        </steps>
-    </taskbody>
+					</choice>
+				</choices>
+			</step>
+			<step>
+				<cmd>Enter the following command:</cmd>
+				<info>
+					<codeblock>service network restart</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
 </task>

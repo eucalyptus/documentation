@@ -2,52 +2,52 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_ccs">
-    <title>Register the CC</title>
-    <shortdesc/>
+	<title>Register the CC</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
 				<indexterm>cluster controller (CC)
-					<indexterm>registering</indexterm>
+						<indexterm>registering</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
-        <context>
-        	
-            <p>To register the CC:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>On the CLC, enter the following command:</cmd>
-            	<info>
-            		<codeblock>/usr/sbin/euca_conf --register-cluster --partition [partition_name]
+		<context>
+			<p>To register the CC:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>On the CLC, enter the following command:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca_conf --register-cluster --partition [partition_name]
  --host [CC_IP_address] --component [cc_name]</codeblock>
-            		<p>
-				We recommend that you set the <codeph>partition</codeph> name to a descriptive name
-            			for the availability zone controlled by the CC. For example: <codeph>cluster01</codeph>.
-			</p>
-			<p>
-				The <codeph>component</codeph> must be a
-            			unique name. We recommend that you use a short-hand name of the hostname or IP
-            			address of the machine, like <codeph>cc-[hostname]</codeph> or <codeph>cc-[IP address]</codeph>.
-			</p>
-            	</info>
-            </step>
-        	<step>
-        		<cmd>Repeat for each cluster, replacing the CC name, partition name, CC IP address, and CC name.</cmd>
-        		<!--<info>
+					<p> We recommend that you set the <codeph>partition</codeph>
+						name to a descriptive name for the availability zone
+						controlled by the CC. For example:
+							<codeph>cluster01</codeph>. </p>
+					<p> The <codeph>component</codeph> must be a unique name. We
+						recommend that you use a short-hand name of the hostname
+						or IP address of the machine, like
+							<codeph>cc-[hostname]</codeph> or <codeph>cc-[IP
+							address]</codeph>. </p>
+				</info>
+			</step>
+			<step>
+				<cmd>Repeat for each cluster, replacing the CC name, partition
+					name, CC IP address, and CC name.</cmd>
+				<!--<info>
         			<codeblock>/usr/sbin/euca_conf -\-register-cluster -\-partition=zone00 
 	-\-host=&lt;CC_#2_IP_address> -\-component=cc01</codeblock>
         		</info>-->
-        	</step>
-        </steps>
-    	<postreq>
-    		<note type="restriction">For HA, register the secondary CC the same way, replacing the
-    			 CC IP address and CC name, but using the same partition name as the primary
-    			CC.</note>
-    	</postreq>
-    </taskbody>
+			</step>
+		</steps>
+		<postreq>
+			<note type="restriction">For HA, register the secondary CC the same
+				way, replacing the CC IP address and CC name, but using the same
+				partition name as the primary CC.</note>
+		</postreq>
+	</taskbody>
 </task>

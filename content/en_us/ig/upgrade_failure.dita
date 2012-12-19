@@ -6,55 +6,71 @@
     <shortdesc/>
     <taskbody id="upgrade_failure_tasks">
         <context>
-            <p>If for any reason your upgrade fails, all changes to the database and configuration files will be rolled back. 
-                You may re-attempt the upgrade by following the upgrade instructions in the sections entitled Shutdown Components and Upgrade Eucalyptus Packages above.</p>
-            <p>In the event that you choose not to go ahead with the upgrade after a failure, you may downgrade your installation back to the previous version. 
-                Please note that downgrade instructions are different depending on whether your Eucalyptus services are co-located or each run on their own machine. 
-                You will need to perform the downgrade for all services running on a single machine at the same time.</p>	
-        </context>        
+            <p>If for any reason your upgrade fails, all changes to the database
+                and configuration files will be rolled back. You may re-attempt
+                the upgrade by following the upgrade instructions in the
+                sections entitled Shutdown Components and Upgrade Eucalyptus
+                Packages above.</p>
+            <p>In the event that you choose not to go ahead with the upgrade
+                after a failure, you may downgrade your installation back to the
+                previous version. Please note that downgrade instructions are
+                different depending on whether your Eucalyptus services are
+                co-located or each run on their own machine. You will need to
+                perform the downgrade for all services running on a single
+                machine at the same time.</p>
+        </context>
         <steps>
             <step>
-                <cmd>Downgrade to the Eucalyptus 3.1 release package on each host.</cmd>
-            	<info>
-            		<codeblock>yum downgrade http://downloads.eucalyptus.com/software/eucalyptus/3.1/centos/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
-            	</info>
+                <cmd>Downgrade to the Eucalyptus 3.1 release package on each
+                    host.</cmd>
+                <info>
+                    <codeblock>yum downgrade http://downloads.eucalyptus.com/software/eucalyptus/3.1/centos/6/x86_64/eucalyptus-release-3.1.noarch.rpm</codeblock>
+                </info>
             </step>
-        	<step>
-        	    <cmd>If you have a Eucalyptus subscription, downgrade your subscription release package on each host to the release package you obtained for Eucalyptus 3.1.</cmd>
-        		<info>
-        			<codeblock>yum downgrade eucalyptus-enterprise-3.1*.rpm</codeblock>
-        		</info>
-        	</step>
             <step>
-                <cmd>Expire the cache for the yum repositories on each host.</cmd>
+                <cmd>If you have a Eucalyptus subscription, downgrade your
+                    subscription release package on each host to the release
+                    package you obtained for Eucalyptus 3.1.</cmd>
+                <info>
+                    <codeblock>yum downgrade eucalyptus-enterprise-3.1*.rpm</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Expire the cache for the yum repositories on each
+                    host.</cmd>
                 <info>
                     <codeblock>yum clean expire-cache</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Log in to each NC host and downgrade it. To downgrade to a specific version,
-                    append the version number to each package name. For example, to downgrade to
-                    3.1.1, add <codeph>-3.1.1</codeph> to each of the packages in the following list:</cmd>
+                <cmd>Log in to each NC host and downgrade it. To downgrade to a
+                    specific version, append the version number to each package
+                    name. For example, to downgrade to 3.1.1, add
+                        <codeph>-3.1.1</codeph> to each of the packages in the
+                    following list:</cmd>
                 <info>
                     <codeblock>yum downgrade eucalyptus eucalyptus-gl eucalyptus-admin-tools eucalyptus-nc python-eucadmin</codeblock>
                 </info>
             </step>
             <stepsection>
-                <note type="important"><p>Use the <codeph>yum shell</codeph> command for the following instructions.
-                This will allow you to perform more complex transactions that are required for the downgrade.</p>
-                 </note>
+                <note type="important"><p>Use the <codeph>yum shell</codeph>
+                        command for the following instructions. This will allow
+                        you to perform more complex transactions that are
+                        required for the downgrade.</p>
+                </note>
             </stepsection>
             <step>
-                <cmd>Log in to each machine running a Eucalyptus service and run the following command:</cmd>
+                <cmd>Log in to each machine running a Eucalyptus service and run
+                    the following command:</cmd>
                 <info>
                     <codeblock>yum shell</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Add the transaction commands listed below 
-                    for each component installed on the machine. If more than one component asks you to 
-                    use the same transactional command, you only need to specify that command once.
-                </cmd>
+                <cmd>Add the transaction commands listed below for each
+                    component installed on the machine. If more than one
+                    component asks you to use the same transactional command,
+                    you only need to specify that command once. </cmd>
             </step>
             <stepsection>
                 <p>CLC Service Transaction Commands:</p>
@@ -65,7 +81,8 @@ remove eucalyptus-common-java-libs
 downgrade eucalyptus-admin-tools
 downgrade python-eucadmin
 </codeblock>
-                <p>Additional CLC Service Transaction Commands for Eucalyptus Subscription customers:</p>
+                <p>Additional CLC Service Transaction Commands for Eucalyptus
+                    Subscription customers:</p>
                 <codeblock>downgrade eucalyptus-enterprise-vmware-broker-libs
 remove eucalyptus-enterprise-storage-san-common-libs
 install eucalyptus-enterprise-storage-san-libs
@@ -120,34 +137,38 @@ install eucalyptus-enterprise-storage-san-libs
                 <codeblock>downgrade eucalyptus-enterprise-vmware-broker
 downgrade eucalyptus-enterprise-vmware-broker-libs
 </codeblock>
-                
             </stepsection>
             <step>
-                <cmd>When all transaction commands have been entered run the following command to verify 
-                    that the transaction will be successful:</cmd>                
+                <cmd>When all transaction commands have been entered run the
+                    following command to verify that the transaction will be
+                    successful:</cmd>
                 <info>
                     <codeblock>ts solve</codeblock>
-                </info>   
+                </info>
             </step>
             <step>
-                <cmd>Perform the downgrade by running the following command in the transaction shell:</cmd>
+                <cmd>Perform the downgrade by running the following command in
+                    the transaction shell:</cmd>
                 <info>
                     <codeblock>run</codeblock>
-                </info>                   
+                </info>
             </step>
             <step>
-                <cmd>Exit the transaction shell using the following command:</cmd>
+                <cmd>Exit the transaction shell using the following
+                    command:</cmd>
                 <info>
                     <codeblock>exit</codeblock>
-                </info>                   
+                </info>
             </step>
             <step>
-                <cmd>Remove the <filepath>/etc/eucalyptus/.upgrade</filepath> file from each machine:</cmd>
+                <cmd>Remove the <filepath>/etc/eucalyptus/.upgrade</filepath>
+                    file from each machine:</cmd>
                 <info>
                     <codeblock>rm /etc/eucalyptus/.upgrade</codeblock>
-                    <p>Enter <codeph>y</codeph> when prompted, to remove this file. It is important to 
-                    remove this file from every Eucalyptus host.</p>
-                </info>                   
+                    <p>Enter <codeph>y</codeph> when prompted, to remove this
+                        file. It is important to remove this file from every
+                        Eucalyptus host.</p>
+                </info>
             </step>
         </steps>
     </taskbody>

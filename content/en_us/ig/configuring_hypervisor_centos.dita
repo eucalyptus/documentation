@@ -2,23 +2,25 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configuring_hypervisor_centos">
-    <title>CentOS 5</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<p>The default settings that ship with CentOS 5.6 are generally appropriate. However, you must
-        		enable <codeph>xend-http-server</codeph>, and restart the daemon, to ensure the hypervisor 
-                is correctly configured.</p>
-        	<p>To make sure the Xen daemon is set up correctly:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Open the <filepath>/etc/xen/xend-config.sxp</filepath> file.</cmd>
-            </step>
-        	<step>
-        		<cmd>Verify these Eucalyptus-recommended settings:</cmd>
-        		<info>
-        			<codeblock>(xend-http-server yes)
+	<title>CentOS 5</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>The default settings that ship with CentOS 5.6 are generally
+				appropriate. However, you must enable
+					<codeph>xend-http-server</codeph>, and restart the daemon,
+				to ensure the hypervisor is correctly configured.</p>
+			<p>To make sure the Xen daemon is set up correctly:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Open the <filepath>/etc/xen/xend-config.sxp</filepath>
+					file.</cmd>
+			</step>
+			<step>
+				<cmd>Verify these Eucalyptus-recommended settings:</cmd>
+				<info>
+					<codeblock>(xend-http-server yes)
 (xend-unix-server yes)
 (xend-unix-path /var/lib/xend/xend-socket)
 (xend-address localhost)
@@ -28,11 +30,13 @@
 (dom0-cpus 0)
 (vncpasswd '')
 </codeblock>
-        		</info>
-        	</step>
-	    	<step>
-			<cmd>If any changes are necessary, save the file and restart xend by running <cmdname>service xend restart</cmdname></cmd>
-		</step>        	
-        </steps>
-    </taskbody>
+				</info>
+			</step>
+			<step>
+				<cmd>If any changes are necessary, save the file and restart
+					xend by running <cmdname>service xend
+					restart</cmdname></cmd>
+			</step>
+		</steps>
+	</taskbody>
 </task>
