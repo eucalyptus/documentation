@@ -3,18 +3,18 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="eustore-browse-install">
     <title>Browse and Install Images from EuStore</title>
-    <shortdesc>Eucalyptus provides a resource - called EuStore - that contains images that you can
-        download and install. This task explains how to browse and install images from
-        EuStore.</shortdesc>
-	<prolog>
-		<metadata>
-			<keywords>
-				<indexterm>image tasks
-					<indexterm>install from EuStore</indexterm>
-				</indexterm>
-			</keywords>
-		</metadata>
-	</prolog>
+    <shortdesc>Eucalyptus provides a resource - called EuStore - that contains
+        images that you can download and install. This task explains how to
+        browse and install images from EuStore.</shortdesc>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>image tasks <indexterm>install from
+                        EuStore</indexterm>
+                </indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
     <taskbody>
         <context>
             <p>To browse and install an image from EuStore:</p>
@@ -25,8 +25,8 @@
                 <info>
                     <codeblock>eustore-describe-images</codeblock>
                 </info>
-                <tutorialinfo>This command returns a list of images available from the EuStore. For
-                    example:</tutorialinfo>
+                <tutorialinfo>This command returns a list of images available
+                    from the EuStore. For example:</tutorialinfo>
                 <info>
                     <codeblock>0400376721 fedora      x86_64  starter        kvm               Fedora 16 x86_64 - SELinux / iptables disabled. Root disk of 4.5G. Root user enabled.
 2425352071 fedora      x86_64  starter        kvm               Fedora 17 x86_64 - SELinux / iptables disabled. Root disk of 4.5G. Root user enabled.
@@ -37,7 +37,9 @@
 .
 .</codeblock>
                 </info>
-                <tutorialinfo>For additional information regarding the images on eustore (for example, who is the maintainer of the image), use the -v option:</tutorialinfo>
+                <tutorialinfo>For additional information regarding the images on
+                    eustore (for example, who is the maintainer of the image),
+                    use the -v option:</tutorialinfo>
                 <info>
                     <codeblock># eustore-describe-images -v
 0400376721 fedora      x86_64  starter        kvm               Fedora 16 x86_64 - SELinux / iptables disabled. Root disk of 4.5G. Root user enabled.
@@ -53,32 +55,35 @@
                 </info>
             </step>
             <step>
-                <cmd>Pick an available image from the returned list and note the image ID. For this
-                    example, we will choose:</cmd>
+                <cmd>Pick an available image from the returned list and note the
+                    image ID. For this example, we will choose:</cmd>
                 <info>
                     <codeblock>3868652036 centos      x86_64  starter        kvm               CentOS 6.3 x86_64 - SELinux / iptables disabled. Root disk of 4.5G. Root user enabled.</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Install the image from EuStore using the eustore-install-image command. For
-                    this example, we only need to specify the image ID and the name of a bucket (the
+                <cmd>Install the image from EuStore using the
+                    eustore-install-image command. For this example, we only
+                    need to specify the image ID and the name of a bucket (the
                     bucket will be created if it doesn't already exist):</cmd>
                 <info>
-                    <note> Some images may require additional parameters (for example, that you
-                        specify a kernel type with the -k option). Please see the
-                        eustore-install-image topic in the Eucalyptus Command Line Reference for
-                        more information. </note>
+                    <note> Some images may require additional parameters (for
+                        example, that you specify a kernel type with the -k
+                        option). Please see the eustore-install-image topic in
+                        the Eucalyptus Command Line Reference for more
+                        information. </note>
                 </info>
                 <info>
                     <codeblock>
 eustore-install-image -b centos-testbucket -i 3868652036 -k kvm 
                     </codeblock>
                 </info>
-                
-                <info> This command performs a number of tasks for you, including downloading the
-                    image from the central Eucalyptus image store and installing the image on your
-                    own Eucalyptus private cloud. The output from this command will look similar to
-                    the following example: </info>
+
+                <info> This command performs a number of tasks for you,
+                    including downloading the image from the central Eucalyptus
+                    image store and installing the image on your own Eucalyptus
+                    private cloud. The output from this command will look
+                    similar to the following example: </info>
                 <info>
                     <codeblock>Downloading Image :  CentOS 6.3 x86_64 - SELinux / iptables disabled. Root disk of 4.5G. Root user enabled.
 0-----1-----2-----3-----4-----5-----6-----7-----8-----9-----10
@@ -167,20 +172,23 @@ centos-testbucket/centos-6.3-x86_64.manifest.xml
 Installed image: emi-233637E1
                     </codeblock>
                 </info>
-                <info> Note the last line in the output, which provides the image ID for the image
-                    you just installed from the euca store. In this example, the image ID is
-                    emi-233637E1. </info>
+                <info> Note the last line in the output, which provides the
+                    image ID for the image you just installed from the euca
+                    store. In this example, the image ID is emi-233637E1.
+                </info>
             </step>
             <step>
-                <cmd>Verify the image was installed on your Eucalyptus cloud. To do this, use the
-                    euca-describe-images command, which returns a list of the available images on
-                    your Eucalyptus cloud:</cmd>
+                <cmd>Verify the image was installed on your Eucalyptus cloud. To
+                    do this, use the euca-describe-images command, which returns
+                    a list of the available images on your Eucalyptus
+                    cloud:</cmd>
                 <info>
                     <codeblock>
 euca-describe-images | grep centos-testbucket
                     </codeblock>
                 </info>
-                <info> This command will return output similar to the following example: </info>
+                <info> This command will return output similar to the following
+                    example: </info>
                 <info>
                     <codeblock>
 IMAGE   eki-A4D6398A    centos-testbucket/vmlinuz-2.6.32-279.14.1.el6.x86_64.manifest.xml   345590850920    available   public      x86_64  kernel              instance-store
@@ -189,13 +197,13 @@ IMAGE   emi-233637E1    centos-testbucket/centos-6.3-x86_64.manifest.xml    3455
                     </codeblock>
                 </info>
                 <info> Note the ID of the last image in the output -
-                    <codeblock>emi-233637E1</codeblock> - matches that of the image we installed
-                    from EuStore. </info>
+                    <codeblock>emi-233637E1</codeblock> - matches that of the
+                    image we installed from EuStore. </info>
             </step>
         </steps>
-        <result>The image has been successfully downloaded from EuStore and installed on your
-            Eucalyptus cloud. </result>
-        <postreq> You can now run an instance from this image and connect to it using SSH.
-        </postreq>
+        <result>The image has been successfully downloaded from EuStore and
+            installed on your Eucalyptus cloud. </result>
+        <postreq> You can now run an instance from this image and connect to it
+            using SSH. </postreq>
     </taskbody>
 </task>

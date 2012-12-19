@@ -7,31 +7,35 @@
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>Images
-					<indexterm>Windows</indexterm>
+				<indexterm>Images <indexterm>Windows</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
 	<taskbody>
 		<context>
-			<p>The first task for creating a Windows image is installing a base Windows operating system (OS). To
-				install a base Windows OS using KVM or Xen:</p>
+			<p>The first task for creating a Windows image is installing a base
+				Windows operating system (OS). To install a base Windows OS
+				using KVM or Xen:</p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Log in to the stopped NC server or a host that runs the same hypervisor as the NCs.</cmd>
+				<cmd>Log in to the stopped NC server or a host that runs the
+					same hypervisor as the NCs.</cmd>
 			</step>
 			<step>
-				<cmd>Create a blank disk file. Specify your Windows VM image name using the parameter <codeph>of</codeph>.</cmd>
+				<cmd>Create a blank disk file. Specify your Windows VM image
+					name using the parameter <codeph>of</codeph>.</cmd>
 				<info>
 					<codeblock>dd if=/dev/zero of=windows.&lt;image_name>.img bs=1M count=1 seek=16999</codeblock>
-					<note type="important">Your image name must start with the word, <codeph>windows</codeph> (all
-						lower-case).</note>
+					<note type="important">Your image name must start with the
+						word, <codeph>windows</codeph> (all lower-case).</note>
 				</info>
 			</step>
 			<step id="win_secondary_disk">
-				<cmd>Create a floppy and secondary blank disk to be attached to the image later, in order to test paravirtualization drivers</cmd>
+				<cmd>Create a floppy and secondary blank disk to be attached to
+					the image later, in order to test paravirtualization
+					drivers</cmd>
 				<info>
 					<codeblock>dd if=/dev/zero of=floppy.img \
 	bs=1k count=1474
@@ -40,13 +44,18 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Copy all of the .img and .iso files to the <filepath>/var/lib/libvirt/images/</filepath> directory.</cmd>
-				
+				<cmd>Copy all of the .img and .iso files to the
+						<filepath>/var/lib/libvirt/images/</filepath>
+					directory.</cmd>
+
 			</step>
 			<step>
-				<cmd>Copy the <filepath>libvirt-[hypervisor]-windows-example.xml</filepath> file to your working
-					directory and rename it to <filepath>libvirt-[hypervisor]-windows.xml</filepath>, 
-					where <codeph>[hypervisor]</codeph> is one of <codeph>xen</codeph> or <codeph>kvm</codeph>.</cmd>
+				<cmd>Copy the
+						<filepath>libvirt-[hypervisor]-windows-example.xml</filepath>
+					file to your working directory and rename it to
+						<filepath>libvirt-[hypervisor]-windows.xml</filepath>,
+					where <codeph>[hypervisor]</codeph> is one of
+						<codeph>xen</codeph> or <codeph>kvm</codeph>.</cmd>
 				<info>
 					<codeblock>cp libvirt-kvm-windows-example.xml /var/lib/libvirt/images/libvirt-kvm-windows.xml</codeblock>
 					<p>or</p>
@@ -54,13 +63,18 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Open the new <filepath>libvirt-[hypervisor]-windows.xml</filepath> file and provide
-					fully qualified paths to the VM image file and iso. Make sure that the name of the bridge is the same as the one used by the hypervisor on which you are creating the Windows image.</cmd>
+				<cmd>Open the new
+						<filepath>libvirt-[hypervisor]-windows.xml</filepath>
+					file and provide fully qualified paths to the VM image file
+					and iso. Make sure that the name of the bridge is the same
+					as the one used by the hypervisor on which you are creating
+					the Windows image.</cmd>
 				<!--<info>
 					<note type="tip">brctrl show command shows bridge name—ensure that it’s the same.</note>
 					</info>-->
 				<stepresult>
-					<p>Your file should look similar to one of the following examples.</p>
+					<p>Your file should look similar to one of the following
+						examples.</p>
 					<p>For Xen:</p>
 					<codeblock>&lt;domain type='xen'>
     &lt;name>eucalyptus-windows&lt;/name>
@@ -113,7 +127,7 @@
         &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
     &lt;/devices>
 &lt;/domain></codeblock>
-				<p>For KVM:</p>
+					<p>For KVM:</p>
 					<codeblock>&lt;domain type='kvm'>
 	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
@@ -165,32 +179,41 @@ virsh create libvirt-[hypervisor]-windows.xml</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Connect to the virtual console using the VNC client of your choice. On the NC, check the
-					display number that has been allocated by looking at the process table (<codeph>ps axw | grep vnc</codeph>). For example, if the display number is 0, then connect to the NC using the VNC client:</cmd>
+				<cmd>Connect to the virtual console using the VNC client of your
+					choice. On the NC, check the display number that has been
+					allocated by looking at the process table (<codeph>ps axw |
+						grep vnc</codeph>). For example, if the display number
+					is 0, then connect to the NC using the VNC client:</cmd>
 				<info>
 					<codeblock>vinagre &lt;machine-hosting-vm>:0</codeblock>
-					
 				</info>
 			</step>
 			<step>
-				<cmd>Follow the standard Windows installation procedure until the VM has completed installing Windows.</cmd>
+				<cmd>Follow the standard Windows installation procedure until
+					the VM has completed installing Windows.</cmd>
 				<info>
-					<note type="tip">On some hosts, the VNC’s display number will change when an image restarts. Use <codeph>ps</codeph> to find the current number.</note>
+					<note type="tip">On some hosts, the VNC’s display number
+						will change when an image restarts. Use
+							<codeph>ps</codeph> to find the current
+						number.</note>
 				</info>
 			</step>
 			<step>
-				<cmd>Run <codeph>virsh list</codeph> to display the domain name.</cmd>
+				<cmd>Run <codeph>virsh list</codeph> to display the domain
+					name.</cmd>
 			</step>
 			<step>
-				<cmd>Shut down the Windows VM you have just created. The easiest way to shutdown your VM is to
-					use the <codeph>virsh destroy</codeph> command, as shown:</cmd>
+				<cmd>Shut down the Windows VM you have just created. The easiest
+					way to shutdown your VM is to use the <codeph>virsh
+						destroy</codeph> command, as shown:</cmd>
 				<info>
 					<codeblock>virsh destroy &lt;domain_name></codeblock>
 				</info>
 			</step>
 		</steps>
-		<postreq>To install the base Windows operating system using VMware, create a new VM using the VMware 
-			vSphere Client. Install Windows on the VM following standard VMware procedures, and install VMware 
+		<postreq>To install the base Windows operating system using VMware,
+			create a new VM using the VMware vSphere Client. Install Windows on
+			the VM following standard VMware procedures, and install VMware
 			Tools.</postreq>
 	</taskbody>
 </task>

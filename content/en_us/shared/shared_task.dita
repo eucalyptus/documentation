@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="shared_task">
-    <title>Shared Task</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>Shared task steps for Eucalyptus documentation</p>
-        </context>
-        <steps>
-        	<step id="copy_conf">
-        		<note type="restriction">If you are not using HA, you can skip this task.</note>
-        		<cmd>Copy the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file to the secondary SC machine.</cmd>
-        	</step>
-        	<step id="verify_sc">
-        		<cmd>On the CLC, run the following command to verify that the SC is listed; note that it
-					may be in the <codeph>BROKEN</codeph> state:</cmd>
-        		<info>
-        			<codeblock>euca_conf --list-scs</codeblock>
-        		</info>
-        	</step>
-        	<step id="enable_san">
-        		<cmd>On the CLC (the primary CLC in an HA setup), enable SAN support in Eucalyptus by entering
-        			your SAN's hostname or IP address, the username, and password:</cmd>
-        		<info>
-        			<codeblock>euca-modify-property -p &lt;partition_name>.storage.sanhost=&lt;SAN_hostname_or_IP_address>
+	<title>Shared Task</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>Shared task steps for Eucalyptus documentation</p>
+		</context>
+		<steps>
+			<step id="copy_conf">
+				<note type="restriction">If you are not using HA, you can skip
+					this task.</note>
+				<cmd>Copy the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file to the secondary SC machine.</cmd>
+			</step>
+			<step id="verify_sc">
+				<cmd>On the CLC, run the following command to verify that the SC
+					is listed; note that it may be in the
+						<codeph>BROKEN</codeph> state:</cmd>
+				<info>
+					<codeblock>euca_conf --list-scs</codeblock>
+				</info>
+			</step>
+			<step id="enable_san">
+				<cmd>On the CLC (the primary CLC in an HA setup), enable SAN
+					support in Eucalyptus by entering your SAN's hostname or IP
+					address, the username, and password:</cmd>
+				<info>
+					<codeblock>euca-modify-property -p &lt;partition_name>.storage.sanhost=&lt;SAN_hostname_or_IP_address>
 euca-modify-property -p &lt;partition_name>.storage.sanuser=&lt;SAN_admin_user_name>
 euca-modify-property -p &lt;partition_name>.storage.sanpassword=&lt;SAN_admin_password></codeblock>
-        		</info>
-        	</step>
-        	</steps>
-    </taskbody>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
 </task>

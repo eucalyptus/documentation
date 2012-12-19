@@ -2,33 +2,35 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="add_rootfs">
-    <title>Add a Root Filesystem</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<p>When you add a root filesystem to Walrus, you bundle the root filesystem file, upload the file to a bucket
-        		in Walrus that you name, and then register the root filesystem with Eucalyptus. The bundle
-        		operation can include a registered ramdisk (ERI ID) and a registered kernel (EKI ID). The
-        		resulting image will associate the three images.</p>
-        	<p>You can also bundle the root file system independently and associate the ramdisk and
-        		kernel with the resulting EMI at run time. For more information, see <xref
-        			href="associating_ekieri.dita"/>.</p>
-        	
-        	<p>To add a root filesystem to Walrus:</p>
-        </context>
-        <steps>
-            <step>
-                <cmd>Use the following three commands:</cmd>
-            	<info>
-            		<codeblock>euca-bundle-image -i &lt;root_filesystem_file> 
+	<title>Add a Root Filesystem</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>When you add a root filesystem to Walrus, you bundle the root
+				filesystem file, upload the file to a bucket in Walrus that you
+				name, and then register the root filesystem with Eucalyptus. The
+				bundle operation can include a registered ramdisk (ERI ID) and a
+				registered kernel (EKI ID). The resulting image will associate
+				the three images.</p>
+			<p>You can also bundle the root file system independently and
+				associate the ramdisk and kernel with the resulting EMI at run
+				time. For more information, see <xref
+					href="associating_ekieri.dita"/>.</p>
+			<p>To add a root filesystem to Walrus:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Use the following three commands:</cmd>
+				<info>
+					<codeblock>euca-bundle-image -i &lt;root_filesystem_file> 
 euca-upload-bundle -b &lt;root_filesystem_file_bucket> -m /tmp/&lt;root_filesystem_file>.manifest.xml
 euca-register &lt;root_filesystem_file_bucket>/&lt;root_filesystem_file>.manifest.xml</codeblock>
-            	</info>
-            </step>
-        </steps>
-    	<example>
-    		<p>For example:</p>
-    		<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
+				</info>
+			</step>
+		</steps>
+		<example>
+			<p>For example:</p>
+			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
 ...
 Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
 
@@ -38,9 +40,9 @@ Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
 
 euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml
 IMAGE	 emi-XXXXXXXX</codeblock>
-    		<p>Where the returned value <codeph>emi-XXXXXXXX</codeph> is the unique ID of the registered
-    			machine image.</p>
-    	</example>
-    	
-    </taskbody>
+			<p>Where the returned value <codeph>emi-XXXXXXXX</codeph> is the
+				unique ID of the registered machine image.</p>
+		</example>
+
+	</taskbody>
 </task>
