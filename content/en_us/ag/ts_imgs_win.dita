@@ -3,121 +3,196 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_imgs_win">
 	<title>Windows Images</title>
- <shortdesc></shortdesc>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>troubleshooting
-					<indexterm>Windows images
+				<indexterm>troubleshooting <indexterm>Windows images
 					</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	<p><draft-comment>Concept definition.</draft-comment></p>
- 	<section id="win_img_props">
- 		<title>Properties</title>
- 		<p>A typical size of Windows images is large and Eucalyptus has a set of properties that limit
- 			the size of various storage components. The first step in troubleshooting is to make sure that the values are large enough to store your Windows images. You can modify a property using</p> 
- 			<codeblock>/usb/sbin/euca-modify-property -p &lt;property>=&lt;value></codeblock>
- 		<p>The properties that might affect registering Windows images are:</p>
- 		<ul>
- 			
- 			<li><codeph>walrus.storagemaxbucketsizeinmb</codeph>: max bucket size enforced by Walrus; should be larger than a Windows image</li>
- 			<li><codeph>walrus.storagemaxcachesizeinmb</codeph>: total size of all images that is cached in Walrus; should be larger than the sum of all images (Windows/Linux) in Walrus</li>
- 			<li>walrus.storagemaxtotalsnapshotsizeingb: if a Windows image is a type of EBS-backed EMI, this should be large enough to store all EBS backed images</li>
- 			<li><codeph>{PARTITION}.storage.maxvolumesizeingb</codeph>: if a Windows image is a type of EBS-backed EMI, this should be large enough to store the image</li>
- 		</ul>
- 		<p>In addition, during the <cmdname>euca-run-instances</cmdname>, the CLC may time-out an
- 			instance while a large windows image (images in both Walrus and EBS) is being launched. We
- 			recommend that you rais the values of the following properties.</p>
- 		<ul>
- 		<li><codeph>cloud.vmstate.instance_timeout</codeph>: maximum wait time, in minutes, before the
- 			instance becomes running. Am instance cannot stay in pending longer than this. Default: 60</li>
- 		<li><codeph>cloud.vmstate.ebs_volume_creation_timeout</codeph>: maximum wait time, in minutes,
- 			before a volume backing a boot from EBS image is created. Default: 30</li>
- 		<li><codeph>cloud.addresses.maxkillorphans</codeph>: The public IP assigned to an instance will be
- 			expired after the time limit. The exact time-out is {maxkillorphans*5} seconds (by default it's
- 			50 seconds). If the volume backing an EBS image is not created in time, the public IP will be released from the instance.</li>
- 		</ul>
- 	</section>
- 	
- 	<section>
- 		<title>Image Preparation</title>
- 	<dl>
- 		<dlentry>
- 			<dt><cmdname>euca-bundle-image</cmdname> hangs</dt>
- 			<dd>The time to bundle an image is proportional to the image size. Because the typical size of Windows image is big, give enough time until bundling is complete. As a rule of thumb, it may take up to 20 min. for bundling a 10 GB Windows image.</dd>
- 		</dlentry>
- 		<dlentry>
- 			<dt><cmdname>euca-upload-bundle</cmdname> fails</dt>
- 			<dd>Make sure ‘walrus.storagemaxbucketsizeinmb’ is large enough. If not, ask your administrator.</dd>
- 		</dlentry>
- 	</dl>
- 	</section>
- 	<section>
- 		<title>Instance Launch and Login</title>
- 		<dl>
- 			<dlentry>
- 				<dt>Instance stays in pending</dt>
- 				<dd>Typically, it takes longer to launch Windows images than Linux images as the delay is proportional to the image size. This can be especially long when the image is seeded on NCs the first time (images are cached in NCs and run within few seconds thereafter). As a rule of thumb, 10 GB Windows images may take up to 10 minutes to become ‘running’ when it is not cached in NCs.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>Instance stay in pending and goes to shutdown</dt>
- 				<dd>An instance may time-out if the Windows image is too big. Review and
- 					adjust the relevant properties.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>Instance is running, but not accessible using Remote Desktop.</dt>
- 				<dd>after instances become running, you should wait until Windows is fully booted. If the image is sysprepped, the booting time may take up to 10 min. Also you should make sure the followings are cleared:
- 				<ul>
- 					<li>The port 3389 is authorized in the security group</li>
- 					<li>If the instance is attached to your active directory domain, the domain GPO shouldn’t block the RDP port (3389)</li>
- 					<li>The username should be authorized to log-in using Remote Desktop (refer to User guide: Windows integration service)</li>
- 				</ul>
- 				</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>Finding the login username and password</dt>
- 				<dd>Use <userinput>Administrator</userinput> and the password retrieved by <cmdname>euca-get-password</cmdname>. If the instance is attached to a domain, you may use your domain username and password (make sure the username is prepended with domain name, such as <filepath>YOUR_DOMAIN\Alice</filepath>). </dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>Can’t retrieve windows password using <cmdname>euca-get-password</cmdname></dt>
- 				<dd>Make sure the platform field of your windows EMI is set to ‘windows’, not ‘linux’ (use <cmdname>euca-describe-images</cmdname>). If not, the most likely reason is that the image name does not begin with ‘windows’. You should bundle/upload/register the image with a proper name.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>Instance is not attached to an Active Directory domain</dt>
- 				<dd>
- 					<ul>
- 						<li>Make sure the parameters set in Windows integration service are correct. One way to verify them is to log in the instance using Administrator password and manually attach the instance to the domain (System Properties -> Computer Name) using the same parameters.</li>
- 						<li>Make sure <codeph>VNET_DNS</codeph> in eucalyptus.conf is set to the domain controller (refer to User Guide: Configure Active Directory).</li>
- 					</ul>
- 				</dd>
- 			</dlentry>
- 		</dl>
- 	</section>
- 	<section>
- 		<title>Disk and Volume</title>
- 		<dl>
- 			<dlentry>
- 				<dt>Ephemeral disks are not visible in the Windows</dt>
- 				<dd>Open Disk Management console (<uicontrol>All Programs</uicontrol>-><uicontrol>Administrative Tools</uicontrol>-><uicontrol>Server Manager</uicontrol>-><uicontrol>Storage</uicontrol>) and find the uninitialized disks. You should create a partition on the disk and format it.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>EBS volume is attached, but not visible in the Windows</dt>
- 				<dd>Open Disk Management console (<uicontrol>All Programs</uicontrol>-><uicontrol>Administrative Tools</uicontrol>-><uicontrol>Server Manager</uicontrol>-><uicontrol>Storage</uicontrol>) and find the uninitialized disks. You should create a partition on the disk and format it. You don’t have to repeat it when the volume is reattached later.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt>EBS volume is detached, but the disk drive (for example, <filepath>E:\</filepath>) is still visible in the Windows</dt>
- 				<dd>For KVM hypervisor, you should perform “remove hardware safely” before detaching the volume.</dd>
- 			</dlentry>
- 			<dlentry>
- 				<dt><cmdname>euca-bundle-instance</cmdname> fails</dt>
- 				<dd>Make sure the bucket specified with ‘-b’ option doesn’t already exist and the property ‘walrus.storagemaxbucketsizeinmb’ is large enough to store the image.
- 				</dd>
- 			</dlentry>
- 		</dl>
- 	</section>
- </conbody>
+	<conbody>
+		<p><draft-comment>Concept definition.</draft-comment></p>
+		<section id="win_img_props">
+			<title>Properties</title>
+			<p>A typical size of Windows images is large and Eucalyptus has a
+				set of properties that limit the size of various storage
+				components. The first step in troubleshooting is to make sure
+				that the values are large enough to store your Windows images.
+				You can modify a property using</p>
+			<codeblock>/usb/sbin/euca-modify-property -p &lt;property>=&lt;value></codeblock>
+			<p>The properties that might affect registering Windows images
+				are:</p>
+			<ul>
+
+				<li><codeph>walrus.storagemaxbucketsizeinmb</codeph>: max bucket
+					size enforced by Walrus; should be larger than a Windows
+					image</li>
+				<li><codeph>walrus.storagemaxcachesizeinmb</codeph>: total size
+					of all images that is cached in Walrus; should be larger
+					than the sum of all images (Windows/Linux) in Walrus</li>
+				<li>walrus.storagemaxtotalsnapshotsizeingb: if a Windows image
+					is a type of EBS-backed EMI, this should be large enough to
+					store all EBS backed images</li>
+				<li><codeph>{PARTITION}.storage.maxvolumesizeingb</codeph>: if a
+					Windows image is a type of EBS-backed EMI, this should be
+					large enough to store the image</li>
+			</ul>
+			<p>In addition, during the <cmdname>euca-run-instances</cmdname>,
+				the CLC may time-out an instance while a large windows image
+				(images in both Walrus and EBS) is being launched. We recommend
+				that you rais the values of the following properties.</p>
+			<ul>
+				<li><codeph>cloud.vmstate.instance_timeout</codeph>: maximum
+					wait time, in minutes, before the instance becomes running.
+					Am instance cannot stay in pending longer than this.
+					Default: 60</li>
+				<li><codeph>cloud.vmstate.ebs_volume_creation_timeout</codeph>:
+					maximum wait time, in minutes, before a volume backing a
+					boot from EBS image is created. Default: 30</li>
+				<li><codeph>cloud.addresses.maxkillorphans</codeph>: The public
+					IP assigned to an instance will be expired after the time
+					limit. The exact time-out is {maxkillorphans*5} seconds (by
+					default it's 50 seconds). If the volume backing an EBS image
+					is not created in time, the public IP will be released from
+					the instance.</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Image Preparation</title>
+			<dl>
+				<dlentry>
+					<dt><cmdname>euca-bundle-image</cmdname> hangs</dt>
+					<dd>The time to bundle an image is proportional to the image
+						size. Because the typical size of Windows image is big,
+						give enough time until bundling is complete. As a rule
+						of thumb, it may take up to 20 min. for bundling a 10 GB
+						Windows image.</dd>
+				</dlentry>
+				<dlentry>
+					<dt><cmdname>euca-upload-bundle</cmdname> fails</dt>
+					<dd>Make sure ‘walrus.storagemaxbucketsizeinmb’ is large
+						enough. If not, ask your administrator.</dd>
+				</dlentry>
+			</dl>
+		</section>
+		<section>
+			<title>Instance Launch and Login</title>
+			<dl>
+				<dlentry>
+					<dt>Instance stays in pending</dt>
+					<dd>Typically, it takes longer to launch Windows images than
+						Linux images as the delay is proportional to the image
+						size. This can be especially long when the image is
+						seeded on NCs the first time (images are cached in NCs
+						and run within few seconds thereafter). As a rule of
+						thumb, 10 GB Windows images may take up to 10 minutes to
+						become ‘running’ when it is not cached in NCs.</dd>
+				</dlentry>
+				<dlentry>
+					<dt>Instance stay in pending and goes to shutdown</dt>
+					<dd>An instance may time-out if the Windows image is too
+						big. Review and adjust the relevant properties.</dd>
+				</dlentry>
+				<dlentry>
+					<dt>Instance is running, but not accessible using Remote
+						Desktop.</dt>
+					<dd>after instances become running, you should wait until
+						Windows is fully booted. If the image is sysprepped, the
+						booting time may take up to 10 min. Also you should make
+						sure the followings are cleared: <ul>
+							<li>The port 3389 is authorized in the security
+								group</li>
+							<li>If the instance is attached to your active
+								directory domain, the domain GPO shouldn’t block
+								the RDP port (3389)</li>
+							<li>The username should be authorized to log-in
+								using Remote Desktop (refer to User guide:
+								Windows integration service)</li>
+						</ul>
+					</dd>
+				</dlentry>
+				<dlentry>
+					<dt>Finding the login username and password</dt>
+					<dd>Use <userinput>Administrator</userinput> and the
+						password retrieved by
+							<cmdname>euca-get-password</cmdname>. If the
+						instance is attached to a domain, you may use your
+						domain username and password (make sure the username is
+						prepended with domain name, such as
+							<filepath>YOUR_DOMAIN\Alice</filepath>). </dd>
+				</dlentry>
+				<dlentry>
+					<dt>Can’t retrieve windows password using
+							<cmdname>euca-get-password</cmdname></dt>
+					<dd>Make sure the platform field of your windows EMI is set
+						to ‘windows’, not ‘linux’ (use
+							<cmdname>euca-describe-images</cmdname>). If not,
+						the most likely reason is that the image name does not
+						begin with ‘windows’. You should bundle/upload/register
+						the image with a proper name.</dd>
+				</dlentry>
+				<dlentry>
+					<dt>Instance is not attached to an Active Directory
+						domain</dt>
+					<dd>
+						<ul>
+							<li>Make sure the parameters set in Windows
+								integration service are correct. One way to
+								verify them is to log in the instance using
+								Administrator password and manually attach the
+								instance to the domain (System Properties ->
+								Computer Name) using the same parameters.</li>
+							<li>Make sure <codeph>VNET_DNS</codeph> in
+								eucalyptus.conf is set to the domain controller
+								(refer to User Guide: Configure Active
+								Directory).</li>
+						</ul>
+					</dd>
+				</dlentry>
+			</dl>
+		</section>
+		<section>
+			<title>Disk and Volume</title>
+			<dl>
+				<dlentry>
+					<dt>Ephemeral disks are not visible in the Windows</dt>
+					<dd>Open Disk Management console (<uicontrol>All
+							Programs</uicontrol>-><uicontrol>Administrative
+							Tools</uicontrol>-><uicontrol>Server
+							Manager</uicontrol>-><uicontrol>Storage</uicontrol>)
+						and find the uninitialized disks. You should create a
+						partition on the disk and format it.</dd>
+				</dlentry>
+				<dlentry>
+					<dt>EBS volume is attached, but not visible in the
+						Windows</dt>
+					<dd>Open Disk Management console (<uicontrol>All
+							Programs</uicontrol>-><uicontrol>Administrative
+							Tools</uicontrol>-><uicontrol>Server
+							Manager</uicontrol>-><uicontrol>Storage</uicontrol>)
+						and find the uninitialized disks. You should create a
+						partition on the disk and format it. You don’t have to
+						repeat it when the volume is reattached later.</dd>
+				</dlentry>
+				<dlentry>
+					<dt>EBS volume is detached, but the disk drive (for example,
+							<filepath>E:\</filepath>) is still visible in the
+						Windows</dt>
+					<dd>For KVM hypervisor, you should perform “remove hardware
+						safely” before detaching the volume.</dd>
+				</dlentry>
+				<dlentry>
+					<dt><cmdname>euca-bundle-instance</cmdname> fails</dt>
+					<dd>Make sure the bucket specified with ‘-b’ option doesn’t
+						already exist and the property
+						‘walrus.storagemaxbucketsizeinmb’ is large enough to
+						store the image. </dd>
+				</dlentry>
+			</dl>
+		</section>
+	</conbody>
 </concept>

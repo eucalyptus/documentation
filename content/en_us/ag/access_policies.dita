@@ -2,29 +2,37 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="access_policies">
- <title>Policy Overview</title>
- <shortdesc></shortdesc>
- <conbody>
- 	
- 	<p>Eucalyptus uses the same policy language to specify user level permissions as AWS IAM. Policies
- 		are written in JSON. Each policy file can contain multiple statements, each specifying a
- 		permission. A permission statement specifies whether to allow or deny a list of
- 		actions to be performed on a list of resources, under specific conditions.</p>
- 	<p>A permission statement has the following components:</p>
- 	<ul>
- 	<li><b>Effect:</b> Begins the decision that applies to all following components. Either: <codeph>“Allow”</codeph> or <codeph>“Deny”</codeph></li>
- 	<li><b>Action or NotAction:</b> Indicates service-specific and case-sensitive commands. For example: <codeph>“ec2:RunInstances”</codeph></li>
+	<title>Policy Overview</title>
+	<shortdesc/>
+	<conbody>
 
- 	<li><b>Resource or NotResource:</b> Indicates selected resources, each specified as an Amazon
- 		resource name (ARN). For example: <codeph>“arn:aws:s3:::acme_bucket/blob”</codeph></li>
- 		<li><b>Condition:</b> Indicates additional constraints of the permission. For example: <codeph>"DateGreaterThan"</codeph></li>
- 	</ul>
- 	
+		<p>Eucalyptus uses the same policy language to specify user level
+			permissions as AWS IAM. Policies are written in JSON. Each policy
+			file can contain multiple statements, each specifying a permission.
+			A permission statement specifies whether to allow or deny a list of
+			actions to be performed on a list of resources, under specific
+			conditions.</p>
+		<p>A permission statement has the following components:</p>
+		<ul>
+			<li><b>Effect:</b> Begins the decision that applies to all following
+				components. Either: <codeph>“Allow”</codeph> or
+					<codeph>“Deny”</codeph></li>
+			<li><b>Action or NotAction:</b> Indicates service-specific and
+				case-sensitive commands. For example:
+					<codeph>“ec2:RunInstances”</codeph></li>
 
- <p>The following policy example contains a statement that gives a user with full permission. This is the same access as the account
+			<li><b>Resource or NotResource:</b> Indicates selected resources,
+				each specified as an Amazon resource name (ARN). For example:
+					<codeph>“arn:aws:s3:::acme_bucket/blob”</codeph></li>
+			<li><b>Condition:</b> Indicates additional constraints of the
+				permission. For example: <codeph>"DateGreaterThan"</codeph></li>
+		</ul>
 
- 	administrator:</p>
- <codeblock>{
+
+		<p>The following policy example contains a statement that gives a user
+			with full permission. This is the same access as the account
+			administrator:</p>
+		<codeblock>{
   "Version":"2011-04-01",
  	"Statement":[{
  	  "Sid":"1",
@@ -33,22 +41,27 @@
  	  "Resource":"*"
  	}]
 }</codeblock>
- 	<p>For more information about policy language, go to the <xref
- 		href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/PermissionsOverview.html"
+		<p>For more information about policy language, go to the <xref
+				href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/PermissionsOverview.html"
+				format="html" scope="external">IAM User Guide</xref>.</p>
+		<section>
+			<title>Policy Notes</title>
+			<p>You can combine IAM policies with account level permissions. For
+				example, the admin of account A can give users in account B
+				permission to launch one of account A’s images by changing the
+				image attributes. Then the admin of account B can use IAM policy
+				to designate the users who can actually use the shared
+				images.</p>
+			<p>You can attach IAM policies to both users and groups. When
+				attached to groups, a policy is equivalent to attaching the same
+				policy to the users within that group. Therefore, a user might
+				have multiple policies attached, both policies attached to the
+				user, and policies attached to the group that the user belongs
+				to.</p>
+			<p>Do not attach IAM policies (except quota policies, a Eucalyptus
+				extension) to account admins. At this point, doing so won’t
+				result in a failure but may have unexpected consequences.</p>
+		</section>
 
- 		format="html" scope="external">IAM User Guide</xref>.</p>
- 	<section>
- 		<title>Policy Notes</title>
- 		
- 		<p>You can combine IAM policies with account level permissions. For example, the admin of account A can give users in account B permission to launch one of account A’s images by changing the image attributes. Then the admin of account B can use IAM policy to designate the users who can actually use the shared images.</p>
- 		
- 		<p>You can attach IAM policies to both users and groups. When attached to groups, a policy is
- 			equivalent to attaching the same policy to the users within that group. Therefore, a user might
- 			have multiple policies attached, both policies attached to the user, and policies attached
- 			to the group that the user belongs to.</p>
- 		
- 		<p>Do not attach IAM policies (except quota policies, a Eucalyptus extension) to account admins. At this point, doing so won’t result in a failure but may have unexpected consequences.</p>
- 	</section>
-
- </conbody>
+	</conbody>
 </concept>

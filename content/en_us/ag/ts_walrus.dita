@@ -3,46 +3,46 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_walrus">
 	<title>Walrus and Storage</title>
- <shortdesc></shortdesc>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>troubleshooting
-					<indexterm>Walrus and storage
+				<indexterm>troubleshooting <indexterm>Walrus and storage
 					</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	
- 	<dl>
- 		<dlentry>
- 			<dt>Walrus decryption failed.</dt>
- 			<dd>On Ubuntu 10.04 LTS, kernel version 2.6.32-31 includes a bug that prevents Walrus
- 				from decrypting images. This can be determined from the following line in cloud-output.log
- 				
- 				<codeblock>javax.crypto.
+	<conbody>
+
+		<dl>
+			<dlentry>
+				<dt>Walrus decryption failed.</dt>
+				<dd>On Ubuntu 10.04 LTS, kernel version 2.6.32-31 includes a bug
+					that prevents Walrus from decrypting images. This can be
+					determined from the following line in cloud-output.log <codeblock>javax.crypto.
 BadPaddingException: pad block corrupted</codeblock>
- 				
- 				<p>If you are running this kernel:</p>
- 				<ol>
- 					<li>Update to kernel version 2.6.32-33 or higher.</li>
- 					<li>De-register the failed image (<codeph>euca-deregister</codeph>).</li>
- 					<li>Re-register the bundle that you
- 						uploaded (<codeph>euca-register &lt;bucket>/&lt;manifest></codeph>).</li>
- 				</ol></dd>
- 		</dlentry>
- 		<dlentry>
- 			<dt>Walrus physical disk is not large enough.</dt>
- 			<dd><ol>
- 				<li>Stop the CLC.</li>
- 				<li>Add a disk.</li>
- 				<li>Migrate your data.</li>
- 			</ol>
- 				<p>Make sure you use LVM with your new disk drive(s).</p></dd>
- 		</dlentry>
- 	</dl>
- 		
- </conbody>
+					<p>If you are running this kernel:</p>
+					<ol>
+						<li>Update to kernel version 2.6.32-33 or higher.</li>
+						<li>De-register the failed image
+								(<codeph>euca-deregister</codeph>).</li>
+						<li>Re-register the bundle that you uploaded
+								(<codeph>euca-register
+								&lt;bucket>/&lt;manifest></codeph>).</li>
+					</ol></dd>
+			</dlentry>
+			<dlentry>
+				<dt>Walrus physical disk is not large enough.</dt>
+				<dd><ol>
+						<li>Stop the CLC.</li>
+						<li>Add a disk.</li>
+						<li>Migrate your data.</li>
+					</ol>
+					<p>Make sure you use LVM with your new disk
+					drive(s).</p></dd>
+			</dlentry>
+		</dl>
+
+	</conbody>
 </concept>

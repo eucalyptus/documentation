@@ -1,87 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="db_install">
-    <title>Installing Eucalyptus</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>To install Eucalyptus on Debian Sid (Unstable), perform the following tasks.</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Install the Eucalyptus components:</cmd>
-            	<info>
-            		<codeblock>apt-get install eucalyptus-cloud eucalyptus-cc eucalyptus-walrus eucalyptus-sc eucalyptus-nc</codeblock>
-            	</info>
-            </step>
-        	<step>
-        		<cmd>Configure the <filepath>eucalyptus.conf</filepath> file. Because this is a single
-        			node installation on a network with DHCP, we will use System mode for networking, which is the default. The only option you should need to change is:</cmd>
-        		<info>
-        			<codeblock>VNET_BRIDGE="br0"</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Create your network bridge. For more information, go to <xref
-        			href="https://help.ubuntu.com/community/NetworkConnectionBridge" type="html" scope="external">https://help.ubuntu.com/community/NetworkConnectionBridge</xref>.</cmd>
-        		
-        	</step>
-        	<step>
-        		<cmd>Start the Cloud Controller (CLC):</cmd>
-        		<info>
-        			<codeblock>service eucalyptus-cloud start</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Fetch and source your credentials:</cmd>
-        		<info>
-        			<codeblock>euca_conf --get-credentials admin.zip
+	<title>Installing Eucalyptus</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To install Eucalyptus on Debian Sid (Unstable), perform the
+				following tasks.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Install the Eucalyptus components:</cmd>
+				<info>
+					<codeblock>apt-get install eucalyptus-cloud eucalyptus-cc eucalyptus-walrus eucalyptus-sc eucalyptus-nc</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Configure the <filepath>eucalyptus.conf</filepath> file.
+					Because this is a single node installation on a network with
+					DHCP, we will use System mode for networking, which is the
+					default. The only option you should need to change is:</cmd>
+				<info>
+					<codeblock>VNET_BRIDGE="br0"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Create your network bridge. For more information, go to
+						<xref
+						href="https://help.ubuntu.com/community/NetworkConnectionBridge"
+						type="html" scope="external"
+						>https://help.ubuntu.com/community/NetworkConnectionBridge</xref>.</cmd>
+
+			</step>
+			<step>
+				<cmd>Start the Cloud Controller (CLC):</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Fetch and source your credentials:</cmd>
+				<info>
+					<codeblock>euca_conf --get-credentials admin.zip
 unzip admin.zip
 source eucarc</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Start the cloud components and register services:</cmd>
-        		<info>
-        			<codeblock>euca_conf --register-walrus -H [IPAddress] -C walrus -P walrus
+				</info>
+			</step>
+			<step>
+				<cmd>Start the cloud components and register services:</cmd>
+				<info>
+					<codeblock>euca_conf --register-walrus -H [IPAddress] -C walrus -P walrus
 euca_conf --register-sc -H [IPAddress] -C SC_[NAME] -P PARTI00
 euca_conf --register-cluster -H [IPAddress] -C CC_[NAME] -P PARTI00
 service eucalyptus-cc start
 euca_conf --register-nodes [IPAddress]
 service eucalyptus-nc start</codeblock>
-        		</info>
-        		<stepresult>At this point, you have a running cloud.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Verify the components:</cmd>
-        		<info>
-        			<codeblock>euca-describe-walruses ; euca-describe-storage-controllers ; euca-describe-clusters</codeblock>
-        		</info>
-        		<stepresult>Eucalyptus returns output similar to the following:
-        		<codeblock>WALRUS    walrus    walrus             192.168.51.251     ENABLED    {}
+				</info>
+				<stepresult>At this point, you have a running
+					cloud.</stepresult>
+			</step>
+			<step>
+				<cmd>Verify the components:</cmd>
+				<info>
+					<codeblock>euca-describe-walruses ; euca-describe-storage-controllers ; euca-describe-clusters</codeblock>
+				</info>
+				<stepresult>Eucalyptus returns output similar to the following:
+					<codeblock>WALRUS    walrus    walrus             192.168.51.251     ENABLED    {}
 STORAGECONTROLLER    PARTI00  SC_251   192.168.51.251     ENABLED    {}
 CLUSTER    PARTI00            CC_251   192.168.51.251     ENABLED    {}</codeblock>
-        		</stepresult>
-        	</step>
-        	<step>
-        		<cmd>ensure that the Node Controller (NC) is advertising resources:</cmd>
-        		<info>
-        			<codeblock>euca-describe-availability-zones verbose</codeblock>
-        		</info>
-        		<stepresult>Eucalyptus returns output similar to the following:
-        		<codeblock>AVAILABILITYZONE    PARTI00    192.168.51.251 arn:euca:eucalyptus:PARTI00:cluster:CC_251/
+				</stepresult>
+			</step>
+			<step>
+				<cmd>ensure that the Node Controller (NC) is advertising
+					resources:</cmd>
+				<info>
+					<codeblock>euca-describe-availability-zones verbose</codeblock>
+				</info>
+				<stepresult>Eucalyptus returns output similar to the following:
+					<codeblock>AVAILABILITYZONE    PARTI00    192.168.51.251 arn:euca:eucalyptus:PARTI00:cluster:CC_251/
 AVAILABILITYZONE    |- vm types    free / max   cpu   ram  disk
 AVAILABILITYZONE    |- m1.small    0004 / 0004   1    128     2
 AVAILABILITYZONE    |- c1.medium    0002 / 0002   1    256     5
 AVAILABILITYZONE    |- m1.large    0001 / 0001   2    512    10
 AVAILABILITYZONE    |- m1.xlarge    0000 / 0000   2   1024    20
 AVAILABILITYZONE    |- c1.xlarge    0000 / 0000   4   2048    20</codeblock>
-        		</stepresult>
-        	</step>
-        </steps>
-        <result>Congratulations! You should now have a fully configured cloud. Check out the <xref
-				format="pdf" href="http://www.eucalyptus.com/docs/latest/ug.pdf">User Guide</xref> to
-			learn about bundling and uploading images to your cloud.</result>
+				</stepresult>
+			</step>
+		</steps>
+		<result>Congratulations! You should now have a fully configured cloud.
+			Check out the <xref format="pdf"
+				href="http://www.eucalyptus.com/docs/latest/ug.pdf">User
+				Guide</xref> to learn about bundling and uploading images to
+			your cloud.</result>
 
-    </taskbody>
+	</taskbody>
 </task>

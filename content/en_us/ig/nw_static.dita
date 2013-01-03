@@ -3,48 +3,51 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_system">
 	<title>Static Mode</title>
-    <shortdesc/>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>networking
-					<indexterm>configuration
-						<indexterm>static</indexterm>
+				<indexterm>networking <indexterm>configuration
+							<indexterm>static</indexterm>
 					</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
+		<context>
+			<p>Static mode requires you to specify the network configuration
+				each VM should receive from the Eucalyptus DHCP server running
+				on the same physical server as the CC component. Configure each
+				CC to use an Ethernet device that lies within the same broadcast
+				domain as all of its NCs.</p>
+			<p>To configure for Static mode:</p>
+		</context>
+	</taskbody>
+
+	<task id="nw_managed_novlan_clc">
+		<title>CLC Configuration</title>
+		<taskbody>
 			<context>
-				<p>Static mode requires you to specify the network configuration each VM should receive from the Eucalyptus DHCP server running on the same physical server as the CC component. Configure each CC to use an Ethernet device that lies within the same broadcast domain as all of its NCs.</p>
-				
-				<p>To configure for Static mode:</p>
+				<p>No network configuration required.</p>
 			</context>
+
 		</taskbody>
-	
-			<task id="nw_managed_novlan_clc">
-				<title>CLC Configuration</title>
-				<taskbody>
-					<context>
-						<p>No network configuration required.</p>
-					</context>
-			
-				</taskbody>
-			</task>
+	</task>
 	<task id="nw_manage_novlan_cc">
 		<title>CC Configuration</title>
 		<taskbody>
-			<context>
-				
-			</context>
+			<context> </context>
 			<steps>
 				<step>
-					<cmd>Log in to the CC and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+					<cmd>Log in to the CC and open the
+							<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
 				</step>
 				<step>
-					<cmd>Go to the <b>Network Configuration</b> section, uncomment and set the following:</cmd>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following:</cmd>
 					<info>
 						<codeblock>VNET_MODE="STATIC"
 
@@ -66,19 +69,18 @@ VNET_PRIVINTERFACE="&lt;Ethernet device on same network as the NCs. Example: eth
 VNET_DHCPDAEMON="&lt;path to DCHP daemon binary. Example /usr/sbin/dhcp3d>"
 
 VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
-						
 					</info>
 				</step>
-				
+
 				<step>
 					<cmd>Save the file. </cmd>
-					
+
 				</step>
 				<step>
 					<cmd>Repeat on each CC in your cloud.</cmd>
-					
+
 				</step>
-				
+
 			</steps>
 		</taskbody>
 	</task>
@@ -87,11 +89,13 @@ VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>Log into an NC machine and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
-					file.</cmd>
+					<cmd>Log into an NC machine and open the
+							<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
 				</step>
 				<step>
-					<cmd>Go to the <b>Network Configuration</b> section, uncomment and set the following:</cmd>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following:</cmd>
 					<info>
 						<codeblock>VNET_MODE="STATIC"
 VNET_BRIDGE="&lt;name of bridge on the same network as the CC. Examples: xenbr0 or eth0>"</codeblock>

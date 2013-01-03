@@ -2,103 +2,124 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="policy_elements">
- <title>Policy Elements</title>
- <shortdesc></shortdesc>
- <conbody>
- 	<p>Policy elements are listed here in the general order you use them in a policy. The Id, Version,
- 		and Statement are top-level policy elements. The rest are children of the Statement element. The
- 		elements do not have to occur in any specific order. For more information about IAM’s policy
- 		elements, go to the <xref
- 			href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html"
- 			format="html">Element Descriptions</xref> in Using IAM. </p>
- 	
- 	
- 		<section>
- 			<title>Version</title>
- 			<p>This is the AWS access control policy version. The only valid value is 2008-10-17.
- 			<codeblock>"Version":"2008-10-17"</codeblock>
- 			</p>
- 		</section>
- 		<section>
- 			<title>Id</title>
- 			<p>A string that identifies the policy. We recommend that you use a UUID this value. For example:
- 				<codeblock>"Id":"cd3ad3d9-2776-4ef1-a904-4c229d1642ee"</codeblock></p>
- 		</section>
- 		<section>
- 			<title>Statement</title>
- 			<p>A list of statements, each a distinct JSON block defining a permission and enclosed in curly
- 			brackets { }.
- 			<codeblock>"Statement":[{...},{...},{...}]</codeblock></p>
- 		</section>
- 		<section>
- 			<title>Sid</title>
- 			<p>The statement ID. The Sid must be unique within a single policy.
- 			<codeblock>"Sid" : "1"</codeblock>
- 			</p>
- 		</section>
- 		<section>
- 			<title>Effect</title>
- 			<p>Required element that indicates the result of the permission. Valid values area <codeph>Allow</codeph> or <codeph>Deny</codeph>.
- 			<codeblock>"Effect":"Allow"</codeblock>
- 			</p>
- 		</section>
- 		<section>
- 			<title>Principal</title>
- 			<p>The user(s) that this permission is applied to. In Eucalyptus, this is only applied to a bucket policy. There are two types of principals:
- 				<ul>
- 					<li>AWS: Using the complete ARNs to specify a list of accounts, users and groups. The account part of the ARN is using AWS account ID. For example:
- 					<codeblock>“Principal”: {
+	<title>Policy Elements</title>
+	<shortdesc/>
+	<conbody>
+		<p>Policy elements are listed here in the general order you use them in
+			a policy. The Id, Version, and Statement are top-level policy
+			elements. The rest are children of the Statement element. The
+			elements do not have to occur in any specific order. For more
+			information about IAM’s policy elements, go to the <xref
+				href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/AccessPolicyLanguage_ElementDescriptions.html"
+				format="html">Element Descriptions</xref> in Using IAM. </p>
+
+
+		<section>
+			<title>Version</title>
+			<p>This is the AWS access control policy version. The only valid
+				value is 2008-10-17.
+				<codeblock>"Version":"2008-10-17"</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Id</title>
+			<p>A string that identifies the policy. We recommend that you use a
+				UUID this value. For example:
+				<codeblock>"Id":"cd3ad3d9-2776-4ef1-a904-4c229d1642ee"</codeblock></p>
+		</section>
+		<section>
+			<title>Statement</title>
+			<p>A list of statements, each a distinct JSON block defining a
+				permission and enclosed in curly brackets { }.
+				<codeblock>"Statement":[{...},{...},{...}]</codeblock></p>
+		</section>
+		<section>
+			<title>Sid</title>
+			<p>The statement ID. The Sid must be unique within a single policy.
+				<codeblock>"Sid" : "1"</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Effect</title>
+			<p>Required element that indicates the result of the permission.
+				Valid values area <codeph>Allow</codeph> or
+					<codeph>Deny</codeph>.
+				<codeblock>"Effect":"Allow"</codeblock>
+			</p>
+		</section>
+		<section>
+			<title>Principal</title>
+			<p>The user(s) that this permission is applied to. In Eucalyptus,
+				this is only applied to a bucket policy. There are two types of
+				principals: <ul>
+					<li>AWS: Using the complete ARNs to specify a list of
+						accounts, users and groups. The account part of the ARN
+						is using AWS account ID. For example:
+						<codeblock>“Principal”: {
 "AWS": ["arn:aws:iam::12345678:user/*"]
 }</codeblock>
- 					</li>
- 					<li>CanonicalUser: Using the old AWS user ID, which now represents the account.
- 					<codeblock>"Principal": {
+					</li>
+					<li>CanonicalUser: Using the old AWS user ID, which now
+						represents the account.
+						<codeblock>"Principal": {
 "CanonicalUser": "12345678"
 }</codeblock>
- 					</li>
- 				</ul>
- 				<note type="note">Account ID and canonical user ID are different in AWS. But in Eucalyptus we don’t
- 					have this legacy problem. In both cases we use the account UUID.</note></p>
- 		</section>
- 		<section>
- 			<title>Action</title>
- 			<p>The action(s) that this permission applies to. It can be a wildcard (*) to represent all
- 				actions. The format of the action name is as follows:</p>
- 				<codeblock>&lt;vendor>:&lt;api></codeblock>
- 					<p>where vendor specifies the service to which the API name belongs, including ec, iam, and s3. The api refers to the action names that are supported by the service. For example:</p>
- 					<codeblock>"Action":["iam:ListUsers","iam:ListAccessKeys"]</codeblock>
- 					<p>The following example permits all actions in EC2:</p>
- 					<codeblock>"Action":"ec2:*"</codeblock>
- 					<p>The following example permits all IAM actions that start with “List”:</p>
- 					<codeblock>"Action":"iam:List*"</codeblock>
- 					 <note type="tip">The action name is case insensitive.</note>
- 		</section>
- 		<section>
- 			<title>NotAction</title>
- 			<p>
- 				The action(s) that this permission does not apply to. It can be a wildcard (*) to represent all actions. This element has the same structure as the Action element. For example:
- 				<codeblock>"NotAction":"ec2:RunInstances"</codeblock></p>
- 		</section>
- 		<section>
- 			<title>Resource</title>
- 			<p>
- 				A resource is the object that the policy applies to. The resource names use the standard ARNs. Note that resources can be from different services. 
- 				It can be a wildcard (*) to represent all resources. The following example refers to all users:
- 				<codeblock>"Resource": ["arn:aws:iam::12345678:users/*"]</codeblock></p>
- 		</section>
+					</li>
+				</ul>
+				<note type="note">Account ID and canonical user ID are different
+					in AWS. But in Eucalyptus we don’t have this legacy problem.
+					In both cases we use the account UUID.</note></p>
+		</section>
+		<section>
+			<title>Action</title>
+			<p>The action(s) that this permission applies to. It can be a
+				wildcard (*) to represent all actions. The format of the action
+				name is as follows:</p>
+			<codeblock>&lt;vendor>:&lt;api></codeblock>
+			<p>where vendor specifies the service to which the API name belongs,
+				including ec, iam, and s3. The api refers to the action names
+				that are supported by the service. For example:</p>
+			<codeblock>"Action":["iam:ListUsers","iam:ListAccessKeys"]</codeblock>
+			<p>The following example permits all actions in EC2:</p>
+			<codeblock>"Action":"ec2:*"</codeblock>
+			<p>The following example permits all IAM actions that start with
+				“List”:</p>
+			<codeblock>"Action":"iam:List*"</codeblock>
+			<note type="tip">The action name is case insensitive.</note>
+		</section>
+		<section>
+			<title>NotAction</title>
+			<p> The action(s) that this permission does not apply to. It can be
+				a wildcard (*) to represent all actions. This element has the
+				same structure as the Action element. For example:
+				<codeblock>"NotAction":"ec2:RunInstances"</codeblock></p>
+		</section>
+		<section>
+			<title>Resource</title>
+			<p> A resource is the object that the policy applies to. The
+				resource names use the standard ARNs. Note that resources can be
+				from different services. It can be a wildcard (*) to represent
+				all resources. The following example refers to all users:
+				<codeblock>"Resource": ["arn:aws:iam::12345678:users/*"]</codeblock></p>
+		</section>
 
- 		<section>
- 			<title>NotResource</title>
- 			<p>
- 				This specifies any exceptions to a list of resources. For example:
- 				<codeblock>"NotResource": ["arn:aws:s3:::bucket1", "arn:aws:s3:::bucket2"]</codeblock></p>
- 		</section>
- 		
- 		<section>
- 			<title>Condition</title>
- 			<p>A condition contains sub-elements condition types. Condition types define a set of conditions
- 				that need to be satisfied in order for the permission to be granted. Each set of condition types within a condition is referred to as a condition block. Each condition type in the condition block specifies the relationship between a key and its value(s). The following is an example of a condition block with two condition types:</p>
- <codeblock>“Condition”: {
+		<section>
+			<title>NotResource</title>
+			<p> This specifies any exceptions to a list of resources. For
+				example:
+				<codeblock>"NotResource": ["arn:aws:s3:::bucket1", "arn:aws:s3:::bucket2"]</codeblock></p>
+		</section>
+
+		<section>
+			<title>Condition</title>
+			<p>A condition contains sub-elements condition types. Condition
+				types define a set of conditions that need to be satisfied in
+				order for the permission to be granted. Each set of condition
+				types within a condition is referred to as a condition block.
+				Each condition type in the condition block specifies the
+				relationship between a key and its value(s). The following is an
+				example of a condition block with two condition types:</p>
+			<codeblock>“Condition”: {
     “DateGreaterThan”: {
         “aws:CurrentTime”: "2010-01-01"
      }
@@ -106,22 +127,40 @@
         “aws:SourceIp”: ["192.168.1.0/24", "192.168.2.0/24"]
      }
 }</codeblock>
- 				<p>Here <codeph>DateGreaterThan</codeph> and <codeph>IpAddress</codeph> are condition types.
- 					<codeph>aws:CurrentTime</codeph> and <codeph>aws:SourceIp</codeph> are keys. To satisfy the above condition block, the time of the request must be after 2010-01-01 and the request source address should match <codeph>192.168.1.0/24</codeph> or <codeph>192.168.2.0/24</codeph>.</p>
- 		</section>
- 		
- 		<section>
- 			<title>Keys</title>
- 			<p>
- 				Each condition type contains a list of keys and their specified value lists. Eucalyptus
- 				evaluates all keys to match their specified value lists. Eucalyptus extends IAM to include two additional special keys, ec2:ExpirationTime and ec2:KeepAlive. These keys are used to specify the length of time an instance can run or an IP address can be used. They are different from other keys in that they do not specify a condition. Instead, they create a side effect of the policy evaluation. These keys are different ways to specify the expiration time:</p>
- 				<ul>
- 					<li><codeph>ec2:ExpirationTime</codeph> explicitly gives a deadline.</li>
- 					<li><codeph>ec2:KeepAlive</codeph> specifies the amount of time an instance can run.</li>
- 				</ul>
- <p>If a policy statement matches an instance creation request, and the statement contains these
- 	keys in its condition block, then an expiration time is attached to the newly created instance causing it to expire at the appointed time. If there are multiple instances of these keys, the longest specified time value is chosen and applied to the instance.</p>
- 		</section>
- 	
- </conbody>
+			<p>Here <codeph>DateGreaterThan</codeph> and
+					<codeph>IpAddress</codeph> are condition types.
+					<codeph>aws:CurrentTime</codeph> and
+					<codeph>aws:SourceIp</codeph> are keys. To satisfy the above
+				condition block, the time of the request must be after
+				2010-01-01 and the request source address should match
+					<codeph>192.168.1.0/24</codeph> or
+					<codeph>192.168.2.0/24</codeph>.</p>
+		</section>
+
+		<section>
+			<title>Keys</title>
+			<p> Each condition type contains a list of keys and their specified
+				value lists. Eucalyptus evaluates all keys to match their
+				specified value lists. Eucalyptus extends IAM to include two
+				additional special keys, ec2:ExpirationTime and ec2:KeepAlive.
+				These keys are used to specify the length of time an instance
+				can run or an IP address can be used. They are different from
+				other keys in that they do not specify a condition. Instead,
+				they create a side effect of the policy evaluation. These keys
+				are different ways to specify the expiration time:</p>
+			<ul>
+				<li><codeph>ec2:ExpirationTime</codeph> explicitly gives a
+					deadline.</li>
+				<li><codeph>ec2:KeepAlive</codeph> specifies the amount of time
+					an instance can run.</li>
+			</ul>
+			<p>If a policy statement matches an instance creation request, and
+				the statement contains these keys in its condition block, then
+				an expiration time is attached to the newly created instance
+				causing it to expire at the appointed time. If there are
+				multiple instances of these keys, the longest specified time
+				value is chosen and applied to the instance.</p>
+		</section>
+
+	</conbody>
 </concept>

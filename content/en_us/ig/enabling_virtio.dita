@@ -2,43 +2,58 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="enabling_virtio" props="kvm">
-    <title>Enable Virtio</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<draft-comment>Use for building from source</draft-comment>
-        	<note>This section only applies to KVM hypervisors. Skip this section if your system does not use KVM.</note>
-        	<p>If you have a recent version of the KVM hypervisor (>=60) and guest VMs with Virtio drivers (available for both Linux and Windows), you can use Virtio for I/O of guest VMs. To enable Eucalyptus to use Virtio:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Log in to the NC server and open the<filepath> /etc/eucalyptus/eucalyptus.conf</filepath> file.
-            	</cmd>
-            </step>
-        	<step>
-        		<cmd>Edit the following parameters:</cmd>
-        		<info>
-        			<ul>
-        				<li>Set <codeph>USE_VIRTIO_ROOT</codeph> and <codeph>USE_VIRTIO_DISK</codeph> to
-        					<userinput>1</userinput> on CentOS 5, RHEL 5, and RHEL 6 NCs that use KVM or else instances will not start.</li>
-        				<li>Set <codeph>USE_VIRTIO_DISK</codeph> to <userinput>1</userinput> if you want Eucalyptus to use Virtio for EBS volumes attached to VMs running on the node.</li>
-        				<li>Set <codeph>USE_VIRTIO_ROOT</codeph> to <userinput>1</userinput> if you want Eucalyptus to use Virtio for the root file
-        					system disk of all instances started on the NC.</li>
-        				<li>Set <codeph>USE_VIRTIO_NET</codeph> to <userinput>1</userinput> if you want
-        					Eucalyptus to use Virtio for the network card of all instances started on the NC.</li>
-        			</ul>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Restart the NC server. </cmd>
-        	</step>
-        	<step>
-        		<cmd>Repeat for each NC server.</cmd>
-        	</step>
-        </steps>
-    	<postreq>For more information about Virtio, go to <xref format="html"
-    		href="http://www.linux-kvm.org/page/Virtio">KVM's Virtio</xref> page, or refer to 
-    		<xref format="pdf"
-    			href="http://www.linux-kvm.org/wiki/images/d/dd/KvmForum2007%24kvm_pv_drv.pdf">KVM PV Devices</xref>.</postreq>
-    </taskbody>
+	<title>Enable Virtio</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<draft-comment>Use for building from source</draft-comment>
+			<note>This section only applies to KVM hypervisors. Skip this
+				section if your system does not use KVM.</note>
+			<p>If you have a recent version of the KVM hypervisor (>=60) and
+				guest VMs with Virtio drivers (available for both Linux and
+				Windows), you can use Virtio for I/O of guest VMs. To enable
+				Eucalyptus to use Virtio:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the NC server and open the<filepath>
+						/etc/eucalyptus/eucalyptus.conf</filepath> file. </cmd>
+			</step>
+			<step>
+				<cmd>Edit the following parameters:</cmd>
+				<info>
+					<ul>
+						<li>Set <codeph>USE_VIRTIO_ROOT</codeph> and
+								<codeph>USE_VIRTIO_DISK</codeph> to
+								<userinput>1</userinput> on CentOS 5, RHEL 5,
+							and RHEL 6 NCs that use KVM or else instances will
+							not start.</li>
+						<li>Set <codeph>USE_VIRTIO_DISK</codeph> to
+								<userinput>1</userinput> if you want Eucalyptus
+							to use Virtio for EBS volumes attached to VMs
+							running on the node.</li>
+						<li>Set <codeph>USE_VIRTIO_ROOT</codeph> to
+								<userinput>1</userinput> if you want Eucalyptus
+							to use Virtio for the root file system disk of all
+							instances started on the NC.</li>
+						<li>Set <codeph>USE_VIRTIO_NET</codeph> to
+								<userinput>1</userinput> if you want Eucalyptus
+							to use Virtio for the network card of all instances
+							started on the NC.</li>
+					</ul>
+				</info>
+			</step>
+			<step>
+				<cmd>Restart the NC server. </cmd>
+			</step>
+			<step>
+				<cmd>Repeat for each NC server.</cmd>
+			</step>
+		</steps>
+		<postreq>For more information about Virtio, go to <xref format="html"
+				href="http://www.linux-kvm.org/page/Virtio">KVM's Virtio</xref>
+			page, or refer to <xref format="pdf"
+				href="http://www.linux-kvm.org/wiki/images/d/dd/KvmForum2007%24kvm_pv_drv.pdf"
+				>KVM PV Devices</xref>.</postreq>
+	</taskbody>
 </task>

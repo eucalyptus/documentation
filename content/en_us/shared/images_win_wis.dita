@@ -10,22 +10,39 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Download the most recent version of the Windows Image Preparation Tool from 
-					<xref href='http://downloads.eucalyptus.com/software/tools/windows-prep/' format="iso">http://downloads.eucalyptus.com/software/tools/windows-prep/</xref> 
-					to the working directory of your NC or the host running the vSphere client.</cmd>
+				<cmd>Download the most recent version of the Windows Image
+					Preparation Tool from <xref
+						href="http://downloads.eucalyptus.com/software/tools/windows-prep/"
+						format="iso"
+						>http://downloads.eucalyptus.com/software/tools/windows-prep/</xref>
+					to the working directory of your NC or the host running the
+					vSphere client.</cmd>
 			</step>
 			<step>
-				<cmd>For KVM and Xen, open the libvirt-[hypervisor]-windows-example.xml file you used in the previous section and make the following 
-					edits:</cmd>
+				<cmd>For KVM and Xen, open the
+					libvirt-[hypervisor]-windows-example.xml file you used in
+					the previous section and make the following edits:</cmd>
 				<info>
 					<ul>
-						<li>Comment out the lines of XML code directing the hypervisor to boot the Windows image from the CDROM.</li>
-						<li>Change the text so that <codeph>windows-prep-tools-3.1.0.iso</codeph> replaces the Windows .iso image and is mounted as <codeph>cdrom</codeph>.</li>
-						<li>Enter the path to the secondary disk file you created in the previous task.</li>
-						<li>Uncomment the lines that direct attachment of a floppy disk, secondary disk, and secondary network interface.</li>
+						<li>Comment out the lines of XML code directing the
+							hypervisor to boot the Windows image from the
+							CDROM.</li>
+						<li>Change the text so that
+								<codeph>windows-prep-tools-3.1.0.iso</codeph>
+							replaces the Windows .iso image and is mounted as
+								<codeph>cdrom</codeph>.</li>
+						<li>Enter the path to the secondary disk file you
+							created in the previous task.</li>
+						<li>Uncomment the lines that direct attachment of a
+							floppy disk, secondary disk, and secondary network
+							interface.</li>
 					</ul>
-					<note type="tip">If you plan on using virtio networking for instances (via USE_VIRTIO_NET option on node controllers), uncommenting the virtio interface in the xml is mandatory</note>
-					<p>Your finished file should look similar to one of the following examples.</p>
+					<note type="tip">If you plan on using virtio networking for
+						instances (via USE_VIRTIO_NET option on node
+						controllers), uncommenting the virtio interface in the
+						xml is mandatory</note>
+					<p>Your finished file should look similar to one of the
+						following examples.</p>
 					<p>For Xen:</p>
 					<codeblock>&lt;domain type='xen'>
     &lt;name>eucalyptus-windows&lt;/name>
@@ -121,20 +138,24 @@
     &lt;/devices>
 &lt;/domain></codeblock>
 				</info>
-			</step>			
+			</step>
 			<step>
-				<cmd>There is an issue with Xen paravirtualization drivers on some Windows versions. 64-bit Windows Server 2008, Windows Server 2008R2, and Windows 7 have driver signing requirements that prevent unsigned drivers from being installed. The supplied drivers in the package are not signed. To resolve this issue:</cmd>
+				<cmd>There is an issue with Xen paravirtualization drivers on
+					some Windows versions. 64-bit Windows Server 2008, Windows
+					Server 2008R2, and Windows 7 have driver signing
+					requirements that prevent unsigned drivers from being
+					installed. The supplied drivers in the package are not
+					signed. To resolve this issue:</cmd>
 				<substeps>
 					<substep>
 						<cmd>Log in to the Windows VM.</cmd>
 					</substep>
 					<substep>
-						<cmd>Launch <codeph>cmd.exe</codeph> as administrator, and execute the following commands:</cmd>
+						<cmd>Launch <codeph>cmd.exe</codeph> as administrator,
+							and execute the following commands:</cmd>
 						<info>
-							
 							<codeblock>bcdedit.exe -set loadoptions DISABLE_INTEGRITY_CHECKS
 bcdedit.exe -set TESTSIGNING ON</codeblock>
-							
 						</info>
 					</substep>
 					<substep>
@@ -143,62 +164,90 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 				</substeps>
 			</step>
 			<step>
-				<cmd>Start the VM with the newly modified libvirt xml file:</cmd>
+				<cmd>Start the VM with the newly modified libvirt xml
+					file:</cmd>
 				<info>
 					<codeblock>virsh create libvirt-[hypervisor]-windows.xml</codeblock>
-				</info> 	
+				</info>
 			</step>
 			<step>
-				<cmd>For VMware, use the VMware vSphere client to upload the ISO file to the VSphere datastore. Attach the <filepath>windows-prep-tools-3.1.0.iso</filepath> to the Windows VM.</cmd>
+				<cmd>For VMware, use the VMware vSphere client to upload the ISO
+					file to the VSphere datastore. Attach the
+						<filepath>windows-prep-tools-3.1.0.iso</filepath> to the
+					Windows VM.</cmd>
 			</step>
 			<step>
-				<cmd>Log in to Windows and find the Eucalyptus installation files in the CDROM drive.</cmd>
+				<cmd>Log in to Windows and find the Eucalyptus installation
+					files in the CDROM drive.</cmd>
 				<choices>
-					<choice>For Windows Server 2003 R2, run <codeph>setup.exe</codeph>. This automatically installs the .NET framework 2.0, which is not bundled in Server 2003 R2.	</choice>
-					<choice>For all other versions, run <codeph>EucalyptusWindowsIntegration.msi</codeph>. (setup.exe will automatically install .NET framework 2.0, which is not bundled in Server 2003 R2).</choice>
+					<choice>For Windows Server 2003 R2, run
+							<codeph>setup.exe</codeph>. This automatically
+						installs the .NET framework 2.0, which is not bundled in
+						Server 2003 R2. </choice>
+					<choice>For all other versions, run
+							<codeph>EucalyptusWindowsIntegration.msi</codeph>.
+						(setup.exe will automatically install .NET framework
+						2.0, which is not bundled in Server 2003 R2).</choice>
 				</choices>
 			</step>
 			<step>
-				<cmd>In the <uicontrol>Choose your hypervisor</uicontrol> step, select your hypervisor and then click <uicontrol>Next</uicontrol>.</cmd>
-				<info><image href="images/ewi_hypervisor.jpg" scale="80" alt="Eucalyptus Windows Integrator
+				<cmd>In the <uicontrol>Choose your hypervisor</uicontrol> step,
+					select your hypervisor and then click
+						<uicontrol>Next</uicontrol>.</cmd>
+				<info><image href="images/ewi_hypervisor.jpg" scale="80"
+						alt="Eucalyptus Windows Integrator
 					select hypervisor window"/>
-					<p>Click <uicontrol>Next</uicontrol> and continue until the end of installation.</p>
-					<draft-comment>Should this be a separate section, like Active
-						Directory and Remote Desktop? Scot: maybe combine all into one process file of separate tasks.</draft-comment>
+					<p>Click <uicontrol>Next</uicontrol> and continue until the
+						end of installation.</p>
+					<draft-comment>Should this be a separate section, like
+						Active Directory and Remote Desktop? Scot: maybe combine
+						all into one process file of separate
+						tasks.</draft-comment>
 				</info>
 			</step>
 			<step>
 				<cmd>Reboot the Windows VM</cmd>
 			</step>
 			<step>
-				<cmd>For KVM and Xen, open the Windows device manager and check that the following drivers are found for
-					each device.</cmd>
+				<cmd>For KVM and Xen, open the Windows device manager and check
+					that the following drivers are found for each device.</cmd>
 				<info>
 					<p>For KVM:</p>
 					<ul>
 						<li>Floppy disk drive</li>
 						<li>Disk drivers: Red Hat VirtIO SCSI Disk Device</li>
-						<li>SCSI and RAID controllers: Red Hat VirtIO SCSI controller</li>
-						<li>Network adapters: Red Hat VirtIO Ethernet Adapter</li>
+						<li>SCSI and RAID controllers: Red Hat VirtIO SCSI
+							controller</li>
+						<li>Network adapters: Red Hat VirtIO Ethernet
+							Adapter</li>
 					</ul>
 					<p>For Xen:</p>
 					<ul>
 						<li>Floppy disk drive</li>
 						<li>Disk drivers: XEN PV SCSI Disk Device</li>
-						<li>SCSI and RAID controllers: Xen Block Device Driver</li>
+						<li>SCSI and RAID controllers: Xen Block Device
+							Driver</li>
 						<li>Network adapters: Xen Net Device Driver</li>
 					</ul>
 				</info>
-				<stepresult>If the correct drivers are not found, question marks display on the devices. To install the devices, do the following:
-					<ul>
-						<li>Right-click on the devices in question and select <uicontrol>Update Drivers</uicontrol> to open the New Hardware Wizard.</li>
-						<li>When the new hardware wizard asks if Windows update is to be connected, click <uicontrol>No, not this time</uicontrol>.</li>
-						<li>Choose <uicontrol>Install software automatically (recommended)</uicontrol>.</li>
-						<li>If a confirmation popup message displays, click <uicontrol>Continue</uicontrol>.</li>
+				<stepresult>If the correct drivers are not found, question marks
+					display on the devices. To install the devices, do the
+					following: <ul>
+						<li>Right-click on the devices in question and select
+								<uicontrol>Update Drivers</uicontrol> to open
+							the New Hardware Wizard.</li>
+						<li>When the new hardware wizard asks if Windows update
+							is to be connected, click <uicontrol>No, not this
+								time</uicontrol>.</li>
+						<li>Choose <uicontrol>Install software automatically
+								(recommended)</uicontrol>.</li>
+						<li>If a confirmation popup message displays, click
+								<uicontrol>Continue</uicontrol>.</li>
 					</ul>
 				</stepresult>
 			</step>
 		</steps>
-		<postreq>You are now ready to <xref href="images_win_activedirectory.dita"/>.</postreq>
+		<postreq>You are now ready to <xref
+				href="images_win_activedirectory.dita"/>.</postreq>
 	</taskbody>
 </task>

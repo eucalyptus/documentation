@@ -14,20 +14,22 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p>To reduce calls to Walrus, Eucalyptus provides a means for images, including ramdisk
-				and kernel images, to be cached on a cluster controller (CC). If this feature is
-				enabled, when Eucalyptus starts an instance, it will first look for the instance
-				image in the CC image cache location. If the image is not found in the CC image
-				cache, it will be loaded from Walrus, and stored in the cache if space is
-				available.</p>
+			<p>To reduce calls to Walrus, Eucalyptus provides a means for
+				images, including ramdisk and kernel images, to be cached on a
+				cluster controller (CC). If this feature is enabled, when
+				Eucalyptus starts an instance, it will first look for the
+				instance image in the CC image cache location. If the image is
+				not found in the CC image cache, it will be loaded from Walrus,
+				and stored in the cache if space is available.</p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Edit <filepath>/var/eucalyptus/eucalyptus.conf</filepath> as follows:</cmd>
+				<cmd>Edit <filepath>/var/eucalyptus/eucalyptus.conf</filepath>
+					as follows:</cmd>
 				<substeps>
 					<substep>
-						<cmd>Uncomment the CC_IMAGE_PROXY line and specify the IP of the CC host on
-							which to cache images.</cmd>
+						<cmd>Uncomment the CC_IMAGE_PROXY line and specify the
+							IP of the CC host on which to cache images.</cmd>
 						<info>
 							<codeblock>
 # Set this to make the CC cache images, kernels and ramdisks.  NCs must
@@ -37,8 +39,8 @@ CC_IMAGE_PROXY="192.168.0.100"
 						</info>
 					</substep>
 					<substep>
-						<cmd>Set <codeph>CC_IMAGE_PROXY_PATH</codeph> to point to the location of
-							the image cache.</cmd>
+						<cmd>Set <codeph>CC_IMAGE_PROXY_PATH</codeph> to point
+							to the location of the image cache.</cmd>
 						<info>
 							<codeblock>
 # Set this to the location where the CC image proxy should store cached
@@ -48,8 +50,8 @@ CC_IMAGE_PROXY_PATH="/disk1/storage/cc_cache"
 						</info>
 					</substep>
 					<substep>
-						<cmd>Set <codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to the maximum size of
-							the image cache.</cmd>
+						<cmd>Set <codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to
+							the maximum size of the image cache.</cmd>
 						<info>
 							<codeblock>
 # Set this to the maximum size (in megabytes) of the CC image proxy cache.
@@ -57,18 +59,20 @@ CC_IMAGE_PROXY_PATH="/disk1/storage/cc_cache"
 CC_IMAGE_PROXY_CACHE_SIZE="32768"
 							</codeblock>
 							<note type="important">Setting
-									<codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to <codeph>0</codeph>
-								will cause any attempts to create an instance from an uncached image
-								to remain pending indefinitely. To disable image caching, comment
-								out the <codeph>CC_IMAGE_PROXY</codeph> line.</note>
+									<codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph>
+								to <codeph>0</codeph> will cause any attempts to
+								create an instance from an uncached image to
+								remain pending indefinitely. To disable image
+								caching, comment out the
+									<codeph>CC_IMAGE_PROXY</codeph> line.</note>
 						</info>
 					</substep>
 				</substeps>
 			</step>
 			<step>
-				<cmd>Create a <codeph>data</codeph> directory at the location specified in
-						<codeph>CC_IMAGE_PROXY_PATH</codeph>, and give the “eucalyptus” user full
-					access to the directory.</cmd>
+				<cmd>Create a <codeph>data</codeph> directory at the location
+					specified in <codeph>CC_IMAGE_PROXY_PATH</codeph>, and give
+					the “eucalyptus” user full access to the directory.</cmd>
 				<info>
 					<codeblock>
 mkdir -p /disk1/storage/cc_cache/data
@@ -79,12 +83,14 @@ chmod -R 777 /disk1/storage/cc_cache
 			<step>
 				<cmd>Perform a clean restart of the cluster controller.</cmd>
 				<info>
-					<note type="important">A clean restart should only be performed when no
-						instances are running, or when instance service interruption can be
-						tolerated. A clean restart causes the CC to reset its networking
-						configuration, regardless of whether or not it is in use. A clean restart of
-						a CC managing active VMs can cause the network connectivity of those VMs to
-						be irreparably lost.</note>
+					<note type="important">A clean restart should only be
+						performed when no instances are running, or when
+						instance service interruption can be tolerated. A clean
+						restart causes the CC to reset its networking
+						configuration, regardless of whether or not it is in
+						use. A clean restart of a CC managing active VMs can
+						cause the network connectivity of those VMs to be
+						irreparably lost.</note>
 					<codeblock>
 service eucalyptus-cc cleanrestart 
 					</codeblock>

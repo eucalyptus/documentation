@@ -3,86 +3,93 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configuring_ssl_adminconsole">
 	<title>Configuring SSL for the Admin Console UI</title>
-    <shortdesc/>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>SSL
-					<indexterm>Admin Console</indexterm>
+				<indexterm>SSL <indexterm>Admin Console</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
 	<taskbody>
-        <context>
-        	<p>In order to configure SSL for the Admin Console UI, you will need a signed 
-        		certificate.</p>
-        </context>
-        <steps>
-        	<step>
-        		<cmd>Create a p12 keystore that includes the signed certificate and private key:</cmd>
-        		<info>
-        			<codeblock>openssl pkcs12 -export -out signedcert.p12 -inkey [key_file] -in [certificate_file] -name jetty -certfile gd_bundle.crt</codeblock>
-        		</info>
-        		<stepresult>Ensure that the keystore is readable by the Eucalyptus user.</stepresult>
-        	</step>
-        	<step>
-        		<cmd>Verify that the certificate was converted correctly:</cmd>
-        		<info>
-        			<codeblock>keytool -exportcert -v -alias jetty -keystore signedcert.p12 -storetype pkcs12 > certificate.crt
+		<context>
+			<p>In order to configure SSL for the Admin Console UI, you will need
+				a signed certificate.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Create a p12 keystore that includes the signed certificate
+					and private key:</cmd>
+				<info>
+					<codeblock>openssl pkcs12 -export -out signedcert.p12 -inkey [key_file] -in [certificate_file] -name jetty -certfile gd_bundle.crt</codeblock>
+				</info>
+				<stepresult>Ensure that the keystore is readable by the
+					Eucalyptus user.</stepresult>
+			</step>
+			<step>
+				<cmd>Verify that the certificate was converted correctly:</cmd>
+				<info>
+					<codeblock>keytool -exportcert -v -alias jetty -keystore signedcert.p12 -storetype pkcs12 > certificate.crt
 keytool -printcert -file certificate.crt
 </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Move the new certificate store into place:</cmd>
-        		<info>
-        			<codeblock>mv signedcert.p12 /var/lib/eucalyptus/keys/signedcert.p12
+				</info>
+			</step>
+			<step>
+				<cmd>Move the new certificate store into place:</cmd>
+				<info>
+					<codeblock>mv signedcert.p12 /var/lib/eucalyptus/keys/signedcert.p12
 chown eucalyptus:eucalyptus /var/lib/eucalyptus/keys/signedcert.p12
 chmod 600 /var/lib/eucalyptus/keys/signedcert.p12
 </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Create a temporary directory, and extract the <codeph>eucalyptus-www</codeph> jar:</cmd>
-        		<info>
-        			<codeblock>mkdir /tmp/eucalyptus-www
+				</info>
+			</step>
+			<step>
+				<cmd>Create a temporary directory, and extract the
+						<codeph>eucalyptus-www</codeph> jar:</cmd>
+				<info>
+					<codeblock>mkdir /tmp/eucalyptus-www
 cd /tmp/eucalyptus-www
 jar -xf /usr/share/eucalyptus/eucalyptus-www-3.1.2.jar
 </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Edit eucalyptus-jetty.xml to point to the new keystore. 
-        			The following example assumes that your new keystore is stored in
-        			<filepath>/var/lib/eucalyptus/keys/</filepath>:</cmd>
-        		<info>
-        			<codeblock>&lt;Set name="keystore">/var/lib/eucalyptus/keys/signedcert.p12&lt;/Set>
+				</info>
+			</step>
+			<step>
+				<cmd>Edit eucalyptus-jetty.xml to point to the new keystore. The
+					following example assumes that your new keystore is stored
+					in <filepath>/var/lib/eucalyptus/keys/</filepath>:</cmd>
+				<info>
+					<codeblock>&lt;Set name="keystore">/var/lib/eucalyptus/keys/signedcert.p12&lt;/Set>
 &lt;Set name="truststore">/var/lib/etc/eucalyptus/keys/signedcert.p12&lt;/Set>
 &lt;Set name="password">[yourkeystorepassword]&lt;/Set>
 &lt;Set name="keyPassword">[yourkeypassword]&lt;/Set>
 &lt;Set name="trustPassword">[yourkeystorepassword]&lt;/Set>
 </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Copy the eucalyptus-jetty.xml file to <filepath>/etc/eucalyptus/cloud.d/</filepath>.</cmd>
-        		<info>
-        			<note type="important">This file contains the keys for your keystore. Ensure that it is 
-        			protected, and can only be read or written to by the <codeph>eucalyptus</codeph> user.</note>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Restart Eucalyptus services:</cmd>
-        		<info>
-        			<codeblock>service eucalyptus-cloud restart
+				</info>
+			</step>
+			<step>
+				<cmd>Copy the eucalyptus-jetty.xml file to
+						<filepath>/etc/eucalyptus/cloud.d/</filepath>.</cmd>
+				<info>
+					<note type="important">This file contains the keys for your
+						keystore. Ensure that it is protected, and can only be
+						read or written to by the <codeph>eucalyptus</codeph>
+						user.</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Restart Eucalyptus services:</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud restart
 service eucalyptus-cc restart
 </codeblock>
-        		</info>
-        	</step>
-        	
-        </steps>
-    	<postreq>After restarting Eucalyptus, verify that the system is up using <codeph>euca-describe-services</codeph>.
-    	You should now be able to access the Admin UI over SSL at <filepath>http://[CLC-IP]:8443/</filepath>.</postreq>
-    </taskbody>
+				</info>
+			</step>
+
+		</steps>
+		<postreq>After restarting Eucalyptus, verify that the system is up using
+				<codeph>euca-describe-services</codeph>. You should now be able
+			to access the Admin UI over SSL at
+				<filepath>http://[CLC-IP]:8443/</filepath>.</postreq>
+	</taskbody>
 </task>

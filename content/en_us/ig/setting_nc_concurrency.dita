@@ -2,34 +2,43 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="setting_nc_concurrency">
-	<title>Set NC Concurrency Level</title>
+    <title>Set NC Concurrency Level</title>
     <shortdesc/>
     <prolog>
         <metadata>
             <keywords>
-                <indexterm>configuring
-                    <indexterm>concurrency level</indexterm>
+                <indexterm>configuring <indexterm>concurrency level</indexterm>
                 </indexterm>
             </keywords>
         </metadata>
     </prolog>
-    
+
     <taskbody>
         <context>
-        	<p>On some Linux installations, a sufficiently large amount of local disk activity can slow
-        		down process scheduling. This can cause other operations (e.g., network communication and instance provisioning) appear to stall. To alleviate this potential problem, we recommend performing the following steps on each NC:</p>
+            <p>On some Linux installations, a sufficiently large amount of local
+                disk activity can slow down process scheduling. This can cause
+                other operations (e.g., network communication and instance
+                provisioning) appear to stall. To alleviate this potential
+                problem, we recommend performing the following steps on each
+                NC:</p>
         </context>
         <steps>
             <step>
-            	<cmd>Log in to an NC server and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+                <cmd>Log in to an NC server and open the
+                        <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+                    file.</cmd>
             </step>
-        	<step>
-        		<cmd>Change the <codeph>CONCURRENT_DISK_OPS</codeph> parameter to the number of
-        			disk-intensive operations you want the NC to perform at once. Examples of disk-intensive
-        			operations include preparing disk images for launch and creating ephemeral storage. Set
-        			this value to <userinput>1</userinput> to serialize all disk-intensive operations. Set to
-        			a higher number to increase the amount of disk-intensive operations the NC will perform in parallel.</cmd>
-        	</step>
+            <step>
+                <cmd>Change the <codeph>CONCURRENT_DISK_OPS</codeph> parameter
+                    to the number of disk-intensive operations you want the NC
+                    to perform at once. Examples of disk-intensive operations
+                    include preparing disk images for launch and creating
+                    ephemeral storage. Set this value to
+                        <userinput>1</userinput> to serialize all disk-intensive
+                    operations. Set to a higher number to increase the amount of
+                    disk-intensive operations the NC will perform in
+                    parallel.</cmd>
+            </step>
         </steps>
     </taskbody>
 </task>

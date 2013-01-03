@@ -2,50 +2,62 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_managed">
-    <title>Managed Mode</title>
-    <shortdesc/>
+	<title>Managed Mode</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>networking
-					<indexterm>configuration
-						<indexterm>managed</indexterm>
+				<indexterm>networking <indexterm>configuration
+							<indexterm>managed</indexterm>
 					</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
-			<context>
-				<p>In Managed mode, Eucalyptus manages the local network of VM instances and provides all networking features Eucalyptus currently supports, including VM network isolation, security groups, elastic IPs, and metadata service. Configure each CC to use an Ethernet device that lies within the same broadcast domain as all of its NCs.</p>
-				<note type="important">In Managed mode, each security group requires a separate subnet and a separate VLAN that Eucalyptus controls and maintains. So the underlying physical network must be “VLAN clean.” For more information about VLAN clean, see <xref
+		<context>
+			<p>In Managed mode, Eucalyptus manages the local network of VM
+				instances and provides all networking features Eucalyptus
+				currently supports, including VM network isolation, security
+				groups, elastic IPs, and metadata service. Configure each CC to
+				use an Ethernet device that lies within the same broadcast
+				domain as all of its NCs.</p>
+			<note type="important">In Managed mode, each security group requires
+				a separate subnet and a separate VLAN that Eucalyptus controls
+				and maintains. So the underlying physical network must be “VLAN
+				clean.” For more information about VLAN clean, see <xref
 					href="preparing_vlan.dita#preparing_vlan"/>.</note>
-				<p>To configure for Managed mode:</p>
+			<p>To configure for Managed mode:</p>
+		</context>
+	</taskbody>
+
+	<task id="nw_managed_clc">
+		<title>CLC Configuration</title>
+		<taskbody>
+			<context>
+				<p>No network configuration required.</p>
 			</context>
+
 		</taskbody>
-	
-			<task id="nw_managed_clc">
-				<title>CLC Configuration</title>
-				<taskbody>
-					<context>
-						<p>No network configuration required.</p>
-					</context>
-			
-				</taskbody>
-			</task>
+	</task>
 	<task id="nw_manage_cc">
 		<title>CC Configuration</title>
 		<taskbody>
 			<context>
-				<note type="important">You must set <codeph>VNET_PUBLICIPS</codeph> identically on all CCs in a multi-cluster configuration.</note>
+				<note type="important">You must set
+						<codeph>VNET_PUBLICIPS</codeph> identically on all CCs
+					in a multi-cluster configuration.</note>
 			</context>
 			<steps>
 				<step>
-					<cmd>Log in to the CC and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+					<cmd>Log in to the CC and open the
+							<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
 				</step>
 				<step>
-					<cmd>Go to the <b>Network Configuration</b> section, uncomment and set the following:</cmd>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following:</cmd>
 					<info>
 						<codeblock>VNET_MODE="MANAGED"
 
@@ -65,7 +77,13 @@ VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>If your NCs are not reachable from end-users directly and the CC has two (or more) Ethernet devices of which one connects to the client/public network and one connects to the NC network, or the single Ethernet device that the CC uses to connect to both clients and NCs is NOT ‘eth0’, then you must also uncomment and set:</cmd>
+					<cmd>If your NCs are not reachable from end-users directly
+						and the CC has two (or more) Ethernet devices of which
+						one connects to the client/public network and one
+						connects to the NC network, or the single Ethernet
+						device that the CC uses to connect to both clients and
+						NCs is NOT ‘eth0’, then you must also uncomment and
+						set:</cmd>
 					<info>
 						<codeblock>VNET_PRIVINTERFACE="&lt;Ethernet device on same network as NCs. Example: eth1>"
 
@@ -74,15 +92,18 @@ VNET_PUBINTERFACE="&lt;Ethernet device on ‘public’ network. Example: eth0>"<
 				</step>
 				<step>
 					<cmd>Save the file. </cmd>
-					
+
 				</step>
 				<step>
 					<cmd>Repeat on each CC in your system.</cmd>
 					<info>
-						<note type="important">Each CC must have the same configuration with the exception of the <codeph>VNET_LOCALIP</codeph> value, which should be machine-specific.</note>
+						<note type="important">Each CC must have the same
+							configuration with the exception of the
+								<codeph>VNET_LOCALIP</codeph> value, which
+							should be machine-specific.</note>
 					</info>
 				</step>
-				
+
 			</steps>
 		</taskbody>
 	</task>
@@ -91,11 +112,13 @@ VNET_PUBINTERFACE="&lt;Ethernet device on ‘public’ network. Example: eth0>"<
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>Log into an NC machine and open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
-					file.</cmd>
+					<cmd>Log into an NC machine and open the
+							<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
 				</step>
 				<step>
-					<cmd>Go to the <b>Network Configuration</b> section, uncomment and set the following:</cmd>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following:</cmd>
 					<info>
 						<codeblock>VNET_MODE="MANAGED"
 VNET_PUBINTERFACE="&lt;Ethernet device/bridge reachable from cc machine. Example: eth0>"</codeblock>

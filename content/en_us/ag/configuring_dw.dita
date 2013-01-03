@@ -2,68 +2,69 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="taskId">
-    <title>Configure the Database</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>To configure the database in your data warehouse:</p>
-        </context>
-        <steps>
-        	<step>
-        		<cmd>Initialize the PostgreSQL database.</cmd>
-        		<info>
-        			<codeblock>service postgresql-9.1 initdb</codeblock>
-        		</info>
-        	</step>
-        <step>
-        	<cmd>Start the PostgreSQL service.</cmd>
-        	<info>
-        		<codeblock>service postgresql-9.1 start</codeblock>
-        	</info>
-        </step>
-        	<step>
-        		<cmd>Log in to the PostgreSQL server.</cmd>
-        		<info>
-        			<codeblock>su - postgres</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Start the PostgreSQL terminal.</cmd>
-        		<info>
-        			<codeblock>psql</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>At the psql prompt run:</cmd>
-        		<info>
-        			<codeblock>create database eucalyptus_reporting;
+	<title>Configure the Database</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To configure the database in your data warehouse:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Initialize the PostgreSQL database.</cmd>
+				<info>
+					<codeblock>service postgresql-9.1 initdb</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start the PostgreSQL service.</cmd>
+				<info>
+					<codeblock>service postgresql-9.1 start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Log in to the PostgreSQL server.</cmd>
+				<info>
+					<codeblock>su - postgres</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start the PostgreSQL terminal.</cmd>
+				<info>
+					<codeblock>psql</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>At the psql prompt run:</cmd>
+				<info>
+					<codeblock>create database eucalyptus_reporting;
 create user eucalyptus with password 'mypassword';
 grant all on database eucalyptus_reporting to eucalyptus;
 \q</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Log out.</cmd>
-        		<info>
-        			<codeblock>exit</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Edit the <filepath>/var/lib/pgsql/9.1/data/pg_hba.conf</filepath> file to contain the
-        		following content:</cmd>
-        		<info>
-        			<codeblock>local   all             all                                     password
+				</info>
+			</step>
+			<step>
+				<cmd>Log out.</cmd>
+				<info>
+					<codeblock>exit</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Edit the
+						<filepath>/var/lib/pgsql/9.1/data/pg_hba.conf</filepath>
+					file to contain the following content:</cmd>
+				<info>
+					<codeblock>local   all             all                                     password
 host    all             all             127.0.0.1/32            password
 host    all             all             ::1/128                 password</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Reload the PostgreSQL service.</cmd>
-        		<info>
-        			<codeblock>service postgresql-9.1 reload</codeblock>
-        		</info>
-        	</step>
-        </steps>
-    	<result>Your machine is now configured as a data warehouse.</result>
-    </taskbody>
+				</info>
+			</step>
+			<step>
+				<cmd>Reload the PostgreSQL service.</cmd>
+				<info>
+					<codeblock>service postgresql-9.1 reload</codeblock>
+				</info>
+			</step>
+		</steps>
+		<result>Your machine is now configured as a data warehouse.</result>
+	</taskbody>
 </task>

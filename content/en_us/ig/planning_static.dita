@@ -2,40 +2,56 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="planning_static">
- <title>Static Mode</title>
- <shortdesc></shortdesc>
+	<title>Static Mode</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>networking modes
-					<indexterm>static</indexterm>
+				<indexterm>networking modes <indexterm>static</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<conbody>
- 	<p>Static mode is similar to System mode but offers you more control over instance IP address
- 		assignment. In Static mode, you configure Eucalyptus with a map of MAC address/IP Address pairs. When a VM is instantiated, Eucalyptus sets up a static entry within a Eucalyptus controlled DHCP server, takes the next free MAC/IP pair, assigns it to an instance, and attaches the instance’s ethernet device to the physical ethernet through the bridge on the NCs (in a manner similar to System mode). This mode is useful for administrators who have a pool of MAC/IP addresses that they wish to always assign to their VMs.</p>
- 	<p>In this mode, Eucalyptus manages VM IP address assignment by maintaining its own DHCP server with one static entry per VM. Static mode requires the Eucalyptus administrator to specify the network configuration each VM should receive from the Eucalyptus DHCP server running on the same physical server as the CC component.</p>
- 	
- 	<section>
- 		<title>Static Mode Requirements</title>
- 		<ul>
- 			<li>The Ethernet device on each NC that communicates with the CC must be bridged.</li>
- 			<li>There must be an available range of IP addresses for the virtual subnets. This range must not interfere with the physical network. Typically these IP addresses are selected from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
- 			<li>Any DHCP server on the subnet must be configured not to serve Eucalyptus instances.</li>
- 			
- 		</ul>
- 	</section>
- 	
- 	<section>
- 		<title>Static Mode Limitations</title>
- 		<ul>
- 			<li>No elastic IPs </li>
- 			<li>No security groups</li>
- 			<li>No VM isolation</li>
- 		</ul>
- 	</section>
- </conbody>
+		<p>Static mode is similar to System mode but offers you more control
+			over instance IP address assignment. In Static mode, you configure
+			Eucalyptus with a map of MAC address/IP Address pairs. When a VM is
+			instantiated, Eucalyptus sets up a static entry within a Eucalyptus
+			controlled DHCP server, takes the next free MAC/IP pair, assigns it
+			to an instance, and attaches the instance’s ethernet device to the
+			physical ethernet through the bridge on the NCs (in a manner similar
+			to System mode). This mode is useful for administrators who have a
+			pool of MAC/IP addresses that they wish to always assign to their
+			VMs.</p>
+		<p>In this mode, Eucalyptus manages VM IP address assignment by
+			maintaining its own DHCP server with one static entry per VM. Static
+			mode requires the Eucalyptus administrator to specify the network
+			configuration each VM should receive from the Eucalyptus DHCP server
+			running on the same physical server as the CC component.</p>
+
+		<section>
+			<title>Static Mode Requirements</title>
+			<ul>
+				<li>The Ethernet device on each NC that communicates with the CC
+					must be bridged.</li>
+				<li>There must be an available range of IP addresses for the
+					virtual subnets. This range must not interfere with the
+					physical network. Typically these IP addresses are selected
+					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
+				<li>Any DHCP server on the subnet must be configured not to
+					serve Eucalyptus instances.</li>
+
+			</ul>
+		</section>
+
+		<section>
+			<title>Static Mode Limitations</title>
+			<ul>
+				<li>No elastic IPs </li>
+				<li>No security groups</li>
+				<li>No VM isolation</li>
+			</ul>
+		</section>
+	</conbody>
 </concept>

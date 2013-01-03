@@ -2,27 +2,28 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="add_ramdisk">
-    <title>Add a Ramdisk</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<p>When you add a ramdisk to Walrus, you bundle the ramdisk file, upload the file to a bucket
-        		in Walrus that you name, and then register the ramdisk with Eucalyptus.</p>
-        	<p>To add a ramdisk to Walrus:</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Use the following three commands:</cmd>
-            	<info>
-            		<codeblock>euca-bundle-image -i &lt;ramdisk_file> --ramdisk true
+	<title>Add a Ramdisk</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>When you add a ramdisk to Walrus, you bundle the ramdisk file,
+				upload the file to a bucket in Walrus that you name, and then
+				register the ramdisk with Eucalyptus.</p>
+			<p>To add a ramdisk to Walrus:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Use the following three commands:</cmd>
+				<info>
+					<codeblock>euca-bundle-image -i &lt;ramdisk_file> --ramdisk true
 euca-upload-bundle -b &lt;ramdisk_bucket> -m /tmp/&lt;ramdisk_file>.manifest.xml
 euca-register &lt;ramdisk_bucket>/&lt;ramdisk_file>.manifest.xml</codeblock>
-            	</info>
-            </step>
-        </steps>
-    	<example>
-    		<p>For example:</p>
-    		<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/initrd-2.6.27.21-0.1-xen --ramdisk true
+				</info>
+			</step>
+		</steps>
+		<example>
+			<p>For example:</p>
+			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/initrd-2.6.27.21-0.1-xen --ramdisk true
 ...
 Generating manifest /tmp/initrd-2.6.27.21-0.1-xen.manifest.xml
 
@@ -33,9 +34,9 @@ Uploaded image as example_rd_bucket/initrd-2.6.27.21-0.1-xen.manifest.xm
 euca-register example_rd_bucket/initrd-2.6.27.21-0.1-xen.manifest.xml
 IMAGE	eri-XXXXXXXX
     		</codeblock>
-    		<p>Where the returned value <codeph>eri-XXXXXXXX</codeph> is the unique ID of the registered
-    			ramdisk image.</p>
-    	</example>
-    	
-    </taskbody>
+			<p>Where the returned value <codeph>eri-XXXXXXXX</codeph> is the
+				unique ID of the registered ramdisk image.</p>
+		</example>
+
+	</taskbody>
 </task>

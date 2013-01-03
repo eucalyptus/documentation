@@ -2,47 +2,45 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_intances">
- <title>Instances</title>
- <shortdesc></shortdesc>
+	<title>Instances</title>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>troubleshooting
-					<indexterm>instances
-					</indexterm>
+				<indexterm>troubleshooting <indexterm>instances </indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
- <conbody>
- 	<dl>
- 		<dlentry>
- 			<dt>Inaccurate IP addresses display in the output of euca-describe-addresses.</dt>
- 			<dd>
- 				<p>This can occur if you add IPs from the wrong subnet into your public IP pool, do a cleanrestart
- 					on the CC, swap out the wrong ones for the right ones, and do another clean restart on the CC. To resolve this
- 					issue, run the following:</p>
- 						
- 						<codeblock>/etc/init.d/eucalyptus-cloud stop
+	<conbody>
+		<dl>
+			<dlentry>
+				<dt>Inaccurate IP addresses display in the output of
+					euca-describe-addresses.</dt>
+				<dd>
+					<p>This can occur if you add IPs from the wrong subnet into
+						your public IP pool, do a cleanrestart on the CC, swap
+						out the wrong ones for the right ones, and do another
+						clean restart on the CC. To resolve this issue, run the
+						following:</p>
+					<codeblock>/etc/init.d/eucalyptus-cloud stop
 /etc/init.d/eucalyptus-cc stop
 iptables -F
 /etc/init.d/eucalyptus-cc cleanrestart
 /etc/init.d/eucalyptus-cloud start</codeblock>
- 						
- 			</dd>
- 		</dlentry>
- 		<dlentry>
- 			<dt>NC does not recalculate disk size correctly</dt>
- 			<dd>
- 				<p> This can occur when trying to add extra disk space for instance ephemeral storage. To
-						resolve this, you need to delete the instance cache and restart the NC. </p>
+				</dd>
+			</dlentry>
+			<dlentry>
+				<dt>NC does not recalculate disk size correctly</dt>
+				<dd>
+					<p> This can occur when trying to add extra disk space for
+						instance ephemeral storage. To resolve this, you need to
+						delete the instance cache and restart the NC. </p>
 					<p>For example: </p>
- 				
- 				<codeblock>rm -rf /var/lib/eucalyptus/instances/* 
+					<codeblock>rm -rf /var/lib/eucalyptus/instances/* 
 service eucalyptus-nc restart                				</codeblock>
- 				
- 			</dd>
- 		</dlentry>
- 	</dl>
- </conbody>
+				</dd>
+			</dlentry>
+		</dl>
+	</conbody>
 </concept>

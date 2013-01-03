@@ -11,17 +11,19 @@
 		</context>
 		<steps>
 			<step props="subscribe">
-				<note type="tip">If you are a Eucalyptus subscriber, you should have received a deb
-					package file that you will need to install. If you are not a Eucalyptus
-					subscriber, skip this step.</note>
-				<cmd>On all servers, copy over your deb package file and run the following
-					command:</cmd>
+				<note type="tip">If you are a Eucalyptus subscriber, you should
+					have received a deb package file that you will need to
+					install. If you are not a Eucalyptus subscriber, skip this
+					step.</note>
+				<cmd>On all servers, copy over your deb package file and run the
+					following command:</cmd>
 				<info>
 					<codeblock>dpkg -i eucalyptus-enterprise-release_3.1-*lucid_all.deb</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Download the Eucalyptus release key from <xref format="html"
+				<cmd>Download the Eucalyptus release key from <xref
+						format="html"
 						href="http://www.eucalyptus.com/eucalyptus-cloud/security/keys"
 						>http://www.eucalyptus.com/eucalyptus-cloud/security/keys</xref></cmd>
 			</step>
@@ -36,8 +38,10 @@
 				<!-- removed per bthomason -->
 				<!--<note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>-->
 
-				<cmd>Create a file in <filepath>/etc/apt/sources.list.d</filepath> called
-						<filepath>eucalyptus.list</filepath> with the following content:</cmd>
+				<cmd>Create a file in
+						<filepath>/etc/apt/sources.list.d</filepath> called
+						<filepath>eucalyptus.list</filepath> with the following
+					content:</cmd>
 				<info>
 					<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu lucid main</codeblock>
 				</info>
@@ -47,9 +51,10 @@
 				<!-- Removed per bthomason -->
 				<!--<note type="tip">If you are a Eucalyptus subscriber, skip this step.</note>-->
 
-				<cmd>On all machines that will run either Eucalyptus or Euca2ools, create a file in
-						<filepath>/etc/apt/sources.list.d</filepath> called euca2ools.list with the
-					following content:</cmd>
+				<cmd>On all machines that will run either Eucalyptus or
+					Euca2ools, create a file in
+						<filepath>/etc/apt/sources.list.d</filepath> called
+					euca2ools.list with the following content:</cmd>
 				<info>
 					<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu lucid main</codeblock>
 				</info>
@@ -61,9 +66,9 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Install Eucalyptus packages and dependencies. The following example shows a
-					package install all on the same server. You can install each component on a
-					different server.</cmd>
+				<cmd>Install Eucalyptus packages and dependencies. The following
+					example shows a package install all on the same server. You
+					can install each component on a different server.</cmd>
 				<info>
 					<codeblock>apt-get install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 					<note conref="../shared/reuse.dita#reuse/install_ha_note"/>
@@ -73,29 +78,34 @@
 				<cmd>On each planned NC server, install the NC package:</cmd>
 				<info>
 					<codeblock>apt-get install eucalyptus-nc</codeblock>
-					<note type="important" product="vmware">If you are using VMware, you can skip
-						this step. Eucalyptus software is not installed on these machines. They are
-						running VMware.</note>
+					<note type="important" product="vmware">If you are using
+						VMware, you can skip this step. Eucalyptus software is
+						not installed on these machines. They are running
+						VMware.</note>
 				</info>
 			</step>
 			<step>
-				<note type="important">This step is only required the first time libvirt is installed on a system.</note>
-				<cmd> The first time libvirt is installed on a system, you must initialize libvirt
-					before it will function properly. To initialize libvirt, run the following command: </cmd>
+				<note type="important">This step is only required the first time
+					libvirt is installed on a system.</note>
+				<cmd> The first time libvirt is installed on a system, you must
+					initialize libvirt before it will function properly. To
+					initialize libvirt, run the following command: </cmd>
 				<info>
 					<codeblock>virsh capabilities</codeblock>
 				</info>
 			</step>
 			<step props="subscribe" product="vmware">
-				<cmd>If you are a Eucalyptus subscriber and plan to use VMware, install the
-					subscription-only VMware Broker package on each CC server:</cmd>
+				<cmd>If you are a Eucalyptus subscriber and plan to use VMware,
+					install the subscription-only VMware Broker package on each
+					CC server:</cmd>
 				<info>
 					<codeblock>apt-get install eucalyptus-enterprise-vmware-broker</codeblock>
 				</info>
 			</step>
 			<step props="subscribe" product="san">
-				<cmd>If you are a Eucalyptus subscriber and plan to use SAN support, install the
-					subscription-only SAN package on each SC. Otherwise, skip this step.</cmd>
+				<cmd>If you are a Eucalyptus subscriber and plan to use SAN
+					support, install the subscription-only SAN package on each
+					SC. Otherwise, skip this step.</cmd>
 				<info>
 					<codeblock>apt-get install eucalyptus-enterprise-storage-san</codeblock>
 				</info>
@@ -105,7 +115,7 @@
 			</step>
 		</steps>
 		<result>Your installation is complete. </result>
-		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
-			Eucalyptus</xref>.</postreq>
+		<postreq>You are now ready to <xref href="configuring_euca.dita"
+				>Configure Eucalyptus</xref>.</postreq>
 	</taskbody>
 </task>

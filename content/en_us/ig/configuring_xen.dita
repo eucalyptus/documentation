@@ -2,24 +2,29 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configuring_xen">
-    <title>Configuring Xen</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-        	<draft-comment>Neil B reports that he didn't have to do any configuration.</draft-comment>
-        	<p>To configure Xen, make sure that the GRUB configuration file to set to load the correct
-        		kernel at boot time, and that the Xen daemon is set up correctly.</p>
-        		<p>To make sure that the correct kernel is loaded at boot time, configure GRUB:
-        	</p>
-        </context>
-        <steps>
-            <step>
-            	<cmd>Open <filepath>/etc/grub.conf</filepath> on an NC server.</cmd>
-            </step>
-        	<step>
-        		<cmd>Look for the kernel line that contains xen and make sure the default parameter corresponds to the Xen kernel. For example:</cmd>
-        		<info>
-        			<codeblock>default=1
+	<title>Configuring Xen</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<draft-comment>Neil B reports that he didn't have to do any
+				configuration.</draft-comment>
+			<p>To configure Xen, make sure that the GRUB configuration file to
+				set to load the correct kernel at boot time, and that the Xen
+				daemon is set up correctly.</p>
+			<p>To make sure that the correct kernel is loaded at boot time,
+				configure GRUB: </p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Open <filepath>/etc/grub.conf</filepath> on an NC
+					server.</cmd>
+			</step>
+			<step>
+				<cmd>Look for the kernel line that contains xen and make sure
+					the default parameter corresponds to the Xen kernel. For
+					example:</cmd>
+				<info>
+					<codeblock>default=1
 timeout=5
 splashimage=(hd0,0)/grub/splash.xpm.gz
 hiddenmenu
@@ -32,19 +37,23 @@ root (hd0,0)
 kernel /xen.gz-2.6.18-164.11.1.el5
 module /vmlinuz-2.6.18-164.11.1.el5.xen ro root=/dev/VolGroup00/LogVol00
 module /initrd-2.6.18-164.11.1.el5.xen.img</codeblock>
-        			<p>In this example, we ensure the correct kernel will be loaded by setting the default parameter to <codeph>default=1</codeph> (not 0), since the second kernel in the list is the one containing Xen.</p>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Restart xend.</cmd>
-        		<info>
-        			<codeblock>service xend restart</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Repeat on each NC server in your system.</cmd>
-        	</step>
-        </steps>
-    	<postreq>For more information about configuring a Xen kernel, see the hypervisor-related documentation for your Linux OS.</postreq>
-    </taskbody>
+					<p>In this example, we ensure the correct kernel will be
+						loaded by setting the default parameter to
+							<codeph>default=1</codeph> (not 0), since the second
+						kernel in the list is the one containing Xen.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>Restart xend.</cmd>
+				<info>
+					<codeblock>service xend restart</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Repeat on each NC server in your system.</cmd>
+			</step>
+		</steps>
+		<postreq>For more information about configuring a Xen kernel, see the
+			hypervisor-related documentation for your Linux OS.</postreq>
+	</taskbody>
 </task>

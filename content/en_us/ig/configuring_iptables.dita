@@ -7,29 +7,33 @@
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>configuration
-					<indexterm>iptables</indexterm>
+				<indexterm>configuration <indexterm>iptables</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<conbody>
-		<p>In Managed and Managed (No VLAN) modes, Eucalyptus flushes the CC's iptables rules for both
-				<codeph>filter</codeph> and <codeph>nat</codeph>, then it sets the default policy for the
-				<codeph>FORWARD</codeph> chain in <codeph>filter</codeph> to <codeph>DROP</codeph>. At run
-			time, the CC adds and removes rules from <codeph>FORWARD</codeph> as users add and remove
-			ingress rules from their active security groups. In addition, the <codeph>nat</codeph> table
-			is configured to allow VMs access to the external network using IP masquerading, and
-			dynamically adds/removes rules in the <codeph>nat</codeph> table as users assign and unassign
-			public IPs to VMs at instance boot or run-time. </p>
-		<p>If you have rules you want to apply on the CC, make the following edit on the CC before you
-			start Eucalyptus or while Eucalyptus is stopped:</p>
+		<p>In Managed and Managed (No VLAN) modes, Eucalyptus flushes the CC's
+			iptables rules for both <codeph>filter</codeph> and
+				<codeph>nat</codeph>, then it sets the default policy for the
+				<codeph>FORWARD</codeph> chain in <codeph>filter</codeph> to
+				<codeph>DROP</codeph>. At run time, the CC adds and removes
+			rules from <codeph>FORWARD</codeph> as users add and remove ingress
+			rules from their active security groups. In addition, the
+				<codeph>nat</codeph> table is configured to allow VMs access to
+			the external network using IP masquerading, and dynamically
+			adds/removes rules in the <codeph>nat</codeph> table as users assign
+			and unassign public IPs to VMs at instance boot or run-time. </p>
+		<p>If you have rules you want to apply on the CC, make the following
+			edit on the CC before you start Eucalyptus or while Eucalyptus is
+			stopped:</p>
 		<codeblock>iptables-save > /var/run/eucalyptus/net/iptables-preload</codeblock>
-		<note type="caution">Performing this operation to define special iptables rules that are loaded
-			when Eucalyptus starts could cause Eucalyptus VM networking to fail. We recommend that
-			you only do this if you are completely sure that it will not interfere with the operation of
-			Eucalyptus.</note>
+		<note type="caution">Performing this operation to define special
+			iptables rules that are loaded when Eucalyptus starts could cause
+			Eucalyptus VM networking to fail. We recommend that you only do this
+			if you are completely sure that it will not interfere with the
+			operation of Eucalyptus.</note>
 
 	</conbody>
 </concept>

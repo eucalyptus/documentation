@@ -11,56 +11,60 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Configure the Eucalyptus package repository on each host that will run a
-					Eucalyptus component:</cmd>
+				<cmd>Configure the Eucalyptus package repository on each host
+					that will run a Eucalyptus component:</cmd>
 				<info>
 					<codeblock>yum --nogpgcheck install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the Euca2ools package repository on each host that will run a
-					Eucalyptus component or Euca2ools:</cmd>
+				<cmd>Configure the Euca2ools package repository on each host
+					that will run a Eucalyptus component or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum --nogpgcheck install http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd> Configure the EPEL package repository on each host that will run a Eucalyptus
-					component or Euca2ools: </cmd>
+				<cmd> Configure the EPEL package repository on each host that
+					will run a Eucalyptus component or Euca2ools: </cmd>
 				<info>
 					<codeblock>yum --nogpgcheck install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/epel-release-6.noarch.rpm</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the ELRepo repository on each host that will run Walrus: </cmd>
+				<cmd>Configure the ELRepo repository on each host that will run
+					Walrus: </cmd>
 				<info>
 					<codeblock>yum --nogpgcheck install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<note type="tip">If you are a Eucalyptus subscriber, you should have received an rpm
-					package file that you will need to install. If you are not a Eucalyptus
-					subscriber, skip this step.</note>
-				<cmd>Install the Eucalyptus subscription package on each host that will run a
-					Eucalyptus component:</cmd>
+				<note type="tip">If you are a Eucalyptus subscriber, you should
+					have received an rpm package file that you will need to
+					install. If you are not a Eucalyptus subscriber, skip this
+					step.</note>
+				<cmd>Install the Eucalyptus subscription package on each host
+					that will run a Eucalyptus component:</cmd>
 				<info>
 					<codeblock>yum --nogpgcheck install eucalyptus-enterprise-release-3.1*.noarch.rpm</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd> Install the Eucalyptus cloud controller software on each planned CLC host: </cmd>
+				<cmd> Install the Eucalyptus cloud controller software on each
+					planned CLC host: </cmd>
 				<info>
 					<codeblock>yum groupinstall eucalyptus-cloud-controller</codeblock>
 				</info>
 			</step>
 			<step>
-				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use
-					VMware then skip this step. </note>
+				<note>Clouds that use the VMware hypervisor do not have NCs; if
+					you plan to use VMware then skip this step. </note>
 				<cmd> </cmd>
 				<substeps>
 					<substep>
-						<cmd>Install the KVM driver appropriate to your hardware.</cmd>
-						
+						<cmd>Install the KVM driver appropriate to your
+							hardware.</cmd>
+
 						<info>
 							<p>For systems with Intel processors:</p>
 							<codeblock>modprobe kvm_intel
@@ -73,8 +77,8 @@ modprobe vhost_net</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd> Install the Eucalyptus node controller software on each planned NC
-							host: </cmd>
+						<cmd> Install the Eucalyptus node controller software on
+							each planned NC host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
@@ -82,68 +86,74 @@ modprobe vhost_net</codeblock>
 				</substeps>
 			</step>
 			<step>
-				<cmd>Install the software for the remaining Eucalyptus components. The following
-					example shows most components being installed on the same host. We recommend
-					that you use different hosts for each component:</cmd>
+				<cmd>Install the software for the remaining Eucalyptus
+					components. The following example shows most components
+					being installed on the same host. We recommend that you use
+					different hosts for each component:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you have a Eucalyptus subscription and plan to use the VMware hypervisor,
-					install the Eucalyptus VMware broker software on each CC host:</cmd>
+				<cmd>If you have a Eucalyptus subscription and plan to use the
+					VMware hypervisor, install the Eucalyptus VMware broker
+					software on each CC host:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-                <cmd>If you have a Eucalyptus subscription and plan to use SAN support, install the
-					Eucalyptus SAN adapter software that matches your SAN adapter on each SC
-					host:</cmd>
-                <info>
-                    <codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
-                	<p>...or...</p>
-                	<codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
-                	<p>...or...</p>
-                	<codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
-                </info>
-				
+				<cmd>If you have a Eucalyptus subscription and plan to use SAN
+					support, install the Eucalyptus SAN adapter software that
+					matches your SAN adapter on each SC host:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
+					<p>...or...</p>
+					<codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
+					<p>...or...</p>
+					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
+				</info>
+
 			</step>
-            <step props="subscribe">
-                <cmd>If you are using NetApp SAN support, you will need to install NetApp specific libs packages</cmd>
-                <substeps>
-                    <!--<substep>
+			<step props="subscribe">
+				<cmd>If you are using NetApp SAN support, you will need to
+					install NetApp specific libs packages</cmd>
+				<substeps>
+					<!--<substep>
                         <cmd>Install the NetApp SAN package on each SC host connected to a NetApp SAN device:</cmd>
                         <info>
                             <codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
                         </info>
                     </substep>-->
-                    <substep>
-                        <cmd>Install the NetApp SAN libs package on each CLC host:</cmd>
-                        <info>
-                            <codeblock>yum install eucalyptus-enterprise-storage-san-netapp-libs</codeblock>
-                        </info>
-                    </substep>
-                </substeps>
-            </step>
-            <step props="subscribe">
-                <cmd>If you are using EMC SAN support, you will need to install EMC specific libs packages</cmd>
-                <substeps>
-                    <!--<substep>
+					<substep>
+						<cmd>Install the NetApp SAN libs package on each CLC
+							host:</cmd>
+						<info>
+							<codeblock>yum install eucalyptus-enterprise-storage-san-netapp-libs</codeblock>
+						</info>
+					</substep>
+				</substeps>
+			</step>
+			<step props="subscribe">
+				<cmd>If you are using EMC SAN support, you will need to install
+					EMC specific libs packages</cmd>
+				<substeps>
+					<!--<substep>
                         <cmd>Install the EMC SAN package on each SC host connected to an EMC SAN device:</cmd>
                         <info>
                             <codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
                         </info>
                     </substep>-->
-                    <substep>
-                        <cmd>Install the EMC SAN libs package on each CLC host:</cmd>
-                        <info>
-                            <codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
-                        </info>
-                    </substep>
-                </substeps>
-            </step>
-            <!--<step props="subscribe">
+					<substep>
+						<cmd>Install the EMC SAN libs package on each CLC
+							host:</cmd>
+						<info>
+							<codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
+						</info>
+					</substep>
+				</substeps>
+			</step>
+			<!--<step props="subscribe">
                 <cmd>If you are using EqualLogic SAN support, you will need to install the EqualLogic specific package</cmd>
                 <substeps>
                     <substep>
@@ -155,8 +165,9 @@ modprobe vhost_net</codeblock>
                 </substeps>
             </step>-->
 			<step>
-				<cmd>After you have installed Eucalyptus, test multicast connectivity between each
-					CLC and Walrus, SC, and VMware broker host.</cmd>
+				<cmd>After you have installed Eucalyptus, test multicast
+					connectivity between each CLC and Walrus, SC, and VMware
+					broker host.</cmd>
 				<substeps>
 					<substep>
 						<cmd> Run the following receiver command on the CLC: </cmd>
@@ -165,25 +176,29 @@ modprobe vhost_net</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd> Once the receiver command blocks, simultaneously run the following sender command on each Walrus host: </cmd>
+						<cmd> Once the receiver command blocks, simultaneously
+							run the following sender command on each Walrus
+							host: </cmd>
 						<info>
 							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
-							The two applications should be able to connect and arbitrary lines entered on the sender should appear on the receiver.
-						</info>
+							The two applications should be able to connect and
+							arbitrary lines entered on the sender should appear
+							on the receiver. </info>
 					</substep>
 					<substep>
-						<cmd>Repeat the previous step on each SC host and VMware broker host</cmd>
+						<cmd>Repeat the previous step on each SC host and VMware
+							broker host</cmd>
 					</substep>
 					<substep>
-						<cmd> If you are installing an HA environment, repeat these tasks with the
-							second CLC. </cmd>
+						<cmd> If you are installing an HA environment, repeat
+							these tasks with the second CLC. </cmd>
 					</substep>
 				</substeps>
 			</step>
 		</steps>
 
 		<result>Your installation is complete.</result>
-		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
-			Eucalyptus</xref>.</postreq>
+		<postreq>You are now ready to <xref href="configuring_euca.dita"
+				>Configure Eucalyptus</xref>.</postreq>
 	</taskbody>
 </task>

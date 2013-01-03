@@ -10,12 +10,14 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Terminate any running instances, as in the following example:</cmd>
+				<cmd>Terminate any running instances, as in the following
+					example:</cmd>
 				<info><codeblock>euca-terminate-instances &lt;instance01_id> &lt;instance02_id></codeblock></info>
 			</step>
 			<step>
-				<note type="tip"><p>The following is an example that scripts the individual steps to
-						shut down Eucalyptus components noted in this section.</p>
+				<note type="tip"><p>The following is an example that scripts the
+						individual steps to shut down Eucalyptus components
+						noted in this section.</p>
 					<codeblock>for x in $( euca_conf --list-nodes | tail -n +2 | awk '{ print $1 }');
 do ssh root@$x "service eucalyptus-nc stop"; done
 for x in $( euca_conf --list-clusters | tail -n +2 | awk '{ print $2
@@ -25,8 +27,8 @@ do ssh root@$x "service eucalyptus-cloud stop"; done
 for x in $( euca_conf --list-walruses | tail -n +2 | awk '{ print $2
 }'); do ssh root@$x "service eucalyptus-cloud stop"; done
 service eucalyptus-cloud stop</codeblock>
-					<p>If you don't have ssh keys set up, you'll have to type a lot of passwords
-						during this.</p></note>
+					<p>If you don't have ssh keys set up, you'll have to type a
+						lot of passwords during this.</p></note>
 				<cmd>Log in to an NC host and shut down the NC service.</cmd>
 				<info><codeblock>service eucalyptus-nc stop</codeblock>
 					<p>Repeat for each machine hosting an NC.</p>
@@ -43,9 +45,10 @@ service eucalyptus-cloud stop</codeblock>
 			<step>
 				<cmd>Shut down the VMware Broker service on the CC host.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock>
-					<note type="tip">This command also shuts down a CLC, Walrus, and SC components
-						co-located with the CC and VMware Broker to stop at the same time, in the
-						correct order.</note>
+					<note type="tip">This command also shuts down a CLC, Walrus,
+						and SC components co-located with the CC and VMware
+						Broker to stop at the same time, in the correct
+						order.</note>
 					<p>Repeat for each machine hosting the VMware Broker.</p>
 				</info>
 			</step>
@@ -56,7 +59,8 @@ service eucalyptus-cloud stop</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Log in to the Walrus host and shut down the Walrus service.</cmd>
+				<cmd>Log in to the Walrus host and shut down the Walrus
+					service.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock></info>
 			</step>
 			<step>

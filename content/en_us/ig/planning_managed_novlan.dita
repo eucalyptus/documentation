@@ -7,37 +7,44 @@
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>networking modes
-					<indexterm>managed (no VLAN)</indexterm>
+				<indexterm>networking modes <indexterm>managed (no
+						VLAN)</indexterm>
 				</indexterm>
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<conbody>
-		<p>In Managed (No VLAN) mode, Eucalyptus fully manages the local VM instance network and
-			provides all of the networking features Eucalyptus currently supports, including security
-			groups, elastic IPs, etc. However, it does not provide VM network isolation. Without VLAN isolation
-			at the bridge level, it is possible in Managed (No VLAN) mode for a root user on one VM to snoop and/or interfere with
-			the ethernet traffic of other VMs running on the same layer 2 network.</p>
-		<note type="tip">In Managed (No VLAN) mode, VM isolation is provided by having different
-			security groups on different subnets—this translates into Layer-3 only VM isolation.</note>
+		<p>In Managed (No VLAN) mode, Eucalyptus fully manages the local VM
+			instance network and provides all of the networking features
+			Eucalyptus currently supports, including security groups, elastic
+			IPs, etc. However, it does not provide VM network isolation. Without
+			VLAN isolation at the bridge level, it is possible in Managed (No
+			VLAN) mode for a root user on one VM to snoop and/or interfere with
+			the ethernet traffic of other VMs running on the same layer 2
+			network.</p>
+		<note type="tip">In Managed (No VLAN) mode, VM isolation is provided by
+			having different security groups on different subnets—this
+			translates into Layer-3 only VM isolation.</note>
 
 		<section>
 			<title>Managed (No VLAN) Mode Requirements</title>
 			<ul>
-				<li>There must be an available range of IP addresses for the virtual subnets. This range
-					must not interfere with the physical network. Typically these IP addresses are selected
+				<li>There must be an available range of IP addresses for the
+					virtual subnets. This range must not interfere with the
+					physical network. Typically these IP addresses are selected
 					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc. </li>
-				<li>Any firewall running on the Cluster Controller must be compatible with the dynamic changes
-					performed by Eucalyptus when working with security groups. (Note that Eucalyptus
+				<li>Any firewall running on the Cluster Controller must be
+					compatible with the dynamic changes performed by Eucalyptus
+					when working with security groups. (Note that Eucalyptus
 					will flush the 'filter' and 'nat' tables upon boot). </li>
-				<li>A range of public IP addresses must be available for use by Eucalyptus. </li>
-				<li>The CC must have a DHCP server daemon installed that is compatible with ISC DHCP Daemon
-					version 3.0.X.</li>
+				<li>A range of public IP addresses must be available for use by
+					Eucalyptus. </li>
+				<li>The CC must have a DHCP server daemon installed that is
+					compatible with ISC DHCP Daemon version 3.0.X.</li>
 			</ul>
 		</section>
-		
+
 		<section>
 			<title>Managed (No VLAN) Mode Limitations</title>
 			<ul>

@@ -11,109 +11,130 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Configure the Eucalyptus package repository on each host that will run a
-					Eucalyptus component:</cmd>
+				<cmd>Configure the Eucalyptus package repository on each host
+					that will run a Eucalyptus component:</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the Euca2ools package repository on each host that will run a
-					Eucalyptus component or Euca2ools:</cmd>
+				<cmd>Configure the Euca2ools package repository on each host
+					that will run a Eucalyptus component or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the EPEL package repository on each host that will run a Eucalyptus
-					component or Euca2ools: </cmd>
+				<cmd>Configure the EPEL package repository on each host that
+					will run a Eucalyptus component or Euca2ools: </cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/epel-release-6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the ELRepo repository on each host that will run Walrus: </cmd>
+				<cmd>Configure the ELRepo repository on each host that will run
+					Walrus: </cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>For RHEL 6 systems only, it is necessary to enable the Optional repository in Red Hat Network for each NC, as follows:</cmd>
+				<cmd>For RHEL 6 systems only, it is necessary to enable the
+					Optional repository in Red Hat Network for each NC, as
+					follows:</cmd>
 				<substeps>
 					<substep>
-						<cmd>Go to <xref format="html" href="http://rhn.redhat.com">http://rhn.redhat.com</xref>
-							and navigate to the system that will run the NC.</cmd>
+						<cmd>Go to <xref format="html"
+								href="http://rhn.redhat.com"
+								>http://rhn.redhat.com</xref> and navigate to
+							the system that will run the NC.</cmd>
 					</substep>
 					<substep>
-						<cmd>Click <uicontrol>Alter Channel Subscriptions</uicontrol>.</cmd>
+						<cmd>Click <uicontrol>Alter Channel
+								Subscriptions</uicontrol>.</cmd>
 					</substep>
 					<substep>
-						<cmd>Make sure the <uicontrol>RHEL Server Optional</uicontrol> checkbox is checked.</cmd>
+						<cmd>Make sure the <uicontrol>RHEL Server
+								Optional</uicontrol> checkbox is checked.</cmd>
 					</substep>
 					<substep>
-						<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
+						<cmd>Click <uicontrol>Change
+							Subscriptions</uicontrol>.</cmd>
 					</substep>
 				</substeps>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are not a Eucalyptus subscriber, skip this step.
-					If you are a Eucalyptus subscriber, you should have received an rpm package
-					file containing subscription-only components. Install the Eucalyptus subscription 
-					package on each host that will run a Eucalyptus component, as follows:</cmd>
+				<cmd>If you are not a Eucalyptus subscriber, skip this step. If
+					you are a Eucalyptus subscriber, you should have received an
+					rpm package file containing subscription-only components.
+					Install the Eucalyptus subscription package on each host
+					that will run a Eucalyptus component, as follows:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-enterprise-release-3.2*.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Install the Eucalyptus cloud controller software on each planned CLC host: </cmd>
+				<cmd>Install the Eucalyptus cloud controller software on each
+					planned CLC host: </cmd>
 				<info>
 					<codeblock>yum groupinstall eucalyptus-cloud-controller</codeblock>
 				</info>
 			</step>
 			<step>
-				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use
-					VMware then skip this step. </note>
+				<note>Clouds that use the VMware hypervisor do not have NCs; if
+					you plan to use VMware then skip this step. </note>
 				<cmd> </cmd>
 				<substeps>
 					<substep>
-						<cmd> Install the Eucalyptus node controller software on each planned NC
-							host: </cmd>
+						<cmd> Install the Eucalyptus node controller software on
+							each planned NC host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
 					</substep>
-                    <substep>
-                        <cmd>Check that the KVM device node has proper permissions.</cmd>
+					<substep>
+						<cmd>Check that the KVM device node has proper
+							permissions.</cmd>
 
-                        <info>
-                            <p>Run the following command:</p>
-                            <codeblock>ls -l /dev/kvm</codeblock>
-                        </info>
-                        <info>
-                            <p>Verify the output shows that the device node is owned by user root and group kvm.</p>
-                            <codeblock>crw-rw-rw- 1 root kvm 10, 232 Nov 30 10:27 /dev/kvm</codeblock>
-                        </info>
-                        <info>
-                            <p>If your kvm device node does not have proper permissions, you need to reboot your NC host.</p>
-                        </info>
-                    </substep>
+						<info>
+							<p>Run the following command:</p>
+							<codeblock>ls -l /dev/kvm</codeblock>
+						</info>
+						<info>
+							<p>Verify the output shows that the device node is
+								owned by user root and group kvm.</p>
+							<codeblock>crw-rw-rw- 1 root kvm 10, 232 Nov 30 10:27 /dev/kvm</codeblock>
+						</info>
+						<info>
+							<p>If your kvm device node does not have proper
+								permissions, you need to reboot your NC
+								host.</p>
+						</info>
+					</substep>
 				</substeps>
 			</step>
 			<step>
-				<cmd>Install the software for the remaining Eucalyptus components. The following
-					example shows most components being installed on the same host. We recommend
-					that you use different hosts for each component:</cmd>
+				<cmd>Install the software for the remaining Eucalyptus
+					components. The following example shows most components
+					being installed on the same host. We recommend that you use
+					different hosts for each component:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each machine hosting a CLC:</cmd>
+				<cmd>If you are a subscriber and use SAN, run the appropriate
+					command for your device on each machine hosting a CLC:</cmd>
 				<info>
 					<p>For EMC SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
@@ -123,23 +144,28 @@
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are a subscriber and use SAN, run the appropriate command for your device on each machine hosting a SC:</cmd>
+				<cmd>If you are a subscriber and use SAN, run the appropriate
+					command for your device on each machine hosting a SC:</cmd>
 				<info>
 					<p>For EMC SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
-					<note type="important">To use Eucalyptus with EMC SAN support, you must have the <codeph>NaviCLI-Linux-64-latest.rpm</codeph> 
-						package installed on each SC. This package is not supplied with Eucalyptus, please see your SAN vendor if it is not
+					<note type="important">To use Eucalyptus with EMC SAN
+						support, you must have the
+							<codeph>NaviCLI-Linux-64-latest.rpm</codeph> package
+						installed on each SC. This package is not supplied with
+						Eucalyptus, please see your SAN vendor if it is not
 						already installed.</note>
 					<p>For EqualLogic SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
 					<p>For NetApp SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
 				</info>
-				
+
 			</step>
 			<step>
-				<cmd>After you have installed Eucalyptus, test multicast connectivity between each
-					CLC and Walrus, SC, and VMware broker host.</cmd>
+				<cmd>After you have installed Eucalyptus, test multicast
+					connectivity between each CLC and Walrus, SC, and VMware
+					broker host.</cmd>
 				<substeps>
 					<substep>
 						<cmd> Run the following receiver command on the CLC: </cmd>
@@ -148,25 +174,29 @@
 						</info>
 					</substep>
 					<substep>
-						<cmd> Once the receiver command blocks, simultaneously run the following sender command on each Walrus host: </cmd>
+						<cmd> Once the receiver command blocks, simultaneously
+							run the following sender command on each Walrus
+							host: </cmd>
 						<info>
 							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
-							The two applications should be able to connect and arbitrary lines entered on the sender should appear on the receiver.
-						</info>
+							The two applications should be able to connect and
+							arbitrary lines entered on the sender should appear
+							on the receiver. </info>
 					</substep>
 					<substep>
-						<cmd>Repeat the previous step on each SC host and VMware broker host</cmd>
+						<cmd>Repeat the previous step on each SC host and VMware
+							broker host</cmd>
 					</substep>
 					<substep>
-						<cmd> If you are installing an HA environment, repeat these tasks with the
-							secondary controllers. </cmd>
+						<cmd> If you are installing an HA environment, repeat
+							these tasks with the secondary controllers. </cmd>
 					</substep>
 				</substeps>
 			</step>
 		</steps>
 
 		<result>Your installation is complete.</result>
-		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
-			Eucalyptus</xref>.</postreq>
+		<postreq>You are now ready to <xref href="configuring_euca.dita"
+				>Configure Eucalyptus</xref>.</postreq>
 	</taskbody>
 </task>

@@ -2,21 +2,32 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="access_policy_quota">
- <title>Quotas</title>
- <shortdesc></shortdesc>
- <conbody>
- 	<p>Eucalyptus adds quota enforcement to resource usage. To avoid introducing another configuration
- 		language into Eucalyptus, and simplify the management, we extend the IAM policy language to
- 		support quotas. The only addition added to the language is the new <codeph>limit</codeph> effect. If a policy statement’s <codeph>effect</codeph> is <codeph>limit</codeph>, it is a quota statement.</p>
- 	
- 	<p>A quota statement also has action and resource fields. You can use these fields to match
- 		specific requests, for example, quota only being checked on matched requests. The actual quota type and value are specified using special quota keys, and listed in the <codeph>condition</codeph> part of the statement. Only condition type <codeph>NumericLessThanEquals</codeph> can be used with quota keys.</p>
- 	
- 	<note type="important">An account can only have a quota policy. If you attach an IAM
- 		policy to an account (where, for example, the Effect is "Allow" or "Deny"), there will be unexpected results.</note>
- 	
- 	<p>The following quota policy statement limits the attached user to only launch a maximum of 16 instances in an account.</p>
- 	<codeblock>{
+	<title>Quotas</title>
+	<shortdesc/>
+	<conbody>
+		<p>Eucalyptus adds quota enforcement to resource usage. To avoid
+			introducing another configuration language into Eucalyptus, and
+			simplify the management, we extend the IAM policy language to
+			support quotas. The only addition added to the language is the new
+				<codeph>limit</codeph> effect. If a policy statement’s
+				<codeph>effect</codeph> is <codeph>limit</codeph>, it is a quota
+			statement.</p>
+
+		<p>A quota statement also has action and resource fields. You can use
+			these fields to match specific requests, for example, quota only
+			being checked on matched requests. The actual quota type and value
+			are specified using special quota keys, and listed in the
+				<codeph>condition</codeph> part of the statement. Only condition
+			type <codeph>NumericLessThanEquals</codeph> can be used with quota
+			keys.</p>
+
+		<note type="important">An account can only have a quota policy. If you
+			attach an IAM policy to an account (where, for example, the Effect
+			is "Allow" or "Deny"), there will be unexpected results.</note>
+
+		<p>The following quota policy statement limits the attached user to only
+			launch a maximum of 16 instances in an account.</p>
+		<codeblock>{
  "Version":"2011-04-01",
  "Statement":[{
    "Sid":"4",
@@ -30,92 +41,98 @@
    }
  }]
 }</codeblock>
- 	<p>You can attach quotas to both users and accounts, although some of the quotas only apply to
- 		accounts. Quota attached to groups will take no effect.</p>
- 	<p>When a quota policy is attached to an account, it actually is attached to the account
- 		administrator user. Since only system administrator can specify account quotas, the account
- 		administrator can only inspect quotas but can't change the quotas attached to herself.</p>
- 	
- 	<p>The following is all the quota keys implemented in Eucalyptus:</p>
- 	
- 	<table>
- 		<tgroup cols="3">
- 			<thead>
- 				<row>
- 					<entry>Quota Key</entry>
- 					<entry>Description</entry>
- 					<entry>Applies to</entry>
- 				</row>
- 			</thead>
- 			<tbody>
- 				<row>
- 					<entry><codeph>s3:quota-bucketnumber</codeph></entry>
- 					<entry>Number of S3 buckets</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>s3:quota-bucketobjectnumber</codeph></entry>
- 					<entry>Number of objects in each bucket,</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>s3:quota-bucketsize</codeph></entry>
- 					<entry>Size of bucket, in MB</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>s3:quota-buckettotalsize</codeph></entry>
- 					<entry>total size of all buckets, in MB</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-addressnumber </codeph></entry>
- 					<entry>Number of elastic IPs</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-imagenumber </codeph></entry>
- 					<entry>Number of EC2 images</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-snapshotnumber </codeph></entry>
- 					<entry>Number of EC2 snapshots</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-vminstancenumber</codeph></entry>
- 					<entry>Number of EC2 instances</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-volumenumber</codeph></entry>
- 					<entry>Number of EC2 volumes</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>ec2:quota-volumetotalsize</codeph></entry>
- 					<entry>Number of total volume size, in GB</entry>
- 					<entry>account and user</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>iam:quota-groupnumber</codeph></entry>
- 					<entry>Number of IAM groups</entry>
- 					<entry>account</entry>
- 				</row>
- 				<row>
- 					<entry><codeph>iam:quota-usernumber </codeph></entry>
- 					<entry>Number of IAM users</entry>
- 					<entry>account</entry>
- 				</row>
- 			</tbody>
- 		</tgroup>
- 	</table>
- 	<section>
- 		<title>Default Quota</title>
- 		<p>Contrary to IAM policies, by default, there is no quota limits (except the hard system limit)
- 			on any resource allocations for a user or an account. Also, system administrators are not 
- 			constrained by any quota. Account administrators are only be constrained by account quota.</p>
- 	</section>
- </conbody>
+		<p>You can attach quotas to both users and accounts, although some of
+			the quotas only apply to accounts. Quota attached to groups will
+			take no effect.</p>
+		<p>When a quota policy is attached to an account, it actually is
+			attached to the account administrator user. Since only system
+			administrator can specify account quotas, the account administrator
+			can only inspect quotas but can't change the quotas attached to
+			herself.</p>
+
+		<p>The following is all the quota keys implemented in Eucalyptus:</p>
+
+		<table>
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry>Quota Key</entry>
+						<entry>Description</entry>
+						<entry>Applies to</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><codeph>s3:quota-bucketnumber</codeph></entry>
+						<entry>Number of S3 buckets</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>s3:quota-bucketobjectnumber</codeph></entry>
+						<entry>Number of objects in each bucket,</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>s3:quota-bucketsize</codeph></entry>
+						<entry>Size of bucket, in MB</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>s3:quota-buckettotalsize</codeph></entry>
+						<entry>total size of all buckets, in MB</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-addressnumber </codeph></entry>
+						<entry>Number of elastic IPs</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-imagenumber </codeph></entry>
+						<entry>Number of EC2 images</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-snapshotnumber
+							</codeph></entry>
+						<entry>Number of EC2 snapshots</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-vminstancenumber</codeph></entry>
+						<entry>Number of EC2 instances</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-volumenumber</codeph></entry>
+						<entry>Number of EC2 volumes</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>ec2:quota-volumetotalsize</codeph></entry>
+						<entry>Number of total volume size, in GB</entry>
+						<entry>account and user</entry>
+					</row>
+					<row>
+						<entry><codeph>iam:quota-groupnumber</codeph></entry>
+						<entry>Number of IAM groups</entry>
+						<entry>account</entry>
+					</row>
+					<row>
+						<entry><codeph>iam:quota-usernumber </codeph></entry>
+						<entry>Number of IAM users</entry>
+						<entry>account</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Default Quota</title>
+			<p>Contrary to IAM policies, by default, there is no quota limits
+				(except the hard system limit) on any resource allocations for a
+				user or an account. Also, system administrators are not
+				constrained by any quota. Account administrators are only be
+				constrained by account quota.</p>
+		</section>
+	</conbody>
 </concept>

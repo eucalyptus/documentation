@@ -3,33 +3,36 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_logs">
 	<title>Log Files</title>
-	<shortdesc></shortdesc>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
-				<indexterm>troubleshooting
-					<indexterm>log files</indexterm>
-				</indexterm></keywords>
+				<indexterm>troubleshooting <indexterm>log files</indexterm>
+				</indexterm>
+			</keywords>
 		</metadata>
 	</prolog>
 	<conbody>
-		<p>Usually when an issue arises in Eucalyptus, you can find information that points to the nature
-			of the problem either in the Eucalyptus log files or in the system log files. By
-			default, the Eucalyptus log files are stored in
-				<filepath>/var/log/eucalyptus/</filepath> on each machine that hosts a Eucalyptus
-			component. If Eucalyptus is installed somewhere other than the filesystem root
+		<p>Usually when an issue arises in Eucalyptus, you can find information
+			that points to the nature of the problem either in the Eucalyptus
+			log files or in the system log files. By default, the Eucalyptus log
+			files are stored in <filepath>/var/log/eucalyptus/</filepath> on
+			each machine that hosts a Eucalyptus component. If Eucalyptus is
+			installed somewhere other than the filesystem root
 				(<filepath>/</filepath>), log files are stored in
 				<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </p>
 		<p>Here are the relevant logs for each component:</p>
 		<section>
-			<title>Cloud controller (CLC), Walrus, Storage controller (SC), and VMware Broker</title>
+			<title>Cloud controller (CLC), Walrus, Storage controller (SC), and
+				VMware Broker</title>
 			<ul>
 				<li><filepath>cloud-output.log</filepath></li>
 				<li><filepath>euca_imager.log</filepath></li>
 			</ul>
-			<p>These components also include specialized developer log files. These are 
-				not relevant to troubleshooting a production system, and are not affected by
-				any log level settings. These logs include the following:</p>
+			<p>These components also include specialized developer log files.
+				These are not relevant to troubleshooting a production system,
+				and are not affected by any log level settings. These logs
+				include the following:</p>
 			<ul>
 				<li><filepath>cloud-debug.log</filepath></li>
 				<li><filepath>cloud-error.log</filepath></li>
@@ -56,8 +59,9 @@
 		</section>
 		<section>
 			<title>System Logs</title>
-			<p>You might also find helpful information about the nature of an issue in the system
-				logs. In particular, the following logs may be relevant:</p>
+			<p>You might also find helpful information about the nature of an
+				issue in the system logs. In particular, the following logs may
+				be relevant:</p>
 			<ul>
 				<li><filepath>/var/log/messages</filepath></li>
 				<li><filepath>/var/log/libvirt/</filepath></li>
@@ -66,25 +70,36 @@
 		</section>
 		<section>
 			<title>Configuring Logging</title>
-			<p>For the cluster controller and the node controller, log level is configured using the <codeph>LOGLEVEL</codeph> parameter in <filepath>eucalyptus.conf</filepath>. This parameter will be picked up dynamically when the value is changed in the config file, without requiring a restart of the component.</p>
-			<p>For all other components, the log level can be configured by passing an appropriate <codeph>--log-level</codeph> argument in the init script. It can also be dynamically changed using <codeph>euca-modify-property</codeph> to set an appropriate value for <codeph>cloud.euca_log_level</codeph>. This takes precedence over the value specified in the init script.</p>
-<p>Valid log levels are as follows, from most to least verbose:</p>
-<ul>
-<li>ALL</li>
-<li>EXTREME</li>
-<li>TRACE</li>
-<li>DEBUG</li>
-<li>INFO</li>
-<li>WARN</li>
-<li>ERROR</li>
-<li>FATAL</li>
-<li>OFF</li>
-</ul>
-<p>If no value is specified, the default <codeph>INFO</codeph> is used.</p>
+			<p>For the cluster controller and the node controller, log level is
+				configured using the <codeph>LOGLEVEL</codeph> parameter in
+					<filepath>eucalyptus.conf</filepath>. This parameter will be
+				picked up dynamically when the value is changed in the config
+				file, without requiring a restart of the component.</p>
+			<p>For all other components, the log level can be configured by
+				passing an appropriate <codeph>--log-level</codeph> argument in
+				the init script. It can also be dynamically changed using
+					<codeph>euca-modify-property</codeph> to set an appropriate
+				value for <codeph>cloud.euca_log_level</codeph>. This takes
+				precedence over the value specified in the init script.</p>
+			<p>Valid log levels are as follows, from most to least verbose:</p>
+			<ul>
+				<li>ALL</li>
+				<li>EXTREME</li>
+				<li>TRACE</li>
+				<li>DEBUG</li>
+				<li>INFO</li>
+				<li>WARN</li>
+				<li>ERROR</li>
+				<li>FATAL</li>
+				<li>OFF</li>
+			</ul>
+			<p>If no value is specified, the default <codeph>INFO</codeph> is
+				used.</p>
 		</section>
 		<section>
 			<title>Log Format</title>
-			<p>Eucalyptus logs now have a standard format, which varies slightly per log level.</p>
+			<p>Eucalyptus logs now have a standard format, which varies slightly
+				per log level.</p>
 			<p>For log levels FATAL, ERROR, WARN and INFO:</p>
 			<codeblock>YYYY-MM-DD HH:MM:SS LEVEL | message </codeblock>
 			<p>For log levels DEBUG and TRACE:</p>
@@ -94,9 +109,22 @@
 		</section>
 		<section>
 			<title>Fault Logs</title>
-			<p>Eucalyptus includes fault logs for easy identification of conditions outside of Eucalyptus's control that may cause it to fail. These messages are logged per component, and each fault is logged only once per component, in <filepath>/var/log/eucalyptus/[component]-fault.log</filepath>. The messages include a suggested resolution, and can be customized. Where they have been translated, Eucalyptus will use the system-configured <codeph>LOCALE</codeph> variable to serve appropriate messages.</p>
-			<p>Fault messages are based on XML-formatted templates, stored in a per-locale directory structure, with one file per fault message, and one file storing common strings. Default templates are shipped with Eucalyptus. These are stored in <filepath>/usr/share/eucalyptus/faults/</filepath> as follows:</p>
-<codeblock>/usr/share/eucalyptus/faults/en_US/0001.xml
+			<p>Eucalyptus includes fault logs for easy identification of
+				conditions outside of Eucalyptus's control that may cause it to
+				fail. These messages are logged per component, and each fault is
+				logged only once per component, in
+					<filepath>/var/log/eucalyptus/[component]-fault.log</filepath>.
+				The messages include a suggested resolution, and can be
+				customized. Where they have been translated, Eucalyptus will use
+				the system-configured <codeph>LOCALE</codeph> variable to serve
+				appropriate messages.</p>
+			<p>Fault messages are based on XML-formatted templates, stored in a
+				per-locale directory structure, with one file per fault message,
+				and one file storing common strings. Default templates are
+				shipped with Eucalyptus. These are stored in
+					<filepath>/usr/share/eucalyptus/faults/</filepath> as
+				follows:</p>
+			<codeblock>/usr/share/eucalyptus/faults/en_US/0001.xml
 ...
 /usr/share/eucalyptus/faults/en_US/1234.xml
 /usr/share/eucalyptus/faults/en_US/common.xml
@@ -104,26 +132,37 @@
 		</section>
 		<section>
 			<title>Using Localized Fault Logs</title>
-			<p>Localized messages are located in a per-locale directory under <filepath>/etc/eucalyptus/faults/</filepath>.
-				If localized messages are available matching the system LOCALE, Eucalyptus will use those messages. 
-				If no LOCALE is set, Eucalyptus defaults to <codeph>en_US</codeph>.</p>
-			<p>Set the system LOCALE in <filepath>/etc/sysconfig/i18n</filepath> as follows:</p> 
+			<p>Localized messages are located in a per-locale directory under
+					<filepath>/etc/eucalyptus/faults/</filepath>. If localized
+				messages are available matching the system LOCALE, Eucalyptus
+				will use those messages. If no LOCALE is set, Eucalyptus
+				defaults to <codeph>en_US</codeph>.</p>
+			<p>Set the system LOCALE in <filepath>/etc/sysconfig/i18n</filepath>
+				as follows:</p>
 			<codeblock>LOCALE=ru_RU</codeblock>
 		</section>
 		<section>
 			<title>Using Customized Fault Logs</title>
-		<p>To use your own customized messages, copy the message files to the appropriate directory
-				under <filepath>/etc/eucalyptus/faults/</filepath> and edit them. Do not change the
-				filenames. To test the fault template, run <codeph>euca-generate-fault</codeph>,
-				providing the component name, fault ID, and any relevant parameters along with their
-				values.</p>
+			<p>To use your own customized messages, copy the message files to
+				the appropriate directory under
+					<filepath>/etc/eucalyptus/faults/</filepath> and edit them.
+				Do not change the filenames. To test the fault template, run
+					<codeph>euca-generate-fault</codeph>, providing the
+				component name, fault ID, and any relevant parameters along with
+				their values.</p>
 			<codeblock>euca-generate-fault -c component_name fault_id [param] [value]</codeblock>
-		<p>For example</p>	
+			<p>For example</p>
 			<codeblock>euca-generate-fault -c broker 1008 daemon ntpd</codeblock>
-		<p>The test fault should be logged in the appropriate component fault log (in this case, <filepath>/var/log/eucalyptus/broker-fault.log</filepath></p>
-		<p>Eucalyptus uses customized messages where they are available, preferring a non-localized custom message over a localized default message. Localized messages 
-			should be in a per-locale directory under <filepath>/etc/eucalyptus/faults/</filepath>, with a directory name that matches the system LOCALE. If no LOCALE
-		    is set, Eucalyptus defaults to <codeph>en_US</codeph>.</p>
-	</section>
+			<p>The test fault should be logged in the appropriate component
+				fault log (in this case,
+					<filepath>/var/log/eucalyptus/broker-fault.log</filepath></p>
+			<p>Eucalyptus uses customized messages where they are available,
+				preferring a non-localized custom message over a localized
+				default message. Localized messages should be in a per-locale
+				directory under <filepath>/etc/eucalyptus/faults/</filepath>,
+				with a directory name that matches the system LOCALE. If no
+				LOCALE is set, Eucalyptus defaults to
+				<codeph>en_US</codeph>.</p>
+		</section>
 	</conbody>
 </concept>

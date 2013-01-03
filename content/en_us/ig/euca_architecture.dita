@@ -3,7 +3,7 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="euca_architecture">
 	<title>Understanding the Eucalyptus Architecture</title>
- <shortdesc></shortdesc>
+	<shortdesc/>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -12,42 +12,56 @@
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<conbody>
- 	<p>The following image depicts the logical relationship between Eucalyptus components in a generalized deployment.</p>
- 	<image href="../shared/images/euca-arch-basic-one-cluster.png" alt="Eucalyptus components in a
+		<p>The following image depicts the logical relationship between
+			Eucalyptus components in a generalized deployment.</p>
+		<image href="../shared/images/euca-arch-basic-one-cluster.png"
+			alt="Eucalyptus components in a
  		regular deployment"/>
- 	
- 	<p>The cloud components, Cloud Controller (CLC) and Walrus, communicate with cluster components,
- 		the Cluster Controllers (CCs) and Storage Controllers (SCs). The CCs and SCs, in turn,
- 		communicate with the Node Controllers (NCs). The networks between machines hosting these components must be able to allow TCP connections between them. </p>
- <p>However, if the CCs are on separate network interfaces (one for the network on which the cloud
- 	components are hosted and another for the network that NCs use) the CCs will act as software
- 	routers between these networks in some networking configurations. So each cluster can use an internal private network for its NCs
- 	and the CCs will route traffic from that network to a network shared by the cloud components. </p>
- 	<p>Virtual machines (VMs) run on the machines that host NCs. You can use the CCs as software routers for traffic between clients outside Eucalyptus and VMs. Or the VMs can use the routing framework already in place without CC software routers. However, depending on the layer-2 isolation characteristics of your existing network, you might not be able to implement all of the security features supported by Eucalyptus.</p>
- 	<section>
- 		<title>Eucalyptus HA</title>
- 		
- 		<p>If you configure Eucalyptus for high availability (HA), you must have primary and secondary cloud and
- 			cluster components. In the
- 			event of a failure, the secondary component becomes the primary component.</p>
- 			
- 		<image href="../shared/images/euca-arch-ha-one-cluster.png" alt="Image depicting the Eucalyptus HA"/>
- 		<p>Eucalyptus HA uses a service called an Arbitrator that monitors connectivity
- 			between a user and a user-facing component (CLC, Walrus, and CC). An Arbitrator 
- 			approximates reachability to a user. Each Arbitrator uses ICMP messages
- 			to periodically test reachability to an external entity (for example, a
- 			network gateway or border router) or to an external site (for example,
- 			google.com).</p>
- 		<p>An Arbitrator is not required in HA. However, it is nice to have in order to test
- 			connectivity with a user.</p>
- 		<p>If all Arbitrators fail to reach a monitored
- 			entity, Eucalyptus assumes there is a loss of connectivity between a user and the
- 			component. At that point a failover occurs. To allow for normal outages and
- 			maintenance, we recommend that you register more than one Arbitrator for
- 			each user-facing component.</p>
- 	</section>
- 	
- </conbody>
+
+		<p>The cloud components, Cloud Controller (CLC) and Walrus, communicate
+			with cluster components, the Cluster Controllers (CCs) and Storage
+			Controllers (SCs). The CCs and SCs, in turn, communicate with the
+			Node Controllers (NCs). The networks between machines hosting these
+			components must be able to allow TCP connections between them. </p>
+		<p>However, if the CCs are on separate network interfaces (one for the
+			network on which the cloud components are hosted and another for the
+			network that NCs use) the CCs will act as software routers between
+			these networks in some networking configurations. So each cluster
+			can use an internal private network for its NCs and the CCs will
+			route traffic from that network to a network shared by the cloud
+			components. </p>
+		<p>Virtual machines (VMs) run on the machines that host NCs. You can use
+			the CCs as software routers for traffic between clients outside
+			Eucalyptus and VMs. Or the VMs can use the routing framework already
+			in place without CC software routers. However, depending on the
+			layer-2 isolation characteristics of your existing network, you
+			might not be able to implement all of the security features
+			supported by Eucalyptus.</p>
+		<section>
+			<title>Eucalyptus HA</title>
+			<p>If you configure Eucalyptus for high availability (HA), you must
+				have primary and secondary cloud and cluster components. In the
+				event of a failure, the secondary component becomes the primary
+				component.</p>
+			<image href="../shared/images/euca-arch-ha-one-cluster.png"
+				alt="Image depicting the Eucalyptus HA"/>
+			<p>Eucalyptus HA uses a service called an Arbitrator that monitors
+				connectivity between a user and a user-facing component (CLC,
+				Walrus, and CC). An Arbitrator approximates reachability to a
+				user. Each Arbitrator uses ICMP messages to periodically test
+				reachability to an external entity (for example, a network
+				gateway or border router) or to an external site (for example,
+				google.com).</p>
+			<p>An Arbitrator is not required in HA. However, it is nice to have
+				in order to test connectivity with a user.</p>
+			<p>If all Arbitrators fail to reach a monitored entity, Eucalyptus
+				assumes there is a loss of connectivity between a user and the
+				component. At that point a failover occurs. To allow for normal
+				outages and maintenance, we recommend that you register more
+				than one Arbitrator for each user-facing component.</p>
+		</section>
+
+	</conbody>
 </concept>
