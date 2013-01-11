@@ -5,12 +5,32 @@
     <shortdesc/>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>Use the <apiname>euca-create-tags</apiname> command to add a tag to a resource. </p>
         </context>
         <steps>
             <step>
-                <cmd>Task step.</cmd>
+                <cmd>Enter the following command and parameters:</cmd>
+                <info>
+                    <codeblock>euca-create-tags [resource_id] --tag [tag_key]=[tag_value]</codeblock>
+                </info>
+                <stepresult>Eucalyptus returns a the resource identifier and its tag key and value.</stepresult>
             </step>
+           
         </steps>
+        <example>
+            <p>The following example shows how to add a tag to an EMI. This tag key is <codeph>dataserver</codeph>
+                and has no value.</p>
+                <codeblock>euca-create-tags emi-1a2b3c4d --tag dataserver 
+TAG  emi-1a2b3c4d  image  dataserver</codeblock>
+            <p>The following example shows how to add the same two tags to both an EMI and an instance.
+                One tag key is dataserver, which has no value, an empty string. The other tag key is stack,
+                which has a value of <codeph>Production</codeph>.</p>
+            <codeblock>euca-create-tags emi-1a2b3c4d i-6f5d4e3a --tag dataserver --tag stack=Production
+TAG  emi-1a2b3c4d  image  dataserver
+TAG  emi-1a2b3c4d  image  stack  Production
+TAG  i-6f5d4e3a  image  dataserver
+TAG  i-6f5d4e3a  image  stack  Production</codeblock>
+
+        </example>
     </taskbody>
 </task>
