@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_cjb_qrk_vf">
+ <title>Quotas </title>
+ <conbody>
+    <p>There are no quota limits in a public cloud as they would be contrary to the business goals
+      of the public cloud owner. A public cloud revenue stream is based on users using the cloud
+      resources.  The more resources the users use, the more revenue the public cloud provider
+      receives.  Also, from a individual user perspective, the public cloud resources might appear
+      unlimited. A private cloud is different in that there are limits on the physical resources. 
+      Because resources are more limited in the private cloud, the ability to enforce resource
+      quotas on users makes more sense.  </p>
+    <p>For this reason Eucalyptus extended the Amazon IAM API to include resource quotas.  The
+      policy statement <i>Effect</i> was extended to include <i>Limit</i> along with the normal
+      Allow and Deny keywords.  Where Limit appears as the Effect, it is a quota statement and not a
+      permissions statement.  While condition blocks are optional in permission statements, they are
+      required in quota statements.  However, the only condition will always be
+      NumericLessThanEquals.  The condition block will include the actual quota type and settings. </p>
+  <p>A quota statement also has <i>Action</i> and <i>Resource</i> fields, which are used to match
+      specific requests. The actual quota type and value are specified using special quota keys
+      listed in the condition. Only the condition type NumericLessThanEquals can be used with quota
+      keys.</p>
+ </conbody>
+</concept>

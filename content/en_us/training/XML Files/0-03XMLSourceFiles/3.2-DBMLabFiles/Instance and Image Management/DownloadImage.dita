@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_3y5_3c3_b3">
+    <title>Download and Register a CentOS 5 Image </title>
+    <shortdesc/>
+    <taskbody>
+        <context>Eucalyptus provides Linux images that can be downloaded to help test a newly
+            installed Eucalyptus cloud.   They are available for download using the Eucalyptus image
+            store, or EuStore.   The EuStore is accessed using the <cmdname>eustore-*</cmdname>
+            command-line commands. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_znr_tc3_b3" scale="40"/>If
+                    necessary, from the Debian desktop open an SSH session to the front-end host. </cmd>
+                <info>
+                    <codeblock># ssh &lt;front_end_public_IP> </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_vj3_cd3_b3" scale="40"/>List the
+                    images available in the EuStore. </cmd>
+                <info>
+                    <codeblock># eustore-describe-images</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_xck_djp_b3" scale="40"/>Download and register the 1.3GB x86_64
+                    CentOS image, ID 1107385945, from the EuStore.  Place it in a Walrus bucket
+                    named <i>centos</i> and make sure to choose the KVM kernel.   This command will
+                    take several minutes to complete its tasks.</cmd>
+                <info>
+                    <codeblock># eustore-install-image –i 1107385945 –b centos –k kvm</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_zjb_2jp_b3" scale="40"/>Verify that you can see three registered
+                    images in your cloud; an EKI, ERI, and EMI. </cmd>
+                <info>
+                    <codeblock># euca-describe-images</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_dpp_2jp_b3" scale="40"/>Open TCP port 22 (for SSH) in the
+                        <i>default</i> security group before trying to connect to the console of an
+                    instance.  (This command, along with security groups, will be discussed in a
+                    later module.) </cmd>
+                <info>
+                    <codeblock># euca-authorize –P tcp –p 22 –s 0.0.0.0/0 default</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

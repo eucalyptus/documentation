@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_wkl_jyn_b3">
+    <title>Install the Software </title>
+    <shortdesc/>
+    <taskbody>
+        <context>Eucalyptus provides software packages or source files for installation.  You will
+            install Eucalyptus from software packages. Installation packages are available for
+            different operating system environments and CPU architectures. In this lab exercise you
+            will use the relevant 3.2 installation packages for Centos 6.3 on an x86_64 CPU
+            architecture. </context>
+        <steps>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        id="image_1qh_syn_b3" scale="40"/>On your front-end host install the release
+                    RPM file. Verify that the
+                        <filepath>/etc/yum.repos.d/eucalyptus-release.repo</filepath> file was
+                    installed.</cmd>
+                <info>
+                    <codeblock># yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/ \
+centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm 
+# ls /etc/yum.repos.d </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/node.png"
+                        id="image_jh3_3zn_b3" scale="40"/>On your Node Controller host install the
+                    release RPM file. Verify that the
+                        <filepath>/etc/yum.repos.d/eucalyptus-release.repo</filepath> file was
+                    installed.</cmd>
+                <info>
+                    <codeblock># yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/ \
+centos/6/x86_64/eucalyptus-release-3.2.noarch.rpm 
+# ls /etc/yum.repos.d</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        id="image_b13_c14_b3" scale="40"/>On your front-end host install the
+                    euca2ools RPM file.   Verify that the
+                        <filepath>/etc/yum.repos.d/euca2ools.repo</filepath> file was
+                    installed.</cmd>
+                <info>
+                    <codeblock># yum install \
+http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64/ \
+euca2ools-release-2.1.noarch.rpm 
+# ls /etc/yum.repos.d </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/node.png"
+                        id="image_sfl_214_b3" scale="40"/>On your Node Controller host install the
+                    euca2ools RPM file.   Verify that the
+                        <filepath>/etc/yum.repos.d/euca2ools.repo</filepath> file was
+                    installed.</cmd>
+                <info>
+                    <codeblock># yum install \
+http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/6/x86_64/ \
+euca2ools-release-2.1.noarch.rpm 
+# ls /etc/yum.repos.d</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        scale="40" id="image_vr4_k14_b3"/>On your front-end host install the ELREPO
+                    RPM file that is required on the machine hosting the Walrus service. Verify that
+                    the <filepath>/etc/yum.repos.d/elrepo.repo</filepath> file was installed.</cmd>
+                <info>
+                    <codeblock># yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/ \
+centos/6/x86_64/elrepo-release-6.noarch.rpm
+# ls /etc/yum.repos.d</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        scale="40" id="image_jkv_z14_b3"/>On your front-end host install the EPEL
+                    RPM file. Verify that the <filepath>/etc/yum.repos.d/epel.repo</filepath> file
+                    was installed.</cmd>
+                <info>
+                    <codeblock># yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/ \
+centos/6/x86_64/epel-release-6.noarch.rpm  
+# ls /etc/yum.repos.d</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/node.png" scale="40"
+                        id="image_bvw_jb4_b3"/>On your Node Controller host install the EPEL RPM
+                    file. Verify that the <filepath>/etc/yum.repos.d/epel.repo</filepath> file was
+                    installed.</cmd>
+                <info>
+                    <codeblock># yum install http://downloads.eucalyptus.com/software/eucalyptus/3.2/ \
+centos/6/x86_64/epel-release-6.noarch.rpm  
+# ls /etc/yum.repos.d</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        id="image_hkj_sb4_b3" scale="40"/>On the front-end host, install the
+                    Eucalyptus Cloud Controller software.  Euca2ools will also be installed. </cmd>
+                <info>
+                    <codeblock># yum groupinstall eucalyptus-cloud-controller</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/frontend.png"
+                        id="image_ffj_yb4_b3" scale="40"/>On the front-end host, install the
+                    remaining Eucalyptus software services. </cmd>
+                <info>
+                    <codeblock># yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Instance%20and%20Image%20Management/images/node.png"
+                        id="image_tb1_tc4_b3" scale="40"/>On the Node Controller host, install the
+                    Eucalyptus Node Controller software. Euca2ools will also be installed. </cmd>
+                <info>
+                    <codeblock># yum install eucalyptus-nc</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

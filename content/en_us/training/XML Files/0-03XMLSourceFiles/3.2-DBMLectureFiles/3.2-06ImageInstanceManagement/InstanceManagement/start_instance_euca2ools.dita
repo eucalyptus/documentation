@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_g2d_qtw_3f">
+ <title>Start an Instance - Euca2ools</title>
+ <conbody>
+  <p>To start an instance using euca2ools, run the following
+            command:<codeblock>euca-run-instances -k &lt;keypair_name> --kernel eki-&lt;nnnnnnnn> /
+--ramdisk eri-&lt;nnnnnnnn> emi-&lt;nnnnnnnn></codeblock></p>
+  <p>This command starts the instance in their account's <i>default</i> security group. The user's
+            public key specified by <cmdname>-k &lt;keypair_name></cmdname> is inserted into the
+            running instance for authentication purposes. The EMI will be launched with the specific
+            kernel and ramdisk images specified on the command line.  This will override any other
+            default kernel or ramdisk images that might apply.</p>
+  <p>To specify a security group other than the account's <i>default</i>, add the <cmdname>-g
+                &lt;group_name></cmdname> option to the command. </p>
+  <p>To start an instance in a specific availability zone (cluster), add the <cmdname>-z
+                &lt;cluster_name></cmdname> option to the command.</p>
+    <p>To start multiple instances, add <cmdname>-n &lt;count></cmdname> to the command.</p>
+  <p>To start an instance with only a private IP address, add the <cmdname>--addressing
+                private</cmdname> option to the command. Without this option, instances running in a
+            cloud in MANAGED or MANAGED-NOVLAN modes will receive both a private and public IP
+            address, assuming that there are available public IP addresses remaining in the
+            pool.</p>
+ </conbody>
+</concept>

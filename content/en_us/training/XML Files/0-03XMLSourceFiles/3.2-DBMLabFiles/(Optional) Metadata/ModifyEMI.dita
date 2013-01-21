@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_qdq_51l_13">
+    <title>Modify an EMI to use metadata services </title>
+    <shortdesc> </shortdesc>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_wlb_z1l_13"
+                scale="40"/>In this section of the lab you will modify an existing EMI so that it
+            will use metadata services to customize the instance as it boots.   Specifically, you
+            will modify the <filepath>/etc/rc.local</filepath> file in the EMI to use
+            Eucalyptus-defined metadata and user-supplied userdata to attach to and configure a
+            volume at boot time.</context>
+        <steps>
+            <step>
+                <cmd>From the front-end host, change directory to <filepath>/var/images</filepath>. 
+                    List the contents of the directory, which should list the image file
+                        <filepath>kvm-centos-5.8.img</filepath>.  This is the image file that was
+                    modified in an earlier lab to include NTP and a repaired
+                        <filepath>/etc/fstab</filepath>. </cmd>
+                <info>
+                    <codeblock># cd /var/images
+# ls</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Use a loopback mount to mount the image file to the
+                        <filepath>/var/tempmnt</filepath> directory and verify that it was mounted. </cmd>
+                <info>
+                    <codeblock># mount –o loop kvm-centos-5.8.img /var/tempmnt
+# mount</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Use an editor (either <cmdname>vi</cmdname> or <cmdname>nano –w</cmdname> ) to
+                    create the file <filepath>/var/tempmnt/partition_script</filepath>.  This script
+                    will be called as an argument to the <cmdname>fdisk</cmdname> command when the
+                    instance boots.  The contents of the script will create a partition on a
+                    volume.  When creating the contents, enter only the characters and blank line
+                    shown below, do not add any other lines to this file. </cmd>
+                <info>
+                    <codeblock># vi /var/tempmnt/partition_script
+n
+p
+1
+1
+(just press Enter for a blank line)
+w</codeblock>
+                    <note>The <filepath>partition_script</filepath> file will be located in the
+                            <filepath>/</filepath> directory of the instances when they boot from
+                        this EMI.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>Change to the <filepath>etc</filepath> directory in the mounted image file. 
+                    Once there, list the contents of the directory and note the
+                        <filepath>rc.local</filepath> file. </cmd>
+                <info>
+                    <codeblock># cd /var/tempmnt/etc
+# ls</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Edit the <filepath>rc.local</filepath> file (using either <cmdname>vi</cmdname>
+                    or <cmdname>nano –w</cmdname> ) and add the following lines to the end of the
+                    file.   Note that in these lab instructions, the entries starting with
+                        <filepath>INSTANCE_ID</filepath> and <filepath>curl</filepath> line wrap but
+                    should be entered as continuous lines in the actual
+                        <filepath>rc.local</filepath> file. </cmd>
+                <info>
+                    <codeblock># vi rc.local
+
+INSTANCE_ID=$(curl --retry 2 --retry-delay 5 -m 45 -s http://169.254.169.254/latest/meta-data/instance-id)
+
+curl --retry 2 --retry-delay 5 -m 45 -s http://169.254.169.254/latest/user-data/ >> /root/.env_variables
+
+source /root/.env_variables
+
+ntpdate pool.ntp.org
+
+/usr/bin/euca-attach-volume -i $INSTANCE_ID -d /dev/vdb $EC2_VOL_ID
+
+sleep 20
+
+fdisk /dev/vdb &lt; /partition_script 
+mkfs.ext3 /dev/vdb1
+mkdir -p /ebs
+mount /dev/vdb1 /ebs
+touch /ebs/here_is_your_volume</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Unmount the image file and verify that it was unmounted. </cmd>
+                <info>
+                    <codeblock># cd
+# umount /var/tempmnt
+# mount</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Bundle, upload, and register the image as a new EMI.   Upload the image to a
+                    Walrus bucket named <i>meta-centos</i>. </cmd>
+                <info>
+                    <codeblock># cd /var/images
+# euca-bundle-image –i kvm-centos-5.8.img
+# euca-upload-bundle -b meta-centos -m /tmp/kvm-centos-5.8.img.manifest.xml
+# euca-register meta-centos/kvm-centos-5.8.img.manifest.xml  </codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

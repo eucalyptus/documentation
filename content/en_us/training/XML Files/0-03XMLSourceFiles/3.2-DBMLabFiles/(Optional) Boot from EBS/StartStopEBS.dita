@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_frn_1mq_zh">
+    <title>Stop, start, reboot, and terminate an EBS-backed instance </title>
+    <shortdesc> </shortdesc>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_gwr_dmq_zh"
+                scale="40"/>In this section of the lab you will test the persistence of data in an
+            EBS-backed instance when it is stopped and restarted.  You will do this by creating a
+            file in the instance, stopping the instance, and then restarting it.   You will also
+            reboot the instance.  Finally, you will terminate the instance.</context>
+        <steps>
+            <step>
+                <cmd>While logged into the EBS-backed instance, make a change to the file system and
+                    then log out. </cmd>
+                <info>
+                    <codeblock># touch /root/testfile
+# exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Stop the instance. </cmd>
+                <info>
+                    <codeblock># euca-describe-instances
+# euca-stop-instances i-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>View the state of the EBS-backed instance.  </cmd>
+                <info>
+                    <codeblock># euca-describe-instances</codeblock>
+                    <p>What is the reported instance state?  Wait until it reports a state of
+                            <systemoutput>stopped</systemoutput>. </p>
+                </info>
+            </step>
+            <step>
+                <cmd>Start the instance again.  Note that the instance might not get the same
+                    private IP address again. </cmd>
+                <info>
+                    <codeblock># euca-start-instances i-&lt;nnnnnnnn>
+# euca-describe-instances</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Use SSH to log in to the instance again using the password <i>foobar</i> . 
+                    List the contents of the <filepath>/root</filepath> directory.  </cmd>
+                <info>
+                    <codeblock># ssh &lt;instance_public_IP>
+# ls /root</codeblock>
+                    <p>Is your <filepath>testfile</filepath> still there?</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Log out of the instance. </cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Reboot the instance and immediately view the state of the instance.   </cmd>
+                <info>
+                    <codeblock># euca-reboot-instances i-&lt;nnnnnnnn>
+# euca-describe-instances</codeblock>
+                    <p>Does it quickly report <systemoutput>running</systemoutput> again?  While the
+                        instance state is <systemoutput>running</systemoutput>, the software within
+                        the instance is still rebooting.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Use SSH to log into the instance using the password <i>foobar</i> .  If SSH
+                    fails, wait a minute and try again. </cmd>
+                <info>
+                    <codeblock># ssh &lt;instance_public_IP></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>List the contents of the <filepath>/root</filepath> directory.  </cmd>
+                <info>
+                    <codeblock># ls /root </codeblock>
+                    <p> Is your <systemoutput>testfile</systemoutput> still there? </p>
+                </info>
+            </step>
+            <step>
+                <cmd>Exit the SSH session to the instance. </cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>From the front-end host, terminate the instance. </cmd>
+                <info>
+                    <codeblock># euca-describe-instances
+# euca-terminate-instances i-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> If you were to launch another EBS-backed instance, would it have the file
+                        <filepath>/root/testfile</filepath>?   Why or why not? </cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>

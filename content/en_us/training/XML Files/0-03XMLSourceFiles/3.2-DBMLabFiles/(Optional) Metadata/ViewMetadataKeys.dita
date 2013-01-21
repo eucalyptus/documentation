@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_mnn_fxk_13">
+    <title>View metadata keys and values</title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will create an instance.  After logging in to that
+            instance you will download the list of available Eucalyptus-defined metadata keys and
+            then view the values associated with a few of the keys. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_5xn_rxk_13" scale="40"/>From the
+                    Debian desktop, if necessary use SSH to log in to the front-end host.</cmd>
+                <info>
+                    <codeblock># ssh &lt;front_end_public_IP></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_hqz_qyk_13" scale="40"/>Launch an
+                    instance using the CentOS EMI in the<i> kvm-centos</i> bucket. </cmd>
+                <info>
+                    <codeblock># euca-describe-images
+# euca-run-instances –k &lt;keypair_name> emi-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_zc1_ggp_b3" scale="40"/>Once the instance is running, use SSH to
+                    log in to the instance. </cmd>
+                <info>
+                    <codeblock># cd /root
+# ls  # ssh –i &lt;key_name> &lt;instance_public_IP>  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_hqt_ggp_b3" scale="40"/>From the instance, use the
+                        <cmdname>curl</cmdname> command to download the list of available predefined
+                    metadata keys into the text file <filepath>metadatakeys.txt</filepath>. </cmd>
+                <info>
+                    <codeblock># curl -m 10 -s http://169.254.169.254/latest/meta-data > metadatakeys.txt
+# ls  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_2yj_hgp_b3" scale="40"/>From the instance, display the contents of
+                    the <filepath>metadatakeys.txt</filepath> file. </cmd>
+                <info>
+                    <codeblock># cat metadatakeys.txt</codeblock>
+                    <note>Some of the key names are appended with a forward-slash character.   This
+                        indicates that those keys are actually the top of a hierarchy of keys and
+                        values.  You will see how to navigate down these hierarchies later in the
+                        lab. </note>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_bnd_3gp_b3" scale="40"/>From the instance, view the value
+                    associated with the <systemoutput>security-groups</systemoutput> key.  Which
+                    security group was the instance launched in? </cmd>
+                <info>
+                    <codeblock># curl -m 10 -s http://169.254.169.254/latest/meta-data/security-groups</codeblock>
+                    <note>The value associated with the <systemoutput>security-groups</systemoutput>
+                        key actually prints on the screen <i>before</i> the bash shell prompt. 
+                        Press the Enter key to get a normal shell prompt again. </note>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_t5b_jgp_b3" scale="40"/>From the instance, traverse down through
+                    the keys and values hierarchy associated with the
+                        <systemoutput>public-keys</systemoutput> key. </cmd>
+                <info>
+                    <codeblock># curl -m 10 -s http://169.254.169.254/latest/meta-data/public-keys
+# curl -m 10 -s http://169.254.169.254/latest/meta-data/public-keys/0
+# curl -m 10 -s http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key</codeblock>
+                    <note>The <systemoutput>value 0=adminkey</systemoutput> which is displayed by
+                        the second command, denotes that key <systemoutput>0</systemoutput> is the
+                        key associated with the key pair labeled
+                            <systemoutput>adminkey</systemoutput>. </note>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_hmf_kgp_b3" scale="40"/>Exit out of the instance. </cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_5vw_kgp_b3" scale="40"/>Terminate the instance. </cmd>
+                <info>
+                    <codeblock># euca-describe-instances
+# euca-terminate-instances i-&lt;nnnnnnnn>  </codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

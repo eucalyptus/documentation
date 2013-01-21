@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_nzf_pjj_23">
+    <title>Configure a Storage Manager</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p><image href="images/frontend.png" placement="break" id="image_y2j_vmj_23" scale="40"
+                />The Storage Controller service can manage the creation of volumes on several
+                different types of back-end storage. In this section of the lab you will configure
+                the Storage Controller to use the correct storage manager software for the type of
+                back-end storage used in the lab environment. The lab environment uses local disks
+                with a file system.</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>On the front-end host, use the <cmdname>euca-modify-property</cmdname> command
+                    to configure the correct storage manager for the Storage Controller service.
+                    The storage manager you will use is <cmdname>overlay</cmdname>.   The Storage
+                    Controller should have been configured in a cluster (partition) named
+                        <i>cluster1</i>.</cmd>
+                <info>
+                    <codeblock># euca-modify-property -p cluster1.storage.blockstoragemanager=overlay</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify that the Storage Controller service now shows a status of
+                        <systemoutput>ENABLED</systemoutput>.   You can use either the
+                        <cmdname>euca_conf</cmdname> command or the
+                        <cmdname>euca-describe-services</cmdname> command.</cmd>
+                <info>
+                    <codeblock># euca_conf --list-scs
+# euca-describe-services</codeblock>
+                    <note>The output of the <cmdname>euca-describe-services</cmdname> command will
+                        be explained in a later course module.</note>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

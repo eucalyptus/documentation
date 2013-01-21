@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_n2x_2mz_2f">
+ <title>IP Network Operation</title>
+ <conbody>
+  <p>In MANAGED and MANAGED-NOVLAN modes, instances use two IP address ranges. Each instance is
+    assigned:<ul id="ul_zrb_zlw_2f">
+    <li>A public IP address for communication with hosts external to the cloud</li>
+    <li>A private IP address for communication with other instances within the cloud</li>
+   </ul></p>
+  <p>The public IP address range is configured using the VNET_PUBLICIPS parameter in the
+    <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file on the Cluster Controllers.  The
+   private IP address range is configured using the VNET_SUBNET and VNET_NETMASK parameters, also on
+   the Cluster Controllers.   These parameter settings should be identically configured across all
+   Cluster Controllers in the cloud. </p>
+  <p>A private IP address is assigned to an instance directly by the Cluster Controller's DHCP
+   server and is displayed inside the instance when using the <cmdname>ifconfig</cmdname> or
+    <cmdname>ipconfig</cmdname> command. Behind the Cluster Controller, instances only use their
+   assigned private IP addresses. </p>
+  <p>The public IP address is selected from a pool of public IP addresses that was configured the
+   administrator when the cloud was installed.  In front of the Cluster Controller, instances are
+   known by their assigned public IP addresses. The Cluster Controller maps the private IP address
+   to a public IP address via the <i>nat</i> table in <cmdname>iptables</cmdname>. The Cluster
+   Controller automatically manages the moment-by-moment <cmdname>iptables</cmdname>
+   configuration.</p>
+  <p/>
+  <p>
+   <image href="images/Manage-Mode-IP-Network-Ranges.png" placement="break" id="image_n4d_nmw_2f"
+    scale="63"/>
+   <note>
+    <p>Eucalyptus physical hosts also require IP addresses.</p>
+   </note>
+   <note>
+    <p>Remember that this is a private cloud so <i>public</i> IP addresses are more than likely IP
+     addresses that are internal to the company but visible to users and applications outside the
+     cloud. </p>
+   </note>
+  </p>
+  <p/>
+  <p>The diagram below is an example of IP address assignment in the Eucalyptus cloud. </p>
+  <p>The physical Node Controller hosts have been assigned addresses on the 205.16.3.0 subnet. The
+   private Ethernet interface of the Cluster Controller has also been assigned an IP address on the
+   205.16.3.0 subnet. This allows the Eucalyptus software running on these hosts to communicate. </p>
+  <p>The public Ethernet interface of the Cluster Controller has been assigned an IP address on the
+   205.16.2.0 subnet. This subnet is behind the company firewall and is populated with other hosts
+   within the company.</p>
+  <p>A range of private IP addresses has been configured for the virtual machines running inside the
+   cloud.   In this illustration, the private IP addresses will all begin with the network prefix of
+   10.1.0.0.   For example, VM1 was assigned the IP address 10.1.0.41 while VM2 was assigned the IP
+   address 10.1.0.42.</p>
+  <p>If VM1 needs to communicate with VM2 through the physical switch, it will use its private IP
+   address to communicate with the private IP address of VM2.  Because the virtual machines are in
+   the same broadcast domain, they can determine each other's MAC addresses using the ARP protocol
+   and directly deliver Ethernet packets to one another.     </p>
+  <p>A range of company IP addresses has also been reserved for the virtual machines in the cloud.
+   The range in this example is 205.16.2.20-39. As virtual machines are launched in the cloud they
+   are assigned an available company IP address from this range. This allows a virtual machine
+   inside the cloud to communicate with other hosts outside the cloud but inside the company
+   network. In order for this communication to occur, there has to be a way to route an address on
+   the 101.0.0 subnet to the 205.16.2.0 subnet.</p>
+  <p>This routing is made possible when the Eucalyptus software on the Cluster Controller assigns
+   the private Ethernet interface an address on the 10.1.0.0 network. This address is designated as
+   the router address for the virtual machines running on the Node Controllers. Once a network
+   packet from the virtual machine arrives at the Cluster Controller's private Ethernet interface,
+   the <cmdname>iptables</cmdname>' network address translation feature translates the private IP
+   address to one of the available, and reserved, company IP addresses. Once the translation is
+   complete, the Cluster Controller routes the packet to the public Ethernet interface where it is
+   delivered to the 205.16.2.0 subnet. The network address translation and routing process is
+   reversed for packets returning or originating from the company network.</p>
+  <p/>
+  <p>
+   <image href="images/IP-Address-Illustration.png" placement="break" id="image_ypv_gjn_f3"
+    scale="50"/>
+  </p>
+  <p>The private IP address range is not a single, large network. The Cluster Controller
+   automatically divides the instances' private IP address range into subnets using
+   administrator-configured parameters in the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+   file on the Cluster Controllers. The subnet configuration in the
+    <filepath>eucalyptus.conf</filepath> file determines the maximum number of security groups (one
+   security group is available per configured subnet) and the maximum number of instances per
+   security group (per subnet). This is illustrated below.</p>
+  <p/>
+  <p>
+   <image href="images/Virtual-Private-IP-Subnets.png" placement="break" id="image_wvr_qkz_2f"
+    scale="55"/>
+  </p>
+  <p/>
+  <p>Ten IP addresses are reserved by Eucalyptus in every subnet. These IP addresses include the
+   subnet's network and broadcast addresses, along with eight IP addresses that are used as gateway
+   IP addresses for routing IP packets from virtual machines to hosts outside the cloud. Considering
+   these ten reserved IP addresses per subnet, if you configure your cloud for 32 addresses per
+   subnet you can run up to 22 instances (32-10) in each security group. </p>
+  <p>In MANAGED mode when an instance is launched in a security group, that security group is also
+   assigned a VLAN ID. That VLAN ID is reserved for that security group until all instances in the
+   security group have been terminated. There are 4095 possible VLAN IDs, but Eucalyptus only uses
+   VLAN IDs 2-4094 by default.</p>
+  <p>The main parameters in the <filepath>eucalyptus.conf</filepath> file that configure instance
+   private IP networking are:<ul id="ul_s4x_3lz_2f">
+    <li>
+     <p><b>VNET_MODE</b>: determines the network mode, can be SYSTEM, STATIC, MANAGED,
+      MANAGED-NOVLAN</p>
+    </li>
+    <li>
+     <p><b>VNET_SUBNET</b>: determines the network prefix used for the instances’ private IP
+      addresses</p>
+    </li>
+    <li>
+     <p>
+      <b>VNET_NETMASK</b>: determines the total address space (range) available to for the
+      instances’ private IP addresses</p>
+    </li>
+    <li><b>VNET_ADDRSPERNET</b>: determines how the private IP address space will be subnetted by
+     Eucalyptus.   A larger number of addresses per subnet will result in few subnets (security
+     groups)  while a smaller number of addresses per subnet results in a larger number of subnets
+     (security groups).</li>
+   </ul></p>
+  <p> These VNET settings must be configured identically across all Cluster Controllers in the
+   cloud. </p>
+  <p>The illustration below is an example showing how specific VNET settings would affect the number
+   of security groups and instances per security group.  Because this is MANAGED mode, VLAN IDs have
+   to be considered as well.</p>
+  <p/>
+  <p>
+   <image href="images/Virtual-Private-Subnets.png" placement="break" id="image_dys_1mz_2f"
+    scale="50"/>
+  </p>
+  <p/>
+  <p>To prevent different Cluster Controllers from allocating the same public or private IP
+   addresses, each Cluster Controller will broadcast a set of <i>capabilities</i>  I have this many
+   public IPs, this many private subnets, this networking mode, etc  up the Cloud Controller.  When
+   it comes time to start a network or run some instances, the Cloud Controller will send a unique
+   index down to the Cluster Controller which will use the index to select a corresponding actual
+   network value (whether it be public IPs, private IPs, or entire security group subnet ranges). 
+   Since the Cloud Controller is the component that knows about multiple clusters, it is the one
+   responsible for keeping those bits uniquely allocated.</p>
+  <p/>
+ </conbody>
+</concept>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_4vy_xjm_vf">
+ <title>Eucalyptus HA Requirements</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>Eucalyptus HA requirements are similar to a regular Eucalyptus deployment, with the following
+      additional considerations: <ul id="ul_pfm_zjm_vf">
+        <li>Install each pair of services on separate hosts. <ul id="ul_3cl_1km_vf">
+            <li>Cloud Controller, Walrus, Cluster Controller, Storage Controller, and if applicable
+              VMware Broker</li>
+          </ul></li>
+        <li>The services must be installed on physical hosts. </li>
+        <li>Service pairs must have network connectivity. </li>
+        <li>Walrus hosts must mirror storage using DRBD. </li>
+        <li>Storage Controller services must use a supported SAN array. <ul id="ul_n3v_bkm_vf">
+            <li>No iSCSI or JBOD drivers, only NetApp or EqualLogic drivers </li>
+          </ul></li>
+        <li>DNS round-robin support for Cloud Controller and Walrus hosts </li>
+      </ul></p>
+  <p>Once the software has been installed on all hosts, you just register each service as you
+            normally would.  The first registered service in a pair becomes the initial primary host
+            and is ENABLED.   The second service in a pair that is registered becomes the secondary
+            host and is DISABLED.  It is DISABLED because during its initial checks it becomes aware
+            that an ENABLED services already is running.  </p>
+  <p>You must make sure that a firewall does not block services from each other as they use a
+            multicast address to exchange heartbeat packets. </p>
+ </conbody>
+</concept>

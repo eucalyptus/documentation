@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_ctp_djh_b3">
+    <title>Test default permissions for a normal user using euca2ools</title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will use euca2ools to explore what you are able to
+            do, and not able to do, using only the default user permissions.  In order to test
+            euca2ools as the user <i>normal</i>, you will need to create a new Linux account and add
+            the user <i>normal</i>'s cloud credentials to this account.</context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_4cz_r23_b3" scale="40"/>On the
+                    Desktop, open an SSH session to the front-end host if an SSH session is not
+                    currently open. </cmd>
+                <info>
+                    <codeblock># ssh &lt;front_end_public_IP></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>On the Debian desktop open an xterm window and use the Secure Copy command to
+                    copy the credentials (<filepath>.zip</filepath> file) for the user <i>normal</i>
+                    from the Debian desktop's <filepath>/root/Downloads</filepath> directory to the
+                        <filepath>/tmp</filepath> directory on the front-end host. The credentials
+                    were downloaded to a <filepath>.zip</filepath> file in an earlier lab exercise.)
+                    The IP address and password of your front-end host is listed on your student
+                    handout.</cmd>
+                <info>
+                    <codeblock># scp &lt;front_end_public_IP>:/root/Downloads/euca2-normal-x509.zip /tmp</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_3yx_qrn_p3" scale="40"/>On the
+                    front-end host create a new Linux user account for the user <i>normal</i>.
+                    Assign the Linux account the password <userinput>passwordNN</userinput>, where
+                        <i>NN</i> is the number of the student pod that your were assigned.</cmd>
+                <info>
+                    <codeblock># useradd -m normal
+# passwd normal
+# ls -a /home/normal</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, switch to the new account for the user <i>normal</i>.  </cmd>
+                <info>
+                    <codeblock># su  -  normal
+# whoami
+# pwd</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>While working as the user <i>normal</i>, create a
+                        <filepath>/home/normal/.euca</filepath> directory and copy the credential
+                    zip file from <filepath>/tmp</filepath> to the <filepath>.euca</filepath>
+                    directory.</cmd>
+                <info>
+                    <codeblock># mkdir .euca
+# cd .euca
+# cp /tmp/euca2-normal-x509.zip .
+# ls</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>While working as the user <i>normal</i>, unzip the zip file and force the
+                    user's shell to read the <filepath>eucarc</filepath> file and set the EC2
+                    environment variables.</cmd>
+                <info>
+                    <codeblock># unzip euca2-normal-x509.zip
+# ls
+# source eucarc
+# env | grep EC2</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>While working as the user <i>normal</i>, use the
+                        <cmdname>euca-describe-images</cmdname> command to list any existing images. </cmd>
+                <info>
+                    <codeblock># euca-describe-images</codeblock>
+                    <p>Were there any images listed? There should not have been.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>While working as the user <i>normal</i>, use the
+                        <cmdname>euca-describe-groups</cmdname> command to list any existing
+                    security groups. </cmd>
+                <info>
+                    <codeblock># euca-describe-groups</codeblock>
+                    <p>Were there any security groups listed? There should not have been.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>While working as the user <i>normal</i>, use euca-add-keypair to create a key
+                    pair.</cmd>
+                <info>
+                    <codeblock># euca-add-keypair normal</codeblock>
+                    <p>Were you able to create a new key pair?</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Return to working as the root user by exiting the Linux shell that is operating
+                    as the user <i>normal</i>.</cmd>
+                <info>
+                    <codeblock># exit
+# whoami</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

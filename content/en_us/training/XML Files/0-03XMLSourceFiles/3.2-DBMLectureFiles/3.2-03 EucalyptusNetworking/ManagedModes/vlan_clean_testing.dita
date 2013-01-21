@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_twb_1zk_1h">
+ <title>VLAN-Clean Testing</title>
+ <conbody>
+  <p>In MANAGED mode the Cloud Controller will automatically ensure that each security group
+   (subnet) is assigned a unique VLAN ID.   This means that Ethernet packets flowing between the
+   Cluster Controller and the Node Controllers will be VLAN tagged.  This creates two requirements
+   for the network switches between the Cluster Controller and Node Controllers.  First, they must
+   be able to read and forward VLAN-tagged packets.  Second, these network switches must not already
+   be using any VLAN IDs that Eucalyptus will be use for security groups.   Network switches that
+   can read and forward VLAN-tagged packets and do not have any VLAN ID conflicts are said to be
+    <i>VLAN clean</i> from a Eucalyptus perspective.</p>
+  <p/>
+  <p>
+   <image href="images/VLAN-Clean-Testing.png" placement="break" id="image_qx5_wzk_1h" scale="60"/>
+  </p>
+  <p/>
+  <p>To test whether the network segment between the Cluster Controller and Node Controller is VLAN
+   clean will require two private IP addresses, a single VLAN ID, and some configuration work on the
+   Cluster Controller and Node Controller network interfaces.</p>
+  <p>On the Cluster Controller, configure the network interface that is reachable by the Node
+   Controller with virtual network interface.  Configure the virtual network interface with a VLAN
+   ID and an IP address. For example:<ul id="ul_n1f_m1l_1h">
+    <li><cmdname>vconfig add eth1 10</cmdname></li>
+    <li><cmdname>ifconfig eth1.10 192.168.1.1 up</cmdname></li>
+   </ul></p>
+  <p>On the Node Controller, configure the network interface that is reachable by the Cluster
+   Controller with a virtual network interface.  The virtual network interface should be configured
+   on the same VLAN ID but have a different IP address. For example:<ul id="ul_wjq_r1l_1h">
+    <li><cmdname>vconfig add eth1 10</cmdname></li>
+    <li><cmdname>ifconfig eth0.10 192.168.1.2 up</cmdname></li>
+   </ul></p>
+  <p>Once the network interfaces are configured, on VLAN 10 in this example, trying using the
+    <cmdname>ping</cmdname> command from one host to the other  host. If it is successful then the
+   network segment is VLAN clean. While this only tests a single VLAN ID, it does indicate that the
+   network infrastructure does support VLAN tagging.</p>
+  <p>Following the example above, you would remove the virtual interfaces using the syntax
+    <cmdname>vconfig rem eth1.10</cmdname> and <cmdname>vconfig rem eth0.10</cmdname>.</p>
+  <p/>
+ </conbody>
+</concept>

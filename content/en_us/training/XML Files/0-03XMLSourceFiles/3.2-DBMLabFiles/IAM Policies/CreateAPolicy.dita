@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_cqv_njh_b3">
+    <title>Create a policy and assign it to a group </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="../Post-Install%20Configuration/images/desktop.png" placement="break"
+                id="image_sw1_s3p_b3" scale="40"/>In this section of the lab you will add a policy
+            to the group <i>west</i> in the <i>sales</i> account.  You will create the policy using
+            the online Amazon Policy Generator tool and then copy and paste the policy text to the
+            Eucalyptus Administrator Console.  You will also view an existing policy in the
+            Administrator Console. </context>
+        <steps>
+            <step>
+                <cmd>From the Debian desktop, open the browser and use the URL
+                    https://&lt;front_end_public_IP>:8443 to access the Administrator Console.  Log
+                    in to the <userinput>eucalyptus</userinput> account as the user
+                        <userinput>admin</userinput> using the password
+                        <userinput>passwordNN</userinput>, where <i>NN</i> is the number of your
+                    student pod. <image href="images/AdminDashboardLogin.png" placement="break"
+                        id="image_ksl_zjh_b3" scale="60"/></cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Groups</uicontrol> in the QUICK LINKS panel and then select
+                    the <i>west</i> group in the main panel. <image href="images/WestGroup.png"
+                        placement="break" id="image_crl_2kh_b3" scale="45"/></cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Add policy</uicontrol> button to add a policy to the
+                        <i>west</i> group. <image href="images/AddPolicyButton.png"
+                        placement="break" id="image_jl4_jkh_b3" scale="55"/></cmd>
+            </step>
+            <step>
+                <cmd>With the Add new policy window opens in the Administrator Console, open a new
+                    browser on the Debian desktop.   Type the URL <xref
+                        href="http://awspolicygen.s3.amazonaws.com/policygen.html" format="html"
+                        scope="external">http://awspolicygen.s3.amazonaws.com/policygen.html</xref>
+                    in the new browser window to open the online AWS Policy Generator tool. <image
+                        href="images/AWSInitialScreen.png" placement="break" id="image_gjb_4kh_b3"
+                        scale="60"/></cmd>
+            </step>
+            <step>
+                <cmd>In the Policy Generator tool, set <uicontrol>Select Type of Policy</uicontrol>
+                    to <uicontrol>IAM Policy</uicontrol>.  Leave <uicontrol>Effect</uicontrol> set
+                    to <uicontrol>Allow</uicontrol>.  Set <uicontrol>AWS Service</uicontrol> to
+                        <uicontrol>Amazon EC2</uicontrol>.  Under <uicontrol>Actions</uicontrol>,
+                    select the 28 check boxes for; <uicontrol>AllocateAddress</uicontrol>,
+                        <uicontrol>AssociateAddress</uicontrol>,
+                    <uicontrol>AttachVolume</uicontrol>,
+                        <uicontrol>AuthorizeSecurityGroupIngress</uicontrol>,<uicontrol>
+                        CreateKeyPair</uicontrol>, <uicontrol>CreateSecurityGroup</uicontrol>,
+                        <uicontrol>CreateSnapshot</uicontrol>, <uicontrol>CreateVolume</uicontrol>,
+                        <uicontrol>DeleteKeyPair</uicontrol>,
+                        <uicontrol>DeleteSecurityGroup</uicontrol>,
+                        <uicontrol>DeleteSnapshot</uicontrol>, <uicontrol>DeleteVolume</uicontrol>,
+                        <uicontrol>DescribeAddresses</uicontrol>,
+                        <uicontrol>DescribeAvailabilityZones</uicontrol>,
+                        <uicontrol>DescribeImages</uicontrol>,
+                        <uicontrol>DescribeInstances</uicontrol>,
+                        <uicontrol>DescribeKeyPairs</uicontrol>,
+                        <uicontrol>DescribeSecurityGroups</uicontrol>,
+                        <uicontrol>DescribeSnapshots</uicontrol>,
+                        <uicontrol>DescribeVolumes</uicontrol>, <uicontrol>DetachVolume</uicontrol>,
+                        <uicontrol>DisassociateAddress</uicontrol>,
+                        <uicontrol>GetConsoleOutput</uicontrol>,
+                        <uicontrol>RebootInstances</uicontrol>,
+                        <uicontrol>ReleaseAddress</uicontrol>,
+                        <uicontrol>RevokeSecurityGroupIngress</uicontrol>,
+                        <uicontrol>RunInstances</uicontrol>, and
+                        <uicontrol>TerminateInstances</uicontrol>.   When finished making these
+                    selections click <uicontrol>Add Statement</uicontrol>. <image
+                        href="images/AWSActionList.png" placement="break" id="image_3xh_blh_b3"
+                        scale="60"/></cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>Generate Policy</uicontrol>.  Do not click
+                        <uicontrol>Close</uicontrol> yet.<image href="images/AWSGeneratePolicy.png"
+                        placement="break" id="image_53v_hlh_b3" scale="60"/></cmd>
+            </step>
+            <step>
+                <cmd>Copy the policy to your clipboard by selecting the policy text and pressing
+                    Ctrl-C.   Be sure to capture any beginning and ending curly braces or square
+                    brackets in the policy text. </cmd>
+            </step>
+            <step>
+                <cmd>Switch to the Administrator Console and use Ctrl-V to paste the policy into the
+                        <uicontrol>Policy Content</uicontrol> text box.   Name the policy
+                        <userinput>NormalUser</userinput> (no whitespace) in the <uicontrol>Policy
+                        name</uicontrol> text box.  Click <uicontrol>OK</uicontrol>. <image
+                        href="images/AddNewPolicy.png" placement="break" id="image_rxy_plh_b3"
+                        scale="60"/></cmd>
+                <info/>
+            </step>
+            <step>
+                <cmd>To view a policy, click <uicontrol>Policies</uicontrol> in the QUICK LINKS
+                    panel. <image href="images/PoliciesInQuickLinks.png" placement="break"
+                        id="image_l1v_ylh_b3" scale="60"/></cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>NormalUsers</uicontrol> policy in the main panel and note
+                    that the policy text appears in the PROPERTIES window.  The policy text can be
+                    copied and pasted to create additional policies for other users and groups.
+                        <image href="images/PolicyProperties.png" placement="break"
+                        id="image_xpp_2mh_b3" scale="37"/></cmd>
+            </step>
+            <step>
+                <cmd>Log out of the Administration Console, and then close both the browser.  Also
+                    close the browser with the Amazon policy generator utility.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_nl3_sgp_zh">
+    <title>Reserve an elastic IP address using euca2ools </title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will use euca2ools to view public IP addresses and
+            reserve a public IP address from the pool of public IP addresses available in your
+            cloud.</context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_44h_3hp_zh" scale="40"/>From the
+                    Debian desktop, if necessary, use SSH to log in to the front-end host.</cmd>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_cxn_yhp_zh" scale="40"/>From the
+                    front-end host, launch a new instance.</cmd>
+                <info>
+                    <codeblock># euca-describe-images
+# euca-run-instances -k &lt;keypair_name> emi-&lt;nnnnnnnn> </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_hts_vhp_b3" scale="40"/>View the
+                    public IP address of your running instance. </cmd>
+                <info>
+                    <codeblock># euca-describe-instances</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_cgm_whp_b3" scale="40"/>View the
+                    public IP addresses that are available.  </cmd>
+                <info>
+                    <codeblock># euca-describe-addresses</codeblock>
+                    <p>Note that <i>eucalyptus</i> assigned the public IP address to your
+                        instance.</p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_n1c_xhp_b3" scale="40"/>Reserve a
+                    public IP address. </cmd>
+                <info>
+                    <codeblock># euca-allocate-address</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_mbs_xhp_b3" scale="40"/>View the
+                    reserved IP address.  </cmd>
+                <info>
+                    <codeblock># euca-describe-addresses</codeblock>
+                    <p>Note that the user <i>admin</i> has reserved an IP address.</p>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

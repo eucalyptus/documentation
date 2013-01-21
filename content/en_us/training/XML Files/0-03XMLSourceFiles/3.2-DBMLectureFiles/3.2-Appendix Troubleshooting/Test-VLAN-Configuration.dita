@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_bfp_4vv_bh">
+ <title>Test VLAN Operation</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>If you are running in MANAGED network mode, you need to ensure that the network infrastructure
+      connecting the Node Controllers and the Cluster Controller can properly handle VLAN tagged
+      packets.  Use the following commands to perform a test:<ol id="ol_j4v_5vv_bh">
+        <li>On the Cluster Controller configure a virtual network interface that is on a VLAN. In
+          this example, it is VLAN 10:
+          <codeblock>vconfig add eth1 10
+ifconfig eth1.10 192.168.1.1 up</codeblock></li>
+        <li>On the Node Controller configure another virtual network interface that is on the same
+          VLAN. In this example, it is VLAN 10:
+          <codeblock>vconfig add eth0 10
+ifconfig eth0.10 192.168.1.2 up</codeblock></li>
+        <li>From each host, <cmdname>ping</cmdname> the IP address of the other host in order to
+          verify connectivity over the VLAN.</li>
+        <li>To remove the virtual network interface configuration following the test:
+          <codeblock>vconfig rem eth1.10
+vconfig rem eth0.10</codeblock></li>
+      </ol></p>
+ </conbody>
+</concept>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_cf5_jbp_b3">
+    <title>Verify Cloud Resources Exist</title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_yz4_sbp_b3"
+                scale="40"/>In this section of the lab you will verify that your cloud is aware that
+            CPU, memory, storage, and IP address resources exist for running instances.  Verifying
+            that the cloud is aware of these resources provides a quick test of cloud functionality
+            prior to registering images and launching instances.  Running the commands to test for
+            these resources also provides a quick test of the functionality of the euca2ools
+            command-line tools. </context>
+        <steps>
+            <step>
+                <cmd>On the front-end host, verify the availability of CPU, memory, and storage
+                    resources.  Specifically look for <i>non-zero</i> numbers in the
+                        <systemoutput>free</systemoutput> column in the screen output. </cmd>
+                <info>
+                    <codeblock># euca-describe-availability-zones verbose  </codeblock>
+                    <note>The <systemoutput>free</systemoutput> column denotes the maximum number of
+                        instances that can be started for each of the five vmtypes listed in the
+                        screen output.   Notice that as the size of the vmtypes gets larger, fewer
+                        instances can be run because the larger vmtypes consume more physical
+                        resources.</note>
+                    <note>Seeing non-zero numbers in the <systemoutput>free</systemoutput> column is
+                        a good indicator that the front-end and Node Controller services are
+                        configured and communicating correctly. If the front-end cannot correctly
+                        communicate with the Node Controller, then no CPU, memory, or storage
+                        resource will be shown as available.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, verify the availability of public IP address resources
+                    in the screen output.  </cmd>
+                <info>
+                    <codeblock># euca-describe-addresses</codeblock>
+                    <note>Unless a user explicitly requests that an instance not receive a public IP
+                        address at startup, each instance will automatically be assigned a public IP
+                        address. Therefore, it is important that these addresses are
+                        available.</note>
+                    <note>Seeing a list of public IP addresses is a good indicator that the network
+                        configuration in the hosts' <filepath>eucalyptus.conf</filepath> files is
+                        correct.</note>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

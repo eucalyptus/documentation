@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_nvg_mxt_f3">
+ <title>Configuring the User Console</title>
+ <conbody>
+  <p>Once the User Console software is installed, it must be configured for operation within your
+   cloud. The main configuration file for the User Console is
+    <filepath>/etc/eucalyptus-console/console.ini</filepath>. It is composed of several sections and
+   individual entries in the format of &lt;parameter>: &lt;value>. </p>
+  <p>There are three main parameters in the <cmdname>[server]</cmdname> section that must be
+   configured.</p>
+  <p>The IP address of the Cloud Controller must be configured in the <cmdname>clchost:</cmdname>
+   parameter.  For example, if the IP address of your Cloud Controller is 172.16.162.1 then the
+   entry would look like <cmdname>clchost: 192.16.162.1</cmdname>.</p>
+  <p>The port number where the User Console can be reached must be configured in the
+    <cmdname>uiport:</cmdname> parameter. For example, if you want your User Console to respond to
+   requests at port 9090, then the entry would look like <cmdname>uiport: 9090</cmdname>. The
+   default port number is 8888.</p>
+  <p>You should also configure the URL of the Eucalyptus Administrator Console in the
+    <cmdname>support.url:</cmdname> parameter. A user is not able to change their password in the
+   User Console. However, the User Console login window contains a link that can take the user to
+   the Eucalyptus Administrator Console where they can change their password. This link works in
+   your cloud by adding the Eucalyptus Administrator Console URL to the
+    <cmdname>support.url:</cmdname> parameter. For example, if your Eucalyptus Administrator Console
+   is reachable at https://192.16.162.1:8443, then the entry would look like <cmdname>support.url:
+    https://192.16.162.1:8443</cmdname>.</p>
+  <p>There are other configuration parameters in this file that allow you to configure custom SSL
+   keys, your locale, session timeouts, polling frequencies, and others settings. For more
+   information about the configuration file, see the <i>Eucalyptus User Console Guide</i> at <xref
+    href="http://www.eucalyptus.com/docs" format="html" scope="external"
+    >http://www.eucalyptus.com/docs</xref>. </p>
+ </conbody>
+</concept>

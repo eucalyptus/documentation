@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_mnm_djx_bh">
+ <title>Volume Attachment Issues</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>The basic steps in looking for clues to troubleshoot volume attachment issues are:<ol
+        id="ol_xjv_gjx_bh">
+        <li> Locate the relevant Node Controller.</li>
+        <li>Search the <filepath>nc.log</filepath> file for the relevant volume ID.</li>
+        <li>Interrogate iSCSI targets on the SAN or Storage Controller.</li>
+        <li>Ensure that <cmdname>connect_iscsi_target</cmdname> was called. </li>
+      </ol>Look for errors as to why volume attachment failed. The
+        <cmdname>euca-describe-nodes</cmdname> command displays the instance IDs that are running on
+      each Node Controller. Once you locate the Node Controller that experienced the problem, use
+      the following command to search for the volume ID that failed on that host to look for clues
+      as to why it failed to
+      attach:<codeblock>cat /var/log/eucalyptus/nc.log | grep &lt;volume_ID></codeblock></p>
+  <p>You can also interrogate the iSCSI target on the Storage Controller using the
+        <cmdname>tgtadm</cmdname> command. The <cmdname>tgtadm</cmdname> command should show a
+      target/LUN connected to the Node Controller. The Storage Controller creates a target for each
+      volume, and each target includes a LUN 0 controller and a LUN 1 disk, which is the size of the
+      volume. In the output of the command, look for the following section beneath the Target
+      number: </p>
+  <codeblock>I_T nexus information:
+  I_T nexus: 3
+    Initiator: &lt;Node_Controller_iSCSI_initiator_IQN>
+    Connection: 0
+       IP Address: &lt;Node Controller IP Address></codeblock>
+    <note>If you are using a supported iSCSI SAN array to create volumes, use the array management
+      software to interrogate for iSCSI targets.</note>
+  <p>Searching for <cmdname>connect_iscsi_target</cmdname> in the <filepath>nc.log</filepath> file
+   will provide information about the device name (<filepath>/dev/sdN</filepath>) that was provided
+   to the instance to access the volume. If this is located, look for any issues in attachment such
+   as a lack of loop devices. </p>
+ </conbody>
+</concept>

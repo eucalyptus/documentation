@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_xqw_r4w_bh">
+ <title>Cloud Problem: Node Controller</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>If you suspect a problem with the cloud is causing an instance launch problem, start your
+   troubleshooting efforts at the Node Controller. <ol id="ol_nfh_dpw_bh">
+    <li>To find the Node Controller where the instance is running or trying to run, use
+      <cmdname>euca-describe-nodes</cmdname> which lists the Node Controllers and the instance IDs
+     running on each of them. You must test the problem on the same Node Controller that the user
+     experienced the problem.</li>
+    <li>Use the <cmdname>grep</cmdname> utility to search <filepath>nc.log</filepath> file on the
+     Node Controller for the relevant instance
+     ID:<codeblock>cat /var/log/eucalyptus/nc.log | grep &lt;instance_ID></codeblock>If image has
+     been handed to the hypervisor, it is likely an image problem and not cloud problem.   </li>
+    <li>Look for errors in downloading items from Walrus.</li>
+    <li>Look for <cmdname>libvirt</cmdname> errors in launching an instance. </li>
+   </ol></p>
+  <p>If no instance data is found in the <filepath>nc.log</filepath> file on the Node Controller,
+   then it is likely that the problem could be listed in the Cluster Controller log file.  Move to
+   that host to continue troubleshooting.  </p>
+ </conbody>
+</concept>

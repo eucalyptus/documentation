@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_kyk_clq_zh">
+    <title>Boot an EBS-backed instance </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_ktn_flq_zh"
+                scale="40"/>In this section of the lab you will boot a new EBS-backed instance from
+            the snapshot-backed EMI.  As the instance is launched, a new bootable volume will
+            automatically be created from the snapshot registered as an EMI.  This volume will be
+            attached to the instance, allowing the instance to boot. </context>
+        <steps>
+            <step>
+                <cmd>From the front-end host, how many volumes are configured on the Storage
+                    Controller?  There should not be any.  If there are, delete them now. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>View the new snapshot-backed EMI. </cmd>
+                <info>
+                    <codeblock># euca-describe-images</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Launch an EBS-backed instance from the new EMI.  In this case the instance has
+                    a valid root password so the <cmdname>–k &lt;key_name></cmdname> option is not
+                    necessary. </cmd>
+                <info>
+                    <codeblock># euca-run-instances emi-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Monitor instance startup until it is listed with a status of
+                        <systemoutput>running</systemoutput> . </cmd>
+                <info>
+                    <codeblock># euca-describe-instances</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>From the front-end host, use SSH to log in to the new instance.  The root
+                    password is <i>foobar</i> .   </cmd>
+                <info>
+                    <codeblock># ssh &lt;instance_public_IP></codeblock>
+                    <p>Remain logged in until told to log out.</p>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

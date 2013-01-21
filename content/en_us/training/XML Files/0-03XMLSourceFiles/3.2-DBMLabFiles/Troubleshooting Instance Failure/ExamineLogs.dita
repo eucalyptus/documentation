@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_f5h_zqh_b3">
+    <title>Examine log files </title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will examine log files of the Node Controller,
+            Cluster Controller, and Cloud Controller for information regarding the <i>failed</i>
+            instance. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_3j1_krh_b3" scale="40"/>From the
+                    Debian desktop, use SSH to log in to the Node Controller to which the
+                        <i>failed</i> instance was assigned. </cmd>
+                <info>
+                    <codeblock># ssh &lt;node_public_IP_address></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/node.png" id="image_hwf_mrh_b3" scale="40"/>Search the
+                        <filepath>/var/log/eucalyptus/nc.log</filepath> file for information about
+                    the <i>failed</i> instance. </cmd>
+                <info>
+                    <codeblock># grep &lt;instance_ID> /var/log/eucalyptus/nc.log | less</codeblock>
+                    <p>Examine:<ul id="ul_qmj_srh_b3">
+                            <li>Did the Node Controller get the <i>doRunInstance</i> command? </li>
+                            <li>Did it have the right vmtype parameters (cores, memory, storage.)? </li>
+                            <li>Did it allocate artifacts for ephemeral space and swap space? </li>
+                            <li>Did the Node Controller download  EMI, EKI, or ERI files from the
+                                Walrus? </li>
+                            <li>Did Walrus grant the requests to access images (correct bucket
+                                permissions)? </li>
+                            <li>Did the Node Controller try to boot the instance? </li>
+                            <li>Did the following state changes occur? <ul id="ul_t2p_3sh_b3">
+                                    <li>Staging > Pending  (booting)</li>
+                                    <li>Were IP, MAC, VLAN, and network assigned</li>
+                                    <li>Were platform and volume assigned?</li>
+                                    <li>Block device stats initialized - block devices > blk bytes
+                                        (0), net devices > net bytes (0) </li>
+                                    <li>Pending > Running  (Extant)</li>
+                                </ul></li>
+                        </ul></p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/node.png"
+                        id="image_vww_zkp_b3" scale="40"/>Assume that in your
+                        <filepath>nc.log</filepath> investigation you discovered that the
+                        <i>doRunInstance</i> command was not received from the Cluster Controller. </cmd>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_knn_2th_b3" scale="40"/>From your
+                    Debian desktop, open another xterm window,  use SSH to log in to the Cluster
+                    Controller host (the front-end host).</cmd>
+                <info>
+                    <codeblock># ssh &lt;front_end_public_IP></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_cg2_5th_b3" scale="40"/>On the
+                    front-end host, perform a similar investigation on its
+                        <filepath>/var/log/eucalyptus/cc.log</filepath> file.</cmd>
+                <info>
+                    <codeblock># grep &lt;instance_ID> /var/log/eucalyptus/cc.log | less</codeblock>
+                    <p>Did the instance get to the Running (Extant) state according to the Cluster
+                        Controller? </p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="../Post-Install%20Configuration/images/frontend.png"
+                        id="image_qmz_1lp_b3" scale="40"/>Assume that in your
+                        <filepath>cc.log</filepath> investigation the instance ID number does not
+                    appear. The next place to check would be the
+                        <filepath>/var/log/eucalyptus/cloud-output.log</filepath> file on the Cloud
+                    Controller. Since you are running the Cluster Controller and Cloud Controller on
+                    the same physical host, you do not have to SSH to the Cloud Controller in order
+                    to examine the log file - you are already logged on to the Cloud Controller
+                    host. in your second xterm window. </cmd>
+                <info>
+                    <codeblock>  # grep &lt;instance_ID> /var/log/eucalyptus/cloud-output.log | less  </codeblock>
+                    <ul id="ul_df3_g5h_b3">
+                        <li>Did the <i>euca:RunInstancesType</i> request get logged?</li>
+                        <li>Are the <i>NetworkRule</i>: settings correct?  </li>
+                        <li>Search for errors in the less output:
+                            <codeblock>  /ERROR         (press n to move through the list)  </codeblock></li>
+                    </ul>
+                </info>
+                <info>
+                    <note> For all log examinations, if the instance problem occurred in the
+                        more-than-recent past, data about the failure might be in a log file that
+                        has been archived and renamed (<filepath>*. log.1</filepath>, <filepath>*.
+                            log.2</filepath>, and so on.) </note>
+                    <note> To examine all available log files and not just the current log files,
+                        append the file name with an asterisk. For example, replace
+                            <filepath>cloud-output.log</filepath> with
+                            <filepath>cloud-output.log*</filepath> in the <cmdname>grep</cmdname>
+                        command. </note>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
