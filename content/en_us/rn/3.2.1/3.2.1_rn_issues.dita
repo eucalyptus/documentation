@@ -5,7 +5,7 @@
 	<title>Known Issues</title>
 	<shortdesc/>
 	<conbody>
-		<p>The following known issues exist in Eucalyptus 3.2 and its
+		<p>The following known issues exist in Eucalyptus 3.2.1 and its
 			dependencies. Please contact Eucalyptus support for known
 			workarounds to these issues.</p>
 		<table>
@@ -36,6 +36,18 @@
 								<codeph>eucalyptus</codeph> user owns the
 							necessary files.</entry>
 					</row>
+					<row>
+						<entry>Must use user-friendly names for
+							mulitpathing(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/DOC-504"
+								>DOC-504</xref>)</entry>
+						<entry>Eucalyptus connect scripts assume multipathing
+							uses user friendly names instead of WWID for the
+							multipath device names, so the "user_friendly_names"
+							option must be enabled in /etc/multipath.conf.
+						</entry>
+					</row>
+					
 					<row>
 						<entry>The User Console exhibits odd behavior (<xref
 								format="html"
@@ -108,7 +120,34 @@
 							the new instance a second time should succeed.
 						</entry>
 					</row>
-					<row>
+					
+					<!--<row>
+						<entry>RollbackException error while committing
+							transaction failure when attempting to run a BFEBS
+							instance(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
+								>EUCA-4271</xref>)</entry>
+						<entry>In some cases, network resources (primarily vlan
+							tags for the network group) are freed concurrently
+							while a new instance is being constructed in that
+							same group. If the network group is seen to have no
+							more instances, then the CC can timeout the vlan tag
+							and then inform the CLC, which frees the vlan tag
+							resource. If there is a concurrent instance being
+							constructed, however, an attempt may be made to use
+							that vlan tag, and upon volume attach the database
+							update fails because the vlan/network tag record
+							doesn't exist. When this happens, the instance will
+							stay in a 'pending' state with an IP address of
+							0.0.0.0 for a very long time. There is no long-term
+							negative effect of this condition. To resolve this
+							issue, you should proceed with terminating the
+							instance, deleting its resulting volume if
+							necessary, and then re-running the instance.
+						</entry>
+					</row>-->
+					
+					<!--<row>
 						<entry><codeph>euca-reboot-instances</codeph> only
 							reboots one instance, even if multiple instances are
 							specified (<xref format="html"
@@ -119,7 +158,7 @@
 							instances, run
 								<codeph>euca-reboot-instances</codeph> once per
 							instance.</entry>
-					</row>
+					</row>-->
 					<row>
 						<entry>Changing LOCALE does not change the language of
 							the fault message in fault logs (<xref format="html"
@@ -210,6 +249,17 @@
 							a 'complete' status.</entry>
 					</row>
 					<row>
+						<entry>Eucalyptus Console https redirect doesn't work
+							(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4104"
+								>EUCA-4104</xref>)</entry>
+						<entry>When SSL is enabled for the user console, http
+							requests do not automatically redirect to the proper
+							https address, which can result in a blank
+							page.</entry>
+					</row>
+					
+					<!--<row>
 						<entry>Attempts to create an instance from an uncached
 							image stay pending indefinitely (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4112"
@@ -220,7 +270,7 @@
 							prevent images being cached, remove the
 								<codeph>CC_IMAGE_PROXY</codeph> line from
 								<filepath>eucalyptus.conf</filepath>.</entry>
-					</row>
+					</row>-->
 					<row>
 						<entry>[error:0290] message printed on upgrade (<xref
 								format="html"
@@ -245,6 +295,18 @@
 								<codeph>iscsiadm</codeph> will fail, but the
 							issue is resolved during cleanup so subsequent
 							requests for that instance will work.</entry>
+					</row>
+					<row>
+						<entry>ERR-1009 "Mismatched cryptographical keys" gets
+							written too many times in cc-fault.log (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
+								>EUCA-3986</xref>)</entry>
+						<entry>Currently, CC may log this fault once for each
+							process in the pool. This is because the logic that
+							suppresses duplicate faults relies on process-local
+							memory rather than memory regions shared across CC
+							processes.</entry>
 					</row>
 					<row>
 						<entry>Vague error message: <codeph>Failed to find
@@ -282,6 +344,16 @@
 							effect.</entry>
 					</row>
 					<row>
+						<entry>IP pages do not work properly for admin user in
+							Eucalyptus User Console (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3548"
+								>EUCA-3548</xref>)</entry>
+						<entry>All user IP addresses are shown, rather than just
+							the admin user's IP addresses.</entry>
+					</row>
+					
+					
+					<row>
 						<entry>euca-describe-nodes does not return consistent
 							results (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3456"
@@ -289,6 +361,7 @@
 						<entry>The output of euca-describe-nodes is not
 							consistent.</entry>
 					</row>
+					
 					<row>
 						<entry>ENABLED CC have two NAT rules about
 							169.254.169.254 (<xref format="html"
@@ -326,76 +399,7 @@
 						<entry>euca-create-image is currently
 							unsupported.</entry>
 					</row>
-					<row>
-						<entry>IP pages do not work properly for admin user in
-							Eucalyptus User Console (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3548"
-								>EUCA-3548</xref>)</entry>
-						<entry>All user IP addresses are shown, rather than just
-							the admin user's IP addresses.</entry>
-					</row>
-					<row>
-						<entry>Must use user-friendly names for
-								mulitpathing(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/DOC-504"
-								>DOC-504</xref>)</entry>
-						<entry>Eucalyptus connect scripts assume multipathing
-							uses user friendly names instead of WWID for the
-							multipath device names, so the "user_friendly_names"
-							option must be enabled in /etc/multipath.conf.
-						</entry>
-					</row>
-
-					<row>
-						<entry>RollbackException error while committing
-							transaction failure when attempting to run a BFEBS
-								instance(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
-								>EUCA-4271</xref>)</entry>
-						<entry>In some cases, network resources (primarily vlan
-							tags for the network group) are freed concurrently
-							while a new instance is being constructed in that
-							same group. If the network group is seen to have no
-							more instances, then the CC can timeout the vlan tag
-							and then inform the CLC, which frees the vlan tag
-							resource. If there is a concurrent instance being
-							constructed, however, an attempt may be made to use
-							that vlan tag, and upon volume attach the database
-							update fails because the vlan/network tag record
-							doesn't exist. When this happens, the instance will
-							stay in a 'pending' state with an IP address of
-							0.0.0.0 for a very long time. There is no long-term
-							negative effect of this condition. To resolve this
-							issue, you should proceed with terminating the
-							instance, deleting its resulting volume if
-							necessary, and then re-running the instance.
-						</entry>
-					</row>
-					<row>
-						<entry>ERR-1009 "Mismatched cryptographical keys" gets
-							written too many times in cc-fault.log (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
-								>EUCA-3986</xref>)</entry>
-						<entry>Currently, CC may log this fault once for each
-							process in the pool. This is because the logic that
-							suppresses duplicate faults relies on process-local
-							memory rather than memory regions shared across CC
-							processes.</entry>
-					</row>
-					<row>
-						<entry>Eucalyptus Console https redirect doesn't work
-								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4104"
-								>EUCA-4104</xref>)</entry>
-						<entry>When SSL is enabled for the user console, http
-							requests do not automatically redirect to the proper
-							https address, which can result in a blank
-							page.</entry>
-					</row>
-
-
-
+					
 				</tbody>
 			</tgroup>
 		</table>

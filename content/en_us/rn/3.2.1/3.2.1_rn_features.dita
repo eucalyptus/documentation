@@ -6,8 +6,8 @@
 	<shortdesc/>
 	<conbody>
 		<p>Eucalyptus 3.2.1 is a maintenance release and does not add new features. However, this
-			release makes the following changes:</p>
-		<p>Add note or paragraph about https://eucalyptus.atlassian.net/browse/EUCA-4702.</p>
+			release has the following changes:</p>
+
 		<ul>
 			<li>The <filepath>iptables-preload</filepath> file will no longer be put into
 					<filepath>/var/run</filepath>, but rather <filepath>/etc</filepath>. For more
@@ -15,19 +15,24 @@
 					scope="external" format="html">EUCA-3693</xref> and <xref
 					href="https://eucalyptus.atlassian.net/browse/EUCA-4702" scope="external"
 					format="html">EUCA-4702</xref>.</li>
-			<li>The Cluster Controler now performs a gratuitous ARP in certain situations (for example, after
-				a failure). A new dependency is required for this functionality: arping. For more information,
-				see <xref href="https://eucalyptus.atlassian.net/browse/EUCA-2973"
-					scope="external" format="html">EUCA-2973</xref> and <xref
-						href="https://eucalyptus.atlassian.net/browse/EUCA-3540" scope="external"
-						format="html">EUCA-3540</xref>.</li>
+			<li>The Cluster Controler now broadcasts a gratuitous ARP message in situations where an
+				IP address is reassigned from one machine to another (for example, after a high availability
+				Cluster Controller failure). We added a new dependency, arping, to the Cluster Controller package
+				to support this functionality. For more information, see <xref
+					href="https://eucalyptus.atlassian.net/browse/EUCA-2973" scope="external"
+					format="html">EUCA-2973</xref> and <xref
+					href="https://eucalyptus.atlassian.net/browse/EUCA-3540" scope="external"
+					format="html">EUCA-3540</xref>.</li>
+			<li>We added the following EMC VNX EBS driver enhancements: the ability to set snapshot
+				consistency point immediately at snapshot creation time; support for clone as well
+				as lun migration for snapshots; and hardening of the multipathing
+				functionality.</li>
+
+			<li>We added the ability to configure advanced options for NetApp filers (snap sched,
+				vol autosize, no_atime_update, create_ucode, convert_ucode, guarantee, try_first,
+				fractional_reserve).</li>
 		</ul>
 
-		<!-- 
-			EUCA-4702, EUCA-3693:  As of 3.2.1 the iptables-preload file will no longer be put into /var/run, but rather /etc.  See the bugs for details. 
-			
-			EUCA-2973, EUCA-3540: The CC will now perform a gratuitous ARP in certain situations (e.g. after a failure).  A new dependency is required for this functionality: arping.  See bugs for details. 
-		-->
 
 	</conbody>
 </concept>
