@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_emc_vnx_multipath">
+    <title>Configure EMC VNX Synchronous Snapshots</title>
+
+    <shortdesc/>
+
+    <taskbody>
+        <context>
+            <p>Setting the <codeph>&lt;partition&gt;.storage.enablesyncsnaps</codeph> property to
+                    <codeph>true</codeph> will cause snapshots to be set synchronously during a
+                    <codeph>euca-create-snapshot</codeph> operation. In this mode, the snapshot is
+                created synchronously before the <codeph>euca-create-snapshot</codeph> command
+                returns, while the copy and upload to Walrus still takes place asynchronously. This
+                helps ensure that the <codeph>euca-create-snapshot</codeph> command returns quickly. </p>
+            <p>If the CLC loses the connection with the SC or if the connection times out (the
+                default timeout is 60 seconds), the SC will detect the connection has been closed
+                and will mark the snapshot as failed and will clean up. This detection occurs after
+                the VNX snapshot has been created, but before it initiates the thread that performs
+                the asynchronous migration and transfer of the snapshot LUN to Walrus. When using
+                synchronous snapshot mode, if the CLC returns an error to the user on the
+                    <codeph>euca-create-snapshot</codeph> command then the snapshot will be marked
+                as failed when listing snapshots using the <codeph>euca-describe-snapshots</codeph>
+                command.</p>
+            <p>To configure synchronous snapshots for an EMC VNX SAN:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd> Set the <codeph>&lt;partition&gt;.storage.enablesyncsnaps</codeph> property to
+                        <codeph>true</codeph> : </cmd>
+                <info>
+                    <codeblock> euca-modify-property -p mypartition.storage.enablesyncsnaps=true</codeblock>
+                </info>
+            </step>
+        </steps>
+        <result> You have now successfully configured synchronous snapshots for your EMC VNX SAN
+            installation. </result>
+    </taskbody>
+</task>
