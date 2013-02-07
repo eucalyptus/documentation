@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="configure_advanced_storage_netapp_properties">
+ <title>Configurable NetApp SAN Properties</title>
+ <shortdesc/>
+ <conbody>
+  <p>The following table lists the NetApp SAN-specific properties you can configure using
+    <codeph>euca-modify-property</codeph>, along with their valid values and Eucalyptus default
+   values.</p>
+  <note importance="high"> The following configuration options are a subset of the Netapp SAN
+   configuration parameters. Changing these default values may cause storage operations to fail.
+   Please proceed at your own risk. For more information on NetApp configuration, please refer to
+   the <xref format="html"
+    href="http://support.netapp.com/documentation/bytypedocweb/index.html?productID=30094&amp;subtypeID=61030"
+    >NetApp Data ONTAP 7G documentation</xref> (this link requires you to register and login). </note>
+  <table>
+   <tgroup cols="3">
+    <thead>
+     <row>
+      <entry>Eucalyptus Property</entry>
+      <entry>Description</entry>
+      <entry>Valid Values</entry>
+     </row>
+    </thead>
+    <tbody>
+     <row>
+      <entry>&lt;region&gt;.storage.convertucode</entry>
+      <entry>Setting this option to "on" forces conversion of all directories to UNICODE format when
+       accessed from both NFS and CIFS.</entry>
+      <entry>"on" (default) or "off"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.createucode</entry>
+      <entry>Setting this option to "on" forces UNICODE format directories to be created by default
+       from NFS and CIFS.</entry>
+      <entry>"on" (default) or "off"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.fractionalreserve</entry>
+      <entry>The percentage of space reserved for overwrites of reserved objects (LUNs or files) in
+       a volume.</entry>
+      <entry>0-100; default is 0</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.noatimeupdate</entry>
+      <entry>Prevents the update of inode access times when a file is read.</entry>
+      <entry>"on" (default) or "off"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.tryfirst</entry>
+      <entry>Determines if the volume size is increased before deleting snapshots if
+        <codeph>enableautosize</codeph> property is "true".</entry>
+      <entry>"volume_grow" (default) or "snap_delete"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.guarantee</entry>
+      <entry>Controls space reservation for flexible volumes. See the NetApp SDK documentation for
+       more information.</entry>
+      <entry>"none", "file", or "volume" (default)</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.enableautosize</entry>
+      <entry>Toggles the flex volume autosize feature.</entry>
+      <entry>"true" (default) or "false"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.volautosizemaxmultiplier</entry>
+      <entry>Flex volume's maximum size allowed, specified as a multiple of the original
+       size</entry>
+      <entry>Integer &gt;= 1; default is 3</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.volautosizeincrementinmb</entry>
+      <entry>Flex volume's increment size in megabytes.</entry>
+      <entry>Integer &gt;= 1; default is 256</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.snapschedweeks</entry>
+      <entry>Number of weekly snapshots to keep online.</entry>
+      <entry>Integer &gt;= 0; default is 0</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.snapscheddaily</entry>
+      <entry>Number of daily snapshots to keep online.</entry>
+      <entry>Integer &gt;= 0; default is 0</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.snapschedhourly</entry>
+      <entry>Number of hourly snapshots to keep online.</entry>
+      <entry>Integer &gt;= 0; default is 0</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.snappercent</entry>
+      <entry>Additional space reserved on the flex volume to store automatic and manual snapshots
+       created outside of Eucalyptus. The amount of space to be reserved is specified as a
+       percentage of the flex volume.</entry>
+      <entry>Integer &gt;= 0; default is 0</entry>
+     </row>
+    </tbody>
+   </tgroup>
+  </table>
+ </conbody>
+</concept>
