@@ -55,22 +55,27 @@
 					</row>
 					<row>
 						<entry>Reporting values seem to be in error at first (<xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/DOC-707"
-							>DOC-707</xref>)</entry>
+								href="https://eucalyptus.atlassian.net/browse/DOC-707"
+								>DOC-707</xref>)</entry>
 						<entry>Network traffic numbers in columns <uicontrol>Total</uicontrol> and
-							<uicontrol>External</uicontrol> might appear to be incorrect. The external numbers can
-							 be greater than total numbers. This is because the two types of measurements come from
-							 different hosts (external is from the CC and totals from the NC). These hosts sample and deliver
-							 numbers to the reporting subsystem at different times. If the report is requested after the
-							 external counter is updated but before the total counter is updated, the numbers could
-							 appear out of their natural order. In a stable state without network traffic, the numbers
-							 will become correct eventually, usually within a few minutes, depending on the polling
-							 frequency value specified in the <codeph>reporting.default_poll_interval_mins</codeph> and <codeph>reporting.default_write_interval_mins</codeph> parameters.
+								<uicontrol>External</uicontrol> might appear to be incorrect. The
+							external numbers can be greater than total numbers. This is because the
+							two types of measurements come from different hosts (external is from
+							the CC and totals from the NC). These hosts sample and deliver numbers
+							to the reporting subsystem at different times. If the report is
+							requested after the external counter is updated but before the total
+							counter is updated, the numbers could appear out of their natural order.
+							In a stable state without network traffic, the numbers will become
+							correct eventually, usually within a few minutes, depending on the
+							polling frequency value specified in the
+								<codeph>reporting.default_poll_interval_mins</codeph> and
+								<codeph>reporting.default_write_interval_mins</codeph> parameters.
 						</entry>
 					</row>
 					<row id="ki_ebs_321">
 						<entry>Problem using EMC, EBS, and multiple NCs in 3.2.1 (<xref
-							href="https://eucalyptus.atlassian.net/browse/EUCA-4872" scope="external" format="html">EUCA-4872</xref>)</entry>
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4872"
+								scope="external" format="html">EUCA-4872</xref>)</entry>
 						<entry>When using EMC and multiple NCs within a cluster, connections to the
 							EBS-backed volume are lost if a second volume is attached to any
 							instance on the NC hosting the EBS instance. The result is the EBS
@@ -397,15 +402,24 @@
 						<entry>euca-create-image is currently unsupported.</entry>
 					</row>
 					<row>
-						<entry>Default values are not applied (<xref
-							format="html"
-							href="https://eucalyptus.atlassian.net/browse/SAN-57"
+						<entry>Command to reset default values for Netapp storage properties doesn't
+							work (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/SAN-57"
 							>SAN-57</xref>)</entry>
 						<entry>The -r option for reseting Eucalyptus properties using the
-							<apiname>euca-modify-property</apiname> does not reset the new Netapp storage properties to a
-							default value. </entry>
+								<apiname>euca-modify-property</apiname> does not reset the new
+							Netapp storage properties to a default value.</entry>
 					</row>
-					
+					<row>
+						<entry>Property conflicts during volume creation cause creation to fail on
+							cloud but the volume still created on Netapp (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/SAN-58"
+							>SAN-58</xref>)</entry>
+						<entry>This is not a problem if you use the defaults set by Eucalyptus. However, if
+							you change these defaults, we recommend that you confirm that any
+							volumes that failed to create during this configuration phase do not
+							exist on the SAN. </entry>
+					</row>
 
 				</tbody>
 			</tgroup>
