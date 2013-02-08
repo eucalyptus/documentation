@@ -5,12 +5,14 @@
 	<title>Known Issues</title>
 	<shortdesc/>
 	<conbody>
-		<p>The following known issues exist in Eucalyptus 3.2.1 and its dependencies. Please contact
-			Eucalyptus support for known workarounds to these issues. You can use the support portal
-				<xref href="https://engage.eucalyptus.com" scope="external" format="html"
-				>https://engage.eucalyptus.com</xref> or email us directly at <xref
-				href="mailto:support@eucalyptus.com" scope="external" format="email"
-				>support@eucalyptus.com</xref>.</p>
+		<p>The following known issues exist in Eucalyptus 3.2.1 and its
+			dependencies. Please contact Eucalyptus support for known
+			workarounds to these issues. You can use the support portal <xref
+				href="https://engage.eucalyptus.com" scope="external"
+				format="html">https://engage.eucalyptus.com</xref> or email us
+			directly at <xref href="mailto:support@eucalyptus.com"
+				scope="external" format="email"
+			>support@eucalyptus.com</xref>.</p>
 		<table>
 			<tgroup cols="2">
 				<thead>
@@ -21,142 +23,184 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>VMware Broker requires <codeph>eucalyptus</codeph> user to have write
-							access to the <filepath>/etc/eucalyptus</filepath> directory (<xref
-								format="html"
+						<entry>VMware Broker requires
+								<codeph>eucalyptus</codeph> user to have write
+							access to the <filepath>/etc/eucalyptus</filepath>
+							directory (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/BROKER-9"
 								>BROKER-9</xref>)</entry>
-						<entry>If the <codeph>eucalyptus</codeph> user does not have write access to
-							the <filepath>/etc/eucalyptus</filepath> directory, the VMware Broker
-							will stay in a <codeph>BROKEN</codeph> state, and
-								<codeph>euca-configure-vmware</codeph> will fail. Run <codeph>chown
-								-R eucalyptus:eucalyptus /etc/eucalyptus/</codeph> on the VMware
-							Broker machine to ensure that the <codeph>eucalyptus</codeph> user owns
-							the necessary files.</entry>
+						<entry>If the <codeph>eucalyptus</codeph> user does not
+							have write access to the
+								<filepath>/etc/eucalyptus</filepath> directory,
+							the VMware Broker will stay in a
+								<codeph>BROKEN</codeph> state, and
+								<codeph>euca-configure-vmware</codeph> will
+							fail. Run <codeph>chown -R eucalyptus:eucalyptus
+								/etc/eucalyptus/</codeph> on the VMware Broker
+							machine to ensure that the
+								<codeph>eucalyptus</codeph> user owns the
+							necessary files.</entry>
 					</row>
 					<row>
-						<entry>Raw data reported by VMware Broker does not include meaningful volume
-							names (<xref format="html"
+						<entry>Raw data reported by VMware Broker does not
+							include meaningful volume names (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/BROKER-22"
 								>BROKER-22</xref>)</entry>
-						<entry>Data reported in the console displays meaningful volume names. Data
-							exported in raw format labels each volume or ephemeral storage unit as
-								<codeph>scisi0:[N]</codeph>, and must be translated into meaningful
-							names by another reporting framework.</entry>
+						<entry>Data reported in the console displays meaningful
+							volume names. Data exported in raw format labels
+							each volume or ephemeral storage unit as
+								<codeph>scisi0:[N]</codeph>, and must be
+							translated into meaningful names by another
+							reporting framework.</entry>
 					</row>
 					<row>
-						<entry>Must use user-friendly names for mulitpathing (<xref format="html"
+						<entry>Must use user-friendly names for mulitpathing
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/DOC-504"
 								>DOC-504</xref>)</entry>
-						<entry>Eucalyptus connect scripts assume multipathing uses user friendly
-							names instead of WWID for the multipath device names, so the
-							"user_friendly_names" option must be enabled in /etc/multipath.conf.
+						<entry>Eucalyptus connect scripts assume multipathing
+							uses user friendly names instead of WWID for the
+							multipath device names, so the "user_friendly_names"
+							option must be enabled in /etc/multipath.conf.
 						</entry>
 					</row>
 					<row>
-						<entry>Reporting values seem to be in error at first (<xref format="html"
+						<entry>Reporting values seem to be in error at first
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/DOC-707"
 								>DOC-707</xref>)</entry>
-						<entry>Network traffic numbers in columns <uicontrol>Total</uicontrol> and
-								<uicontrol>External</uicontrol> might appear to be incorrect. The
-							external numbers can be greater than total numbers. This is because the
-							two types of measurements come from different hosts (external is from
-							the CC and totals from the NC). These hosts sample and deliver numbers
-							to the reporting subsystem at different times. If the report is
-							requested after the external counter is updated but before the total
-							counter is updated, the numbers could appear out of their natural order.
-							In a stable state without network traffic, the numbers will become
-							correct eventually, usually within a few minutes, depending on the
-							polling frequency value specified in the
-								<codeph>reporting.default_poll_interval_mins</codeph> and
-								<codeph>reporting.default_write_interval_mins</codeph> parameters.
-						</entry>
+						<entry>Network traffic numbers in columns
+								<uicontrol>Total</uicontrol> and
+								<uicontrol>External</uicontrol> might appear to
+							be incorrect. The external numbers can be greater
+							than total numbers. This is because the two types of
+							measurements come from different hosts (external is
+							from the CC and totals from the NC). These hosts
+							sample and deliver numbers to the reporting
+							subsystem at different times. If the report is
+							requested after the external counter is updated but
+							before the total counter is updated, the numbers
+							could appear out of their natural order. In a stable
+							state without network traffic, the numbers will
+							become correct eventually, usually within a few
+							minutes, depending on the polling frequency value
+							specified in the
+								<codeph>reporting.default_poll_interval_mins</codeph>
+							and
+								<codeph>reporting.default_write_interval_mins</codeph>
+							parameters. </entry>
 					</row>
-					<row id="ki_ebs_321">
-						<entry>Problem using EMC, EBS, and multiple NCs in 3.2.1 (<xref
+					<row>
+						<entry id="ki_ebs_321">Problem using EMC, EBS, and
+							multiple NCs in 3.2.1 (<xref
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4872"
-								scope="external" format="html">EUCA-4872</xref>)</entry>
-						<entry>When using EMC and multiple NCs within a cluster, connections to the
-							EBS-backed volume are lost if a second volume is attached to any
-							instance on the NC hosting the EBS instance. The result is the EBS
+								scope="external" format="html"
+							>EUCA-4872</xref>)</entry>
+						<entry>When using EMC and multiple NCs within a cluster,
+							connections to the EBS-backed volume are lost if a
+							second volume is attached to any instance on the NC
+							hosting the EBS instance. The result is the EBS
 							instance will eventually fail to operate.</entry>
 					</row>
 					<row>
-						<entry>Race condition can cause secondary Walrus to appear ENABLED to the
-							secondary CLC in HA setup (<xref
+						<entry>Race condition can cause secondary Walrus to
+							appear ENABLED to the secondary CLC in HA setup
+								(<xref
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4846"
-								format="html" scope="external">EUCA-4846</xref>)</entry>
-						<entry>After repeated state canges of various components in a HA setup, the
-							secondary Walrus may not be visible to the primary CLC. Running
-								<codeph>euca-modify-service -s DISABLED WS-[N]</codeph> will resolve
-							this issue.</entry>
+								format="html" scope="external"
+							>EUCA-4846</xref>)</entry>
+						<entry>After repeated state canges of various components
+							in a HA setup, the secondary Walrus may not be
+							visible to the primary CLC. Running
+								<codeph>euca-modify-service -s DISABLED
+								WS-[N]</codeph> will resolve this issue.</entry>
 					</row>
 					<row>
-						<entry><codeph>walrus.storagemaxtotalsnapshotsizeingb</codeph> is not
-							honored (<xref href="https://eucalyptus.atlassian.net/browse/EUCA-4838"
-								format="html" scope="external">EUCA-4838</xref>)</entry>
-						<entry>As of Eucalyptus 3.2.1, the maximum storage used for snapshots, as
-							set in <codeph>walrus.storagemaxtotalsnapshotsizeingb</codeph>, is not
-							honored. You should use your existing infrastructure monitoring to
-							ensure that snapshot storage does not exceed an appropriate level for
-							your system. It is recommended that you monitor the total snapshot size
-							and the number of snapshots.</entry>
+						<entry><codeph>walrus.storagemaxtotalsnapshotsizeingb</codeph>
+							is not honored (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4838"
+								format="html" scope="external"
+							>EUCA-4838</xref>)</entry>
+						<entry>As of Eucalyptus 3.2.1, the maximum storage used
+							for snapshots, as set in
+								<codeph>walrus.storagemaxtotalsnapshotsizeingb</codeph>,
+							is not honored. You should use your existing
+							infrastructure monitoring to ensure that snapshot
+							storage does not exceed an appropriate level for
+							your system. It is recommended that you monitor the
+							total snapshot size and the number of
+							snapshots.</entry>
 					</row>
 					<row>
 						<entry>Default cloud properties must have a value (<xref
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4750"
-								format="html" scope="external">EUCA-4750</xref>)</entry>
-						<entry>If any of the cloud properties are set with no value, you might
-							experience issues with the output of the
-								<apiname>euca-describe-properties</apiname> command.</entry>
+								format="html" scope="external"
+							>EUCA-4750</xref>)</entry>
+						<entry>If any of the cloud properties are set with no
+							value, you might experience issues with the output
+							of the <apiname>euca-describe-properties</apiname>
+							command.</entry>
 					</row>
 					<row>
-						<entry>Some components are initialized rather than disabled after an
-							unexpected reboot (<xref format="html"
+						<entry>Some components are initialized rather than
+							disabled after an unexpected reboot (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4354"
 								>EUCA-4354</xref>)</entry>
-						<entry>This only occurs when CLC, Walrus, and SC are located on the same
-							machine in an HA setting. In an unexpected reboot within that setting,
-							when the redundant components switch roles, some secondary components
-							can become initialized rather than disabled. For a workaround, restart
-							the initialized components. We strongly recommend that you use one
-							machine for each Eucalyptus component in HA mode.</entry>
+						<entry>This only occurs when CLC, Walrus, and SC are
+							located on the same machine in an HA setting. In an
+							unexpected reboot within that setting, when the
+							redundant components switch roles, some secondary
+							components can become initialized rather than
+							disabled. For a workaround, restart the initialized
+							components. We strongly recommend that you use one
+							machine for each Eucalyptus component in HA
+							mode.</entry>
 					</row>
 					<row>
-						<entry>User console requires upload of private key to access a Windows
-							instance password (<xref format="html"
+						<entry>User console requires upload of private key to
+							access a Windows instance password (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4293"
 								>EUCA-4293</xref>)</entry>
-						<entry>Passwords for Windows instances are encrypted for a specified key
-							pair. The user console requires that you upload the appropriate private
-							key to access an instance password. <b>We strongly recommend against
-								using this feature without HTTPS!</b> To access the instance
-							password without uploading your private key, use
-								<codeph>euca-get-password [instance id] -k [keyfile]</codeph> on the
-							command line.</entry>
+						<entry>Passwords for Windows instances are encrypted for
+							a specified key pair. The user console requires that
+							you upload the appropriate private key to access an
+							instance password. <b>We strongly recommend against
+								using this feature without HTTPS!</b> To access
+							the instance password without uploading your private
+							key, use <codeph>euca-get-password [instance id] -k
+								[keyfile]</codeph> on the command line.</entry>
 					</row>
 					<row>
-						<entry>User console cannot generate new Windows password on restarting a
-							stopped instance (<xref format="html"
+						<entry>User console cannot generate new Windows password
+							on restarting a stopped instance (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4291"
 								>EUCA-4291</xref>)</entry>
-						<entry>The user console continues to display an old password after a Windows
-							instance is stopped and restarted. You must log out of the user console,
-							log in again, and then generate a password, in order to log in to a
-							Windows instance that has been stopped and restarted.</entry>
+						<entry>The user console continues to display an old
+							password after a Windows instance is stopped and
+							restarted. You must log out of the user console, log
+							in again, and then generate a password, in order to
+							log in to a Windows instance that has been stopped
+							and restarted.</entry>
 					</row>
 					<row>
-						<entry>BFEBS fails in some cases when running new instances, with error
-								<codeph>RollbackException: Error while committing the
-								transaction</codeph> (<xref format="html"
+						<entry>BFEBS fails in some cases when running new
+							instances, with error <codeph>RollbackException:
+								Error while committing the transaction</codeph>
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
 								>EUCA-4271</xref>)</entry>
-						<entry>If a new instance is constructed in a group concurrently with network
-							resources being freed in that group, a <codeph>RollbackException: Error
-								while committing the transaction</codeph> error is thrown. This also
-							results in an orphaned volume that cannot be deleted until the VM
-							metadata has timed out and the volume is recognised as unused. Running
-							the new instance a second time should succeed. </entry>
+						<entry>If a new instance is constructed in a group
+							concurrently with network resources being freed in
+							that group, a <codeph>RollbackException: Error while
+								committing the transaction</codeph> error is
+							thrown. This also results in an orphaned volume that
+							cannot be deleted until the VM metadata has timed
+							out and the volume is recognised as unused. Running
+							the new instance a second time should succeed.
+						</entry>
 					</row>
 
 					<!--<row>
@@ -198,86 +242,103 @@
 							instance.</entry>
 					</row>-->
 					<row>
-						<entry>Changing LOCALE does not change the language of the fault message in
-							fault logs (<xref format="html"
+						<entry>Changing LOCALE does not change the language of
+							the fault message in fault logs (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4233"
 								>EUCA-4233</xref>)</entry>
-						<entry>Changing the system LOCALE does not change the language of the fault
-							message logged in <filepath>[component]-fault.log</filepath>. Create
-							customized fault messages in the
-								<filepath>/etc/eucalyptus/faults/en_US</filepath> directory if you
-							do not wish to use the provided messages.</entry>
+						<entry>Changing the system LOCALE does not change the
+							language of the fault message logged in
+								<filepath>[component]-fault.log</filepath>.
+							Create customized fault messages in the
+								<filepath>/etc/eucalyptus/faults/en_US</filepath>
+							directory if you do not wish to use the provided
+							messages.</entry>
 					</row>
 					<row>
-						<entry>User console hangs when launching an instance with large user data
-							file (<xref format="html"
+						<entry>User console hangs when launching an instance
+							with large user data file (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4223"
 								>EUCA-4223</xref>)</entry>
-						<entry>Launching an instance through the console may hang if the user data
-							file is too big. Launch instances on the command line if the user data
-							file is larger than 16KB.</entry>
+						<entry>Launching an instance through the console may
+							hang if the user data file is too big. Launch
+							instances on the command line if the user data file
+							is larger than 16KB.</entry>
 					</row>
 					<row>
-						<entry>A snapshot registered as an image must be deregistered twice to be
-							fully removed (<xref format="html"
+						<entry>A snapshot registered as an image must be
+							deregistered twice to be fully removed (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4207"
 								>EUCA-4207</xref>)</entry>
-						<entry>Running <codeph>deregister-image</codeph> does not initially delete
-							the image record for a snapshot that was registered as an image. You
-							must run <codeph>deregister-image</codeph> twice to ensure the image is
-							deleted.</entry>
+						<entry>Running <codeph>deregister-image</codeph> does
+							not initially delete the image record for a snapshot
+							that was registered as an image. You must run
+								<codeph>deregister-image</codeph> twice to
+							ensure the image is deleted.</entry>
 					</row>
 					<row>
-						<entry>CC image caching does not work with some symlinks (<xref
-								format="html"
+						<entry>CC image caching does not work with some symlinks
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4181"
 								>EUCA-4181</xref>)</entry>
 						<entry>If <codeph>CC_IMAGE_PROXY_PATH</codeph> in
-								<codeph>eucalyptus.conf</codeph> is set to a symlink, CC image
-							caching may not work. Ensure the symlink is placed in a path that is
-							readable by the 'eucalyptus' user.</entry>
+								<codeph>eucalyptus.conf</codeph> is set to a
+							symlink, CC image caching may not work. Ensure the
+							symlink is placed in a path that is readable by the
+							'eucalyptus' user.</entry>
 					</row>
 					<row>
-						<entry>DBResourceCheck exceptions logged at <codeph>ERROR</codeph> log level
-								(<xref format="html"
+						<entry>DBResourceCheck exceptions logged at
+								<codeph>ERROR</codeph> log level (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4177"
 								>EUCA-4177</xref>)</entry>
-						<entry>The DBResourceCheck class frequently polls to determine the number of
-							active database connections for a given alias. This can result in a
-							DBResourceCheck exception. This exception is expected, and is not
-							fatal.</entry>
+						<entry>The DBResourceCheck class frequently polls to
+							determine the number of active database connections
+							for a given alias. This can result in a
+							DBResourceCheck exception. This exception is
+							expected, and is not fatal.</entry>
 					</row>
 					<row>
-						<entry>The reporting feature in the Eucalyptus Administrator Console show no
-							metrics. (<xref format="html"
+						<entry>The reporting feature in the Eucalyptus
+							Administrator Console show no metrics. (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4168"
 								>EUCA-4168</xref>)</entry>
-						<entry>This occurs only if you run a report that includes the current date.
-							The metrics that show no data are: <uicontrol>CpuUsage%</uicontrol>,
-								<uicontrol>Net Total In/Out</uicontrol>, <uicontrol>Disk
-								R/W</uicontrol>, <uicontrol>Disk IOPS R/W</uicontrol>, and
-								<uicontrol>DiskTime</uicontrol>. For a workaround, use the CLI
-							command, <apiname>eureport-generate-report</apiname>, to run reports
-							from the Cloud Controller for a time period that includes the current
-							date. You can also use the Eucalyptus Administrator Console and move the
-							end date up the previous day.</entry>
+						<entry>This occurs only if you run a report that
+							includes the current date. The metrics that show no
+							data are: <uicontrol>CpuUsage%</uicontrol>,
+								<uicontrol>Net Total In/Out</uicontrol>,
+								<uicontrol>Disk R/W</uicontrol>, <uicontrol>Disk
+								IOPS R/W</uicontrol>, and
+								<uicontrol>DiskTime</uicontrol>. For a
+							workaround, use the CLI command,
+								<apiname>eureport-generate-report</apiname>, to
+							run reports from the Cloud Controller for a time
+							period that includes the current date. You can also
+							use the Eucalyptus Administrator Console and move
+							the end date up the previous day.</entry>
 					</row>
 					<row>
-						<entry>The <codeph>euca-describe-bundle-tasks</codeph> command does not keep
-							task status after task completes (<xref format="html"
+						<entry>The <codeph>euca-describe-bundle-tasks</codeph>
+							command does not keep task status after task
+							completes (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4140"
 								>EUCA-4140</xref>)</entry>
-						<entry>When bundling a Windows instance, the task is removed from the task
-							list as soon as the bundle completes, so euca-describe-bundle-tasks
-							never shows a 'complete' status.</entry>
+						<entry>When bundling a Windows instance, the task is
+							removed from the task list as soon as the bundle
+							completes, so euca-describe-bundle-tasks never shows
+							a 'complete' status.</entry>
 					</row>
 					<row>
-						<entry>Eucalyptus Console https redirect doesn't work (<xref format="html"
+						<entry>Eucalyptus Console https redirect doesn't work
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4104"
 								>EUCA-4104</xref>)</entry>
-						<entry>When SSL is enabled for the user console, http requests do not
-							automatically redirect to the proper https address, which can result in
-							a blank page.</entry>
+						<entry>When SSL is enabled for the user console, http
+							requests do not automatically redirect to the proper
+							https address, which can result in a blank
+							page.</entry>
 					</row>
 
 					<!--<row>
@@ -293,132 +354,155 @@
 								<filepath>eucalyptus.conf</filepath>.</entry>
 					</row>-->
 					<row>
-						<entry>[error:0290] message printed on upgrade (<xref format="html"
+						<entry>[error:0290] message printed on upgrade (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4027"
 								>EUCA-4027</xref>)</entry>
-						<entry>The Eucalyptus upgrade process requires a large number of file
-							descriptors, and an error may occur if <codeph>ulimit</codeph> is not
-							set to an appropriate value. To avoid this error, set <codeph>ulimit -n
-								5000</codeph> before upgrading Eucalyptus. This error is not an
-							indication of a failed upgrade.</entry>
+						<entry>The Eucalyptus upgrade process requires a large
+							number of file descriptors, and an error may occur
+							if <codeph>ulimit</codeph> is not set to an
+							appropriate value. To avoid this error, set
+								<codeph>ulimit -n 5000</codeph> before upgrading
+							Eucalyptus. This error is not an indication of a
+							failed upgrade.</entry>
 					</row>
 					<row>
-						<entry>Unable to start stopped instances after upgrade (<xref format="html"
+						<entry>Unable to start stopped instances after upgrade
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4026"
 								>EUCA-4026</xref>)</entry>
-						<entry>Eucalyptus 3.2 manages ISCSI targets in a different way to previous
-							versions. The first attempt to start any stopped instances relying on
-								<codeph>iscsiadm</codeph> will fail, but the issue is resolved
-							during cleanup so subsequent requests for that instance will
-							work.</entry>
+						<entry>Eucalyptus 3.2 manages ISCSI targets in a
+							different way to previous versions. The first
+							attempt to start any stopped instances relying on
+								<codeph>iscsiadm</codeph> will fail, but the
+							issue is resolved during cleanup so subsequent
+							requests for that instance will work.</entry>
 					</row>
 					<row>
-						<entry>ERR-1009 "Mismatched cryptographical keys" gets written too many
-							times in cc-fault.log (<xref format="html"
+						<entry>ERR-1009 "Mismatched cryptographical keys" gets
+							written too many times in cc-fault.log (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
 								>EUCA-3986</xref>)</entry>
-						<entry>Currently, CC may log this fault once for each process in the pool.
-							This is because the logic that suppresses duplicate faults relies on
-							process-local memory rather than memory regions shared across CC
+						<entry>Currently, CC may log this fault once for each
+							process in the pool. This is because the logic that
+							suppresses duplicate faults relies on process-local
+							memory rather than memory regions shared across CC
 							processes.</entry>
 					</row>
 					<row>
-						<entry>Vague error message: <codeph>Failed to find corresponding class
-								mapping for element: RegisterVMwareBroker in namespace</codeph>.
+						<entry>Vague error message: <codeph>Failed to find
+								corresponding class mapping for element:
+								RegisterVMwareBroker in namespace</codeph>.
 								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3808"
 								>EUCA-3808</xref>)</entry>
-						<entry>If you get this error message, you need to install the
-								<codeph>eucalyptus-enterprise-vmware-broker-libs</codeph> on the
-							CLC. Run <codeph>yum install
-								eucalyptus-enterprise-vmware-broker-libs</codeph> on each CLC in
-							your cloud.</entry>
+						<entry>If you get this error message, you need to
+							install the
+								<codeph>eucalyptus-enterprise-vmware-broker-libs</codeph>
+							on the CLC. Run <codeph>yum install
+								eucalyptus-enterprise-vmware-broker-libs</codeph>
+							on each CLC in your cloud.</entry>
 					</row>
 					<row>
-						<entry>Capacity report shows unordered list of VM types (<xref format="html"
+						<entry>Capacity report shows unordered list of VM types
+								(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3707"
 								>EUCA-3707</xref>)</entry>
-						<entry>When running a capacity report, the VM types are not ordered from
-							smallest to largest instance type when displayed at the cloud or AZ
-							property level.</entry>
+						<entry>When running a capacity report, the VM types are
+							not ordered from smallest to largest instance type
+							when displayed at the cloud or AZ property
+							level.</entry>
 					</row>
 					<!--these are issues carried over...discuss-->
 					<row>
-						<entry>Quota limiting run instances against availabilityzone resource does
-							not work (<xref format="html"
+						<entry>Quota limiting run instances against
+							availabilityzone resource does not work (<xref
+								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3614"
 								>EUCA-3614</xref>)</entry>
-						<entry>A policy which limits the number of instances which can be run within
-							an availability zone has no effect.</entry>
+						<entry>A policy which limits the number of instances
+							which can be run within an availability zone has no
+							effect.</entry>
 					</row>
 					<row>
-						<entry>IP pages do not work properly for admin user in Eucalyptus User
-							Console (<xref format="html"
+						<entry>IP pages do not work properly for admin user in
+							Eucalyptus User Console (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3548"
 								>EUCA-3548</xref>)</entry>
-						<entry>All user IP addresses are shown, rather than just the admin user's IP
-							addresses.</entry>
+						<entry>All user IP addresses are shown, rather than just
+							the admin user's IP addresses.</entry>
 					</row>
 
 
 					<row>
-						<entry>euca-describe-nodes does not return consistent results (<xref
-								format="html"
+						<entry>euca-describe-nodes does not return consistent
+							results (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3456"
 								>EUCA-3456</xref>)</entry>
-						<entry>The output of euca-describe-nodes is not consistent.</entry>
+						<entry>The output of euca-describe-nodes is not
+							consistent.</entry>
 					</row>
 
 					<row>
-						<entry>ENABLED CC have two NAT rules about 169.254.169.254 (<xref
-								format="html"
+						<entry>ENABLED CC have two NAT rules about
+							169.254.169.254 (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3440"
 								>EUCA-3440</xref>)</entry>
-						<entry>In HA Mode, ENABLED CC can get into a state where it reports both
-							ENABLED and DISABLED CLC in iptables for the metadata service.</entry>
+						<entry>In HA Mode, ENABLED CC can get into a state where
+							it reports both ENABLED and DISABLED CLC in iptables
+							for the metadata service.</entry>
 					</row>
 					<row>
-						<entry>euca-start-instances does not return correct information (<xref
-								format="html"
+						<entry>euca-start-instances does not return correct
+							information (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3311"
 								>EUCA-3311</xref>)</entry>
-						<entry>euca-start-instances only returns the instance identifier and does
-							not return the previous or the current state of the instance.</entry>
+						<entry>euca-start-instances only returns the instance
+							identifier and does not return the previous or the
+							current state of the instance.</entry>
 					</row>
 					<row>
-						<entry>Walrus does not failover in HA if eucalyptus-cloud process is
-							forcibly killed on primary (<xref format="html"
+						<entry>Walrus does not failover in HA if
+							eucalyptus-cloud process is forcibly killed on
+							primary (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3202"
 								>EUCA-3202</xref>)</entry>
-						<entry>If the eucalyptus-cloud process is forcibly terminated (kill -9) on
-							the primary Walrus, failover to the secondary Walrus is not
-							automatically triggered.</entry>
+						<entry>If the eucalyptus-cloud process is forcibly
+							terminated (kill -9) on the primary Walrus, failover
+							to the secondary Walrus is not automatically
+							triggered.</entry>
 					</row>
 					<row>
-						<entry>euca-create-image from ebs backed instance fails, returns 0 (<xref
-								format="html"
+						<entry>euca-create-image from ebs backed instance fails,
+							returns 0 (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-1333"
 								>EUCA-1333</xref>)</entry>
-						<entry>euca-create-image is currently unsupported.</entry>
+						<entry>euca-create-image is currently
+							unsupported.</entry>
 					</row>
 					<row>
-						<entry>Command to reset default values for Netapp storage properties doesn't
-							work (<xref format="html"
+						<entry>Command to reset default values for Netapp
+							storage properties doesn't work (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/SAN-57"
-							>SAN-57</xref>)</entry>
-						<entry>The -r option for reseting Eucalyptus properties using the
-								<apiname>euca-modify-property</apiname> does not reset the new
-							Netapp storage properties to a default value.</entry>
+								>SAN-57</xref>)</entry>
+						<entry>The -r option for reseting Eucalyptus properties
+							using the <apiname>euca-modify-property</apiname>
+							does not reset the new Netapp storage properties to
+							a default value.</entry>
 					</row>
 					<row>
-						<entry>Property conflicts during volume creation cause creation to fail on
-							cloud but the volume still created on Netapp (<xref format="html"
+						<entry>Property conflicts during volume creation cause
+							creation to fail on cloud but the volume still
+							created on Netapp (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/SAN-58"
-							>SAN-58</xref>)</entry>
-						<entry>This is not a problem if you use the defaults set by Eucalyptus. However, if
-							you change these defaults, we recommend that you confirm that any
-							volumes that failed to create during this configuration phase do not
-							exist on the SAN. </entry>
+								>SAN-58</xref>)</entry>
+						<entry>This is not a problem if you use the defaults set
+							by Eucalyptus. However, if you change these
+							defaults, we recommend that you confirm that any
+							volumes that failed to create during this
+							configuration phase do not exist on the SAN.
+						</entry>
 					</row>
 
 				</tbody>
