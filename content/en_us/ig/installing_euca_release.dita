@@ -83,11 +83,16 @@
 						package.</p>
 				</info>
 			</step>
-			<step>
-				<cmd>Install the Eucalyptus cloud controller software on each
-					planned CLC host: </cmd>
+			<step props="subscribe">
+				<cmd>If you are not a Eucalyptus subscriber, or do not wish to
+					use VMware Broker, skip this step. A Eucalyptus subscription
+					is required to use VMware Broker. Install the VMware Broker
+					package on the host that will run your Cluster Controller
+					(CC), as follows:</cmd>
 				<info>
-					<codeblock>yum groupinstall eucalyptus-cloud-controller</codeblock>
+					<codeblock>yum install eucalyptus-enterprise-vmware-broker</codeblock>
+					<p>Enter <codeph>y</codeph> when prompted to install this
+						package.</p>
 				</info>
 			</step>
 			<step>
@@ -124,6 +129,13 @@
 				</substeps>
 			</step>
 			<step>
+				<cmd>Install the Eucalyptus cloud controller software on each
+					planned CLC host: </cmd>
+				<info>
+					<codeblock>yum groupinstall eucalyptus-cloud-controller</codeblock>
+				</info>
+			</step>
+			<step>
 				<cmd>Install the software for the remaining Eucalyptus
 					components. The following example shows most components
 					being installed on the same host. We recommend that you use
@@ -137,10 +149,10 @@
 					command for your device on each machine hosting a CLC:</cmd>
 				<info>
 					<p>For EMC SAN:</p>
-					<codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
+					<codeblock>yum install eucalyptus-enterprise-storage-san-emc eucalyptus-enterprise-storage-san-emc-libs</codeblock>
 					<p>For EqualLogic SAN: no action needed</p>
 					<p>For NetApp SAN:</p>
-					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp-libs</codeblock>
+					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp eucalyptus-enterprise-storage-san-netapp-libs</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
