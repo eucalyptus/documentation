@@ -4,12 +4,11 @@
 <reference id="euca-describe-bundle-tasks">
 	<title>euca-describe-bundle-tasks</title>
 
-	<shortdesc>Describes currently submitted bundle tasks and their
-		states.</shortdesc>
+	<shortdesc>Describes currently submitted bundle tasks and their states.</shortdesc>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euca-describe-bundle-tasks [bundle ...]</codeblock>
+			<codeblock>euca-describe-bundle-tasks [bundle ...] [--filter name=value]</codeblock>
 		</section>
 
 		<section>
@@ -29,33 +28,97 @@
 					<tbody>
 						<row>
 							<entry><codeph><i>bundle</i></codeph></entry>
-							<entry>Identifier of the bundle task to describe. If
-								you do not specify a bundle task ID, all bundle
-								tasks are returned.</entry>
+							<entry>Identifier of the bundle task to describe. If you do not specify
+								a bundle task ID, all bundle tasks are returned.</entry>
 							<entry align="center">No</entry>
 						</row>
-						<!--<row>
-							<entry><codeph>-\-filter name=value</codeph></entry>
-							<entry>Supports the following filers:
-							<ul>
-								<li><codeph>error-code</codeph>: If the task failed, returns the error code</li>
-								<li><codeph>error-message</codeph>: If the task failed, returns the error message</li>
-								<li><codeph>instance-id</codeph>: Instance ID that was bundled</li>
-								<li><codeph>progress</codeph>: Level of task completion, in percent (for example, 20%)</li>
-								<li><codeph>s3-bucket</codeph>: Bucket where the EMI will be stored</li>
-								<li><codeph>s3-prefix</codeph>: Beginning of the AMI name</li>
-								<li><codeph>start-time</codeph>: Time the task started</li>
-								<li><codeph>state</codeph>: State of the task</li>
-								<li><codeph>update-time</codeph>: Time of the most recent update for the task</li>
-							</ul></entry>
-							<entry align="center">No</entry>
-						</row>-->
+
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
-		<section
-			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+		<section>
+			<title>Supported Filters</title>
+			<p>You can add filters to your request so that the response includes information for
+				only certain bundle tasks. For example, you can use a filter to return only the
+				bundle tasks in the complete state. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for a bundle task only if it matches at least one of the filter values that you
+					specified.</li>
+
+				<li>You can use multiple filters. For example, you can specify bundles that are
+					stored in a specific bucket and are in the complete state. Eucalyptus responds
+					with the information for a bundle task only if it matches all the filters that
+					you specified. If there's no match, Eucalyptus returns an empty response.</li>
+
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+					<apiname>euca-describe-bundle-tasks</apiname>: </p>
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>bundle-id</codeph></entry>
+							<entry>ID of the bundle task</entry>
+						</row>
+						<row>
+							<entry><codeph>error-code</codeph></entry>
+							<entry>If the task failed, returns the error code</entry>
+						</row>
+						<row>
+							<entry><codeph>error-message</codeph></entry>
+							<entry>If the task failed, returns the error message</entry>
+						</row>
+						<row>
+							<entry><codeph>instance-id</codeph></entry>
+							<entry>Instance ID that was bundled</entry>
+						</row>
+						<row>
+							<entry><codeph>progress</codeph></entry>
+							<entry>Level of task completion, in percent (for example, 20%)</entry>
+						</row>
+						<row>
+							<entry><codeph>s3-bucket</codeph></entry>
+							<entry>Bucket where the EMI will be stored</entry>
+						</row>
+						<row>
+							<entry><codeph>s3-prefix</codeph></entry>
+							<entry>Beginning of the AMI name</entry>
+						</row>
+						<row>
+							<entry><codeph>start-time</codeph></entry>
+							<entry>Time the task started</entry>
+						</row>
+						<row>
+							<entry><codeph>state</codeph></entry>
+							<entry>State of the task</entry>
+						</row>
+						<row>
+							<entry><codeph>update-time</codeph></entry>
+							<entry>Time of the most recent update for the task</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
 
 		<section>
 			<title>Output</title>
@@ -65,8 +128,8 @@
 				<li>Instance ID</li>
 				<li>Bucket name</li>
 				<li>Image prefix</li>
-				<li>Bundle state (pending, waiting-for-shutdown, bundling,
-					storing, cancelling, complete, failed)</li>
+				<li>Bundle state (pending, waiting-for-shutdown, bundling, storing, cancelling,
+					complete, failed)</li>
 				<li>Percentage progress, if state is "bundling"</li>
 				<li>Start time</li>
 				<li>Update time</li>
