@@ -25,8 +25,8 @@
 <xsl:if test=".//xref[not(starts-with(@href, 'http'))]"><li class="tagwarning">Begin web links with "http://". Does not apply to course resources or mailto links.</li></xsl:if>
 <xsl:if test=".//@href[contains(., ' ')]"><li class="syntaxerror">HREF target contains a space</li></xsl:if>
 <!--<xsl:if test=".//xref[not(@href)]"><li class="tagerror">Add @href to XREF</li></xsl:if>-->
-<!--<xsl:if test=".//xref[not(@scope='external') and contains(@href, 'http://')]"><li class="tagerror">XREF does not have attribute scope as external</li></xsl:if>-->
-<xsl:if test=".//xref[not(@scope='external')]"><li class="tagerror">XREF does not have attribute scope as external</li></xsl:if>
+<xsl:if test=".//xref[not(@scope='external') and contains(@href, 'http://')]"><li class="tagerror">XREF does not have attribute scope as external</li></xsl:if>
+<!--<xsl:if test=".//xref[not(@scope='external')]"><li class="tagerror">XREF does not have attribute scope as external</li></xsl:if>-->
 
 <!-- sample checks you may want to use
 <xsl:if test=".//draft-comment[not(@otherprops='DraftStatusOn')]"><li class="tagerror">Draft-Comment does not have DraftStatusOn</li></xsl:if>
