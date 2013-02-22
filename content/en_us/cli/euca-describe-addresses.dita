@@ -10,9 +10,100 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euca-describe-addresses [--filter <b>name=value</b>] [ <b>ip</b> ]
+			<codeblock>euca-describe-addresses [ <b>ip</b> ] [[--filter "name=value"] ...]
 </codeblock>
 		</section>
+		
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+					
+					<tbody>
+						<row>
+							<entry><codeph><i>ip</i></codeph></entry>
+							<entry>One or more elastic IP addresses.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>
+							
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		
+		<section>
+			<title>Available Filters</title>
+			
+			<p>You can add filters to your request so that the response includes information for
+				only certain elastic IP addresses. For example, you can use a filter to return only the
+				addresses that have a specific tag. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for an address only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify addresses that have a specific
+					tag. Eucalyptus responds
+					with the information for an address only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-addressess</apiname>:</p>
+				
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+						
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>domain</codeph></entry>
+							<entry>This filter is hardcoded to <codeph>standard</codeph>. There are no other valid
+								values.</entry>
+						</row>
+						<row>
+							<entry><codeph>instance-id</codeph></entry>
+							<entry>ID of the instance associated with the IP address</entry>
+						</row>
+						<row>
+							<entry><codeph>public-ip</codeph></entry>
+							<entry>Elastic IP address</entry>
+						</row>
+						
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		
 		<section
 			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
 
