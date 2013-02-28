@@ -3,14 +3,14 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-describe-group">
 	<title>euca-describe-group</title>
-
+	
 	<shortdesc>Shows information about one or more security groups.</shortdesc>
 	<refbody>
 		<section>
 			<title>Syntax</title>
 			<codeblock>euca-describe-group [ group_name ] [[--filter "name=value"] ...]</codeblock>
 		</section>
-
+		
 		<section>
 			<title>Options</title>
 			<table>
@@ -18,12 +18,12 @@
 					<colspec colwidth="25*"/>
 					<colspec colwidth="60*"/>
 					<colspec colwidth="15*"/>
-
+					
 					<thead>
 						<row>
 							<entry>Option</entry>
 							<entry>Description</entry>
-
+							
 							<entry>Required</entry>
 						</row>
 					</thead>
@@ -41,21 +41,22 @@
 				</tgroup>
 			</table>
 		</section>
-
+		
 		<section>
 			<title>Available Filters</title>
 			<p>You can add filters to your request so that the response includes information for
-				only certain groups. For example, you can use a filter to return only the
-				group whose name contains a specific string. Some tips for using filters with this
+				only certain groups. For example, you can use a filter to return only 
+				a group whose name contains a specific string. Some tips for using filters with this
 				command:</p>
 			<ul>
 				<li>You can use multiple values for a filter. Eucalyptus responds with information
-					for a bundle task only if it matches at least one of the filter values that you
+					for a group only if it matches at least one of the filter values that you
 					specified.</li>
 				
-				<li>You can use multiple filters. For example, you can specify bundles that are
+				<li>You can use multiple filters. For example, you can specify a group whose name matches a
+					specific string, and also then give permission to another security group with a different string in its name that are
 					stored in a specific bucket and are in the complete state. Eucalyptus responds
-					with the information for a bundle task only if it matches all the filters that
+					with the information for a group only if it matches all the filters that
 					you specified. If there is no match, Eucalyptus returns an empty response.</li>
 				
 				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
@@ -70,13 +71,13 @@
 				<tgroup cols="2">
 					<colspec colwidth="25*"/>
 					<colspec colwidth="60*"/>
-
+					
 					<thead>
 						<row>
 							<entry>Filter</entry>
 							<entry>Description</entry>
 						</row>
-
+						
 					</thead>
 					<tbody>
 						<row>
@@ -89,53 +90,56 @@
 						</row>
 						<row>
 							<entry><codeph>ip-permission.cidr</codeph></entry>
-							<entry>CIDR range that has been granted the permission.</entry>
+							<entry>CIDR range that has been granted the permission</entry>
 						</row>
 						<row>
 							<entry><codeph>ip-permission.from-port</codeph></entry>
 							<entry>Start of port range for the TCP and UDP protocols, or an ICMP
-								type number. An ICMP type number of -1 indicates a wildcard (i.e.,
+								type number. An ICMP type number of -1 indicates a wildcard (that is,
 								any ICMP type number). </entry>
 						</row>
 						<row>
 							<entry><codeph>ip-permission.group-name</codeph></entry>
 							<entry>Name of security group that has been granted the
-								permission.</entry>
+								permission</entry>
 						</row>
 						<row>
 							<entry><codeph>ip-permission.protocol</codeph></entry>
-							<entry>IP protocol for the permission. <p>Valid Values:
-										<codeph>tcp</codeph> | <codeph>udp</codeph> |
-										<codeph>icmp</codeph></p>
+							<entry>IP protocol for the permission<p>Valid Values:
+								<codeph>tcp</codeph> | <codeph>udp</codeph> |
+								<codeph>icmp</codeph></p>
 							</entry>
-						</row>
-						<row>
-							<entry><codeph>ip-permission.from-port</codeph></entry>
-							<entry>Start of port range for the TCP and UDP protocols, or an ICMP code.
-								An ICMP type number of <codeph>-1</codeph> indicates a wildcard
-								(i.e., any ICMP type number).</entry>
 						</row>
 						<row>
 							<entry><codeph>ip-permission.to-port</codeph></entry>
 							<entry>End of port range for the TCP and UDP protocols, or an ICMP code.
 								An ICMP type number of <codeph>-1</codeph> indicates a wildcard
-								(i.e., any ICMP type number).</entry>
+								(that is, any ICMP type number).</entry>
 						</row>
 						<row>
 							<entry><codeph>ip-permission.user-id</codeph></entry>
-							<entry>ID of AWS account that has been granted the permission. </entry>
+							<entry>ID of Eucalyptus account that has been granted the permission</entry>
 						</row>
 						<row>
 							<entry><codeph>owner-id</codeph></entry>
-							<entry>AWS account ID of the owner of the security group </entry>
+							<entry>Eucalyptus account ID of the owner of the security group </entry>
 						</row>
-
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-key">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-value">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag:key">
+							<entry/>
+						</row>
+						
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
 		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
-
+		
 		<section>
 			<title>Output</title>
 			<ul>
@@ -153,7 +157,7 @@
 				<li>Source</li>
 			</ul>
 		</section>
-
+		
 		<section>
 			<title>Example</title>
 			<codeblock>euca-describe-group
@@ -164,6 +168,6 @@ CIDR    0.0.0.0/0
 PERMISSION  790547641019    default ALLOWS  tcp     22  22  FROM
 CIDR    0.0.0.0/0</codeblock>
 		</section>
-
+		
 	</refbody>
 </reference>
