@@ -55,6 +55,29 @@
 		
   	<section>
   		<title>Available Filters</title>
+  		<p>You can add filters to your request so that the response includes information for
+  			only certain snapshots. For example, you can use a filter to specify that you want to find
+  			snapshots whose status is <codeph>pending</codeph>. Some tips for using filters with this
+  			command:</p>
+  		<ul>
+  			<li>You can use multiple values for a filter. Eucalyptus responds with information
+  				for a snapshot only if it matches at least one of the filter values that you
+  				specified.</li>
+  			
+  			<li>You can use multiple filters. For example, you can use a filter to specify that you want to find
+  				snapshots whose status is <codeph>pending</codeph> and have a specific tag. Eucalyptus responds
+  				with the information for a snapshot only if it matches all the filters that
+  				you specified. If there is no match, Eucalyptus returns an empty response.</li>
+  			
+  			<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+  				more characters. Use a question mark (?) to match exactly one character. To
+  				escape special characters, use a backslash (\) before the character. For
+  				example, a value of \*eucalyptus\?\\ searches for the literal string
+  				*eucalyptus?\.</li>
+  		</ul>
+  		<p>The following are the available filters for
+  			<apiname>euca-describe-snapshots</apiname>:</p>
+  		
   		<table>
   			<tgroup cols="2">
   				<colspec colwidth="25*"/>
@@ -75,13 +98,13 @@
   					</row>
   					<row>
   						<entry><codeph>owner-alias</codeph></entry>
-  						<entry>AWS account alias (for example,  amazon or self) or
-  							AWS account ID that owns the snapshot.
+  						<entry>Account alias (for example, eucalyptus or self) or
+  							Account ID that owns the snapshot.
   						</entry>
   					</row>
   					<row>
   						<entry><codeph>owner-id</codeph></entry>
-  						<entry>AWS account ID of the snapshot owner</entry>
+  						<entry>Account ID of the snapshot owner</entry>
   					</row>
   					<row>
   						<entry><codeph>progress</codeph></entry>
