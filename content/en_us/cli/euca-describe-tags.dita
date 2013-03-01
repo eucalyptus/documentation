@@ -4,79 +4,60 @@
 <reference id="euca-describe-tags">
 	<title>euca-describe-tags</title>
 
-
-	
-
-	<shortdesc>List tags associated with your account</shortdesc>
+	<shortdesc>Lists tags associated with your account.</shortdesc>
   <refbody>
     <section>
     	<title>Syntax</title>
 
-    	<codeblock>euca-describe-tags  [-a, --access-key &lt;access_key> ] [-s, --secret-key
-     &lt;secret_key> ] [--config &lt;config_path>
-     ] [--debug] [--debugger] [-h, --help] [--region &lt;region_name>
-     ][-U, --url &lt;url> ] [--version] [--euca-auth] [--filter
-     name=value]</codeblock>
+    	<codeblock>euca-describe-tags  [[--filter "name=value"] ...]</codeblock>
     </section>
   	<section>
   		<title>Options</title>
-  		<p>None</p>
-  	</section>
-
-  	<section>
-  		<title>Required Parameters</title>
-  		<p>None</p>
-  	</section>
-  	<section>
-  		<title>Optional Parameters</title>
   		<table>
-  			<tgroup cols="2">
+  			<tgroup cols="3">
   				<colspec colwidth="25*"/>
-  				<colspec colwidth="80*"/>
+  				<colspec colwidth="60*"/>
+  				<colspec colwidth="15*"/>
   				<thead>
   					<row>
   						<entry>Option</entry>
   						<entry>Description</entry>
+  						<entry>Required</entry>
   					</row>
-  					
   				</thead>
   				<tbody>
-  					<row conref="../shared/shared_params.dita#shared_params/access_key_id">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/secret_key">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/config">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debug">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/debugger">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/help">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/region">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/url">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/version">
-  						<entry></entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/euca_auth">
-  						<entry></entry>
+  					<row conref="../shared/shared_params.dita#shared_params/filter">
+  						<entry/>
   					</row>
   				</tbody>
   			</tgroup>
   		</table>
   	</section>
+
   	<section>
   		<title>Available Filters</title>
+  		<p>You can add filters to your request so that the response includes information for
+  			only certain tags. For example, you can use a filter to specify that you want to find
+  			tags for a specific resource type. Some tips for using filters with this
+  			command:</p>
+  		<ul>
+  			<li>You can use multiple values for a filter. Eucalyptus responds with information
+  				for a volume only if it matches at least one of the filter values that you
+  				specified.</li>
+  			
+  			<li>You can use multiple filters. For example, you can use a filter to specify that you want to find
+  				volumes whose status is <codeph>available</codeph> and have a specific tag. Eucalyptus responds
+  				with the information for a volume only if it matches all the filters that
+  				you specified. If there is no match, Eucalyptus returns an empty response.</li>
+  			
+  			<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+  				more characters. Use a question mark (?) to match exactly one character. To
+  				escape special characters, use a backslash (\) before the character. For
+  				example, a value of \*eucalyptus\?\\ searches for the literal string
+  				*eucalyptus?\.</li>
+  		</ul>
+  		<p>The following are the available filters for
+  			<apiname>euca-describe-volumes</apiname>:</p>
   		<table>
   			<tgroup cols="2">
   				<colspec colwidth="25*"/>
@@ -96,7 +77,7 @@
   					</row>
   					<row>
   						<entry><codeph>resource-id</codeph></entry>
-  						<entry>Resource ID</entry>
+  						<entry>ID of the resource</entry>
   					</row>
   					<row>
   						<entry><codeph>resource-type</codeph></entry>
