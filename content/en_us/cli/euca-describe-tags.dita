@@ -102,15 +102,49 @@
   	<section>
   		<title>Output</title>
   		<ul>
-  			<li>Output type identifier ("")</li>
-  			<li></li>
-  			<li></li>
+  			<li>Output type identifier ("TAG")</li>
+  			<li>Resource type</li>
+  			<li>Resource ID</li>
+  			<li>Tag key</li>
+  			<li>Tag value</li>
   		</ul>
   	</section>
   	
   	<section>
-  		<title>Example</title>
-  		<codeblock></codeblock>
+  		<title>Examples</title>
+  		<p>The following example describes all your tags.</p>
+  		<codeblock>euca-describe-tags
+TAG  emi-1a2b3c4d  image  appserver
+TAG  emi-1a2b3c4d  image  stack  dev
+TAG  i-5f4e3d2a  instance  appserver
+TAG  i-5f4e3d2a  instance  stack  dev
+TAG  i-12345678  instance  database_server
+TAG  i-12345678  instance  stack  test</codeblock>
+  		
+  		<p>The following example describes the tags for a resource with ID emi-1a2b3c4d.</p>
+  		<codeblock>euca-describe-tags --filter "resource-id=emi-1a2b3c4d"
+TAG  emi-1a2b3c4d  image  appserver
+TAG  emi-1a2b3c4d  image  stack  dev</codeblock>
+  		
+  		<p>The following example describes the tags for all your instances.</p>
+  		<codeblock>euca-describe-tags --filter "resource-type=instance"
+TAG  i-5f4e3d2a  instance  appserver
+TAG  i-5f4e3d2a  instance  stack  dev
+TAG  i-12345678  instance  database_server
+TAG  i-12345678  instance  stack  test</codeblock>
+  		<p>The following example describes the tags for all your instances that have a tag with the key
+  			<codeph>appserver</codeph>.</p>
+  		<codeblock>ec2-describe-tags --filter "resource-type=instance" --filter "key=appserver"
+TAG  i-5f4e3d2a  instance  appserver</codeblock>
+  		
+  		<p>The following example describes the tags for all your instances that have a tag with the key
+  			<codeph>stack</codeph> and a value of either <codeph>dev</codeph> or <codeph>test</codeph>.</p>
+  		
+  		<codeblock>euca-describe-tags --filter "resource-type=instance" --filter "key=stack" --filter
+  			"value=dev" --filter "value=test"
+TAG  i-5f4e3d2a  instance  stack  test
+TAG  i-12345678  instance  stack  dev</codeblock>
+  		
   	</section>
 
 </refbody>
