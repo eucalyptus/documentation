@@ -26,16 +26,9 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Associate a loop block device to the image.</cmd>
-				<info>
-					<codeblock>losetup /dev/loop5 &lt;image_name></codeblock>
-					<p>where <codeph>loop5</codeph> is a free device</p>
-				</info>
-			</step>
-			<step>
 				<cmd>Mount the image.</cmd>
 				<info>
-					<codeblock>mount /dev/loop5 temp-mnt</codeblock>
+					<codeblock>mount -o loop &lt;image_name> temp-mnt</codeblock>
 				</info>
 			</step>
 			<step>
@@ -67,8 +60,7 @@ mount -o bind /dev temp-mnt/dev</codeblock>
 			<step>
 				<cmd>Unmount the drive.</cmd>
 				<info>
-					<codeblock>umount /dev/loop5
-losetup -d /dev/loop5</codeblock>
+					<codeblock>umount temp-mnt</codeblock>
 				</info>
 			</step>
 		</steps>
