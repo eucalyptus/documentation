@@ -114,4 +114,11 @@
 	</xsl:attribute-set>
 	
 
+		<xsl:attribute-set name="tbody.row">
+			<!--Table body row-->
+			<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
+		</xsl:attribute-set>
+	
+	
+
 </xsl:stylesheet>
