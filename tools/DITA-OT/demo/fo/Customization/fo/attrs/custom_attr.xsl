@@ -113,12 +113,12 @@
 		<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 	</xsl:attribute-set>
 	
+<!--	The following attr set is supposed to elegantly break content. I don't think it works, so I'm
+		using "&#8203;" in the parameter/filter names instead. -->
 
 		<xsl:attribute-set name="tbody.row">
 			<!--Table body row-->
 			<xsl:attribute name="keep-together.within-column">always</xsl:attribute>
 		</xsl:attribute-set>
-	
-	
 
 </xsl:stylesheet>
