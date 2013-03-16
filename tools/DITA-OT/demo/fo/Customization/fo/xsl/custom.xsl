@@ -228,5 +228,77 @@ See the accompanying license.txt file for applicable licenses.
             <xsl:call-template name="processTopicAbstract"/>
         </xsl:if>
     </xsl:template>	
+	
+	<xsl:template name="generateTableEntryBorder">
+		<xsl:variable name="colsep">1</xsl:variable>
+		<xsl:variable name="rowsep">1</xsl:variable>
+		<xsl:variable name="frame" select="ancestor::*[contains(@class, ' topic/table ')][1]/@frame"/>
+		<xsl:variable name="needTopBorderOnBreak">
+			<xsl:choose>
+				<xsl:when test="$frame = 'all' or $frame = 'topbot' or $frame = 'top' or not($frame)">
+					<xsl:choose>
+						<xsl:when test="../parent::node()[contains(@class, ' topic/thead ')]">
+							<xsl:value-of select="'true'"/>
+						</xsl:when>
+						<xsl:when test="(../parent::node()[contains(@class, ' topic/tbody ')]) and not(../preceding-sibling::*[contains(@class, ' topic/row ')])">
+							<xsl:value-of select="'true'"/>
+						</xsl:when>
+						<xsl:when test="../parent::node()[contains(@class, ' topic/tbody ')]">
+							<xsl:variable name="entryNum" select="count(preceding-sibling::*[contains(@class, ' topic/entry ')]) + 1"/>
+							<xsl:variable name="prevEntryRowsep">
+								<xsl:for-each select="../preceding-sibling::*[contains(@class, ' topic/row ')]/*[contains(@class, ' topic/entry ')][$entryNum]">
+									<xsl:call-template name="getTableRowsep"/>
+								</xsl:for-each>
+							</xsl:variable>
+							<xsl:choose>
+								<xsl:when test="number($prevEntryRowsep)">
+									<xsl:value-of select="'true'"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="'false'"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'false'"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'false'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:if test="number($rowsep) and (../parent::node()[contains(@class, ' topic/thead ')])">
+			<xsl:call-template name="processAttrSetReflection">
+				<xsl:with-param name="attrSet" select="'thead__tableframe__bottom'"/>
+				<xsl:with-param name="path" select="$tableAttrs"/>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="number($rowsep) and ((../following-sibling::*[contains(@class, ' topic/row ')]) or (../parent::node()[contains(@class, ' topic/tbody ')] and ancestor::*[contains(@class, ' topic/tgroup ')][1]/*[contains(@class, ' topic/tfoot ')]))">
+			<xsl:call-template name="processAttrSetReflection">
+				<xsl:with-param name="attrSet" select="'__tableframe__bottom'"/>
+				<xsl:with-param name="path" select="$tableAttrs"/>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="$needTopBorderOnBreak = 'true'">
+			<xsl:call-template name="processAttrSetReflection">
+				<xsl:with-param name="attrSet" select="'__tableframe__top'"/>
+				<xsl:with-param name="path" select="$tableAttrs"/>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="number($colsep) and following-sibling::*[contains(@class, ' topic/entry ')]">
+			<xsl:call-template name="processAttrSetReflection">
+				<xsl:with-param name="attrSet" select="'__tableframe__right'"/>
+				<xsl:with-param name="path" select="$tableAttrs"/>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="number($colsep) and not(following-sibling::*[contains(@class, ' topic/entry ')]) and ((count(preceding-sibling::*)+1) &lt; ancestor::*[contains(@class, ' topic/tgroup ')][1]/@cols)">
+			<xsl:call-template name="processAttrSetReflection">
+				<xsl:with-param name="attrSet" select="'__tableframe__right'"/>
+				<xsl:with-param name="path" select="$tableAttrs"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
 
 </xsl:stylesheet>
