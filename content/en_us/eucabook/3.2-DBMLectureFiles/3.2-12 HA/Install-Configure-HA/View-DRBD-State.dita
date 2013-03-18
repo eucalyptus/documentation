@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_h53_zqm_vf">
+ <title>View DRBD State</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p> The <cmdname>service drbd status</cmdname> command displays DRBD state information. In the
+   images below, its output is shown from a primary Walrus host and a secondary Walrus host.</p>
+  <p/>
+  <p>
+   <image href="images/service-drbd-status-primary.png" placement="break" id="image_35w_grm_vf"
+    scale="70"/>
+  </p>
+  <p/>
+  <image href="images/service-drbd-status-secondary.png" placement="break" id="image_jky_1js_1h"
+   scale="70"/>
+  <p/>
+  <p>The primary information to view in the example above is the role (ro), the connection state
+   (cs), and the data state (ds) of the resource <cmdname>r0</cmdname>.  The role indicates whether
+   the host believes it is the primary or secondary DRDB server. In the example above, the first
+   system reports itself to be the primary server and its partner to be the secondary because the
+   display reads Primary/Secondary. The same command from the partner host confirms this because it
+   lists itself as the secondary and its partner as the primary as seen by Secondary/Primary. The
+   connection state of resource <cmdname>r0</cmdname> is Connected and both the primary and
+   secondary servers report that the data state is UpToDate. </p>
+  <p>Also notable is that the kernel module is loaded and that the replication protocol (p) reports
+   that the DRBD is using synchronous replication (C) between the hosts.</p>
+  <p>Note that the secondary server does not report a mounted directory or a file system type
+   because while it is replicating the data, it is not directly interacting with Walrus.</p>
+ </conbody>
+</concept>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_qnx_l4k_vf">
+ <title>User Policies</title>
+ <conbody>
+  <p>The<cmdname> euare-useraddpolicy</cmdname> command builds a policy statement and adds it to a
+   user. It has the following
+   syntax:<codeblock>euare-useraddpolicy –u &lt;user_name&gt; -p &lt;policy_name&gt; \ 
+     -e [Allow|Deny|Limit] –a &lt;actions&gt;  -r &lt;resources&gt; -o  </codeblock>It
+   can only be run by a user with administrative privilege on the account.  (There is no
+    <cmdname>--delegate</cmdname> option for this command.)  For example, the following
+   command:<codeblock>euare-groupaddpolicy –u steve -e Allow -a "*" -r "*" -p allowall –o</codeblock>
+   ...would allow the user steve to perform any action on any resource.   The quotes around the
+   wild card characters are required.  </p>
+  <p>
+      <note>Notice that there is also a <cmdname>Limit</cmdname> argument for the
+          <cmdname>–e</cmdname> option.  A <cmdname>Limit</cmdname> argument is used in quota
+        policies rather than permission policies. </note>
+    </p>
+  <p>Policies can also be uploaded from an external file using the following
+      command:<codeblock>euare-useruploadpolicy –u user_name –p policy_name –f policy_file.txt \ 
+     --delegate=account_name</codeblock>The
+        <cmdname>euare-userlistpolicies</cmdname> command lists the names of a policies associated
+      with a user. It has the following
+      syntax:<codeblock>euare-userlistpolicies –u &lt;user_name&gt; &lt;--delegate=account_name&gt;  </codeblock></p>
+  <p>This command can be run by the administrator of the account, or if using the
+        <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+      administrator).   If run by a cloud administrator, it would display the polices associated
+      with the user in the account listed in the <cmdname>--delegate</cmdname> option.  While not
+      shown above, the content of the policy would also be displayed if the <cmdname>–v</cmdname>
+      option was included. </p>
+  <p>There are additional options to limit the number of policies displayed on the screen and to
+   paginate the display results.  For more information, see the online help page for the command.  </p>
+  <p>The <cmdname>euare-usergetpolicy</cmdname> command displays the contents of a single named
+   policy associated with the named user, but has no pagination options. It has the following
+   syntax:<codeblock>euare-usergetpolicy –u &lt;user_name&gt;   \
+     -p &lt;policy_name&gt; &lt;--delegate=account_name&gt;  </codeblock>This
+   command can be run by the administrator of the account, or if using the
+    <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+   administrator).   If run by a cloud administrator, it would display the polices associated with
+   the user in the account listed in the <cmdname>--delegate</cmdname> option.</p>
+  <p>The <cmdname>euare-userdelpolicy</cmdname> command deletes the named policy from the named
+   user. It has the following
+   syntax:<codeblock>euare-userdelpolicy –u &lt;user_name&gt;   \
+     -p &lt;policy_name&gt; &lt;--delegate=account_name&gt;  </codeblock>This
+   command can be run by the administrator of the account, or if using the
+    <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+   administrator).   If run by a cloud administrator, it would delete the polices associated with
+   the user in the account listed in the <cmdname>--delegate</cmdname> option.</p>
+ </conbody>
+</concept>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_54c_shm_vf">
+ <title>DRBD Operation</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>DRBD is network-based mirroring (RAID 1). DRBD in the kernel intercepts disk writes and
+      replicates them to the other Walrus using the network interface.  </p>
+    <p/>
+    <p>
+      <image href="images/drbd-operation.png" placement="break" id="image_2yh_whm_vf" scale="50"/>
+    </p>
+    <p/>
+    <p>This image illustrates how DRBD in the kernel is able to intercept write requests to the disk
+      and send write requests to both the local storage and to the TCP/IP driver for transport to
+      the slave system. DRBD uses synchronous writes in Eucalyptus HA to ensure that the write is
+      committed to the remote disk on the slave before the master Walrus flushes the data from its
+      write buffer. This helps to ensure consistency between the clustered Walrus disks, however
+      synchronous writes do limit the physical distance allowed between the two Walrus systems. </p>
+    <p>Starting with drbd-0.7-plus, up to 16 TB per DRBD device is supported. <note>To provide
+        clarity in the diagram, the redundant NICs and networks were removed. For true high
+        availability protection, these would need to be factored into your HA design.</note></p>
+  <p>For more information, see <xref href="http://www.drbd.org" format="html" scope="external"
+        >www.drbd.org</xref>. </p>
+ </conbody>
+</concept>

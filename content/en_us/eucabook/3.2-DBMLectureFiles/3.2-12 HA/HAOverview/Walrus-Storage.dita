@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_bnd_khm_vf">
+ <title>Walrus Storage</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>Walrus HA requires storage disks configured in a cluster. </p>
+    <p/>
+    <p>
+      <image href="images/walrus-storage.png" placement="break" id="image_jzk_qhm_vf" scale="60"/>
+    </p>
+    <p/>
+  <p>Walrus leverages kernel-based DRBD software to maintain cluster consistency.  The ENABLED
+      Walrus writes updates to storage on both Walrus hosts. At failure, the DISABLED Walrus is set
+      to ENABLED and takes over the cluster. <note>DRBD stands for Distributed Replicated Block
+        Device. It is open-source software than has been present in the mainline Linux kernel since
+        2.6.33. It allows the configuration of a master-slave storage cluster that uses the network
+        to maintain consistency between the two storage devices.  The master-slave roles can be
+        reversed as necessary.  It allows the master to read from its own storage but send writes to
+        both the master and slave storage.  In case the master fails, the slave takes over the role
+        of master and the storage cluster continues to operate. </note></p>
+ </conbody>
+</concept>

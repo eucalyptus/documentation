@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_3yh_gh3_b3">
+    <title>Customize an image </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="../Post-Install%20Configuration/images/frontend.png" placement="break"
+                id="image_25g_pjp_b3" scale="40"/>Because most Eucalyptus users require custom
+            instances, image management plays a key role in Eucalyptus administration. Custom images
+            are typically based on a preferred version of a preferred operating system with a set of
+            required applications pre-installed. In this section of the lab you will customize an
+            image using an existing image as a starting point. You will modify a Eucalyptus-provided
+            CentOS 5 image by changing its configuration and installing additional software in it.  
+             Once the image has been modified you will save it under a new name and register it as a
+            new image in the cloud. </context>
+        <steps>
+            <step>
+                <cmd>On the front-end host, locate the CentOS root file system image
+                        (<filepath>euca-centos-5.8-2012.07.05-x86_64.img</filepath>) that you
+                    downloaded and unbundled in the previous lab section.  It should be in the
+                    directory <filepath>/var/images</filepath>. </cmd>
+                <info>
+                    <codeblock># cd /var/images
+# ls</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Because you will modify the CentOS image, rename it now.  Change the name from
+                        <filepath>euca-centos-5.8-2012.07.05-x86_64.img</filepath> to
+                        <filepath>kvm-centos-5.8.img</filepath>. </cmd>
+                <info>
+                    <codeblock># mv euca-centos-5.8-2012.07.05-x86_64.img kvm-centos-5.8.img
+# ls</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Create a directory named <filepath>/var/tempmnt</filepath> to use as a file
+                    system mount point. </cmd>
+                <info>
+                    <codeblock># mkdir /var/tempmnt</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Access the root file system in the image (<filepath>.img</filepath>) file by
+                    using a Linux loop device.   A loop device allows you to mount and use an image
+                    file as though it were a file system mounted on a disk device.  Configure a
+                    loopback mount to mount the CentOS root file system image file to the mount
+                    point you created earlier, and then verify that it was mounted. </cmd>
+                <info>
+                    <codeblock># mount -o loop kvm-centos-5.8.img /var/tempmnt
+# mount</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Repair the mount points listed in the image’s <filepath>/etc/fstab</filepath>
+                    file.  Although you have been able to launch instances, they have not actually
+                    been booting correctly up to this point. The <filepath>/etc/fstab</filepath>
+                    file currently instructs the Linux operating system to mount
+                        <filepath>/</filepath>, <filepath>/mnt</filepath>, and the swap area from
+                    the devices <filepath>/dev/sda1</filepath>, <filepath>/dev/sda2</filepath>, and
+                        <filepath>/dev/sda3</filepath>.   Because your instances run under a KVM
+                    hypervisor and with the VIRTIO paravirtualized device drivers enabled in the
+                        <filepath>eucalyptus.conf</filepath> file, your instances should instead
+                    access these file systems and the swap area from the devices
+                        <filepath>/dev/vda1</filepath>, <filepath>/dev/vda2</filepath>, and
+                        <filepath>/dev/vda3</filepath>.   Use an editor (either
+                        <cmdname>vi</cmdname> or <cmdname>nano –w</cmdname> ) to modify the device
+                    names in the image’s <filepath>/etc/fstab</filepath> file.  Remember, the
+                    image’s <filepath>/etc/fstab</filepath> file is currently mounted at
+                        <filepath>/mnt/extra/tempmnt/etc/fstab</filepath>. </cmd>
+                <info>
+                    <codeblock># vi /var/tempmnt/etc/fstab
+
+/dev/vda1    /           ext3    defaults,errors=remount-ro 0 0
+/dev/vda2    /mnt        ext3    defaults                   0 0
+/dev/vda3    swap        swap    defaults                   0 0
+devpts       /dev/pts    devpts  gid=5,mode=620             0 0
+proc         /proc       proc    defaults                   0 0  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Edit the image’s <filepath>/etc/rc.local</filepath> file for editing using
+                    either <cmdname>vi</cmdname> or <cmdname>nano –w</cmdname>.   Remember, the
+                    image’s <filepath>/etc/rc.local</filepath> file is currently mounted at
+                        <filepath>/var/tempmnt/etc/rc.local</filepath>.  You will add several lines
+                    of commands to the end of this file over the next several steps in the lab. </cmd>
+                <info>
+                    <codeblock># vi /var/tempmnt/etc/rc.local</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Move to the end of the file and add the <cmdname>yum</cmdname> command to
+                    remove the old version of euca2ools that is pre-installed in the instance.
+                    Leave the file open to continue editing.</cmd>
+                <info>
+                    <codeblock>yum –y remove euca2ools</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Add the command sequence to download and install the NTP RPM package. 
+                    Euca2ools will not operate correctly if the instance is not time synchronized
+                    with the Cloud Controller.  Leave the file open to continue editing.</cmd>
+                <info>
+                    <codeblock>yum -y install ntp  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Next add the command to install the euca2ools repo RPM package.  The repo file
+                    provides euca2ools software download information to the <cmdname>yum</cmdname>
+                    installer.  Leave the file open to continue editing.</cmd>
+                <info>
+                    <codeblock>rpm –Uvh http://downloads.eucalyptus.com/software/euca2ools/2.1/centos/5 \
+/x86_64/euca2ools-release-2.1.noarch.rpm</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Now add the <cmdname>yum</cmdname> command to install euca2ools using the
+                    information available in the euca2ools repo file.  Save your changes to the
+                    image’s <filepath>/etc/rc.local</filepath> file and exit the editor before
+                    moving to the next step in the lab. </cmd>
+                <info>
+                    <codeblock>yum –y install euca2ools</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Euca2ools are already installed in the image, but the euca2ools must be able to
+                    authenticate to the Cloud Controller.   To automate this authentication,
+                    configure the image to include the <filepath>.euca</filepath> directory with the
+                    cloud administrator’s credentials.   Copy the credentials of the user
+                        <i>admin</i> from the front-end host to the image file. </cmd>
+                <info>
+                    <codeblock># cp -r /root/.euca /var/tempmnt/root</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Use an editor ( <cmdname>vi</cmdname> or <cmdname>nano –w</cmdname> ) to create
+                    root’s <filepath>.bashrc</filepath> file in the image.  Add the command to read
+                    and execute the commands in the <filepath>eucarc</filepath> file. </cmd>
+                <info>
+                    <codeblock># vi /var/tempmnt/root/.bashrc
+
+source /root/.euca/eucarc</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Unmount the image file and verify that it was unmounted. </cmd>
+                <info>
+                    <codeblock># cd
+# umount /var/tempmnt
+# mount</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

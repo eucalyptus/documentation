@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_csj_xrr_1h">
+ <title>Eucalyptus DNS Queries</title>
+ <conbody>
+  <p/>
+  <p>
+   <image href="images/Eucalyptus-DNS-Queries.png" placement="break" id="image_lb2_fsr_1h"
+    scale="55"/>
+  </p>
+  <p/>
+  <p>The company DNS nameserver must be configured to forward DNS requests to the Cloud Controller
+   because the Cloud Controller is authoritative for the instance and bucket names in the eucalyptus
+   domain. The VNET_DNS=“” entry in the <filepath>/etc/eucalyptus/eucalyptus.comf</filepath> file is
+   configured to point to the company DNS nameserver for two reasons.  First, in many cloud
+   environments the instances do not have access to the Cloud Controller and therefore cannot use it
+   as a DNS nameserver.  Second, many of the DNS queries will not be for the hostnames of other
+   instances, but for hostnames on the public network.  The company DNS nameserver is in a better
+   position to resolve these hostname requests.  </p>
+  <p>If you are supporting Windows instances that are using Active Directory authentication, the
+   nameserver must be able to resolve the DNS names of the AD domain controllers. </p>
+  <p>VNET_DNS  is not available in SYSTEM network mode.  In this case you will need to configure the
+   instances to use the DNS nameserver supplied by the corporate DHCP server. </p>
+ </conbody>
+</concept>

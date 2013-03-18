@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_dlq_2lp_zh">
+    <title>Configure private IP addressing </title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will use euca2ools to launch an instance that is not
+            assigned a public IP address. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_pqj_jlp_zh" scale="40"/>On the
+                    front-end host, launch an instance using the <cmdname>--addressing
+                        private</cmdname> option. </cmd>
+                <info>
+                    <codeblock># euca-describe-images  
+# euca-run-instances –k &lt;keypair_name> --addressing private emi-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_w1f_f3p_b3" scale="40"/>View your
+                    running instance again. </cmd>
+                <info>
+                    <codeblock># euca-describe-instances  </codeblock>
+                    <p>Note the public IP address field.  What address does it contain?</p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_4hb_fmp_zh" scale="40"/>On the
+                    Debian desktop, open an xterm window and then use Secure Copy to copy the
+                        <i>admin’s</i> private key file from <filepath>/root</filepath> on the
+                    front-end host to <filepath>/root</filepath> on the Debian desktop. </cmd>
+                <info>
+                    <codeblock># scp &lt;public_IP_of_front-end>:/root/&lt;key_file> /root/&lt;key_file>  </codeblock>
+                    <p>Leave the xterm window open.</p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_pjd_g3p_b3" scale="40"/>On the
+                    Debian desktop in the xterm window, use SSH to log in to the instance using the
+                    private IP address.  </cmd>
+                <info><codeblock># ssh –i &lt;key_file> &lt;private_IP_of_instance>  </codeblock>The
+                    Debian desktop is outside of the cloud.  Did the log in work?  Leave the xterm
+                    window open.</info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_vcm_nmp_zh" scale="40"/>On the
+                    front-end host, launch another instance and allow it to have a public IP
+                    address.  Wait for it to achieve a running status. </cmd>
+                <info>
+                    <codeblock># euca-describe-images 
+# euca-run-instances –k &lt;keypair_name> emi-&lt;nnnnnnnn>  
+# euca-describe-instances  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_syt_5mp_zh" scale="40"/>On the
+                    Debian desktop in the open xterm window, use SSH to log in to the new instance. </cmd>
+                <info>
+                    <codeblock># ssh –i &lt;key_file> &lt;public_IP_of_new_instance>  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_h3n_h3p_b3" scale="40"/>While logged
+                    in to the new instance, use Secure Copy to copy <i>admin’s</i> keypair key file
+                    from <filepath>/root</filepath> on the front-end host to
+                        <filepath>/root</filepath> on the instance. </cmd>
+                <info>
+                    <codeblock># scp &lt;public_IP_of_front-end>:/root/&lt;key_file> /root/&lt;key_file>  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_dlf_33p_b3" scale="40"/>While logged
+                    in to the new instance, use SSH to log in to the instance that has only a
+                    private IP address.  The new instance is both inside the cloud and inside the
+                    same security group.  </cmd>
+                <info>
+                    <codeblock># ssh –i &lt;key_file> &lt;private_IP_of_instance>  </codeblock>
+                    <p>Did it work this time?</p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_dyd_j3p_b3" scale="40"/>In the xterm
+                    window, log out of the instance that has only the private IP address. </cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_4gv_j3p_b3" scale="40"/>In the xterm
+                    window, log out of the instance with the public IP address.  </cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_2kk_k3p_b3" scale="40"/>Close the
+                    xterm window after you have logged out of the instance.</cmd>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_pqb_4np_zh" scale="40"/>On the
+                    front-end host, terminate both instances. </cmd>
+                <info>
+                    <codeblock># euca-terminate-instances i-&lt;nnnnnnnn> i-&lt;nnnnnnnn>  </codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

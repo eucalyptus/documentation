@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_ccg_rcl_1h">
+ <title>Routing - Two Cluster Controllers but Multiple Subnets</title>
+ <conbody>
+  <p><image href="images/Network-Routing-Multiple-Subnets.png" placement="break"
+    id="image_n3q_bmx_1h" scale="55"/>In the example above, the two Cluster Controllers are not on
+   the same subnet.  In this scenario, Eucalyptus must use the vtun interfaces on the Cluster
+   Controllers to create an IP tunnel between the two Cluster Controllers.  The vtun interface
+   depends on the two Cluster Controllers having a physical network route to one another.  The IP
+   tunnel is created across this network connection.  The IP tunnel creates the illusion that VM1
+   and VM2 in security group A are on the same physical subnet.  From the perspective of instances
+   sharing a security group, they can broadcast ARP packets, receive ARP responses, and have a
+   direct route between themselves.</p>
+  <p>If the routing table on the Cluster Controllers is watched, you would see tunnels being created
+   and destroyed as instances in the same security group are being launched and terminated on the
+   two Cluster Controllers.   </p>
+  <p>Tunnel interfaces are a point of congestion and latency and therefore this configuration is not
+   a Eucalyptus recommended configuration.</p>
+ </conbody>
+</concept>

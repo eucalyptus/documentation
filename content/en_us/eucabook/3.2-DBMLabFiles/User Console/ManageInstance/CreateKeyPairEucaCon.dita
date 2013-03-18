@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_qlz_pd3_b3">
+    <title>Create a Key Pair Using the Eucalyptus User Console </title>
+    <shortdesc/>
+    <taskbody>
+        <context>Before a user can launch a new instance, they must create a public/private key pair
+            to use to authenticate to the instance during log in. The public key will automatically
+            be added to the newly created instance. The private key must be used with Secure Shell
+            (SSH) to connect to the instance. The Eucalyptus User Console provides the user a
+            mechanism to create a key pair and to download the private key to a locally stored file. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_bmy_vs4_n3" scale="40"/>On the
+                    Debian desktop, ensure that you are logged in to the User Console as the user
+                        <i>normal</i> in the <i>sales</i> account using the password of
+                        <userinput>passwordNN</userinput>, where <i>NN</i> is the number of your
+                    student pod. </cmd>
+            </step>
+            <step>
+                <cmd>On the <uicontrol>Network &amp; Security</uicontrol> drop-down menu, click
+                        <uicontrol>Key Pairs</uicontrol>.</cmd>
+                <info>
+                    <image href="images/NetSecIconWithMenu.PNG" placement="break"
+                        id="image_3lz_l2f_f3"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Create new key pair</uicontrol> button.</cmd>
+                <info>
+                    <image href="images/CreateNewKeyPairButton.PNG" placement="break"
+                        id="image_5gt_s2f_f3"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Type <userinput>normalkey</userinput> in the Create new key pair window. Then
+                    click the <uicontrol>Create and download</uicontrol> button. This will create a
+                    new key pair for the <i>normal</i> user in the <i>sales</i> account. </cmd>
+                <info>
+                    <image href="images/CreateNewKeyPairWindow.PNG" placement="break"
+                        id="image_sn1_gff_f3" scale="70"/>
+                </info>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>OK</uicontrol> to save the private key file of the
+                        <i>normal</i> user to a file on the Debian desktop system.</cmd>
+                <info><image href="images/DownloadKeyPair.PNG" id="image_hsk_vff_f3"/></info>
+            </step>
+            <step>
+                <cmd>Close the Downloads window when it opens on your screen. The new key pair
+                    should be visible in the User Console window.</cmd>
+                <info>
+                    <image href="images/KeyPairList.PNG" placement="break" id="image_b4f_sgf_f3"
+                        scale="60"/>
+                </info>
+            </step>
+            <step>
+                <cmd>On the Debian desktop, open a new xterm window by clicking the terminal icon in
+                    the task bar.</cmd>
+                <info>
+                    <image href="images/xtermIcon.PNG" placement="break" id="image_3ff_1hf_f3"
+                        scale="120"/>
+                </info>
+            </step>
+            <step>
+                <cmd>In the open xterm window, list the files in the
+                        <filepath>/root/Downloads</filepath> directory.</cmd>
+                <info>
+                    <codeblock># ls /root/Downloads</codeblock>
+                    <p>You should see the file <filepath>normalkey.pem</filepath>. This is the
+                        private key for the <i>normal</i> user in PEM format.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>In the open xterm window, change the permissions on the
+                        <filepath>normalkey.pem</filepath> file so that the security checks within
+                    the SSH program will allow it to be used when logging in to your
+                    instances.</cmd>
+                <info>
+                    <codeblock>chmod 600 /root/Downloads/normalkey.pem</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>In the open xterm window, use the Secure Copy program to copy the private key
+                    file on the Debian desktop to root's home directory on the front-end host.   Use
+                    the public IP address of the front-end host.  The public IP is listed in your
+                    student handout.   When prompted for the password, the password should be
+                        <userinput>passwordNN</userinput>, where <i>NN</i> is the number of your
+                    student pod.</cmd>
+                <info>
+                    <codeblock># scp /root/Downloads/normalkey.pem &lt;front_end_public_IP>:/root</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>To prepare for future lab exercises, on the Debian Desktop copy the private key
+                    file from  the <filepath>/root/Downloads</filepath> directory to the
+                        <filepath>/root</filepath> directory.</cmd>
+                <info>
+                    <codeblock># cp /root/Downloads/normalkey.pm /root</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Close the open xterm window on the Debian desktop.</cmd>
+                <info>
+                    <codeblock># exit</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_lc1_n5r_f3">
+ <title>Disk and Software Installation</title>
+ <conbody>
+  <p>When installing the operating system and configuring the local disk partitions, consider the
+   following recommended minimum sizes.</p>
+  <p/>
+  <p>
+   <image href="images/Disk-Partitions.png" placement="break" id="image_zlb_hwr_f3" scale="50"
+    align=""/>
+  </p>
+  <p/>
+  <p>Configure <filepath>/boot</filepath> with 250MB.  </p>
+  <p>Configure / with at least 20GB.   This is more than enough room for the operating system and
+   provides a fair amount of free space for the <filepath>/tmp</filepath> directory.</p>
+  <p>Configure the swap partition to be 1.5 times the size of physical memory.</p>
+  <p>Configure <filepath>/var</filepath> with at minimum of 2GB for the operating system, plus extra
+   space for the Eucalyptus software.  The <filepath>/var</filepath> directory is heavily used by
+   the Eucalyptus hosts for such things as the cloud database, log files, Walrus storage, EBS volume
+   creation, image caching, and instance caching.  The <filepath>/var</filepath> directory is used
+   in the following ways by the following hosts.</p>
+  <p>
+   <table frame="all" id="table_jqs_gyr_f3">
+    <tgroup cols="4">
+     <colspec colname="c1" colnum="1" colwidth="1*"/>
+     <colspec colname="c2" colnum="2" colwidth="1.15*"/>
+     <colspec colname="c3" colnum="3" colwidth="2.17*"/>
+     <colspec colname="c4" colnum="4" colwidth="2.97*"/>
+     <thead>
+      <row>
+       <entry/>
+       <entry/>
+       <entry/>
+       <entry/>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>Cloud Controller</entry>
+       <entry>Cloud Database</entry>
+       <entry><filepath>/var/lib/eucalyptus/db</filepath></entry>
+       <entry>20GB</entry>
+      </row>
+      <row>
+       <entry>Cloud Controller</entry>
+       <entry>Cloud Controller logs</entry>
+       <entry><filepath>/var/log/eucalyptus</filepath></entry>
+       <entry>2GB</entry>
+      </row>
+      <row>
+       <entry>Walrus</entry>
+       <entry>Walrus logs</entry>
+       <entry><filepath>/var/log/eucalyptus</filepath></entry>
+       <entry>2GB</entry>
+      </row>
+      <row>
+       <entry>Walrus</entry>
+       <entry>Bucket object storage</entry>
+       <entry><filepath>/var/lib/eucalyptus/bukkits</filepath></entry>
+       <entry>250-500GB or larger</entry>
+      </row>
+      <row>
+       <entry>Storage Controller</entry>
+       <entry>Volume storage</entry>
+       <entry><filepath>/var/lib/eucalyptus/volumes</filepath></entry>
+       <entry>250-500GB or larger (unless SAN)</entry>
+      </row>
+      <row>
+       <entry>Cluster Controller</entry>
+       <entry>Cluster Controller logs</entry>
+       <entry><filepath>/var/log/eucalyptus</filepath></entry>
+       <entry>2GB</entry>
+      </row>
+      <row>
+       <entry>Node Controller</entry>
+       <entry>Image cache</entry>
+       <entry><filepath>/var/lib/eucalyptus/instances</filepath></entry>
+       <entry>250 GB or larger</entry>
+      </row>
+      <row>
+       <entry>Node Controller</entry>
+       <entry>Instance cache</entry>
+       <entry><filepath>/var/lib/eucalyptus/work</filepath></entry>
+       <entry>250GB or larger</entry>
+      </row>
+      <row>
+       <entry>Node Controller</entry>
+       <entry>Node Controller logs</entry>
+       <entry><filepath>/var/log/eucalyptus</filepath></entry>
+       <entry>2GB</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </p>
+  <p/>
+ </conbody>
+</concept>

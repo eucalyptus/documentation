@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_1kv_qm4_ff">
+ <title>Euca2ools Operation</title>
+ <conbody>
+  <p>Euca2ools requires encrypted credentials (keys, or certificates and keys) to authenticate user
+   identity. Euca2ools also requires the URLs of the Cloud Controller and the Walrus unless these
+   services reside on the local host. All this information can be supplied using command-line
+   arguments every time a euca2ools command is issued. However, this would be a time-consuming and
+   error-prone way to use euca2ools. </p>
+  <p>The <filepath>eucarc</filepath> file simplifies command-line operations by configuring
+   environment variables for keys, certificates, and URLs. Euca2ools command have been written in
+   such a way that they will check for these environment variables and use them if they exist. This
+   removes the requirement of providing this information using command-line arguments.</p>
+  <p>If the <filepath>eucarc</filepath> file has not been read by the user's shell, you will get an
+   error message when running euca2ools commands. To fix this in the current user shell, force the
+   shell to read the file using the following
+   command:<codeblock># source /root/.euca/eucarc</codeblock></p>
+  <p>To ensure that this file is always read at shell startup, edit the shell startup file, the
+    <filepath>/root/.bashrc</filepath> file for example, and add the following
+   entry:<codeblock>source /root/.euca/eucarc</codeblock></p>
+ </conbody>
+</concept>

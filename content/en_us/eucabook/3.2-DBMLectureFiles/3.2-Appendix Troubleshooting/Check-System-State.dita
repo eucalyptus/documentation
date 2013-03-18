@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_rwg_lxv_bh">
+ <title>Check the Current Cloud State</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>The following steps can be used to discover information about the current state of the cloud:
+                <ol id="ol_d4j_sxv_bh">
+                <li>Ensure that cloud services are registered properly with <cmdname>euca_conf
+                        --list-&lt;component></cmdname>.<ul id="ul_gmh_5xv_bh">
+                        <li>
+                            <p>Use <cmdname>euca_conf –-list-*</cmdname> to confirm that components
+                                are registered properly.  </p>
+                        </li>
+                        <li>
+                            <p>Ensure that services are registered at the proper IP address. </p>
+                        </li>
+                    </ul></li>
+                <li>Check <cmdname>euca-describe-services –E</cmdname> for any failures. It will
+                    list IP addresses, component names, partition names, and statuses, and provides
+                    you with the last known failure that caused a service transition from an
+                    operational state to an error state. <note>You can filter the results by service
+                        state by adding the following option: <cmdname>-F
+                            &lt;ENABLED|DISABLED|NOTREADY&gt;</cmdname>. <cmdname>ENABLED</cmdname>
+                        will show you what the cloud sees as ready to accept and process
+                        requests.</note><note>The Node Controllers will not be displayed in the
+                        output of <cmdname>euca-describe-services</cmdname>.</note></li>
+                <li>Check instance resource availability:<ul id="ul_n4j_b1w_bh">
+                        <li>CPU resources on Node Controllers can be checked by using
+                                <cmdname>euca-describe-availability-zones verbose</cmdname>.</li>
+                        <li>Public IP addresses can be checked with <cmdname>euca-describe-addresses
+                                verbose</cmdname>.</li>
+                        <li>Storage resources on the Node Controllers can be checked by running
+                                <cmdname>df -h</cmdname> on each Node Controller in the cluster. The
+                            command <cmdname>euca-describe-availability-zones verbose</cmdname> will
+                            tell you whether or not the cloud has sufficient storage resources to
+                            launch another instance.</li>
+                        <li>Memory resources on the Node Controllers can be checked by running
+                                <cmdname>cat /proc/meminfo</cmdname> on each Node Controller in the
+                            cluster. The command <cmdname>euca-describe-availability-zones
+                                verbose</cmdname> will tell you whether or not the cloud has
+                            sufficient memory resources to launch another instance.<note>For an
+                                instance to launch, there must be sufficient available CPU, RAM, and
+                                disk resources on at least one Node Controller to support it.
+                            </note></li>
+                    </ul></li>
+                <li>Check available disk space on the Storage Controller and Walrus using
+                        <cmdname>df –h</cmdname>.</li>
+                <li>To gather and view a large amount of configuration information,
+                    use:<codeblock>for cmd in `ls -l /usr/bin/euca-describe-*`;  \
+  do $cmd; done | less</codeblock></li>
+            </ol>Ensure that NTP is enabled and time is synchronized across all Eucalyptus hosts
+            using <cmdname>ps ax | grep ntpd, date</cmdname>. </p>
+ </conbody>
+</concept>

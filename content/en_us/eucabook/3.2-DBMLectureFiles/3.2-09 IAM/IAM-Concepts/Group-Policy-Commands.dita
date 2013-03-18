@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_dmp_f4k_vf">
+ <title>Group Policies</title>
+ <conbody>
+  <p>The <cmdname>euare-groupaddpolicy</cmdname> command builds a policy statement and adds it to a
+      group. It has the following syntax:</p>
+    <p>
+      <codeblock>euare-groupaddpolicy -g &lt;group_name&gt;  \
+     -p &lt;policy_name&gt; -e [Allow|Deny]  \
+     –a &lt;actions&gt; -r &lt;resources&gt; -o  </codeblock>
+    </p>
+    <p>It can only be run by a user with administrative privilege on the account - there is no
+        <cmdname>--delegate</cmdname> option for this command.)  For example, the
+      command:<codeblock>euare-groupaddpolicy -g west -e Allow -a "*" -r "*" -p allowall –o</codeblock>The
+      resulting policy would allow members of the group to perform any action on any resource.  
+        <note>The quotes around the wild card characters are required.</note></p>
+  <p>Policies can also be uploaded from an external file using the following
+      command:<codeblock>euare-groupuploadpolicy –g group_name –p policy_name –f policy_file.txt \ 
+     --delegate=account_name</codeblock>The
+        <cmdname>euare-grouplistpolicies</cmdname> command lists the names of policies associated
+      with a group using the following
+      syntax:<codeblock>euare-grouplistpolicies –g &lt;group_name&gt; \ 
+     &lt;--delegate=account_name&gt;  </codeblock></p>
+  <p>This command can be run by the administrator of the account, or if using the
+        <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+      administrator).   If run by a cloud administrator, it would display the polices associated
+      with the group in the account listed in the <cmdname>--delegate</cmdname> option.  <note>The
+        content of the policies would also be displayed if the <cmdname>–v</cmdname> option was
+        included.</note> There are additional options to limit the number of policies displayed on
+      the screen and to paginate the display results.  For more information, see the online help
+      page for the command.  </p>
+  <p>The <cmdname>euare-groupgetpolicy</cmdname> command displays the contents of a single named
+   policy associated with the named group, but has no pagination options. It uses the following
+   syntax:<codeblock>euare-groupgetpolicy –g &lt;group_name&gt;   \
+     -p &lt;policy_name&gt; &lt;--delegate=account_name&gt;   </codeblock></p>
+  <p>This command can be run by the administrator of the account, or if using the
+    <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+   administrator).   If run by a cloud administrator, it would display the polices associated with
+   the group in the account listed in the <cmdname>--delegate</cmdname> option. </p>
+  <p>The <cmdname>euare-groupdelpolicy</cmdname> command deletes the named policy from the named
+   group. It has the following
+   syntax:<codeblock>euare-groupdelpolicy –g &lt;group_name&gt;     \
+     -p &lt;policy_name&gt; &lt;--delegate=account_name&gt;</codeblock></p>
+  <p>This command can be run by the administrator of the account, or if using the
+    <cmdname>--delegate</cmdname> option, by a user in the eucalyptus account (a cloud
+   administrator).   If run by a cloud administrator, it would delete the polices associated with
+   the group in the account listed in the <cmdname>--delegate</cmdname> option. </p>
+ </conbody>
+</concept>

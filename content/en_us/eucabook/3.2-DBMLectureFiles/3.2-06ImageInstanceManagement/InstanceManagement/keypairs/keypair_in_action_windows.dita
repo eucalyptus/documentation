@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_pbc_gzv_f3">
+ <title>Key Pair in Action - Windows</title>
+ <conbody>
+  <p>Windows instances do not support Secure Shell log in and instead require Remote Display
+   Protocol (RDP).  However, RDP requires a user name and password in order to allow login access.  
+   The standard login name is Administrator but there is no way ahead of time for the user to know
+   the Administrator password.   </p>
+  <p>Eucalyptus resolves this by choosing a random Administrator password and encrypting it with the
+   public key of the user’s key pair.  To discover the password, the user runs the
+    <cmdname>euca-get-password</cmdname> command with the ID of the instance and the name of the key
+   pair.   The encrypted password is fetched from the Cloud Controller, decrypted using the user’s
+   private key, and displayed on the screen.  The user can then use this password to log in to the
+   Windows instance using RDP.  </p>
+  <p/>
+  <p>
+   <image href="images/keypairs-windows.png" placement="break" id="image_cxv_g1w_f3" scale="60"/>
+  </p>
+  <p/>
+  <p>The Eucalyptus Windows Integration software, installed in the Windows EMI, allows the instance
+   to connect to an existing Active Directory (AD) domain.  This allows a user to log in to the
+   instance as Administrator using <cmdname>euca-get-password</cmdname>, or log in as a normal user
+   who is included in the AD database.  The Eucalyptus Windows Integration software also has a
+   utility to add permissions for users or groups to use RDP to the Windows desktop.  (By default,
+   only the Administrator can use RDP.)  For more information about creating and EMI with the
+   Eucalyptus Windows Integration software, see the <i>Eucalyptus Users Guide</i> at <xref
+    href="http://www.eucalyptus.com/docs" format="html" scope="external"
+    >http://www.eucalyptus.com/docs</xref>.</p>
+ </conbody>
+</concept>

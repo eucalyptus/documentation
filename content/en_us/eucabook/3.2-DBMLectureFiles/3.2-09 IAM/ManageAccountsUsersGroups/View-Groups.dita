@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_qg5_nwl_vf">
+ <title>Viewing Groups</title>
+ <conbody>
+  <p>Groups can be viewed using the Eucalyptus Administrator Console or command line.</p>
+    <p>To view all groups in the cloud from the Administrator Console, select
+        <uicontrol>Groups</uicontrol> in the QUICK LINKS panel, and the list of groups appears in
+      the main panel.</p>
+    <p/>
+    <p>
+      <image href="images/Viewing-Groups.png" placement="break" id="image_kyb_qwl_vf" scale="55"/>
+    </p>
+    <p/>
+  <p>There are different commands used for listing groups by path, listing group users, and listing
+      group policies. These commands can be run by the administrator of the account, or if using the
+        <cmdname>--delegate</cmdname> option, by a user in the <i>eucalyptus</i> account (a cloud
+      administrator).  </p>
+  <p>The <cmdname>euare-grouplistbypath</cmdname> command lists the groups in an account.  It has
+      the following
+      syntax:<codeblock>euare-grouplistbypath &lt;–p path_prefix&gt; &lt;--delegate=account_name&gt;</codeblock></p>
+    <p>
+      <note>The <cmdname>–p</cmdname> argument is optional and will default to <cmdname>/</cmdname>
+        if not included.  This option can be used to filter the list to only those groups with the
+        specified <cmdname>path_prefix</cmdname>.</note>
+    </p>
+    <p>If <cmdname>euare-grouplistbypath</cmdname> is run by a cloud administrator, the groups
+      listed would be those in the account listed in the <cmdname>--delegate</cmdname> option.  </p>
+    <p>The <cmdname>euare-grouplistusers</cmdname> lists the users in a group.  It has the following
+      syntax:<codeblock>euare-grouplistusers –g group_name &lt;--delegate=account_name&gt;</codeblock></p>
+    <p>If <cmdname>euare-grouplistusers</cmdname> is run by a cloud administrator, the group whose
+      users are listed would be a group in the account listed in the <cmdname>--delegate</cmdname>
+      option. </p>
+  <p>The <cmdname>euare-grouplistpolicies</cmdname> command lists the policies associated with an
+   account. It has the following
+   syntax:<codeblock>euare-grouplistpolicies –g group_name &lt;--delegate=account_name&gt; </codeblock></p>
+    <p>If <cmdname>euare-grouplistpolicies</cmdname> is run by a cloud administrator, the group whose
+      policies are listed would be a group in the account listed in the
+        <cmdname>--delegate</cmdname> option. </p>
+    <note>There are additional options to limit the number of groups displayed on the screen and to
+      paginate the display results.  For more information, see the online help page for the command. </note>
+ </conbody>
+</concept>

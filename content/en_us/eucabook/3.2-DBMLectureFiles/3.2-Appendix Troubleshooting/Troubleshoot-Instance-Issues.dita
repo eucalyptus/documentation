@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_1jq_3lw_bh">
+ <title>Troubleshoot Instance Issues</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>Instance problems generally fall into three categories: resource availability issues, image
+   problems, and cloud component issues. </p>
+  <p>It is useful to understand the launch process before trying to troubleshoot instance problems.
+   The following diagram illustrates what happens when a new instance launches:</p>
+  <p/>
+  <p>
+   <image href="images/Image-Launch-Process.png" placement="break" id="image_k5c_rlw_bh" scale="50"
+   />
+  </p>
+  <p/>
+  <p>Understanding this process allows you to trace problems across the components. For example, you
+   can check the Cloud Controller log to see if it sent messages to the Cluster Controller. 
+   Similarly, you can check the Cluster Controller log to see if it sent messages to the Node
+   Controller. Did the Walrus send images to the Node Controller?  Did the Node Controller send the
+   instance command to the hypervisor? </p>
+  <p>When troubleshooting, it is usually recommended to flip the order around and start at the Node
+   Controller. Examine its log files, then work your way back to the Cluster Controller and finally
+   the Cloud Controller until the issue is identified.</p>
+ </conbody>
+</concept>

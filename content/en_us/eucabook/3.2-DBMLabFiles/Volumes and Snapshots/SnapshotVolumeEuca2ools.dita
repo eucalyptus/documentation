@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_4tb_cvp_zh">
+    <title>Snapshot a volume using euca2ools </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_bqh_fvp_zh"
+                scale="40"/>In this section of the lab you will create a snapshot of your volume. 
+            The snapshot will capture the volume “as is”, which means that snapshot will capture
+            your partition information, file system, as well as the file that you wrote to the file
+            system. </context>
+        <steps>
+            <step>
+                <cmd>From the front-end host, view the available volumes. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Create a snapshot of the volume. </cmd>
+                <info>
+                    <codeblock># euca-create-snapshot vol-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Use <cmdname>euca-describe-snapshots</cmdname> to check the creation progress
+                    of your new snapshot.  Note the percentage of progress reported each time you
+                    run the command.   Wait for a status of <systemoutput>completed</systemoutput>. 
+                    This operation can take a minute or two. </cmd>
+                <info>
+                    <codeblock># euca-describe-snapshots</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

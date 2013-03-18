@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_gxs_xpw_bh">
+ <title>Cloud Problem: Cluster Controller</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>If the Node Controller does not report the instance, check the Cluster Controller to ensure
+   that it reports sending the instance to the Node Controller.  Search the
+    <filepath>cc.log</filepath> file for <cmdname>RunInstances</cmdname> using the following
+    command:<codeblock>cat /var/log/eucalyptus/cc.log | grep RunInstances [| less]</codeblock><note>The
+    last part of the command (<cmdname>| less</cmdname>) is optional, but may be useful if a large
+    amount of data is returned. You can also use <cmdname>grep</cmdname> to search for the instance
+    ID.</note><note>You can also use <cmdname>grep</cmdname> to search for instance ID in the
+     <filepath>cc.log</filepath> on the Cluster Controller.   This will display log information
+    related to launching and monitoring the instance.</note>If the command was issued by the Cluster
+   Controller but not received by the Node Controller, this could indicate a communication problem
+   between the two hosts. </p>
+  <p>If there is no instance data in the <filepath>cc.log</filepath> file, then it is likely that
+   the problem could be listed in the Cloud Controller log file.  Move to that host to continue
+   troubleshooting. </p>
+ </conbody>
+</concept>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_3dh_xmb_12">
+ <title>MANAGED and MANAGED-NOVLAN Modes</title>
+ <conbody>
+  <p>The two MANAGED networking modes are the most common modes used in Eucalyptus cloud
+      deployments. In either mode, the Eucalyptus cloud assumes responsibility for assigning IP
+      addresses to instances in a controlled subnet, regardless of the presence of a DHCP server on
+      the corporate network. In addition, the user can configure and use both elastic IP addresses
+      and security groups. The only difference between MANAGED and MANAGED-NOVLAN is that MANAGED
+      mode utilizes VLAN tagging for virtual machine instance isolation between security groups,
+      whereas MANAGED-NOVLAN does not.</p>
+    <p/>
+    <p>
+      <image href="images/Managed-Novlan-Feature-Summary.png" placement="break"
+        id="image_mwy_ckw_2f" scale="40"/>
+    </p>
+    <p/>
+    <p>Like STATIC and SYSTEM modes, in MANAGED-NOVLAN mode a bridge must be configured on the Node
+      Controllers for Eucalyptus to use. In MANAGED mode, a bridge is automatically created by the
+      Eucalyptus software and therefore should not be created ahead of time. In MANAGED mode, for
+      each security group there is a bridge automatically created on both the Cluster Controller and
+      Node Controller.  These bridges are VLAN tagged interfaces. </p>
+    <p/>
+  <p>
+      <image href="images/Managed-Mode-Logical-View.png" placement="break" id="image_tdl_fkw_2f"
+        scale="50"/>
+    </p>
+    <p/>
+    <p>The physical layout of the MANAGED (-NOVLAN) modes requires isolation of the DHCP server on
+      the Cluster Controller to prevent it from giving out IP addresses to non-Eucalyptus machines.
+      The IT administration team must take external precautions to ensure that this does not
+      happen.</p>
+    <p/>
+    <p>
+      <image href="images/Managed-Mode-Physical-View.png" placement="break" id="image_ybs_24z_2f"
+        scale="55"/>
+    </p>
+
+ </conbody>
+</concept>

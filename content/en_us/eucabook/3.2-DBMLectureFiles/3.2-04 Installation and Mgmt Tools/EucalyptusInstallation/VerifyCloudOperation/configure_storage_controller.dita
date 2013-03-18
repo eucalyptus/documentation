@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_2bf_y3t_f3">
+ <title>Configure Storage Controller Storage</title>
+ <conbody>
+  <p>A Storage Controller can use several different types of storage to build and manage EBS
+   volumes.  There are two broad Storage Controller configurations: file system-backed and
+   SAN-backed.  File system-backed can be further dividing into those using files and loopback
+   devices, and those based on a LVM.</p>
+  <p>Before configuring any volumes, you must configure the Storage Controller with the storage
+   manager service that matches the type of storage that will be used for volumes.  However, you
+   cannot configure the Storage Controller storage manager until you have cloud administrator
+   credentials.</p>
+  <p>The command to configure the storage manager is:</p>
+  <codeblock># euca-modify-property -p &lt;cluster_name>.storage.blockstoragemanager=&lt;manager_name> </codeblock>
+  <p>The possible types of storage managers are:<ul id="ul_312_jkt_f3">
+    <li><cmdname>das</cmdname>   local disk managed by an LVM, manipulates volumes directly using
+     LVM commands</li>
+    <li><cmdname>overlay</cmdname>   local disk with a file system and no LVM, manipulates volumes
+     using file commands and loop devices </li>
+    <li><cmdname>emc-vnx</cmdname>   support EMC VNX series SAN arrays </li>
+    <li><cmdname>emc-vnx-fastsnap</cmdname>  support EMC VNX series SAN arrays with FLARE 5.32
+     (August 2012) or above</li>
+    <li><cmdname>equallogic</cmdname>  supported Dell Equallogic SAN arrays (PS4000 and PS6000
+     series arrays)</li>
+    <li><cmdname>netapp</cmdname>  support Netapp SAN arrays (FAS2000 and FAS6000 series
+     arrays)</li>
+   </ul></p>
+  <p>The difference between the two EMC managers is related to when a snapshot of a volume becomes
+   consistent with the volume.  With emc-vnx a snapshot of a volume becomes consistent with the
+   volume at the end of the snapshot process.   With emc-vnc-fastsnap the snapshot becomes
+   consistent with the volume very early in the snapshot process. </p>
+  <p>Until you configure the Storage Controller storage manager, the Storage Controller service will
+   report a status of BROKEN in the output of <cmdname>euca-describe-services</cmdname> or
+    <cmdname>euca_conf --list-scs</cmdname>.  Once you configure a storage manager the serivce
+   status will automatically switch to ENABLED.</p>
+ </conbody>
+</concept>

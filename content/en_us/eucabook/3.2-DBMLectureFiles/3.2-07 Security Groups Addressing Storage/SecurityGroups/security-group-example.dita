@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_rpw_ggd_jf">
+ <title>Security Groups Example</title>
+ <conbody>
+  <p>Here is an example of security group design that controls access to a multi-tiered
+   application.  Each tier in the application is protected by its own security group.  Each security
+   group controls connection requests from users outside of the cloud as well as connection requests
+   from the other security groups within the cloud.  </p>
+  <p/>
+  <image href="images/Security-Groups-Example.png" placement="break" id="image_jw3_ngd_jf"
+   scale="50"/>
+  <p/>
+  <p>The <i>web</i> security group allows users outside of the cloud to access the Web servers using
+   TCP ports 80 and 443  This provides these users access to the Web-based application.  Web
+   administrators are allowed access to the Web servers through Secure Shell at TCP port 22.  All
+   other ports are blocked.  </p>
+  <p>The <i>app</i> security group allows Secure Shell access from application administrators
+   through TCP port 22.   It also permits access from the Web server instances in the <i>web</i>
+   security group.  All other ports are blocked.</p>
+  <p>Finally, the <i>db</i> security group allows Secure Shell access from database administrators
+   through TCP port 22.   It also permits access from the application server instances in the
+    <i>app</i> security group.  All other ports are blocked.</p>
+ </conbody>
+</concept>

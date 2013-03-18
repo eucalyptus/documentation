@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_x4d_2kb_12">
+ <title>SYSTEM Mode</title>
+ <conbody>
+  <p>SYSTEM is the default network mode for Eucalyptus clouds. It assumes that virtual machine
+      instances will be assigned IP addresses by an external DHCP server. </p>
+  <p>Eucalyptus clouds in SYSTEM mode also do not support the use of elastic IP addresses, security
+      groups, or the further isolation instances in different security groups by placing them in
+      separate VLANs. Both security groups and elastic IP addresses are discussed in more detail in
+      other sections of this training module.</p>
+    <p/>
+  <image href="images/System-Feature-Summary.png" placement="break" id="image_2rh_j41_2f" scale="45"/>
+    <p><sup>1</sup>An elastic IP address is a public IP address that the user reserves and manually
+      assigns to their instance.</p>
+    <p><sup>2</sup>A security group is a set of firewall rules applied to all instances that are
+      members of the security group. </p>
+    <p/>
+    <p>SYSTEM mode is most often used in setting up test or proof-of-concepts (POCs) environments.
+      It is seldom used in production environments. SYSTEM mode is the least intrusive network mode
+      in that it often requires no substantial changes to the existing datacenter network.</p>
+  <p>Instances receive a single IP address from the organization's DHCP server. All instances have
+      direct network access through the network bridge in the Node Controller, and will thus appear
+      as though they are physical machines on the network. You must ensure that a bridge is
+      configured on each Node Controller prior to installing the Eucalyptus software. It is up to
+      the IT administration team to provide and manage any additional network functionality like
+      network firewalls or network address translation.</p>
+    <p/>
+  <p>
+      <image href="images/System-Mode-Logical-View.png" placement="break" id="image_4fh_sck_1h"
+        scale="45"/>
+    </p>
+    <p/>
+    <p/>
+  <p>The following is an example of what a physical layout might look like for a Eucalyptus cloud
+      configured in SYSTEM mode. In this example, the front-end server, Node Controllers, and all
+      virtual machine instances have IP addresses on the 173.205.188.0/24 network.</p>
+    <p/>
+    <p>
+      <image href="images/System-Mode-Physical-View.png" placement="break" id="image_2n5_tp1_2f"
+        scale="55"/>
+    </p>
+    <p/>
+  <p>The requirements for SYSTEM mode are:<ul id="ul_22p_xp1_2f">
+    <li>A pre-existing DHCP server on the network</li>
+    <li>A range of IP addresses available for use by Eucalyptus hosts and instances</li>
+    <li>The Ethernet interfaces on the Node Controllers that communicates with the Cluster
+          Controller must be bridged before installing the Eucalyptus software.</li>
+   </ul></p>
+ </conbody>
+</concept>

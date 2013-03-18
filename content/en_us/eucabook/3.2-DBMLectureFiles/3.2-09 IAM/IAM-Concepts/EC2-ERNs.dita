@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_qpm_jvj_vf">
+ <title>EC2 ERN Examples</title>
+ <conbody>
+  <p>The format of Eucalyptus EC2 ERNs is different from AWS EC2 ERNs.  The Eucalyptus EC2 ERN
+      format includes extensions that provide more granularity than AWS.  This granularity is useful
+      to provide more fine-grained resource control in access control policies.  AWS only supports
+      the wild card "*" character in AWS IAM access control policy statements. This means that in
+      Amazon IAM you cannot constrain users to specific resources.  Eucalyptus IAM, on the other
+      hand, extends resource ERNs to include specific resources. </p>
+    <p>The pattern for an EC2 ERN looks like this:</p>
+  <p>
+      <i>arn</i>:<i>aws</i>:<i>ec2</i>::&lt;<i>account_ID</i>&gt;:&lt;<i>resource_type</i>&gt;/&lt;<i>resource_ID</i>&gt; </p>
+  <note>Note the double <b>::</b> between <i>ec2</i> and &lt;<i>account_ID</i>>.  This is the blank
+        <i>region</i> field because the Eucalyptus private cloud does not use regions like the AWS
+      public cloud.</note>
+    <note> An account ID is optional, but can be used to limit resource access to particular
+      accounts. If an Account ID is not provided, the pattern would have a triple <b>:::</b> between
+        <i>ec2</i> and &lt;<i>resource_type</i>>.</note>
+  <p>Examples:<ul id="ul_wwt_wvj_vf">
+    <li>arn:aws:ec2:::vmtype/m1.small</li>
+    <li>arn:aws:ec2::marketing:image/emi-af45e531 </li>
+   </ul></p>
+    <p>The first example describes the vmtype named <i>m1.small</i>.   The second example describes
+      a specific EMI.   Notice also that the second example refers to a specific account as well,
+      the <i>marketing</i> account.  Including a specific account name in an EC2 ERN might be useful
+      if this ERN were included in an access control policy statement.   It could be used to limit
+      access to the resource to users in a specific account.   </p>
+    <p>In these two examples, two types of EC2 resources were described, a <i>vmtype</i> resource
+      and an <i>image</i> resource.   Other resource types may also be described.  Eucalyptus
+      supports the following EC2 resource types:<ul id="ul_sjb_jwj_vf">
+        <li>image</li>
+        <li>securitygroup</li>
+        <li>address</li>
+        <li>availabilityzone</li>
+        <li>instance</li>
+        <li>keypair</li>
+        <li>volume</li>
+        <li>snapshot</li>
+        <li>vmtype</li>
+      </ul><note>For the address resource type, either a single IP address or an IP address range
+        (for example: 192.168.7.1-192.168.7.254) is supported.</note></p>
+ </conbody>
+</concept>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_r3z_2fj_jf">
+ <title>Metadata Service Access</title>
+ <conbody>
+  <p>While the metadata service is available in all four Eucalyptus network modes, access to it from
+      the instances differs depending on the network mode.  The metadata service is accessed by the
+      instances using a URL.<ul id="ul_mdc_hfj_jf">
+        <li>In either MANAGED or MANAGED-NOVLAN network mode, use the URL:<ul id="ul_ft3_dyb_ch">
+            <li>http://169.254.169.254/latest/&lt;specific_metadata_information_request><note>The
+                Cluster Controller's <!--iptables--> maps the Automatic Private IP Address of
+                169.254.169.254 to the actual Cloud Controller IP address and port 8773.
+              </note></li>
+          </ul></li>
+        <li>In SYSTEM of STATIC network mode, use the URL: <ul id="ul_qvw_2yb_ch">
+            <li>http://&lt;CLC_IP>:8773/latest/&lt;specific_metadata_information_request></li>
+          </ul></li>
+      </ul></p>
+  <p>The <filepath>/latest</filepath> directory is always the root of metadata information in the
+      Cloud Controller.</p>
+    <p>Eucalyptus recommends that you configure a DNS entry for the Cloud Controller that maps to
+      the appropriate IP address based on your network mode and network address scheme. This way you
+      can configure your instances to access the metadata service using a DNS name. </p>
+ </conbody>
+</concept>

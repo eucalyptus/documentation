@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_xt2_hrx_3f">
+ <title>Kernel and Ramdisk Association</title>
+ <conbody>
+  <p>There are three ways to associate an EMI with a kernel image and ramdisk image. </p>
+  <ul id="ul_1xv_lrx_3f">
+   <li>Allow the instance to run with the cloud-wide default kernel and ramdisk images.  By default,
+    these are the first kernel and ramdisk images registered with the cloud, but this can be changed
+    by a cloud administrator. <note>An incorrect kernel or ramdisk image can cause a Linux instance
+     to fail to boot.</note></li>
+   <li>Bundle the EMI with specific kernel and ramdisk images. These become the defaults for this
+    specific image. This can be accomplished using the following
+    command:<codeblock>euca-bundle-image -i &lt;boot_image> --kernel /
+   eki-&lt;nnnnnnnn> --ramdisk eri-&lt;nnnnnnnn></codeblock></li>
+   <li>Associate the EMI with a specific kernel and ramdisk at runtime. This overrides any default
+    images that exist.  To accomplish this from the command line, use the following
+    syntax:<codeblock>euca-run-instances -k &lt;key_name> --kernel /
+   eki-&lt;nnnnnnnn> --ramdisk eri-&lt;nnnnnnnn> /
+   emi-&lt;nnnnnnnn></codeblock></li>
+  </ul>
+ </conbody>
+</concept>

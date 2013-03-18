@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_jb4_qjs_1h">
+ <title>Configuring DNS</title>
+ <conbody>
+  <p>Use the following procedure to enable DNS on your Cloud Controller.</p>
+  <p>
+   <ol id="ol_db4_fks_1h">
+    <li><cmdname>euca-modify-property –p
+            system.dns.dnsdomain=&lt;eucadomain>.&lt;parentdomain></cmdname></li>
+    <li><cmdname>euca-modify-property -p bootstrap.webservices.use_instance_dns=true</cmdname>
+    </li>
+    <li>Enter the IP address of the company &lt;parentdomain> nameserver as
+          VNET_DNS=“parent_domain_nameserver_IP” in
+            <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
+    <li>Configure the parent domain nameserver to point to the Cloud Controller and the
+          &lt;eucadomain>.</li>
+   </ol>
+  </p>
+  <p>The first <cmdname>euca-modify-property</cmdname> command configures the Cloud Controller with
+      the domain name for which it is authoritative.  The &lt;parentdomain> is the domain name for
+      which the company DNS nameserver is authoritative. The second
+        <cmdname>euca-modify-property</cmdname> command enables the DNS service on the Cloud
+      Controller. The VNET_DNS entry in the <filepath>eucalyptus.conf</filepath> file configures the
+      Cloud Controller with the IP address of its parent domain name server. </p>
+  <p>
+   <note>There is also a cloud property named <i>system.dns.nameserver</i> but it does not need to
+    be changed in order for DNS resolution to work.</note>
+  </p>
+    <p>
+      <note>The DNS nameserver must be able to attach to port 53.  If dnsmasq is configured to start
+        at boot, it will attach to port 53 and interfere with the Eucalyptus nameserver.  Disable
+        dnsmasq if necessary.</note>
+    </p>
+  <p>There are DNS configuration file examples in the Installation Guide for 3.2 at
+      http://www.eucalyptus.com/docs. </p>
+ </conbody>
+</concept>

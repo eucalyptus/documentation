@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_gvv_vks_1h">
+ <title>Enable DNS Delegation</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>DNS delegation in Eucalyptus HA is very important.  If the <filepath>eucarc</filepath> and
+                <filepath>eucalyptus.conf</filepath> file use IP addresses instead of domain names,
+            euca2ools commands might fail depending on which Cloud Controller is ENABLED at any
+            given time.   Modifying the <filepath>eucarc</filepath> and
+                <filepath>eucalyptus.conf</filepath> file to use domain names instead of IP
+            addresses will prevent this problem from occurring. </p>
+  <p>In a Eucalyptus HA configuration, there are two Cloud Controllers and the DNS service must be
+            able to failover between them during failure events. </p>
+  <p>To enable DNS service
+            failover:<codeblock>euca-modify-property -p bootstrap.webservices.use_dns_delegation=true</codeblock></p>
+  <p>For example, if the IP address of the primary and secondary Cloud Controllers are 192.168.5.1
+      and 192.168.5.2, and the IP addresses of primary and secondary Walrus hosts are 192.168.6.1
+      and 192.168.6.2, the host <filepath>eucalyptus.eucadomain.yourdomain</filepath> will resolve
+      to 192.168.5.1 and <filepath>walrus.eucadomain.yourdomain</filepath> will resolve to
+      192.168.6.1.</p>
+  <p>If the primary Cloud Controller fails, the secondary Cloud Controller will become the primary
+      and <filepath>eucalyptus.eucadomain.yourdomain</filepath> will resolve to 192.168.5.2. If the
+      primary Walrus fails, the secondary Walrus will be promoted and
+        <filepath>walrus.eucadomain.yourdomain</filepath> will resolve to 192.168.6.2. </p>
+ </conbody>
+</concept>

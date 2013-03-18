@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_xg1_thd_jf">
+ <title>Security Groups - Euca2ools</title>
+ <conbody>
+  <p>There are a number of command-line euca2ools available to manage security groups:<ul
+        id="ul_rgk_whd_jf">
+        <li>List security groups and their
+          attributes:<codeblock>euca-describe-groups</codeblock></li>
+        <li>Add a new security
+          group:<codeblock>euca-add-group -d &lt;description> &lt;group_name></codeblock></li>
+        <li>Add a new rule to a security
+            group:<codeblock>euca-authorize -P &lt;protocol> -p &lt;port> /
+   -s &lt;network> &lt;group_name></codeblock><note>You
+            can specify a range of numbers for the port, for example 80-8080.</note><note>Here's an
+            example that would enable
+            ICMP:<codeblock>euca-authorize -P icmp -s 192.168.1.1 /
+   -t -1:-1 &lt;group_name></codeblock></note><note>Instead
+            of a CIDR address, you can specify another group that has
+            access:<codeblock>euca-authorize --source-group &lt;group_name> /
+    -P &lt;protocol> -p &lt;port> &lt;group_name></codeblock></note></li>
+        <li>Remove a rule from a security
+          group:<codeblock>euca-revoke -P &lt;protocol> -p &lt;port> /
+   -s &lt;network> &lt;group_name></codeblock></li>
+        <li>Delete a security group:<codeblock>euca-delete-group &lt;group_name></codeblock></li>
+      </ul></p>
+    <p>
+      <note>If you delete a security group with an instance still running, the security group is
+        maintained until the instance is terminated.  If you used the command line or Eucalyptus
+        User Console to list security groups, nothing would be displayed even though the security
+        group still exists. </note>
+    </p>
+ </conbody>
+</concept>

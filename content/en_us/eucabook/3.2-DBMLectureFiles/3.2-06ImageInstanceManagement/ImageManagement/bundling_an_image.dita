@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_fzl_prs_ff">
+ <title>Bundle an Image</title>
+ <conbody>
+  <p>Initially an image is a <filepath>.img</filepath> file that contains the bootable file system
+   needed to launch a virtual machine in the cloud.  However, images (<filepath>.img</filepath>
+   files) must be bundled to be used in a Eucalyptus cloud. Bundling prepares the
+    <filepath>.img</filepath> file to run in the Eucalyptus cloud. To bundle an image, run the
+   following command:<codeblock>euca-bundle-image -i /&lt;path>/&lt;image_file></codeblock></p>
+  <p>Bundled images are stored on your local machine in the <filepath>/tmp</filepath> by default,
+   but can be redirected to another location by using the <cmdname>-d &lt;directory></cmdname>
+   option. This can be useful, for example, if you do not have enough space in
+    <filepath>/tmp</filepath>. </p>
+  <p>By default, images are bundled as 64-bit images, but you can force 32-bit by using the
+    <cmdname>-r i386</cmdname> option.</p>
+  <p>During the bundling process, the image is compressed to minimize network bandwidth usage and
+   storage space. The compressed image is then encrypted with the user's credentials and signed to
+   ensure confidentiality of the data when the image is uploaded over the network from the local
+   machine to the Walrus. Next the encrypted image is split into manageable parts for later upload.
+   Finally, an XML manifest file is created containing a list of the image parts with their
+   checksums.  The result is a bundled image.</p>
+  <p/>
+  <p>
+   <image href="images/Image-Bundling-Process.png" placement="break" id="image_tvc_rss_ff"
+    scale="50"/>
+  </p>
+ </conbody>
+</concept>

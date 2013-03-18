@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_knb_gww_bh">
+ <title>Troubleshoot Network Issues</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>Both the Cluster Controller and the Node Controller are involved in the network operation of
+   the instance. </p>
+  <p>In a MANAGED network mode configuration, make sure that the minimum and maximum VLAN IDs are
+   set properly, and that switches are forwarding packets to these VLANs. To view the VLAN ID range
+   used <cmdname>euca-describe-properties</cmdname> and look for the following entries:<ul
+    id="ul_rqq_1xw_bh">
+    <li><cmdname>cloud.network.global_max_network_tag</cmdname></li>
+    <li><cmdname>cloud.network.global_min_network_tag </cmdname></li>
+   </ul>If your networking environment is already using VLANs for other reasons, Eucalyptus supports
+   the definition of a smaller range of VLANs. To set this range with a running and configured
+   Eucalyptus installation: </p>
+  <p>
+   <codeblock>euca-modify-property -p cloud.network.global_max_network_tag=&lt;max_vlan_tag> 
+euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></codeblock>
+  </p>
+  <p>If this fails, use traditional network and operating system troubleshooting on the Eucalyptus
+   hosts in order to make sure that networking between the hosts is working properly.</p>
+ </conbody>
+</concept>
