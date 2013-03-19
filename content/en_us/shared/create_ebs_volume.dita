@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_ebs_volume">
+	<title>Create and Attach an EBS Volume</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>EBS <indexterm>Creating a Volume</indexterm><indexterm>Attaching a Volume</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p>The following example shows how to create a 10 gigabyte EBS volume and attach it to a running
+				instance called <codeph>i-00000000</codeph> running in availability zone
+					<codeph>zone1</codeph>.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Create a new EBS volume in the same availability zone as
+					the running instance.</cmd>
+
+				<info>
+					<codeblock>euca-create-volume --zone zone1 --size 10</codeblock>
+				</info>
+				<stepresult>The command displays the ID of the newly-created
+					volume. </stepresult>
+			</step>
+			<step>
+				<cmd>Attach the newly-created volume to the instance, specifying the local device name
+						<codeph>/dev/sdf</codeph>.</cmd>
+				<info>
+					<codeblock>euca-attach-volume vol-00000000 -i i-00000000 -d /dev/sdf</codeblock>
+				</info>
+				<stepresult>You've created a new EBS volume and attached it to a running instance. You can now
+					access the EBS volume from your running instance.</stepresult>
+			</step>
+			
+		</steps>
+	</taskbody>
+</task>
