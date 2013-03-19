@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_jt2_4tt_w2">
+ <title>The Eucalyptus Configuration File</title>
+ <conbody>
+  <p>The Eucalyptus cloud is primarily configured from one central file which is present on all
+            cloud hosts. This file is named <filepath>eucalyptus.conf</filepath> and is located in
+            the <filepath>/etc/eucalyptus</filepath> directory.</p>
+  <p>The file consists of multiple <i>parameter="value"</i> entries that provide startup options
+            used by Eucalyptus' initialization scripts. There are parameters to configure the Cloud
+            Controller, Walrus, Cluster Controller, Storage Controller, VMware Broker, and the Node
+            Controller. Parameters that control network configuration must be modified on all
+            Cluster Controllers and Node Controllers.</p>
+  <note><b>CAUTION!</b> If you edit a networking related value in
+                <filepath>eucalyptus.conf</filepath> in a configured cloud, you will need to perform
+            a clean restart of all running Cluster Controllers. Use the following procedure: <ol
+                id="ol_1vl_pq4_5f">
+                <li>Terminate all instances</li>
+                <li>Run the following
+                    command:<codeblock>service eucalyptus-cc cleanrestart</codeblock></li>
+            </ol></note>
+  <p>The configuration file is often self-explanatory as it contains many comments and samples on
+            how to configure each component. The configuration file available at installation time
+            is sufficient to get a cloud system up and running in SYSTEM network mode. The SYSTEM
+            network mode provides limited functionality and you likely might be required to change
+            to a more appropriate network mode in a production cloud. </p>
+  <p>If you would like additional information about the network parameters in the
+                <filepath>eucalyptus.conf</filepath> file, see the <i>Installation Guide</i> at
+                <xref href="http://www.eucalyptus.com/docs" format="html" scope="external"
+                >http://www.eucalyptus.com/docs</xref>. </p>
+ </conbody>
+</concept>

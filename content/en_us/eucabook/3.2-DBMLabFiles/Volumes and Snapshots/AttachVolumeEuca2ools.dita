@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_ydr_1rp_zh">
+    <title>Attach a volume to an instance using euca2ools </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_klf_frp_zh"
+                scale="40"/>In this section of the lab you will create an instance and then use
+            euca2ools to attach a storage volume to it. </context>
+        <steps>
+            <step>
+                <cmd> Launch an instance and wait for it to reach a running status. </cmd>
+                <info>
+                    <codeblock># euca-describe-images 
+# euca-run-instances –k &lt;keypair_name> emi-&lt;nnnnnnnn>  
+# euca-describe-instances</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Attach the new volume to the instance.   Use the block device name
+                        <filepath>/dev/vdb</filepath>. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes  
+# euca-attach-volume -i i-&lt;nnnnnnnn> -d /dev/vdb vol-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Check the status of the volume until it displays as
+                        <systemoutput>in-use</systemoutput> and
+                        <systemoutput>attached</systemoutput>. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes  </codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

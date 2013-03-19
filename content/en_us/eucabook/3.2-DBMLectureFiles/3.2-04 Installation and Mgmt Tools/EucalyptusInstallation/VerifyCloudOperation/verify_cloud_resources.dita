@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_wwh_hn4_ff">
+ <title>Verify Cloud Resources</title>
+ <conbody>
+  <p>A functioning cloud should provide CPU, memory, storage, and public IP address resources.
+        <note>A cloud configured in SYSTEM or STATIC network mode would not provide public IP
+        address resources.</note></p>
+  <p>To verify that CPU, memory, and storage resources are available for running instances, run the
+            following command: <codeblock>euca-describe-availability-zones verbose</codeblock></p>
+        <p/>
+        <p>
+            <image href="images/euca-describe-availability-zones.png" placement="break"
+                id="image_xlw_rcq_l3" scale="50"/>
+        </p>
+        <p/>
+        <p>Non-zero values in the <i>free</i> column indicate that the Node Controller is providing
+            resources to the cloud. If all values are zero, you will not be able to launch
+            instances. The likely root cause is a misconfiguration of the cloud. For example, make
+            sure that the Node Controller is properly registered with the Cluster Controller using
+            the IP address of the interface that is attached to the Cluster Controller.</p>
+  <p>To verify that public IP addresses are available for running instances, run the following
+            command:<codeblock>euca-describe-addresses</codeblock>The result should be a list of
+            public IP addresses. </p>
+        <p/>
+        <p>
+            <image href="images/euca-describe-addresses.png" placement="break" id="image_fjt_tcq_l3"
+                scale="50"/>
+        </p>
+        <p/>
+        <p>If you do not see any public IP address then it is likely that the cloud is
+            misconfigured. For example, check the network configuration parameters (VNET_*) in the
+                <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file on Cluster Controller and
+            Node Controller hosts. If you modify the network configuration remember to run the
+            command <cmdname>service eucalyptus-cc cleanrestart</cmdname>.</p>
+ </conbody>
+</concept>

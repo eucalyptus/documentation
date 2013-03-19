@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_dpq_1vl_yd">
+ <title>Node Controller </title>
+ <conbody>
+  <p/>
+  <p>
+   <image href="images/Node-Controller.png" id="image_th4_4rd_12" placement="break" scale="60"/>
+  </p>
+  <p/>
+  <p>Node Controllers (NCs) are servers designated for hosting virtual machine instances. The Node
+   Controller software is written in C and deployed as a Web service inside Apache. As of this
+   writing, the two Node Controller hypervisor options in Eucalyptus are KVM and Xen. Only KVM is
+   fully tested and supported by Eucalyptus.  Node Controllers communicate with their Cluster
+   Controller and Storage Controller using SOAP with WS-Security.</p>
+  <p>Node Controllers download and cache Eucalyptus Machine Images, Eucalyptus Kernel Images, and
+   Eucalyptus Ramdisk Images from the Walrus.  In response to requests from the Cluster Controller,
+   they also control virtual machine instances' execution, inspection, and termination, as well as
+   query and control the host operating system and hypervisor. </p>
+  <p>The Cluster Controller uses the libvirt API on the Node Controller to control the hypervisors.
+   Libvirt is implemented on these Node Controllers via the <cmdname>libvirtd</cmdname> daemon. The
+    <cmdname>virsh</cmdname> shell is also available although it it typically only used for
+   troubleshooting instance problems. </p>
+  <p>Many Node Controllers can be configured per cluster.<note>Since Node Controllers run
+    hypervisors, it is possible to manually create virtual machines. This should not be done, except
+    for situations of temporary testing. Eucalyptus is not aware of the resources that manually
+    created virtual machines consume, and will try to launch virtual machine instances on the Node
+    Controller based on the resources of which it is aware. This can cause poor performance or even
+    instance launch failure.</note></p>
+  <p>When a new instance is launched, the Node Controller first caches the machine, kernel, and
+   ramdisk image files received from the Walrus directly to its local storage. This increases the
+   speed of subsequent launches of new instances based on these images. The cached image files are
+   located at <filepath>/var/lib/eucalyptus/eucalyptus/cache/</filepath>. The Node Controller also
+   caches the instances it runs at
+    <filepath>/var/lib/eucalyptus/instances/work/&lt;letters_numbers>/i-&lt;nnnnnnnn</filepath>. </p>
+  <note>In the event of a Node Controller failure, instances that were running on it will have to be
+   manually restarted. <p>If a Node Controller is rebooted with running instances, they will be
+    reported in a <i>running</i> state but will not be accessible. These instances will need to be
+    terminated and re-launched. If you cannot terminate them, it might be necessary to stop and
+    start the Cloud Controller and Cluster Controller.</p></note>
+ </conbody>
+</concept>

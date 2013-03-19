@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_xzm_jnm_vf">
+ <title>Register VMware Brokers</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p> Register the first VMware Broker with the primary Cloud Controller, if you are running VMware
+            hypervisors in your cluster. It will automatically start in an ENABLED state.  Run the
+            following command on the primary Cloud
+            Controller.<codeblock>euca_conf --register-vmwarebroker --component &lt;VB1_unique_name> \
+     --partition &lt;cluster_name> --host &lt;VB1_public_IP_address> </codeblock></p>
+  <p> You can choose your own name for the <cmdname>--component</cmdname> option as long as both
+            VMware Brokers are given unique names and they readily identify the VMware Brokers for
+            you when you see them later on in Eucalyptus Administrator Console or
+                <cmdname>euca-describe-services</cmdname> command-line output. For example, the
+            component name vb-hostE describes the service function and host location.  </p>
+    <p>The name for the <cmdname>--partition</cmdname> option should be the same as the name of the
+            cluster the VMware Broker will run in.  </p>
+  <p>Register the second VMware Broker with the primary Cloud Controller. It will automatically
+            start in a DISABLED state.  Run the following command on the primary Cloud
+            Controller.<codeblock>euca_conf --register-vmwarebroker --component &lt;VB2_unique_name> \
+     --partition &lt;cluster_name> --host &lt;VB2_public_IP_address> </codeblock></p>
+  <p>Choose a unique component name for the second VMware Broker - for example, vb-hostF. <note>The
+        partition name should be the name assigned to the cluster.</note></p>
+  <p>Repeat these steps for each cluster in the cloud that use VMware as the hypervisor type.</p>
+ </conbody>
+</concept>

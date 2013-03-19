@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_mbr_qxp_zh">
+    <title>Delete a volume and snapshot using euca2ools </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_3v4_5xp_zh"
+                scale="40"/>In this section of the lab you will delete a volume and a snapshot using
+            euca2ools.  You will also terminate the remaining instance. </context>
+        <steps>
+            <step>
+                <cmd>From the front-end host, view the volume ID number of the attached volume and
+                    then detach the volume from the instance. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes
+# euca-detach-volume vol-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>List and delete any volumes that you find. </cmd>
+                <info>
+                    <codeblock># euca-describe-volumes
+# euca-delete-volume vol-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>List and delete any snapshots that you find. </cmd>
+                <info>
+                    <codeblock># euca-describe-snapshots
+# euca-delete-snapshot snap-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>List and terminate any running instances that you find.</cmd>
+                <info>
+                    <codeblock># euca-describe-instances
+# euca-terminate-instances i-&lt;nnnnnnnn></codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

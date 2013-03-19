@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_hvf_tv4_b3">
+    <title>Register Eucalyptus Services </title>
+    <shortdesc/>
+    <taskbody>
+        <context><image href="images/frontend.png" placement="break" id="image_5qk_bw4_b3"
+                scale="40"/>In this section of the lab you will register the Walrus, Cluster
+            Controller, and Storage Controller services with the Cloud Controller. You will also
+            register the Node Controller service with the Cluster Controller. </context>
+        <steps>
+            <step>
+                <cmd>On the front-end host, register the Walrus service with the Cloud Controller. 
+                    The Walrus public IP address is the same as the front-end public IP address. </cmd>
+                <info>
+                    <codeblock># euca_conf –-register-walrus --partition walrus \
+–-host &lt;walrus_public_IP> –-component walrus00  </codeblock>
+                    <p>Answer <userinput>yes</userinput> when asked if you want to continue.  Enter
+                        the root password of the Walrus host (front-end host) when prompted. The
+                        root password should be <userinput>passwordNN</userinput> where <i>NN</i> is
+                        the number of your student pod.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, register the Cluster Controller service with the Cloud
+                    Controller.  Name your cluster <i>cluster1</i>.   The Cluster Controller public
+                    IP address is the same as the front-end host public IP address. </cmd>
+                <info>
+                    <codeblock># euca_conf –-register-cluster --partition cluster1 \
+–-host &lt;cluster_controller_public_IP> –-component cc00  </codeblock>
+                    <p>Enter the root password of the Cluster Controller host (front-end host) when
+                        prompted. The root password should be <userinput>passwordNN</userinput>
+                        where <i>NN</i> is the number of your student pod.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, register the Storage Controller with the Cloud
+                    Controller.  The Storage Controller public IP address is the same as the
+                    front-end public host IP address. </cmd>
+                <info>
+                    <codeblock># euca_conf –-register-sc --partition cluster1 \
+–-host &lt;storage_controller_public_IP> –-component sc00 </codeblock>
+                    <p>Enter the root password of the Storage Controller host (front-end host) when
+                        prompted. The root password should be <userinput>passwordNN</userinput>
+                        where <i>NN</i> is the number of your student pod.</p>
+                    <note>You will receive a message about the need to "choose a storage back end"
+                        when you register the Storage Controller.   You will choose the storage back
+                        end later in this lab exercise.</note>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, register the Node Controller with the Cluster
+                    Controller.  Use the Node Controller private IP address listed on your student
+                    handout.</cmd>
+                <info>
+                    <codeblock># euca_conf –-register-nodes=&lt;node_controller_private_IP>  </codeblock>
+                    <p>Enter the root password of the Node Controller host when prompted. The root
+                        password should be <userinput>passwordNN</userinput> where <i>NN</i> is the
+                        number of your student pod.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>On the front-end host, verify that all Eucalyptus services are registered. </cmd>
+                <info>
+                    <codeblock># euca_conf –-list-walruses
+# euca_conf –-list-scs
+# euca_conf –-list-clusters
+# euca_conf –-list-nodes  </codeblock>
+                    <note>The <systemoutput>STORAGECONTROLLER</systemoutput> service will report its
+                        status as <systemoutput>BROKEN</systemoutput>.   This will change to
+                            <systemoutput>ENABLED</systemoutput> once you configure a back-end
+                        storage manager later in the lab.</note>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

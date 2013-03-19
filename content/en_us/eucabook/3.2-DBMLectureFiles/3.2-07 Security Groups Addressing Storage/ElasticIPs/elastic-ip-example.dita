@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_23c_ynw_zd">
+ <title>Elastic IP Address Example</title>
+ <conbody>
+  <p>For example, assume that Susan has a CentOS 5.x Web server running at my.company.com and she
+   has configured it with an elastic IP address. The actual IP configuration might look something
+   like this:</p>
+  <p/>
+  <p><image href="images/Example-Initial-State.png" id="image_jpv_5gb_12" placement="break" scale="60"/></p>
+  <p/>
+  <p>Assume that Susan wants to upgrade the Web server to CentOS 6.x. First, she would launch the
+   new Web server as a new instance in the cloud and test it to ensure that it is working properly.
+   During testing the current Web server's operations are unaffected.</p>
+  <p/>
+  <p>
+   <image href="images/Example-Testing-State.png" id="image_zm1_1hb_12" placement="break" scale="60"/>
+  </p>
+  <p/>
+  <p>Once she is satisfied that everything is working as it should on the new Web server, she would
+   then re-map the elastic IP address from the old Web server to the new Web server. <note>No
+    changes to public DNS are required to make this change. This means that existing DNS nameserver
+    caches that might exist around the intranet and Internet still contain valid address
+    information.</note></p>
+  <p/>
+  <p><image href="images/Example-Final-State.png" id="image_lmr_ghb_12" placement="break" scale="60"/></p>
+  <p/>
+  <p>However if something were to go wrong at this point, Susan could re-map the elastic IP address
+   back to the old Web server and the change would happen instantaneously. If however, everything
+   continues to work as expected, Susan could decommission the old Web server and the upgrade would
+   be complete.</p>
+ </conbody>
+</concept>

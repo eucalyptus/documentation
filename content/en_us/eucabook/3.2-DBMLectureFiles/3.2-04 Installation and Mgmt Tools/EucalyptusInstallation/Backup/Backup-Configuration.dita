@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_hjk_t2t_f3">
+ <title>Backup the Cloud Configuration</title>
+ <conbody>
+  <p>Once a cloud has been configured, you can back up the configuration so that you can recover the
+   cloud in case of hardware problems or human error. You need to back up all user data and
+   customizations that are not part of a standard installation.  You can use standard Linux
+   utilities to back up the files and directories  like <cmdname>cp</cmdname> or
+    <cmdname>tar</cmdname>  just be sure to capture the original file and directory ownerships and
+   permissions.</p>
+  <p>You need to back up the following:</p>
+  <p>
+   <table frame="all" id="table_p3q_rft_f3">
+    <tgroup cols="3">
+     <colspec colname="c1" colnum="1" colwidth="1*"/>
+     <colspec colname="c2" colnum="2" colwidth="1.8*"/>
+     <colspec colname="c3" colnum="3" colwidth="2.19*"/>
+     <thead>
+      <row>
+       <entry><b>Host</b></entry>
+       <entry><b>Directory</b></entry>
+       <entry><b>Contents</b></entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>All hosts</entry>
+       <entry><filepath>/etc/eucalyptus/eucalyptus.conf</filepath></entry>
+       <entry>Main configuration file</entry>
+      </row>
+      <row>
+       <entry>Cloud Controller</entry>
+       <entry><filepath>/var/lib/eucalyptus/db</filepath></entry>
+       <entry>Cloud database</entry>
+      </row>
+      <row>
+       <entry>All hosts</entry>
+       <entry><filepath>/var/lib/eucalyptus/keys</filepath></entry>
+       <entry>Keys to authenticate cloud services</entry>
+      </row>
+      <row>
+       <entry>Walrus</entry>
+       <entry><filepath>/var/lib/eucalyptus/bukkits</filepath></entry>
+       <entry>Bucket storage - could be located on NFS or SAN array</entry>
+      </row>
+      <row>
+       <entry>Storage Controller</entry>
+       <entry><filepath>/var/lib/eucalyptus/volumes</filepath></entry>
+       <entry>EBS volumes - could be located on SAN array</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </p>
+  <p>Recover the cloud by reinstalling the software from packages and then restore the backed-up
+   files and directories to their original locations.</p>
+ </conbody>
+</concept>

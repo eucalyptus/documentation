@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_5rd_yxn_5h">
+    <title>Modify a security group using euca2ools</title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab exercise you will use euca2ools to modify the firewall
+            rules associated with a security group. </context>
+        <steps>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_ycq_1vl_yh" scale="40"/>On the
+                    front-end host, add a new rule to the <i>mygroup2</i> security group that allows
+                    ICMP <i>echo requests</i>. </cmd>
+                <info>
+                    <codeblock># euca-authorize –P icmp –t -1:-1 –s 0.0.0.0/0 mygroup2</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_bzx_dq4_zh" scale="40"/>Verify that
+                    the rule was added to your security group. </cmd>
+                <info>
+                    <codeblock># euca-describe-groups</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_jhj_fq4_zh" scale="40"/>From the
+                    Debian desktop, open a new xterm window and <cmdname>ping</cmdname> the public
+                    IP address of your running instance.     </cmd>
+                <info>
+                    <codeblock># ping &lt;instance_public_IP>  </codeblock>
+                    <p>Did it work?   It should have.</p>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_w5g_jq4_zh" scale="40"/>Close the
+                    xterm window on the Debian desktop (where you ran the <cmdname>ping</cmdname>
+                    command). </cmd>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_nll_nq4_zh" scale="40"/>On the
+                    front-end host, remove the rule from the <i>mygroup2</i> security group that
+                    allows ICMP connections. </cmd>
+                <info>
+                    <codeblock># euca-revoke –P icmp –t -1:-1 –s 0.0.0.0/0 mygroup2</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_jjf_tq4_zh" scale="40"/>On the
+                    front-end host, verify that the rule was removed from your security group. </cmd>
+                <info>
+                    <codeblock># euca-describe-groups</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

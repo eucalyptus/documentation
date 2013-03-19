@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_f5s_dfp_zd">
+ <title>Network Modes</title>
+ <conbody>
+  <p>Eucalyptus cloud networking supports four network modes.  The four modes include:<ul
+    id="ul_gy5_hxj_1h">
+    <li>SYSTEM (default)</li>
+    <li>STATIC</li>
+    <li>MANAGED</li>
+    <li>MANAGED-NOVLAN</li>
+   </ul></p>
+  <p>SYSTEM and STATIC modes are very similar, the main difference being the location of the DHCP
+      server that provides IP addresses to instances as they boot up. MANAGED and MANAGED-NOVLAN are
+      very similar, the main difference being support for placing groups of instances in separate
+      VLANs for additional network security.</p>
+  <p>The network mode is configured by modifying the VNET_MODE parameter
+        <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file on the Cluster Controller and Node
+      Controller hosts.</p>
+  <p>The choice of network mode depends on two factors:<ul id="ul_3jq_txj_1h">
+    <li>Which Eucalyptus network features do you require or desire?</li>
+    <li>How much control do you have over the underlying physical network?</li>
+   </ul></p>
+  <p>Security groups, elastic IP addresses, and VLAN network isolation are only available in certain
+   network modes.   If you require or desire one or more of these features then you would have to
+   configure the network mode that supports these features.   For example, MANAGED mode supports all
+   three of these features.</p>
+  <p>In MANAGED mode, Eucalyptus will automatically create and destroy VLANs, as needed, when
+      instances are launched and terminated in different security groups. This means that certain
+      segments of the underlying physical network infrastructure should not already have VLANs
+      configured as this could interfere with normal Eucalyptus operation. If this is not possible
+      to configure, then MANAGED mode should not be used.  More detail about VLAN configuration is
+      provided in a later section of this training module.</p>
+ </conbody>
+</concept>

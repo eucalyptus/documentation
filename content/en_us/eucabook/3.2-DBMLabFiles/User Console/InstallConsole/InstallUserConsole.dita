@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_qny_3mj_23">
+    <title>Install and Configure the Eucalyptus User Console</title>
+    <shortdesc/>
+    <taskbody>
+        <context>In this section of the lab you will install and configure the Eucalyptus User
+            Console. Once you have completed this task, you will start the User Console
+            service.</context>
+        <steps>
+            <step>
+                <cmd><image href="images/desktop.png" id="image_znr_tc3_b3" scale="40"/>If
+                    necessary, from the Debian desktop open an SSH session to the front-end host. </cmd>
+                <info>
+                    <codeblock># ssh &lt;front_end_public_IP> </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_x5h_n2c_g3" scale="40"/>One the
+                    front-end host, use the <cmdname>yum</cmdname> command to install the User
+                    Console service.</cmd>
+                <info>
+                    <codeblock># yum install eucalyptus-console</codeblock>
+                    <note>The User Console installation depends on the
+                            <filepath>eucalyptus-release.repo</filepath> and
+                            <filepath>epel.repo</filepath> files in the
+                            <filepath>/etc/yum.repos.d</filepath> directory. These files have
+                        already been installed on the front-end host as part of the initial
+                        Eucalyptus installation.</note>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_5bl_42c_g3" scale="40"/>Open the
+                        <filepath>/etc/eucalyptus-console/console.ini</filepath> file using either
+                    the <cmdname>vi</cmdname> or <cmdname>nano -w</cmdname> editor. Leave the file
+                    open for editing.</cmd>
+                <info>
+                    <codeblock># vi /etc/eucalyptus-console/console.ini</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_vwc_p2c_g3" scale="40"/>While in
+                    the editor, make the following changes in the <filepath>console.ini</filepath>
+                    file. All the other default settings will work in the lab environment. Save your
+                    changes and close the editor when you are finished.</cmd>
+                <info>
+                    <codeblock>clchost: &lt;front_end_public_IP>
+support.url: https://&lt;front_end_public_IP>:8443</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd><image href="images/frontend.png" id="image_tm5_p2c_g3" scale="40"/>On the
+                    front-end host, start the User Console service.</cmd>
+                <info>
+                    <codeblock># service eucalyptus-console start</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

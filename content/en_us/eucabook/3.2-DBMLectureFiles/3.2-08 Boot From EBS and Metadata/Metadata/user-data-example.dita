@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_xbx_klj_jf">
+ <title>Userdata Example</title>
+ <conbody>
+  <p>This example will use a combination of metadata and userdata, along with a start-up script, to
+      have an instance automatically attach a volume at boot.  The start-up script will also
+      partition the volume, create a file system on the partition, and mount the file system to a
+      directory named <filepath>/ebs</filepath>.</p>
+    <p rev="">The start-up script assumes that the volume has been created ahead of time and that
+      the user will supply the volume ID as userdata when they launch the instance.  The start-up
+      script also assumes that the euca2ools commands have been installed in the EMI and therefore
+      are available in the instance when it launches. </p>
+    <p rev="">Because the start-up script runs a euca2ools command to attach the volume, the
+      instance must be able to authenticate to Cloud Controller.  For this reason the user must also
+      supply the standard EC2 authentication information as userdata when the instance is launched. 
+      The necessary authentication information can be copy and pasted from the user’s
+        <filepath>eucarc</filepath> file. </p>
+    <p>Notice that all the userdata shown below is in the form of <cmdname>export</cmdname> commands
+      that set environment variables.   These commands will be written to a file on the instance and
+      then that file will be read by the operating system's shell program in order to set the
+      environment variables.   The first three environment variables will be automatically used by
+      the <cmdname>euca-attach-volume</cmdname> command to authenticate to the Cloud Controller. The
+      last environment variable supplies the volume ID number to the
+        <cmdname>euca-attach-volume</cmdname> command. </p>
+  <p>Launch an instance with the following user
+   data:<codeblock>export EC2_URL=&lt;url> 
+export EC2_ACCESS_KEY=&lt;key> 
+export EC2_SECRET_KEY=&lt;key> 
+export EC2_VOL_ID=&lt;vol-id>  </codeblock></p>
+  <note>The instance would have to be launched with the actual values of the environment variables
+      and not the angle-bracket values as shown above. The actual EC2 URL and KEY values can be
+      copied and pasted from the user's <filepath>eucarc</filepath> file. The volume ID value would
+      come from the output of the <cmdname>euca-describe-volumes</cmdname> command.</note>
+  <p>Add the following to the EMI's <filepath>/etc/rc.local </filepath>file:<codeblock>INSTANCE_ID=$(curl --retry 2 --retry-delay 5 -m 45 -s /
+   http://169.254.169.254/latest/meta-data/instance-id) 
+# 
+curl --retry 2 --retry-delay 5 -m 45 -s / 
+   http://169.254.169.254/latest/user-data/ >> /
+   /root/.env_variables 
+# 
+source /root/.env_variables 
+# 
+euca-attach-volume -i $INSTANCE_ID -d /dev/vdc $EC2_VOL_ID 
+#  
+sleep 5 
+#  
+fdisk /dev/vdc &lt; /partition_script 
+# 
+mkfs.ext3 /dev/vdc1 
+# 
+mkdir -p /ebs 
+# 
+mount /dev/vdc1 /ebs  </codeblock><note>
+        <p>The <filepath>/partition_script</filepath> would need to exist in the EMI in order to be
+          available in the running instance. It must contain the following six lines:</p>
+        <p>n</p>
+        <p>p</p>
+        <p>1</p>
+        <p><i>(press the Enter key for a blank line)</i></p>
+        <p><i>(press the Enter key for a blank line)</i></p>
+        <p>w</p>
+        <p>It would create a (<i>n</i>)ew partition, it would be a (<i>p</i>)rimary partition, it
+          would be partition (<i>1</i>), it would use a default starting cylinder, it would use a
+          default end cylinder, and would (<i>w</i>)rite the partition table to the disk and
+          exit.</p>
+      </note></p>
+    <p>The script to attach a volume at boot was purposely kept relatively simple for training
+      purposes.  In the real world, the script could be enhanced, for example, to include commands
+      that would create the volume, find it's volume ID, and then attach the volume.</p>
+ </conbody>
+</concept>

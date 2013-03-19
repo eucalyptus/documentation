@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_vlj_4bl_1h">
+ <title>Routing - Two Cluster Controllers but a Single Subnet</title>
+ <conbody>
+  <p><image href="images/Network-Routing-Single-Subnet.png" placement="break" id="image_xc2_llx_1h"
+    scale="55"/>In the example above, each subnet has 32 possible IP addresses.  However, ten
+   addresses in each subnet cannot be assigned to virtual machines.  In each subnet one IP address
+   is used for the broadcast address, one address is used for the network number, and eight
+   addresses are used as gateway IP addresses for routing IP packets from virtual machines to hosts
+   outside of the cloud.   </p>
+  <p>Why are eight IP addresses in each subnet reserved as gateway IP addresses?  Because each
+   subnet is also a security group and a security group can span up to eight Cluster Controllers.  
+   Each Cluster Controller requires its own gateway IP address for each security group.   </p>
+  <p>Security group A contains virtual machines on two Cluster Controllers so two of the possible
+   eight gateway IP addresses in that subnet are actually in use.  VM1 communicates directly with
+   VM2 across the physical switch using the private IP addresses.   However, VM1 and VM2 must use
+   the gateway IP addresses on their Cluster Controllers to communicate with hostA.</p>
+  <p>The Cloud Controller chooses a random VLAN ID and IP address range for the next security
+   group.  VLAN IDs 0 and 1 are not used as they reserved.</p>
+  <p>The Cloud Controller chooses an instance IP address at random from the range of available IP
+   addresses in the subnet.</p>
+  <p/>
+  <p/>
+ </conbody>
+</concept>
