@@ -24,6 +24,8 @@
 		<ant antfile="build.xml" target="pdf" dir="rn"/>
 		<ant antfile="build.xml" target="pdf" dir="relnotes-euca2ools"/>
 		<ant antfile="build.xml" target="pdf" dir="cg"/>
+		<ant antfile="build.xml" target="pdf" dir="eucabook"/>
+		
 		<antcall target="copy_pdf"/>
 	</target>
 
@@ -37,6 +39,7 @@
 		<ant antfile="build.xml" target="xhtml" dir="rn"/>
 		<ant antfile="build.xml" target="xhtml" dir="relnotes-euca2ools"/>
 		<ant antfile="build.xml" target="xhtml" dir="cg"/>
+		<ant antfile="build.xml" target="xhtml" dir="eucabook"/>
 		<antcall target="copy_xhtml"/>
 	</target>
 	
@@ -136,6 +139,9 @@
 		<copy
 			file="${source.dir}${file.separator}en_us${file.separator}cg${file.separator}out${file.separator}pdf${file.separator}console-guide.pdf"
 			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
+		<copy
+			file="${source.dir}${file.separator}en_us${file.separator}eucabook${file.separator}out${file.separator}pdf${file.separator}eucabook.pdf"
+			todir="${product.dir}${file.separator}en_us" overwrite="true"/>
 	</target>
 	
 	<!--<target name="copy_pdf_release">
@@ -215,6 +221,13 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
+		
+		<copy todir="${product.dir}${file.separator}en_us" overwrite="true">
+			<fileset
+				file="${source.dir}${file.separator}en_us${file.separator}eucabook${file.separator}out${file.separator}xhtml${file.separator}cg">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 
 
 	</target>
@@ -233,5 +246,6 @@
 		<ant antfile="build.xml" target="clean" dir="rn"/>
 		<ant antfile="build.xml" target="clean" dir="relnotes-euca2ools"/>
 		<ant antfile="build.xml" target="clean" dir="cg"/>
+		<ant antfile="build.xml" target="clean" dir="eucabook"/>
 	</target>
 </project>
