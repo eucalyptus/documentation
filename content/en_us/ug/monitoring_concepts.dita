@@ -4,7 +4,7 @@
 <concept id="monitoring_concepts">
  <title>CloudWatch Concepts</title>
 	<shortdesc>This section describes the terminology and concepts you need for
-		understanding and using CloudWatch.</shortdesc>
+		understanding and using CloudWatch. <!-- CloudWatch collects, aggregates, stores, and dispenses data from your cloud's resources. --></shortdesc>
  <conbody>
  <section>
  	<title>Metrics</title>
@@ -13,10 +13,12 @@
  		own events. Metric: time-ordered set of data points. Dimension: unique name/value pair that
  		identifies a metric, for example, VM instanceID. Namespace: container. Statistic set: aggregate
  		of data points (as often as once per minute). -->
- 	<p>A metric is the fundamental concept for Amazon CloudWatch and represents a time-ordered set of
- 		data points. Either you or AWS products publish metric data points into Amazon CloudWatch and you retrieve statistics about those data points as an ordered set of time-series data.</p>
+ 	
+ 	
+ 	<p>A metric is a time-ordered set of data points. Either you or Eucalytpus publish metric data
+ 		points to CloudWatch. You then retrieve statistics about those data points as an ordered set of time-series data.</p>
  		
- 		<p>You can think of a metric as a variable that you want to monitor. The data points represent the values of that variable over time. For example, the CPU usage of a particular Amazon EC2 instance is one metric, and the latency of an elastic load balancer is another.</p>
+ 		<p>Think of a metric as a variable that you want to monitor. The data points represent the values of that variable over time. For example, the CPU usage of a particular Amazon EC2 instance is one metric, and the latency of an elastic load balancer is another.</p>
  		
  		<p>The data points themselves can come from any application or business activity from which you collect data, not just Amazon Web Services products and applications. For example, a metric might be the CPU usage of a particular Amazon EC2 instance or the temperature in a refrigeration facility.</p>
  		
@@ -30,8 +32,9 @@
  	
  	<section>
  		<title>Namespaces</title>
- 		<p>Amazon CloudWatch namespaces are conceptual containers for metrics. Metrics in different
- 			namespaces are isolated from each other, so that metrics from different applications are not mistakenly aggregated into the same statistics.</p>
+ 		<p>A namespace is a conceptual container for a collection of metrics. Metrics in different
+ 			namespaces are isolated from each other, so that metrics from different services cannot
+ 			mistakenly be aggregated into the same statistical set.</p>
  			
  			<p>Namespace names are strings you define when you create a metric. The names must be valid XML
  				characters, typically containing the alphanumeric characters "0-9A-Za-z" plus "."(period), "-" (hyphen), "_" (underscore), "/" (slash), "#" (hash), and ":" (colon).	 AWS namespaces all follow the convention AWS/&lt;service>, such as AWS/EC2 and AWS/ELB.</p>
@@ -43,7 +46,7 @@
  	
  	<section>
  		<title>Dimensions</title>
- 		<p>A dimension is a name/value pair that helps you to uniquely identify a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. Dimensions help you design a conceptual structure for your statistics plan. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new metric.</p>
+ 		<p>A dimension is a name-value pair that helps to uniquely identify a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. Dimensions help you design a conceptual structure for your statistics plan. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new metric.</p>
  		
  		<p>You specify dimensions when you create a metric with the PutMetricData action (or its command line equivalent mon-put-data). AWS products that feed data to Amazon CloudWatch also attach dimensions to each metric. You can use dimensions to filter result sets that Amazon CloudWatch queries return.</p>
  		<p>
@@ -56,14 +59,14 @@
  	
  	<section>
  		<title>Time Stamps</title>
- 		<p>With Amazon CloudWatch, each metric data point must be marked with a time stamp. The time stamp can be up to two weeks in the past and up to two hours into the future. If you do not provide a time stamp, Amazon CloudWatch creates a time stamp for you based on the time the data element was received.</p>
+ 		<p>With CloudWatch, each metric data point must be marked with a time stamp. The time stamp can be up to two weeks in the past and up to two hours into the future. If you do not provide a time stamp, Amazon CloudWatch creates a time stamp for you based on the time the data element was received.</p>
  		
  		<p>The time stamp you use in the request must be a dateTime object, with the complete date plus hours, minutes, and seconds (for more information, go to http://www.w3.org/TR/xmlschema-2/#dateTime). For example: 2007-01-31T23:59:59Z. Although it is not required, we recommend you provide the time stamp in the Coordinated Universal Time (UTC or Greenwich Mean Time) time zone. When you retrieve your statistics from Amazon CloudWatch, all times reflect the UTC time zone.</p>
  	</section>
  	
  	<section>
  		<title>Units</title>
- 		<p>Units represent your statistic's unit of measure. For example, the units for the Amazon EC2 NetworkIn metric is Bytes because NetworkIn tracks the number of	bytes that an instance receives on all network interfaces.</p>
+ 		<p>A unit represents a statistic's measurement in time or amount. For example, the units for the Amazon EC2 NetworkIn metric is Bytes because NetworkIn tracks the number of	bytes that an instance receives on all network interfaces.</p>
  		
  		<p>You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points you create that specify a unit of measure, such as Percent, will be aggregated separately. The following list provides some of the more common units that Amazon CloudWatch supports:</p>
  		<ul>
@@ -91,7 +94,8 @@
  	
  	<section>
  		<title>Statistics</title>
- 		<p>Statistics are metric data aggregations over specified periods of time. Amazon CloudWatch provides statistics based on the metric data points you or AWS products have provided to Amazon CloudWatch. Aggregations are made using the namespace, metric name, dimensions, and the data point unit of measure, within the time period you specify. The following table describes the available statistics.</p>
+ 		<p>A statistic is computed aggregation of metric data over a specified period of time. CloudWatch
+ 			provides statistics based on the metric data points you or Eucalyptus provide. Aggregations are made using the namespace, metric name, dimensions, and the data point unit of measure, within the time period you specify. The following table describes the available statistics.</p>
  		
  		<table>
  			<tgroup cols="2">
@@ -132,7 +136,7 @@
  	
  	<section>
  		<title>Periods</title>
- 		<p>A period is the length of time associated with a specific Amazon CloudWatch statistic. Each statistic represents an aggregation of the metrics data collected for a specified period of time. You can adjust how the data is aggregated by varying the length of the period. A period can be as short as one minute (60 seconds) or as long as two weeks (1,209,600 seconds).</p>
+ 		<p>A period is the length of time, in seconds, associated with a specific CloudWatch statistic. Each statistic represents an aggregation of the metrics data collected for a specified period of time. You can adjust how the data is aggregated by varying the length of the period. A period can be as short as one minute (60 seconds) or as long as two weeks (1,209,600 seconds).</p>
  		
  		Note
  		Although periods are expressed in seconds, the minimum granularity for a period is one minute. Accordingly, you specify period values as multiples of 60. For example, to specify a period of six minutes, you would use the value 360.
