@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="metric_get_stats">
+    <title>Get Statistics for a Metric</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>To get statistics for a metric:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command.</cmd>
+            	<info>
+            		<codeblock>euwatch-get-stats [metric_name] --start-time [start_time] --end-time [end_time]
+            			--period [time_in_seconds] --namespace "AWS/EC2" --statistics [statistic] --dimensions
+            			[dimension] --headers</codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example>
+    		<p>The following example returns the average CPU utilization for the i-c08804a9 instance at
+    			one hour resolution.</p>
+    		<codeblock>euwatch-get-stats CPUUtilization --start-time 2013-02-14T23:00:00.000Z 
+--end-time 2013-03-14T23:00:00.000Z --period 3600 --statistics "Average" 
+--namespace "AWS/EC2" --dimensions "InstanceId=i-c08804a9"</codeblock>
+    		<p>The following example returns CPU utilization for all of your cloud's instances.</p>
+    		<codeblock>euwatch-get-stats CPUUtilization --start-time 2013-02-14T23:00:00.000Z --end-time
+    			2013-03-14T23:00:00.000Z --period 3600 --statistics "Average,Minimum,Maximum" --namespace "AWS/EC2"</codeblock>
+    	</example>
+    </taskbody>
+</task>
