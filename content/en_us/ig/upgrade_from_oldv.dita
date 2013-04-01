@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_from_oldv">
+	<title>Set the Block Storage Manager</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<note type="attention">If you are upgrading from version <ph
+        		conref="../shared/conrefs.dita#prod/prev_version"/>, you can skip this task.</note>
+        	
+        		<p>At Eucalyptus 3.2.1, we introduced a variety of new block storage
+        			managers. After upgrading, you must specify the block storage
+        			manager for each zone before you can connect to the storage
+        			backend. To connect to the storage backend, perform the step below.</p>
+        		
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command.</cmd>
+            	<info>
+            		<codeblock>euca-modify-property -p [zone].storage.blockstoragemanager=[ebs_manager]</codeblock>
+            		<p>where <codeph>ebs_manager</codeph> is one of the following
+            			options:</p>
+            		<ul conref="../shared/conrefs.dita#lists/san_devices">
+            			<li/>
+            		</ul>
+            		
+            		<p>See <xref href="configure_storage_controller.dita">Configure the
+            			Storage Controller</xref> for more information.</p>
+            		
+            	</info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

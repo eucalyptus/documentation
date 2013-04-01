@@ -273,8 +273,16 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					VNX-Snapshot license. This adapter also requires the
 					Navisphere Secure CLI to be installed on the SCs. The
 					Navisphere CLI must be version 7.32.0.5.54 or later.</p>
+				<p>
+					<note type="important">You must create a clone private LUN (CPL) of at least 1GB on each SP. For
+						more information on creating private LUNs, go to <xref
+							href="ftp://202.119.166.5/lxh/Document/EMC/Navisphere_Manager_Online_Help_v6_24/navimanager.htm#snapview/how_to_s/clones/allocating_clone_private_luns.htm"
+							type="html" scope="external">Allocating clone private LUNs</xref>.</note>
+				</p>
+				
 			</context>
 			<steps>
+				
 				<step>
 					<cmd>We assume that the Navisphere CLI is installed in
 							<filepath>/opt/Navisphere</filepath> on the
@@ -384,15 +392,15 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					type="tip">Note: The time it takes for a LUN migration to
 					complete will depend on the exact VNX model, workload, and
 					volume size, and the amount of data actually stored in the
-					volume. The default timeout for LUN migrations is 1200
-					seconds. If your deployment uses volumes >50GB, or if you
+					volume. The default timeout for LUN migrations is 12
+					hours. If your deployment uses volumes >50GB, or if you
 					find that snapshots fail and a "migration timeout" message
 					is seen in the SC logs, then you should increase the timeout
 					to a larger value. It is recommended that if you plan on
 					using volumes in the 100GB range that you set that timeout
 					to 3600 or larger. You can set the timeout using
 						<codeph>euca-modify-property</codeph> as follows:
-					<codeblock>euca-modify-property -p [partition].storage.lunmigrationtimeout=[time in seconds]</codeblock></note></result>
+					<codeblock>euca-modify-property -p [partition].storage.lunmigrationtimeout=[time in hours]</codeblock></note></result>
 		</taskbody>
 	</task>
 </task>
