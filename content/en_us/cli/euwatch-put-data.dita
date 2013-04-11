@@ -29,15 +29,51 @@
   					</row>
   				</thead>
   				<tbody>
+  					
   					<row>
-  						<entry><codeph></codeph></entry>
-  						<entry></entry>
-  						<entry align="center"></entry>
+  						<entry><codeph>-m, --metric-name <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>Name of the metric you want to gather.</entry>
+  						<entry align="center">Yes</entry>
   					</row>
   					<row>
-  						<entry><codeph></codeph></entry>
-  						<entry></entry>
-  						<entry align="center"></entry>
+  						<entry><codeph>-n, --namespace <i>value</i></codeph></entry>
+  						<entry>Namespace for the metric.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-d, --dimensions "<i>key1=value1</i>,<i>key2=value2</i>..." </codeph></entry>
+  						<entry>Dimensions (one or more) along which metric data can be uniquely
+  							identified.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-s, --statisticValues "<i>key1=value1</i>,<i>key2=value2</i>..." </codeph></entry>
+  						<entry>Statistics to be provided for the given metric. You must specify each value you want
+  							for this option, or else Eucalyptus returns an error.
+  							<p>Valid key values: <codeph>SampleCount</codeph> | <codeph>Sum</codeph> |
+  								<codeph>Maximum</codeph> |  <codeph>Minimum</codeph></p>
+  						</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-t, --timestamp <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>Timestamp of the data point. For example, <codeph>2009-11-25T19:00:00+00:00</codeph>.
+  							Timestamp will be rounded down to the nearest minute. The dateTime type
+  							uses ISO 8601. The default for this option is the time that this request was sent.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>-u, --unit <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>The unit that the metric is being reported in.  
+  							<p>Valid unit values are <codeph>Seconds</codeph> | <codeph>Bytes</codeph> |
+  								<codeph>Bits</codeph> | <codeph>Percent</codeph> | <codeph>Count</codeph> |
+  								<codeph>Bytes/Second</codeph> | <codeph>Bits/Second</codeph> |
+  							<codeph>Count/Second</codeph> | <codeph>None</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row><row>
+  						<entry><codeph>-v, --value <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>The value of the metric datum being put in.</entry>
+  						<entry align="center">No</entry>
   					</row>
   					
   				</tbody>
@@ -45,20 +81,28 @@
   		</table>
   	</section>
   	
-  	<section
-  		conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+  	<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>
   	<section>
   		<title>Output</title>
-  		<ul>
-  			<li>Output type identifier ("")</li>
-  			<li></li>
-  			<li></li>
-  		</ul>
+  		<p>Eucalyptus does not return any output.</p>
   	</section>
   	
   	<section>
-  		<title>Example</title>
-  		<codeblock></codeblock>
+  		<title>Examples</title>
+  		<p>The following example puts statistic data for "RequestCount" in the "MyService" namespace. 
+  			The metric contains no dimensions and so represents the overall RequestCount
+  			across the entire service.  The measurement is a pre-aggregated
+  			statisticValue representing five earlier measurements whose maximum was 70,
+  			minimum was 30 and sum was 250.</p>
+  		<codeblock>euwatch-put-data --metric-name RequestCount --namespace "MyService" 
+ --timestamp 2009-11-25T00:00:00.000Z --statisticValues 
+ "Sum=250,Minimum=30,Maximum=70,SampleCount=5"</codeblock>
+  		
+  		<p>The following example puts user-specific "RequestCount" test data in the "MyService"
+  			namespace. The user and stack name are stored as dimensions in order to
+  			distinguish this metric from the service-wide metric in the example above.</p>
+  		<codeblock>euwatch-put-data --metric-name RequestCount --namespace "MyService" 
+--dimensions "User=testUser,Stack=Test" --timestamp 2009-11-25T00:00:00.000Z --value 50</codeblock>
   	</section>
   	
   </refbody>
