@@ -3,11 +3,11 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="monitoring_concepts">
  <title>CloudWatch Concepts</title>
-	<shortdesc>This section describes the terminology and concepts you need for
-		understanding and using CloudWatch. <!-- CloudWatch collects, aggregates, stores, and dispenses data from your cloud's resources. --></shortdesc>
+	<shortdesc>This section describes the terminology and concepts you need in order to 
+		understand and use CloudWatch.</shortdesc>
  <conbody>
  <section>
- 	<title>Metrics</title>
+ 	<title>Metric</title>
  	<!-- Every service has metrics. You can convert every metric into an alarm. An alarm sends a
  		message and/or triggers an auto scaling event. You can create your own metrics and trigger your
  		own events. Metric: time-ordered set of data points. Dimension: unique name/value pair that
@@ -15,60 +15,72 @@
  		of data points (as often as once per minute). -->
  	
  	
- 	<p>A metric is a time-ordered set of data points. Either you or Eucalytpus publish metric data
+ 	<p>A metric is a time-ordered set of data points. You can get metric data from Eucalyptus cloud
+ 		resources, or you can publish your own set of custom metric data
  		points to CloudWatch. You then retrieve statistics about those data points as an ordered set of time-series data.</p>
  		
- 		<p>Think of a metric as a variable that you want to monitor. The data points represent the values of that variable over time. For example, the CPU usage of a particular Amazon EC2 instance is one metric, and the latency of an elastic load balancer is another.</p>
+ 		<p>Data points represent values of a variable over time. For example you can get metrics for the CPU usage of a
+ 			particular instance, or for the latency of an elastic load balancer (ELB). </p>
  		
- 		<p>The data points themselves can come from any application or business activity from which you collect data, not just Amazon Web Services products and applications. For example, a metric might be the CPU usage of a particular Amazon EC2 instance or the temperature in a refrigeration facility.</p>
+ 		<!--<p>The data points themselves can come from any application or business activity from which you
+ 			collect data, not just Eucalyptus services. For example, a metric might be the CPU usage of a particular instance or the temperature in a refrigeration facility.</p>-->
  		
- 		<p>Metrics are uniquely defined by a name, a namespace, and one or more dimensions. Each data point has a time stamp, and (optionally) a unit of measure. When you request statistics, the returned data stream is identified by namespace, metric name, dimension, and (optionally) the unit.</p>
+ 		<p>Metrics are uniquely defined by a name, a namespace, and one or more dimensions. Each data
+ 			point has a time stamp, and (optionally) a unit of measure. When you request statistics, the
+ 			returned data stream is identified by namespace, metric name, dimension, and (optionally) the
+ 			unit. For more information about Eucalyptus-supported metrics, see <xref
+ 				href="monitoring_metric_ref.dita"/>.</p>
  		
- 		<p>You can use the PutMetricData API (or the mon-put-data command) to create a custom metric and publish data points for it. You can add the data points in any order, and at any rate you choose. Amazon CloudWatch aggregates data points that are fully identical (duplicate values, time stamps, and units) when you request statistics on them.</p>
+ 		<!--<p>You can use the PutMetricData API (or the mon-put-data command) to create a custom metric and publish data points for it. You can add the data points in any order, and at any rate you choose. CloudWatch aggregates data points that are fully identical (duplicate values, time stamps, and units) when you request statistics on them.</p>-->
  		
- 		<p>CloudWatch stores your metric data for two weeks. You can publish metric data from multiple sources, such as incoming network traffic from dozens of different Amazon EC2 instances, or requested page views from several different web applications. You can request statistics on metric data points that occur within a specified time window.</p>
+ 		<p>CloudWatch stores your metric data for two weeks. You can publish metric data from multiple
+ 			sources, such as incoming network traffic from dozens of different instances, or requested page views from several different web applications. You can request statistics on metric data points that occur within a specified time window.</p>
  		
  </section>
  	
  	<section>
- 		<title>Namespaces</title>
+ 		<title>Namespace</title>
  		<p>A namespace is a conceptual container for a collection of metrics. Metrics in different
- 			namespaces are isolated from each other, so that metrics from different services cannot
+ 			namespaces are isolated from each other. This means that metrics from different services cannot
  			mistakenly be aggregated into the same statistical set.</p>
  			
  			<p>Namespace names are strings you define when you create a metric. The names must be valid XML
- 				characters, typically containing the alphanumeric characters "0-9A-Za-z" plus "."(period), "-" (hyphen), "_" (underscore), "/" (slash), "#" (hash), and ":" (colon).	 AWS namespaces all follow the convention AWS/&lt;service>, such as AWS/EC2 and AWS/ELB.</p>
+ 				characters, typically containing the alphanumeric characters "0-9A-Za-z" plus "."(period), "-"
+ 				(hyphen), "_" (underscore), "/" (slash), "#" (hash), and ":" (colon).	 AWS namespaces all
+ 				follow the convention AWS/&lt;service>, such as AWS/EC2 and AWS/ELB. For more information, see
+ 				<xref href="monitoring_namespaces.dita"/>.</p>
  				
  			
- 				<note type="note">Namespace names must be fewer than 256 characters in length.
- 				There is no default namespace. You must specify a namespace for each data element you put into Amazon CloudWatch.</note>
+ 				<note type="note">A namespace name must be less than 256 characters.
+ 				There is no default namespace. You must specify a namespace for each data element you put into CloudWatch.</note>
  	</section>
  	
  	<section>
- 		<title>Dimensions</title>
- 		<p>A dimension is a name-value pair that helps to uniquely identify a metric. Every metric has specific characteristics that describe it, and you can think of dimensions as categories for those characteristics. Dimensions help you design a conceptual structure for your statistics plan. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new metric.</p>
+ 		<title>Dimension</title>
+ 		<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension help you design a conceptual structure for your statistics plan. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new metric.</p>
  		
- 		<p>You specify dimensions when you create a metric with the PutMetricData action (or its command line equivalent mon-put-data). AWS products that feed data to Amazon CloudWatch also attach dimensions to each metric. You can use dimensions to filter result sets that Amazon CloudWatch queries return.</p>
+ 		<p>You specify dimensions when you create a metric with the PutMetricData action (or its command line equivalent mon-put-data). AWS products that feed data to CloudWatch also attach dimensions to each metric. You can use dimensions to filter result sets that CloudWatch queries return.</p>
  		<p>
- 		For example, you can get statistics for a specific Amazon EC2 instance by calling GetMetricStatistics with the InstanceID dimension set to a specific Amazon EC2 instance ID.</p>
+ 		For example, you can get statistics for a specific instance by calling GetMetricStatistics with the InstanceID dimension set to a specific instance ID.</p>
  		
- 		<p>For metrics produced by certain AWS products such as Amazon EC2, Amazon CloudWatch can aggregate data across dimensions. For example, if you call GetMetricStatistics for a metric in the AWS/EC2 namespace and do not specify any dimensions, Amazon CloudWatch aggregates all data for the specified metric to create the statistic that you requested. However, Amazon CloudWatch does not aggregate across dimensions for metrics that you create with PutMetricData or mon-put-data.</p>
+ 		<p>For metrics produced by certain AWS products such as Amazon EC2, CloudWatch can aggregate data across dimensions. For example, if you call GetMetricStatistics for a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch aggregates all data for the specified metric to create the statistic that you requested. However, CloudWatch does not aggregate across dimensions for metrics that you create with PutMetricData or mon-put-data.</p>
  		
  		<note type="note">You can assign up to ten dimensions to a metric.</note>
  	</section>
  	
  	<section>
- 		<title>Time Stamps</title>
- 		<p>With CloudWatch, each metric data point must be marked with a time stamp. The time stamp can be up to two weeks in the past and up to two hours into the future. If you do not provide a time stamp, Amazon CloudWatch creates a time stamp for you based on the time the data element was received.</p>
+ 		<title>Time Stamp</title>
+ 		<p>With CloudWatch, each metric data point must be marked with a time stamp. The time stamp can be up to two weeks in the past and up to two hours into the future. If you do not provide a time stamp, CloudWatch creates a time stamp for you based on the time the data element was received.</p>
  		
- 		<p>The time stamp you use in the request must be a dateTime object, with the complete date plus hours, minutes, and seconds (for more information, go to http://www.w3.org/TR/xmlschema-2/#dateTime). For example: 2007-01-31T23:59:59Z. Although it is not required, we recommend you provide the time stamp in the Coordinated Universal Time (UTC or Greenwich Mean Time) time zone. When you retrieve your statistics from Amazon CloudWatch, all times reflect the UTC time zone.</p>
+ 		<p>The time stamp you use in the request must be a dateTime object, with the complete date plus hours, minutes, and seconds (for more information, go to http://www.w3.org/TR/xmlschema-2/#dateTime). For example: 2007-01-31T23:59:59Z. Although it is not required, we recommend you provide the time stamp in the Coordinated Universal Time (UTC or Greenwich Mean Time) time zone. When you retrieve your statistics from CloudWatch, all times reflect the UTC time zone.</p>
  	</section>
  	
  	<section>
- 		<title>Units</title>
- 		<p>A unit represents a statistic's measurement in time or amount. For example, the units for the Amazon EC2 NetworkIn metric is Bytes because NetworkIn tracks the number of	bytes that an instance receives on all network interfaces.</p>
+ 		<title>Unit</title>
+ 		<p>A unit represents a statistic's measurement in time or amount. For example, the units for the
+ 			instance NetworkIn metric is Bytes because NetworkIn tracks the number of	bytes that an instance receives on all network interfaces.</p>
  		
- 		<p>You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points you create that specify a unit of measure, such as Percent, will be aggregated separately. The following list provides some of the more common units that Amazon CloudWatch supports:</p>
+ 		<p>You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points you create that specify a unit of measure, such as Percent, will be aggregated separately. The following list provides some of the more common units that CloudWatch supports:</p>
  		<ul>
  		<li>Seconds</li>
  		
@@ -93,7 +105,7 @@
  	</section>
  	
  	<section>
- 		<title>Statistics</title>
+ 		<title>Statistic</title>
  		<p>A statistic is computed aggregation of metric data over a specified period of time. CloudWatch
  			provides statistics based on the metric data points you or Eucalyptus provide. Aggregations are made using the namespace, metric name, dimensions, and the data point unit of measure, within the time period you specify. The following table describes the available statistics.</p>
  		
@@ -129,13 +141,13 @@
  				</tbody>
  			</tgroup>
  		</table>
- 		<p>You use the <apiname>euca-get-stats</apiname> to retrieve statistics, specifying the same values used for the namespace, metric name, and dimension parameters used when the metric values were created. You also specify the encompassing period, or start and end times that Amazon CloudWatch will use for the aggregation. The starting and ending points can be as close together as 60 seconds, and as far apart as two weeks.</p>
+ 		<p>You use the <apiname>euca-get-stats</apiname> to retrieve statistics, specifying the same values used for the namespace, metric name, and dimension parameters used when the metric values were created. You also specify the encompassing period, or start and end times that CloudWatch will use for the aggregation. The starting and ending points can be as close together as 60 seconds, and as far apart as two weeks.</p>
  		
  		<p>CloudWatch allows you to add pre-calculated statistics using the <apiname>euca-put-data</apiname> command using the  <codeph>statistic-values</codeph> parameter. Instead of data point values, you specify values for SampleCount, Minimum, Maximum, and Sum (CloudWatch calculates the average for you). The values you add in this way are aggregated with any other values associated with the matching metric.</p>
  	</section>
  	
  	<section>
- 		<title>Periods</title>
+ 		<title>Period</title>
  		<p>A period is the length of time, in seconds, associated with a specific CloudWatch statistic. Each statistic represents an aggregation of the metrics data collected for a specified period of time. You can adjust how the data is aggregated by varying the length of the period. A period can be as short as one minute (60 seconds) or as long as two weeks (1,209,600 seconds).</p>
  		
  		Note
@@ -144,22 +156,31 @@
  		
  		The values you select for the StartTime and EndTime parameters determine how many periods GetMetricStatistics will return. For example, calling GetMetricStatistics with the default values for the Period, EndTime, and StartTime parameters returns an aggregated set of statistics for each minute of the previous hour. If you prefer statistics aggregated into ten-minute blocks, set Period to 600. For statistics aggregated over the entire hour, use a Period value of 3600.
  		
- 		Periods are also an important part of the Amazon CloudWatch Alarms feature. When you create an alarm to monitor a specific metric, you are asking Amazon CloudWatch to compare that metric to the threshold value that you supplied. You have extensive control over how Amazon CloudWatch makes that comparison. Not only can you specify the period over which the comparison is made, but you can also specify how many consecutive periods the threshold must be breached before you are notified. For more information on Alarms, see Alarms.
+ 		Periods are also an important part of the CloudWatch alarms feature. When you create an alarm to monitor a specific metric, you are asking CloudWatch to compare that metric to the threshold value that you supplied. You have extensive control over how  CloudWatch makes that comparison. Not only can you specify the period over which the comparison is made, but you can also specify how many consecutive periods the threshold must be breached before you are notified. For more information on Alarms, see Alarms.
  	</section>
  	
  	<section>
- 		<title></title>
- 		<p></p>
+ 		<title>Aggregation</title>
+ 		<p>CloudWatch aggregates statistics according a length of time that you set. You can publish as
+ 			many data points as you want with the same or similar time stamps. CloudWatch aggregates these
+ 			data points by period length. You can publish data points for a metric that share not only the
+ 			same time stamp, but also the same namespace and dimensions.</p>
+ 		<p>Subsequent calls to GetMetricStatistics will return aggregated statistics about those data points. You can even do this in one PutMetricData request. CloudWatch accepts multiple data points in the same PutMetricData call with the same time stamp. You can also publish multiple data points for the same or different metrics, with any time stamp. The size of a PutMetricData request, however, is limited to 8KB for HTTP GET requests and 40KB for HTTP POST requests. You can include a maximum of 20 data points in one PutMetricData request.
+ 			
+ 			For large data sets that would make the use of PutMetricData impractical, CloudWatch allows for the insertion of a pre-aggregated data set called a StatisticSet. With StatisticSets you give Amazon CloudWatch the Min, Max, Sum, and SampleCount of a number of data points. A common use case for StatisticSets is when you are collecting data many times in a minute. For example, let’s say you have a metric for the request latency of a web page. It doesn’t make sense to do a PutMetricData request with every web page hit. We suggest you collect the latency of all hits to that web page, aggregate them together once a minute and send that StatisticSet to Amazon CloudWatch.
+ 			
+ 			CloudWatch doesn't differentiate the source of a metric. If you publish a metric with the same namespace and dimensions from different sources, CloudWatch treats this as a single metric. This can be useful for service metrics in a distributed, scaled system. For example, all the hosts in a web server application could publish identical metrics representing the latency of requests they are processing. CloudWatch treats these as a single metric, allowing you to get the statistics for minimum, maximum, average, and sum of all requests across your application.</p>
  	</section>
  	
  	<section>
- 		<title></title>
- 		<p></p>
+ 		<title>Alarm</title>
+ 		<p>An alarm watches a single metric over a time period you
+ 			set, and performs one or more actions based on the value of the metric relative to a given
+ 			threshold over a number of time periods. An alarm performs an action for sustained state changes
+ 			only. It will not start an action simply because the cloud resource is in a particular state.
+ 			The state must have changed and been maintained for a specified number of periods. For more
+ 			information about using alarms, see <xref href="monitoring_alarms_tasks.dita"/>.</p>
  	</section>
  	
- 	<section>
- 		<title></title>
- 		<p></p>
- 	</section>
  </conbody>
 </concept>
