@@ -2,16 +2,70 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="monitoring_enabling">
-    <title>Enable CloudWatch</title>
-    <shortdesc/>
+    <title>Enable Monitoring </title>
+    <shortdesc>This section describes steps for enabling monitoring on your cloud resources.</shortdesc>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>To enable monitoring on your resources, following the steps for your resource.</p>
         </context>
-        <steps>
-            <step>
-                <cmd>Task step.</cmd>
-            </step>
-        </steps>
+        
     </taskbody>
+	<task id="monitoring_enabling_instance">
+		<title>To enable monitoring for an instance</title>
+		<taskbody>
+			<steps-unordered>
+				<step>
+					<cmd>To enable monitoring for a running instance, enter the following command:</cmd>
+					<info>
+						<codeblock>euca-monitor-instances [instance_id]</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>To enable monitoring when you launch an instance, enter the following command:</cmd>
+					<info>
+						<codeblock>euca-run-instances [image_id] -k gsg-keypair --monitor</codeblock>
+					</info>
+				</step>
+			</steps-unordered>
+		</taskbody>
+	</task>
+	<task id="monitoring_enabling_as">
+		<title>To enable monitoring for a scaling group</title>
+		<taskbody>
+			<steps-unordered>
+				<step>
+					<cmd>To enable monitoring for an existing Auto Scaling group:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Create a launch configuration with <codeph>--monitoring-enabled</codeph> option.</cmd>
+						</substep>
+						<substep>
+							<cmd>Call <apiname>euscale-update-auto-scaling-group</apiname> to update your Auto Scaling group with the launch configuration you created in the previous step. Auto Scaling will enable monitoring for new instances that it creates.</cmd>
+						</substep>
+						<substep>
+							<cmd>Choose one of the following actions to deal with all existing Amazon EC2 instances in the Auto Scaling group:</cmd>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>To enable monitoring when you launch an instance, enter the following command:</cmd>
+					<info>
+						<codeblock>euca-run-instances [image_id] -k gsg-keypair --monitor</codeblock>
+					</info>
+				</step>
+			</steps-unordered>
+		</taskbody>
+	</task>
+	<task id="monitoring_enabling_elb">
+		<title>To enable monitoring for a load balancer</title>
+		<taskbody>
+			<context>
+				<p>Elastic Load Balancing (ELB) sends metrics and dimensions for all load balancers to
+					CloudWatch. By default, you do not need to specifically enable monitoring.</p>
+					<note type="important">ELB only sends  CloudWatch metrics when requests are sent through the
+						load balancer. If there are no requests or data for a given metric, ELB does not report to CloudWatch.
+					If there are requests sent through the load balancer, ELB measures and sends metrics for that load balancer in 60-second intervals.</note>
+			</context>
+		</taskbody>
+	</task>
 </task>
