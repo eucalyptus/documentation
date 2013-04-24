@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="reboot_instance">
+    <title>Migrate an Instance</title>
+    <shortdesc/>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>Maintenance</indexterm>
+                <indexterm>Instances <indexterm>migrating</indexterm>
+                </indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <taskbody>
+        <context>
+            <p>Eucalyptus allows you to migrate an instance between Node
+                Controllers (NCs). This is sometimes necessary to perform system
+                maintenance, or to balance system requirements with available
+                resources.</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>To migrate an instance to another NC, enter the following command:</cmd>
+                <info>
+                    <codeblock>euca-migrate-instances -i [instance_id]</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>To migrate an instance to a specific NC, enter the following command:</cmd>
+                <info>
+                    <codeblock>euca-migrate-instances -i [instance_id] --dest=[NC IP address]</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>To migrate an instance <i>avoiding</i> a specific NC, enter
+                    the following command:</cmd>
+                <info>
+                    <codeblock>euca-migrate-instances -i [instance_id] --exclude-dest=[NC IP address]</codeblock>
+                </info>
+            </step>
+        </steps>
+        <example>
+            <p>To migrate the instance <codeph>i-34523332</codeph> to the NC on 10.1.1.45, enter:</p>
+            <codeblock>euca-migrate-instances i-34523332 --dest=10.1.1.45</codeblock>
+        </example>
+    </taskbody>
+</task>
