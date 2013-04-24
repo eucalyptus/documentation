@@ -11,7 +11,7 @@
         
     </taskbody>
 	<task id="monitoring_enabling_instance">
-		<title>To enable monitoring for an instance</title>
+		<title>Enable monitoring for an instance</title>
 		<taskbody>
 			<steps-unordered>
 				<step>
@@ -30,7 +30,7 @@
 		</taskbody>
 	</task>
 	<task id="monitoring_enabling_as">
-		<title>To enable monitoring for a scaling group</title>
+		<title>Enable monitoring for a scaling group</title>
 		<taskbody>
 			<steps-unordered>
 				<step>
@@ -40,24 +40,53 @@
 							<cmd>Create a launch configuration with <codeph>--monitoring-enabled</codeph> option.</cmd>
 						</substep>
 						<substep>
-							<cmd>Call <apiname>euscale-update-auto-scaling-group</apiname> to update your Auto Scaling group with the launch configuration you created in the previous step. Auto Scaling will enable monitoring for new instances that it creates.</cmd>
+							<cmd>Make a <apiname>euscale-update-auto-scaling-group</apiname> request to update your Auto Scaling group with the launch configuration you created in the previous step. Auto Scaling will enable monitoring for new instances that it creates.</cmd>
 						</substep>
 						<substep>
-							<cmd>Choose one of the following actions to deal with all existing Amazon EC2 instances in the Auto Scaling group:</cmd>
+							<cmd>Choose one of the following actions to deal with all existing instances in the Auto Scaling group:
+							</cmd>
+							<info>
+								<table>
+									<tgroup cols="2">
+										<thead>
+											<row>
+												<entry>To . . . </entry>
+												<entry>Do this . . . </entry>
+											</row>
+										</thead>
+										<tbody>
+											<row>
+												<entry>Preserve existing instances</entry>
+												<entry>Make a <apiname>euca-monitor-instances</apiname> request for all existing
+													instances to enable monitoring.</entry>
+											</row>
+											<row>
+												<entry>Terminate existing instances</entry>
+												<entry>Make a <apiname>euscale-terminate-instance-in-auto-scaling-group</apiname> request for
+													all existing instances. Auto Scaling will use the updated launch configuration to create replacement instances with monitoring enabled.</entry>
+											</row>
+											
+										</tbody>
+									</tgroup>
+								</table>
+							</info>
 						</substep>
+						
 					</substeps>
 				</step>
 				<step>
-					<cmd>To enable monitoring when you launch an instance, enter the following command:</cmd>
-					<info>
-						<codeblock>euca-run-instances [image_id] -k gsg-keypair --monitor</codeblock>
-					</info>
+					<cmd>To enable monitoring when you create a new Auto Scaling group:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Create a launch configuration with <codeph>--monitoring-enabled</codeph> option.</cmd>
+						</substep>
+					</substeps>
 				</step>
 			</steps-unordered>
 		</taskbody>
 	</task>
 	<task id="monitoring_enabling_elb">
-		<title>To enable monitoring for a load balancer</title>
+		<title>Enable monitoring for a load balancer</title>
 		<taskbody>
 			<context>
 				<p>Elastic Load Balancing (ELB) sends metrics and dimensions for all load balancers to
