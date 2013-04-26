@@ -2,16 +2,98 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="autoscaling_examples_scaling_plan_demand">
-    <title>Configuring a Demand-Based Scaling Plan</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>Context for the current task</p>
-        </context>
-        <steps>
-            <step>
-                <cmd>Task step.</cmd>
-            </step>
-        </steps>
-    </taskbody>
+    <title>Configuring a Demand-Based Scaling Policy</title>
+    <shortdesc>An auto scaling group needs a scaling policy to determine when to perform scaling
+        activities. Auto scaling policies work with CloudWatch to identify metrics and set alarms,
+        which are triggered when the metrics fall outside of a specified value range. In the
+        following example, we will create a demand-based scaling policy.</shortdesc>
+    <taskbody/>
+    <task id="autoscaling_examples_scaling_plan_demand_create_polices">
+        <title>Create Auto Scaling Policies</title>
+        <shortdesc/>
+        <taskbody>
+            <context>
+                <p>To create the scaling policies:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Create a scale-out policy using the following command:</cmd>
+                    <info>
+                        <codeblock>as-put-scaling-policy my-scaleout-policy -–auto-scaling-group my-test-asg --adjustment=30 --type PercentChangeInCapacity</codeblock>
+                    </info>
+                    <info>This command will return a unique Amazon Resource Name (ARN) for the new
+                        policy. <note> You will need this ARN to create the Cloudwatch alarms in
+                            subsequent steps. </note>
+                    </info>
+                </step>
+
+                <step>
+                    <cmd>Create a scale-in policy using the following command:</cmd>
+                    <info>
+                        <codeblock>as-put-scaling-policy my-scalein-policy –auto-scaling-group my-test-asg --adjustment=-2  --type ChangeInCapacity</codeblock>
+                    </info>
+                    <info>This command will return a unique Amazon Resource Name (ARN) for the new
+                        policy. <note> You will need this ARN to create the Cloudwatch alarms in
+                            subsequent steps. </note>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="autoscaling_examples_scaling_plan_demand_create_alarms">
+        <title>Create CloudWatch Alarms</title>
+        <shortdesc/>
+        <taskbody>
+            <context>
+                <p>To create CloudWatch alarms:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Create a Cloudwatch alarm for scaling out when the average CPU usage exceeds 80 percent:</cmd>
+                    <info>
+                        <codeblock>mon-put-metric-alarm --alarm-name AddCapacity  --metric-name CPUUtilization --namespace “AWS/EC2” 
+--statistic Average --period 120 --threshold 80 --comparison-operator GreaterThanOrEqualToThreshold --dimensions “AutoScalingGroupName=my-test-asg” 
+--evaluation-periods 2 --alarm-actions arn:aws:autoscaling:us-east-1:123456789012:scalingPolicy:ac542982-cbeb-4294-891c-a5a941dfa787:autoScalingGroupName/ my-test-asg:policyName/my-scaleout-policy</codeblock>
+                    </info>
+                    
+                </step>
+                
+                <step>
+                    <cmd>Create a Cloudwatch alarm for scaling in when the average CPU usage falls below 40 percent:</cmd>
+                    <info>
+                        <codeblock>mon-put-metric-alarm --alarm-name RemoveCapacity --metric-name CPUUtilization --namespace “AWS/EC2” 
+ --statistic Average  --period 120  --threshold 40  --comparison-operator LessThanOrEqualToThreshold  --dimensions “AutoScalingGroupName=my-test-asg” 
+ --evaluation-periods 2 --alarm-actions arn:aws:autoscaling:us-east-1:123456789012:scalingPolicy:4ee9e543-86b5-4121-
+b53b-aa4c23b5bbcc:autoScalingGroupName/ my-test-asg:policyName/my-scalein-policy </codeblock>
+                    </info>
+                    
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="autoscaling_examples_scaling_plan_demand_verify">
+        <title>Verify Your Alarms and Policies</title>
+        <shortdesc>Once you've created your auto scaling policies and CloudWatch alarms, you should verify them.</shortdesc>
+        <taskbody>
+            <context>
+                <p>To verify your alarms and policies:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Use the CloudWatch command mon-describe-alarms to see a list of the alarms you've created:</cmd>
+                    <info>
+                        <codeblock>mon-describe-alarms --headers</codeblock>
+                    </info>
+                    
+                </step>
+                
+                <step>
+                    <cmd>Use the euscale-describe-policies command to see the scaling policies you've created:</cmd>
+                    <info>
+                        <codeblock>as-describe-policies --auto-scaling-group my-test-asg --headers</codeblock>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
 </task>
