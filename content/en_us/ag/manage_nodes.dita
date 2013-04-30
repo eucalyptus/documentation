@@ -32,11 +32,13 @@
                 <info>
                     <codeblock>euca-migrate-instances -i [instance_id]</codeblock>
                     <p>You can also optionally specify
-                            <codeph>--dest=[destination NC IP(s)]</codeph> or
-                            <codeph>--exclude-dest=[excluded NC IP(s)]</codeph>,
-                        to ensure that the instance is migrated to one of the
+                            <codeph>--dest=[destination NC IP]</codeph> or
+                            <codeph>--exclude-dest=[excluded NC IP]</codeph>, to
+                        ensure that the instance is migrated to one of the
                         specified Node Controllers, or to avoid migrating the
-                        instance to any of the specified Node Controllers.</p>
+                        instance to any of the specified Node Controllers. These
+                        flags may be used more than once to specify multiple
+                        Node Controllers.</p>
                 </info>
             </step>
             <step>
@@ -46,10 +48,13 @@
                     <codeblock>euca-migrate-instances --source=[NC IP]</codeblock>
                     <p>You can also optionally specify
                             <codeph>--stop-source</codeph>, to stop the
-                        specified NC and ensure that no new instances are
-                        started on that NC while the migration occurs. This
-                        allows you to safely remove the NC without interrupting
-                        running instances.</p>
+                        specified Node Controller and ensure that no new
+                        instances are started on that NC while the migration
+                        occurs. This allows you to safely remove the NC without
+                        interrupting running instances. The NC will remain in
+                        the DISABLED state until it is explicitly enabled using
+                            <codeph>euca-modify-service -s start [NC IP]</codeph>.
+                    </p>
                 </info>
             </step>
         </steps-unordered>
