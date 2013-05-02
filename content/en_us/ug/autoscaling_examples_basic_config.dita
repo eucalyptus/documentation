@@ -27,6 +27,16 @@
                             --instance-type m1.small </codeph>
                     </info>
                 </step>
+                <step>
+                    <cmd>To verify the launch configuration, enter the following command:</cmd>
+                    <info>
+                        <codeph>euscale-describe-launch-configs MyLaunchConfig</codeph>
+                    </info>
+                    <info>
+                        <p>You should see output similar to the following:</p>
+                        <codeblock>LAUNCH-CONFIG	MyLaunchConfig	emi-00123456	m1.small</codeblock>
+                    </info>
+                </step>
             </steps>
             <result>You've now created a launch configuration..</result>
             <postreq/>
@@ -37,9 +47,9 @@
         <shortdesc>The auto scaling group contains settings like the minimum, maximum, and desired
             number of Eucalyptus instances. At minimum, you must specify the name of the auto
             scaling group, the name of an existing launch configuration, the availability zone, and
-            the minimum and maximum number of instances that should be running.  In the following
+            the minimum and maximum number of instances that should be running. In the following
             example, we will create an auto scaling group called MyScalingGroup in availability zone
-            part00, with a minimum size of 2 and a maximum size of 5.</shortdesc>
+            PARTI00, with a minimum size of 2 and a maximum size of 5.</shortdesc>
         <taskbody>
             <context>To create an auto scaling group:</context>
             <steps>
@@ -47,8 +57,20 @@
                     <cmd>Enter the following command:</cmd>
                     <info>
                         <codeph>euscale-create-auto-scaling-group MyScalingGroup
-                            --launch-configuration MyLaunchConfig --availability-zones part00
+                            --launch-configuration MyLaunchConfig --availability-zones PARTI00
                             --min-size 2 --max-size 5</codeph>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Enter the following command to verify the auto scaling group you just created:</cmd>
+                    <info>
+                        <codeph>euscale-describe-auto-scaling-groups MyScalingGroup</codeph>
+                    </info>
+                    <info>
+                        <p>This command will return output similar to the following:</p>
+                        <codeblock>AUTO-SCALING-GROUP	MyScalingGroup	MyLaunchConfig	PARTI00		2	5	2	Default
+INSTANCE	i-1B853EC3	PARTI00	InService	Healthy	MyLaunchConfig
+INSTANCE	i-ABC53ED7	PARTI00	InService	Healthy	MyLaunchConfig</codeblock>
                     </info>
                 </step>
             </steps>
@@ -57,42 +79,5 @@
             <postreq/>
         </taskbody>
     </task>
-    <task id="autoscaling_basic_config_create_verify">
-        <title>Verify Your Auto Scaling Configuration</title>
-        <shortdesc>You can use the <codeph>euscale-desscribe-auto-scaling-groups</codeph> and
-                <codeph>euscale-describe-auto-scaling-instances</codeph> to get information your
-            about auto scaling groups and running auto scaling instances.</shortdesc>
-        <taskbody>
-            <context>
-                <p>To verify your auto scaling group:</p>
-            </context>
-            <steps>
-                <step>
-                    <cmd>Enter the following command to show information about the auto scaling group you just created:</cmd>
-                    <info>
-                        <codeph>euscale-describe-auto-scaling-groups MyScalingGroup
-                            --headers</codeph>
-                    </info>
-                    <info>
-                        <p>This command will return output similar to the following:</p>
-                        <codeblock>AUTO-SCALING-GROUP  GROUP-NAME          LAUNCH-CONFIG      AVAILABILITY-ZONES  MIN-SIZE  MAX-SIZE  DESIRED-CAPACITY
-AUTO-SCALING-GROUP  MyScalingGroup      MyLaunchConfig     part00                 2         5        1</codeblock>
-                    </info>
-                </step>
-                <step>
-                    <cmd>Enter the following command to show information about the instances running in your auto scaling group:</cmd>
-                    <info>
-                        <codeph>as-describe-auto-scaling-instances MyScalingGroup --headers</codeph>
-                    </info>
-                    <info>
-                        <p>This command will return output similar to the following:</p>
-                        <pre>INSTANCE  INSTANCE-ID  GROUP-NAME          AVAILABILITY-ZONE  STATE      STATUS      LAUNCH-CONFIG
-INSTANCE  i-abcd1234a  MyScalingGroup      part00             InService  HEALTHY     MyLaunchConfig</pre>
-                    </info>
-                </step>
-            </steps>
-            <result>You've now created a basic auto scaling configuration. </result>
-            <postreq/>
-        </taskbody>
-    </task>
+    
 </task>
