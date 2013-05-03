@@ -2,102 +2,138 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="metrics_elb">
- <title>ELB Metrics and Dimensions</title>
- <shortdesc></shortdesc>
- <conbody>
-  <p>Concept definition.</p>
- 	<section>
- 		<title>Available Metrics for ELB</title>
- 		<table>
- 			<tgroup cols="3">
- 				<thead>
- 					<row>
- 						<entry>Metric</entry>
- 						<entry>Description</entry>
- 						<entry>Unit</entry>
- 					</row>
- 				</thead>
- 				<tbody>
- 					<row>
- 						<entry><codeph>Latency</codeph></entry>
- 						<entry>Time elapsed after the request leaves the load balancer until it receives the corresponding response.
- 							
- 							<p>Valid Statistics: <codeph>Minimum</codeph> | <codeph>Maximum</codeph> |
- 								<codeph>Average</codeph> | <codeph>Count</codeph></p></entry>
- 						<entry>Seconds</entry>
- 					</row>
- 					<row>
- 						<entry><codeph>RequestCount</codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 						<entry></entry>
- 					</row>
- 				</tbody>
- 			</tgroup>
- 		</table>
- 	</section>
- 	<section>
- 		<title>Available Dimensions for ELB</title>
- 		<table>
- 			<tgroup cols="2">
- 				<thead>
- 					<row>
- 						<entry>Metric</entry>
- 						<entry>Description</entry>
- 					</row>
- 				</thead>
- 				<tbody>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 					</row>
- 					<row>
- 						<entry><codeph></codeph></entry>
- 						<entry></entry>
- 					</row>
- 					
- 				</tbody>
- 			</tgroup>
- 		</table>
- 	</section>
- </conbody>
+	<title>ELB Metrics and Dimensions</title>
+	<shortdesc/>
+	<conbody>
+		<p>This section discusses the Elastic Load Balancing (ELB) metrics and dimensions available to CloudWatch.</p>
+		<section>
+			<title>Available Metrics for ELB</title>
+			<table>
+				<tgroup cols="3">
+					<thead>
+						<row>
+							<entry>Metric</entry>
+							<entry>Description</entry>
+							<entry>Unit</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>Latency</codeph></entry>
+							<entry>Time elapsed after the request leaves the load balancer until it
+								receives the corresponding response. <p>Valid Statistics:
+										<codeph>Minimum</codeph> | <codeph>Maximum</codeph> |
+										<codeph>Average</codeph> |
+								<codeph>Count</codeph></p></entry>
+							<entry>Seconds</entry>
+						</row>
+						<row>
+							<entry><codeph>RequestCount</codeph></entry>
+							<entry>The number of requests handled by the load balancer.</entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HealthyHostCount</codeph></entry>
+							<entry>The number of healthy instances registered with the load
+								balancer in a specified availability zone. Healthy instances are those that have not failed more health checks than the
+								value of the unhealthy threshold. 
+								<p>Constraints: You must provide both 
+								<codeph>LoadBalancerName</codeph> and <codeph>AvailabilityZone</codeph> dimensions for this metric.</p>
+								<p>Valid Statistics: <codeph>Minimum</codeph>
+									| <codeph>Maximum</codeph> | <codeph>Average</codeph>
+								</p>
+							</entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>UnHealthyHostCount</codeph></entry>
+							<entry>The number of unhealthy instances registered with the
+								load balancer. These are instances that have failed more health checks than the
+								value of the unhealthy threshold. 
+								<p>Constraints: You must provide both 
+									<codeph>LoadBalancerName</codeph> and <codeph>AvailabilityZone</codeph> dimensions for this metric.</p>
+								<p>Valid Statistics: <codeph>Minimum</codeph> |
+										<codeph>Maximum</codeph> | <codeph>Average</codeph>
+								</p></entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_ELB_4XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by ELB
+								that are in the 4xx (client error) series. <p>Valid Statistics:
+										<codeph>Sum</codeph></p>
+							</entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_ELB_5XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by ELB
+								that are in the 5xx (server error) series. ELB
+								can generate 5xx errors if no back-end instances are registered, no
+								healthy back-end instances, or the request rate exceeds ELB's current available capacity. This response count does not
+								include any responses that were generated by back-end instances.
+									<p>Valid Statistics: <codeph>Sum</codeph></p></entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_Backend_2XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by back-end instances that
+								are in the 2xx (success) series. <p>Valid Statistics:
+										<codeph>Sum</codeph></p></entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_Backend_3XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by back-end instances that
+								are in the 3xx (user action required) series. <p>Valid Statistics:
+										<codeph>Sum</codeph></p></entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_Backend_4XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by back-end instances that
+								are in the 4xx (client error) series. This response count does not
+								include any responses that were generated by ELB. <p>Valid
+									Statistics: <codeph>Sum</codeph></p></entry>
+							<entry>Count</entry>
+						</row>
+						<row>
+							<entry><codeph>HTTPCode_Backend_5XX</codeph></entry>
+							<entry>Count of HTTP response codes generated by back-end instances that are in the 5xx (server error) series. This response count does not include any responses that were generated by ELB.
+								<p>Valid
+									Statistics: <codeph>Sum</codeph></p></entry>
+							<entry>Count</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Available Dimensions for ELB</title>
+			<p>You can use the currently available dimensions for ELB to refine the metrics returned by a query. For example, you could use <codeph>HealthyHostCount</codeph> and dimensions <codeph>LoadBalancerName</codeph> and <codeph>AvailabilityZone</codeph> to get the average number of healthy instances behind the specified load balancer within the specified Availability Zone for a given period of time.</p>
+				
+				<p>You can aggregate ELB data along any of the following dimensions shown in the following table.</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Metric</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>LoadBalancerName</codeph></entry>
+							<entry>Limits the metric data to instances that are connected to the specified load balancer. </entry>
+						</row>
+						<row>
+							<entry><codeph>AvailabilityZone</codeph></entry>
+							<entry>Limits the metric data to load balancers in the specified availability zone.</entry>
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+	</conbody>
 </concept>
