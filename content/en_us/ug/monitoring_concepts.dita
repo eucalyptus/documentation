@@ -28,7 +28,7 @@
 
 		<section>
 			<title>Namespace</title>
-			<p>A namespace is a conceptual container for a collection of metrics. Metrics in different
+			<p>A namespace is a conceptual container for a collection of metrics. Eucalyptus keeps metrics in different
 				namespaces are isolated from each other. This means that metrics from different services
 				cannot mistakenly be aggregated into the same statistical set.</p>
 			<p>Namespace names are strings you define when you create a metric. The names must be valid
@@ -43,15 +43,13 @@
 
 		<section>
 			<title>Dimension</title>
-			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension help you
+			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension helps you
 				design a conceptual structure for your statistics plan. Because dimensions are part of the
 				unique identifier for a metric, whenever you add a unique name-value pair to one of your
 				metrics, you are creating a new metric.</p>
-			<p>You specify dimensions when you create a metric with the PutMetricData action (or its
-				command line equivalent mon-put-data). AWS products that feed data to CloudWatch also attach
-				dimensions to each metric. You can use dimensions to filter result sets that CloudWatch
+			<p>You specify a dimension when you create a metric with the <apiname>euwatch-put-data</apiname> command. You can use dimensions to filter result sets that CloudWatch
 				queries return.</p>
-			<p> For example, you can get statistics for a specific instance by calling GetMetricStatistics
+			<p> For example, you can get statistics for a specific instance by calling <apiname>euwatch-get-stats</apiname>
 				with the InstanceID dimension set to a specific instance ID.</p>
 			<p>For Eucalyptus metrics, CloudWatch can aggregate data across dimensions. For example, if
 				you request a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch
@@ -164,8 +162,7 @@
 				specified period of time. You can adjust how the data is aggregated by varying the length of
 				the period. A period can be as short as one minute (60 seconds) or as long as two weeks
 				(1,209,600 seconds).</p>
-			<p>Specify period values as multiples of 60. For example, to specify a period of six minutes,
-				you would use the value 360. The minimum granularity for a period is 60 seconds.</p>
+			
 			<p>The values you select for the StartTime and EndTime options determine how many periods
 				CloudWatch returns. For example, if you use the default values for the Period, EndTime, and
 				StartTime options CloudWatch returns an aggregated set of statistics for each minute of the
