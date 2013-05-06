@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euscale-describe-policies">
-	<title>euscale-describe-policies</title>
-	<shortdesc>Describes the specified (or all) policies.</shortdesc>
+<reference id="euscale-execute-policy">
+	<title>euscale-execute-policy</title>
+	<shortdesc>Executes the specified scaling policy.</shortdesc>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euscale-describe-policies
-[PolicyName [PolicyName...] ]
-[-g, --auto-scaling-group <b>value</b> ]</codeblock>
+			<codeblock>euscale-execute-policy
+<b>PolicyID</b>
+-g, --auto-scaling-group-name <b>value</b>
+[-h, --honor-cooldown / -H, --no-honor-cooldown ]
+</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -28,13 +30,23 @@
 					</thead>
 					<tbody>
 						<row>
-							<entry><codeph><i>PolicyName</i>,<i>PolicyName</i>...</codeph></entry>
-							<entry>A list of one or more policies to describe.</entry>
+							<entry><codeph>PolicyID</codeph></entry>
+							<entry>The ID of the policy to execute.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-g, --auto-scaling-group-name</codeph></entry>
+							<entry>The name or ARN of the auto scaling group.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-h, --honor-cooldown</codeph></entry>
+							<entry>Reject this request if the specified group is in cooldown.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-g, --auto-scaling-group <b>value</b></codeph></entry>
-							<entry>Show only policies for the named auto scaling group.</entry>
+							<entry><codeph>-H, --no-honor-cooldown</codeph></entry>
+							<entry>Override the specified group's cooldown period. This is the default behavior.</entry>
 							<entry align="center">No</entry>
 						</row>
 					</tbody>
@@ -54,15 +66,9 @@
 
 		<section>
 			<title>Examples</title>
-			<p></p>
-			<codeblock>euscale-describe-policies</codeblock>
-			<p>The following shows sample output for this command.</p>
-			<codeblock>SCALING-POLICY	MyScalingGroup	MyScaleinPolicy	-2	ChangeInCapacity
-	arn:aws:autoscaling::706221218191:scalingPolicy:90356ab3-e795-4741-b058-a3499c8a6ee6
-	:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
-SCALING-POLICY	MyScalingGroup	MyScaleoutPolicy	30	PercentChangeInCapacity	
-    arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787
-    :autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+			<p>The follow example will return information about the launch configurations named <i>mylaunchconfig</i>.</p>
+			<codeblock>euscale-execute-policy MyScaleinPolicy -g MyScalingGroup -H </codeblock>
+			<p>This command has no output.</p>
 		</section>
 
 	</refbody>
