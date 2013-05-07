@@ -9,7 +9,7 @@
 		<section>
 			<title>Metric</title>
 			<p>A metric is a time-ordered set of data points. You can get metric data from Eucalyptus
-				cloud resources, or you can publish your own set of custom metric data points to CloudWatch.
+				cloud resources (like instances or volumes), or you can publish your own set of custom metric data points to CloudWatch.
 				You then retrieve statistics about those data points as an ordered set of time-series
 				data.</p>
 			<p>Data points represent values of a variable over time. For example you can get metrics for
@@ -28,8 +28,8 @@
 
 		<section>
 			<title>Namespace</title>
-			<p>A namespace is a conceptual container for a collection of metrics. Metrics in different
-				namespaces are isolated from each other. This means that metrics from different services
+			<p>A namespace is a conceptual container for a collection of metrics. Eucalyptus treats metrics in different
+				namespaces as unique. This means that metrics from different services
 				cannot mistakenly be aggregated into the same statistical set.</p>
 			<p>Namespace names are strings you define when you create a metric. The names must be valid
 				XML characters, typically containing the alphanumeric characters "0-9A-Za-z" plus
@@ -43,15 +43,15 @@
 
 		<section>
 			<title>Dimension</title>
-			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension help you
+			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension helps you
 				design a conceptual structure for your statistics plan. Because dimensions are part of the
 				unique identifier for a metric, whenever you add a unique name-value pair to one of your
 				metrics, you are creating a new metric.</p>
-			<p>You specify dimensions when you create a metric with the PutMetricData action (or its
-				command line equivalent mon-put-data). AWS products that feed data to CloudWatch also attach
+			<p>You specify dimensions when you create a metric with the <apiname>euwatch-put-data</apiname>
+				command. Eucalyptus services that report data to CloudWatch also attach
 				dimensions to each metric. You can use dimensions to filter result sets that CloudWatch
-				queries return.</p>
-			<p> For example, you can get statistics for a specific instance by calling GetMetricStatistics
+				queries return. For example, you can get statistics for a specific instance by calling
+				<apiname>euwatch-get-stats</apiname>
 				with the InstanceID dimension set to a specific instance ID.</p>
 			<p>For Eucalyptus metrics, CloudWatch can aggregate data across dimensions. For example, if
 				you request a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch
@@ -102,7 +102,7 @@
 
 				<li>None (default when no unit is specified)</li>
 			</ul>
-			<p>Though CloudWatch attaches no significance to a unit internally, other applications can
+			<p>Though CloudWatch attaches no significance to a unit, other applications can
 				derive semantic information based on the unit you choose. When you publish data without
 				specifying a unit, CloudWatch associates it with the None unit. When you get statistics
 				without specifying a unit, CloudWatch aggregates all data points of the same unit together.
@@ -164,8 +164,7 @@
 				specified period of time. You can adjust how the data is aggregated by varying the length of
 				the period. A period can be as short as one minute (60 seconds) or as long as two weeks
 				(1,209,600 seconds).</p>
-			<p>Specify period values as multiples of 60. For example, to specify a period of six minutes,
-				you would use the value 360. The minimum granularity for a period is 60 seconds.</p>
+			
 			<p>The values you select for the StartTime and EndTime options determine how many periods
 				CloudWatch returns. For example, if you use the default values for the Period, EndTime, and
 				StartTime options CloudWatch returns an aggregated set of statistics for each minute of the
