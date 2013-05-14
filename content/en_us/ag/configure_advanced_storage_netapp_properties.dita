@@ -5,7 +5,7 @@
  <title>Configurable NetApp SAN Properties</title>
  <shortdesc/>
  <conbody>
-  <p>The following table lists the NetApp SAN-specific properties you can configure using
+  <p>The following tables list the NetApp SAN-specific properties you can configure using
     <codeph>euca-modify-property</codeph>, along with their valid values and Eucalyptus default
    values.</p>
   <note importance="high"> The following configuration options are a subset of the Netapp SAN
@@ -14,6 +14,7 @@
    the <xref format="html"
     href="http://support.netapp.com/documentation/bytypedocweb/index.html?productID=30094&amp;subtypeID=61030"
     >NetApp Data ONTAP 7G documentation</xref> (this link requires you to register and login). </note>
+  <p>The following table lists properties that are applicable to both 7-mode and cluster mode:</p>
   <table>
    <tgroup cols="3">
     <thead>
@@ -75,6 +76,46 @@
       <entry>Flex volume's increment size in megabytes.</entry>
       <entry>Integer &gt;= 1; default is 256</entry>
      </row>
+     
+     <row>
+      <entry>&lt;region&gt;.storage.snappercent</entry>
+      <entry>Additional space reserved on the flex volume to store automatic and manual snapshots
+       created outside of Eucalyptus. The amount of space to be reserved is specified as a
+       percentage of the flex volume.</entry>
+      <entry>Integer &gt;= 0; default is 0</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.aggregate</entry>
+      <entry>Aggregates that can be used to create and manage volumes and snapshots. If a list of
+       aggregates is configured, Eucalyptus will pick one based on
+       &lt;region&gt;.storage.uselargestaggregate strategy. If no aggregate is provided Eucalyptus
+       will query the NetApp SAN for available aggregates and choose one based
+       &lt;region&gt;.storage.uselargestaggregate strategy. </entry>
+      <entry>Comma-separated string</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.uselargestaggregate</entry>
+      <entry>If set to “true” Eucalyptus will pick the largest available aggregate from a list of
+       aggregates. If set to “false” the smallest available aggregate will be chosen.</entry>
+      <entry>"true" (default) or "false"</entry>
+     </row>
+     
+     
+    </tbody>
+   </tgroup>
+  </table>
+  <p>The following properties are specific to 7-mode:</p>
+  <table>
+   <tgroup cols="3">
+    <thead>
+     <row>
+      <entry>Eucalyptus Property</entry>
+      <entry>Description</entry>
+      <entry>Valid Values</entry>
+     </row>
+    </thead>
+    <tbody>
+     
      <row>
       <entry>&lt;region&gt;.storage.snapschedweeks</entry>
       <entry>Number of weekly snapshots to keep online.</entry>
@@ -90,15 +131,50 @@
       <entry>Number of hourly snapshots to keep online.</entry>
       <entry>Integer &gt;= 0; default is 0</entry>
      </row>
+     
      <row>
-      <entry>&lt;region&gt;.storage.snappercent</entry>
-      <entry>Additional space reserved on the flex volume to store automatic and manual snapshots
-       created outside of Eucalyptus. The amount of space to be reserved is specified as a
-       percentage of the flex volume.</entry>
-      <entry>Integer &gt;= 0; default is 0</entry>
+      <entry>&lt;region&gt;.storage.nosnap</entry>
+      <entry> Disable automatic snapshots. If set to “true”, snapshot scheduling properties
+       &lt;region&gt;.storage.snapschedweeks and &lt;region&gt;.storage.snapschedweeks, are ignored,
+       and the SC transmits the default value (0) in their place to the NetApp SAN. </entry>
+      <entry>"true" (default) or "false"</entry>
      </row>
+     
     </tbody>
    </tgroup>
   </table>
+  
+  <p>The following properties are cluster mode specific:</p>
+  
+  <table>
+   <tgroup cols="3">
+    <thead>
+     <row>
+      <entry>Eucalyptus Property</entry>
+      <entry>Description</entry>
+      <entry>Valid Values</entry>
+     </row>
+    </thead>
+    <tbody>
+     
+     <row>
+      <entry>&lt;region&gt;.storage.snapshotpolicy</entry>
+      <entry> Snapshot retention policy determines how long the scheduled snapshots in the reserve
+       are kept before being deleted automatically. This applies to automatic snapshots
+       only.</entry>
+      <entry>String; default is "none"</entry>
+     </row>
+     <row>
+      <entry>&lt;region&gt;.storage.autosnapshots</entry>
+      <entry> Disable automatic snapshots. If set to “false” snapshot scheduling policy defined by
+       &lt;region&gt;.storage.snapshotpolicy is igonred and SC transmitts the default value (“none”)
+       in its place to the NetApp SAN. </entry>
+      <entry>"true" (default) or "false"</entry>
+     </row>
+     
+    </tbody>
+   </tgroup>
+  </table>
+  
  </conbody>
 </concept>
