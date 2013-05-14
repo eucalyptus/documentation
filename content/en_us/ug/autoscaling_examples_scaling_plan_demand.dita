@@ -5,7 +5,7 @@
     <title>Configuring a Demand-Based Scaling Policy</title>
     <shortdesc>An auto scaling group needs a scaling policy to determine when to perform scaling
         activities. Auto scaling policies work with CloudWatch to identify metrics and set alarms,
-        which are triggered when the metrics fall outside of a specified value range. To configre a
+        which are triggered when the metrics fall outside of a specified value range. To configure a
         scale-based policy, you need to create the policy, and then create CloudWatch alarms to
         associate with the policy. </shortdesc>
     <taskbody>
@@ -107,8 +107,8 @@
             </context>
             <steps>
                 <step>
-                    <cmd>Use the CloudWatch command mon-describe-alarms to see a list of the alarms
-                        you've created:</cmd>
+                    <cmd>Use the CloudWatch command <codeph>euwatch-describe-alarms</codeph> to see
+                        a list of the alarms you've created:</cmd>
                     <info>
                         <codeblock>euwatch-describe-alarms </codeblock>
                         <p>This will return output similar to the following:</p>
@@ -127,11 +127,14 @@ autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
                         you've created:</cmd>
                     <info>
                         <codeblock>euscale-describe-policies --auto-scaling-group MyScalingGroup</codeblock>
-                        <p>This will return output similar to the following:</p>
+                        <p>This will return output similar to the following (note that this output
+                            has been split into multiple lines for legibility):</p>
                         <codeblock>SCALING-POLICY	MyScalingGroup	MyScaleinPolicy	-2	ChangeInCapacity	arn:aws:autoscaling::706221218191:
-  scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
+  scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:
+  autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
 SCALING-POLICY	MyScalingGroup	MyScaleoutPolicy	30	PercentChangeInCapacity	arn:aws:autoscaling::706221218191:
-  scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+  scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:
+  autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
                     </info>
                 </step>
             </steps>
