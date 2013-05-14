@@ -5,11 +5,13 @@
     <title>Configuring a Demand-Based Scaling Policy</title>
     <shortdesc>An auto scaling group needs a scaling policy to determine when to perform scaling
         activities. Auto scaling policies work with CloudWatch to identify metrics and set alarms,
-        which are triggered when the metrics fall outside of a specified value range. To configre a
+        which are triggered when the metrics fall outside of a specified value range. To configure a
         scale-based policy, you need to create the policy, and then create CloudWatch alarms to
         associate with the policy. </shortdesc>
     <taskbody>
-        <context> In the following example, we will create a demand-based scaling policy. </context>
+        <context> In the following example, we will create a demand-based scaling policy. 
+            <note>For more information on CloudWatch, go to <xref href="using_monitoring.dita">Using CloudWatch</xref>.</note>
+        </context>
     </taskbody>
     <task id="autoscaling_examples_scaling_plan_demand_create_polices">
         <title>Create Auto Scaling Policies</title>
@@ -27,9 +29,11 @@
                     <info>This command will return a unique Amazon Resource Name (ARN) for the new
                         policy. <note> You will need this ARN to create the Cloudwatch alarms in
                             subsequent steps. </note>
+                        <note>The following example has been split into two lines for legibility.</note>
                     </info>
                     <info>
-                        <codeblock>arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+                        <codeblock>arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:
+    autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
                     </info>
                 </step>
 
@@ -41,9 +45,11 @@
                     <info>This command will return output containing a unique Amazon Resource Name
                         (ARN) for the new policy, similiar to the following:<note> You will need
                             this ARN to create the Cloudwatch alarms in subsequent steps. </note>
+                        <note>The following example has been split into two lines for legibility.</note>
                     </info>
                     <info>
-                        <codeblock>arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy</codeblock>
+                        <codeblock>arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:
+    autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy</codeblock>
                     </info>
                 </step>
             </steps>
@@ -61,9 +67,14 @@
                     <cmd>Create a Cloudwatch alarm for scaling out when the average CPU usage
                         exceeds 80 percent:</cmd>
                     <info>
+                        <note>The following example has been split into multiple lines for legibility.</note>
+                    </info>
+                    <info>
                         <codeblock>euwatch-put-metric-alarm AddCapacity  --metric-name CPUUtilization --namespace “AWS/EC2” 
 --statistic Average --period 120 --threshold 80 --comparison-operator GreaterThanOrEqualToThreshold --dimensions “AutoScalingGroupName=MyScalingGroup” 
---evaluation-periods 2 --alarm-actions arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+--evaluation-periods 2 
+--alarm-actions arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:
+   autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
                     </info>
 
                 </step>
@@ -72,9 +83,14 @@
                     <cmd>Create a Cloudwatch alarm for scaling in when the average CPU usage falls
                         below 40 percent:</cmd>
                     <info>
+                        <note>The following example has been split into multiple lines for legibility.</note>
+                    </info>
+                    <info>
                         <codeblock>euwatch-put-metric-alarm --alarm-name RemoveCapacity --metric-name CPUUtilization --namespace "AWS/EC2" 
  --statistic Average  --period 120  --threshold 40  --comparison-operator LessThanOrEqualToThreshold  --dimensions "AutoScalingGroupName=MyScalingGroup" 
- --evaluation-periods 2 --alarm-actions arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy</codeblock>
+ --evaluation-periods 2 
+ --alarm-actions arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:
+  autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy</codeblock>
                     </info>
 
                 </step>
@@ -91,13 +107,17 @@
             </context>
             <steps>
                 <step>
-                    <cmd>Use the CloudWatch command mon-describe-alarms to see a list of the alarms
-                        you've created:</cmd>
+                    <cmd>Use the CloudWatch command <codeph>euwatch-describe-alarms</codeph> to see
+                        a list of the alarms you've created:</cmd>
                     <info>
                         <codeblock>euwatch-describe-alarms </codeblock>
                         <p>This will return output similar to the following:</p>
-                        <codeblock>AddCapacity	INSUFFICIENT_DATA	arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy	AWS/EC2	CPUUtilization	120	Average	2	GreaterThanOrEqualToThreshold	80.0
-RemoveCapacity	INSUFFICIENT_DATA	arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy	AWS/EC2	CPUUtilization	120	Average	2	LessThanOrEqualToThreshold	40.0</codeblock>
+                        <codeblock>AddCapacity	INSUFFICIENT_DATA	arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:
+   autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy	
+   AWS/EC2	CPUUtilization	120	Average	2	GreaterThanOrEqualToThreshold	80.0
+RemoveCapacity	INSUFFICIENT_DATA	arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:
+autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy	
+   AWS/EC2	CPUUtilization	120	Average	2	LessThanOrEqualToThreshold	40.0</codeblock>
                     </info>
 
                 </step>
@@ -107,9 +127,14 @@ RemoveCapacity	INSUFFICIENT_DATA	arn:aws:autoscaling::706221218191:scalingPolicy
                         you've created:</cmd>
                     <info>
                         <codeblock>euscale-describe-policies --auto-scaling-group MyScalingGroup</codeblock>
-                        <p>This will return output similar to the following:</p>
-                        <codeblock>SCALING-POLICY	MyScalingGroup	MyScaleinPolicy	-2	ChangeInCapacity	arn:aws:autoscaling::706221218191:scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
-SCALING-POLICY	MyScalingGroup	MyScaleoutPolicy	30	PercentChangeInCapacity	arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+                        <p>This will return output similar to the following (note that this output
+                            has been split into multiple lines for legibility):</p>
+                        <codeblock>SCALING-POLICY	MyScalingGroup	MyScaleinPolicy	-2	ChangeInCapacity	arn:aws:autoscaling::706221218191:
+  scalingPolicy:d28c6ffc-e9f1-4a48-a79c-8b431794c367:
+  autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
+SCALING-POLICY	MyScalingGroup	MyScaleoutPolicy	30	PercentChangeInCapacity	arn:aws:autoscaling::706221218191:
+  scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787:
+  autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
                     </info>
                 </step>
             </steps>
