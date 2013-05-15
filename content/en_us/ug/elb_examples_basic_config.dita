@@ -1,17 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="elb_examples_basic_config">
-    <title>Creating a Basic Eucalyptus Load Balancing Configuration</title>
-    <shortdesc/>
-    <taskbody>
-        <context>
-            <p>Context for the current task</p>
-        </context>
-        <steps>
-            <step>
-                <cmd>Task step.</cmd>
-            </step>
-        </steps>
-    </taskbody>
+<task id="autoscaling_examples_basic_config">
+    <title>Creating a Basic Elastic Load Balancing Configuration</title>
+    <shortdesc>Elastic load balancing requires two basic elements to function
+        properly: a load balancer and instances registered with that load
+        balancer. The following examples show how to set up the basic elements
+        of an elastic load balancer configuraton. </shortdesc>
+    <taskbody/>
+    <task id="elb_create_lb">
+        <title>Create a Load Balancer </title>
+        <shortdesc>The load balancer manages incoming traffic, and monitors the
+            health of your instances. The load balancer ensures that traffic is
+            only sent to healthy instances.</shortdesc>
+        <taskbody>
+            <context>
+                <p> To create a load balancer:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Enter the following command:</cmd>
+                    <info>
+                        <p>If you are running your load balancer in a virtual
+                            private cloud (VPC), you must specify subnets the
+                            load balancer should run in (using <codeph>--subnets
+                            </codeph>) and the region or user to use to connect
+                            to the service. You can specify that the load
+                            balancer is private to the VPC (using
+                                <codeph>--scheme internal</codeph>). You can
+                            also specify security groups to assign to the new
+                            load balancer (using
+                                <codeph>--security-groups)</codeph>.</p>
+                        <p>If you are not running your load balancer in a VPC,
+                            you must specify availability zones the load
+                            balancer should run in (using
+                                <codeph>--availability-zones </codeph>), as well
+                            as the endpoint URL for the load balancing service
+                            (using <codeph>--url</codeph>). </p>
+                        <p>Optional arguments are marked below in italics.</p>
+                        <codeblock>eulb-create-lb 
+  (--subnets SUBNET1,... | --availability-zones ZONE1,...)  \ 
+  (--region USER@REGION | --url URL)                        \
+  --listener "lb-port=PORT, protocol={HTTP,HTTPS,SSL,TCP},  \
+              instance-port=PORT, \
+           <i>instance-protocol={HTTP,HTTPS,SSL,TCP}</i>, <i>cert-id=ARN</i>" \ 
+  <i>--scheme internal</i>                                  \
+  <i>--security-groups GROUP1,GROUP2</i>                    \
+    MyLoadBalancer</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>To verify the elastic load balancer has been created,
+                        enter the following command:</cmd>
+                    <info>
+                        <codeph>eulb-describe-lbs MyLoadBalancer</codeph>
+                    </info>
+                    <info>
+                        <p>You should see output similar to the following:</p>
+                        <codeblock>LOAD_BALANCER	MyLoadBalancer	MyLoadBalancer-587773761872.lb.localhost	2013-01-01T01:23:45.678Z</codeblock>
+                    </info>
+
+                </step>
+            </steps>
+            <result>You've now created an elastic load balancer.</result>
+            <postreq/>
+        </taskbody>
+    </task>
+    <task id="elb_register_instances">
+        <title>Register instances with the Load Balancer</title>
+        <shortdesc>The load balancer monitors the health of registered
+            instances, and balances incoming traffic across the healthy
+            instances.</shortdesc>
+        <taskbody>
+            <context>To register an instance with the load balancer:</context>
+            <steps>
+                <step>
+                    <cmd>Enter the following command:</cmd>
+                    <info>
+                        <codeblock>eulb-register-instances-with-lb 
+  --instances INSTANCE1,INSTANCE2,...     \
+ (--region USER@REGION | --url URL)       \
+  --access-key-id KEY_ID --secret-key KEY \
+    MyLoadBalancer</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Enter the following command to verify that the
+                        instances are registered with the load balancer:</cmd>
+                    <info>
+                        <codeph>eulb-describe-instance-health
+                            MyLoadBalancer</codeph>
+                    </info>
+                    <info>
+                        <p>This command will return output similar to the
+                            following:</p>
+                        <codeblock>INSTANCE	i-6FAD3F7B	InService
+INSTANCE	i-70FE4541	InService</codeblock>
+                    </info>
+                </step>
+            </steps>
+            <result>Once you've created the load balancer and registered your
+                instances with it, the load balancer will automatically route
+                traffic from its endpoint URL to healthy instances.</result>
+            <postreq/>
+        </taskbody>
+    </task>
+
 </task>
