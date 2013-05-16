@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+	<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="vm_types">
  <title>Virtual Machine Types</title>
  <shortdesc></shortdesc>
@@ -25,13 +25,103 @@
  		will receive an on-screen warning and the operation will terminate. </p>
 <section>
 	<title>Available VM Types</title>
+	<p>VM types are composed of varying combinations of CPU, disk size, and memory. Eucalyptus offers
+		enough VM types to give you the flexibility to choose the appropriate mix of resources for your applications. For the best experience, you should launch on instance types that are appropriate for your applications. </p>
+	
+	<ul>
+		<li><b>General Purpose:</b> This family includes the M1 and M3 VM types, both of which provide a
+			balance of CPU, memory, and network resources making them a good choice for many applications.
+			For many of you, this family is often the first choice, with sizes ranging from one virtual CPU
+			with two GB of RAM to eight virtual CPUs with 30 GB of RAM. The balance of resources makes them ideal for running small and mid-size databases, more memory-hungry data processing tasks, caching fleets, and backend servers.
+			
+			<p>M3 types give you the option of a larger number of virtual CPUs that provide higher performance. M3 instances are recommended if you are seeking general-purpose instances with demanding CPU requirements. M1 instances are a great option if you want smaller instance sizes with moderate CPU performance, and a lower overall price.</p></li>
+		
+		<li><b>Compute Optimized:</b> This family includes the C1 and CC2 instance types, and is geared towards applications that benefit from high compute power.
+			
+			Compute-optimized instances have a higher ratio of vCPUs to memory than other families and the lowest cost per vCPU of all the Amazon EC2 instance types. If you are running any CPU-bound scale-out applications, you should look at compute-optimized instances first. Examples of such applications include front end fleets for high-traffic web sites, on-demand batch processing, distributed analytics, web servers, video encoding, and high performance science and engineering applications like genome analysis, high-energy physics, or computational fluid dynamics.
+			
+			CC2 instances are the latest generation of compute-optimized instances and provide the lowest cost for CPU performance for all Amazon EC2 instance types. In addition, CC2 instances provide a number of advanced capabilities: Intel Xeon E5-2670 processors; high core count (32 vCPUs); and support for cluster networking. These capabilities allowed us to create a cluster of 1064 CC2 instances that achieved a Linpack score of 240.09 Teraflops, good for an entry at number 42 in the November 2011 Top500 supercomputer list.
+			
+			C1 instances are the first generation of compute-optimized instances. They are available in smaller sizes and are ideal for massively scaled-out applications at massive scale. Most examples of customers launching 1000s of instances to transcode videos or for virtual drug design are likely to take advantage of C1 instances.</li>
+		
+		<li><b>Memory Optimized:</b> This family includes the M2 and CR1 instance types and is designed for memory-intensive applications. Instances in this family have the lowest cost per GiB of RAM of all Amazon EC2 instance types. If your application is memory-bound, you should use these instances. Examples include high performance databases and distributed cache, in-memory analytics, genome assembly, and larger deployments of SAP, Microsoft SharePoint, and other enterprise applications. In general, if you are running a performance-sensitive database you should first look at this family.
+			
+			CR1 instances are the latest generation of memory-optimized instances and provide more memory (244 GiB), faster CPU (Intel Xeon E5-2670) compared to M2 instances. CR1 instances also support cluster networking for bandwidth intensive applications.
+			
+			M2 instances are available in smaller sizes, and are an excellent option for many memory-bound applications.</li>
+		
+		<li><b>Storage Optimized:</b> This family includes the HI1 and HS1 instance types, and provides you with direct-attached storage options optimized for applications with specific disk I/O and storage capacity requirements. Currently there are two types of storage-optimized instances.
+			
+			HI1 instances are optimized for very high random I/O performance and low cost per IOPS. These instances can deliver over 120,000 4k random read IOPS making them ideal for transactional applications. In particular, we designed these instances to be the best platform for large deployments of NoSQL databases like Cassandra and MongoDB.
+			
+			HS1 instances are optimized for very high storage density, low storage cost, and high sequential I/O performance. HS1 instances give 48 TB of storage capacity across 24 hard disk drives, high network performance, and are capable of supporting throughput performance of as much as 2.6 GBps. These instances are designed for large-scale data warehouses, large always-on Hadoop clusters, and for cluster file systems. Indeed, HS1 instances are the underlying instance type for our petabyte-scale data warehousing service, Amazon Redshift.</li>
+		
+		<li><b>Micro:</b> Micro, or T1, instances are a very low-cost instance option providing a small amount of CPU resources. Micro instances may opportunistically increase CPU capacity in short bursts when additional cycles are available. They are well suited for lower throughput applications like bastion hosts or administrative applications, or for low-traffic websites that require additional compute cycles from time to time.
+			
+			Micro instances are available in the AWS Free Usage Tier to allow you to explore EC2 functionality at no charge. Due to the opportunistic scheduling used by Micro instances, you should not use them for applications that require sustained CPU performance. You can learn more about the characteristics of Micro instances and appropriate workload characteristics in the Amazon EC2 documentation.</li>
+		
+		<li><b>GPU:</b> This family includes the CG1 instance type, and allows you to take advantage of the parallel performance of NVidia Tesla GPUs using the CUDA or OpenCL programming models for GPGPU computing. GPU instances also provide high CPU capabilities and support cluster networking. For applications like AMBER, a molecular dynamics application, you can get 4-5x improvement in performance compared to CC2 instances. Many of you are running computational chemistry, rendering, and financial analysis applications on CG1 instances today to take advantage of the speedup you can get from GPGUs.</li>
+	</ul>
 	<p>Eucalyptus offers the following VM types.</p>
 	
 	<table>
-		<tgroup cols="5">
+		<title>General Purpose VM Types</title>
+		<tgroup cols="4">
 			<thead>
 				<row>
-					<entry>Instance Family</entry>
+					<entry>Instance Type</entry>
+					<entry>Virtual CPU</entry>
+					<entry>Disk Size</entry>
+					<entry>Memory</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>m1.small</entry>
+					<entry>1</entry>
+					<entry>5</entry>
+					<entry>256</entry>
+				</row>
+				<row>
+					<entry>m1.medium</entry>
+					<entry>1</entry>
+					<entry>10</entry>
+					<entry>512</entry>
+				</row>
+				<row>
+					<entry>m1.large</entry>
+					<entry>2</entry>
+					<entry>10</entry>
+					<entry>512</entry>
+				</row>
+				<row>
+					<entry>m1.xlarge</entry>
+					<entry>2</entry>
+					<entry>10</entry>
+					<entry>1024</entry>
+				</row>
+				<row>
+					<entry>m3.xlarge</entry>
+					<entry>4</entry>
+					<entry>15</entry>
+					<entry>2048</entry>
+				</row>
+				<row>
+					<entry>m3.2xlarge</entry>
+					<entry>4</entry>
+					<entry>30</entry>
+					<entry>4096</entry>
+				</row>
+				
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<table>
+		<title>Compute Optimized VM Types</title>
+		<tgroup cols="4">
+			<thead>
+				<row>
 					<entry>Instance Type</entry>
 					<entry>Virtual Cores</entry>
 					<entry>Disk Size</entry>
@@ -40,88 +130,134 @@
 			</thead>
 			<tbody>
 				<row>
-					<entry>General purpose</entry>
-					<entry>m1.small</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>c1.medium</entry>
+					<entry>2</entry>
+					<entry>10</entry>
+					<entry>512</entry>
 				</row>
 				<row>
-					<entry>General purpose</entry>
-					<entry>m1.medium</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>c1.xlarge</entry>
+					<entry>2</entry>
+					<entry>10</entry>
+					<entry>2048</entry>
 				</row>
 				<row>
-					<entry>General purpose</entry>
-					<entry>m1.large</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>cc2.8xlarge</entry>
+					<entry>16</entry>
+					<entry>120</entry>
+					<entry>6144</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<table>
+		<title>Memory Optimized VM Types</title>
+		<tgroup cols="4">
+			<thead>
+				<row>
+					<entry>Instance Type</entry>
+					<entry>Virtual Cores</entry>
+					<entry>Disk Size</entry>
+					<entry>Memory</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>m2.xlarge</entry>
+					<entry>2</entry>
+					<entry>10</entry>
+					<entry>2048</entry>
 				</row>
 				<row>
-					<entry>General purpose</entry>
-					<entry>m1.xlarge</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>m2.2xlarge</entry>
+					<entry>2</entry>
+					<entry>30</entry>
+					<entry>4096</entry>
 				</row>
 				<row>
-					<entry>General purpose</entry>
-					<entry>m3.xlarge</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>m2.4xlarge</entry>
+					<entry>8</entry>
+					<entry>60</entry>
+					<entry>4096</entry>
 				</row>
 				<row>
-					<entry></entry>
-					<entry>m3.2xlarge</entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>cr1.8xlarge</entry>
+					<entry>16</entry>
+					<entry>240</entry>
+					<entry>16384</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<table>
+		<title>Storage Optimized VM Types</title>
+		<tgroup cols="4">
+			<thead>
+				<row>
+					<entry>Instance Type</entry>
+					<entry>Virtual Cores</entry>
+					<entry>Disk Size</entry>
+					<entry>Memory</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>hi1.4xlarge</entry>
+					<entry>8</entry>
+					<entry>120</entry>
+					<entry>6144</entry>
 				</row>
 				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>hs1.8xlarge</entry>
+					<entry>48</entry>
+					<entry>24000</entry>
+					<entry>119808</entry>
 				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<table>
+		<title>Micro VM Types</title>
+		<tgroup cols="4">
+			<thead>
 				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>Instance Type</entry>
+					<entry>Virtual Cores</entry>
+					<entry>Disk Size</entry>
+					<entry>Memory</entry>
 				</row>
+			</thead>
+			<tbody>
 				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>t1.micro</entry>
+					<entry>1</entry>
+					<entry>5</entry>
+					<entry>256</entry>
 				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	
+	<table>
+		<title>GPU VM Types</title>
+		<tgroup cols="4">
+			<thead>
 				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>Instance Type</entry>
+					<entry>Virtual Cores</entry>
+					<entry>Disk Size</entry>
+					<entry>Memory</entry>
 				</row>
+			</thead>
+			<tbody>
 				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
-					<entry></entry>
+					<entry>cg1.4xlarge</entry>
+					<entry>16</entry>
+					<entry>200</entry>
+					<entry>16384</entry>
 				</row>
 			</tbody>
 		</tgroup>
