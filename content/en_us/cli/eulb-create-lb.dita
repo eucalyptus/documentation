@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euwatch-delete-alarms">
-	<title>eulb-apply-security-groups-to-lb</title>
-	<shortdesc>Associate one or more security groups with a load balancer. All
-		previous associations with security groups will be replaced. [VPC
-		only]</shortdesc>
+<reference id="eulb-create-lb">
+	<title>eulb-create-lb</title>
+	<shortdesc>Create a Load Balancer. After the load balancer is created,
+		instances must be registered with it separately.</shortdesc>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>eulb-apply-security-groups-to-lb -g GROUP1,GROUP2,...
-			                     [--show-empty-fields]
-			                     [--region USER@REGION | -U URL]
-			                     [-I KEY_ID] [-S KEY] [--debug]
-			                     [--debugger] [--version] [-h]
-			                     ELB</codeblock>
+			<codeblock>eulb-create-lb --availability-zones <b>ZONE1,ZONE2,...</b> 
+			   --listener "lb-port=<b>PORT</b>, protocol=<b>PROTOCOL</b>
+                          instance-port=<b>PORT</b>, instance-protocol=<b>PROTOCOL</b>, 
+                          cert-id=<b>ARN</b>"
+               <b>ELB</b></codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -33,18 +31,40 @@
 					</thead>
 					<tbody>
 						<row>
-							<entry><codeph>-g <i>GROUP1,GROUP2,...,</i>,
-									--security-groups
-									<i>GROUP1,GROUP2,...</i></codeph></entry>
-							<entry>Security groups to associate the load balancer with</entry>
+							<entry><codeph>--availability-zones
+										<i>ZONE1,ZONE2,...</i></codeph></entry>
+							<entry>Availability zones the load balancer should
+								run in</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
+							<entry><codeph>--listener "lb-port=<i>PORT</i>,
+										protocol={<i>HTTP</i>,<i>HTTPS</i>,<i>SSL</i>,<i>TCP</i>},
+										instance-port=<i>PORT</i>,
+										instance-protocol={<i>HTTP</i>,<i>HTTPS</i>,<i>SSL</i>,<i>TCP</i>},
+										cert-id=<i>ARN</i>"</codeph></entry>
+							<entry>Port and protocol settings for the load
+								balancer. This option may be used multiple
+								times. <codeph>lb-port</codeph> and
+									<codeph>protocol</codeph> specify the
+								external port number and protocol,
+									<codeph>instance-port</codeph> and
+									<codeph>instance-protocol</codeph> specify
+								the port and protocol to use for routing traffic
+								to backend instances, and
+									<codeph>cert-id</codeph> specifies the ARN
+								of the server certificate to use for encrypted
+								connections.</entry>
+							<entry align="center">Yes (Minimum:
+									<codeph>lb-port</codeph>,
+									<codeph>protocol</codeph>,
+									<codeph>instance-port</codeph>)</entry>
+						</row>
+						<row>
 							<entry><codeph><i>ELB</i></codeph></entry>
-							<entry>Name of the load balancer to modify</entry>
+							<entry>Name of the load balancer to create</entry>
 							<entry align="center">Yes</entry>
 						</row>
-
 					</tbody>
 				</tgroup>
 			</table>
@@ -54,14 +74,13 @@
 			conref="../shared/eulb-common.dita#eulb-common/eulb_common_options"/>
 		<section>
 			<title>Output</title>
-			<p>Eucalyptus does not return any output.</p>
+			<p>Eucalyptus returns the DNS name of the new load balancer.</p>
 		</section>
 
 		<section>
 			<title>Example</title>
-			<p>The following example applies the <codeph>euca-admin</codeph> security
-				group to the <codeph>MyLoadBalancer</codeph> elastic load balancer.</p>
-			<codeblock>eulb-apply-security-groups-to-lb --security-groups euca-admin MyLoadBalancer</codeblock>
+			<codeblock>eulb-create-lb -z PARTI00 -l "lb-port=80, protocol=HTTP, instance-port=80, instance-protocol=HTTP" MyLoadBalancer
+DNS_NAME     MyLoadBalancer-972528928292.lb.localhost</codeblock>
 		</section>
 
 	</refbody>
