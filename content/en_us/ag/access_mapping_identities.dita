@@ -24,8 +24,14 @@
 			<li>Pick user groups from LDAP/AD and combine them into different
 				accounts. There are two ways of doing this: <ul>
 					<li>Use something called accounting groups. Account groups
-						are essentially groups of groups. Each accounting group
-						contains multiple user groups in LDAP/AD. Then each
+						are essentially groups of groups. Accounting groups rely
+                        on a key understanding of object class types in LDAP. 
+                        In short, accounting groups are mapped to STRUCTURAL
+                        object classes in LDAP. For more information
+                        about object class types, refer to the
+                        <xref href="http://www.rfc-editor.org/rfc/rfc4512.txt" scope="external"
+                        format="html">LDAP Models RFC</xref> under the "2.4.  Object Classes". 
+					    Each accounting group contains multiple user groups in LDAP/AD. Then each
 						accounting group maps to an account in Eucalyptus.</li>
 					<li>Manually partition groups into accounts. Each group
 						partition maps to an account.</li>
@@ -34,8 +40,25 @@
 			<li>Once the accounts are defined (by accounting groups or group
 				partitions), all the LDAP/AD user groups will be mapped into
 				Eucalyptus groups within specific accounts; and LDAP/AD users
-				will be mapped into Eucalyptus users. You also have options to
-				filter the groups and users to be imported into Eucalyptus.</li>
+				will be mapped into Eucalyptus users. Using the options to
+				filter the groups and users to be imported into Eucalyptus
+                allows granular control.</li>
+            <li>Groups are group object types in LDAP. The group object type
+                in LDAP/AD needs to have the attribute type determining membership
+                where the value is the Fully Distinguished Name (FDN) of the user(s).
+                Some examples of group object types for LDAP/AD are as follows:
+                <ul>
+                    <li><xref href="http://tools.ietf.org/html/rfc4519#section-3.5" scope="external"
+                        format="html">groupOfNames</xref></li>
+                    <li><xref href="http://tools.ietf.org/html/rfc4519#section-3.6" scope="external"
+                        format="html">groupOfUniqueNames</xref></li>
+                    <li><xref href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682257(v=vs.85).aspx"
+                        scope="external" format="html">Group-Of-Names</xref></li>
+                    <li><xref href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682261(v=vs.85).aspx"
+                        scope="external" format="html">groupOfUniqueNames</xref></li>
+                    <li><xref href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682251(v=vs.85).aspx"
+                        scope="external" format="html">Group</xref></li>
+                </ul></li>
 		</ol>
 		<p>Note that each group can be mapped into multiple accounts. But
 			understand that Eucalyptus accounts are separate name spaces. So for
@@ -49,6 +72,8 @@
 			etc., but the same user information.</p>
 
 		<note>Currently, there is not a way to map individual users into an
-			account. The mapping unit is LDAP user group.</note>
+			account. The mapping unit is LDAP user group.  What maps where groups 
+            and users end up regarding accounts DEPENDS upon the accounting-groups
+            or groups-partition definitions.</note>
 	</conbody>
 </concept>
