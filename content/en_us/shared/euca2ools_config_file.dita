@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="euca2ools_config_file">
+	<title>Using Euca2ools Configuration Files</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>Euca2ools <indexterm>Configuration File</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p> Euca2ools supports the use of configuration files to make it easy to switch between
+				users and cloud configurations from the command line. </p>
+			<p>The euca2ools configuration file allows you to store credentials and URLs for
+				multiple users and regions, and then switch between cloud configurations by using
+				the <codeph>--region</codeph> option with your euca2ools commands. </p>
+			<p>Euca2ools supports multiple configuration files. Simply save your configuration text
+				files with a <codeph>.ini</codeph> extension in the <codeph>~/.euca</codeph>
+				directory. Euca2ools will combine all of the configuration files it finds in this
+				directory when evaluation the <codeph>--region</codeph> argument to any euca2ools
+				command. </p>
+			<p>The following examples show how to set up a euca2ools configuration file.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Open a text editor and add a <codeph>[user]</codeph> section. For
+					example:</cmd>
+				<info>
+					<codeblock>[user gholms]
+key-id = AKIA93F29V0AEXAMPLE
+secret-key = vcasd93cm1458un4vj84039vda78mDEXAMPLE</codeblock>
+				</info>
+				<stepresult>Once you've defined a user in a configuration file, you can specify this user from
+					any subsequent [region] section in the configuration file.</stepresult>
+			</step>
+			<step>
+				<cmd> Add a <codeph>[region]</codeph> section to a configuration file. For example: </cmd>
+				<info>
+					<codeblock>[region us-east-1]
+ec2-url = https://ec2.amazonaws.com/
+iam-url = https://iam.amazonaws.com/
+s3-url  = https://s3.amazonaws.com/
+user = gholms</codeblock>
+				</info>
+				<stepresult> Once you've set up a user and a region in the configuration file, you
+					can easily switch between regions using the <codeph>--region</codeph> option from any euca2ools
+					command. </stepresult>
+			</step>
+			<step>
+				<cmd>Add a <codeph>[global]</codeph> section to specify which region to use when you don't
+					specify the <codeph>--region</codeph> option on the command line. For
+					example:</cmd>
+				<info>
+					<codeblock>[global]
+default-region = us-east-1</codeblock>
+				</info>
+				<stepresult>Any euca2ools commands entered without specifying the
+						<codeph>--region</codeph> option will use the settings for the
+						<codeph>us-east-1</codeph> region.</stepresult>
+			</step>
+		</steps>
+		<example>
+			<p>The following example shows an example of a complete euca2ools configuration
+				file.</p>
+			<codeblock>[user gholms]
+key-id = AKIA93F29V0AEXAMPLE
+secret-key = vcasd93cm1458un4vj84039vda78mDEXAMPLE
+ 
+[user ecc-admin]
+key-id = EVDB93F29V0AEXAMPLE
+secret-key = 38fva93cm1458un4vj84039vda78mDEXAMPLE
+ 
+[region us-east-1]
+ec2-url = https://ec2.amazonaws.com/
+iam-url = https://iam.amazonaws.com/
+s3-url  = https://s3.amazonaws.com/
+user = gholms
+ 
+[region ecc]
+ec2-url = https://communitycloud.eucalyptus.com:8773/services/Eucalyptus/
+iam-url = https://communitycloud.eucalyptus.com:8773/services/Euare/
+s3-url  = https://communitycloud.eucalyptus.com:8773/services/Walrus/
+user = ecc-admin
+ 
+[global]
+default-region = us-east-1</codeblock>
+			<p>To use the configuration file, simple specify one of the named regions by using the
+					<codeph>--region</codeph> option with any euca2ools command. For example:</p>
+			<codeblock>euca-describe-instances --region ecc</codeblock>
+			<p>This command will use the use the service URLs and user credentials specified in the
+				"ecc" region and "ecc-admin" user sections in the configuration file.</p>
+		</example>
+	</taskbody>
+</task>
