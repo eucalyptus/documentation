@@ -15,8 +15,8 @@
 						href="http://downloads.eucalyptus.com/software/tools/windows-prep/"
 						format="iso"
 						>http://downloads.eucalyptus.com/software/tools/windows-prep/</xref>
-					to the working directory of your NC or the host running the
-					vSphere client.</cmd>
+					to <filepath>/var/lib/libvirt/images</filepath> on your NC
+					or on the host running the vSphere client.</cmd>
 			</step>
 			<step>
 				<cmd>For KVM and Xen, open the
@@ -65,20 +65,20 @@
     &lt;devices>
         &lt;emulator>/usr/lib64/xen/bin/qemu-dm&lt;/emulator>
         &lt;disk type='file'>
-            &lt;source file='/root/windows_2003.img'/>
+            &lt;source file='/var/lib/libvirt/images/windows_2003.img'/>
             &lt;target dev='hda' bus='ide'/>
         &lt;/disk>
         &lt;disk type='file' device='disk'>
             &lt;driver name='tap' type='aio'/>
-            &lt;source file='/root/secondary.img'/>
+            &lt;source file='/var/lib/libvirt/images/secondary.img'/>
             &lt;target dev='xvda' bus='xen'/>
         &lt;/disk>
         &lt;disk type='file' device='floppy'>
-             &lt;source file='/root/floppy.img'/>
+             &lt;source file='/var/lib/libvirt/images/floppy.img'/>
              &lt;target dev='fda'/>
         &lt;/disk>
         &lt;disk type='file' device='cdrom'>
-            &lt;source file='windows-prep-tools-latest.iso'/>
+            &lt;source file='/var/lib/libvirt/images/windows-prep-tools-latest.iso'/>
             &lt;target dev='hdc'/>
             &lt;readonly/>
         &lt;/disk>
@@ -110,19 +110,19 @@
     &lt;devices>
         &lt;emulator>/usr/libexec/qemu-kvm&lt;/emulator>
         &lt;disk type='file'>
-            &lt;source file='/root/windows_2003.img'/>
+            &lt;source file='/var/lib/libvirt/images/windows_2003.img'/>
             &lt;target dev='hda'/>
         &lt;/disk>
         &lt;disk type='file' device='disk'>
-             &lt;source file='/root/secondary.img'/>
+             &lt;source file='/var/lib/libvirt/images/secondary.img'/>
              &lt;target dev='vda' bus='virtio'/>
         &lt;/disk> 
         &lt;disk type='file' device='floppy'>
-             &lt;source file='/root/floppy.img'/>
+             &lt;source file='/var/lib/libvirt/images/floppy.img'/>
              &lt;target dev='fda'/>
         &lt;/disk>
         &lt;disk type='file' device='cdrom'>
-            &lt;source file='windows-preps-tools-latest.iso'/>
+            &lt;source file='/var/lib/libvirt/images/windows-preps-tools-latest.iso'/>
             &lt;target dev='hdc'/>
             &lt;readonly/>
         &lt;/disk>
@@ -137,6 +137,13 @@
         &lt;graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'/>
     &lt;/devices>
 &lt;/domain></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start the VM.</cmd>
+				<info>
+					<codeblock>cd /var/lib/libvirt/images/
+virsh create libvirt-hypervisor-windows.xml</codeblock>
 				</info>
 			</step>
 			<step>
@@ -173,8 +180,8 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 			<step>
 				<cmd>For VMware, use the VMware vSphere client to upload the ISO
 					file to the VSphere datastore. Attach the
-						<filepath>windows-prep-tools-latest.iso</filepath> to the
-					Windows VM.</cmd>
+						<filepath>windows-prep-tools-latest.iso</filepath> to
+					the Windows VM.</cmd>
 			</step>
 			<step>
 				<cmd>Log in to Windows and find the Eucalyptus installation
