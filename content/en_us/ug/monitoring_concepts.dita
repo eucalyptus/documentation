@@ -45,14 +45,17 @@
 			<title>Dimension</title>
 			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension helps you
 				design a conceptual structure for your statistics plan. Because dimensions are part of the
-				unique identifier for a metric, whenever you add a unique name-value pair to one of your
-				metrics, you are creating a new metric.</p>
+				unique identifier for a metric, metric name, namespace, and dimension key-value pairs define unique metrics.</p>
 			<p>You specify dimensions when you create a metric with the <apiname>euwatch-put-data</apiname>
 				command. Eucalyptus services that report data to CloudWatch also attach
 				dimensions to each metric. You can use dimensions to filter result sets that CloudWatch
 				queries return. For example, you can get statistics for a specific instance by calling
 				<apiname>euwatch-get-stats</apiname>
 				with the InstanceID dimension set to a specific instance ID.</p>
+			
+			<p>For Eucalyptus metrics, CloudWatch can aggregate data across select dimensions. For example, if you
+				request a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch
+				aggregates all data for the specified metric to create the statistic that you requested. However, CloudWatch does not aggregate across dimensions for custom metrics</p>
 			 
 			<note type="note">You can assign up to ten dimensions to a metric.</note>
 		</section>
