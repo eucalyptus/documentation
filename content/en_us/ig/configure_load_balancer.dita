@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_load_balancer" props="subscribe">
+	<title>Configure the Load Balancer</title>
+	<shortdesc/>
+	<taskbody>
+	  <context>
+	    <p>Eucalyptus provides optional support for Load
+	    Balancing. In order to use this support, you will need to register the
+	    Load Balancer image with the cloud.</p>
+	  </context>
+	</taskbody>
+	<task id="installing_and_registering_load_balancer">
+	  <title>Installing and Registering the Load Balancer Image</title>
+	  <shortdesc>Eucalyptus provides a tools for installing and
+	  registering the Load Balancer image. Once you have run the
+	  tool, your Load Balancer will be ready to use.
+	  </shortdesc>
+	  <taskbody>
+	    <steps>
+	      <step>
+		<cmd>Run the following command on the machine where you installed the eucalyptus-load-balancer-image package:</cmd>
+		<info>
+		  <codeblock>euca-install-load-balancer --install-default</codeblock>
+		</info>
+	      </step>
+	    </steps>
+	  </taskbody>
+	</task>
+	<task id="verify_load_balancer_configuration">
+	  <title>Verify Load Balancer Configuration</title>
+	  <shortdesc>If you would like to verify that Load Balancer
+	  support is enabled you can list installed Load
+	  Balancers. The currently active Load Balancer will be listed
+	  as enabled. If no Load Balancers are listed, or none are
+	  marked as enabled, then your Load Balancer support has not
+	  been configured properly.
+	  </shortdesc>
+	  <taskbody>
+	    <steps>
+	      <step>
+		<cmd>Run the following command to list installed Load Balancer images:</cmd>
+		<info>
+		  <codeblock>euca-install-load-balancer --list</codeblock>
+		</info>
+	      </step>
+	      <step>
+		<cmd>You can also check the enabled Load Balancer EMI with:</cmd>
+		<info>
+		  <codeblock>euca-describe-properties loadbalancing.loadbalancer_emi</codeblock>
+		</info>
+	      </step>
+	      <step>
+		<cmd>If you need to manually set the enabled Load Balancer EMI use:</cmd>
+		<info>
+		  <codeblock>euca-modify-property -p loadbalancing.loadbalancer_emi=emi-12345678</codeblock>
+		</info>
+	      </step>
+	    </steps>
+	  </taskbody>
+	</task>
+</task>
