@@ -19,6 +19,16 @@
 				</thead>
 				<tbody>
 					<row>
+						<entry>Broker does not support some host configurations 
+							(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/BROKER-36"
+							>BROKER-36</xref>)</entry>
+						<entry>When using VMware, all hosts must either be managed by 
+								VCenter or the Eucalyptus VMware Broker. Mixed management
+								of the hosts is not supported and will result connectivity
+								issues with the Broker.</entry>
+					</row>
+					<row>
 						<entry>VMware Broker requires
 								<codeph>eucalyptus</codeph> user to have write
 							access to the <filepath>/etc/eucalyptus</filepath>
@@ -36,6 +46,17 @@
 							machine to ensure that the
 								<codeph>eucalyptus</codeph> user owns the
 							necessary files.</entry>
+					</row>
+					<row>
+						<entry>In multi-cluster configuration, migrations using 
+							<codeph>--source</codeph> broken for all clusters but first 
+							registered. (<xref format="html" 
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6400"
+								>EUCA-6400</xref>)</entry>
+						<entry>In a multi-cluster cloud migrations using <codeph>--source
+						</codeph> are broken for all clusters but the first one registered.  
+							Use <codeph>--instance</codeph> to work around this issue. 
+						</entry>
 					</row>
 					<row>
 						<entry>Instances become inaccessible if CC is clean restarted 
@@ -70,7 +91,8 @@
 								and then delete the bucket.</entry>
 					</row>
 					<row>
-						<entry>Successfully started migration can be reported as failed (<xref format="html"
+						<entry>Successfully started migration can be reported as failed 
+							(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6043"
 								>EUCA-6043</xref>)</entry>
 						<entry>The user may see an error message when attempting to 
@@ -82,6 +104,24 @@
 							</codeph>
 							 In spite of this error the migration has started and 
 							should successfully complete.</entry>
+					</row>
+					<row>
+						<entry>A user in non-eucalyptus account does not see a public image 
+							(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-5901"
+							>EUCA-5901</xref>)</entry>
+						<entry>A user in an account that is not the <codeph>eucalyptus</codeph> 
+							account mustuse the -a option with <codeph>euca-describe-images</codeph> 
+							in order to display public images.</entry>
+					</row>
+					<row>
+						<entry>Instance running time instance types in report not 
+							consistent with UI and CLI (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-4847"
+							>EUCA-4847</xref>)</entry>
+						<entry>As of Eucalyptus 3.3.0, the instance summary report will no 
+								longer be available from the command line tools nor the User 
+								Console</entry>
 					</row>
 					<row>
 						<entry>The User Console exhibits odd behavior (<xref
@@ -292,6 +332,18 @@
 								<codeph>iscsiadm</codeph> will fail, but the
 							issue is resolved during cleanup so subsequent
 							requests for that instance will work.</entry>
+					</row>
+					<row>
+						<entry><codeph>httpd-cc_error_log</codeph> Grows without bound 
+							(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-3909"
+							>EUCA-3909</xref>)</entry>
+						<entry>The <codeph>httpd-cc_error_log</codeph> is not rotated and 
+							can grow quite large.  To reduce this file size, do 
+							<codeph>cp /dev/null 
+								$EUCALYPTUS/var/log/eucalyptus/httpd-cc_error_log</codeph>.  
+							This will truncate the file.  Removing the file is not 
+							recommended.</entry>
 					</row>
 					<row>
 						<entry>Vague error message: <codeph>Failed to find
