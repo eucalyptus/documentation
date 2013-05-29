@@ -15,7 +15,7 @@
 			<p>Data points represent values of a variable over time. For example you can get metrics for
 				the CPU usage of a particular instance, or for the latency of an elastic load balancer
 				(ELB). </p>
-			<p>Each metric is uniquely defined by a name, a namespace, and one or more dimensions. Each
+			<p>Each metric is uniquely defined by a name, a namespace, and zero or more dimensions. Each
 				data point has a time stamp, and (optionally) a unit of measure. When you request
 				statistics, the returned data stream is identified by namespace, metric name, dimension, and
 				(optionally) the unit. For more information about Eucalyptus-supported metrics, see <xref
@@ -45,18 +45,18 @@
 			<title>Dimension</title>
 			<p>A dimension is a name-value pair that uniquely identifies a metric. A dimension helps you
 				design a conceptual structure for your statistics plan. Because dimensions are part of the
-				unique identifier for a metric, whenever you add a unique name-value pair to one of your
-				metrics, you are creating a new metric.</p>
+				unique identifier for a metric, metric name, namespace, and dimension key-value pairs define unique metrics.</p>
 			<p>You specify dimensions when you create a metric with the <apiname>euwatch-put-data</apiname>
 				command. Eucalyptus services that report data to CloudWatch also attach
 				dimensions to each metric. You can use dimensions to filter result sets that CloudWatch
 				queries return. For example, you can get statistics for a specific instance by calling
 				<apiname>euwatch-get-stats</apiname>
 				with the InstanceID dimension set to a specific instance ID.</p>
-			<p>For Eucalyptus metrics, CloudWatch can aggregate data across dimensions. For example, if
-				you request a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch
-				aggregates all data for the specified metric to create the statistic that you requested.
-				However, CloudWatch does not aggregate across dimensions for custom metrics.</p>
+			
+			<p>For Eucalyptus metrics, CloudWatch can aggregate data across select dimensions. For example, if you
+				request a metric in the AWS/EC2 namespace and do not specify any dimensions, CloudWatch
+				aggregates all data for the specified metric to create the statistic that you requested. However, CloudWatch does not aggregate across dimensions for custom metrics</p>
+			 
 			<note type="note">You can assign up to ten dimensions to a metric.</note>
 		</section>
 
@@ -168,15 +168,15 @@
 				(1,209,600 seconds).</p>
 			
 			<p>The values you select for the StartTime and EndTime options determine how many periods
-				CloudWatch returns. For example, if you use the default values for the Period, EndTime, and
-				StartTime options CloudWatch returns an aggregated set of statistics for each minute of the
+				CloudWatch returns. For example, if you set values for the Period, EndTime, and
+				StartTime options for 60 seconds, CloudWatch returns an aggregated set of statistics for each minute of the
 				previous hour. If you want statistics aggregated into ten-minute blocks, set Period to 600.
 				For statistics aggregated over the entire hour, use a Period value of 3600.</p>
+			
 			<p>Periods are also an important part of the CloudWatch alarms feature. When you create an
 				alarm to monitor a specific metric, you are asking CloudWatch to compare that metric to the
-				threshold value that you supplied. You have extensive control over how CloudWatch makes that
-				comparison. Not only can you specify the period over which the comparison is made, but you
-				can also specify how many consecutive periods the threshold must be breached before you are
+				threshold value that you supplied. You have control over how CloudWatch makes that
+				comparison. You can specify the period over which the comparison is made, as well as how many consecutive periods the threshold must be breached before you are
 				notified.</p>
 		</section>
 
@@ -234,7 +234,7 @@
 					<apiname>euwatch-put-metric-alarm</apiname> command.</li>
 				
 				<li>You can list any or all of the currently configured alarms, and list any alarms in a
-					particular state using the <apiname>euwatch-describe-alarms</apiname> command. You can further filter the list by time range.</li>
+					particular state using the <apiname>euwatch-describe-alarms</apiname> command. </li>
 				
 				<li>You can disable and enable alarms by using the <apiname>euwatch-disable-alarm-actions</apiname> and <apiname>euwatch-enable-alarm-actions</apiname> commands</li>
 				
