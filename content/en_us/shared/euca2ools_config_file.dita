@@ -21,7 +21,7 @@
 				<cmd>Open a text editor and add a <codeph>[user]</codeph> section. For
 					example:</cmd>
 				<info>
-					<codeblock>[user gholms]
+					<codeblock>[user john]
 key-id = AKIA93F29V0AEXAMPLE
 secret-key = vcasd93cm1458un4vj84039vda78mDEXAMPLE</codeblock>
 				</info>
@@ -35,7 +35,7 @@ secret-key = vcasd93cm1458un4vj84039vda78mDEXAMPLE</codeblock>
 ec2-url = https://ec2.amazonaws.com/
 iam-url = https://iam.amazonaws.com/
 s3-url  = https://s3.amazonaws.com/
-user = gholms</codeblock>
+user = john</codeblock>
 				</info>
 				<stepresult> Once you've set up a user and a region in the configuration file, you
 					can easily switch between regions using the <codeph>--region</codeph> option from any euca2ools
@@ -57,26 +57,28 @@ default-region = us-east-1</codeblock>
 		<example>
 			<p>The following example shows an example of a complete euca2ools configuration
 				file.</p>
-			<codeblock>[user gholms]
+			<codeblock>[user john]
 key-id = AKIA93F29V0AEXAMPLE
 secret-key = vcasd93cm1458un4vj84039vda78mDEXAMPLE
- 
-[user ecc-admin]
-key-id = EVDB93F29V0AEXAMPLE
-secret-key = 38fva93cm1458un4vj84039vda78mDEXAMPLE
- 
+[user fry]
 [region us-east-1]
-ec2-url = https://ec2.amazonaws.com/
+autoscaling-url = https://autoscaling.us-east-1.amazonaws.com/
+ec2-url = https://ec2.us-east-1.amazonaws.com/
+elasticloadbalancing-url = https://elasticloadbalancing.us-east-1.amazonaws.com/
 iam-url = https://iam.amazonaws.com/
-s3-url  = https://s3.amazonaws.com/
-user = gholms
- 
+monitoring-url = https://monitoring.us-east-1.amazonaws.com/
+s3-url = https://s3.amazonaws.com/
+user = john
 [region ecc]
+autoscaling-url =
+https://communitycloud.eucalyptus.com:8773/services/AutoScaling/
 ec2-url = https://communitycloud.eucalyptus.com:8773/services/Eucalyptus/
+elasticloadbalancing-url =
+https://communitycloud.eucalyptus.com:8773/services/LoadBalancing/
 iam-url = https://communitycloud.eucalyptus.com:8773/services/Euare/
-s3-url  = https://communitycloud.eucalyptus.com:8773/services/Walrus/
-user = ecc-admin
- 
+monitoring-url = https://communitycloud.eucalyptus.com:8773/services/Monitoring/
+s3-url = https://communitycloud.eucalyptus.com:8773/services/Walrus/
+user = fry
 [global]
 default-region = us-east-1</codeblock>
 			<p>To use the configuration file, simple specify one of the named regions by using the
