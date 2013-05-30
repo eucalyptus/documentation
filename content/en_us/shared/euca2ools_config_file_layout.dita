@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="euca2ools-working-with-config-files.file-layout">
+ <title>Configuration File Contents</title>
+ <shortdesc/>
+ <conbody>
+  <p> There are three sections in a euca2ools configuration file: global, region, and user.</p>
+  <p> The user and region sections are named sections - you must specify a name for each of these
+   sections. For example:</p>
+  <p><codeph>[user myusername]</codeph></p>
+  <p><codeph>[region ecc]</codeph></p>
+  <p><note>The user and region section names cannot contain <codeph>@</codeph>, <codeph>:</codeph>
+    or white space.</note></p>
+  <p> The <codeph>region</codeph> section contains service URLs for the named region, as well as a
+   reference to a named user section that contains the user's account ID and credentials. Once
+   you've defined regions and users in the configuration file, you can specify the named region
+   using the <codeph>--region</codeph>command line option or the <codeph>EUCA_REGION</codeph>
+   environment variable. When you supply a region name it will use the URLs defined in the
+   configuration file for that named region, and (unless overridden) the credentials from the user
+   that region refers to (as defined by the user named in that region's definition). </p>
+  <p>The <codeph>--region</codeph> parameter lets you choose specific combinations of the users and
+   regions defined in the configuration file with the format "user@region". For example:</p>
+  <p>This example will use the ecc region:</p>
+  <p><codeph>euca-describe-instances --region ecc</codeph></p>
+  <p>The following example will use the user defined in the [user jdoe] section of the configuration
+   file with the region defined in the [region us-west-2] section of the configuration file:</p>
+  <p><codeph>euca-describe-instances --region jdoe@us-west-2</codeph></p>
+  <p>In this example, the user defined in the [user jdoe] section of the configuration file will be
+   used with the default region specified in the <codeph>global</codeph> section of the
+   configuration file:</p>
+  <p><codeph>euca-describe-instances --region jdoe@</codeph></p>
+  <p>If you don't supply a region you get the global default region (as defined in the global
+   section of the configuration file).</p>
+  <p>If you don't supply a user at the command line, your command will use the region's default
+   user. </p>
+  <p><b>Region Naming Rules for AWS</b></p>
+  <p>When naming region sections for use with AWS, the region name has to agree with the name
+   assigned to the region by AWS if the AWS service uses signature version 4. You can add a "name"
+   option to a region definition in the configuration file to explicitly tell euca2ools what name to
+   send the server. </p>
+  <p><b>Wildcard and Grouped Names</b></p>
+  <p> You can use "[region *]" or "[user *]" to refer to all regions or users. This is not the same
+   as putting something in the "[global]" section. The more specific the user or region section's
+   name is, the higher precedence it has, so options under "[user jdoe]" take precedence over those
+   under "[user *]". </p>
+  <p>Advanced users can organize regions and users in the config files into groups, separated by :
+   characters. For instance, the euca2ools.ini file that ships with the software prefixes all of
+   AWS's regions with "aws:" so one can more easily apply options to all of its regions: </p>
+  <codeblock> [region aws:us-east-1]
+  ...
+ [region aws:us-west-1]
+  ...
+ [region aws:*]
+  ...</codeblock>
+  <p> When section names contain wildcards, the most specific name takes precednce; for example,
+    <codeph>aws:us-east-1</codeph> takes precedence over <codeph>aws:*</codeph>. </p>
+  <p> When you refer to a region or user by a name like "us-east-1" and there isn't any
+   configuration that exactly matches that name, euca2ools will attempt to find the closest match. For
+   example, with only the configuration above, if you supply "--region us-east-1" at the command
+   line it will use the configuration under "aws:us-east-1", but if you were
+   to add "foo:us-east-1" then this would become ambiguous and result in an error: </p>
+ </conbody>
+</concept>
