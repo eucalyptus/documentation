@@ -146,301 +146,313 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 	</task>
 
 
-
-	<task id="enabling_san_netapp">
-		<title>Enable NetApp 7-mode SANs</title>
-		<shortdesc/>
-		<taskbody>
-			<context>
-				<p>Eucalyptus supports both NetApp Clustered ONTAP and traditional 7-mode SANs.
-					NetApp Vservers and 7-mode Filers (FAS 2000 and FAS 600 series) are managed by
-					Eucalyptus using NetApp Manageability Software Development Kit (NMSDK) and Data
-					ONTAP APIs (version 7.3.3 or above). </p>
-				<p>For more information on NetApp Clustered Data ONTAP, see <xref
-					href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
-					>Clustered Data ONTAP 8.1 and 8.1.1: An Introduction</xref>.</p>
-				<p>To configure NetApp 7-mode Filer and enable the SAN in Eucalyptus:</p>
-			</context>
-			<steps>
-				<step>
-					<cmd>Verify Data ONTAP version and API access to NetApp Filer.</cmd>
-				</step>
-				<step>
-					<cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
-				</step>
-				<step>
-					<cmd>If marked inactive, enable with <codeph>secureadmin setup ssl</codeph> and
-						generate a new certificate.</cmd>
-				</step>
-				<step>
-					<cmd>Finally turn on SSL access with <codeph>options httpd.admin.ssl.enable
-							on</codeph></cmd>
-				</step>
-				<step>
-					<cmd>Enable the iSCSI service on the NetApp device with <codeph>option
-							iscsi.enable on</codeph> or <codeph>option licensed_feature.iscsi.enable
-							on</codeph> if you have an embedded license on your array.</cmd>
-				</step>
-				<step>
-					<cmd>Turn on the iSCSI service with <codeph>iscsi start</codeph></cmd>
-				</step>
-				<step>
-					<cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi
-							service</codeph></cmd>
-				</step>
-				<step>
-					<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
-					<choices>
-						<choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
-								show_space</codeph>.</choice>
-						<choice>If an aggregate with spare capacity does not exist, create one using
-							the <codeph>aggr create</codeph> command.</choice>
-					</choices>
-					<info>
-						<note type="note">By default Eucalyptus assumes aggr1 as the aggregate name.
-							If you wish to use a different aggregate see step 13.</note>
-					</info>
-				</step>
-				<step>
-					<cmd>Verify that you have a license for FlexClone installed. At the shell
-						prompt, enter <codeph>license</codeph> to see the list of all installed
-						licenses.</cmd>
-				</step>
-				<step>
-					<cmd>Verify that administrator account credentials for NetApp Filer are
-						available to be configured in Eucalyptus. If not, create a new administrator
-						account for use by Eucalyptus </cmd>
-				</step>
-				<step>
-					<cmd>Configure the SC to use the NetappManager for storage.</cmd>
-					<info>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
-						The output of the command should be similar to:
-						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	netapp was &lt;unset></codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd>Verify that the propery value is now: 'netapp'</cmd>
-					<info>
-						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
-					</info>
-				</step>
-				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
-					<cmd/>
-				</step>
-				<step>
-					<cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
-				</step>
-
-				<!--				<step conref="../shared/shared_task.dita#shared_task/enable_san">
-					<cmd/>
-				</step>-->
-				<step>
-					<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support in
-						Eucalyptus by entering the Filer's hostname or IP address, the username and
-						password of the administrator account, and CHAP username. </cmd>
-					<info>
-						<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP) for
-							disk operations. CHAP username can be any value, however it should be
-							unique when sharing NetApp Filer across multiple Eucalyptus clusters. </note>
-						<note> CHAP support for NetApp has been added in Eucalyptus 3.3. SC will not
-							transition to ENABLED state until the CHAP username is conﬁgured. </note>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Filer_IP_address>
+	<task id="enabling_san_netapp_overview">
+		<title>Enable NetApp SANs</title>
+		<shortdesc>Eucalyptus supports both NetApp Clustered ONTAP and traditional 7-mode SANs. NetApp
+			Vservers and 7-mode Filers (FAS 2000 and FAS 600 series) are managed by Eucalyptus using
+			NetApp Manageability Software Development Kit (NMSDK) and Data ONTAP APIs (version 7.3.3
+			or above).  This section covers enabling both NetApp Clustered ONTAP and traditional
+			7-mode SANs.</shortdesc>
+		<task id="enabling_san_netapp">
+			<title>Enable NetApp 7-mode SANs</title>
+			<shortdesc/>
+			<taskbody>
+				<context>
+					<p/>
+					
+					<p>To configure NetApp 7-mode Filer and enable the SAN in Eucalyptus:</p>
+				</context>
+				<steps>
+					<step>
+						<cmd>Verify Data ONTAP version and API access to NetApp Filer.</cmd>
+					</step>
+					<step>
+						<cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
+					</step>
+					<step>
+						<cmd>If marked inactive, enable with <codeph>secureadmin setup ssl</codeph>
+							and generate a new certificate.</cmd>
+					</step>
+					<step>
+						<cmd>Finally turn on SSL access with <codeph>options httpd.admin.ssl.enable
+								on</codeph></cmd>
+					</step>
+					<step>
+						<cmd>Enable the iSCSI service on the NetApp device with <codeph>option
+								iscsi.enable on</codeph> or <codeph>option
+								licensed_feature.iscsi.enable on</codeph> if you have an embedded
+							license on your array.</cmd>
+					</step>
+					<step>
+						<cmd>Turn on the iSCSI service with <codeph>iscsi start</codeph></cmd>
+					</step>
+					<step>
+						<cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi
+								service</codeph></cmd>
+					</step>
+					<step>
+						<cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
+						<choices>
+							<choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
+									show_space</codeph>.</choice>
+							<choice>If an aggregate with spare capacity does not exist, create one
+								using the <codeph>aggr create</codeph> command.</choice>
+						</choices>
+						<info>
+							<note type="note">By default Eucalyptus assumes aggr1 as the aggregate
+								name. If you wish to use a different aggregate see step 13.</note>
+						</info>
+					</step>
+					<step>
+						<cmd>Verify that you have a license for FlexClone installed. At the shell
+							prompt, enter <codeph>license</codeph> to see the list of all installed
+							licenses.</cmd>
+					</step>
+					<step>
+						<cmd>Verify that administrator account credentials for NetApp Filer are
+							available to be configured in Eucalyptus. If not, create a new
+							administrator account for use by Eucalyptus </cmd>
+					</step>
+					<step>
+						<cmd>Configure the SC to use the NetappManager for storage.</cmd>
+						<info>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
+							The output of the command should be similar to:
+							<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	netapp was &lt;unset></codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd>Verify that the propery value is now: 'netapp'</cmd>
+						<info>
+							<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+						</info>
+					</step>
+					<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+						<cmd/>
+					</step>
+					<step>
+						<cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
+					</step>
+					<step>
+						<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support
+							in Eucalyptus by entering the Filer's hostname or IP address, the
+							username and password of the administrator account, and CHAP username. </cmd>
+						<info>
+							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
+								for disk operations. CHAP username can be any value, however it
+								should be unique when sharing NetApp Filer across multiple
+								Eucalyptus clusters. </note>
+							<note> CHAP support for NetApp has been added in Eucalyptus 3.3. SC will
+								not transition to ENABLED state until the CHAP username is
+								conﬁgured. </note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Filer_IP_address>
    euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Filer_admin_username>
    euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
    euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd>Wait for SC to transition to the ENABLED state.</cmd>
-					<info>
-						<note>The SC must be in the ENABLED state before configuring the following
-							properties.</note>
-					</info>
-				</step>
-				<step>
-					<cmd> If no aggregate is set, Eucalyptus will query the NetApp Filer for all
-						available aggregates and use the one that has the highest capacity (free
-						space) by default. To make Eucalyptus use specific aggregate(s) configure
-						the following property: </cmd>
-					<info>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
-							aggregate_2_name,...></codeph>
-					</info>
-					<info>
-						<p>If you want Eucalyptus to use the smallest aggregate first configure the
-							following property: </p>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.uselargestaggregate=false</codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd> On the ENABLED CLC, set the iSCSI data IP for NCs to use for performing
-						disk operations on the Filer. </cmd>
-					<info>
-						<note>Filer IP address can be used as the data port IP. If this is not set,
-							Eucalyptus will automatically use the Filer IP address/hostname.</note>
-						<note>Multipath is not supported for NetApp Filers. </note>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.ncpaths=&lt;ip></codeph>
-					</info>
-				</step>
-				<step>
-					<cmd> On the ENABLED CLC, set the iSCSI data IP for SCs to use for performing
-						disk operations on the Filer. </cmd>
-					<info>
-						<note>Filer IP address can be used as the data port IP. If this is not set,
-							Eucalyptus will automatically use the Filer IP address/hostname.</note>
-						<note>Multipath is not supported for NetApp Filers. SC connects to the data
-							ports on the Filer in order to transfer snapshots to Walrus during
-							snapshot operations.</note>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.scpaths=&lt;ip></codeph>
-					</info>
-				</step>
-			</steps>
-			<result>Your Netapp 7-mode SAN is now ready to use with Eucalyptus.</result>
-		</taskbody>
-	</task>
+						</info>
+					</step>
+					<step>
+						<cmd>Wait for SC to transition to the ENABLED state.</cmd>
+						<info>
+							<note>The SC must be in the ENABLED state before configuring the
+								following properties.</note>
+						</info>
+					</step>
+					<step>
+						<cmd> If no aggregate is set, Eucalyptus will query the NetApp Filer for all
+							available aggregates and use the one that has the highest capacity (free
+							space) by default. To make Eucalyptus use specific aggregate(s)
+							configure the following property: </cmd>
+						<info>
+							<codeph>euca-modify-property -p
+								&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
+								aggregate_2_name,...></codeph>
+						</info>
+						<info>
+							<p>If you want Eucalyptus to use the smallest aggregate first configure
+								the following property: </p>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.uselargestaggregate=false</codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd> On the ENABLED CLC, set the iSCSI data IP for NCs to use for
+							performing disk operations on the Filer. </cmd>
+						<info>
+							<note>Filer IP address can be used as the data port IP. If this is not
+								set, Eucalyptus will automatically use the Filer IP
+								address/hostname.</note>
+							<note>Multipath is not supported for NetApp Filers. </note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd> On the ENABLED CLC, set the iSCSI data IP for SCs to use for
+							performing disk operations on the Filer. </cmd>
+						<info>
+							<note>Filer IP address can be used as the data port IP. If this is not
+								set, Eucalyptus will automatically use the Filer IP
+								address/hostname.</note>
+							<note>Multipath is not supported for NetApp Filers. SC connects to the
+								data ports on the Filer in order to transfer snapshots to Walrus
+								during snapshot operations.</note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
+						</info>
+					</step>
+				</steps>
+				<result>Your Netapp 7-mode SAN is now ready to use with Eucalyptus.</result>
+			</taskbody>
+		</task>
 
-	<task id="enabling_san_netapp_ontap">
-		<title>Enable NetApp Clustered Data ONTAP SAN</title>
-		<shortdesc/>
-		<taskbody>
-			<context>
-				<p>Eucalyptus integrates with NetApp Clustered ONTAP SAN by operating against a
-					Vserver. SC must be conﬁgured to operate against Vserver contained in the NetApp
-					Clustered ONTAP environment. </p>
-				<p>To configure NetApp Vserver and enable the SAN in Eucalyptus:</p>
-			</context>
-			<steps>
-				<step>
-					<cmd>Verify Clustered Data ONTAP version for the SAN is 8.1.1 or later.</cmd>
-				</step>
-				<step>
-					<cmd> Verify that FlexClone and iSCSI licenses are installed on the SAN. </cmd>
-				</step>
-				<step>
-					<cmd> Verify that a Vserver with iSCSI data protocol is available for use by
-						Eucalyptus. </cmd>
-				</step>
-				<step>
-					<cmd>Verify that Vserver administration is delegated to a user with
-						administrative privileges for that Vserver. If not, create a new new Vserver
-						administrator account for use by Eucalyptus. </cmd>
-				</step>
-				<step>
-					<cmd> Verify that a management (only) Logical Interface (LIF) is configured for
-						the Vserver and an IP address or hostname is assigned to it. </cmd>
-				</step>
-				<step>
-					<cmd> Verify that data LIFs are configured on the Vserver. </cmd>
-				</step>
-				<step>
-					<cmd> Verify that one or more aggregates with sufficient spare capacity exists.
-					</cmd>
-				</step>
-				<step>
-					<cmd> Verify the network connectivity between Eucalyptus components and the
-						Vserver. SC must be able communicate with the Vserver over both management
-						and data LIFs. NC must be able to communicate with the Vserver using the
-						data LIFs. </cmd>
-				</step>
-				<step>
-					<cmd> Configure the SC to use the NetApp SAN for storage: </cmd>
-					<info>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.blockstoragemanager=netapp</codeph>
-						<p>The output of the command should be similar to:</p>
-						<codeph>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was
-							&lt;unset></codeph>
-					</info>
-				</step>
-				<step>
-					<cmd> Verify that the propery value is now: 'netapp' </cmd>
-					<info> euca-describe-properties | grep blockstorage </info>
-				</step>
-				<step>
-					<cmd> On the CLC, run the following command to verify that the SC is listed;
-						note that it may be in the BROKEN state: </cmd>
-					<info>
-						<codeph>euca_conf --list-scs</codeph>
-					</info>
-				</step>
-				<step>
-					<cmd> Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
-				</step>
-				<step>
-					<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support in
-						Eucalyptus by entering the Vserver's hostname or IP address, the username
-						and password of the administrator account, CHAP username and Vserver name. </cmd>
-					<info>
-						<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP) for
-							disk operations. CHAP username can be any value, however it should be
-							unique when sharing NetApp Vserver across multiple Eucalyptus
-							clusters.</note>
-						<note>CHAP support for NetApp has been added in Eucalyptus 3.3. SC will not
-							transition to ENABLED state until the CHAP username is conﬁgured.</note>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
+		<task id="enabling_san_netapp_ontap">
+			<title>Enable NetApp Clustered Data ONTAP SAN</title>
+			<shortdesc/>
+			<taskbody>
+				<context>
+					<p>Eucalyptus integrates with NetApp Clustered ONTAP SAN by operating against a
+						Vserver. SC must be conﬁgured to operate against Vserver contained in the
+						NetApp Clustered ONTAP environment. </p>
+					<p>For more information on NetApp Clustered Data ONTAP, see <xref
+						href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
+						>Clustered Data ONTAP 8.1 and 8.1.1: An Introduction</xref>.</p>
+					<p>To configure NetApp Vserver and enable the SAN in Eucalyptus:</p>
+				</context>
+				<steps>
+					<step>
+						<cmd>Verify Clustered Data ONTAP version for the SAN is 8.1.1 or
+							later.</cmd>
+					</step>
+					<step>
+						<cmd> Verify that FlexClone and iSCSI licenses are installed on the SAN.
+						</cmd>
+					</step>
+					<step>
+						<cmd> Verify that a Vserver with iSCSI data protocol is available for use by
+							Eucalyptus. </cmd>
+					</step>
+					<step>
+						<cmd>Verify that Vserver administration is delegated to a user with
+							administrative privileges for that Vserver. If not, create a new new
+							Vserver administrator account for use by Eucalyptus. </cmd>
+					</step>
+					<step>
+						<cmd> Verify that a management (only) Logical Interface (LIF) is configured
+							for the Vserver and an IP address or hostname is assigned to it. </cmd>
+					</step>
+					<step>
+						<cmd> Verify that data LIFs are configured on the Vserver. </cmd>
+					</step>
+					<step>
+						<cmd> Verify that one or more aggregates with sufficient spare capacity
+							exists. </cmd>
+					</step>
+					<step>
+						<cmd> Verify the network connectivity between Eucalyptus components and the
+							Vserver. SC must be able communicate with the Vserver over both
+							management and data LIFs. NC must be able to communicate with the
+							Vserver using the data LIFs. </cmd>
+					</step>
+					<step>
+						<cmd> Configure the SC to use the NetApp SAN for storage: </cmd>
+						<info>
+							<codeph>euca-modify-property -p
+								&lt;partition>.storage.blockstoragemanager=netapp</codeph>
+							<p>The output of the command should be similar to:</p>
+							<codeph>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was
+								&lt;unset></codeph>
+						</info>
+					</step>
+					<step>
+						<cmd> Verify that the propery value is now: 'netapp' </cmd>
+						<info> euca-describe-properties | grep blockstorage </info>
+					</step>
+					<step>
+						<cmd> On the CLC, run the following command to verify that the SC is listed;
+							note that it may be in the BROKEN state: </cmd>
+						<info>
+							<codeph>euca_conf --list-scs</codeph>
+						</info>
+					</step>
+					<step>
+						<cmd> Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
+					</step>
+					<step>
+						<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support
+							in Eucalyptus by entering the Vserver's hostname or IP address, the
+							username and password of the administrator account, CHAP username and
+							Vserver name. </cmd>
+						<info>
+							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
+								for disk operations. CHAP username can be any value, however it
+								should be unique when sharing NetApp Vserver across multiple
+								Eucalyptus clusters.</note>
+							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. SC will
+								not transition to ENABLED state until the CHAP username is
+								conﬁgured.</note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
 euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Vserver_admin_username>
 euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
 euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
-						<note> The following command may fail if tried immediately after conﬁguring
-							the block storage manager. Retry the command a few times, pausing for a
-							few seconds after each retry: </note>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.vservername=&lt;Vserver_name></codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd> Wait for SC to transition to ENABLED state. </cmd>
-					<info>
-						<note>The SC must be in the ENABLED state before configuring the following
-							properties.</note>
-					</info>
-				</step>
-				<step>
-					<cmd> If no aggregate is set, Eucalyptus will query the NetApp Vserver for all
-						available aggregates and use the one that has the highest capacity (free
-						space) by default. To make Eucalyptus use specific aggregate(s) configure
-						the following property: </cmd>
-					<info>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
-							aggregate_2_name,...></codeph>
-					</info>
-					<info>
-						<p>If you want Eucalyptus to use the smallest aggregate first configure the
-							following property: </p>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.uselargestaggregate=false</codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd> On the ENABLED CLC, set the iSCSI data IP for NCs to use for performing
-						disk operations on the Vserver. </cmd>
-					<info>
-						<note>Vserver IP address can be used as the data port IP. If this is not set,
-							Eucalyptus will automatically use the Vserver IP address/hostname.</note>
-						<note>Multipath is not supported for NetApp Vservers. </note>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.ncpaths=&lt;ip></codeph>
-					</info>
-				</step>
-				<step>
-					<cmd> On the ENABLED CLC, set the iSCSI data IP for SCs to use for performing
-						disk operations on the Vserver. </cmd>
-					<info>
-						<note>Vserver IP address can be used as the data port IP. If this is not set,
-							Eucalyptus will automatically use the Vserver IP address/hostname.</note>
-						<note>Multipath is not supported for NetApp Vservers. SC connects to the data
-							ports on the Vserver in order to transfer snapshots to Walrus during
-							snapshot operations.</note>
-						<codeph>euca-modify-property -p
-							&lt;partition>.storage.scpaths=&lt;ip></codeph>
-					</info>
-				</step>
-			</steps>
-			<result>Your NetApp Clustered Data ONTAP SAN is now ready to use with Eucalyptus.</result>
-		</taskbody>
+							<note> The following command may fail if tried immediately after
+								conﬁguring the block storage manager. Retry the command a few times,
+								pausing for a few seconds after each retry: </note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.vservername=&lt;Vserver_name></codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd> Wait for SC to transition to ENABLED state. </cmd>
+						<info>
+							<note>The SC must be in the ENABLED state before configuring the
+								following properties.</note>
+						</info>
+					</step>
+					<step>
+						<cmd> If no aggregate is set, Eucalyptus will query the NetApp Vserver for
+							all available aggregates and use the one that has the highest capacity
+							(free space) by default. To make Eucalyptus use specific aggregate(s)
+							configure the following property: </cmd>
+						<info>
+							<codeph>euca-modify-property -p
+								&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
+								aggregate_2_name,...></codeph>
+						</info>
+						<info>
+							<p>If you want Eucalyptus to use the smallest aggregate first configure
+								the following property: </p>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.uselargestaggregate=false</codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd> On the ENABLED CLC, set the iSCSI data LIF IP(s) for NCs to use for performing disk
+							operations on the Vserver. If you want to configure multiple IPs, see
+							see <xref href="configure_netapp_multipath">Configure NetApp Multipathing</xref>.</cmd>
+						<info>
+							<note>Vserver IP address can be used as the data port IP. If this is not
+								set, Eucalyptus will automatically use the Vserver IP
+								address/hostname.</note>
+							<note>Multipath is not supported for NetApp Vservers. </note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
+						</info>
+					</step>
+					<step>
+						<cmd>On the ENABLED CLC, set the iSCSI data LIF IP(s) for SCs to use for performing disk
+							operations on the Vserver. SC connects to the data LIFs on the Vserver
+							in order to transfer snapshots to Walrus during snapshot operations. If
+							you want to configure multiple IPs, see <xref href="configure_netapp_multipath">Configure NetApp Multipathing</xref>.</cmd>
+						<info>
+							<note>Vserver IP address can be used as the data port IP. If this is not
+								set, Eucalyptus will automatically use the Vserver IP
+								address/hostname.</note>
+							<note>Multipath is not supported for NetApp Vservers. SC connects to the
+								data ports on the Vserver in order to transfer snapshots to Walrus
+								during snapshot operations.</note>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
+						</info>
+					</step>
+				</steps>
+				<result>Your NetApp Clustered Data ONTAP SAN is now ready to use with
+					Eucalyptus.</result>
+			</taskbody>
+		</task>
 	</task>
 
 
