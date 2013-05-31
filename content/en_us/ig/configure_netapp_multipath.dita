@@ -4,11 +4,11 @@
 <task id="configure_emc_vnx_multipath">
     <title>Configure NetApp Multipathing</title>
 
-    <shortdesc>Use multipathing to provide network-and-SP-redundancy for the iSCSI data path between
-        the NetApp SAN and NCs.</shortdesc>
+    <shortdesc>Use multipathing to provide network and controller redundancy for the iSCSI data path between the NetApp Cluster-mode SAN and NCs.</shortdesc>
 
     <taskbody>
         <context>
+            <note type="important">Eucalyptus supports multipathing for NetApp Clustered ONTAP only.</note>
             <note type="important">It is <b>strongly</b> recommended that you get your system up and
                 running and able to create volumes and snapshots using the NetApp SAN prior to
                 configuring multipathing. Multipathing can be configured after the cloud is fully
@@ -30,7 +30,7 @@
                 <info>
                     <note> An example configuration for NetApp is installed with Eucalyptus. This
                         file is located in
-                            <codeph>/usr/share/doc/eucalyptus-3.3.0/iscsid.conf.example.netapp</codeph>
+                        <codeph>/usr/share/doc/eucalyptus-3.3.0/multipath.conf.example.netapp</codeph>
                         on each SC. You may need to copy that file to each NC. </note>
                 </info>
             </step>
@@ -85,7 +85,7 @@ quit</codeblock>
                         the ‘iface’ value if you want precise control over which
                         interfaces access which IPs. For using a single path
                         only, just specify the IP of the iscsi data port to use
-                        on the VNX. </note>
+                        on the NetApp Clustered ONTAP. </note>
                     <note> We recommend initially getting the system working
                         with only one path. The path values can be modified at
                         any time to enable multipathing, so it is possible to
@@ -143,17 +143,17 @@ quit</codeblock>
                     <codeblock> multipath -ll </codeblock>
                     <p> This command should return output similar to the
                         following: </p>
-                    <codeblock>
-mpathb (36006016098b0300080722f971b2ee211) dm-­‐0 DGC,VRAID 
-size=1.0G features='1 queue_if_no_path' hwhandler='1 alua' wp=rw
-|-­‐+-­‐ policy='round-­‐robin 0' prio=50 status=active
-| `-­‐ 6:0:0:1 sdd 8:48 active ready running
-`-­‐+-­‐ policy='round-­‐robin 0' prio=10 status=enabled
-`-­‐ 7:0:0:1 sdf 8:80 active ready running  
-                    </codeblock>
+                    <codeblock>mpathp (3600a098037542d69535d43514965354e) dm-2 NETAPP,LUN C-Mode
+size=2.0G features='3 queue_if_no_path pg_init_retries 50' hwhandler='1 alua' wp=rw
+|-+- policy='round-robin 0' prio=50 status=active
+| |- 18:0:0:0 sdd 8:48 active ready running
+| `- 20:0:0:0 sdf 8:80 active ready running
+`-+- policy='round-robin 0' prio=10 status=enabled
+  |- 17:0:0:0 sdc 8:32 active ready running
+  `- 19:0:0:0 sde 8:64 active ready running                      </codeblock>
                 </info>
             </step>
         </steps>
-        <result> You have now successfully configured multipathing for your NetApp SAN installation. </result>
+        <result> You have now successfully configured multipathing for your NetApp Clustered ONTAP system. </result>
     </taskbody>
 </task>
