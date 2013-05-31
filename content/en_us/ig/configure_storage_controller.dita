@@ -198,10 +198,10 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 							<choice>If an aggregate with spare capacity does not exist, create one
 								using the <codeph>aggr create</codeph> command.</choice>
 						</choices>
-						<info>
+<!--						<info>
 							<note type="note">By default Eucalyptus assumes aggr1 as the aggregate
 								name. If you wish to use a different aggregate see step 13.</note>
-						</info>
+						</info>-->
 					</step>
 					<step>
 						<cmd>Verify that you have a license for FlexClone installed. At the shell
@@ -246,9 +246,9 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 								not transition to ENABLED state until the CHAP username is
 								conﬁgured. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Filer_IP_address>
-   euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Filer_admin_username>
-   euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
-   euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
+euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Filer_admin_username>
+euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
+euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
 						</info>
 					</step>
 					<step>
@@ -264,9 +264,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 							space) by default. To make Eucalyptus use specific aggregate(s)
 							configure the following property: </cmd>
 						<info>
-							<codeph>euca-modify-property -p
-								&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
-								aggregate_2_name,...></codeph>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.aggregate=&lt;aggregate_1_name,aggregate_2_name,...></codeblock>
 						</info>
 						<info>
 							<p>If you want Eucalyptus to use the smallest aggregate first configure
@@ -354,8 +352,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					<step>
 						<cmd> Configure the SC to use the NetApp SAN for storage: </cmd>
 						<info>
-							<codeph>euca-modify-property -p
-								&lt;partition>.storage.blockstoragemanager=netapp</codeph>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
 							<p>The output of the command should be similar to:</p>
 							<codeph>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was
 								&lt;unset></codeph>
@@ -369,7 +366,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 						<cmd> On the CLC, run the following command to verify that the SC is listed;
 							note that it may be in the BROKEN state: </cmd>
 						<info>
-							<codeph>euca_conf --list-scs</codeph>
+							<codeblock>euca_conf --list-scs</codeblock>
 						</info>
 					</step>
 					<step>
@@ -426,10 +423,6 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							operations on the Vserver. If you want to configure multiple IPs, see
 							see <xref href="configure_netapp_multipath">Configure NetApp Multipathing</xref>.</cmd>
 						<info>
-							<note>Vserver IP address can be used as the data port IP. If this is not
-								set, Eucalyptus will automatically use the Vserver IP
-								address/hostname.</note>
-							<note>Multipath is not supported for NetApp Vservers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
 						</info>
 					</step>
@@ -439,12 +432,6 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							in order to transfer snapshots to Walrus during snapshot operations. If
 							you want to configure multiple IPs, see <xref href="configure_netapp_multipath">Configure NetApp Multipathing</xref>.</cmd>
 						<info>
-							<note>Vserver IP address can be used as the data port IP. If this is not
-								set, Eucalyptus will automatically use the Vserver IP
-								address/hostname.</note>
-							<note>Multipath is not supported for NetApp Vservers. SC connects to the
-								data ports on the Vserver in order to transfer snapshots to Walrus
-								during snapshot operations.</note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
 					</step>
