@@ -164,7 +164,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 				</context>
 				<steps>
 					<step>
-						<cmd>Verify Data ONTAP version and API access to NetApp Filer.</cmd>
+						<cmd>Verify Data ONTAP version  for the 7-mode Filer is 7.3.3 or later.</cmd>
 					</step>
 					<step>
 						<cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
@@ -198,10 +198,6 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 							<choice>If an aggregate with spare capacity does not exist, create one
 								using the <codeph>aggr create</codeph> command.</choice>
 						</choices>
-<!--						<info>
-							<note type="note">By default Eucalyptus assumes aggr1 as the aggregate
-								name. If you wish to use a different aggregate see step 13.</note>
-						</info>-->
 					</step>
 					<step>
 						<cmd>Verify that you have a license for FlexClone installed. At the shell
@@ -218,7 +214,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
 							The output of the command should be similar to:
-							<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	netapp was &lt;unset></codeblock>
+							<codeblock>PROPERTY	&lt;partition>.storage.blockstoragemanager	netapp was &lt;unset></codeblock>
 						</info>
 					</step>
 					<step>
@@ -279,7 +275,7 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							<note>Filer IP address can be used as the data port IP. If this is not
 								set, Eucalyptus will automatically use the Filer IP
 								address/hostname.</note>
-							<note>Multipath is not supported for NetApp Filers. </note>
+							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode Filers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
 						</info>
 					</step>
@@ -290,9 +286,7 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							<note>Filer IP address can be used as the data port IP. If this is not
 								set, Eucalyptus will automatically use the Filer IP
 								address/hostname.</note>
-							<note>Multipath is not supported for NetApp Filers. SC connects to the
-								data ports on the Filer in order to transfer snapshots to Walrus
-								during snapshot operations.</note>
+							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode Filers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
 					</step>
