@@ -8,56 +8,28 @@
     properly on your client machine.</shortdesc>
 
   <taskbody>
-    <context>To install Euca2ools without installing Eucalyptus from packages,
-      follow these instructions. If you are using OS X Lion, you will need to
-      install Distribute and the latest Mac OS Developer Tools before you can
-      use <codeph>easy_install</codeph>. </context>
+    <context>To install euca2ools 3.0 on RHEL 6 or CentOS 6 using Eucalyptus-provided packages: </context>
 
     <steps>
       <step>
-        <cmd>Clone the euca2ools repository from git</cmd>
-        <info><codeblock>git clone https://github.com/eucalyptus/euca2ools.git</codeblock></info>
+        <cmd>Install the EPEL package repository:</cmd>
+        <info>
+          <codeblock>yum install
+http://downloads.eucalyptus.com/software/euca2ools/2.1/rhel/6/x86_64/epel-release-6.noarch.rpm</codeblock>
+        </info>
       </step>
       <step>
-        <cmd>Change to the directory where euca2ools was installed and install
-          boto</cmd>
-        <info><codeblock>sudo easy_install boto</codeblock></info>
+        <cmd>Install the euca2ools package repository:</cmd>
+        <info>
+          <codeblock>yum install
+http://downloads.eucalyptus.com/software/euca2ools/3.0/rhel/6/x86_64/euca2ools-release-3.0.noarch.rpm</codeblock>
+        </info>
       </step>
       <step>
-        <cmd>Run the euca2ools installer</cmd>
-        <info><codeblock>sudo python setup.py install</codeblock></info>
-      </step>
-      <step>
-        <cmd>Install m2crypto</cmd>
-        <info><codeblock>sudo easy_install m2crypto</codeblock></info>
-      </step>
-      <step>
-        <cmd>Go to your Eucalyptus admin GUI and get your access key ID and
-          secret key. For example: <filepath>https://192.168.51.185:8443/#key</filepath></cmd>
-      </step>
-      <step>
-        <cmd>Unzip the the downloaded zip file with the credentials in it and
-          open the <codeph>eucarc</codeph> file.</cmd>
-      </step>
-      <step>
-        <cmd>Edit the value for the <codeph>EUCA_KEY_DIR</codeph> property to
-          the path where your credentials are stored (e.g.,
-            <filepath>/Applications/euca2ools/creds</filepath>)</cmd>
-      </step>
-      <step>
-        <cmd>Enter your access key as the value for
-            <codeph>EC2_ACCESS_KEY</codeph></cmd>
-      </step>
-      <step>
-        <cmd>Enter your secret key as the value for
-            <codeph>EC2_SECRET_KEY</codeph></cmd>
-      </step>
-      <step>
-        <cmd>Set the value for the <codeph>AWS_CREDENTIAL_FILE</codeph> property
-          to <filepath>${EUCA_KEY_DIR}/iamrc</filepath></cmd>
-      </step>
-      <step>
-        <cmd>Source the <filepath>eucarc</filepath> file.</cmd>
+        <cmd>Install the euca2ools package:</cmd>
+        <info>
+          <codeblock>yum install euca2ools</codeblock>
+        </info>
       </step>
     </steps>
   </taskbody>
