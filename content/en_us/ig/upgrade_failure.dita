@@ -6,18 +6,17 @@
     <shortdesc/>
     <taskbody id="upgrade_failure_tasks">
         <context>
-        	<p>The upgrade process creates a backup to
-        		<codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>.
-        		For example:</p>
-        	<codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
-        	<p>If the upgrade fails and needs to be reverted to your earlier
-        		version, you can find your preserved data in this directory.</p>  
-        	
-        	<p>If for any reason your upgrade fails, all changes to the database
-                and configuration files will be rolled back. You can retry
-                the upgrade by following the upgrade instructions in the
-                sections, <xref href="upgrade_shutdown.dita"/> and <xref
-                	href="upgrade_packages.dita"/>.</p>
+            <p>The upgrade process creates a backup to
+                    <codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>.
+                For example:</p>
+            <codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
+            <p>If the upgrade fails and needs to be reverted to your earlier
+                version, you can find your preserved data in this directory.</p>
+            <p>If for any reason your upgrade fails, all changes to the database
+                and configuration files will be rolled back. You can retry the
+                upgrade by following the upgrade instructions in the sections,
+                    <xref href="upgrade_shutdown.dita"/> and <xref
+                    href="upgrade_packages.dita"/>.</p>
             <p>In the event that you choose not to go ahead with the upgrade
                 after a failure, you can downgrade your installation back to the
                 previous version. Please note that downgrade instructions are
@@ -25,11 +24,17 @@
                 co-located or each run on their own machine. You will need to
                 perform the downgrade for all services running on a single
                 machine at the same time.</p>
+            <p><filepath>/var/lib/eucalyptus/db</filepath> and
+                    <filepath>/var/lib/eucalyptus/keys</filepath> should not be
+                affected by the upgrade. If they have been removed subsequent to
+                the upgrade, you must restore the contents of these directories
+                from your backups before downgrading.</p>
         </context>
         <steps>
             <step>
-            	<cmd>Downgrade to the Eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/> release package on each
-                    host.</cmd>
+                <cmd>Downgrade to the Eucalyptus <ph
+                        conref="../shared/conrefs.dita#prod/prev_version"/>
+                    release package on each host.</cmd>
                 <info>
                     <codeblock>yum downgrade http://downloads.eucalyptus.com/software/eucalyptus/<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>/centos/6/x86_64/eucalyptus-release-<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>.noarch.rpm</codeblock>
                 </info>
@@ -37,7 +42,9 @@
             <step>
                 <cmd>If you have a Eucalyptus subscription, downgrade your
                     subscription release package on each host to the release
-                    package you obtained for Eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
+                    package you obtained for Eucalyptus <ph
+                        conref="../shared/conrefs.dita#prod/prev_version"
+                    />.</cmd>
                 <info>
                     <codeblock>yum downgrade eucalyptus-enterprise-<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>*.rpm</codeblock>
                 </info>
@@ -52,9 +59,12 @@
             <step>
                 <cmd>Log in to each NC host and downgrade it. To downgrade to a
                     specific version, append the version number to each package
-                    name. For example, to downgrade to <ph conref="../shared/conrefs.dita#prod/prev_version"/>, add
-                    <codeph>-<ph conref="../shared/conrefs.dita#prod/prev_version"/></codeph> to each of the packages in the
-                    following list:</cmd>
+                    name. For example, to downgrade to <ph
+                        conref="../shared/conrefs.dita#prod/prev_version"/>, add
+                            <codeph>-<ph
+                            conref="../shared/conrefs.dita#prod/prev_version"
+                        /></codeph> to each of the packages in the following
+                    list:</cmd>
                 <info>
                     <codeblock>yum downgrade eucalyptus eucalyptus-gl eucalyptus-admin-tools eucalyptus-nc python-eucadmin</codeblock>
                 </info>
