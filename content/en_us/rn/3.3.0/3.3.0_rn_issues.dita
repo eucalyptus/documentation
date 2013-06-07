@@ -188,17 +188,6 @@
 								Console</entry>
 					</row>
 					<row>
-						<entry>The User Console exhibits odd behavior (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4530"
-								>EUCA-4530</xref>)</entry>
-						<entry>The User Console is intended to work with normal
-							user accounts. If you log in with the
-								<userinput>eucalyptus</userinput> account, the
-							User Console will not work correctly on some pages,
-							such as Elastic IPs.</entry>
-					</row>
-					<row>
 						<entry>Some components are initialized rather than
 							disabled after an unexpected reboot (<xref
 								format="html"
@@ -243,81 +232,6 @@
 							and restarted.</entry>
 					</row>
 					<row>
-						<entry>BFEBS fails in some cases when running new
-							instances, with error <codeph>RollbackException:
-								Error while committing the transaction</codeph>
-								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
-								>EUCA-4271</xref>)</entry>
-						<entry>If a new instance is constructed in a group
-							concurrently with network resources being freed in
-							that group, a <codeph>RollbackException: Error while
-								committing the transaction</codeph> error is
-							thrown. This also results in an orphaned volume that
-							cannot be deleted until the VM metadata has timed
-							out and the volume is recognised as unused. Running
-							the new instance a second time should succeed.
-						</entry>
-					</row>
-					<row>
-						<entry><codeph>euca-reboot-instances</codeph> only
-							reboots one instance, even if multiple instances are
-							specified (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4268"
-								>EUCA-4268</xref>)</entry>
-						<entry><codeph>euca-reboot-instances</codeph> reboots
-							the first instance specified. To reboot multiple
-							instances, run
-								<codeph>euca-reboot-instances</codeph> once per
-							instance.</entry>
-					</row>
-					<row>
-						<entry>Changing LOCALE does not change the language of
-							the fault message in fault logs (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4233"
-								>EUCA-4233</xref>)</entry>
-						<entry>Changing the system LOCALE does not change the
-							language of the fault message logged in
-								<filepath>[component]-fault.log</filepath>.
-							Create customized fault messages in the
-								<filepath>/etc/eucalyptus/faults/en_US</filepath>
-							directory if you do not wish to use the provided
-							messages.</entry>
-					</row>
-					<row>
-						<entry>User console hangs when launching an instance
-							with large user data file (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4223"
-								>EUCA-4223</xref>)</entry>
-						<entry>Launching an instance through the console may
-							hang if the user data file is too big. Launch
-							instances on the command line if the user data file
-							is larger than 16KB.</entry>
-					</row>
-					<row>
-						<entry>A snapshot registered as an image must be
-							deregistered twice to be fully removed (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4207"
-								>EUCA-4207</xref>)</entry>
-						<entry>Running <codeph>deregister-image</codeph> does
-							not initially delete the image record for a snapshot
-							that was registered as an image. You must run
-								<codeph>deregister-image</codeph> twice to
-							ensure the image is deleted.</entry>
-					</row>
-					<row>
-						<entry>CC image caching does not work with some symlinks
-								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4181"
-								>EUCA-4181</xref>)</entry>
-						<entry>If <codeph>CC_IMAGE_PROXY_PATH</codeph> in
-								<codeph>eucalyptus.conf</codeph> is set to a
-							symlink, CC image caching may not work. Ensure the
-							symlink is placed in a path that is readable by the
-							'eucalyptus' user.</entry>
-					</row>
-					<row>
 						<entry>DBResourceCheck exceptions logged at
 								<codeph>ERROR</codeph> log level (<xref
 								format="html"
@@ -359,18 +273,6 @@
 							removed from the task list as soon as the bundle
 							completes, so euca-describe-bundle-tasks never shows
 							a 'complete' status.</entry>
-					</row>
-					<row>
-						<entry>Attempts to create an instance from an uncached
-							image stay pending indefinitely (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4112"
-								>EUCA-4112</xref>)</entry>
-						<entry>If the cluster controller image cache is set to
-							zero, attempts to create an instance from an
-							uncached image will remain pending indefinitely. To
-							prevent images being cached, remove the
-								<codeph>CC_IMAGE_PROXY</codeph> line from
-								<filepath>eucalyptus.conf</filepath>.</entry>
 					</row>
 					<row>
 						<entry>[error:0290] message printed on upgrade (<xref
@@ -445,14 +347,6 @@
 							effect.</entry>
 					</row>
 					<row>
-						<entry>euca-describe-nodes does not return consistent
-							results (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3456"
-								>EUCA-3456</xref>)</entry>
-						<entry>The output of euca-describe-nodes is not
-							consistent.</entry>
-					</row>
-					<row>
 						<entry>ENABLED CC have two NAT rules about
 							169.254.169.254 (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3440"
@@ -460,15 +354,6 @@
 						<entry>In HA Mode, ENABLED CC can get into a state where
 							it reports both ENABLED and DISABLED CLC in iptables
 							for the metadata service.</entry>
-					</row>
-					<row>
-						<entry>euca-start-instances does not return correct
-							information (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3311"
-								>EUCA-3311</xref>)</entry>
-						<entry>euca-start-instances only returns the instance
-							identifier and does not return the previous or the
-							current state of the instance.</entry>
 					</row>
 					<row>
 						<entry>Walrus does not failover in HA if
@@ -515,32 +400,6 @@
 							uses user friendly names instead of WWID for the
 							multipath device names, so the "user_friendly_names"
 							option must be enabled in /etc/multipath.conf.
-						</entry>
-					</row>
-
-					<row>
-						<entry>RollbackException error while committing
-							transaction failure when attempting to run a BFEBS
-								instance(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4271"
-								>EUCA-4271</xref>)</entry>
-						<entry>In some cases, network resources (primarily vlan
-							tags for the network group) are freed concurrently
-							while a new instance is being constructed in that
-							same group. If the network group is seen to have no
-							more instances, then the CC can timeout the vlan tag
-							and then inform the CLC, which frees the vlan tag
-							resource. If there is a concurrent instance being
-							constructed, however, an attempt may be made to use
-							that vlan tag, and upon volume attach the database
-							update fails because the vlan/network tag record
-							doesn't exist. When this happens, the instance will
-							stay in a 'pending' state with an IP address of
-							0.0.0.0 for a very long time. There is no long-term
-							negative effect of this condition. To resolve this
-							issue, you should proceed with terminating the
-							instance, deleting its resulting volume if
-							necessary, and then re-running the instance.
 						</entry>
 					</row>
 					<row>
