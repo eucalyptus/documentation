@@ -148,11 +148,12 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 
 	<task id="enabling_san_netapp_overview">
 		<title>Enable NetApp SANs</title>
-		<shortdesc>Eucalyptus supports both NetApp Clustered ONTAP and traditional 7-mode SANs. NetApp
-			Vservers and 7-mode Filers (FAS 2000 and FAS 600 series) are managed by Eucalyptus using
-			NetApp Manageability Software Development Kit (NMSDK) and Data ONTAP APIs (version 7.3.3
-			or above).  This section covers enabling both NetApp Clustered ONTAP and traditional
-			7-mode SANs.</shortdesc>
+		<shortdesc>Eucalyptus supports both NetApp Clustered ONTAP and traditional
+			7-mode SANs. NetApp Vservers and 7-mode Filers (FAS 2000 and FAS 600
+			series) are managed by Eucalyptus using NetApp Manageability
+			Software Development Kit (NMSDK) and Data ONTAP APIs. This section
+			covers enabling both NetApp Clustered ONTAP and traditional 7-mode
+			SANs.</shortdesc>
 		<task id="enabling_san_netapp">
 			<title>Enable NetApp 7-mode SANs</title>
 			<shortdesc/>
@@ -170,11 +171,12 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 						<cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
 					</step>
 					<step>
-						<cmd>If marked inactive, enable with <codeph>secureadmin setup ssl</codeph>
-							and generate a new certificate.</cmd>
+						<cmd>If SSL is marked inactive, enable with <codeph>secureadmin setup
+								ssl</codeph> and generate a new
+							certificate.</cmd>
 					</step>
 					<step>
-						<cmd>Finally turn on SSL access with <codeph>options httpd.admin.ssl.enable
+						<cmd>Turn on SSL access with <codeph>options httpd.admin.ssl.enable
 								on</codeph></cmd>
 					</step>
 					<step>
@@ -230,17 +232,19 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 						<cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
 					</step>
 					<step>
-						<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support
-							in Eucalyptus by entering the Filer's hostname or IP address, the
-							username and password of the administrator account, and CHAP username. </cmd>
+						<cmd>On the CLC (the primary CLC in an HA setup), enable NetApp SAN
+							support in Eucalyptus by entering the Filer's
+							hostname or IP address, the username and password of
+							the administrator account, and CHAP username. </cmd>
 						<info>
 							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
-								for disk operations. CHAP username can be any value, however it
-								should be unique when sharing NetApp Filer across multiple
+								for disk operations. The CHAP username can be
+								any value, however it should be unique when
+								sharing a NetApp Filer across multiple
 								Eucalyptus clusters. </note>
-							<note> CHAP support for NetApp has been added in Eucalyptus 3.3. SC will
-								not transition to ENABLED state until the CHAP username is
-								conﬁgured. </note>
+							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. An SC
+								will not transition to ENABLED state until the
+								CHAP username is conﬁgured. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Filer_IP_address>
 euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Filer_admin_username>
 euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
@@ -248,17 +252,18 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd>Wait for SC to transition to the ENABLED state.</cmd>
+						<cmd>Wait for the SC to transition to the ENABLED state.</cmd>
 						<info>
 							<note>The SC must be in the ENABLED state before configuring the
 								following properties.</note>
 						</info>
 					</step>
 					<step>
-						<cmd> If no aggregate is set, Eucalyptus will query the NetApp Filer for all
-							available aggregates and use the one that has the highest capacity (free
-							space) by default. To make Eucalyptus use specific aggregate(s)
-							configure the following property: </cmd>
+						<cmd>If no aggregate is set, Eucalyptus will query the NetApp Filer for
+							all available aggregates and use the one that has
+							the highest capacity (free space) by default. To
+							make Eucalyptus use specific aggregate(s) configure
+							the following property: </cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.aggregate=&lt;aggregate_1_name,aggregate_2_name,...></codeblock>
 						</info>
@@ -269,8 +274,8 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd> Set the iSCSI data IP on the ENABLED CLC. This IP  used by NCs to perform disk
-							operations on the Filer. </cmd>
+						<cmd>Set the iSCSI data IP on the ENABLED CLC. This IP is used by NCs to
+							perform disk operations on the Filer. </cmd>
 						<info>
 							<note>Filer IP address can be used as the data port IP. If this is not
 								set, Eucalyptus will automatically use the Filer IP
@@ -280,12 +285,14 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd> Set the iSCSI data IP on the ENABLED CLC. This IP  used by SCs to perform disk
-							operations on the Filer.  </cmd>
+						<cmd>Set the iSCSI data IP on the ENABLED CLC. This IP is used by the SC
+							to perform disk operations on the Filer. The SC
+							connects to the Filer in order to transfer snapshots
+							to Walrus during snapshot operations. </cmd>
 						<info>
-							<note>Filer IP address can be used as the data port IP. If this is not
-								set, Eucalyptus will automatically use the Filer IP
-								address/hostname.</note>
+							<note>The Filer IP address can be used as the data port IP. If this is
+								not set, Eucalyptus will automatically use the
+								Filer IP address/hostname.</note>
 							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode Filers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
@@ -338,47 +345,49 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							exists. </cmd>
 					</step>
 					<step>
-						<cmd> Verify the network connectivity between Eucalyptus components and the
-							Vserver. SC must be able communicate with the Vserver over both
-							management and data LIFs. NC must be able to communicate with the
-							Vserver using the data LIFs. </cmd>
+						<cmd>Verify the network connectivity between Eucalyptus components and the
+							Vserver. The SC must be able communicate with the
+							Vserver over both management and data LIFs. The NC
+							must be able to communicate with the Vserver using
+							the data LIFs. </cmd>
 					</step>
 					<step>
-						<cmd> Configure the SC to use the NetApp SAN for storage: </cmd>
+						<cmd>Configure the SC to use the NetApp SAN for storage: </cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
 							<p>The output of the command should be similar to:</p>
-							<codeph>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was
-								&lt;unset></codeph>
+							<codeblock>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was &lt;unset></codeblock>
 						</info>
 					</step>
 					<step>
-						<cmd> Verify that the propery value is now: 'netapp' </cmd>
-						<info> euca-describe-properties | grep blockstorage </info>
+						<cmd>Verify that the propery value is now: 'netapp' </cmd>
+						<info><codeblock>euca-describe-properties | grep blockstorage </codeblock></info>
 					</step>
 					<step>
-						<cmd> On the CLC, run the following command to verify that the SC is listed;
-							note that it may be in the BROKEN state: </cmd>
+						<cmd>On the CLC, run the following command to verify that the SC is
+							listed; note that it may be in the BROKEN state: </cmd>
 						<info>
 							<codeblock>euca_conf --list-scs</codeblock>
 						</info>
 					</step>
 					<step>
-						<cmd> Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
+						<cmd>Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
 					</step>
 					<step>
-						<cmd> On the CLC (the primary CLC in an HA setup), enable NetApp SAN support
-							in Eucalyptus by entering the Vserver's hostname or IP address, the
-							username and password of the administrator account, CHAP username and
-							Vserver name. </cmd>
+						<cmd>On the CLC (the primary CLC in an HA setup), enable NetApp SAN
+							support in Eucalyptus by entering the Vserver's
+							hostname or IP address, the username and password of
+							the administrator account, CHAP username and Vserver
+							name. </cmd>
 						<info>
 							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
-								for disk operations. CHAP username can be any value, however it
-								should be unique when sharing NetApp Vserver across multiple
+								for disk operations. The CHAP username can be
+								any value, however it should be unique when
+								sharing a NetApp Vserver across multiple
 								Eucalyptus clusters.</note>
-							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. SC will
-								not transition to ENABLED state until the CHAP username is
-								conﬁgured.</note>
+							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. The SC
+								will not transition to ENABLED state until the
+								CHAP username is conﬁgured.</note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
 euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Vserver_admin_username>
 euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
@@ -390,7 +399,7 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd> Wait for SC to transition to ENABLED state. </cmd>
+						<cmd> Wait for the SC to transition to ENABLED state. </cmd>
 						<info>
 							<note>The SC must be in the ENABLED state before configuring the
 								following properties.</note>
@@ -402,9 +411,8 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							(free space) by default. To make Eucalyptus use specific aggregate(s)
 							configure the following property: </cmd>
 						<info>
-							<codeph>euca-modify-property -p
-								&lt;partition>.storage.aggregate=&lt;aggregate_1_name,
-								aggregate_2_name,...></codeph>
+							<codeblock>euca-modify-property -p &lt;partition>.storage.aggregate=&lt;aggregate_1_name,
+								aggregate_2_name,...></codeblock>
 						</info>
 						<info>
 							<p>If you want Eucalyptus to use the smallest aggregate first configure
@@ -422,12 +430,14 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is used for SCs to use
-							for performing disk operations on the Vserver. SC connects to the data
-							LIFs on the Vserver in order to transfer snapshots to Walrus during
-							snapshot operations. If you want to configure multiple IPs, see <xref
-								href="configure_netapp_multipath.dita">Configure NetApp
-								Multipathing</xref>.</cmd>
+						<cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
+							used by the SC for performing disk operations on the
+							Vserver. The SC connects to the data LIFs on the
+							Vserver in order to transfer snapshots to Walrus
+							during snapshot operations. If you want to configure
+							multiple IPs, see <xref
+								href="configure_netapp_multipath.dita">Configure
+								NetApp Multipathing</xref>.</cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
@@ -449,11 +459,12 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 					requires the Navisphere Secure CLI to be installed on the SCs. The Navisphere
 					CLI must be version 7.32.0.5.54 or later.</p>
 				<p>
-					<note type="important">You must create a clone private LUN (CPL) of at least 1GB
-						on each SP. For more information on creating private LUNs, go to <xref
+					<note type="important">You must create a Clone Private LUN (CPL) of at
+						least 1GB on each SP. For more information on creating
+						private LUNs, go to <xref
 							href="ftp://202.119.166.5/lxh/Document/EMC/Navisphere_Manager_Online_Help_v6_24/navimanager.htm#snapview/how_to_s/clones/allocating_clone_private_luns.htm"
-							type="html" scope="external">Allocating clone private
-						LUNs</xref>.</note>
+							type="html" scope="external">Allocating clone
+							private LUNs</xref>.</note>
 				</p>
 			</context>
 			<steps>
