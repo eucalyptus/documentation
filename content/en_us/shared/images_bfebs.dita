@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="images_bfebs">
+	<title>Create a Boot From EBS (bfEBS) Image</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>image tasks <indexterm>create a boot from EBS image </indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p> A "boot from EBS" (bfEBS) image is an image with a root device that is an EBS volume
+				created from an EBS snapshot. A bfEBS image has a number of advantages, including: </p>
+			<ul>
+				<li>Faster boot time</li>
+				<li>Larger volume size limits</li>
+				<li>Changes to the data on the image persist after instance termination</li>
+				<li>Instance </li>
+			</ul>
+			<p>To create a bfEBS image:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Use the QEMU disk utility to create a disk image. For example:</cmd>
+				<info>
+					<codeph>qemu-img create -f raw rhel6_bfebs.img 2G</codeph>
+				</info>
+			</step>
+
+			<step>
+				<cmd>Use parted to set the disk label:.</cmd>
+				<info>
+					<codeblock>parted rhel6_bfebs.img mklabel msdos</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Configure your kickstart.cfg file as appropriate for your needs. For
+					example:</cmd>
+				<info>
+					<codeblock>clearpart --all --drives=vda  --initlabel
+ part / --size=512 --grow --fstype ext3 --ondisk=vda</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Use virt-install to start a new virtual machine installation on the disk image
+					you just created:</cmd>
+				<info>
+					<codeblock>virt-install --name rhel6-bfebs2 --ram 1024 --os-type linux --os-variant rhel6 \
+-l http://192.168.7.65/rhel/releases/6.1/6Server/--disk \
+path=/tmp/rhel6_bfebs.img,bus=virtio --vnc -x "lang=en_US keymap=us"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd> Once the virt-install completes, start the virtual machine using virt-manager
+					or other libvirt tool of your choice. </cmd>
+			</step>
+			<step>
+				<cmd>Configure the virtual machine by connecting to it and making the following
+					changes:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Comment out the HWADDR entry from the
+								<filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath> file.
+							For example:</cmd>
+						<info>
+							<codeblock>DEVICE="eth0"
+BOOTPROTO="dhcp"
+#HWADDR="B8:AC:6F:83:1C:45"
+IPV6INIT="yes"
+MTU="1500"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE="Ethernet"
+UUID="499c07cc-4a53-408c-87d2-ce0db991648e"
+PERSISTENT_DHCLIENT=1</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Add the following option to the end of /boot/grub/menu.lst to get a
+							serial console:</cmd>
+						<info>
+							<codeph>console=ttyS0</codeph>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Remove the "quiet" option from the kernel parameters and grub menu splash
+							image in the <filepath>/boot/grub/menu.lst</filepath> file.</cmd>
+						<info><codeph>Example TBD</codeph></info>
+					</substep>
+					<substep>
+						<cmd>Add the following line to the /etc/sysconfig/network file to disable
+							the zeroconf route, which can interfere with access to the metadata
+							service:</cmd>
+						<info><codeph>NOZEROCONF=yes </codeph></info>
+					</substep>
+					<substep>
+						<cmd>Edit <filepath>/etc/udev/rules.d/70-persistent-net.rules</filepath> and
+							remove the entry for the existing NIC.</cmd>
+					</substep>
+					<substep>
+						<cmd>Copy the Eucalyptus rc.local file from
+							https://github.com/eucalyptus/Eucalyptus-Scripts/blob/master/rc.local.</cmd>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>Make sure the EBS volume is not mounted:</cmd>
+				<info>
+					<codeph>euca-detach-volume &lt;volume-id></codeph>
+				</info>
+			</step>
+			<step>
+				<cmd>Create a snapshot of the volume:</cmd>
+				<info><codeph>euca-create-snapshot &lt;volume-id></codeph></info>
+			</step>
+			<step>
+				<cmd> Register the volume: </cmd>
+				<info>
+					<codeph>euca-register -n "MyRHEL6bfEBS" -s &lt;volumeID></codeph>
+				</info>
+			</step>
+		</steps>
+		<result>You've now created a bfEBS image. To maintain data persistence, be sure to use
+			euca-stop-instances and euca-start-instances to stop and start your EBS-backed
+			instance.</result>
+	</taskbody>
+</task>
