@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="images_bfebs">
-	<title>Create a Boot From EBS (bfEBS) Image</title>
+	<title>Create an EBS-Backed Image</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -14,15 +14,16 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p> A "boot from EBS" (bfEBS) image is an image with a root device that is an EBS volume
-				created from an EBS snapshot. A bfEBS image has a number of advantages, including: </p>
+			<p> An EBS-backed image (sometimes referred to as a "bfEBS" image) is an image with a root device
+				that is an EBS volume created from an EBS snapshot. An EBS-backed image has a number
+				of advantages, including: </p>
 			<ul>
 				<li>Faster boot time</li>
 				<li>Larger volume size limits</li>
 				<li>Changes to the data on the image persist after instance termination</li>
 				<li>Instance </li>
 			</ul>
-			<p>To create a bfEBS image:</p>
+			<p>To create an EBS-backed image:</p>
 		</context>
 		<steps>
 			<step>
@@ -57,7 +58,7 @@ path=/tmp/bfebs.img,device=disk,bus=virtio --vnc</codeblock>
 					changes:</cmd>
 				<substeps>
 					<substep>
-						<cmd>Comment out the HWADDR entry from the
+						<cmd>Comment out the <codeph>HWADDR</codeph> entry from the
 								<filepath>/etc/sysconfig/network-scripts/ifcfg-eth0</filepath> file.
 							For example:</cmd>
 						<info>
@@ -74,24 +75,25 @@ PERSISTENT_DHCLIENT=1</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd>Add the following option to the end of /boot/grub/menu.lst to get a
+						<cmd>Add the following option to the end of <codeph>/boot/grub/menu.lst</codeph> to get a
 							serial console:</cmd>
 						<info>
 							<codeph>console=ttyS0</codeph>
 						</info>
 					</substep>
 					<substep>
-						<cmd>Remove the "quiet" option from the kernel parameters and grub menu splash
-							image in the <filepath>/boot/grub/menu.lst</filepath> file.</cmd>
+						<cmd>Remove the <codeph>quiet</codeph> option from the kernel parameters and grub menu splash
+							image in the <codeph><filepath>/boot/grub/menu.lst</filepath></codeph>
+							file.</cmd>
 					</substep>
 					<substep>
-						<cmd>Add the following line to the /etc/sysconfig/network file to disable
-							the zeroconf route, which can interfere with access to the metadata
+						<cmd>Add the following line to the <codeph>/etc/sysconfig/network</codeph> file to disable the
+							zeroconf route, which can interfere with access to the metadata
 							service:</cmd>
 						<info><codeph>NOZEROCONF=yes </codeph></info>
 					</substep>
 					<substep>
-						<cmd>Edit <filepath>/etc/udev/rules.d/70-persistent-net.rules</filepath> and
+						<cmd>Edit <codeph><filepath>/etc/udev/rules.d/70-persistent-net.rules</filepath></codeph> and
 							remove the entry for the existing NIC.</cmd>
 					</substep>
 					<substep>
@@ -100,12 +102,12 @@ PERSISTENT_DHCLIENT=1</codeblock>
 					</substep>
 				</substeps>
 			</step>
-			<step>
+			<!--<step>
 				<cmd>Make sure the EBS volume is not mounted:</cmd>
 				<info>
 					<codeph>euca-detach-volume &lt;volume-id></codeph>
 				</info>
-			</step>
+			</step>-->
 			<step>
 				<cmd>Create a snapshot of the volume:</cmd>
 				<info><codeph>euca-create-snapshot &lt;volume-id></codeph></info>
@@ -113,11 +115,12 @@ PERSISTENT_DHCLIENT=1</codeblock>
 			<step>
 				<cmd> Register the volume: </cmd>
 				<info>
-					<codeph>euca-register -n "MyRHEL6bfEBS" -s &lt;volumeID></codeph>
+					<codeph>euca-register -n "MyRHEL6bfEBS" -s &lt;snapshot-id> --root-device-name
+						/dev/sda</codeph>
 				</info>
 			</step>
 		</steps>
-		<result>You've now created a bfEBS image. To maintain data persistence, be sure to use
+		<result>You've now created a EBS-backed image. To maintain data persistence, be sure to use
 			euca-stop-instances and euca-start-instances to stop and start your EBS-backed
 			instance.</result>
 	</taskbody>
