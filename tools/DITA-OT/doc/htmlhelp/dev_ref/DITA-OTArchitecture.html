@@ -1,0 +1,83 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us">
+<head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta name="DC.Type" content="topic">
+<meta name="DC.Title" content="DITA Open Toolkit Architecture">
+<meta name="abstract" content="The DITA Open Toolkit is an open source implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The toolkit uses open source solution of ANT, XSLT (currently 1.0 for most processing, with XSLT 2.0 for PDF) and Java to implement transformation functions from DITA content (maps and topics) into different deliverable formats.">
+<meta name="description" content="The DITA Open Toolkit is an open source implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The toolkit uses open source solution of ANT, XSLT (currently 1.0 for most processing, with XSLT 2.0 for PDF) and Java to implement transformation functions from DITA content (maps and topics) into different deliverable formats.">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/developer-reference.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/processing-pipeline-modules.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/processing-order.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/DITA-OTPreprocess.html#preprocessarch">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlWithNavigation.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/PdfDefault.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/OdtDefault.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="ditaotarch">
+<meta name="DC.Language" content="en-us">
+<link rel="stylesheet" type="text/css" href="../commonltr.css">
+<title>DITA Open Toolkit Architecture</title>
+</head>
+<body id="ditaotarch"><a name="ditaotarch"><!-- --></a>
+
+
+<h1 class="title topictitle1">DITA Open Toolkit Architecture</h1>
+
+
+<div class="body"><p class="shortdesc">The DITA Open Toolkit is an open source implementation
+of the OASIS DITA Technical Committee's specification for Darwin Information
+Typing Architecture (DITA) DTDs and schemas. The toolkit uses open
+source solution of ANT, XSLT (currently 1.0 for most processing, with
+XSLT 2.0 for PDF) and Java to implement transformation functions from
+DITA content (maps and topics) into different deliverable formats.</p>
+
+<div class="section"><h2 class="title sectiontitle">Processing structure</h2><p class="p">The DITA Open Toolkit
+implements a multi-stage, map-driven architecture to process DITA
+content. Each step in the process examines some or all of the content;
+some steps result in temporary files used by later steps, while others
+result in updated copies of the DITA content. Most of the processing
+takes place in a temporary working directory (the source files themselves
+are never modified).</p>
+<p class="p">Transformations in the toolkit are designed
+like a pipeline. Most of the pipeline is common between all output
+formats, and is known as the "pre-process" stage. In general, any
+DITA process begins with this common set of pre-processing routines.
+Once the pre-processing is completed, the pipeline diverges based
+on the desired output format. Some processing is still common to multiple
+output formats; for example, Eclipse Help and HTML Help both use the
+same routines to generate XHTML topics, after which the two pipelines
+branch to create a different set of navigation files.</p>
+<p class="p">The
+following image illustrates how the pipeline works for some common
+output types.</p>
+<br><img class="image" src="images/mainarch.gif" alt="Diagram of some possible paths through the transform pipeline."><br></div>
+
+</div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="../dev_ref/processing-pipeline-modules.html">Processing modules in the DITA-OT</a></strong><br>
+The DITA-OT processing pipeline is implemented using Ant. Individual modules within the Ant script are generally implemented in either Java or XSLT, depending on a variety of factors, such as performance or requirements for customization. Virtually all Ant and XSLT modules are extensible by adding a plug-in to the toolkit; new Ant targets may be inserted before or after common processing, and new rules may be imported into common XSLT modules to override default processing.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/processing-order.html">Processing order within the DITA-OT</a></strong><br>
+The order of processing is often significant when evaluating DITA content. Although the DITA specification does not mandate a specific order for processing, the toolkit has over time found that the current order best meets user expectations. Switching the order of processing, while legal, may give different results. </li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/DITA-OTPreprocess.html#preprocessarch">DITA-OT pre-processing architecture</a></strong><br>
+This topic describes the set of steps commonly known as the pre-processing stage of a DITA build. These steps typically run at the start of any build using the DITA-OT, regardless of the final output format.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlWithNavigation.html">Generating XHTML with navigation</a></strong><br>
+The toolkit ships with several varieties of XHTML output, each of which follows roughly the same path through the processing pipeline. All XHTML builds begin with the same call to the preprocess routine, after which they generate XHTML files and then branch to create navigation files.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/PdfDefault.html">PDF output pipeline</a></strong><br>
+The PDF process (formerly known as PDF2) runs the preprocess routine, followed by a series of additional targets. These steps work together to create a merged set of content, convert that to XSL-FO, and then format the FO file to PDF.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/OdtDefault.html">ODT Transform type (Open Document Format)</a></strong><br>
+The "odt" transform type creates a binary file using the OASIS standard Open Document Format. </li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/developer-reference.html" title="The DITA Open Toolkit Developer Reference is designed to provide more advanced information about the DITA OT. It is geared to an audience that needs information about the DITA-OT architecture, configuring and extending the DITA-OT, and creating DITA-OT plug-ins.">DITA Open Toolkit Developer Reference</a></div>
+</div>
+</div>
+
+</body>
+</html>

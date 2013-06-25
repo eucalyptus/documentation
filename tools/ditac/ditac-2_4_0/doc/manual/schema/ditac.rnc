@@ -1,0 +1,70 @@
+namespace ditac = "http://www.xmlmind.com/ditac/schema/ditac"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+### --------------------------------------------------------------------------
+### A .ditac file contains a  ditac:chunk element.
+### --------------------------------------------------------------------------
+
+start = chunk-element
+
+chunk-element = element ditac:chunk {
+    attribute xml:lang { xsd:language }?,
+    (element ditac:titlePage { empty } |
+     element ditac:toc { empty } |
+     element ditac:figureList { empty } |
+     element ditac:tableList { empty } |
+     element ditac:exampleList { empty } |
+     element ditac:indexList { empty } |
+     any-dita-element |
+     flags-element)+
+}
+
+### --------------------------------------------------------------------------
+### Attribute ditac:filled is used to mark initially empty xref and link 
+### elements which have been filled with text by the preprocessor.
+### --------------------------------------------------------------------------
+
+any-dita-element = element * - ditac:* { anyContent }
+anyContent = (attribute * - ditac:* { text } |
+              attribute ditac:filled { "true" } |
+              text |
+              element * - ditac:* { anyContent } | 
+              flags-element |
+              anchor-element)*
+
+### --------------------------------------------------------------------------
+### ditac:flags is used to wrap a flagged (i.e. using ditaval) DITA element.
+### --------------------------------------------------------------------------
+
+flags-element = element ditac:flags {
+    attribute color { color }?,
+    attribute background-color { color }?,
+    attribute font-weight { "normal" | "bold" }?,
+    attribute font-style { "normal" | "italic" }?,
+    attribute text-decoration { 
+        "none" | "underline" | "overline" | "line-through" 
+    }?,
+
+    attribute changebar { xsd:boolean }?,
+
+    attribute startImage { xsd:anyURI }?,
+    attribute startText { token }?,
+    attribute endImage { xsd:anyURI }?,
+    attribute endText { token }?,
+
+    any-dita-element
+}
+
+color = "aqua" | "black" | "blue" | "fuchsia" | "gray" | "green" | "lime" | 
+        "maroon" | "navy" | "olive" | "purple" | "red" | "silver" | "teal" | 
+        "white" | "yellow" | xsd:token { pattern="#[0-9A-Fa-f]{6}" }
+
+### --------------------------------------------------------------------------
+### ditac:anchor is added at the end of a topic (before nested topics, 
+### if any) to be able to refer to this location as the end of range 
+### of an indexed term.
+### --------------------------------------------------------------------------
+
+anchor-element = element ditac:anchor {
+    attribute xml:id { xsd:ID }
+}

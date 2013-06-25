@@ -58,6 +58,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="*[contains(@class,' topic/xref ')]" mode="dita-ot:text-only">
+    <xsl:apply-templates select="node()[not(contains(@class,' topic/desc '))]" mode="dita-ot:text-only"/>
+  </xsl:template>
+
 
   <xsl:template match="*[contains(@class,' topic/boolean ')]" mode="dita-ot:text-only">
     <xsl:value-of select="name()"/><xsl:text>: </xsl:text><xsl:value-of select="@state"/>

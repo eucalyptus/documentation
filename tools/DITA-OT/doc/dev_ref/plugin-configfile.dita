@@ -12,8 +12,8 @@ integrates those changes into the core code.</shortdesc>
 <refbody>
 <section>       <p>The root element of the plugin.xml file is <codeph>&lt;plugin></codeph>,
 and must         specify an <codeph>id</codeph> attribute. The <codeph>id</codeph> attribute
-is used to         identify the plugin, as well as to identify whether
-pre-requisite plugins are available. The           <codeph>id</codeph> attribute
+is used to         identify the plug-in, as well as to identify whether
+pre-requisite plug-ins are available. The           <codeph>id</codeph> attribute
 should follow the syntax rules:</p>       <codeblock>id    ::= token('.'token)*
 token ::= ( [0..9] | [a..zA..Z] | ’_’ | ’-’ )+</codeblock>       <p>The <codeph>&lt;plugin></codeph> element
 supports the following child elements: </p>       <ul>
@@ -47,6 +47,26 @@ following attributes are supported:</p>           <simpletable keycol="1">
 <stentry>no</stentry>
 </strow>
 </simpletable>         </li>
+  <li>
+    <p><codeph>extension-point</codeph> defines new a <i>extension point</i> that can be used by other plug-ins. The following attributes are supported:</p>
+    <simpletable keycol="1">
+      <sthead>
+        <stentry>Attribute</stentry>
+        <stentry>Description</stentry>
+        <stentry>Required</stentry>
+      </sthead>
+      <strow>
+        <stentry><codeph>id</codeph></stentry>
+        <stentry>extension point identifier</stentry>
+        <stentry>yes</stentry>
+      </strow>
+      <strow>
+        <stentry><codeph>name</codeph></stentry>
+        <stentry>extension point name</stentry>
+        <stentry>no</stentry>
+      </strow>
+    </simpletable>
+  </li>
 <li>           <p><codeph>&lt;require></codeph> defines plug-in dependencies.
 The following attributes             are supported:</p>           <simpletable
 keycol="1">
@@ -102,7 +122,7 @@ keycol="1">
 </ul>       <p>Any extension that is not recognized by the DITA-OT
 is ignored; all elements other than           <codeph>&lt;plugin></codeph> are
 optional. Since version 1.5.3 multiple extension         definitions
-within a plugin configuration file are combined; in older versions
+within a plug-in configuration file are combined; in older versions
 only the last         extension definition is used. </p>       </section>
 </refbody>
 </reference>

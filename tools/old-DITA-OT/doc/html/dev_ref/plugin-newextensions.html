@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Creating a new plug-in extension point"/>
+<meta name="abstract" content="If your plug-in needs to define its own extension point in an XML file, add the string &#34;_template&#34; to the filename before the file suffix. During integration, this file will be processed like the built-in DITA-OT templates."/>
+<meta name="description" content="If your plug-in needs to define its own extension point in an XML file, add the string &#34;_template&#34; to the filename before the file suffix. During integration, this file will be processed like the built-in DITA-OT templates."/>
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/plugins-overview.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="plugin-newextensions"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Creating a new plug-in extension point</title>
+</head>
+<body id="plugin-newextensions">
+
+
+<h1 class="title topictitle1">Creating a new plug-in extension point</h1>
+
+
+<div class="body refbody"><p class="shortdesc">If your plug-in needs to define its own extension point
+in an XML file, add the string           "<samp class="ph codeph">_template</samp>"
+to the filename before the file suffix. During integration,      
+  this file will be processed like the built-in DITA-OT templates.</p>
+
+<div class="section"><p class="p">Template files are used to integrate most DITA-OT extensions.
+For example, the file <span class="ph filepath">dita2xhtml_template.xsl</span> contains
+all of the default rules for converting DITA topics to XHTML, along
+with an integration point for plug-in extensions. When the integrator
+runs, the file dita2xhtml.xsl is recreated, and the integration point
+is replaced with references to all appropriate plug-ins.</p>
+<p class="p">To
+mark a new file as a template file, use the <samp class="ph codeph">&lt;template&gt;</samp> element.</p>
+</div>
+
+<div class="example"><h2 class="title sectiontitle">Example</h2><p class="p">The following plug-in defines <span class="ph filepath">myTemplateFile_template.xsl</span> as
+a new template for extensions. When the integrator runs, this will
+be used to recreate <span class="ph filepath">myTemplateFile.xsl</span>, replacing
+any anchor points with the appropriate XSLT imports.</p>
+<pre class="pre codeblock">&lt;plugin id="com.example.new-extensions"&gt;
+  &lt;template file="myTemplateFile_template.xsl"/&gt;
+&lt;/plugin&gt;</pre>
+</div>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/plugins-overview.html" title="The DITA Open Toolkit comes with a built in mechanism for adding in extensions through plug-ins. These plug-ins may do a wide variety of things, such as adding support for specialized DITA DTDs or Schemas, integrating processing overrides, or even providing entirely new output transforms. Plug-ins are the best way to extend the toolkit in a way that is consistent, easily sharable, and easy to preserve through toolkit upgrades.">Creating DITA-OT plug-ins</a></div>
+</div>
+</div>
+
+</body>
+</html>

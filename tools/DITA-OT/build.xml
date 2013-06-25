@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?><!-- This file is part of the DITA Open Toolkit project hosted on 
      Sourceforge.net. See the accompanying license.txt file for 
-     applicable licenses.--><!-- (c) Copyright IBM Corp. 2006 All Rights Reserved. --><project name="DOST" default="init" basedir=".">
+     applicable licenses.--><!-- (c) Copyright IBM Corp. 2006 All Rights Reserved. --><project name="DOST" default="init">
   
   <property file="${basedir}/local.properties"></property>
   
-  <import file="build_init.xml"></import>  
-  <import file="build_preprocess.xml"></import>
-        
+  <!-- Initialize DITA-OT base directory -->
+  <dirname property="ant.file.DOST.dir" file="${ant.file.DOST}"></dirname>
+  <condition property="dita.dir" value="${ant.file.DOST.dir}">
+    <not>
+      <isset property="dita.dir"></isset>
+    </not>
+  </condition>
+  <condition property="dita.dir" value="${basedir}">
+    <not>
+      <isset property="dita.dir"></isset>
+    </not>
+  </condition>
+  
   <path id="dost.class.path">
     
-<pathelement location="${dita.dir}${file.separator}demo/fo/lib/fo.jar"/>
+<pathelement location="${dita.dir}${file.separator}plugins/org.dita.pdf2/lib/fo.jar"/>
     <pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
   </path>
   
@@ -17,97 +27,28 @@
     <dita-ot-fail id="DOTA001F">
       <condition>
         <and>
-          <not><equals arg1="${transtype}" arg2="eclipsecontent" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="ditafromxliff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="html2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="jqmobile" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="qa" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="docbook" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="epub" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="kindle" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="word2dita" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="wordrtf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="indesign" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xliff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="odt" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="legacypdf" casesensitive="false"/></not>
+          <not><equals arg1="${transtype}" arg2="troff" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsecontent" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="xhtml" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="eclipsehelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="odt" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf2" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="tocjs" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="wordrtf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="docbook" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="htmlhelp" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="legacypdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="pdf" casesensitive="false"/></not><not><equals arg1="${transtype}" arg2="javahelp" casesensitive="false"/></not>
         </and>
       </condition>
+      <param name="1" value="${transtype}"></param>
     </dita-ot-fail>
     <condition property="transtarget" value="pdf2" else="${transtype}">
       <equals arg1="${transtype}" arg2="pdf" casesensitive="false"></equals>
     </condition>
-    <antcall target="dita2${transtarget}"></antcall>
-  	<condition property="clean-temp.skip">
-  	  <and>
-  	    <isset property="clean.temp"></isset>
-  	    <equals arg1="${clean.temp}" arg2="no" casesensitive="false"></equals>
-  	  </and>
-  	</condition>
-  	<antcall target="clean-temp">
-  	</antcall>
+    <condition property="clean.temp" value="true">
+      <not><isset property="clean.temp"></isset></not>
+    </condition>
+    <condition property="clean-temp.skip">
+      <isfalse value="${clean.temp}"></isfalse>
+    </condition>
+    <antcall>
+      <target name="dita2${transtarget}"></target>
+      <target name="clean-temp"></target>
+    </antcall>
   </target>
   
-  <target name="all">
-    <echo>The &quot;ant all&quot; demonstration build has moved.
-      Please try the following command instead:
-      ant all -f build_demo.xml</echo>
-  </target>
-  
-  <target name="dita-preprocess" depends="start-process, init-logger, init-URIResolver, output-version, check-arg, output-deprecated-msg, output-css-warn-message, preprocess"></target>
-
-  <property name='dita.plugin.net.sourceforge.dita4publishers.ruby.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.ruby.html'/><property name='dita.plugin.org.dita.eclipsecontent.dir' location='${dita.dir}'/><property name='dita.plugin.net.sourceforge.dita4publishers.formatting-d.fo.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.formatting-d.fo'/><property name='dita.plugin.org.ditafromxliff.x2d.dir' location='${dita.dir}/demo/ditafromxliff'/><property name='dita.plugin.net.sourceforge.dita4publishers.enumeration-d.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.enumeration-d.html'/><property name='dita.plugin.net.sourceforge.dita4publishers.doctypes.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.doctypes'/><property name='dita.plugin.org.example.d4p.html2extensions.dir' location='${dita.dir}/plugins/org.example.d4p.html2extensions'/><property name='dita.plugin.jqmdot.dir' location='${dita.dir}/plugins/jqmdot'/><property name='dita.plugin.com.citrix.qa.dir' location='${dita.dir}/plugins/com.citrix.qa'/><property name='dita.plugin.org.dita.docbook.dir' location='${dita.dir}'/><property name='dita.plugin.com.reallysi.xmldomain.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.xmldomain.html'/><property name='dita.plugin.org.dita.specialization.eclipsemap.dir' location='${dita.dir}/demo/eclipsemap'/><property name='dita.plugin.net.sourceforge.dita4publishers.html2.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.html2'/><property name='dita.plugin.org.dita.htmlhelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.base.dir' location='${dita.dir}'/><property name='dita.plugin.net.sourceforge.dita4publishers.epub.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.epub'/><property name='dita.plugin.net.sourceforge.dita4publishers.formatting-d.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.formatting-d.html'/><property name='dita.plugin.org.dita.pdf.dir' location='${dita.dir}/plugins/org.dita.pdf'/><property name='dita.plugin.org.dita.javahelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.dita11.dir' location='${dita.dir}/demo/dita11'/><property name='dita.plugin.net.sourceforge.dita4publishers.kindle.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.kindle'/><property name='dita.plugin.org.example.d4p.word2ditaextension.dir' location='${dita.dir}/plugins/org.example.d4p.word2ditaextension'/><property name='dita.plugin.net.sourceforge.dita4publishers.sample.epub_override.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.sample.epub_override'/><property name='dita.plugin.net.sourceforge.dita4publishers.common.xslt.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.common.xslt'/><property name='dita.plugin.net.sourceforge.dita4publishers.pubContent-d.fo.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.pubContent-d.fo'/><property name='dita.plugin.org.dita.specialization.dita132.dir' location='${dita.dir}/demo/dita132'/><property name='dita.plugin.net.sourceforge.dita4publishers.pubmap.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.pubmap.html'/><property name='dita.plugin.com.sophos.tocjs.dir' location='${dita.dir}/demo/tocjs'/><property name='dita.plugin.org.dita.wordrtf.dir' location='${dita.dir}'/><property name='dita.plugin.net.sourceforge.dita4publishers.enumeration-d.fo.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.enumeration-d.fo'/><property name='dita.plugin.net.sourceforge.dita4publishers.xmldomain.fo.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.xmldomain.fo'/><property name='dita.plugin.com.qwcode.dita.ot.plugins.ancestors.dir' location='${dita.dir}/plugins/qwcode.ancestors'/><property name='dita.plugin.org.dita2indesign.dita2indesign.dir' location='${dita.dir}/plugins/org.dita2indesign.dita2indesign'/><property name='dita.plugin.net.sourceforge.dita4publishers.word2dita.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.word2dita'/><property name='dita.plugin.net.sourceforge.dita4publishers.ruby-d.fo.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.ruby.fo'/><property name='dita.plugin.org.dita.eclipsehelp.dir' location='${dita.dir}'/><property name='dita.plugin.net.sourceforge.dita4publishers.common.mapdriven.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.common.mapdriven'/><property name='dita.plugin.org.dita.pdf2.dir' location='${dita.dir}/demo/fo'/><property name='dita.plugin.org.dita.specialization.h2d.dir' location='${dita.dir}/demo/h2d'/><property name='dita.plugin.net.sourceforge.dita4publishers.shakespear.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.shakespear.html'/><property name='dita.plugin.net.sourceforge.dita4publishers.shakespear.doctypes.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.shakespear.doctypes'/><property name='dita.plugin.org.dita.troff.dir' location='${dita.dir}'/><property name='dita.plugin.org.xliff.d2x.dir' location='${dita.dir}/demo/xliff'/><property name='dita.plugin.org.dita.xhtml.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.odt.dir' location='${dita.dir}'/><property name='dita.plugin.net.sourceforge.dita4publishers.xmldomain.doctypes.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.xmldomain.doctypes'/><property name='dita.plugin.org.dita.legacypdf.dir' location='${dita.dir}/demo/legacypdf'/><property name='dita.plugin.net.sourceforge.dita4publishers.common.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.common.html'/><property name='dita.plugin.net.sourceforge.dita4publishers.variables-d.html.dir' location='${dita.dir}/plugins/net.sourceforge.dita4publishers.variables-d.html'/>
-  <!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2eclipsecontent.xml"></import>
-
-<!--
-////////////////////////////////////
-/// December 2011
-/// Bryan Schnabel
-/// DITA-XLIFF Roundtrip Tool for DITA OT version 0.01
-/// (c) Copyright Bryan Schnabel
-/// 
-/// Apache License\
-/// Version 2.0, January 2004
-/// http://www.apache.org/licenses/ 
-////////////////////////////////////
--->
-  
-<path id="dost.class.path">
-    
-<pathelement location="${dita.dir}${file.separator}demo/fo/fo.jar"></pathelement>
-    
-<pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
-  </path>
-  
-<target name="dita2ditafromxliff" depends="dita-preprocess, map2pdf2, x2dXSL"></target>
-  
-<target name="x2dXSL">
-    
-<xslt in="${input.dir}${file.separator}d_x_translated.xml" out="${output.dir}${file.separator}deleteme.txt" style="${dita.dir}${file.separator}demo${file.separator}ditafromxliff${file.separator}xsl${file.separator}x2d.xsl"></xslt>
-  </target>
-
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2docbook.xml"></import>
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-    Sourceforge.net. See the accompanying license.txt file for 
-    applicable licenses.--><!--
-    | (C) Copyright IBM Corporation 2006. All Rights Reserved.
-    *-->
-  
-  <!--property name="dita.eclipse.plugin" value="no"/-->
-    
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_general.xml"></import>
-  
-<import file="build_dita2xhtml.xml"></import>
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2htmlhelp.xml"></import>
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2javahelp.xml"></import>
-<!-- 
+  <property name='dita.plugin.org.dita.troff.dir' location='${dita.dir}\plugins/org.dita.troff'/><property name='dita.plugin.org.dita.eclipsecontent.dir' location='${dita.dir}\plugins/org.dita.eclipsecontent'/><property name='dita.plugin.org.dita.eclipsehelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.specialization.dita11.dir' location='${dita.dir}\plugins/org.dita.specialization.dita11'/><property name='dita.plugin.org.dita.xhtml.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.odt.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.pdf2.dir' location='${dita.dir}\plugins/org.dita.pdf2'/><property name='dita.plugin.org.dita.specialization.dita132.dir' location='${dita.dir}\plugins/org.dita.specialization.dita132'/><property name='dita.plugin.com.sophos.tocjs.dir' location='${dita.dir}\plugins/com.sophos.tocjs'/><property name='dita.plugin.org.dita.wordrtf.dir' location='${dita.dir}\plugins/org.dita.wordrtf'/><property name='dita.plugin.org.dita.docbook.dir' location='${dita.dir}\plugins/org.dita.docbook'/><property name='dita.plugin.org.dita.specialization.h2d.dir' location='${dita.dir}\plugins/h2d'/><property name='dita.plugin.org.dita.specialization.eclipsemap.dir' location='${dita.dir}\plugins/org.dita.specialization.eclipsemap'/><property name='dita.plugin.org.dita.htmlhelp.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.base.dir' location='${dita.dir}'/><property name='dita.plugin.org.dita.legacypdf.dir' location='${dita.dir}\plugins/legacypdf'/><property name='dita.plugin.org.dita.pdf.dir' location='${dita.dir}\plugins/org.dita.pdf'/><property name='dita.plugin.org.dita.javahelp.dir' location='${dita.dir}'/>
+  <!-- 
   This file is part of the DITA Open Toolkit project hosted on
   Sourceforge.net. See the accompanying license.txt file for
   applicable licenses.
@@ -127,7 +68,7 @@
   *-->
 
   
-<target name="dita2tocjs" depends="dita-preprocess, tocjsInit, map2tocjs, topic2tocjs, tocjsDefaultOutput">
+<target name="dita2tocjs" depends="build-init, preprocess, tocjsInit, map2tocjs, topic2tocjs, tocjsDefaultOutput">
   </target>
 
   
@@ -151,7 +92,7 @@
   </target>
 
   
-<target name="topic2tocjs" if="noMap" depends="dita-preprocess">
+<target name="topic2tocjs" if="noMap">
     
 <antcall target="dita.map.tocjs">
       <!-- No real support for tocjs on a single topic, only for map -->
@@ -161,7 +102,7 @@
   </target>
 
   
-<target name="map2tocjs" unless="noMap" depends="dita-preprocess">
+<target name="map2tocjs" unless="noMap">
     
 <antcall target="dita.map.tocjs">
       
@@ -172,11 +113,11 @@
   
 <target name="dita.map.tocjs" description="generate merged for tocjs">
     
-<xslt processor="trax" in="${input}" out="${output.file}" style="${dita.plugin.com.sophos.tocjs.dir}/xsl/tocjs.xsl">
+<xslt in="${input}" out="${output.file}" style="${dita.plugin.com.sophos.tocjs.dir}/xsl/tocjs.xsl">
       
 <param name="contentwin" expression="${content.frame}" if="content.frame"></param>
       
-<param name="ditaext" expression="${dita.extname}"></param>
+<param name="ditaext" expression="${dita.ext}" if="dita.ext"></param>
       
 <param name="htmlext" expression="${out.ext}"></param>
     </xslt>
@@ -217,7 +158,7 @@
           </not>
       </condition>
       
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${user.input.file.listfile}" extension="${out.ext}" style="${dita.plugin.com.sophos.tocjs.dir}${file.separator}xsl${file.separator}frameset.xsl">
+<xslt basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${user.input.file.listfile}" extension="${out.ext}" style="${dita.plugin.com.sophos.tocjs.dir}${file.separator}xsl${file.separator}frameset.xsl">
   	    
 <excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
         
@@ -230,65 +171,55 @@
   </target>
 
 <!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
+    Sourceforge.net. See the accompanying license.txt file for 
+    applicable licenses.--><!--
+    | (C) Copyright IBM Corporation 2006. All Rights Reserved.
+    *-->
   
-<import file="build_dita2wordrtf.xml"></import>
-
-
-
- 
-<property name="args.xhtml.contenttarget" value="NONE"></property>	
-	
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2eclipsehelp.xml"></import>
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2troff.xml"></import>
-
-<!--
-////////////////////////////////////
-/// December 2011
-/// Bryan Schnabel
-/// DITA-XLIFF Roundtrip Tool for DITA OT version 0.01
-/// (c) Copyright Bryan Schnabel
-/// 
-/// Apache License\
-/// Version 2.0, January 2004
-/// http://www.apache.org/licenses/ 
-////////////////////////////////////
--->
-  
-<path id="dost.class.path">
+  <!--property name="dita.eclipse.plugin" value="no"/-->
     
-<pathelement location="${dita.dir}${file.separator}demo/fo/fo.jar"></pathelement>
-    
-<pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"></pathelement>
-  </path>
-  
-<target name="dita2xliff" depends="dita-preprocess, map2pdf2, topic2pdf2,d2xXSL"></target>
-  
-<target name="d2xXSL">
-    
-<xslt processor="trax" in="${dita.temp.dir}${file.separator}stage1.xml" out="${output.dir}${file.separator}d_x.xml" style="${dita.dir}${file.separator}demo${file.separator}xliff${file.separator}xsl${file.separator}d2x.xsl"></xslt>
-  </target>
-
-<!-- This file is part of the DITA Open Toolkit project hosted on 
-  Sourceforge.net. See the accompanying license.txt file for 
-  applicable licenses.--><!-- (c) Copyright IBM Corp. 2011 All Rights Reserved. -->
-  
-<import file="build_dita2odt.xml"></import>
 <!-- This file is part of the DITA Open Toolkit project hosted on 
     Sourceforge.net. See the accompanying license.txt file for 
     applicable licenses.--><!-- (c) Copyright IBM Corp. 2006 All Rights Reserved. -->
         
         
-<target name="dita2legacypdf" depends="build-init, preprocess, map2legacypdf, topic2legacypdf">
+<target name="dita2legacypdf" depends="build-init, topic2legacypdf.init, preprocess, map2legacypdf, topic2legacypdf">
+        </target>
+        
+        
+<target name="topic2legacypdf.init">
+          
+<available classname="org.apache.fop.tools.anttasks.Fop" property="hasFOP">
+            
+<classpath>
+              
+<pathelement location="${dita.dir}/demo/legacypdf/lib/fop.jar"></pathelement>
+            </classpath>
+          </available>
+          <!-- append a '.' to ${fo.img.ext} if ${args.fo.img.ext} not contains '.' -->
+          
+<condition property="fo.img.ext" value=".${args.fo.img.ext}">
+            
+<and>
+              
+<isset property="args.fo.img.ext"></isset>
+              
+<not>
+                
+<contains string="${args.fo.img.ext}" substring="."></contains>
+              </not>
+            </and>
+          </condition>
+          
+<condition property="fo.img.ext" value="${args.fo.img.ext}">
+            
+<and>
+              
+<isset property="args.fo.img.ext"></isset>
+              
+<contains string="${args.fo.img.ext}" substring="."></contains>
+            </and>
+          </condition>
         </target>
         
         
@@ -341,11 +272,11 @@
             
 <dirname file="${dita.temp.dir}${file.separator}${user.input.file}" property="dita.merged.dir"></dirname>
             
-<xslt processor="trax" in="${input}" out="${dita.merged.dir}${file.separator}${dita.map.filename.root}_MERGED.xml" style="${dita.script.dir}${file.separator}topicmerge.xsl">
+<xslt in="${input}" out="${dita.merged.dir}${file.separator}${dita.map.filename.root}_MERGED.xml" style="${dita.script.dir}${file.separator}topicmerge.xsl">
                 <!--<xmlcatalog refid="dita.catalog" />-->
             </xslt>
             
-<xslt processor="trax" in="${dita.merged.dir}${file.separator}${dita.map.filename.root}_MERGED.xml" out="${output}" style="${args.xsl}">
+<xslt in="${dita.merged.dir}${file.separator}${dita.map.filename.root}_MERGED.xml" out="${output}" style="${args.xsl}">
                 <!--<xmlcatalog refid="dita.catalog" />-->
                 
 <param name="output-related-links" expression="${args.fo.output.rel.links}" if="args.fo.output.rel.links"></param>
@@ -412,7 +343,7 @@
                 </not>
             </condition>
             
-<xslt processor="trax" in="${input}" out="${output}" style="${args.xsl}">
+<xslt in="${input}" out="${output}" style="${args.xsl}">
                 <!--<xmlcatalog refid="dita.catalog" />-->
                 
 <param name="output-related-links" expression="${args.fo.output.rel.links}" if="args.fo.output.rel.links"></param>
@@ -428,511 +359,75 @@
         </target>
         
     
+  <!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
+<import file="plugins/org.dita.troff/build_dita2troff.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
-<import file="plugins/net.sourceforge.dita4publishers.common.mapdriven/build_common_mapdriven.xml"></import>
+<import file="plugins/org.dita.eclipsecontent/build_dita2eclipsecontent.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
+  
+<import file="plugins/org.dita.xhtml/build_general.xml"></import>
+  
+<import file="plugins/org.dita.xhtml/build_dita2xhtml.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
+  
+<import file="plugins/org.dita.eclipsehelp/build_dita2eclipsehelp.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
+  
+<import file="plugins/org.dita.odt/build_dita2odt.xml"></import>
+
 
   
-<import file="plugins/net.sourceforge.dita4publishers.html2/build_transtype-html2.xml"></import>
-
+<import file="plugins/org.dita.pdf2/build.xml"></import>
 
 <!--
-java -jar lib\dost.jar /transtype:jqmobile /outdir:../out /i:../in/ccsp_map.ditamap
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
 -->
-
-    
-<property name="transtype" value="jqmobile"></property>
-    
-	
-<target name="dita2jqmobile" depends="buildhtml">
-	<!-- the tasks in this target are performed last -->	
-	
-	<!-- remove empy anchors 
-	<replaceregexp file="${output.dir}${file.separator}MAPNAME.html" match="name\=.concept[A-Za-z0-9]*_[A-Za-z0-9]*." replace=" " flags="g" />
-	<replaceregexp file="${output.dir}${file.separator}MAPNAME.html" match="\s_[a-z]*_[A-Z0-9]*." replace=" " flags="g" />
-	<replaceregexp file="${output.dir}${file.separator}MAPNAME.html" match=".{1}a\s\s.{5}\s.{7}" replace="" flags="g" />
-	-->
-	
-	<!-- clean up some unnecessary files -->
-	
-<delete file="${output.dir}${file.separator}dita.list"></delete>
-	
-<delete file="${output.dir}${file.separator}dita.xml.properties"></delete>
-	
-<delete file="${output.dir}${file.separator}property.temp"></delete>
-    
-<delete file="${output.dir}${file.separator}delta.gif"></delete>
-    
-<delete file="${output.dir}${file.separator}deltaend.gif"></delete>
-    
-<delete file="${output.dir}${file.separator}commonltr.css"></delete>
-    
-<delete file="${output.dir}${file.separator}commonrtl.css"></delete>
-	</target>
-	
-	
-<target name="buildhtml" depends=" build-init, preprocess, dita.map.xhtml, copy-revflag,                       copy-css , dita.topics.jqmobile, dita.inner.topics.jqmobile, dita.outer.topics.jqmobile">
-        <!-- create directories for css content and copy files in -->
-		
-<mkdir dir="${output.dir}${file.separator}css"></mkdir>
-		
-<mkdir dir="${output.dir}${file.separator}css${file.separator}images"></mkdir>
-		
-<copy todir="${output.dir}${file.separator}css${file.separator}images">
-			
-<fileset dir="${dita.dir}${file.separator}plugins${file.separator}jqmdot${file.separator}css${file.separator}images">
-			
-<include name="ajax-loader.png"></include>
-			
-<include name="icons-18-black.png"></include>
-			
-<include name="icons-18-white.png"></include>
-			
-<include name="icons-36-black.png"></include>
-			
-<include name="icons-36-white.png"></include>
-			</fileset>
-		</copy>
-		
-<copy todir="${output.dir}${file.separator}css">
-			
-<fileset dir="${dita.dir}${file.separator}plugins${file.separator}jqmdot${file.separator}css">
-				
-<include name="jquery.mobile-1.0rc2.css"></include>
-				
-<include name="jquery.mobile-1.0rc2.min.css"></include>
-				
-<include name="commonltr.css"></include>
-			</fileset>
-		</copy>
-	</target>
-	
-<!-- xhtml output -->
-
-<target name="dita.topics.jqmobile" description="Build JQMobile HTML output from dita topics" depends="copy-revflag">
   
-<condition property="out.ext" value=".html">
-    
-<not>
-      
-<isset property="out.ext"></isset>
-    </not>
-  </condition>
-	
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins${file.separator}jqmdot${file.separator}xsl${file.separator}dita2jqmobile.xsl">
-    
-<not>
-      
-<isset property="args.xsl"></isset>
-    </not>
-  </condition>
+<import file="plugins/org.dita.wordrtf/build_dita2wordrtf.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" extension="${out.ext}" style="${args.xsl}">
-  	    
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-        
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-        
-<param name="FILTERFILE" expression="${dita.input.valfile}" if="dita.input.valfile"></param>
-        
-<param name="CSS" expression="jquery.mobile-1.0rc2.min.css"></param>
-        
-<param name="CSSPATH" expression="css/"></param>
-        
-<param name="HDF" expression="${args.hdf}" if="args.hdf"></param>
-        
-<param name="HDR" expression="${args.hdr}" if="args.hdr"></param>
-        
-<param name="FTR" expression="${args.ftr}" if="args.ftr"></param>
-        
-<param name="DRAFT" expression="${args.draft}" if="args.draft"></param>
-        
-<param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"></param>
-        
-<param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"></param>
-        
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-    </xslt>
+<import file="plugins/org.dita.docbook/build_dita2docbook.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
-<antcall target="copy-css"></antcall>
-</target>	
-
- 
-<target name="dita.inner.topics.jqmobile" unless="noTopic" if="inner.transform" description="Build JQ Mobile HTML output from inner dita topics">
-    
-<condition property="out.ext" value=".html">
-      
-<not>
-        
-<isset property="out.ext"></isset>
-      </not>
-    </condition>
-    
-    
-<condition property="transtype.ext" value="_eclipsehelp.xsl" else=".xsl">
-      
-<equals arg1="eclipsehelp" arg2="${transtype}" casesensitive="no"></equals>
-    </condition>
-    
-    
- 	
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins${file.separator}jqmdot${file.separator}xsl${file.separator}dita2jqmobile.xsl">
-      
-<not>
-        
-<isset property="args.xsl"></isset>
-      </not>
-    </condition>
-  	
-  	
-<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>    
-    
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
-    	
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-      
-<includesfile name="${dita.temp.dir}${file.separator}${chunkedtopicfile}" if="chunkedtopicfile"></includesfile>
-      
-<param name="TRANSTYPE" expression="${transtype}"></param>
-      
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-      
-<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"></param>
-        
-<param name="CSS" expression="jquery.mobile-1.0rc2.min.css"></param>
-        
-<param name="CSSPATH" expression="css/"></param>
-      
-<param name="HDF" expression="${args.hdf}" if="args.hdf"></param>
-      
-<param name="HDR" expression="${args.hdr}" if="args.hdr"></param>
-      
-<param name="FTR" expression="${args.ftr}" if="args.ftr"></param>
-      
-<param name="DRAFT" expression="${args.draft}" if="args.draft"></param>
-      
-<param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"></param>
-      
-<param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"></param>
-      
-<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"></param>
-      
-<param name="NOPARENTLINK" expression="${args.hide.parent.link}" if="args.hide.parent.link"></param>
-      
-<param name="BREADCRUMBS" expression="${args.breadcrumbs}" if="args.breadcrumbs"></param>
-      
-<param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"></param>
-      
-<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"></param>
-      
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-      
-      
-<param name="BASEDIR" expression="${basedir}"></param>
-      
-<param name="OUTPUTDIR" expression="${output.dir}"></param>
-      
-      
-<param name="DBG" expression="${args.debug}" if="args.debug"></param>
-      
-      
-      
-<mapper type="regexp" from="^(${tempdirToinputmapdir.relative.value})(.*?)(\.(xml|dita))$$" to="\2${out.ext}"></mapper>
-    </xslt>
-  </target>
+<import file="plugins/org.dita.htmlhelp/build_dita2htmlhelp.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
-    
-<target name="dita.outer.topics.jqmobile" unless="noTopic" if="outer.transform" depends="checkouterTransform" description="Build JQ Mobile HTML output from outer dita topics">
-    
-<condition property="out.ext" value=".html">
-      
-<not>
-        
-<isset property="out.ext"></isset>
-      </not>
-    </condition>
-  	
-  	
-    
-<condition property="transtype.ext" value="_eclipsehelp.xsl" else=".xsl">
-      
-<equals arg1="eclipsehelp" arg2="${transtype}" casesensitive="no"></equals>
-    </condition>
-  	
-  	
-    	
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins${file.separator}jqmdot${file.separator}xsl${file.separator}dita2jqmobile.xsl">
-      
-<not>
-        
-<isset property="args.xsl"></isset>
-      </not>
-    </condition>
-  	
-  	
-<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>
-    
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}${file.separator}${uplevels}" includesfile="${dita.temp.dir}${file.separator}${outditafilesfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
-    	
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-      
-<param name="TRANSTYPE" expression="${transtype}"></param>
-      
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-      
-<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"></param>
-        
-<param name="CSS" expression="jquery.mobile-1.0rc2.min.css"></param>
-        
-<param name="CSSPATH" expression="css/"></param>
-      
-<param name="HDF" expression="${args.hdf}" if="args.hdf"></param>
-      
-<param name="HDR" expression="${args.hdr}" if="args.hdr"></param>
-      
-<param name="FTR" expression="${args.ftr}" if="args.ftr"></param>
-      
-<param name="DRAFT" expression="${args.draft}" if="args.draft"></param>
-      
-<param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"></param>
-      
-<param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"></param>
-      
-<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"></param>
-      
-<param name="NOPARENTLINK" expression="${args.hide.parent.link}" if="args.hide.parent.link"></param>
-      
-<param name="BREADCRUMBS" expression="${args.breadcrumbs}" if="args.breadcrumbs"></param>
-      
-<param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"></param>
-      
-<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"></param>
-      
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-      
-      
-<param name="BASEDIR" expression="${basedir}"></param>
-      
-<param name="OUTPUTDIR" expression="${output.dir}"></param>
-      
-      
-<param name="DBG" expression="${args.debug}" if="args.debug"></param>
-      
-    </xslt>
-  </target>
-    
-<!-- This file is part of the com.citrix.qa project hosted on 
-     Sourceforge.net.--><!-- (c) Copyright Citrix Systems, Inc. All Rights Reserved. -->
-	
-<property name="transtype" value="qa"></property>
-	
-<target name="dita2qa" depends="dita2jit"> <!-- change this to depends on json target-->
-		<!-- Copy images to the output directory -->
-		
-<mkdir dir="${output.dir}${file.separator}img"></mkdir>
-		
-<copy todir="${output.dir}${file.separator}img">
-			
-<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}img">
-			
-<include name="fail.PNG"></include>
-			
-<include name="failsm.png"></include>
-			
-<include name="pass.PNG"></include>
-			
-<include name="passsm.png"></include>
-			</fileset>
-		</copy>
-		
-<copy todir="${output.dir}">
-			
-<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}">
-			
-<include name="log.xsl"></include>
-			
-<include name="jit-yc.js"></include> <!-- for jit charts -->
-			</fileset>
-		</copy>
-		<!-- copy pie chart files -->
-		
-<copy todir="${output.dir}${file.separator}css">
-			
-<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}css">
-			
-<include name="base.css"></include>
-			
-<include name="PieChart.css"></include>
-			</fileset>
-		</copy>
-	</target>
-	
-	<!-- insert json target that depends on buildqahtml-->
-	
-<target name="dita2jit" depends="buildqahtml">
-	
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" classpathref="dost.class.path" extension=".js" style="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/dita2jit_pie_chart.xsl" filenameparameter="FILENAME" filedirparameter="FILEDIR"></xslt>
-	</target>
-	
-	
-	
-<target name="buildqahtml" depends=" build-init, preprocess, dita.map.xhtml, dita.topics.qa, dita.inner.topics.qa, dita.outer.topics.qa"></target>
-	<!-- xhtml output -->
-	
-<target name="dita.topics.qa" description="Target 1: Build QA output from dita topics">
-		
-<condition property="out.ext" value=".html">
-			
-<not>
-				
-<isset property="out.ext"></isset>
-			</not>
-		</condition>
-		
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
-			
-<not>
-				
-<isset property="args.xsl"></isset>
-			</not>
-		</condition>
-		
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" extension="${out.ext}" style="${args.xsl}">
-			
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-			
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-			
-<param name="FILTERFILE" expression="${dita.input.valfile}" if="dita.input.valfile"></param>
-			
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-			
-<param name="input" expression="${args.input}" if="args.input"></param>
-			
-<param name="OUTPUTDIR" expression="${output.dir}" if="output.dir"></param>
-			
-<param name="BASEDIR" expression="${basedir}"></param>
-			
-<param name="fileroot" expression="${dita.map.filename.root}"></param>
-		</xslt>
-		
-<antcall target="copy-css"></antcall>
-	</target>
-	
-<target name="dita.inner.topics.qa" unless="noTopic" if="inner.transform" description="Target 2: Build QA output from inner dita topics">
-		
-<condition property="out.ext" value=".html">
-			
-<not>
-				
-<isset property="out.ext"></isset>
-			</not>
-		</condition>
-		
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
-			
-<not>
-				
-<isset property="args.xsl"></isset>
-			</not>
-		</condition>
-		
-<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>
-		
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
-			
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-			
-<includesfile name="${dita.temp.dir}${file.separator}${chunkedtopicfile}" if="chunkedtopicfile"></includesfile>
-			
-<param name="TRANSTYPE" expression="${transtype}"></param>
-			
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-			
-<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"></param>
-			
-<param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"></param>
-			
-<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"></param>
-			
-<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"></param>
-			
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-			
-<param name="BASEDIR" expression="${basedir}"></param>
-			
-<param name="OUTPUTDIR" expression="${output.dir}"></param>
-			
-<param name="input" expression="${args.input}" if="args.input"></param>
-			
-<mapper type="regexp" from="^(${tempdirToinputmapdir.relative.value})(.*?)(\.(xml|dita))$$" to="\2${out.ext}"></mapper>
-			
-<param name="fileroot" expression="${dita.map.filename.root}"></param>
-		</xslt>
-	</target>
-	
-<target name="dita.outer.topics.qa" unless="noTopic" if="outer.transform" depends="checkouterTransform" description="Target 3: Build QA output from outer dita topics">
-		
-<condition property="out.ext" value=".html">
-			
-<not>
-				
-<isset property="out.ext"></isset>
-			</not>
-		</condition>
-		
-<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
-			
-<not>
-				
-<isset property="args.xsl"></isset>
-			</not>
-		</condition>
-		
-<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>
-		
-<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}${file.separator}${uplevels}" includesfile="${dita.temp.dir}${file.separator}${outditafilesfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
-			
-<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"></excludesfile>
-			
-<param name="TRANSTYPE" expression="${transtype}"></param>
-			
-<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
-			
-<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"></param>
-			
-<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"></param>
-			
-<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"></param>
-			
-<param name="OUTEXT" expression="${out.ext}" if="out.ext"></param>
-			
-<param name="BASEDIR" expression="${basedir}"></param>
-			
-<param name="OUTPUTDIR" expression="${output.dir}"></param>
-			
-<param name="input" expression="${args.input}" if="args.input"></param>
-			
-<param name="fileroot" expression="${dita.map.filename.root}"></param>
-		</xslt>
-	</target>
-
+<import file="plugins/org.dita.base/build_init.xml"></import>
   
-<import file="plugins/net.sourceforge.dita4publishers.epub/build_transtype-epub.xml"></import>
-
+<import file="plugins/org.dita.base/build_preprocess.xml"></import>
+<!--
+  This file is part of the DITA Open Toolkit project.
+  See the accompanying license.txt file for applicable licenses.
+-->
   
-<import file="plugins/net.sourceforge.dita4publishers.kindle/build_transtype-kindle.xml"></import>
-
-  
-<import file="plugins/net.sourceforge.dita4publishers.word2dita/build_transtype-word2dita.xml"></import>
-
-  
-<import file="plugins/org.dita2indesign.dita2indesign/build_transtype-indesign.xml"></import>
-
-
-  
-<import file="demo/fo/build.xml"></import>
-
+<import file="plugins/org.dita.javahelp/build_dita2javahelp.xml"></import>
 
   
   <target name="help">
@@ -941,7 +436,7 @@ java -jar lib\dost.jar /transtype:jqmobile /outdir:../out /i:../in/ccsp_map.dita
     <echo level="info">  args.input=&lt;file&gt;</echo>
     <echo level="info">    Path and name of the input file.</echo>
     <echo level="info"></echo>
-    <echo level="info">  transtype={ditafromxliff|docbook|eclipsecontent|eclipsehelp|epub|html2|htmlhelp|indesign|javahelp|jqmobile|kindle|legacypdf|odt|pdf|pdf2|qa|tocjs|troff|word2dita|wordrtf|xhtml|xliff}</echo>
+    <echo level="info">  transtype={docbook|eclipsecontent|eclipsehelp|htmlhelp|javahelp|legacypdf|odt|pdf|pdf2|tocjs|troff|wordrtf|xhtml}</echo>
     <echo level="info">    Transformation type.</echo>
     <echo level="info"></echo>
     <echo level="info">Optional properties:</echo>
@@ -1036,7 +531,7 @@ java -jar lib\dost.jar /transtype:jqmobile /outdir:../out /i:../in/ccsp_map.dita
     <echo level="info">  dita.extname=&lt;ext&gt;</echo>
     <echo level="info">    File extension name to be used in the temp directory. Default is &quot;.xml&quot;.</echo>
     <echo level="info"></echo>
-    <echo level="info">  dita.input.valfile=&lt;file&gt;</echo>
+    <echo level="info">  args.filter=&lt;file&gt;</echo>
     <echo level="info">    Name of the file that contains the filter/flaggin/revision information.</echo>
     <echo level="info"></echo>
     <echo level="info">  generate.copy.outer={1|2|3}</echo>

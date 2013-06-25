@@ -1,0 +1,82 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us">
+<head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta name="DC.Type" content="reference">
+<meta name="DC.Title" content="Generating XHTML with navigation">
+<meta name="abstract" content="The toolkit ships with several varieties of XHTML output, each of which follows roughly the same path through the processing pipeline. All XHTML builds begin with the same call to the preprocess routine, after which they generate XHTML files and then branch to create navigation files.">
+<meta name="description" content="The toolkit ships with several varieties of XHTML output, each of which follows roughly the same path through the processing pipeline. All XHTML builds begin with the same call to the preprocess routine, after which they generate XHTML files and then branch to create navigation files.">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/DITA-OTArchitecture.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlDefault.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlEclipse.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlTocjs.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlCHM.html">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/XhtmlJavahelp.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="xhtmlwithnavigation">
+<meta name="DC.Language" content="en-us">
+<link rel="stylesheet" type="text/css" href="../commonltr.css">
+<title>Generating XHTML with navigation</title>
+</head>
+<body id="xhtmlwithnavigation"><a name="xhtmlwithnavigation"><!-- --></a>
+
+
+<h1 class="title topictitle1">Generating XHTML with navigation</h1>
+
+
+<div class="body refbody"><p class="shortdesc">The toolkit ships with several varieties of XHTML output,
+each of which follows roughly the same path through the processing
+pipeline. All XHTML builds begin with the same call to the preprocess
+routine, after which they generate XHTML files and then branch to
+create navigation files.</p>
+
+<div class="section"><p class="p">Once the preprocess runs, XHTML based builds each run
+a common series of Ant targets. Navigation may be created before or
+after this set of common routines.</p>
+<ul class="ul">
+<li class="li">When the CSS parameter is passed to the build to add a CSS file,
+the <samp class="ph codeph">copy-css</samp> target copies that CSS file from its
+source location to the proper relative location in the output directory.</li>
+
+<li class="li">When a DITAVAL file is used, the <samp class="ph codeph">copy-revflag</samp> target
+copies the default start and end revision flags into the output directory.</li>
+
+<li class="li">Two targets names <samp class="ph codeph">dita.inner.topics.xhtml</samp> and <samp class="ph codeph">dita.outer.topics.xhtml</samp> are
+used to convert DITA topics into XHTML documents. At this point after
+the preprocess has completed, each DITA topic document in the temporary
+directory corresponds to one XHTML output document. The "inner" template
+is used to process documents that are in the map directory (or subdirectories
+of that directory). The "outer" template is used to process documents
+that are outside of the scope of the map, and may end up outside of
+the designated output directory. Parameters to the build control how
+documents processed by the "outer" target are handled.</li>
+
+</ul>
+</div>
+
+</div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlDefault.html">Default XHTML output</a></strong><br>
+The <samp class="ph codeph">dita.map.xhtml</samp> target is called by default xhtml builds. This target generates a TOC file called index.html, which may be loaded into an independent frameset.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlEclipse.html">Eclipse help output (transform type "eclipsehelp")</a></strong><br>
+Eclipse help is an XHTML based output format intended to create a plug-in for the Eclipse Help system. Once the normal XHTML process has run, the <samp class="ph codeph">dita.map.eclipse</samp> target is used to create a set of several control files and navigation files for Eclipse.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlTocjs.html">TocJS output path</a></strong><br>
+The TocJS transform type was originally created as a plug-in distributed outside of the toolkit, but now ships bundled in the default packages. This XHTML based output type creates a JavaScript based frameset with TOC entries that expand and collapse.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlCHM.html">Compiled Help (CHM) output</a></strong><br>
+The transform type "htmlhelp" is used to create HTML Help control files. If the build runs on a system that has the HTML Help compiler installed, the control files will be compiled into a CHM file.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/XhtmlJavahelp.html">Javahelp output</a></strong><br>
+The "javahelp" transform type runs several additional Ant targets after the XHTML process is completed in order to create control files for JavaHelp output.</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/DITA-OTArchitecture.html" title="The DITA Open Toolkit is an open source implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The toolkit uses open source solution of ANT, XSLT (currently 1.0 for most processing, with XSLT 2.0 for PDF) and Java to implement transformation functions from DITA content (maps and topics) into different deliverable formats.">DITA Open Toolkit Architecture</a></div>
+</div>
+</div>
+
+</body>
+</html>

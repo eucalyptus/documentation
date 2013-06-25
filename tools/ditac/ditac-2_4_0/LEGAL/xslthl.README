@@ -1,0 +1,58 @@
+XSLT syntax highlighting 2.0.2
+------------------------------
+
+This is an implementation of syntax highlighting as an extension module for
+XSLT processors (Xalan, Saxon), so if you have e.g. article about programming
+written in DocBook, code examples can be automatically syntax highlighted
+during the XSLT processing phase.
+
+See:
+
+* http://sourceforge.net/projects/xslthl/
+
+* http://sourceforge.net/apps/mediawiki/xslthl
+
+
+
+-----------------------
+Changes made by XMLmind
+-----------------------
+
+* Replaced src/net/sf/xslthl/ConnectorSaxonB.java (obsolete Saxon 9 Basic) by 
+  ConnectorSaxonHE.java (Saxon 9 Home Edition).
+
+* In src/net/sf/xslthl/CharIter.java, made the following change:
+
+------------------------------------------------------------------------------
+$ diff -u CharIter.java.ORI CharIter.java
+
+--- CharIter.java.ORI   2012-11-11 11:34:56.563166971 +0100
++++ CharIter.java       2012-11-11 11:35:50.605162688 +0100
+@@ -148,7 +148,10 @@
+      * @return the current character
+      */
+     public Character current() {
+-       return buffer.charAt(position);
++       if (position < length) {
++            return buffer.charAt(position);
++       }
++       return null;
+     }
+
+     /**
+------------------------------------------------------------------------------
+
+Without this change, XMLHighlighter.highlight raised a 
+StringIndexOutOfBoundsException when the XML text to be highlighted 
+contained nested elements like for example in:
+
+---
+<pre><db:xref <i>linkend='foo'</i>/></pre>
+---
+
+In the above example, the text to be highlighted is basically
+"<db:xref linkend='foo'/>". However, this text also contains 
+a <i> nested element, which triggered the bug.
+
+If you are interesting in getting the source code of these changes, 
+please send an email to hussein AT xmlmind DOT com.

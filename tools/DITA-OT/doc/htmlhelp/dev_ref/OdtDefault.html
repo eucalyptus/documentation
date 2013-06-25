@@ -1,0 +1,61 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en-us">
+<head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<meta name="copyright" content="(C) Copyright 2005">
+<meta name="DC.rights.owner" content="(C) Copyright 2005">
+<meta name="DC.Type" content="reference">
+<meta name="DC.Title" content="ODT Transform type (Open Document Format)">
+<meta name="abstract" content="The &#34;odt&#34; transform type creates a binary file using the OASIS standard Open Document Format.">
+<meta name="description" content="The &#34;odt&#34; transform type creates a binary file using the OASIS standard Open Document Format.">
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/DITA-OTArchitecture.html">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="odtdefault">
+<meta name="DC.Language" content="en-us">
+<link rel="stylesheet" type="text/css" href="../commonltr.css">
+<title>ODT Transform type (Open Document Format)</title>
+</head>
+<body id="odtdefault"><a name="odtdefault"><!-- --></a>
+
+
+<h1 class="title topictitle1">ODT Transform type (Open Document Format)</h1>
+
+
+<div class="body refbody"><p class="shortdesc">The "odt" transform type creates a binary file using the
+OASIS standard Open Document Format. </p>
+
+<div class="section"><p class="p">The "odt" transform path begins with the preprocess, as
+with other builds. It then runs the Ant target <samp class="ph codeph">dita.odt.package.topic</samp> (if
+the input file is a topic) or <samp class="ph codeph">dita.odt.package.map</samp> (if
+the input file is a map). This description focuses on the map process,
+which is made up of the following targets.</p>
+<ul class="ul">
+<li class="li"><samp class="ph codeph">dita.map.odt</samp> creates the <span class="ph filepath">content.xml</span> portion
+of the ODT output file. This is done by converting the map into a
+merged XML file using the Java topicmerge program. An XSLT process
+is then used to convert the merged file into <span class="ph filepath">content.xml</span>.</li>
+
+<li class="li"><samp class="ph codeph">dita.map.odt.stylesfile</samp> is a target that reads
+the input map, and uses XSLT to create a <span class="ph filepath">styles.xml</span> file
+in the temporary directory.</li>
+
+<li class="li"><samp class="ph codeph">dita.out.odt.manifest.file</samp> creates the <span class="ph filepath">manifest.xml</span> portion
+of the ODT output file.</li>
+
+<li class="li">Once the three previous targets run, the generated files are zipped
+up together with other required files to create the output ODT file.</li>
+
+</ul>
+</div>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/DITA-OTArchitecture.html" title="The DITA Open Toolkit is an open source implementation of the OASIS DITA Technical Committee's specification for Darwin Information Typing Architecture (DITA) DTDs and schemas. The toolkit uses open source solution of ANT, XSLT (currently 1.0 for most processing, with XSLT 2.0 for PDF) and Java to implement transformation functions from DITA content (maps and topics) into different deliverable formats.">DITA Open Toolkit Architecture</a></div>
+</div>
+</div>
+
+</body>
+</html>
