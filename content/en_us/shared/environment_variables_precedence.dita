@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_whp_tcc_wk">
+ <title>Environment Variable Order of Precedence</title>
+ <shortdesc></shortdesc>
+ <conbody>
+  <p>The following lists show the order of precedence that Euca2ools commands use to retrieve the
+   URL, region name, and access key values when running commands. </p>
+  <section id="precedence_url_region_name">
+   <title>URL and Region Name Order of Precedence</title>
+   <p><b>euca-* commands:</b></p>
+   <ol>
+    <li>The <codeph>--url</codeph> parameter specified with the command</li>
+    <li>Configuration file for region given with <codeph>--region</codeph></li>
+     <li><codeph>--config</codeph> (deprecated)</li>
+     <li><codeph>FOO_URL</codeph> environment variable</li>
+     <li>Configuration file for region given with <codeph>EUCA_REGION</codeph> environment variable</li>
+     <li>Configuration file default region</li>
+     <li><codeph>~/.eucarc</codeph> (deprecated)</li>
+   </ol>
+   <p><b>Other commands:</b></p>
+   <ol>
+    <li>The <codeph>--url</codeph> parameter specified with the command</li>
+    <li>Configuration file for region given with <codeph>--region</codeph></li>
+    <li><codeph>FOO_URL</codeph> environment variable</li>
+    <li>Configuration file for region given with <codeph>EUCA_REGION</codeph> environment variable</li>
+    <li>Configuration file default region</li>
+   </ol>
+  </section>
+  <section id="precedence_access_key">
+   <title>Access Key Order of Precedence</title>
+   <p><b>euca-* commands:</b></p>
+   <ol>
+    <li>Command line arguments (for example: <codeph>--secret-key</codeph>)</li>
+    <li><codeph>--config</codeph> (deprecated)</li>
+    <li>Environment variables (for example: <codeph>AWS_ACCESS_KEY</codeph></li>
+    <li>Configuration file settings for user/region given with <codeph>--region</codeph></li>
+    <li>The <codeph>AWS_CREDENTIAL_FILE</codeph></li>
+    <li>Configuration file settings for region given with <codeph>EUCA_REGION</codeph> environment
+     variable</li>
+    <li>Configuration file settings for the default user and region</li>
+    <li><codeph>~/.eucarc</codeph> (deprecated)</li>
+   </ol>
+   <p><b>Other commands:</b></p>
+   <ol>
+    <li>Command line arguments (for example: <codeph>--secret-key</codeph>)</li>
+    <li>Environment variables (for example: <codeph>AWS_ACCESS_KEY</codeph></li>
+    <li>Configuration file settings for user/region given with <codeph>--region</codeph></li>
+    <li>The <codeph>AWS_CREDENTIAL_FILE</codeph></li>
+    <li>Configuration file for region given with <codeph>EUCA_REGION</codeph> environment variable</li>
+    <li>Configuration file settings for the default user and region</li>
+   </ol>
+  </section>
+  
+ </conbody>
+</concept>
