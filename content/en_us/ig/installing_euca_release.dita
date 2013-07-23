@@ -189,24 +189,21 @@
 					broker host.</cmd>
 				<substeps>
 					<substep>
-						<cmd> Run the following receiver command on the CLC: </cmd>
+						<cmd>Clone the Eucalyptus <codeph>deveutils</codeph> repository</cmd>
 						<info>
-							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastReceiverTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
+							<codeblock>git clone https://github.com/eucalyptus/deveutils</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd> Once the receiver command blocks, simultaneously
-							run the following sender command on each Walrus
-							host: </cmd>
+						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud Controller, 
+                                                      Cluster Controller, Storage Controller, and any machines running Walrus or 
+                                                      VMware Broker, passing a list of IP addresses for each of these machines.</cmd>
 						<info>
-							<codeblock>java -classpath /usr/share/eucalyptus/jgroups-2.11.1.Final.jar org.jgroups.tests.McastSenderTest -mcast_addr 224.10.10.10 -port 5555</codeblock>
-							The two applications should be able to connect and
-							arbitrary lines entered on the sender should appear
-							on the receiver. </info>
-					</substep>
-					<substep>
-						<cmd>Repeat the previous step on each SC host and VMware
-							broker host</cmd>
+							<codeblock>cd deveutils/network-tomography
+./network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 192.168.51.99</codeblock>
+							This tool may take up to an hour to run. Check the output for reports of packet 
+                                                        loss. If there is significant packet loss, ensure that your network is available
+                                                        and multicast enabled.</info>
 					</substep>
 					<substep>
 						<cmd> If you are installing an HA environment, repeat
