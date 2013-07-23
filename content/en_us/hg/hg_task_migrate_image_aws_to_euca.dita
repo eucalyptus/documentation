@@ -15,17 +15,23 @@
         	<step>
         		<cmd>Choose an image.</cmd>
         		<info>
-        			<codeblock>euca-describe-images</codeblock>
+        			<codeblock>euca-describe-images --region aws
+IMAGE	ami-a6e15bcf	aws-marketplace/CentOS-6.3-x86_64-GA-ebs-85586466-5b6c-4495-b580-14f72b4bcf51-ami-3689325f.1	aws-marketplace	available	privatex86_64	machine	aki-88aa75e1			ebs	paravirtual	xen
+BLOCKDEVICEMAPPING	/dev/sda	snap-831129f5	8	false</codeblock>
         		</info>
+        		
         	</step>
         	<step>
         		<cmd>Run an instance from the image you chose.</cmd>
         		<info>
-        			<codeblock>euca-run-instance</codeblock>
+        			<codeblock>euca-run-instance ami-a6e15bcf </codeblock>
         		</info>
         	</step>
         	<step>
         		<cmd>SSH into the instance and verify that the instance is valid for use with Eucalyptus.</cmd>
+        		<info>
+        			<codeblock>ssh </codeblock>
+        		</info>
         		<substeps>
         			<substep>
         				<cmd>Make sure <codeph>--check-dependencies</codeph> exits with 0 if all dependencies
@@ -41,10 +47,9 @@
         					</cmd>
         			</substep>
         			<substep>
-        				<cmd>Make sure tha all input paths/files and output paths/files are specified as
+        				<cmd>Make sure that all input paths/files and output paths/files are specified as
         					parameters (that is, there are no unspecified files or directories left after the validator exits)</cmd>
         			</substep>
-        			
         			<substep><cmd>Check /etc/fstab and remove any non-standard drives or partitions (input:
         				block-device mapping) and any reference to Xen device names</cmd></substep>
 
@@ -58,15 +63,41 @@
         		</substeps>
         	</step>
         	<step>
-        		<cmd></cmd>
+        		<cmd>Install Euca2ools on the instance.</cmd>
+        		<info>
+        			<codeblock></codeblock>
+        		</info>
         	</step>
         	<step>
-        		<cmd></cmd>
+        		<cmd>Mount a volume 1.5 as large as the entire instance</cmd>
+        		<info>
+        			<codeblock>df </codeblock>
+        		</info>
         	</step>
         	<step>
-        		<cmd></cmd>
+        		<cmd>Bundle the running instance.</cmd>
+        		<info>
+        			<codeblock>euca-bundle-instance </codeblock>
+        		</info>
         	</step>
-        	
+        	<step>
+        		<cmd>Switch the Euca2ools configuration file to use Eucalyptus</cmd>
+        		<info>
+        			<codeblock>default-region = euca-release</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Upload the AWS bundled instance to Eucalyptus.</cmd>
+        		<info>
+        			<codeblock>euca-upload-bundle -b bucket_name -m manifest_file</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Test the new uploaded image.</cmd>
+        		<info>
+        			<codeblock>euca-run-instance emi-a6e15bcf</codeblock>
+        		</info>
+        	</step>
         </steps>
     </taskbody>
 </task>
