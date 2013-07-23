@@ -6,12 +6,67 @@
     <shortdesc/>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>To migrate an image from AWS to Eucalyptus, perform the following steps:</p>
         </context>
         <steps>
             <step>
-                <cmd>Task step.</cmd>
+            	<cmd><xref href="hg_task_setup_euca2ools.dita">Set up Euca2ools for AWS</xref></cmd>
             </step>
+        	<step>
+        		<cmd>Choose an image.</cmd>
+        		<info>
+        			<codeblock>euca-describe-images</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>Run an instance from the image you chose.</cmd>
+        		<info>
+        			<codeblock>euca-run-instance</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>SSH into the instance and verify that the instance is valid for use with Eucalyptus.</cmd>
+        		<substeps>
+        			<substep>
+        				<cmd>Make sure <codeph>--check-dependencies</codeph> exits with 0 if all dependencies
+        					necessary for the executable's operation are present and 1 otherwise</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Make sure that a path to a mounted Linux image exits with 1 if the check could be
+        					invoked and did not pass (if check passed, or could not be invoked, or the image is not a Linux image, the validator is to exit with 0)</cmd>
+        					
+        			</substep>
+        			<substep>
+        				<cmd>Make sure that all parameters are passed via command-line arguments, not environment variables
+        					</cmd>
+        			</substep>
+        			<substep>
+        				<cmd>Make sure tha all input paths/files and output paths/files are specified as
+        					parameters (that is, there are no unspecified files or directories left after the validator exits)</cmd>
+        			</substep>
+        			
+        			<substep><cmd>Check /etc/fstab and remove any non-standard drives or partitions (input:
+        				block-device mapping) and any reference to Xen device names</cmd></substep>
+
+        			<substep><cmd>Make sure that the acpiphp module is available</cmd></substep>
+        			<substep><cmd>Make sure that udev net persistent</cmd></substep>
+        			<substep><cmd>ensure SSHD will run</cmd></substep>
+        			<substep><cmd>ensure cloud-init will run</cmd></substep>
+        			<substep><cmd>ensure special system directories are not populated (places like proc, sysfs, devpts, debugfs, udevfs, cgroup, tmpfs, etc., which should not have real files in them)</cmd></substep>
+        			<substep><cmd>ensure that not more than one Ethernet device is configured</cmd></substep>
+        			
+        		</substeps>
+        	</step>
+        	<step>
+        		<cmd></cmd>
+        	</step>
+        	<step>
+        		<cmd></cmd>
+        	</step>
+        	<step>
+        		<cmd></cmd>
+        	</step>
+        	
         </steps>
     </taskbody>
 </task>
