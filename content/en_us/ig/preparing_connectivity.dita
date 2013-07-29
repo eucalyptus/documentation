@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="preparing_tcp_ip">
-	<title>Verify TCP/IP Connectivity</title>
+<task id="preparing_connectivity">
+	<title>Verify Component Connectivity</title>
 	<shortdesc/>
 	<taskbody>
 		<context>
@@ -12,18 +12,26 @@
 				these default firewall settings before you install Eucalyptus
 				components to ensure that the components can communicate with
 				one another.</p>
+			<note importance="high"> Any firewall running on the CC must be
+				compatible with the dynamic changes performed by Eucalyptus when
+				working with security groups. Eucalyptus will flush the 'filter'
+				and 'nat' tables upon boot. </note>
 			<p>Verify component connectivity by performing the following checks
 				on the machines that will be running the listed Eucalyptus
 				components. </p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Verify connection from and end-user to the CLC on ports
-					8773 and 8443</cmd>
+				<cmd>Verify connection from an end-user to the CLC on ports 8773
+					and 8443</cmd>
 			</step>
 			<step>
-				<cmd>Verify connection from an end-user to Walrus on port 8773
-				</cmd>
+				<cmd>Verify connection from an end-user to Walrus on port
+					8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from the CLC, SC, and NC (or VB) to SC on
+					port 8773</cmd>
 			</step>
 			<step>
 				<cmd>Verify connection from the CLC, SC, and NC (or VB) to
@@ -31,7 +39,7 @@
 			</step>
 			<step>
 				<cmd>Verify connection from Walrus, SC, and VB to CLC on port
-					8777 </cmd>
+					8777</cmd>
 			</step>
 			<step>
 				<cmd>Verify connection from CLC to CC on port 8774</cmd>
@@ -58,7 +66,11 @@
 			</step>
 			<step>
 				<cmd>Verify connection between CLC, Walrus, SC, and VB on UDP
-					ports 7500 and 8773</cmd>
+					port 7500</cmd>
+			</step>
+			<step>
+				<cmd>Verify multicast connectivity for IP address 228.7.7.3
+					between CLC, Walrus, SC, and VB on UDP port 8773</cmd>
 			</step>
 			<step>
 				<cmd>If you use tgt (iSCSI open source target) for EBS storage,
