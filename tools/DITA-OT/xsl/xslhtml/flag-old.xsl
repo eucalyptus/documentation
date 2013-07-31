@@ -549,52 +549,6 @@
  </xsl:if>
 </xsl:template>
 
-<!-- Output starting & ending flag for "blocked" text.
-     Use instead of 'apply-templates' for block areas (P, Note, DD, etc) -->
-<xsl:template name="revblock-deprecated">
- <xsl:choose>
-  <xsl:when test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> <!-- draft rev mode, add div w/ rev attr value -->
-    <xsl:variable name="revtest"> 
-     <xsl:call-template name="find-active-rev-flag">
-      <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-    </xsl:variable>
-    <xsl:choose>
-     <xsl:when test="$revtest=1">
-      <div class="{@rev}">
-      <xsl:call-template name="start-mark-rev">
-       <xsl:with-param name="revvalue" select="@rev"/>
-      </xsl:call-template>
-      <xsl:apply-templates/>
-      <xsl:call-template name="end-mark-rev">
-       <xsl:with-param name="revvalue" select="@rev"/>
-      </xsl:call-template>
-      </div>
-     </xsl:when>
-     <xsl:otherwise>
-      <xsl:call-template name="start-mark-rev">
-       <xsl:with-param name="revvalue" select="@rev"/>
-      </xsl:call-template>
-      <xsl:apply-templates/>
-      <xsl:call-template name="end-mark-rev">
-       <xsl:with-param name="revvalue" select="@rev"/>
-      </xsl:call-template>
-     </xsl:otherwise>
-    </xsl:choose>
-  </xsl:when>
-  <xsl:when test="@rev and not($FILTERFILE='')">    <!-- normal rev mode -->
-   <xsl:call-template name="start-mark-rev">
-    <xsl:with-param name="revvalue" select="@rev"/>
-   </xsl:call-template>
-   <xsl:apply-templates/>
-   <xsl:call-template name="end-mark-rev">
-    <xsl:with-param name="revvalue" select="@rev"/>
-   </xsl:call-template>
-  </xsl:when>
-  <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>  <!-- rev mode -->
- </xsl:choose>
-</xsl:template>
-
 <!-- Output starting & ending flag & color for phrase text.
      Use instead of 'apply-templates' for phrase areas (PH, B, DT, etc) -->
 <xsl:template name="revtext">
@@ -611,9 +565,6 @@
    <xsl:call-template name="start-mark-rev">
     <xsl:with-param name="revvalue" select="@rev"/>
    </xsl:call-template>
-   <xsl:call-template name="revstyle-deprecated">
-    <xsl:with-param name="revvalue" select="@rev"/>
-   </xsl:call-template>
    <xsl:call-template name="end-mark-rev">
     <xsl:with-param name="revvalue" select="@rev"/>
    </xsl:call-template>
@@ -621,9 +572,6 @@
   </xsl:when>
   <xsl:when test="@rev and not($FILTERFILE='')">         <!-- normal rev mode -->
    <xsl:call-template name="start-mark-rev">
-    <xsl:with-param name="revvalue" select="@rev"/>
-   </xsl:call-template>
-   <xsl:call-template name="revstyle-deprecated">
     <xsl:with-param name="revvalue" select="@rev"/>
    </xsl:call-template>
    <xsl:call-template name="end-mark-rev">
@@ -637,90 +585,11 @@
 <!-- There's a rev attr - test for active rev values -->
 <xsl:template name="start-mark-rev">
  <xsl:param name="revvalue"/>
- <xsl:variable name="revtest">
-  <xsl:call-template name="find-active-rev-flag">
-   <xsl:with-param name="allrevs" select="$revvalue"/>
-  </xsl:call-template>
- </xsl:variable>
-  <xsl:if test="$revtest=1">
-   <xsl:call-template name="start-revision-flag-deprecated"/>
-  </xsl:if>
 </xsl:template>
 
 <!-- There's a rev attr - test for active rev values -->
 <xsl:template name="end-mark-rev">
  <xsl:param name="revvalue"/>
- <xsl:variable name="revtest">
-  <xsl:call-template name="find-active-rev-flag">
-   <xsl:with-param name="allrevs" select="$revvalue"/>
-  </xsl:call-template>
- </xsl:variable>
-  <xsl:if test="$revtest=1">
-   <xsl:call-template name="end-revision-flag-deprecated"/>
-  </xsl:if>
-</xsl:template>
-
-<!-- output the revision color & apply further templates-->
-<xsl:template name="revstyle-deprecated">
- <xsl:param name="revvalue"/>
- <xsl:variable name="revcolor">
-  <xsl:call-template name="find-active-rev-style"> <!-- get 1st active rev color -->
-   <xsl:with-param name="allrevs" select="$revvalue"/>
-  </xsl:call-template>
- </xsl:variable>
- <xsl:choose>
-  <xsl:when test="string-length($revcolor)>0"> <!-- if there's a value, there's an active color -->
-   <font>
-    <xsl:attribute name="color">
-     <xsl:value-of select="$revcolor"/>
-    </xsl:attribute>
-    <xsl:apply-templates/>
-   </font>
-  </xsl:when>
-  <xsl:otherwise>
-   <xsl:apply-templates/> <!-- no active rev color - just apply templates -->
-  </xsl:otherwise>
- </xsl:choose>
-</xsl:template>
-
-<!-- output the beginning revision graphic & ALT text -->
-<!-- Reverse the artwork for BIDI languages -->
-<xsl:template name="start-revision-flag-deprecated">
- <xsl:variable name="biditest"> 
-  <xsl:call-template name="bidi-area"/>
- </xsl:variable>
- <xsl:choose>
-  <xsl:when test="$biditest='bidi'">
-   <xsl:call-template name="start-rev-art"> <!-- BIDI, use English end graphic for start of change-->
-    <xsl:with-param name="deltaname" select="'deltaend.gif'"/>
-   </xsl:call-template>
-  </xsl:when>
-  <xsl:otherwise>
-   <xsl:call-template name="start-rev-art"> <!-- Not BIDI, use English start graphic -->
-    <xsl:with-param name="deltaname" select="'delta.gif'"/>
-   </xsl:call-template>
-  </xsl:otherwise>
- </xsl:choose>
-</xsl:template>
-
-<!-- output the ending revision graphic & ALT text -->
-<!-- Reverse the artwork for BIDI languages -->
-<xsl:template name="end-revision-flag-deprecated">
- <xsl:variable name="biditest">
-  <xsl:call-template name="bidi-area"/>
- </xsl:variable>
- <xsl:choose>
-  <xsl:when test="$biditest='bidi'">
-   <xsl:call-template name="end-rev-art"> <!-- BIDI, use English start graphic for end of change-->
-    <xsl:with-param name="deltaname" select="'delta.gif'"/>
-   </xsl:call-template>
-  </xsl:when>
-  <xsl:otherwise>
-   <xsl:call-template name="end-rev-art"> <!-- Not BIDI, use English end graphic -->
-    <xsl:with-param name="deltaname" select="'deltaend.gif'"/>
-   </xsl:call-template>
-  </xsl:otherwise>
- </xsl:choose>
 </xsl:template>
 
 <!-- output the beginning revision graphic & ALT text -->

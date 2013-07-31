@@ -8,12 +8,21 @@
 <shortdesc>Below are some known limitations categorized by module
 within the current release of the DITA Open Toolkit.</shortdesc>
 <refbody>
+    <section id="section_zly_11s_zf">
+      <title>General</title>
+      <ol>
+        <li>Multiple instances of DITA-OT cannot be run in parallel in the same JVM. This is due to
+          legacy code using static variables to store state.</li>
+      </ol>
+    </section>
     <section id="section_4pk_gjm_l2">
       <title>Pre-processing</title>
     </section>
 <section id="section_j1b_rjm_l2">
       <ol>
         <li>Filenames may not contain comma (',') characters.</li>
+        <li>Topic references to DITA maps must use the <codeph>mapref</codeph> element or explicitly
+          define the <codeph>format</codeph> attribute with value "ditamap".</li>
       </ol>
     </section>
     <section id="section_k1b_rjm_l2">
@@ -22,10 +31,6 @@ within the current release of the DITA Open Toolkit.</shortdesc>
         <li>You can change the styles of the output file by using tools in <tm tmclass="special"
             tmowner="Microsoft Corporation" tmtype="reg" trademark="Microsoft">Microsoft</tm> Word
           rather than specifying the styles before transforming.</li>
-        <li>If there is a cross reference referring to an URL in the DITA source file, the link
-          should be completed defined with the proper internet protocol. For example, specify
-            <userinput>http://www.ibm.com</userinput> instead of
-          <userinput>www.ibm.com</userinput>.</li>
         <li>Flagging, revision bar and filtering are not supported in Word RTF output.</li>
         <li>Style attributes for table are not supported in Word RTF output.</li>
         <li>Complex cases dealing with tables in lists are not supported in Word RTF.</li>

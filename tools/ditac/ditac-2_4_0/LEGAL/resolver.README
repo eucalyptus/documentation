@@ -1,0 +1,84 @@
+Apache XML Commons Resolver
+Copyright 2006 The Apache Software Foundation.
+
+This product includes software developed at
+The Apache Software Foundation http://www.apache.org/
+
+Portions of this code are derived from classes placed in the
+public domain by Arbortext on 10 Apr 2000. See:
+http://www.arbortext.com/customer_support/updates_and_technical_notes/catalogs/docs/README.htm
+
+------------------------------------------------------------------------------
+
+org.apache.xml.resolver Release Notes
+
+Version 1.2
+
+   Copyright (c) 2003, 2006 The Apache Software Foundation.
+
+   November 2006
+     _________________________________________________________________
+
+   Table of Contents
+
+   [1]Apache XML Commons Resolver v1.2
+   [2]Apache XML Commons Resolver v1.1
+
+        [3]The CatalogManager Is No Longer Static
+        [4]System Catalogs Are Always Loaded
+        [5]Tests/Examples Available
+        [6]Bootstrap resolver for loading catalog files
+
+   This document offers a brief summary of what has changed in the
+   [7]Apache XML Commons Resolver package. For further information, refer
+   to the commons-dev and commons-cvs mailing lists and the [8]Changes
+   notes.
+
+Apache XML Commons Resolver v1.2
+
+   The resolver now supports systemIdSuffix and uriSuffix as defined in
+   the XML Catalogs v1.1 Committee Specification.
+
+   XCatalog support (Bugzilla Issue: [9]38562)
+
+   Fixed several bugs including one involving the use of "file: URLs".
+
+Apache XML Commons Resolver v1.1
+
+The CatalogManager Is No Longer Static
+
+   The most pervasive change is that the CatalogManager class is no
+   longer static. It's now possible to instantiate several catalog
+   managers and each manager can manage several catalogs.
+
+   There is still a single static instance of the CatalogManager,
+   available via getStaticManager(). This is used by default if no other
+   catalog manager is instantiated and used. It behaves as the old static
+   one used to.
+
+System Catalogs Are Always Loaded
+
+   In the previous version, the system catalogs were not loaded if a
+   private catalog was requested. That has changed; the system catalogs
+   are now always loaded.
+
+   If you want to avoid loading any system catalogs, establish your own
+   CatalogManager and use the setCatalogsFiles() method to assure that no
+   system catalogs are available.
+
+Tests/Examples Available
+
+   There are several tests in the tests/resolver directory that
+   demonstrate how different instantiations can be used.
+
+Bootstrap resolver for loading catalog files
+
+   The resolver now includes catalog.{dtd,rng,xsd} and uses a "bootstrap"
+   resolver when it is loading catalog files. This avoids the Catch-22 of
+   having to resolve this before the resolver is in action ...
+
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD XML Catalogs V1.0//EN"
+"http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+<catalog>
+<public publicId="foo" uri="bar"/>
+</catalog>

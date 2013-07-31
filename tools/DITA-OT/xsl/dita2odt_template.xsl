@@ -3,15 +3,6 @@
      Sourceforge.net. See the accompanying license.txt file for 
      applicable licenses.-->
 <!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. -->
-<!DOCTYPE xsl:stylesheet [
-
-  <!ENTITY gt            "&gt;">
-  <!ENTITY lt            "&lt;">
-  <!ENTITY rbl           " ">
-  <!ENTITY nbsp          " ">    <!-- &#160; -->
-  <!ENTITY quot          "&#34;">
-  <!ENTITY copyr         "&#169;">
-]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
   xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
@@ -36,11 +27,11 @@
   version="1.1">
   
   
-  <xsl:import href="common/output-message.xsl"/>
-  <xsl:import href="common/dita-utilities.xsl"/>
-  <xsl:import href="common/related-links.xsl"/>
-  <xsl:import href="common/dita-textonly.xsl"/>
-  <xsl:import href="common/flag.xsl"/>
+  <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
+  <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
+  <xsl:import href="plugin:org.dita.base:xsl/common/related-links.xsl"/>
+  <xsl:import href="plugin:org.dita.base:xsl/common/dita-textonly.xsl"/>
+  <xsl:import href="plugin:org.dita.base:xsl/common/flag.xsl"/>
   <!--
   <xsl:import href="xslodt/flag-old.xsl"/>
   -->
@@ -107,7 +98,7 @@
     </xsl:when>
     <!-- topic -->
     <xsl:otherwise>
-      <xsl:value-of select="concat($FILEDIR, '/', substring-before($FILENAME, '.'), $DITAEXT)"/>
+      <xsl:value-of select="concat($FILEDIR, '/', $FILENAME)"/>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:param>
@@ -155,7 +146,7 @@
   Needed as a directory prefix for the @conref "document()" function calls.
   default is '../doc/')-->
 <xsl:variable name="WORKDIR">
-  <xsl:apply-templates select="document($currentfile, /)/processing-instruction('workdir')[1]" mode="get-work-dir"/>
+  <xsl:apply-templates select="document($currentfile, /)/processing-instruction('workdir-uri')[1]" mode="get-work-dir"/>
 </xsl:variable>
 
 <!-- the path back to the project. Used for c.gif, delta.gif, css to allow user's to have
@@ -231,35 +222,6 @@
         <xsl:apply-templates/>
       </office:text>
     </office:body>
-  </xsl:template>
-  
-  <xsl:template match="processing-instruction('workdir')" mode="get-work-dir">
-    <xsl:value-of select="."/><xsl:text>/</xsl:text>
-  </xsl:template>
-  
-  <xsl:template match="processing-instruction('path2project')" mode="get-path2project">
-    <xsl:call-template name="get-path2project">
-      <xsl:with-param name="s" select="."/>
-    </xsl:call-template>
-  </xsl:template>
-  
-  <xsl:template name="get-path2project">
-    <!-- Deal with being handed a Windows backslashed path by accident. -->
-    <!-- This code only changes \ to / and doesn't handle the many other situations
-      where a URI differs from a file path.  Hopefully they don't occur in path2proj anyway. -->
-    <xsl:param name="s"/>
-    <xsl:choose>
-      <xsl:when test="contains($s, '\')">
-        <xsl:value-of select="substring-before($s, '\')"/>
-        <xsl:text>/</xsl:text>
-        <xsl:call-template name="get-path2project">
-          <xsl:with-param name="s" select="substring-after($s, '\')"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$s"/>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

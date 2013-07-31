@@ -558,7 +558,6 @@
   </xsl:choose>
  </xsl:template>
  
- <!-- Added by William on 2009-06-01 for flag process start-->
  <!-- copy needed elements -->
  <xsl:template match="*" mode="copy-element">
      <xsl:param name="att"/>
@@ -692,7 +691,6 @@
  <xsl:template match="*" mode="getChildNode">
         <xsl:copy-of select="node()"/>
   </xsl:template>
- <!-- Added by William on 2009-06-01 for flag process end-->
  
  <!-- Shortcuts for generating both rev flags and property flags -->
  <xsl:template name="start-flags-and-rev">
@@ -959,36 +957,14 @@
     <xsl:call-template name="start-revision-flag-deprecated"/>
   </xsl:when>
   <xsl:when test="$biditest='bidi'">
-   <xsl:choose>
-    <xsl:when test="exsl:node-set($flagrules)/revprop[startflag or endflag]">
-     <!-- new ditaval standard -->
-     <xsl:call-template name="end-revflagit">
+    <xsl:call-template name="end-revflagit">
       <xsl:with-param name="flagrules" select="$flagrules"/>
-     </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-     <!-- old ditaval standard -->
-     <xsl:call-template name="start-rev-art"> <!-- BIDI, use English end graphic for start of change-->
-      <xsl:with-param name="deltaname" select="'deltaend.gif'"/>
-     </xsl:call-template>
-    </xsl:otherwise>
-   </xsl:choose>   
+    </xsl:call-template>
   </xsl:when>
   <xsl:otherwise>
-   <xsl:choose>
-    <xsl:when test="exsl:node-set($flagrules)/revprop[startflag or endflag]">
-     <!-- new ditaval standard -->
-     <xsl:call-template name="start-revflagit">
+    <xsl:call-template name="start-revflagit">
       <xsl:with-param name="flagrules" select="$flagrules"/>
-     </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-     <!-- old ditaval standard -->
-     <xsl:call-template name="start-rev-art"> <!-- Not BIDI, use English start graphic -->
-      <xsl:with-param name="deltaname" select="'delta.gif'"/>
-     </xsl:call-template>
-    </xsl:otherwise>
-   </xsl:choose>   
+    </xsl:call-template>
   </xsl:otherwise>
  </xsl:choose>
 </xsl:template>
@@ -1080,36 +1056,14 @@
      <xsl:call-template name="end-revision-flag-deprecated"/>
    </xsl:when>
   <xsl:when test="$biditest='bidi'">
-   <xsl:choose>
-    <xsl:when test="exsl:node-set($flagrules)/revprop[startflag or endflag]">
-     <!-- new ditaval standard -->
-     <xsl:call-template name="start-revflagit">
+    <xsl:call-template name="start-revflagit">
       <xsl:with-param name="flagrules" select="$flagrules"/>
-     </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-     <!-- old ditaval standard -->
-     <xsl:call-template name="end-rev-art"> <!-- BIDI, use English start graphic for end of change-->
-      <xsl:with-param name="deltaname" select="'delta.gif'"/>
-     </xsl:call-template>
-    </xsl:otherwise>
-   </xsl:choose>   
+    </xsl:call-template>
   </xsl:when>
   <xsl:otherwise>
-   <xsl:choose>
-    <xsl:when test="exsl:node-set($flagrules)/revprop[startflag or endflag]">
-     <!-- new ditaval standard -->
-     <xsl:call-template name="end-revflagit">
+    <xsl:call-template name="end-revflagit">
       <xsl:with-param name="flagrules" select="$flagrules"/>
-     </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-     <!-- old ditaval standard -->
-     <xsl:call-template name="end-rev-art"> <!-- Not BIDI, use English end graphic -->
-      <xsl:with-param name="deltaname" select="'deltaend.gif'"/>
-     </xsl:call-template>
-    </xsl:otherwise>
-   </xsl:choose>   
+    </xsl:call-template>
   </xsl:otherwise>
  </xsl:choose>
 </xsl:template>
@@ -1131,19 +1085,10 @@
   <xsl:when test="$deltaname">
    <xsl:variable name="imgsrc" select="$deltaname"/>
    
-   <xsl:variable name="type">
-    <xsl:choose>
-     <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="imgUtils:getType(string($imgsrc))"/>
-     </xsl:when>
-     <xsl:otherwise/>
-    </xsl:choose>
-   </xsl:variable>
-   
    <xsl:variable name="height">
     <xsl:choose>
      <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="number(imgUtils:getHeightODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+      <xsl:value-of select="number(imgUtils:getHeight($OUTPUTDIR, string($imgsrc)) div 96)"/>
      </xsl:when>
      <xsl:otherwise/>
     </xsl:choose>
@@ -1151,7 +1096,7 @@
    <xsl:variable name="width">
     <xsl:choose>
      <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="number(imgUtils:getWidthODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+      <xsl:value-of select="number(imgUtils:getWidth($OUTPUTDIR, string($imgsrc)) div 96)"/>
      </xsl:when>
      <xsl:otherwise/>
     </xsl:choose>
@@ -1159,7 +1104,6 @@
    
    <xsl:call-template name="draw_image_odt">
     <xsl:with-param name="height" select="$height"/>
-    <xsl:with-param name="type" select="$type"/>
     <xsl:with-param name="width" select="$width"/>
     <xsl:with-param name="imgsrc" select="$imgsrc"/>
     <xsl:with-param name="alttext" select="'Start of change'"/>
@@ -1182,19 +1126,10 @@
   <xsl:when test="$deltaname">
    <xsl:variable name="imgsrc" select="$deltaname"/>
    
-   <xsl:variable name="type">
-    <xsl:choose>
-     <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="imgUtils:getType(string($imgsrc))"/>
-     </xsl:when>
-     <xsl:otherwise/>
-    </xsl:choose>
-   </xsl:variable>
-   
    <xsl:variable name="height">
     <xsl:choose>
      <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="number(imgUtils:getHeightODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+      <xsl:value-of select="number(imgUtils:getHeight($OUTPUTDIR, string($imgsrc)) div 96)"/>
      </xsl:when>
      <xsl:otherwise/>
     </xsl:choose>
@@ -1202,7 +1137,7 @@
    <xsl:variable name="width">
     <xsl:choose>
      <xsl:when test="not(contains($imgsrc,'://'))">
-      <xsl:value-of select="number(imgUtils:getWidthODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+      <xsl:value-of select="number(imgUtils:getWidth($OUTPUTDIR, string($imgsrc)) div 96)"/>
      </xsl:when>
      <xsl:otherwise/>
     </xsl:choose>
@@ -1210,7 +1145,6 @@
    
    <xsl:call-template name="draw_image_odt">
     <xsl:with-param name="height" select="$height"/>
-    <xsl:with-param name="type" select="$type"/>
     <xsl:with-param name="width" select="$width"/>
     <xsl:with-param name="imgsrc" select="$imgsrc"/>
     <xsl:with-param name="alttext" select="'End of change'"/>
@@ -1450,19 +1384,10 @@
    <xsl:when test="startflag/@imageref">
     <xsl:variable name="imgsrc" select="startflag/@imageref"/>
     
-    <xsl:variable name="type">
-     <xsl:choose>
-      <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="imgUtils:getType(string($imgsrc))"/>
-      </xsl:when>
-      <xsl:otherwise/>
-     </xsl:choose>
-    </xsl:variable>
-    
     <xsl:variable name="height">
      <xsl:choose>
       <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="number(imgUtils:getHeightODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+       <xsl:value-of select="number(imgUtils:getHeight($OUTPUTDIR, string($imgsrc)) div 96)"/>
       </xsl:when>
       <xsl:otherwise/>
      </xsl:choose>
@@ -1470,7 +1395,7 @@
     <xsl:variable name="width">
      <xsl:choose>
       <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="number(imgUtils:getWidthODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+       <xsl:value-of select="number(imgUtils:getWidth($OUTPUTDIR, string($imgsrc)) div 96)"/>
       </xsl:when>
       <xsl:otherwise/>
      </xsl:choose>
@@ -1478,7 +1403,6 @@
     
     <xsl:call-template name="draw_image_odt">
      <xsl:with-param name="height" select="$height"/>
-     <xsl:with-param name="type" select="$type"/>
      <xsl:with-param name="width" select="$width"/>
      <xsl:with-param name="imgsrc" select="$imgsrc"/>
      <xsl:with-param name="alttext" select="startflag/alt-text"/>
@@ -1506,19 +1430,10 @@
    <xsl:when test="endflag/@imageref">
     <xsl:variable name="imgsrc" select="endflag/@imageref"/>
     
-    <xsl:variable name="type">
-     <xsl:choose>
-      <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="imgUtils:getType(string($imgsrc))"/>
-      </xsl:when>
-      <xsl:otherwise/>
-     </xsl:choose>
-    </xsl:variable>
-    
     <xsl:variable name="height">
      <xsl:choose>
       <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="number(imgUtils:getHeightODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+       <xsl:value-of select="number(imgUtils:getHeight($OUTPUTDIR, string($imgsrc)) div 96)"/>
       </xsl:when>
       <xsl:otherwise/>
      </xsl:choose>
@@ -1526,7 +1441,7 @@
     <xsl:variable name="width">
      <xsl:choose>
       <xsl:when test="not(contains($imgsrc,'://'))">
-       <xsl:value-of select="number(imgUtils:getWidthODT($OUTPUTDIR, string($imgsrc)) div 96)"/>
+       <xsl:value-of select="number(imgUtils:getWidth($OUTPUTDIR, string($imgsrc)) div 96)"/>
       </xsl:when>
       <xsl:otherwise/>
      </xsl:choose>
@@ -1534,7 +1449,6 @@
     
     <xsl:call-template name="draw_image_odt">
      <xsl:with-param name="height" select="$height"/>
-     <xsl:with-param name="type" select="$type"/>
      <xsl:with-param name="width" select="$width"/>
      <xsl:with-param name="imgsrc" select="$imgsrc"/>
      <xsl:with-param name="alttext" select="endflag/alt-text"/>

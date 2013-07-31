@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<project basedir="." default="compile">
+
+  <property name="ditac.dir" value="../../.." />
+
+  <path id="cp">
+    <pathelement location="." />
+    <pathelement location="${ditac.dir}/lib/ditac.jar" />
+    <pathelement location="${ditac.dir}/lib/resolver.jar" />
+    <pathelement location="${ditac.dir}/lib/saxon9.jar" />
+  </path>
+
+  <target name="init">
+    <tstamp />
+  </target>
+
+  <target name="compile" depends="init">
+    <javac includeantruntime="false" debug="on" 
+           debuglevel="source,lines" deprecation="on" 
+           classpathref="cp" srcdir="." destdir="." 
+           includes="*.java" />
+  </target>
+
+  <target name="embed1" depends="compile,clean_embed1">
+    <java classpathref="cp" fork="yes" classname="Embed1">
+      <sysproperty key="xml.catalog.files" 
+                   value="${ditac.dir}/schema/catalog.xml" />
+      <arg value="${ditac.dir}/docsrc/manual/manual.ditamap" />
+      <arg value="manual.pdf" />
+    </java>
+  </target>
+
+  <target name="clean_embed1">
+    <delete>
+      <fileset dir="." defaultexcludes="no">
+        <patternset>
+          <include name="*.pdf" />
+        </patternset>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="embed2" depends="compile,clean_embed2">
+    <java classpathref="cp" fork="yes" classname="Embed2">
+      <sysproperty key="xml.catalog.files" 
+                   value="${ditac.dir}/schema/catalog.xml" />
+      <arg value="${ditac.dir}/docsrc/manual/manual.ditamap" />
+      <arg value="manual.html" />
+    </java>
+  </target>
+
+  <target name="clean_embed2">
+    <delete>
+      <fileset dir="." defaultexcludes="no">
+        <patternset>
+          <include name="*.html" />
+        </patternset>
+      </fileset>
+    </delete>
+    <delete dir="res" />
+    <delete dir="img" />
+  </target>
+
+  <target name="clean" depends="clean_embed1,clean_embed2">
+    <delete>
+      <fileset dir="." defaultexcludes="no">
+        <patternset>
+          <include name="*~" />
+        </patternset>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="distclean" depends="clean"> 
+    <delete>
+      <fileset dir="." defaultexcludes="no">
+        <patternset>
+          <include name="*.class" />
+        </patternset>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="realclean" depends="distclean" />
+
+</project>

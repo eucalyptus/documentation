@@ -3,7 +3,7 @@
     applicable licenses.--><!-- (c) Copyright IBM Corp. 2006 All Rights Reserved. --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:import href="maplinkImpl.xsl"></xsl:import>
   
-<xsl:import href="../../demo/eclipsemap/xsl/maplink-plugin.xsl"/>
-<xsl:import href="../../plugins/qwcode.ancestors/src/dita.xsl.maplink.xsl"/>
+<xsl:import href="../../plugins/org.dita.specialization.eclipsemap/xsl/maplink-plugin.xsl"/>
+<xsl:import href="../../plugins/com.oxygenxml.webhelp/xsl/nextPrevFullIteration.xsl"/>
   <xsl:output method="xml" encoding="utf-8" indent="no"></xsl:output>
 </xsl:stylesheet>
