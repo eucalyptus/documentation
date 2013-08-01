@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+"http://docs.oasis-open.org/dita/dtd/task.dtd">
+<task id="specialize">
+  <title>Using ditac to convert documents conforming to a DITA
+  specialization</title>
+
+  <abstract>We'll explain by example how to use ditac to convert documents
+  conforming to a DITA specialization<indexterm>DITA
+  specialization</indexterm>. Let's suppose we have a DITA specialization
+  which adds a <tt>tag</tt> element (similar to <xref format="html"
+  href="http://www.docbook.org/tdg5/en/html/tag.html"
+  scope="external">DocBook 5's tag element</xref>) to topic contents. This tag
+  element is modelled as follows (see <xref format="dtd"
+  href="sample_plugin/dtd/technicalDomain.mod" scope="external"/>)<pre>&lt;!ELEMENT tag (#PCDATA)*&gt;
+
+&lt;!ATTLIST tag %univ-atts;                                  
+              outputclass CDATA #IMPLIED&gt;
+
+&lt;!ATTLIST tag %global-atts;
+              class CDATA "+ topic/keyword tech-d/tag "&gt;
+
+&lt;!ATTLIST tag %univ-atts;                                  
+              kind (attribute|attvalue|element|emptytag|endtag|
+                    genentity|localname|namespace|numcharref|
+                    paramentity|pi|prefix|comment|starttag) #REQUIRED&gt;</pre><p>All
+  the example files of this tutorial have been packaged as a <xref
+  href="commandLine.dita#commandLine/what_is_a_plugin">plug-in</xref> called
+  "<tt>sample_plugin</tt>". They are found in directory <xref
+  format="directory" href="sample_plugin/"
+  scope="external"><filepath>sample_plugin/</filepath></xref>. In order to
+  give this plug-in a try, you'll have to copy directory
+  <filepath>sample_plugin/</filepath> to
+  <tt><i>ditac_install_dir</i>/plugin/</tt>.</p></abstract>
+
+  <taskbody>
+    <context>Using ditac to convert documents conforming to a DITA
+    specialization basically requires customizing the output of the tool using
+    the same techniques as those explained in <xref href="customCSS.dita"/>
+    and <xref href="customAttributeSet.dita"/>.</context>
+
+    <steps>
+      <step>
+        <cmd>Create an XML catalog<indexterm>XML catalog</indexterm> pointing
+        to a local copy of your custom DTD. This file must be named
+        <tt>catalog.xml</tt> and must be found in your plug-in
+        directory.</cmd>
+
+        <stepxmp>File <xref format="xmlcatalog"
+        href="sample_plugin/catalog.xml"
+        scope="external"><filepath>sample_plugin/catalog.xml</filepath></xref>:<pre
+        outputclass="language-xml">&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+         prefer="public"&gt;
+
+  &lt;public publicId="-//OASIS//DTD DITA Concept//EN"
+          uri="dtd/concept.dtd"/&gt;
+
+  &lt;public publicId="-//OASIS//DTD DITA Composite//EN"
+          uri="dtd/ditabase.dtd"/&gt;
+
+  &lt;public publicId="-//OASIS//DTD DITA General Task//EN"
+          uri="dtd/generalTask.dtd"/&gt;
+
+  ...
+
+&lt;/catalog&gt;</pre></stepxmp>
+      </step>
+
+      <step>
+        <cmd>Create a customization of
+        <filepath><varname>ditac_install_dir</varname>/xsl/xhtml/xhtml.xsl</filepath>
+        as explained in <xref href="customAttributeSet.dita"/>. This file must
+        be found in
+        <filepath><varname>your_plugin_dir</varname>/xsl/xhtml/xhtml.xsl</filepath>
+        in order to be used by ditac.</cmd>
+
+        <stepxmp>File <xref format="xslt"
+        href="sample_plugin/xsl/xhtml/xhtml.xsl"
+        scope="external"><filepath>sample_plugin/xsl/xhtml/xhtml.xsl</filepath></xref>:<pre
+        outputclass="language-xml">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns="http://www.w3.org/1999/xhtml"
+                version="2.0"&gt;
+  &lt;xsl:import href="ditac-xsl:xhtml/xhtml.xsl"/&gt;
+
+  &lt;xsl:template match="*[contains(@class,' tech-d/tag ')]"&gt;
+    &lt;tt&gt;
+      &lt;xsl:call-template name="commonAttributes"/&gt;
+
+      &lt;xsl:choose&gt;
+        &lt;xsl:when test="@kind = 'attvalue'"&gt;
+          &lt;xsl:text&gt;&amp;quot;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+        .
+        .
+        .
+        &lt;xsl:when test="@kind = 'starttag'"&gt;
+          &lt;xsl:text&gt;&amp;lt;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+      &lt;/xsl:choose&gt;
+
+      &lt;xsl:apply-templates/&gt;
+
+      &lt;xsl:choose&gt;
+        &lt;xsl:when test="@kind = 'attvalue'"&gt;
+          &lt;xsl:text&gt;&amp;quot;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+        .
+        .
+        .
+        &lt;xsl:when test="@kind = 'starttag'"&gt;
+          &lt;xsl:text&gt;&amp;gt;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+      &lt;/xsl:choose&gt;
+    &lt;/tt&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</pre><p>Note that the XSLT template called
+        <tt>commonAttributes</tt> adds a <tt>class="tag"</tt> attribute to the
+        generated <tt>tt</tt> element. This makes it easy styling the
+        generated <tt>tt</tt> element using the technique explained in <xref
+        href="customCSS.dita"/>.</p></stepxmp>
+      </step>
+
+      <step>
+        <cmd>Create a customization of
+        <filepath><varname>ditac_install_dir</varname>/xsl/fo/fo.xsl</filepath>
+        as explained in <xref href="customAttributeSet.dita"/>. This file must
+        be found in
+        <filepath><varname>your_plugin_dir</varname>/xsl/fo/fo.xsl</filepath>
+        in order to be used by ditac.</cmd>
+
+        <stepxmp>File <xref format="xslt" href="sample_plugin/xsl/fo/fo.xsl"
+        scope="external"><filepath>sample_plugin/xsl/fo/fo.xsl</filepath></xref>:<pre
+        outputclass="language-xml">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:fo="http://www.w3.org/1999/XSL/Format"
+                version="2.0"&gt;
+  &lt;xsl:import href="ditac-xsl:fo/fo.xsl"/&gt;
+
+  &lt;xsl:attribute-set name="tag" use-attribute-sets="monospace-style"&gt;
+  &lt;/xsl:attribute-set&gt;
+
+  &lt;xsl:template match="*[contains(@class,' tech-d/tag ')]"&gt;
+    &lt;fo:inline xsl:use-attribute-sets="tag"&gt;
+      &lt;xsl:call-template name="commonAttributes"/&gt;
+
+      &lt;xsl:choose&gt;
+        &lt;xsl:when test="@kind = 'attvalue'"&gt;
+          &lt;xsl:text&gt;&amp;quot;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+        .
+        .
+        .
+        &lt;xsl:when test="@kind = 'starttag'"&gt;
+          &lt;xsl:text&gt;&amp;lt;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+      &lt;/xsl:choose&gt;
+
+      &lt;xsl:apply-templates/&gt;
+
+      &lt;xsl:choose&gt;
+        &lt;xsl:when test="@kind = 'attvalue'"&gt;
+          &lt;xsl:text&gt;&amp;quot;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+        .
+        .
+        .
+        &lt;xsl:when test="@kind = 'starttag'"&gt;
+          &lt;xsl:text&gt;&amp;gt;&lt;/xsl:text&gt;
+        &lt;/xsl:when&gt;
+      &lt;/xsl:choose&gt;
+    &lt;/fo:inline&gt;
+  &lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;</pre></stepxmp>
+      </step>
+
+      <step>
+        <cmd>Pass command-line option <xref
+        href="commandLine.dita#commandLine/option-plugin"><option>-plugin</option> <i>plugin_name</i></xref>
+        to <cmdname>ditac</cmdname> in order to use the DTDs/schemas and the
+        XSLT stylesheets found in your plug-in subdirectory, preferably to
+        those found in <tt><i>ditac_install_dir</i>/schema/</tt> and in
+        <tt><i>ditac_install_dir</i>/xsl/</tt>.</cmd>
+
+        <tutorialinfo>You'll find a sample DITA document making use of the
+        custom <tt>tag</tt> element in <xref format="ditamap"
+        href="sample_plugin/sample/sample.ditamap" scope="external"/>. You can
+        convert this sample document to single-page XHTML and to PDF by
+        running <filepath>sample_plugin/sample/run.sh</filepath>
+        (<filepath>sample_plugin\sample\run.bat</filepath> on Windows):<pre>../../../bin/ditac <b>-plugin sample_plugin</b> \
+    out/sample.pdf sample.ditamap</pre></tutorialinfo>
+      </step>
+    </steps>
+  </taskbody>
+</task>

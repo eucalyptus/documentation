@@ -5,9 +5,7 @@
 <!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. -->
 
 <xsl:stylesheet version="1.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:saxon="http://icl.com/saxon"
-                extension-element-prefixes="saxon"                
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"                
                 >
 
 <!-- idit2htm.xsl   main stylesheet
@@ -48,6 +46,9 @@
 
 <!-- the dita to xhtml converter for element reference documents - not used now -->
 <!--<xsl:import href="elementrefdisp.xsl"/>-->
+
+<!-- Integrate support for flagging with dita-ot pseudo-domain -->
+<xsl:include href="xslhtml/htmlflag.xsl"/>  
 
 <!-- DITAEXT file extension name of dita topic file -->
 <xsl:param name="DITAEXT" select="'.xml'"/>    

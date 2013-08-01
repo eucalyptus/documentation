@@ -3,15 +3,25 @@
      Sourceforge.net. See the accompanying license.txt file for 
      applicable licenses.-->
 <!-- (c) Copyright IBM Corp. 2006 All Rights Reserved. -->
-<project name="DOST" default="init" basedir=".">
+<project xmlns:dita="http://dita-ot.sourceforge.net" name="DOST" default="init">
   
   <property file="${basedir}/local.properties"/>
   
-  <import file="build_init.xml"/>  
-  <import file="build_preprocess.xml"/>
-        
+  <!-- Initialize DITA-OT base directory -->
+  <dirname property="ant.file.DOST.dir" file="${ant.file.DOST}" />
+  <condition property="dita.dir" value="${ant.file.DOST.dir}">
+    <not>
+      <isset property="dita.dir" />
+    </not>
+  </condition>
+  <condition property="dita.dir" value="${basedir}">
+    <not>
+      <isset property="dita.dir" />
+    </not>
+  </condition>
+  
   <path id="dost.class.path">
-    <dita:extension id="dita.conductor.lib.import" behavior="org.dita.dost.platform.ImportAntLibAction" xmlns:dita="http://dita-ot.sourceforge.net"/>
+    <dita:extension id="dita.conductor.lib.import" behavior="org.dita.dost.platform.ImportAntLibAction"/>
     <pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"/>
   </path>
   
@@ -19,35 +29,29 @@
     <dita-ot-fail id="DOTA001F">
       <condition>
         <and>
-          <dita:extension id="dita.conductor.transtype.check" behavior="org.dita.dost.platform.CheckTranstypeAction" xmlns:dita="http://dita-ot.sourceforge.net"/>
+          <dita:extension id="dita.conductor.transtype.check" behavior="org.dita.dost.platform.CheckTranstypeAction"/>
         </and>
       </condition>
+      <param name="1" value="${transtype}"/>
     </dita-ot-fail>
     <condition property="transtarget" value="pdf2" else="${transtype}">
       <equals arg1="${transtype}" arg2="pdf" casesensitive="false"/>
     </condition>
-    <antcall target="dita2${transtarget}"/>
-  	<condition property="clean-temp.skip">
-  	  <and>
-  	    <isset property="clean.temp" />
-  	    <equals arg1="${clean.temp}" arg2="no" casesensitive="false" />
-  	  </and>
-  	</condition>
-  	<antcall target="clean-temp">
-  	</antcall>
+    <condition property="clean.temp" value="true">
+      <not><isset property="clean.temp"/></not>
+    </condition>
+    <condition property="clean-temp.skip">
+      <isfalse value="${clean.temp}"/>
+    </condition>
+    <antcall>
+      <target name="dita2${transtarget}"/>
+      <target name="clean-temp"/>
+    </antcall>
   </target>
   
-  <target name="all">
-    <echo>The "ant all" demonstration build has moved.
-      Please try the following command instead:
-      ant all -f build_demo.xml</echo>
-  </target>
-  
-  <target name="dita-preprocess" depends="start-process, init-logger, init-URIResolver, output-version, check-arg, output-deprecated-msg, output-css-warn-message, preprocess"/>
-
-  <dita:extension id="dita.conductor.plugin" behavior="org.dita.dost.platform.ImportPluginInfoAction" xmlns:dita="http://dita-ot.sourceforge.net"/>
-  <dita:extension id="dita.conductor.target" behavior="org.dita.dost.platform.InsertAction" xmlns:dita="http://dita-ot.sourceforge.net"/>
-  <dita:extension id="dita.conductor.target.relative" behavior="org.dita.dost.platform.InsertAntActionRelative" xmlns:dita="http://dita-ot.sourceforge.net"/>
+  <dita:extension id="dita.conductor.plugin" behavior="org.dita.dost.platform.ImportPluginInfoAction"/>
+  <dita:extension id="dita.conductor.target" behavior="org.dita.dost.platform.InsertAction"/>
+  <dita:extension id="dita.conductor.target.relative" behavior="org.dita.dost.platform.InsertAntActionRelative"/>
   
   <target name="help">
     <echo level="info">Mandatory properties:</echo>
@@ -55,7 +59,7 @@
     <echo level="info">  args.input=&lt;file&gt;</echo>
     <echo level="info">    Path and name of the input file.</echo>
     <echo level="info"/>
-    <echo level="info">  transtype={<dita:extension id="dita.conductor.transtype.check" behavior="org.dita.dost.platform.ListTranstypeAction" xmlns:dita="http://dita-ot.sourceforge.net"/>}</echo>
+    <echo level="info">  transtype={<dita:extension id="dita.conductor.transtype.check" behavior="org.dita.dost.platform.ListTranstypeAction" separator="|"/>}</echo>
     <echo level="info">    Transformation type.</echo>
     <echo level="info"/>
     <echo level="info">Optional properties:</echo>
@@ -150,7 +154,7 @@
     <echo level="info">  dita.extname=&lt;ext&gt;</echo>
     <echo level="info">    File extension name to be used in the temp directory. Default is ".xml".</echo>
     <echo level="info"/>
-    <echo level="info">  dita.input.valfile=&lt;file&gt;</echo>
+    <echo level="info">  args.filter=&lt;file&gt;</echo>
     <echo level="info">    Name of the file that contains the filter/flaggin/revision information.</echo>
     <echo level="info"/>
     <echo level="info">  generate.copy.outer={1|2|3}</echo>
