@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="backup_postgres">
+	<title>Back Up and Restore the Database</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			
+			<p>To back up and restore the database:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Extract the Eucalyptus PostgreSQL database cluster into a script file.</cmd>
+				<info>
+					<codeblock>pg_dumpall --oids -c -h/var/lib/eucalyptus/db/data -p8777 -Uroot -f~/eucalyptus_pg_dumpall-backup.sql</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Back up the keys directory.</cmd>
+				<info>
+					<codeblock>tar -czvf /var/lib/eucalyptus/keys ~/eucalyptus-keysdir.tgz</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Stop the CLC service.</cmd>
+				<info>
+					<codeblock>/etc/init.d/eucalyptus-cloud stop</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Remove traces of the old database.</cmd>
+				<info>
+					<codeblock>rm -rf /var/lib/eucalyptus/db</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Re-initialize the database structure.</cmd>
+				<info>
+					<codeblock>euca_conf --initialize</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start the database manually.</cmd>
+				<info>
+					<codeblock>su eucalyptus -c "/usr/pgsql-9.1/bin/pg_ctl start -w \
+-s -D/var/lib/eucalyptus/db/data -o '-h0.0.0.0/0 -p8777 -i'"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Restore the backup.</cmd>
+				<info>
+					<codeblock>psql -U root -d postgres -p 8777 -h /var/lib/eucalyptus/db/data -f ~/eucalyptus_pg_dumpall-backup.sql</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Restore the keys.</cmd>
+				<info>
+					<codeblock>tar -xvf ~/eucalyptus-keysdir.tgz -C /</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Stop the database manually.</cmd>
+				<info>
+					<codeblock>su eucalyptus -c "/usr/pgsql-9.1/bin/pg_ctl stop -D/var/lib/eucalyptus/db/data"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start CLC service</cmd>
+				<info>
+					<codeblock>/etc/init.d/eucalyptus-cloud start</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
+</task>
