@@ -45,9 +45,18 @@
 		<title>CC Configuration</title>
 		<taskbody>
 			<context>
-				<note type="important">You must set
-						<codeph>VNET_PUBLICIPS</codeph> identically on all CCs
-					in a multi-cluster configuration.</note>
+				<note type="important">
+					<p>We recommend allowing the CC to act as the gateway for
+						NCs, in Managed mode. To do so, ensure that traffic from
+						all NCs (on private network) is allowed to be
+						masqueraded on the CC, and set the output interface to
+						the the public interface of the CC. You can do this
+						using the following <codeph>iptables</codeph>
+						command:</p>
+					<codeblock>iptables -t nat -A POSTROUTING -s 10.101.104.0/16 -o em1 -j MASQUERADE</codeblock>
+					<p>Where <codeph>10.101.104.0/16</codeph> is the private
+						network containing all NCs, and <codeph>em1</codeph> is
+						the public interface set on the CC.</p></note>
 			</context>
 			<steps>
 				<step>
@@ -100,7 +109,10 @@ VNET_PUBINTERFACE="&lt;Ethernet device on ‘public’ network. Example: eth0>"<
 						<note type="important">Each CC must have the same
 							configuration with the exception of the
 								<codeph>VNET_LOCALIP</codeph> value, which
-							should be machine-specific.</note>
+							should be machine-specific. In a multi-cluster
+							configuration, you must set
+								<codeph>VNET_PUBLICIPS</codeph> identically on
+							all CCs.</note>
 					</info>
 				</step>
 
@@ -110,6 +122,20 @@ VNET_PUBINTERFACE="&lt;Ethernet device on ‘public’ network. Example: eth0>"<
 	<task id="nw_managed_nc">
 		<title>NC Configuration</title>
 		<taskbody>
+			<context>
+				<note type="important">
+					<p>We recommend allowing the CC to act as the gateway for
+						NCs, in Managed mode. To do so, ensure that traffic from
+						all NCs (on private network) is allowed to be
+						masqueraded on the CC, and set the output interface to
+						the the public interface of the CC. You can do this
+						using the following <codeph>iptables</codeph>
+						command:</p>
+					<codeblock>iptables -t nat -A POSTROUTING -s 10.101.104.0/16 -o em1 -j MASQUERADE</codeblock>
+					<p>Where <codeph>10.101.104.0/16</codeph> is the private
+						network containing all NCs, and <codeph>em1</codeph> is
+						the public interface set on the CC.</p></note>
+			</context>
 			<steps>
 				<step>
 					<cmd>Log into an NC machine and open the

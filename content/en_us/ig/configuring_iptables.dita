@@ -19,64 +19,59 @@
 			<p>This section provides basic guidance on setting up a firewall
 				around your Eucalyptus components. It is not intended to be
 				exhaustive.</p>
-			<p>On the CLC, you should allow the following connections:</p>
+			<p>On CLC, Walrus, SC, and VB, you should allow for the following
+				jGroups traffic:</p>
 			<ul>
-				<li>Inbound from end-users on TCP ports 8773 and 8443</li>
-				<li>Inbound from CC and Eucalyptus instances (public IPs) on
-					port 8773 (for metadata service)</li>
-				<li>Inbound from Walrus, SC, and VB on TCP port 8777</li>
-				<li>Inbound from Walrus, SC, and VB over TCP</li>
-				<li>Inbound from Walrus, SC, and VB on UDP port 7500</li>
-				<li>Multicast from CLC, SC, and VB to IP 228.7.7.3 on UDP port
-					8773</li>
-				<li>Inbound and outbound to DNS ports</li>
+				<li>TCP connections between CLC, Walrus, SC, and VB on port 8779
+					(or the first available port in range 8779-8849)</li>
+				<li>UDP connections between CLC, Walrus, SC, and VB on port
+					7500</li>
+				<li>Multicast connections between CLC, Walrus, SC, and VB to IP
+					228.7.7.3 on UDP port 8773</li>
+
+			</ul>
+			<p>On the CLC, you should additionally allow the following connections:</p>
+			<ul>
+				<li>TCP connections from end-users on ports 8773 and 8443</li>
+				<li>TCP connections from CC and Eucalyptus instances (public
+					IPs) on port 8773 (for metadata service)</li>
+				<li>TCP connections from Walrus, SC, and VB on port 8777</li>
+				<li>End-user and instance connections to DNS ports</li>
 			</ul>
 			<p>On the CC, you should ensure that all firewall rules are
 				compatible with the dynamic changes performed by Eucalyptus,
 				described in the section below. You should also allow the
 				following connections:</p>
 			<ul>
-				<li>Inbound from CLC on TCP port 8774</li>
-				<li>Inbound from NC on port TCP 8776, if CC image proxying is
-					enabled</li>
+				<li>TCP connections from CLC on port 8774</li>
+				<li>TCP connections from NC on port 8776, if CC image proxying
+					is enabled</li>
 			</ul>
-			<p>On Walrus, you should allow the following connections:</p>
+			<p>On Walrus, you should also allow the following connections:</p>
 			<ul>
-				<li>Inbound from end-users on TCP port 8773</li>
-				<li>Inbound from SC, NC, and VB on TCP port 8773</li>
-				<li>Inbound from CC on port TCP 8773, if CC image proxying is
-					enabled</li>
-				<li>Inbound from CLC, SC, and VB over TCP</li>
-				<li>Inbound from CLC, SC, and VB on UDP port 7500</li>
-				<li>Multicast from CLC, SC, and VB to IP 228.7.7.3 on UDP port
-					8773</li>
+				<li>TCP connections from end-users on port 8773</li>
+				<li>TCP connections from SC, NC, and VB on port 8773</li>
+				<li>TCP connections from CC on port 8773, if CC image proxying
+					is enabled</li>
 			</ul>
-			<p>On the SC, you should allow the following connections:</p>
+			<p>On the SC, you should also allow the following connections:</p>
 			<ul>
-				<li>Inbound from CLC, NC, and VB on TCP port 8773</li>
-				<li>Inbound from CLC, Walrus, and VB over TCP</li>
-				<li>Inbound from CLC, Walrus, and VB on UDP port 7500</li>
-				<li>Multicast from CLC, Walrus, and VB to IP 228.7.7.3 on UDP
-					port 8773</li>
-				<li>Inbound from NC on TCP port 3260, if tgt (iSCSI open source
-					target) is used for EBS storage</li>
+				<li>TCP connections from CLC, NC, and VB on TCP port 8773</li>
+				<li>TCP connections from NC on TCP port 3260, if tgt (iSCSI open
+					source target) is used for EBS storage</li>
+			</ul>
+			<p>On the VMware Broker, you should also allow the following
+				connections:</p>
+			<ul>
+				<li>TCP connections from CC on port 8773</li>
 			</ul>
 			<p>On the NC, you should allow the following connections:</p>
 			<ul>
-				<li>Inbound from CC on TCP port 8775</li>
-				<li>Inbound from other NCs on port 16514</li>
+				<li>TCP connections from CC on port 8775</li>
+				<li>TCP connections from other NCs on port 16514</li>
 				<li>DHCP traffic forwarding to VMs</li>
 				<li>Traffic forwarding to and from instances' private IP
 					addresses</li>
-			</ul>
-			<p>On the VMware Broker, you should allow the following
-				connections:</p>
-			<ul>
-				<li>Inbound from CC on TCP port 8773</li>
-				<li>Inbound from CLC, Walrus, and SC over TCP</li>
-				<li>Inbound from CLC, Walrus, and SC on UDP port 7500</li>
-				<li>Multicast from CLC, Walrus, and SC to IP 228.7.7.3 on UDP
-					port 8773</li>
 			</ul>
 		</section>
 		<section>
