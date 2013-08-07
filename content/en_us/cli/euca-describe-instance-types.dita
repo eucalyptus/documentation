@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-describe-instances">
+	<title>euca-describe-instance-types</title>
+	<shortdesc>Shows information about instance types.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-instance-types <b>instance_types</b> [[--filter "name=value"] ...]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>instance_type</codeph></entry>
+							<entry>Instance type to describe</entry>
+							<entry align="center">No</entry>
+						</row>
+						<!--<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>-->
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+
+		<!--<section>
+			<title>Available Filters</title>
+			<p>You can add filters to your request so that the response includes information for
+				only certain instances. For example, you can use a filter to specify that you want to find
+				instances launched with a specific keypair. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for an instance only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify instances launched with a specific keypair and use an EBS volume as the root device. Eucalyptus responds
+					with the information for an instance only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-instances</apiname>:</p>
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>architecture</codeph></entry>
+							<entry>Instance architecture. <p>Valid values: <codeph>i386</codeph>
+									| <codeph>x86_64</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>association.allocation-id</codeph></entry>
+							<entry>(VPC only) Allocation ID bound to a network
+								interface's elastic IP address.
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>association.ip-owner-id</codeph></entry>
+							<entry>(VPC only) ID of the owner of the elastic IP
+								address associated with a network interface.
+							</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.public-ip</codeph></entry>
+							<entry>(VPC only) Address of the elastic IP address
+								bound to a network interface.
+							</entry>
+						</row>
+					
+						<row>
+							<entry><codeph>availability-zone</codeph></entry>
+							<entry>The instance's availability zone.</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-&#8203;mapping.attach-time</codeph></entry>
+							<entry>Attach time for an EBS volume mapped to the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping.&#8203;delete-on-termination</codeph></entry>
+							<entry>Whether the EBS volume is deleted on instance termination. </entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.device-name</codeph></entry>
+							<entry>Device name (for example, <codeph>/dev/sdh</codeph>) for an
+								EBS volume mapped to the image </entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-&#8203;mapping.status</codeph></entry>
+							<entry>Status of an EBS volume mapped to the instance. <p>Valid
+									values: <codeph>attaching</codeph> | <codeph>attached</codeph> |
+										<codeph>detaching</codeph> | <codeph>detached</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-&#8203;mapping.volume-id</codeph></entry>
+							<entry>ID of an EBS volume mapped to the instance.</entry>
+						</row>
+						<!-\-<row>
+							<entry><codeph>client-token</codeph></entry>
+							<entry>Idempotency token you provided when you launched the instance.
+							</entry>
+						</row>-\->
+						<row>
+							<entry><codeph>dns-name</codeph></entry>
+							<entry>Public DNS name of the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>group-id</codeph></entry>
+							<entry>The security group the instance is in.</entry>
+						</row>
+						<row>
+							<entry><codeph>hypervisor</codeph></entry>
+							<entry>Hypervisor type of the instance. <p>Valid values are
+										<codeph>ovm</codeph> | <codeph>xen</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>image-id</codeph></entry>
+							<entry>ID of the image used to launch the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>instance-id</codeph></entry>
+							<entry>ID of the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>instance-lifecycle</codeph></entry>
+							<entry>Whether this is a spot instance. Valid values: <codeph>true</codeph> | <codeph>false</codeph></entry>
+						</row>
+						<row>
+							<entry><codeph>instance-state-code</codeph></entry>
+							<entry>Code identifying the state of the instance. Valid values: Valid values: <codeph>0</codeph> (pending) | <codeph>16</codeph> (running) | <codeph>32</codeph> (shutting-down) | <codeph>48</codeph> (terminated) | <codeph>64</codeph> (stopping) | <codeph>80</codeph> (stopped)</entry>
+						</row>
+						<row>
+							<entry><codeph>instance-state-name</codeph></entry>
+							<entry>State of the instance. <p>Valid Values: <codeph>pending</codeph> |
+										<codeph>running</codeph> | <codeph>shutting-down</codeph> |
+										<codeph>terminated</codeph> | <codeph>stopping</codeph> |
+										<codeph>stopped</codeph></p></entry>
+						</row>
+						<row>
+							<entry><codeph>instance-type</codeph></entry>
+							<entry>Type of the instance (for example, m1.small)</entry>
+						</row>
+						<row>
+							<entry><codeph>ip-address</codeph></entry>
+							<entry>Public IP address of the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>kernel-id</codeph></entry>
+							<entry>Kernel ID.</entry>
+						</row>
+						<row>
+							<entry><codeph>key-name</codeph></entry>
+							<entry>Name of the key pair used when the instance was launched.
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>launch-index</codeph></entry>
+							<entry>When launching multiple instances at once, this is the index for the instance in the
+								launch group .</entry>
+						</row>
+						<row>
+							<entry><codeph>launch-time</codeph></entry>
+							<entry>Time the instance was launched.</entry>
+						</row>
+						<row>
+							<entry><codeph>monitoring-state</codeph></entry>
+							<entry>Whether monitoring is enabled for the instance .</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>network-interface.addresses.association.ip-owner-id</codeph></entry>
+							<entry>(VPC only) ID of the owner of the private IP
+								address associated with a network interface.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.addresses.association.public-ip</codeph></entry>
+							<entry>(VPC only) ID of the association of an elastic
+								IP address with a network interface.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.addresses.primary</codeph></entry>
+							<entry>(VPC only) Indicates whether the IP address of the VPC
+								network interface is the primary private IP
+								address.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.addresses.private-ip-address</codeph></entry>
+							<entry>(VPC only) Network interface's private IP
+								address.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.device-index</codeph></entry>
+							<entry>(VPC only) Device index to which a network
+								interface is attached.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.attach-time</codeph></entry>
+							<entry>(VPC only) Time a network interface was
+								attached to an instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.attachment-id</codeph></entry>
+							<entry> (VPC only) ID of a network interface's
+								attachment.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.delete-on-termination</codeph></entry>
+							<entry>(VPC only) Indicates whether a network interface
+								attachment is deleted when an instance is
+								terminated.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.instance-owner-id</codeph></entry>
+							<entry>(VPC only) ID of the instance to which a
+								network interface is attached.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.attachment.status</codeph></entry>
+							<entry>(VPC only) Network interface's attachment
+								status.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.availability-zone</codeph></entry>
+							<entry>(VPC only) Network interface's availability
+								zone.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.description</codeph></entry>
+							<entry> (VPC only) Description of a network interface.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.group-id</codeph></entry>
+							<entry>(VPC only) Network interface's security group
+								ID.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.group-name</codeph></entry>
+							<entry>(VPC only) Network interface's security group
+								name.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.mac-address</codeph></entry>
+							<entry>(VPC only) Network interface's hardware
+								address.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.network-interface.id</codeph></entry>
+							<entry>(VPC only) ID of a network interface.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.owner-id</codeph></entry>
+							<entry>(VPC only) ID of a network interface's owner.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.private-dns-name</codeph></entry>
+							<entry>(VPC only) Network interface's private DNS
+								name.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.requester-id</codeph></entry>
+							<entry>(VPC only) Network interface's requester ID.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.requester-managed</codeph></entry>
+							<entry>(VPC only) Indicates whether the network interface is
+								managed by the service.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.source-destination-check</codeph></entry>
+							<entry>(VPC only) Indicates whether source/destination checking
+								is enabled for a network interface.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.status</codeph></entry>
+							<entry>(VPC only) Network interface's status.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.subnet-id</codeph></entry>
+							<entry>(VPC only) ID of a network interface's subnet.</entry>
+						</row>
+						<row>
+							<entry><codeph>network-interface.vpc-id</codeph></entry>
+							<entry>(VPC only) ID of a network interface's VPC.</entry>
+						</row>
+						
+						
+						
+						<row>
+							<entry><codeph>owner-id</codeph></entry>
+							<entry>Account ID of the image owner.</entry>
+						</row>
+						<row>
+							<entry><codeph>placement-group-name</codeph></entry>
+							<entry>Name of the placement group that contains the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>platform</codeph></entry>
+							<entry>Use <codeph>windows</codeph> if you have Windows based AMIs,
+								otherwise leave blank. </entry>
+						</row>
+						<row>
+							<entry><codeph>private-dns-name</codeph></entry>
+							<entry>Private DNS name of the instance.</entry>
+						</row>
+						<row>
+							<entry><codeph>private-ip-address</codeph></entry>
+							<entry>Private IP address of the instance.</entry>
+						</row>
+						<!-\-<row>
+							<entry><codeph>product-code</codeph></entry>
+							<entry>Product code associated with the AMI</entry>
+						</row>-\->
+						<row>
+							<entry><codeph>ramdisk-id</codeph></entry>
+							<entry>The ramdisk ID.</entry>
+						</row>
+						<row>
+							<entry><codeph>reason</codeph></entry>
+							<entry>Reason for the instance's current state.</entry>
+						</row>
+						<!-\-<row>
+							<entry><codeph>requestor-id</codeph></entry>
+							<entry>ID of the entity that launched the instance on your behalf
+							</entry>
+						</row>-\->
+						<row>
+							<entry><codeph>reservation-id</codeph></entry>
+							<entry>ID of the instance's reservation.</entry>
+						</row>
+						<row>
+							<entry><codeph>root-device-name</codeph></entry>
+							<entry>Root device name of the EMI (for example, <codeph>/dev/sda1</codeph>).</entry>
+						</row>
+						<row>
+							<entry><codeph>root-device-type</codeph></entry>
+							<entry>Root device type the EMI uses. <p>Valid Values:
+										<codeph>ebs</codeph> | <codeph>instance-store</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>spot-instance-request-id</codeph></entry>
+							<entry>ID of the spot instance request.</entry>
+						</row>
+						<row>
+							<entry><codeph>state-reason-code</codeph></entry>
+							<entry>Reason code for the state change.</entry>
+						</row>
+						<row>
+							<entry><codeph>state-reason-message</codeph></entry>
+							<entry>Message for the state change.</entry>
+							</row>
+						<row>
+							<entry><codeph>subnet-id</codeph></entry>
+							<entry>ID of the subnet the instance is in (VPC).</entry>
+							</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-key">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-value">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag:key">
+							<entry/>
+						</row>
+						<row>
+							<entry><codeph>virtualization-type</codeph></entry>
+							<entry>Virtualization type of the instance. <p>Valid values:
+										<codeph>paravirtual</codeph> | <codeph>hvm</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>vpc-id</codeph></entry>
+							<entry>(VPC only) ID of the VPC containing the instance.</entry>
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>-->
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<!--<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("RESERVATION")</li>
+				<li>Reservation ID</li>
+				<li>Account ID</li>
+				<li>Security group name</li>
+				<li>Output type identifier ("INSTANCE")</li>
+				<li>Instance ID</li>
+				<li>EMI ID that the instance is based on</li>
+				<!-\-<li>Public DNS name associated with the instance. This is only present for instances in the running state.</li>
+				<li>Private DNS name associated with the instance. This is only present for instances in the running state.</li>-\->
+				<li>Instance state</li>
+				<li>Product codes attached to the instance</li>
+				<li>Instance type</li>
+				<li>Instance launch time</li>
+				<li>Availability Zone</li>
+				<li>Kernel ID</li>
+				<li>RAM disk ID</li>
+				<!-\-	<li>Monitoring state</li>-\->
+				<li>Public IP address</li>
+				<li>Private IP address</li>
+				<li>Type of root device (ebs or instance-store)</li>
+				<li>Placement group the cluster instance is in</li>
+				<li>Output type identifier ("BLOCKDEVICE") for each EBS volume the instance is
+					using</li>
+				<li>Block device name</li>
+				<li>Volume ID</li>
+				<li>Timestamp</li>
+			</ul>
+		</section>-->
+
+		<!--<section>
+			<title>Examples</title>
+			<p>The following example shows the request and output for a simple command.</p>
+			<codeblock>euca-describe-instances
+RESERVATION    r-1AE63E97    133764149866    admingroup
+INSTANCE    i-1BD543F0    emi-EBD5387D    192.168.10.187    10.1.0.107    running    adminkey    0        m1.small    2012-02-15T17:24:52Z    PARTI00    eki-6DF93987    eri-4CEF36C4</codeblock>
+		</section>-->
+
+	</refbody>
+</reference>
