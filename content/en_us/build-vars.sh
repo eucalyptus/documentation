@@ -36,7 +36,23 @@ echo "*** Adding project-specific version of ant to path ***"
 export PATH="$DITA_DIR"/tools/ant/bin:"$PATH"
 
 echo "*** Adding new CLASSPATH items ***"
-NEW_CLASSPATH="$DITA_DIR/lib/saxon/saxon9.jar:$DITA_DIR/lib/saxon/saxon9-dom.jar:$DITA_DIR/lib:$DITA_DIR/lib/dost.jar:$DITA_DIR/lib/commons-codec-1.4.jar:$DITA_DIR/lib/resolver.jar:$DITA_DIR/lib/icu4j.jar"
+# NEW_CLASSPATH="$DITA_DIR/lib/saxon/saxon9.jar:$DITA_DIR/lib/saxon/saxon9-dom.jar:$DITA_DIR/lib:$DITA_DIR/lib/dost.jar:$DITA_DIR/lib/commons-codec-1.4.jar:$DITA_DIR/lib/resolver.jar:$DITA_DIR/lib/icu4j.jar"
+
+NEW_CLASSPATH="$DITA_DIR/lib/dost.jar"
+NEW_CLASSPATH="$DITA_DIR/lib:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/commons-codec-1.4.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/resolver.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/icu4j.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/xercesImpl.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/xml-apis.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/saxon/saxon9.jar:$NEW_CLASSPATH"
+NEW_CLASSPATH="$DITA_DIR/lib/saxon/saxon9-dom.jar:$NEW_CLASSPATH"
+if test -n "$CLASSPATH"; then
+  export CLASSPATH="$NEW_CLASSPATH":"$CLASSPATH"
+else
+  export CLASSPATH="$NEW_CLASSPATH"
+fi
+
 
 #check to see if classpath already exists - if so, append our new values
 if test -n "$CLASSPATH"
