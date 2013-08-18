@@ -19,7 +19,7 @@
 					or on the host running the vSphere client.</cmd>
 			</step>
 			<step>
-				<cmd>For KVM and Xen, open the
+				<cmd>Open the
 					libvirt-[hypervisor]-windows-example.xml file you used in
 					the previous section and make the following edits:</cmd>
 				<info>
@@ -41,15 +41,15 @@
 						instances (via USE_VIRTIO_NET option on node
 						controllers), uncommenting the virtio interface in the
 						xml is mandatory</note>
-					<p>Your finished file should look similar to one of the
-						following examples.</p>
-					<p>For Xen:</p>
+					<p>Your finished file should look similar to the
+						following example:</p>
+					<!--<p>For Xen:</p>
 					<codeblock>&lt;domain type='xen'>
     &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
             &lt;type>hvm&lt;/type>
             &lt;loader>/usr/lib/xen/boot/hvmloader&lt;/loader>
-            &lt;!-- &lt;boot dev='cdrom'/> -->
+            &lt;!-\- &lt;boot dev='cdrom'/> -\->
     &lt;/os>
   &lt;features>
     &lt;acpi/>
@@ -95,7 +95,7 @@
         &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
     &lt;/devices>
 &lt;/domain></codeblock>
-					<p>For KVM:</p>
+					<p>For KVM:</p>-->
 					<codeblock>&lt;domain type="kvm">
 	  &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
@@ -146,7 +146,7 @@
 virsh create libvirt-hypervisor-windows.xml</codeblock>
 				</info>
 			</step>
-			<step>
+			<!--<step>
 				<cmd>There is an issue with Xen paravirtualization drivers on
 					some Windows versions. 64-bit Windows Server 2008, Windows
 					Server 2008R2, and Windows 7 have driver signing
@@ -169,7 +169,7 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 						<cmd>Reboot the VM.</cmd>
 					</substep>
 				</substeps>
-			</step>
+			</step>-->
 			<step>
 				<cmd>Start the VM with the newly modified libvirt xml
 					file:</cmd>
@@ -216,10 +216,10 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 				<cmd>Reboot the Windows VM</cmd>
 			</step>
 			<step>
-				<cmd>For KVM and Xen, open the Windows device manager and check
+				<cmd>Open the Windows device manager and check
 					that the following drivers are found for each device.</cmd>
 				<info>
-					<p>For KVM:</p>
+					<!--<p>For KVM:</p>-->
 					<ul>
 						<li>Floppy disk drive</li>
 						<li>Disk drivers: Red Hat VirtIO SCSI Disk Device</li>
@@ -228,14 +228,14 @@ bcdedit.exe -set TESTSIGNING ON</codeblock>
 						<li>Network adapters: Red Hat VirtIO Ethernet
 							Adapter</li>
 					</ul>
-					<p>For Xen:</p>
+					<!--<p>For Xen:</p>
 					<ul>
 						<li>Floppy disk drive</li>
 						<li>Disk drivers: XEN PV SCSI Disk Device</li>
 						<li>SCSI and RAID controllers: Xen Block Device
 							Driver</li>
 						<li>Network adapters: Xen Net Device Driver</li>
-					</ul>
+					</ul>-->
 				</info>
 				<stepresult>If the correct drivers are not found, question marks
 					display on the devices. To install the devices, do the
