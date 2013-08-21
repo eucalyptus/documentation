@@ -6,8 +6,9 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<note type="important">Before you begin, make sure that KVM is installed and properly functioning
-				for the account you are going to use.</note>
+			<note type="important">This example requires access to a physical machine. </note>
+			<note type="important">Before you begin, make sure that KVM is installed and properly
+				functioning for the account you are going to use.</note>
 			<p>To create a root filesystem to be used with Eucalyptus using KVM
 				and an ISO image of the guest OS you want to install:</p>
 		</context>
@@ -31,11 +32,11 @@
 					the ISO image and virtual disk that we used in the previous examples, type the
 					following command:</cmd>
 				<info>
-					<codeblock>/usr/libexec/qemu-kvm -cdrom CentOS-6.4-x86_64-LiveCD.iso -drive if=scsi,file=test.img,boot=off</codeblock>
-					<note type="note">You need to have a SCSI as a bus because
-						Eucalyptus expects the disk to be in
-							<filepath>/dev/sda</filepath>.</note>
+					<codeblock>/usr/libexec/qemu-kvm -m 2048 -smp 2 -cdrom CentOS-6.4-x86_64-LiveCD.iso -drive if=virtio,file=test.img,boot=off -boot once=d</codeblock>
 				</info>
+			</step>
+			<step>
+				<cmd>Connect to the instance using the VNC client of your choice.</cmd>
 			</step>
 			<step>
 				<cmd>Install the distro as you would normally would. Do not use
