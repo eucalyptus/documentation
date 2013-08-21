@@ -67,6 +67,17 @@
 							Installation Guide.</entry>
 					</row>
 					<row>
+						<entry>Eucalyptus cloud service JVM SIGSEGV in HA configuration (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7030"
+							>EUCA-7030</xref>)</entry>
+						<entry>In an HA configuration, the <codeph>eucalyptus-cloud</codeph> service exits with a
+							SIGSEGV fatal error after a fairly short period. When this occurs the current thread is
+							always "C2 CompilerThread0" and the method under compilation is
+							"java.sql.DriverManager::getDriver".  A workaround for this issue is to add "-Xint" to
+							CLOUD_OPTS in eucalyptus.conf to disable hotspot. However, please note that this workaround
+							might have some performance impact.</entry>
+					</row>
+					<row>
 						<entry>Requests to create volume fail on startup or
 							initial restart of components (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6479"
