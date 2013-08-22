@@ -102,6 +102,26 @@
 }</codeblock></entry>
 					</row>
 					<row>
+						<entry>When LDAP/AD integration is enabled, login profiles are not enabled (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-6760"
+							>EUCA-6760</xref>)</entry>
+						<entry>When LDAP/AD integration is enabled, <apiname>euare-userloginprofiles</apiname> are not
+							created. To make sure that users can log into the Administration Console, do the following:
+							
+							<ol>
+								<li>Create a login profile using a "dummy" password:
+							<codeblock>euare-useraddloginprofile --delegate account1 -u user03 -p test</codeblock>
+							</li>
+							<li>Check to see that the user's login profile has been created:
+							 <codeblock>euare-usergetloginprofile --delegate account1 -u user03
+user03</codeblock>
+							</li></ol>
+							<p>The user can now log into the Administration Console using their user ID and LDAP/AD password.</p>
+							
+							<note type="important">This only applies to the Administration Console. You do not need to
+								creat login profiles for the User Console.</note>_</entry>
+					</row>
+					<row>
 						<entry>LDAP: error code 4 - Sizelimit Exceeded when using LDAP/AD Integration (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6756"
 								>EUCA-6756</xref>)</entry>
