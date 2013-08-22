@@ -48,6 +48,36 @@
 							necessary files.</entry>
 					</row>
 					<row>
+						<entry>ELBs fail because of lack of internet connection due to NTP (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7305"
+							>EUCA-7305</xref>)</entry>
+						<entry>ELB's won't work properly when they don't have internet connectivity. As part of the
+							ELB image, we setup public NTP servers for time sync. In enterprise environments there is no guarantee that instances can reach the internet. </entry>
+					</row>
+					<row>
+						<entry>VMware Broker only reporting half of the cores per NC (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7205"
+							>EUCA-7205</xref>)</entry>
+						<entry>In vSphere 5.1 the number of reported cores is half of what is actually on the system.
+							This is not an issue in vSphere 5.0. The workaround is to set <codeph>maxCores</codeph> to
+							the desired number of cores in the configuration file. For information about how to set this
+							value, see <xref
+								href="http://www.eucalyptus.com/docs/eucalyptus/3.3/install-guide/configuring_vmware_support.html#configuring_vmware_advanced"
+								scope="external" format="html">Configure VMware Support</xref> in the Eucalyptus
+							Installation Guide.</entry>
+					</row>
+					<row>
+						<entry>Eucalyptus cloud service JVM SIGSEGV in HA configuration (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7030"
+							>EUCA-7030</xref>)</entry>
+						<entry>In an HA configuration, the <codeph>eucalyptus-cloud</codeph> service exits with a
+							SIGSEGV fatal error after a fairly short period. When this occurs the current thread is
+							always "C2 CompilerThread0" and the method under compilation is
+							"java.sql.DriverManager::getDriver".  A workaround for this issue is to add "-Xint" to
+							CLOUD_OPTS in eucalyptus.conf to disable hotspot. However, please note that this workaround
+							might have some performance impact.</entry>
+					</row>
+					<row>
 						<entry>Requests to create volume fail on startup or
 							initial restart of components (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6479"
@@ -69,27 +99,6 @@
 								href="https://engage.eucalyptus.com/customer/portal/articles/1175134-issues-moving-to-ha-clc-from-non-ha-setup"
 								>Eucalyptus Engage</xref>
 						</entry>
-					</row>
-					<row>
-						<entry>User should be able to set the limit for request
-							timeouts (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-6456"
-								>EUCA-6456</xref>)</entry>
-						<entry>The User Console may time out when displaying
-							resource pages. This occurs when a user has many
-							resources, such as volumes. </entry>
-					</row>
-					<row>
-						<entry>In multi-cluster configuration, migrations using
-								<codeph>--source</codeph> broken for all
-							clusters but first registered (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-6400"
-								>EUCA-6400</xref>)</entry>
-						<entry>In a multi-cluster cloud migrations using
-								<codeph>--source </codeph> are broken for all
-							clusters but the first one registered. Use
-								<codeph>--instance</codeph> to work around this
-							issue. </entry>
 					</row>
 					<row>
 						<entry>Modify service does not work always (<xref
@@ -198,6 +207,20 @@
 							in order to display public images.</entry>
 					</row>
 					<row>
+						<entry>Eucalyptus 3.3 now requires JVM version 7 (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-5807"
+							>EUCA-5807</xref>)</entry>
+						<entry>Eucalyptus 3.3 requires version 7 of the Java
+							Virtual Machine. Make sure that your CLOUD_OPTS
+							settings in the /etc/eucalyptus/eucalyptus.conf file
+							either do not set <codeph>--java-home</codeph>, or
+							that <codeph>--java-home</codeph> points to a
+							version 7 JVM. This needs to happen before services
+							are started but after the upgraded packages are
+							installed.</entry>
+					</row>
+					<row>
 						<entry>Instance running time instance types in report
 							not consistent with UI and CLI (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4847"
@@ -294,6 +317,17 @@
 							a 'complete' status.</entry>
 					</row>
 					<row>
+						<entry>Eucalyptus Console https redirect doesn't work
+							(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4104"
+								>EUCA-4104</xref>)</entry>
+						<entry>When SSL is enabled for the user console, http
+							requests do not automatically redirect to the proper
+							https address, which can result in a blank
+							page.</entry>
+					</row>
+					
+					<row>
 						<entry>[error:0290] message printed on upgrade (<xref
 								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-4027"
@@ -317,6 +351,18 @@
 								<codeph>iscsiadm</codeph> will fail, but the
 							issue is resolved during cleanup so subsequent
 							requests for that instance will work.</entry>
+					</row>
+					<row>
+						<entry>ERR-1009 "Mismatched cryptographical keys" gets
+							written too many times in cc-fault.log (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
+								>EUCA-3986</xref>)</entry>
+						<entry>Currently, CC may log this fault once for each
+							process in the pool. This is because the logic that
+							suppresses duplicate faults relies on process-local
+							memory rather than memory regions shared across CC
+							processes.</entry>
 					</row>
 					<row>
 						<entry><codeph>httpd-cc_error_log</codeph> Grows without
@@ -366,6 +412,14 @@
 							effect.</entry>
 					</row>
 					<row>
+						<entry>IP pages do not work properly for admin user in
+							Eucalyptus User Console (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3548"
+								>EUCA-3548</xref>)</entry>
+						<entry>All user IP addresses are shown, rather than just
+							the admin user's IP addresses.</entry>
+					</row>
+					<row>
 						<entry>ENABLED CC have two NAT rules about
 							169.254.169.254 (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-3440"
@@ -386,16 +440,6 @@
 							triggered.</entry>
 					</row>
 					<row>
-						<entry>Cloud controller listen ports should be
-							predictable (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3110"
-								>EUCA-3110</xref>)</entry>
-						<entry>It is possible to make configuration changes such
-							that CLC port usage is predictable. Detailed changes
-							are required in order to ensure this. Please contact
-							Eucalyptus support for details </entry>
-					</row>
-					<row>
 						<entry>euca-create-image from ebs backed instance fails,
 							returns 0 (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-1333"
@@ -403,14 +447,7 @@
 						<entry>euca-create-image is currently
 							unsupported.</entry>
 					</row>
-					<row>
-						<entry>IP pages do not work properly for admin user in
-							Eucalyptus User Console (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3548"
-								>EUCA-3548</xref>)</entry>
-						<entry>All user IP addresses are shown, rather than just
-							the admin user's IP addresses.</entry>
-					</row>
+					
 					<row>
 						<entry>Must use user-friendly names for
 								mulitpathing(<xref format="html"
@@ -422,47 +459,10 @@
 							option must be enabled in /etc/multipath.conf.
 						</entry>
 					</row>
-					<row>
-						<entry>ERR-1009 "Mismatched cryptographical keys" gets
-							written too many times in cc-fault.log (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
-								>EUCA-3986</xref>)</entry>
-						<entry>Currently, CC may log this fault once for each
-							process in the pool. This is because the logic that
-							suppresses duplicate faults relies on process-local
-							memory rather than memory regions shared across CC
-							processes.</entry>
-					</row>
-					<row>
-						<entry>Eucalyptus Console https redirect doesn't work
-								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-4104"
-								>EUCA-4104</xref>)</entry>
-						<entry>When SSL is enabled for the user console, http
-							requests do not automatically redirect to the proper
-							https address, which can result in a blank
-							page.</entry>
-					</row>
 
 					<row>
-						<entry>Eucalyptus 3.3 now requires JVM version 7 (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-5807"
-								>EUCA-5807</xref>)</entry>
-						<entry>Eucalyptus 3.3 requires version 7 of the Java
-							Virtual Machine. Make sure that your CLOUD_OPTS
-							settings in the /etc/eucalyptus/eucalyptus.conf file
-							either do not set <codeph>--java-home</codeph>, or
-							that <codeph>--java-home</codeph> points to a
-							version 7 JVM. This needs to happen before services
-							are started but after the upgraded packages are
-							installed.</entry>
-					</row>
-					<row>
-						<entry> Netapp SAN: admin will have to set chapuser
+						<entry>Netapp SAN: admin will have to set chapuser
 							explicitly after upgrade (<xref format="html"
->>>>>>> 4fc9fb3acbffc4cd3e03622c98b80f180118a164
 								href="https://eucalyptus.atlassian.net/browse/DOC-791"
 								>DOC-791</xref>)</entry>
 						<entry>If you are a subscriber and use NetApp as the
@@ -477,15 +477,7 @@
 							transition to ENABLED state until the CHAP username
 							is configured. </entry>
 					</row>
-					<row>
-						<entry> The admin console does not provide the correct error message when a
-							password has expired. (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-6543"
-								>EUCA-6543</xref>)</entry>
-						<entry>When attempting a login to the admin console with an expired
-							password, the error message does not provide the correct prescriptive
-							information advising the user reset their password. </entry>
-					</row>
+					
 				</tbody>
 			</tgroup>
 		</table>
