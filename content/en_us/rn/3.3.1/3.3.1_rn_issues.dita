@@ -55,6 +55,20 @@
 							ELB image, we setup public NTP servers for time sync. In enterprise environments there is no guarantee that instances can reach the internet. </entry>
 					</row>
 					<row>
+						<entry>Euca-bundle-instance does not restart instance with VMware (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7291"
+							>EUCA-7291</xref>)</entry>
+						<entry>Instances stay in the powered off state on the ESX hosts after the bundle task
+							completes. Eucalyptus reports the state as "running". There are two workarounds:
+						<ul>
+							<li>If the user has access to vSphere, the user can power on the VM through a vSphere client</li>
+							<li>If the user does not have access to vSphere, the user can terminate the instance through
+								Eucalyptus (to get it out of "running" state) and then start a new one using the newly available EMI.</li>
+						</ul>
+						</entry>
+					</row>
+					
+					<row>
 						<entry>VMware Broker only reporting half of the cores per NC (<xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/EUCA-7205"
 							>EUCA-7205</xref>)</entry>
