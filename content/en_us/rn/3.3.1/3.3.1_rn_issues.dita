@@ -334,6 +334,21 @@ user03</codeblock>
 							and restarted.</entry>
 					</row>
 					<row>
+						<entry>iptables-preload is not honored when CC are in HA mode and failover happens (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4253"
+								>EUCA-4253</xref>)</entry>
+						<entry>When Eucalyptus is in HA mode, the <filepath>iptables-preload</filepath> file is not reloaded on
+							failover. To load this file, do the following:
+						<ol>
+							  <li>Clean restart the active CC.</li>
+								<li>Verify that both CCs report the rules when they are going back online.</li>
+								<li>Disable the active CC and verify that the standby CC becomes active with the <filepath>iptables-preload</filepath> rules.</li>
+						</ol>
+						</entry>
+					</row>
+					
+					<row>
 						<entry>DBResourceCheck exceptions logged at
 								<codeph>ERROR</codeph> log level (<xref
 								format="html"
