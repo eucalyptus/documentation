@@ -78,6 +78,22 @@
 							might have some performance impact.</entry>
 					</row>
 					<row>
+						<entry>Cannot log in to User Console with either user or admin account (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6968"
+								>EUCA-6968</xref>)</entry>
+						<entry>To access the User Console in 3.3.1, users must have a policy that allows all
+							services. For example:
+							<codeblock>{
+    "Statement": [
+        {
+            "Action": "*",
+            "Effect": "Allow",
+            "Resource": "*"
+         }
+    ]
+ }</codeblock></entry>
+					</row>
+					<row>
 						<entry>Requests to create volume fail on startup or
 							initial restart of components (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6479"
@@ -326,7 +342,21 @@
 							https address, which can result in a blank
 							page.</entry>
 					</row>
-					
+					<row>
+						<entry>No client side reporting on exceeding maxtotalvolumesizeingb (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-4030"
+							>EUCA-4030</xref>)</entry>
+						<entry>If an EBS-backed instance is launched that is larger than the cloud property
+							<codeph>maxtotalvolumesizeingb</codeph>, then there is no error reported back to the client.
+							The instance is terminated. The workaround is to increase the following cloud properties:
+							<ul>
+							  <li><codeph>storage.maxtotalvolumesizeingb</codeph></li>
+								<li><codeph>storage.maxvolumesizeingb</codeph></li>
+							</ul>
+							
+							<p>Once these values are increased, the instances will launch.</p></entry>
+					</row>
 					<row>
 						<entry>[error:0290] message printed on upgrade (<xref
 								format="html"
