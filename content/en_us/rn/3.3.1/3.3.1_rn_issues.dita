@@ -55,6 +55,20 @@
 							ELB image, we setup public NTP servers for time sync. In enterprise environments there is no guarantee that instances can reach the internet. </entry>
 					</row>
 					<row>
+						<entry>Euca-bundle-instance does not restart instance with VMware (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-7291"
+							>EUCA-7291</xref>)</entry>
+						<entry>Instances stay in the powered off state on the ESX hosts after the bundle task
+							completes. Eucalyptus reports the state as "running". There are two workarounds:
+						<ul>
+							<li>If the user has access to vSphere, the user can power on the VM through a vSphere client</li>
+							<li>If the user does not have access to vSphere, the user can terminate the instance through
+								Eucalyptus (to get it out of "running" state) and then start a new one using the newly available EMI.</li>
+						</ul>
+						</entry>
+					</row>
+					
+					<row>
 						<entry>VMware Broker only reporting half of the cores per NC (<xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/EUCA-7205"
 							>EUCA-7205</xref>)</entry>
@@ -76,6 +90,66 @@
 							"java.sql.DriverManager::getDriver".  A workaround for this issue is to add "-Xint" to
 							CLOUD_OPTS in eucalyptus.conf to disable hotspot. However, please note that this workaround
 							might have some performance impact.</entry>
+					</row>
+					<row>
+						<entry>Cannot log in to User Console with either user or admin account (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6968"
+								>EUCA-6968</xref>)</entry>
+						<entry>To access the Eucalyptus User Console in 3.3.1, a user must have a policy that allows access to the
+							services supported by the console. For example:
+							<codeblock>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "autoscaling:Describe*",
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*",
+        "ec2:Describe*",
+        "elasticloadbalancing:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</codeblock></entry>
+					</row>
+					<row>
+						<entry>When LDAP/AD integration is enabled, login profiles are not enabled (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-6760"
+							>EUCA-6760</xref>)</entry>
+						<entry>When LDAP/AD integration is enabled, <apiname>euare-userloginprofiles</apiname> are not
+							created. To make sure that users can log into the Administration Console, do the following:
+							
+							<ol>
+								<li>Create a login profile using a "dummy" password:
+							<codeblock>euare-useraddloginprofile --delegate account1 -u user03 -p test</codeblock>
+							</li>
+							<li>Check to see that the user's login profile has been created:
+							 <codeblock>euare-usergetloginprofile --delegate account1 -u user03
+user03</codeblock>
+							</li></ol>
+							<p>The user can now log into the Administration Console using their user ID and LDAP/AD password.</p>
+							
+							<note type="important">This only applies to the Administration Console. You do not need to
+								creat login profiles for the User Console.</note>_</entry>
+					</row>
+					<row>
+						<entry>LDAP: error code 4 - Sizelimit Exceeded when using LDAP/AD Integration (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6756"
+								>EUCA-6756</xref>)</entry>
+						<entry>The LDAP/AD integration can't configure the number of items that the Directory search
+							cant return during the synchronization process. So, the synchronization process uses the
+							default. However, if a search responds with more entries than the client is configured to
+							accept, the error displays. The workaround is to use the filter sub-element under the
+							selection element for <xref
+								href="http://www.eucalyptus.com/docs/eucalyptus/3.3/admin-guide/accounting_groups.html#accounting_groups"
+								scope="external" format="html">accounting-groups</xref>, <xref
+									href="http://www.eucalyptus.com/docs/eucalyptus/3.3/admin-guide/groups.html#groups"
+									scope="external" format="html">groups</xref>, and <xref
+										href="http://www.eucalyptus.com/docs/eucalyptus/3.3/admin-guide/users.html#users"
+										scope="external" format="html">users</xref> configuration variables in the LIC file.</entry>
 					</row>
 					<row>
 						<entry>Requests to create volume fail on startup or
@@ -274,6 +348,21 @@
 							and restarted.</entry>
 					</row>
 					<row>
+						<entry>iptables-preload is not honored when CC are in HA mode and failover happens (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4253"
+								>EUCA-4253</xref>)</entry>
+						<entry>When Eucalyptus is in HA mode, the <filepath>iptables-preload</filepath> file is not reloaded on
+							failover. To load this file, do the following:
+						<ol>
+							  <li>Clean restart the active CC.</li>
+								<li>Verify that both CCs report the rules when they are going back online.</li>
+								<li>Disable the active CC and verify that the standby CC becomes active with the <filepath>iptables-preload</filepath> rules.</li>
+						</ol>
+						</entry>
+					</row>
+					
+					<row>
 						<entry>DBResourceCheck exceptions logged at
 								<codeph>ERROR</codeph> log level (<xref
 								format="html"
@@ -326,7 +415,21 @@
 							https address, which can result in a blank
 							page.</entry>
 					</row>
-					
+					<row>
+						<entry>No client side reporting on exceeding maxtotalvolumesizeingb (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-4030"
+							>EUCA-4030</xref>)</entry>
+						<entry>If an EBS-backed instance is launched that is larger than the cloud property
+							<codeph>maxtotalvolumesizeingb</codeph>, then there is no error reported back to the client.
+							The instance is terminated. The workaround is to increase the following cloud properties:
+							<ul>
+							  <li><codeph>storage.maxtotalvolumesizeingb</codeph></li>
+								<li><codeph>storage.maxvolumesizeingb</codeph></li>
+							</ul>
+							
+							<p>Once these values are increased, the instances will launch.</p></entry>
+					</row>
 					<row>
 						<entry>[error:0290] message printed on upgrade (<xref
 								format="html"
