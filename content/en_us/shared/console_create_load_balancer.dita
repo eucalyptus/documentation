@@ -3,18 +3,142 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="create_load_balancer_ui_help_context">
     <title>Create Load Balancer</title>
-    <shortdesc> Load balancer  blurb here.</shortdesc>
+    <shortdesc> This wizard allows you to create a new load balancer. A load balancer allows you to
+        automatically balance incoming traffic among a predefined group of instances, ensuring that
+        requests are sent to an instance that has the capacity to serve them. For more information
+        on load balancers, please see <i>Using Elastic Load Balancing</i> in the <i>Eucalyptus User
+            Guide</i>.</shortdesc>
     <taskbody/>
-    <task id="create_load_balancer_ui_help_steps">
-        <title/>
-        <shortdesc/>
+    <task id="create_load_balancer_ui_help_steps_general">
+        <title>General</title>
+        <shortdesc>This section is where you specify the basic configuration of your new load
+            balancer.</shortdesc>
         <taskbody>
             <steps>
                 <step>
-                    <cmd>Placeholder</cmd>
+                    <cmd>Type the name of your load balancer in the <uicontrol>Name</uicontrol> text
+                        box.</cmd>
                 </step>
                 <step>
-                    <cmd>Placeholder</cmd>
+                    <cmd>A listener is the definition of ports (client-side and instance-side) and
+                        protocols that the load balancer uses to monitor and route incoming traffic
+                        to the load balancer's registered instances. To define one or more listeners
+                        for your load balancer:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Type the number for the client-side port into the
+                                    <uicontrol>CLIENT-SIDE PORT</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the protocol for this listener from the <uicontrol>PROTOCOL
+                                    (CLIENT-SIDE to INSTANCE-SIDE</uicontrol>) drop-down list
+                                box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Type the number for the client-side port into the
+                                    <uicontrol>INSTANCE-SIDE PORT</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>You can add another listener by click on the plus icon next to the
+                                    <uicontrol>INSTANCE-SIDE PORT</uicontrol> text box.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>When you are done with the <uicontrol>General</uicontrol> section, click
+                        the <uicontrol>Next: Define membership button</uicontrol> to continue.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="create_load_balancer_ui_help_steps_membership">
+        <title>Membership</title>
+        <shortdesc>This section allows you to add running instances to your new load
+            balancer.</shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Select the name of the load balancer to which you want to add instances
+                        from the <uicontrol>Load balancer name</uicontrol> drop-down list.</cmd>
+                </step>
+                <step>
+                    <note>You can select one or more filters by pressing the enter key or clicking
+                        on the search bar and selecting an available filter from the drop down list.
+                        Selecting some filters will expose a menu with a list of valid filter values
+                        that you can select by pressing the enter key or clicking the value.</note>
+                    <cmd>Select the check box next to the instances that you want to add from the
+                        list of running instances. </cmd>
+
+                </step>
+                <step>
+                    <cmd> You can optionally control traffic for one or more scaling groups by
+                        selecting a scaling group from the <uicontrol>Also use this load balancer to
+                            control traffic for these scaling groups</uicontrol> drop-down list box,
+                        using the plus icon to add more than one scaling group. </cmd>
+                </step>
+                <step>
+                    <cmd>Click the <uicontrol>Next: Configure health check</uicontrol> button to
+                        continue.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="create_load_balancer_ui_help_steps_healthcheck">
+        <title>Membership</title>
+        <shortdesc>This section allows you to define a health check for your load balancer
+            instances. The health check includes a port, protocol, and URL path to query to ensure
+            that an instance is running and healthy.</shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Define the ping settings for the health check:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select the protocol from the <uicontrol>Protocol</uicontrol>
+                                drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Type the port number to use for the health check ping in the
+                                    <uicontrol>Port number</uicontrol> text box.</cmd>
+
+                        </substep>
+                        <substep>
+                            <cmd> Define the path that the health check query should ping by typing
+                                it into the <uicontrol>Path</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Specify the number of seconds before the health check query times
+                                out by typing a number into the <uicontrol>Response timeout
+                                    (seconds)</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Specify the number of minutes before the health check pings by
+                                typing a number into the <uicontrol>Time betwen pings
+                                    (min)</uicontrol> text box.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>Define the instance thresholds for the health check. </cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Specify the number of failed ping attempts until an instance is
+                                considered unhealthy by selecting a number from the
+                                    <uicontrol>Failures until unhealthy</uicontrol> drop-down list
+                                box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Specify the number of successful ping attempts until an instance
+                                that was previously marked as unhealthy is considered healthy again
+                                by selecting a number from the <uicontrol>Passes until
+                                    unhealthy</uicontrol> drop-down list box.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>Once you've reviewed and are satisfied with your load balancer
+                        configuration, click the <uicontrol>Create load balancer</uicontrol> button
+                        to create your new load balancer.</cmd>
                 </step>
             </steps>
         </taskbody>
