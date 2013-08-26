@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Running DITA-OT from command-line tool"/>
+<meta name="abstract" content="The DITA Open Toolkit provides a command-line tool as an alternative for users with little knowledge of Ant. Most parameters available to the Ant builds are also available using the command-line tool."/>
+<meta name="description" content="The DITA Open Toolkit provides a command-line tool as an alternative for users with little knowledge of Ant. Most parameters available to the Ant builds are also available using the command-line tool."/>
+<meta name="DC.Relation" scheme="URI" content="../readme/DITA-readme.html"/>
+<meta name="DC.Relation" scheme="URI" content="../readme/dita-ot_java_properties.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="usingparameterbuildingtool"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Running DITA-OT from command-line tool</title>
+</head>
+<body id="usingparameterbuildingtool">
+
+
+<h1 class="title topictitle1">Running DITA-OT from command-line tool</h1>
+
+
+<div class="body conbody"><p class="shortdesc">The DITA Open Toolkit provides a command-line tool as an alternative for users with
+    little knowledge of Ant. Most parameters available to the Ant builds are also available using
+    the command-line tool.</p>
+
+<div class="note important"><span class="importanttitle">Important:</span> The command-line tool interface is simply a wrapper around the Ant interface;
+      it takes the simplified parameters as input, converts them to Ant parameters, and then runs an
+      Ant build. This means that applications embedding the toolkit should always invoke Ant
+      directly. For individual builds, the additional Java overhead is minimal, but for repeated or
+      server based builds, it the extra memory usage will become more of an issue.</div>
+
+<div class="section"><h2 class="title sectiontitle">Running command-line tool</h2>       <p class="p">If you
+are using the "Full Easy Install" package, running the startcmd batch
+file will set up a build environment for you and put you in the correct
+directory. If you are not using this method, you must set up all of
+your tools (Ant, XSLT, FOP, etc) before running the build.</p>
+<ol class="ol">
+<li class="li">Change into the DITA Open Toolkit installation directory.</li>
+
+<li class="li">On the command-line, enter the following command:
+          <pre class="pre codeblock">java -jar lib/dost.jar /i:samples/sequence.ditamap /outdir:out /transtype:xhtml</pre>
+</li>
+
+</ol>
+<p class="p">This particular example calls Ant to build the sample <span class="ph filepath">sequence.ditamap</span> file
+        to XHTML. The output is placed in the <span class="ph filepath">out/</span> directory.</p>
+<div class="p">Note:         <ol class="ol">
+<li class="li">In this example, the character slash preceded by a space is the
+separator for each parameter.</li>
+
+<li class="li">Currently, the parameters <samp class="ph codeph">/filter</samp>, <samp class="ph codeph">/ftr</samp>,
+             <samp class="ph codeph">/hdr</samp>, and <samp class="ph codeph">/hdf</samp> require
+an absolute path.</li>
+
+<li class="li">The properties file is saved in the <samp class="ph codeph">${args.logdir}</samp> directory. The following
+            command provides an example using this properties file:
+            <pre class="pre codeblock">ant -propertyfile ${args.logdir}/property.temp</pre>
+
+          </li>
+
+<li class="li">To see a list of all supported parameters from the command-line tool, run the following command
+            with no additional parameters:<pre class="pre codeblock">java -jar lib/dost.jar</pre>
+</li>
+
+</ol>
+</div>
+     </div>
+
+<div class="section"><h2 class="title sectiontitle">Supported parameters</h2>       
+  <p class="p">See <a class="xref" href="dita-ot_java_properties.html" title="Reference list of DITA-specific command line tool arguments.">Command-line tool arguments for DITA-OT</a> for supported command-line tool arguments. To
+        get a full list of arguments, run</p>
+
+  <pre class="pre codeblock">java -jar lib/dost.jar -help</pre>
+
+</div>
+
+<div class="section"><h2 class="title sectiontitle">Command-line help</h2>              <div class="p"> You can find the version of toolkit and the usage of the command-line from the command
+        line help by using the following commands:
+        <pre class="pre codeblock">java -jar lib/dost.jar <strong class="ph b">-version</strong>
+java -jar lib/dost.jar <strong class="ph b">-h</strong>        </pre>
+</div>
+       <p class="p">You can see the brief description of the supported parameters in the command-line window
+        when you type a specified command.</p>
+     </div>
+
+</div>
+
+<div class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="../readme/dita-ot_java_properties.html">Command-line tool arguments for DITA-OT</a></strong><br/>
+Reference list of DITA-specific command line tool arguments.</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/DITA-readme.html" title="The DITA Open Toolkit is an implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, such as XHTML, PDF, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit User Guide</a></div>
+</div>
+</div>
+
+</body>
+</html>

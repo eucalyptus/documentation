@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="concept"/>
+<meta name="DC.Title" content="Running Ant"/>
+<meta name="abstract" content="After setting up the Ant environment, you can build the DITA output by running the ant command."/>
+<meta name="description" content="After setting up the Ant environment, you can build the DITA output by running the ant command."/>
+<meta name="DC.Relation" scheme="URI" content="../readme/DITA-ant.html"/>
+<meta name="DC.Relation" scheme="URI" content="DITA-antscript.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="runant"/>
+<meta name="DC.Language" content="en"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Running Ant</title>
+</head>
+<body id="runant">
+
+
+  <h1 class="title topictitle1">Running Ant</h1>
+
+  
+  <div class="body conbody"><p class="shortdesc">After setting up the Ant environment, you can build the DITA output by running the
+      <samp class="ph codeph">ant</samp> command. </p>
+
+    <p class="p">Here are some samples to explain how to use Ant to build sample output in the DITA
+    directory. </p>
+<div class="note note"><span class="notetitle">Note:</span> To run the Ant demo properly, you should switch to the <strong class="ph b">DITA-OT installation
+      directory</strong> under the command prompt. If you are using the "Full Easy Install" package,
+      running the <span class="ph filepath">startcmd.bat</span> batch file in that directory will give you a
+      prompt that is already set up for the following commands.</div>
+
+    <div class="example">
+      <p class="p">To build XHTML output for the sample DITA map
+          <span class="ph filepath">samples/hierarchy.ditamap</span>, run the command: </p>
+
+      <pre class="pre codeblock">ant -Dargs.input=samples/hierarchy.ditamap -Doutput.dir=out/samples/web -Dtranstype=xhtml </pre>
+
+      <p class="p">This will generate the output into <span class="ph filepath">out/samples/web</span> directory. The
+        samples directory also contains dedicated Ant build files for various transformation types
+        and the same output can be generated with the <span class="ph filepath">sample_xhtml.xml</span>: </p>
+
+      <pre class="pre codeblock">ant -f samples/ant_sample/sample_xhtml.xml</pre>
+
+      <p class="p">You can build all samples in the DITA directory:</p>
+
+      <pre class="pre codeblock">ant -f build_demo.xml all</pre>
+
+      <p class="p">The building process will create an <span class="ph filepath">/out/</span> directory and put the output
+        files in subdirectories that parallel the source directory. </p>
+
+      <div class="note note"><span class="notetitle">Note:</span> To find out the complete list of targets you can clean and build, check the
+          <samp class="ph codeph">name</samp> attributes for the target elements within the
+          <span class="ph filepath">build_demo.xml</span> file. Or, input <samp class="ph codeph">ant -f build_demo.xml
+          -projecthelp</samp> for a full list information.</div>
+
+    </div>
+
+        <div class="example">You can also build your own selections using a prompted build.
+            <pre class="pre codeblock">ant -f build_demo.xml</pre>
+<p class="p">Ant will prompt you for the input file,
+            output directory, and transform type. Values on these parameters are case
+          sensitive.</p>
+</div>
+
+    <div class="section"><div class="note note"><span class="notetitle">Note:</span> To troubleshoot problems in setting up Java, Ant, Saxon,
+        or FOP, you will get better information from the communities for those components rather
+        than the communities for the DITA. Of course, if you find issues relevant to the DITA XSLT
+        scripts (or have ideas for improving them), you are encouraged to engage the DITA
+        community.</div>
+
+    </div>
+
+  </div>
+
+  <div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/DITA-ant.html" title="Ant is an open tool that the DITA Open Toolkit uses to manage builds.">Running DITA-OT from Ant</a></div>
+</div>
+<div class="relinfo relref"><strong>Related reference</strong><br/>
+<div><a class="link" href="DITA-antscript.html" title="This topic describes detailed Ant tasks and scripts.">Writing reusable Ant builds</a></div>
+</div>
+</div>
+
+</body>
+</html>

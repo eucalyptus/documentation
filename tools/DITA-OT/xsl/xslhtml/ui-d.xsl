@@ -9,58 +9,25 @@
 
 <!-- Screen -->
 <xsl:template match="*[contains(@class,' ui-d/screen ')]" name="topic.ui-d.screen">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> <!-- revision? -->
-     <xsl:call-template name="find-active-rev-flag">               <!-- active? (revtest will be 1 when active)-->
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="screen-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
      <xsl:apply-templates select="."  mode="screen-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
 </xsl:template>
 <xsl:template match="*[contains(@class,' ui-d/screen ')]" mode="screen-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-    
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="spec-title-nospace"/>
-<pre class="screen">
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setscale"/>
-  <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates/>
-</pre>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:value-of select="$newline"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="spec-title-nospace"/>
+  <pre class="screen">
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setscale"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates/>
+  </pre>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- ui-domain.ent domain: uicontrol | wintitle | menucascade | shortcut -->
 
 <xsl:template match="*[contains(@class,' ui-d/uicontrol ')]" name="topic.ui-d.uicontrol">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
 <!-- insert an arrow with leading/trailing spaces before all but the first uicontrol in a menucascade -->
 <xsl:if test="ancestor::*[contains(@class,' ui-d/menucascade ')]">
  <xsl:variable name="uicontrolcount"><xsl:number count="*[contains(@class,' ui-d/uicontrol ')]"/></xsl:variable>
@@ -71,55 +38,34 @@
  <span class="uicontrol">
   <xsl:call-template name="commonattributes"/>
   <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="flagcheck"/>
-   <xsl:call-template name="revtext">
-     <xsl:with-param name="flagrules" select="$flagrules"/>
-   </xsl:call-template>
-  </span>
+  <xsl:apply-templates/>
+ </span>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' ui-d/wintitle ')]" name="topic.ui-d.wintitle">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
  <span class="wintitle">
   <xsl:call-template name="commonattributes"/>
   <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="flagcheck"/>
-   <xsl:call-template name="revtext">
-     <xsl:with-param name="flagrules" select="$flagrules"/>
-   </xsl:call-template>
-  </span>
+  <xsl:apply-templates/>
+ </span>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' ui-d/menucascade ')]" name="topic.ui-d.menucascade">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
  <span class="menucascade">
   <xsl:call-template name="commonattributes"/>
   <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="flagcheck"/>
-   <xsl:call-template name="revtext">
-     <xsl:with-param name="flagrules" select="$flagrules"/>
-   </xsl:call-template>
-  </span>
+  <xsl:apply-templates/>
+ </span>
 </xsl:template>
 <!-- Ignore text inside menucascade -->
 <xsl:template match="*[contains(@class,' ui-d/menucascade ')]/text()"/>
 
 <xsl:template match="*[contains(@class,' ui-d/shortcut ')]" name="topic.ui-d.shortcut">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
  <span class="shortcut">
   <xsl:call-template name="commonattributes"/>
   <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="flagcheck"/>
-   <xsl:call-template name="revtext">
-     <xsl:with-param name="flagrules" select="$flagrules"/>
-   </xsl:call-template>
-  </span>
+  <xsl:apply-templates/>
+ </span>
 </xsl:template>
 
 </xsl:stylesheet>

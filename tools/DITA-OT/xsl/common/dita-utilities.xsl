@@ -251,6 +251,7 @@
 <!-- Return the portion of an HREF value up to the file's extension. This assumes
      that the file has an extension, and that the topic and/or element ID does not
      contain a period. Written to allow references such as com.example.dita.files/file.dita#topic -->
+<!-- Deprecated: use replace-extension instead -->
 <xsl:template match="*" mode="parseHrefUptoExtension">
   <xsl:param name="href" select="@href"/>
   <xsl:variable name="uptoDot"><xsl:value-of select="substring-before($href,'.')"/></xsl:variable>
@@ -304,6 +305,34 @@
     </xsl:choose>
   </xsl:template>
   
+  <!-- Replace file extension in a URI -->
+  <xsl:template name="replace-extension">
+    <xsl:param name="filename"/>
+    <xsl:param name="extension"/>
+    <xsl:param name="ignore-fragment" select="false()"/>
+    <xsl:variable name="f">
+      <xsl:call-template name="substring-before-last">
+        <xsl:with-param name="text">
+          <xsl:choose>
+            <xsl:when test="contains($filename, '#')">
+              <xsl:value-of select="substring-before($filename, '#')"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$filename"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="delim" select="'.'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:if test="string($f)">
+      <xsl:value-of select="concat($f, $extension)"/>  
+    </xsl:if>
+    <xsl:if test="not($ignore-fragment) and contains($filename, '#')">
+      <xsl:value-of select="concat('#', substring-after($filename, '#'))"/>
+    </xsl:if>
+  </xsl:template>
+  
   <xsl:template name="substring-before-last">
     <xsl:param name="text"/>
     <xsl:param name="delim"/>
@@ -321,4 +350,34 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="processing-instruction('workdir-uri')" mode="get-work-dir">
+    <xsl:value-of select="."/>
+  </xsl:template>
+
+  <xsl:template match="processing-instruction('path2project')" mode="get-path2project">
+    <xsl:call-template name="get-path2project">
+      <xsl:with-param name="s" select="."/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="get-path2project">
+    <!-- Deal with being handed a Windows backslashed path by accident. -->
+    <!-- This code only changes \ to / and doesn't handle the many other situations
+         where a URI differs from a file path.  Hopefully they don't occur in path2proj anyway. -->
+    <xsl:param name="s"/>
+    <xsl:choose>
+      <xsl:when test="contains($s, '\')">
+        <xsl:value-of select="substring-before($s, '\')"/>
+        <xsl:text>/</xsl:text>
+        <xsl:call-template name="get-path2project">
+          <xsl:with-param name="s" select="substring-after($s, '\')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$s"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
+

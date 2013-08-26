@@ -3,17 +3,6 @@
      Sourceforge.net. See the accompanying license.txt file for 
      applicable licenses.-->
 <!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. -->
-
-<!DOCTYPE xsl:stylesheet [
-
-  <!ENTITY gt            "&gt;">
-  <!ENTITY lt            "&lt;">
-  <!ENTITY rbl           " ">
-  <!ENTITY nbsp          "&#xA0;">    <!-- &#160; -->
-  <!ENTITY quot          "&#34;">
-  <!ENTITY copyr         "&#169;">
-]>
-
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
@@ -27,10 +16,10 @@
 
 
 <!-- =========== OTHER STYLESHEET INCLUDES/IMPORTS =========== -->
-<xsl:import href="../common/output-message.xsl"/>
-<xsl:import href="../common/dita-utilities.xsl"/>
-<xsl:import href="../common/related-links.xsl"/>
-<xsl:import href="../common/dita-textonly.xsl"/>
+<xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
+<xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
+<xsl:import href="plugin:org.dita.base:xsl/common/related-links.xsl"/>
+<xsl:import href="plugin:org.dita.base:xsl/common/dita-textonly.xsl"/>
 <xsl:import href="flag-old.xsl"/>
 <xsl:include href="get-meta.xsl"/>
 <xsl:include href="rel-links.xsl"/>
@@ -83,7 +72,7 @@
 <xsl:param name="INDEXSHOW" select="'no'"/><!-- "no" and "yes" are valid values; non-'yes' is ignored -->
 
 <!-- for now, disable breadcrumbs pending link group descision -->
-<xsl:param name="BREADCRUMBS" select="'yes'"/> <!-- "no" and "yes" are valid values; non-'yes' is ignored -->
+<xsl:param name="BREADCRUMBS" select="'no'"/> <!-- "no" and "yes" are valid values; non-'yes' is ignored -->
 
 <!-- the year for the copyright -->
 <xsl:param name="YEAR" select="'2005'"/>
@@ -95,23 +84,21 @@
      Needed as a directory prefix for the @conref "document()" function calls.
      default is '../doc/')-->
   <xsl:param name="WORKDIR">
-    <xsl:apply-templates select="/processing-instruction()" mode="get-work-dir"/>
+    <xsl:apply-templates select="/processing-instruction('workdir-uri')[1]" mode="get-work-dir"/>
   </xsl:param>
 
 <!-- the path back to the project. Used for c.gif, delta.gif, css to allow user's to have
      these files in 1 location. -->
     <xsl:param name="PATH2PROJ">
-        <xsl:apply-templates select="/processing-instruction('path2project')" mode="get-path2project"/>
+        <xsl:apply-templates select="/processing-instruction('path2project')[1]" mode="get-path2project"/>
     </xsl:param>
   
 <!-- the file name (file name and extension only - no path) of the document being transformed.
      Needed to help with debugging.
      default is 'myfile.xml')-->
-<!-- added by William on 2009-06-24 for flag support start -->
 <xsl:param name="FILENAME"/>
 <xsl:param name="FILEDIR"/>
-<xsl:param name="CURRENTFILE" select="concat($FILEDIR, '/', substring-before($FILENAME, '.'), $DITAEXT)"/>
-<!-- added by William on 2009-06-24 for flag support end --> 
+<xsl:param name="CURRENTFILE" select="concat($FILEDIR, '/', $FILENAME)"/>
 
 <!-- the file name containing filter/flagging/revision information
      (file name and extension only - no path).  - testfile: revflag.dita -->
@@ -132,7 +119,6 @@
 <xsl:param name="KEYREF-FILE" select="concat($WORKDIR,$PATH2PROJ,'keydef.xml')"/>
 <xsl:variable name="keydefs" select="document($KEYREF-FILE)"/>
   
-<!-- added by William on 2009-09-03 for keyref bug:2849078 start-->
 <xsl:param name="BASEDIR"/>
   
 <xsl:param name="OUTPUTDIR"/>
@@ -161,7 +147,6 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-<!-- added by William on 2009-09-03 for keyref bug:2849078 end-->
 
 <!-- =========== "GLOBAL" DECLARATIONS (see 35) =========== -->
 
@@ -310,13 +295,12 @@
           <xsl:otherwise><xsl:value-of select="count(ancestor::*[contains(@class,' topic/topic ')])"/></xsl:otherwise>
       </xsl:choose>
   </xsl:param>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
  <xsl:choose>
    <xsl:when test="parent::dita and not(preceding-sibling::*)">
      <!-- Do not reset xml:lang if it is already set on <html> -->
      <!-- Moved outputclass to the body tag -->
+     <!-- Keep ditaval based styling at this point (replace DITA-OT 1.6 and earlier call to gen-style) -->
+     <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
    </xsl:when>
    <xsl:otherwise>
      <xsl:call-template name="commonattributes">
@@ -325,11 +309,8 @@
    </xsl:otherwise>
  </xsl:choose>
  <xsl:call-template name="gen-toc-id"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
   <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates select="." mode="outputContentsWithFlags"/>
+  <xsl:apply-templates/>
 </xsl:template>
 
 
@@ -361,21 +342,10 @@
 <!-- =========== BODY/SECTION (not sensitive to nesting depth) =========== -->
 
 <xsl:template match="*[contains(@class,' topic/body ')]" name="topic.body">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
 <div>
   <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
   <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
   <!-- here, you can generate a toc based on what's a child of body -->
   <!--xsl:call-template name="gen-sect-ptoc"/--><!-- Works; not always wanted, though; could add a param to enable it.-->
 
@@ -396,12 +366,7 @@
   <xsl:apply-templates select="following-sibling::*[contains(@class,' topic/related-links ')]" mode="prereqs"/>
 
   <xsl:apply-templates/>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </div><xsl:value-of select="$newline"/>
 </xsl:template>
 
@@ -418,7 +383,7 @@
 <xsl:template match="*[contains(@class,' topic/abstract ')]" mode="outofline">
   <div>
     <xsl:call-template name="commonattributes"/>
-    <xsl:apply-templates select="." mode="outputContentsWithFlagsAndStyle"/>
+    <xsl:apply-templates/>
   </div><xsl:value-of select="$newline"/>
 </xsl:template>
 
@@ -448,7 +413,7 @@
                                          contains(@class,' topic/table ') or contains(@class,' topic/ul ')]">
       <div>
         <xsl:call-template name="commonattributes"/>
-        <xsl:apply-templates select="." mode="outputContentsWithFlagsAndStyle"/>
+        <xsl:apply-templates/>
       </div>
     </xsl:when>
     <xsl:when test="following-sibling::*[contains(@class,' topic/p ') or contains(@class,' topic/dl ') or
@@ -459,7 +424,7 @@
                                          contains(@class,' topic/table ') or contains(@class,' topic/ul ')]">
       <div>
         <xsl:call-template name="commonattributes"/>
-        <xsl:apply-templates select="." mode="outputContentsWithFlagsAndStyle"/>
+        <xsl:apply-templates/>
       </div>
     </xsl:when>
     <xsl:otherwise>
@@ -468,7 +433,7 @@
       </xsl:if>
       <span>
         <xsl:call-template name="commonattributes"/>
-        <xsl:apply-templates select="." mode="outputContentsWithFlagsAndStyle"/>
+        <xsl:apply-templates/>
       </span>
     </xsl:otherwise>
   </xsl:choose>
@@ -479,108 +444,45 @@
 <xsl:template match="*[contains(@class,' topic/shortdesc ')]" mode="outofline">
   <p>
     <xsl:call-template name="commonattributes"/>
-    <xsl:apply-templates select="." mode="outputContentsWithFlagsAndStyle"/>
+    <xsl:apply-templates/>
   </p><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- section processor - div with no generated title -->
 <xsl:template match="*[contains(@class,' topic/section ')]" name="topic.section">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  
-<div class="section">
- <xsl:call-template name="commonattributes"/>
- <xsl:call-template name="gen-style">
-   <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
- </xsl:call-template>
- <xsl:call-template name="gen-toc-id"/>
- <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-    <div class="{@rev}"><xsl:apply-templates select="."  mode="section-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
+  <div class="section">
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="gen-toc-id"/>
+    <xsl:call-template name="setidaname"/>
     <xsl:apply-templates select="."  mode="section-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-</div><xsl:value-of select="$newline"/>
+  </div><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/section ')]" mode="section-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>
-  <xsl:call-template name="sect-heading"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="." mode="dita2html:section-heading"/>
   <xsl:apply-templates select="*[not(contains(@class,' topic/title '))] | text() | comment() | processing-instruction()"/>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 <!-- example processor - div with no generated title -->
 <xsl:template match="*[contains(@class,' topic/example ')]" name="topic.example">
-<div class="example">
- <xsl:call-template name="commonattributes"/>
- <xsl:call-template name="gen-toc-id"/>
- <xsl:call-template name="setidaname"/>
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-    <div class="{@rev}"><xsl:apply-templates select="."  mode="example-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
+  <div class="example">
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="gen-toc-id"/>
+    <xsl:call-template name="setidaname"/>
     <xsl:apply-templates select="."  mode="example-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
-</div><xsl:value-of select="$newline"/>
+  </div><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/example ')]" mode="example-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>
-  <xsl:call-template name="sect-heading"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="." mode="dita2html:section-heading"/>
   <xsl:apply-templates select="*[not(contains(@class,' topic/title '))] | text() | comment() | processing-instruction()"/>	
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>  
-  </xsl:call-template>		
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
-
 
 <!-- ===================================================================== -->
 
@@ -588,9 +490,6 @@
 
 <!-- paragraphs -->
 <xsl:template match="*[contains(@class,' topic/p ')]" name="topic.p">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
  <!-- To ensure XHTML validity, need to determine whether the DITA kids are block elements.
       If so, use div_class="p" instead of p -->
  <xsl:choose>
@@ -606,38 +505,16 @@
        descendant::*[contains(@class,' topic/table ')] or
        descendant::*[contains(@class,' topic/simpletable ')]">
      <div class="p">
-     <xsl:call-template name="commonattributes"/>
-       <xsl:call-template name="gen-style">
-         <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-       </xsl:call-template>
-       <xsl:call-template name="setidaname"/>
-       <xsl:call-template name="start-flagit">
-         <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-       </xsl:call-template>
-       <xsl:call-template name="revblock">
-         <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-       </xsl:call-template>
-       <xsl:call-template name="end-flagit">
-         <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-       </xsl:call-template>
+       <xsl:call-template name="commonattributes"/>
+       <xsl:call-template name="setid"/>
+       <xsl:apply-templates/>
      </div>
      </xsl:when>
   <xsl:otherwise>
   <p>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="revblock">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <xsl:call-template name="setid"/>
+    <xsl:apply-templates/>
   </p>
   </xsl:otherwise>
  </xsl:choose><xsl:value-of select="$newline"/>
@@ -706,20 +583,13 @@
                           substring($type, 2))"/>
       </xsl:call-template>
   </xsl:param>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <div class="{$type}">
     <xsl:call-template name="commonattributes">
       <xsl:with-param name="default-output-class" select="$type"/>
     </xsl:call-template>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
+    <!-- Normal flags go before the generated title; revision flags only go on the content. -->
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/prop" mode="ditaval-outputflag"/>
     <span class="{$type}title">
       <xsl:value-of select="$title"/>
       <xsl:call-template name="getString">
@@ -727,12 +597,10 @@
       </xsl:call-template>
     </span>
     <xsl:text> </xsl:text>
-    <xsl:call-template name="revblock">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/revprop" mode="ditaval-outputflag"/>
+    <xsl:apply-templates/>
+    <!-- Normal end flags and revision end flags both go out after the content. -->
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </div>
 </xsl:template>
 
@@ -791,16 +659,12 @@
 <!-- Caution and Danger both use a div for the title, so they do not
      use the common note processing template. -->
 <xsl:template match="*" mode="process.note.caution">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <div class="cautiontitle">
     <xsl:call-template name="commonattributes"/>
     <xsl:attribute name="class">cautiontitle</xsl:attribute>
-    <xsl:call-template name="setidaname"/>    
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
+    <xsl:call-template name="setidaname"/>
+    <!-- Normal flags go before the generated title; revision flags only go on the content. -->
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/prop" mode="ditaval-outputflag"/>
     <xsl:call-template name="getString">
       <xsl:with-param name="stringName" select="'Caution'"/>
     </xsl:call-template>
@@ -812,29 +676,19 @@
     <xsl:call-template name="commonattributes">
       <xsl:with-param name="default-output-class" select="'caution'"/>
     </xsl:call-template>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="revblock">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/revprop" mode="ditaval-outputflag"/>
+    <xsl:apply-templates/>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </div>  
 </xsl:template>
 
 <xsl:template match="*" mode="process.note.danger">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <div class="dangertitle">
     <xsl:call-template name="commonattributes"/>
     <xsl:attribute name="class">dangertitle</xsl:attribute>
     <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
+    <!-- Normal flags go before the generated title; revision flags only go on the content. -->
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/prop" mode="ditaval-outputflag"/>
     <xsl:call-template name="getString">
       <xsl:with-param name="stringName" select="'Danger'"/>
     </xsl:call-template>
@@ -843,15 +697,9 @@
     <xsl:call-template name="commonattributes">
       <xsl:with-param name="default-output-class" select="'danger'"/>
     </xsl:call-template>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="revblock">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/revprop" mode="ditaval-outputflag"/>
+    <xsl:apply-templates/>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </div>
 </xsl:template>
 
@@ -859,54 +707,27 @@
      @reftitle contains the citation for the excerpt.
      With a link if @href is used.  -->
 <xsl:template match="*[contains(@class,' topic/lq ')]" name="topic.lq">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<blockquote>
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-    <div class="{@rev}"><xsl:apply-templates select="."  mode="lq-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
+  <blockquote>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setidaname"/>
     <xsl:apply-templates select="."  mode="lq-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-</blockquote><xsl:value-of select="$newline"/>
+  </blockquote><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/lq ')]" mode="lq-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
   <xsl:apply-templates/>
   <xsl:choose>
    <xsl:when test="@href"> <!-- Insert citation as link, use @href as-is -->
     <br/><div style="text-align:right"><a>
      <xsl:attribute name="href">
       <xsl:choose>
-       <xsl:when test="contains(@href,$DITAEXT)">
-        <xsl:value-of select="substring-before(@href,$DITAEXT)"/><xsl:value-of select="$OUTEXT"/><xsl:value-of select="substring-after(@href,$DITAEXT)"/>
+       <xsl:when test="not(@format) or @format = 'dita'">
+        <xsl:call-template name="replace-extension">
+         <xsl:with-param name="filename" select="@href"/>
+         <xsl:with-param name="extension" select="$OUTEXT"/>
+        </xsl:call-template>
        </xsl:when>
        <xsl:otherwise>
         <xsl:value-of select="@href"/>
@@ -929,9 +750,7 @@
    </xsl:when>
    <xsl:otherwise><!--nop - do nothing--></xsl:otherwise>
   </xsl:choose>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 
@@ -940,164 +759,72 @@
 <!-- Unordered List -->
 <!-- handle all levels thru browser processing -->
 <xsl:template match="*[contains(@class,' topic/ul ')]" name="topic.ul">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="ul-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="ul-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <!-- Starting in DITA-OT 1.7, no longer using extra <div> to preserve @rev.
+       Just continue to "ul-fmt" which is kept for backwards compatibility. -->
+  <xsl:apply-templates select="."  mode="ul-fmt" />
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/ul ')]" mode="ul-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 start-->
-    <!--br/-->
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 end-->
-  
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <xsl:call-template name="setaname"/>
- <ul>
-   <xsl:call-template name="commonattributes"/>
-   <xsl:call-template name="gen-style">
-     <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template>
-   <xsl:apply-templates select="@compact"/>
-   <xsl:call-template name="setid"/>
-   <xsl:apply-templates/>
- </ul>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
- <xsl:value-of select="$newline"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="setaname"/>
+  <ul>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:apply-templates select="@compact"/>
+    <xsl:call-template name="setid"/>
+    <xsl:apply-templates/>
+  </ul>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- Simple List -->
 <!-- handle all levels thru browser processing -->
 <xsl:template match="*[contains(@class,' topic/sl ')]" name="topic.sl">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 start-->
-     <!--br/-->
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 end-->
-  
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:choose> <!-- draft rev mode, add div w/ rev attr value -->
-   <xsl:when test="@rev and not($FILTERFILE='') and ($DRAFT='yes')">
-    <xsl:variable name="revtest"> <!-- Flag the revision? 1=yes; 0=no -->
-     <xsl:call-template name="find-active-rev-flag">
-      <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-    </xsl:variable>
-    <xsl:choose>
-     <xsl:when test="$revtest=1">
-      <div class="{@rev}"><xsl:apply-templates select="."  mode="sl-fmt" /></div>
-     </xsl:when>
-     <xsl:otherwise>
-      <xsl:apply-templates select="."  mode="sl-fmt" />
-     </xsl:otherwise>
-    </xsl:choose>
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:apply-templates select="."  mode="sl-fmt" />
-   </xsl:otherwise>
-  </xsl:choose>
+  <!-- Starting in DITA-OT 1.7, no longer using extra <div> to preserve @rev.
+       Just continue to "sl-fmt" which is kept for backwards compatibility. -->
+  <xsl:apply-templates select="."  mode="sl-fmt" />
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/sl ')]" mode="sl-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="setaname"/>
-<ul class="simple">
-  <xsl:call-template name="commonattributes">
-    <xsl:with-param name="default-output-class" select="'simple'"/>
-  </xsl:call-template>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:apply-templates select="@compact"/>
-  <xsl:call-template name="setid"/>
-  <xsl:apply-templates/>
-</ul>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="setaname"/>
+  <ul class="simple">
+    <xsl:call-template name="commonattributes">
+      <xsl:with-param name="default-output-class" select="'simple'"/>
+    </xsl:call-template>
+    <xsl:apply-templates select="@compact"/>
+    <xsl:call-template name="setid"/>
+    <xsl:apply-templates/>
+  </ul>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- Ordered List - 1st level - Handle levels 1 to 9 thru OL-TYPE attribution -->
 <!-- Updated to use a single template, use count and mod to set the list type -->
 <xsl:template match="*[contains(@class,' topic/ol ')]" name="topic.ol">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<xsl:variable name="olcount" select="count(ancestor-or-self::*[contains(@class,' topic/ol ')])"/>
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 start-->
-     <!--br/-->
-  <!-- edited by William on 2009-06-16 for bullet bug:2782503 end-->
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="setaname"/>
-<ol>
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:apply-templates select="@compact"/>
-  <xsl:choose>
-    <xsl:when test="$olcount mod 3 = 1"/>
-    <xsl:when test="$olcount mod 3 = 2"><xsl:attribute name="type">a</xsl:attribute></xsl:when>
-    <xsl:otherwise><xsl:attribute name="type">i</xsl:attribute></xsl:otherwise>
-  </xsl:choose>
-  <xsl:call-template name="setid"/>
-  <xsl:apply-templates/>
-</ol>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:value-of select="$newline"/>
+  <xsl:variable name="olcount" select="count(ancestor-or-self::*[contains(@class,' topic/ol ')])"/>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="setaname"/>
+  <ol>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:apply-templates select="@compact"/>
+    <xsl:choose>
+      <xsl:when test="$olcount mod 3 = 1"/>
+      <xsl:when test="$olcount mod 3 = 2"><xsl:attribute name="type">a</xsl:attribute></xsl:when>
+      <xsl:otherwise><xsl:attribute name="type">i</xsl:attribute></xsl:otherwise>
+    </xsl:choose>
+    <xsl:call-template name="setid"/>
+    <xsl:apply-templates/>
+  </ol>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- list item -->
 <xsl:template match="*[contains(@class,' topic/li ')]" name="topic.li">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
 <li>
   <xsl:choose>
     <xsl:when test="parent::*/@compact='no'">
@@ -1111,42 +838,29 @@
       <xsl:call-template name="commonattributes"/>
     </xsl:otherwise>
   </xsl:choose>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
   <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates select="." mode="outputContentsWithFlags">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:apply-templates>
+  <xsl:apply-templates/>
 </li><xsl:value-of select="$newline"/>
 </xsl:template>
 <!-- simple list item -->
 <xsl:template match="*[contains(@class,' topic/sli ')]" name="topic.sli">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<li>
-  <xsl:choose>
-    <xsl:when test="parent::*/@compact='no'">
-      <xsl:attribute name="class">sliexpand</xsl:attribute>
-      <!-- handle non-compact list items -->
-      <xsl:call-template name="commonattributes">
-        <xsl:with-param name="default-output-class" select="'sliexpand'"/>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:call-template name="commonattributes"/>
-    </xsl:otherwise>
-  </xsl:choose>
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates select="." mode="outputContentsWithFlags">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:apply-templates>
-</li><xsl:value-of select="$newline"/>
+  <li>
+    <xsl:choose>
+      <xsl:when test="parent::*/@compact='no'">
+        <xsl:attribute name="class">sliexpand</xsl:attribute>
+        <!-- handle non-compact list items -->
+        <xsl:call-template name="commonattributes">
+          <xsl:with-param name="default-output-class" select="'sliexpand'"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="commonattributes"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates/>
+  </li><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- special case of getting the number of a list item referenced by xref -->
@@ -1157,76 +871,52 @@
 
 <!-- list item section is like li/lq but without presentation (indent) -->
 <xsl:template match="*[contains(@class,' topic/itemgroup ')]" name="topic.itemgroup">
-<!-- insert a space before all but the first itemgroups in a LI -->
-<xsl:variable name="itemgroupcount"><xsl:number count="*[contains(@class,' topic/itemgroup ')]"/></xsl:variable>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:if test="$itemgroupcount&gt;'1'">
+  <!-- insert a space before all but the first itemgroups in a LI -->
+  <xsl:variable name="itemgroupcount"><xsl:number count="*[contains(@class,' topic/itemgroup ')]"/></xsl:variable>
+  <xsl:if test="$itemgroupcount &gt; '1'">
     <xsl:text> </xsl:text>
   </xsl:if>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="revtext">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <!-- DITA-OT 1.6 and earlier created a span/font tag when active revs; otherwise, no wrapper.
+       Maintain that for now, though may want to update in the future to keep a wrapper in all cases.
+       Considering using div instead of span, with a default inline CSS style. -->
+  <xsl:choose>
+    <xsl:when test="*[contains(@class,' ditaot-d/ditaval-startprop ')]/revprop |
+                    *[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass">
+      <span>
+        <xsl:call-template name="commonattributes"/>
+        <xsl:apply-templates/>
+      </span>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:apply-templates/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <!-- =========== DEFINITION LIST =========== -->
 
 <!-- DL -->
 <xsl:template match="*[contains(@class,' topic/dl ')]" name="topic.dl">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="dl-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="dl-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <!-- Starting in DITA-OT 1.7, no longer using extra <div> to preserve @rev.
+       Just continue to "dl-fmt" which is kept for backwards compatibility. -->
+  <xsl:apply-templates select="."  mode="dl-fmt" />
 </xsl:template>
 <xsl:template match="*[contains(@class,' topic/dl ')]"  mode="dl-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="setaname"/>
-<dl>
- <!-- handle DL compacting - default=yes -->
-  <xsl:if test="@compact='no'">
-   <xsl:attribute name="class">dlexpand</xsl:attribute>
-  </xsl:if>
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:apply-templates select="@compact"/>
-  <xsl:call-template name="setid"/>
-  <xsl:apply-templates/>
-</dl>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:value-of select="$newline"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:call-template name="setaname"/>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <dl>
+    <!-- handle DL compacting - default=yes -->
+    <xsl:if test="@compact='no'">
+      <xsl:attribute name="class">dlexpand</xsl:attribute>
+    </xsl:if>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:apply-templates select="@compact"/>
+    <xsl:call-template name="setid"/>
+    <xsl:apply-templates/>
+  </dl>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- DL entry -->
@@ -1246,42 +936,27 @@
       <xsl:otherwise>dlterm</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
   <dt class="{$dt-class}">
-    <xsl:apply-templates select="../@xml:lang"/> <!-- Get from DLENTRY, then override with local -->
+    <!-- Get xml:lang and ditaval styling from DLENTRY, then override with local -->
+    <xsl:apply-templates select="../@xml:lang"/> 
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
     <xsl:call-template name="commonattributes">
       <xsl:with-param name="default-output-class" select="$dt-class"/>
-    </xsl:call-template>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
     </xsl:call-template>
     <xsl:call-template name="setidaname"/>
     <!-- handle ID on a DLENTRY -->
     <xsl:if test="$dtcount=1 and parent::*/@id">
       <xsl:call-template name="parent-id"/>
     </xsl:if>
-    <!-- handle non-compact DLs dl/dlentry/dt-->
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="start-revflag-parent">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="revtext">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-revflag-parent">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <!-- Use flags from parent dlentry, if present -->
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+    <xsl:apply-templates/>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
     <xsl:apply-templates select="." mode="pull-in-title">
       <xsl:with-param name="type" select="' dt '"/>
-      <xsl:with-param name="displaytext" select="normalize-space(text())"/>
+      <xsl:with-param name="displaytext">
+        <xsl:apply-templates select="."  mode="dita-ot:text-only"/>
+      </xsl:with-param>
     </xsl:apply-templates>
   </dt>
 </xsl:template>
@@ -1320,37 +995,18 @@
   <!-- insert a blank line before all but the first DD in a DLENTRY; count which DD this is -->
   <!-- SF Patch 2185423: condensed code so that dd processing is not repeated when $ddcount!=1 -->
   <xsl:variable name="ddcount"><xsl:number count="*[contains(@class,' topic/dd ')]"/></xsl:variable>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:variable name="flagrules-parent">
-    <xsl:for-each select="parent::*"><xsl:call-template name="getrules"/></xsl:for-each>
-  </xsl:variable>
   <dd>
     <xsl:if test="$ddcount!=1">  <!-- para space before 2 thru N -->
       <xsl:attribute name="class">ddexpand</xsl:attribute>
     </xsl:if>
-    <xsl:apply-templates select="../@xml:lang"/> <!-- Get from DLENTRY, then override with local -->
+    <!-- Get xml:lang and ditaval styling from DLENTRY, then override with local -->
+    <xsl:apply-templates select="../@xml:lang"/> 
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="start-revflag-parent">
-      <xsl:with-param name="flagrules" select="$flagrules-parent"/>
-    </xsl:call-template>
-    <xsl:call-template name="revblock">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="end-revflag-parent">
-      <xsl:with-param name="flagrules" select="$flagrules-parent"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+    <xsl:apply-templates/>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </dd>
   <xsl:value-of select="$newline"/>
 </xsl:template>
@@ -1362,66 +1018,34 @@
 
 <!-- DL heading, term -->
 <xsl:template match="*[contains(@class,' topic/dthd ')]" name="topic.dthd">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
-<dt>
- <xsl:apply-templates select="../@xml:lang"/> <!-- Get from DLHEAD, then override with local -->
- <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag-parent">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <strong>
-   <xsl:call-template name="revtext">
-     <xsl:with-param name="flagrules" select="$flagrules"/>
-   </xsl:call-template>
- </strong>
-  <xsl:call-template name="end-revflag-parent">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-</dt><xsl:value-of select="$newline"/>
+  <dt>
+    <!-- Get ditaval style and xml:lang from DLHEAD, then override with local -->
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
+    <xsl:apply-templates select="../@xml:lang"/>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+    <strong>
+      <xsl:apply-templates/>
+    </strong>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  </dt><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- DL heading, description -->
 <xsl:template match="*[contains(@class,' topic/ddhd ')]" name="topic.ddhd">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
-<dd>
- <xsl:apply-templates select="../@xml:lang"/> <!-- Get from DLHEAD, then override with local -->
- <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag-parent">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <strong><xsl:call-template name="revblock">
-   <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template></strong>
-  <xsl:call-template name="end-revflag-parent">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-</dd><xsl:value-of select="$newline"/>
+  <dd>
+    <!-- Get ditaval style and xml:lang from DLHEAD, then override with local -->
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
+    <xsl:apply-templates select="../@xml:lang"/>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+    <strong>
+      <xsl:apply-templates/>
+    </strong>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  </dd><xsl:value-of select="$newline"/>
 </xsl:template>
 
 
@@ -1431,42 +1055,26 @@
 <!-- should not need priority, default is low enough -->
 
 <xsl:template match="*[contains(@class,' topic/ph ')]" name="topic.ph">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <xsl:choose>
     <xsl:when test="@keyref">
       <xsl:apply-templates select="." mode="turning-to-link">
         <xsl:with-param name="keys" select="@keyref"/>
-        <xsl:with-param name="flagrules" select="$flagrules"/>
         <xsl:with-param name="type" select="'ph'"/>
       </xsl:apply-templates>
     </xsl:when>
     <xsl:otherwise>
       <span>
         <xsl:call-template name="commonattributes"/>
-        <xsl:call-template name="gen-style">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-        </xsl:call-template>
-        <xsl:call-template name="setidaname"/>   
-        <xsl:call-template name="flagcheck"/>
-        <xsl:call-template name="start-flagit">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-        </xsl:call-template>       
-        <xsl:call-template name="revtext">
-          <xsl:with-param name="flagrules" select="$flagrules"/>
-        </xsl:call-template>
-        <xsl:call-template name="end-flagit">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-        </xsl:call-template>     
+        <xsl:call-template name="setidaname"/> 
+        <xsl:apply-templates/>  
       </span>
     </xsl:otherwise>
   </xsl:choose>
-   <xsl:call-template name="add-br-for-empty-cmd"/>
+  <xsl:call-template name="add-br-for-empty-cmd"/>
 </xsl:template>
 <xsl:template name="add-br-for-empty-cmd">
   <xsl:if test="contains(@class,' task/cmd ')">
-      <xsl:variable name="text" select="text()"></xsl:variable>
+      <xsl:variable name="text" select="."></xsl:variable>
     <xsl:if test="string-length(normalize-space($text))=0">
         <br/>
       </xsl:if>
@@ -1476,28 +1084,18 @@
 <!-- should not need priority, default is low enough -->
 
 <xsl:template match="*[contains(@class,' topic/keyword ')]" name="topic.keyword">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <xsl:choose>
     <xsl:when test="@keyref">
       <xsl:apply-templates select="." mode="turning-to-link">
         <xsl:with-param name="keys" select="@keyref"/>
-        <xsl:with-param name="flagrules" select="$flagrules"/>
         <xsl:with-param name="type" select="'keyword'"/>
       </xsl:apply-templates>
     </xsl:when>
     <xsl:otherwise>
       <span class="keyword">
         <xsl:call-template name="commonattributes"/>
-        <xsl:call-template name="gen-style">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-        </xsl:call-template>
         <xsl:call-template name="setidaname"/>   
-        <xsl:call-template name="flagcheck"/>
-        <xsl:call-template name="revtext">
-          <xsl:with-param name="flagrules" select="$flagrules"/>
-        </xsl:call-template>
+        <xsl:apply-templates/>  
       </span>
     </xsl:otherwise>
   </xsl:choose>
@@ -1511,6 +1109,7 @@
 <!-- removed priority 1 : should not be needed -->
 <xsl:template match="*[contains(@class,' topic/tm ')]" name="topic.tm">
 
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
   <xsl:apply-templates/> <!-- output the TM content -->
 
     <!-- Test for TM area's language -->
@@ -1558,6 +1157,7 @@
         </xsl:choose>
       </xsl:if>
     </xsl:if>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 <!-- Test for in TM area: returns "tm" when parent's @xml:lang needs a trademark language;
@@ -1585,28 +1185,18 @@
 <!-- phrase "semantic" classes -->
 <!-- citations -->
 <xsl:template match="*[contains(@class,' topic/cite ')]" name="topic.cite">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <xsl:choose>
     <xsl:when test="@keyref">
       <xsl:apply-templates select="." mode="turning-to-link">
         <xsl:with-param name="keys" select="@keyref"/>
-        <xsl:with-param name="flagrules" select="$flagrules"/>
         <xsl:with-param name="type" select="'cite'"/>
       </xsl:apply-templates>
     </xsl:when>
     <xsl:otherwise>
       <cite>
         <xsl:call-template name="commonattributes"/>
-        <xsl:call-template name="gen-style">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-        </xsl:call-template>
         <xsl:call-template name="setidaname"/>
-        <xsl:call-template name="flagcheck"/>
-        <xsl:call-template name="revtext">
-          <xsl:with-param name="flagrules" select="$flagrules"/>
-        </xsl:call-template>
+        <xsl:apply-templates/>
       </cite>
     </xsl:otherwise>
   </xsl:choose>
@@ -1614,42 +1204,24 @@
 
 <!-- quotes - only do 1 level, no flip-flopping -->
 <xsl:template match="*[contains(@class,' topic/q ')]" name="topic.q">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<span class="q">
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="getString">
-   <xsl:with-param name="stringName" select="'OpenQuote'"/>
-  </xsl:call-template>
-  <xsl:call-template name="flagcheck"/>
-  <xsl:call-template name="revtext">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="getString">
-   <xsl:with-param name="stringName" select="'CloseQuote'"/>
-  </xsl:call-template>
-</span>
+  <span class="q">
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="getString">
+      <xsl:with-param name="stringName" select="'OpenQuote'"/>
+    </xsl:call-template>
+    <xsl:apply-templates/>
+    <xsl:call-template name="getString">
+      <xsl:with-param name="stringName" select="'CloseQuote'"/>
+    </xsl:call-template>
+  </span>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/term ')]" mode="output-term">
   <xsl:param name="displaytext" select="''"/>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <dfn class="term">
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:call-template name="setidaname"/>   
-    <xsl:call-template name="flagcheck"/>
-    <xsl:call-template name="revtext">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
+    <xsl:apply-templates/>
     <xsl:apply-templates select="." mode="pull-in-title">
       <xsl:with-param name="type" select="' term '"/>
       <xsl:with-param name="displaytext" select="normalize-space($displaytext)"/>
@@ -1695,11 +1267,11 @@
     <xsl:when test="not($m_matched-target='#none#')">
       <xsl:variable name="glossentry" select="exsl:node-set($m_matched-target)/*[contains(@class, ' glossentry/glossentry ')][1]"/>
       <xsl:choose>
-        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(text())!='']">
-          <xsl:value-of select="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(text())!='']"/>
+        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(.)!='']">
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(.)!='']" mode="dita-ot:text-only"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$glossentry//*[contains(@class, ' glossentry/glossterm ')][normalize-space(text())!='']"/>
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossterm ')]" mode="dita-ot:text-only"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:when>
@@ -1711,6 +1283,40 @@
   </xsl:choose>
 </xsl:template>
 
+<xsl:template match="*" mode="getMatchingGlossdef">
+  <xsl:param name="m_matched-target"/>
+  <xsl:param name="m_keys"/>
+  <xsl:choose>
+    <xsl:when test="not($m_matched-target='#none#')">
+      <xsl:variable name="glossentry" select="exsl:node-set($m_matched-target)/*[contains(@class, ' glossentry/glossentry ')][1]"/>
+      <xsl:choose>
+        <xsl:when test="$glossentry/*[contains(@class, ' glossentry/glossdef ')]">
+          <xsl:apply-templates select="$glossentry/*[contains(@class, ' glossentry/glossdef ')]" mode="dita-ot:text-only"/>
+        </xsl:when>
+        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(.)!='']">
+          <!-- Second choice: surface form, as it may contain *slightly* more information than the original term -->
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossSurfaceForm ')][normalize-space(.)!='']" mode="dita-ot:text-only"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <!-- Fall back to term if there is no definition and no surface form -->
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossterm ')]" mode="dita-ot:text-only"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:when test="normalize-space(.)='' and
+                    (boolean(ancestor::*[contains(@class,' topic/copyright ')]) or generate-id(.)=generate-id(key('keyref',@keyref)[1]))">
+      <!-- Already generating a message when looking for the term, do not generate a "missing glossentry" message here too -->
+    </xsl:when>
+    <xsl:when test="boolean(ancestor::*[contains(@class,' topic/copyright ')]) or generate-id(.)=generate-id(key('keyref',@keyref)[1])">
+      <!-- Didn't look up term because it was specified, but this is the first occurrence
+           and the glossentry was not found, so generate "missing glossentry" message -->
+      <xsl:apply-templates select="." mode="ditamsg:no-glossentry-for-key">
+        <xsl:with-param name="matching-keys" select="$m_keys"/>
+      </xsl:apply-templates>
+    </xsl:when>
+  </xsl:choose>
+</xsl:template>
+
 <xsl:template match="*" mode="getMatchingAcronym">
   <xsl:param name="m_matched-target"/>
   <xsl:param name="m_keys"/>
@@ -1718,17 +1324,17 @@
     <xsl:when test="not($m_matched-target='#none#')">
       <xsl:variable name="glossentry" select="exsl:node-set($m_matched-target)/*[contains(@class, ' glossentry/glossentry ')][1]"/>
       <xsl:choose>
-        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value='preferred'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(text())!='']">
-          <xsl:value-of select="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value='preferred'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(text())!='']"/>
+        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value='preferred'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(.)!='']">
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value='preferred'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(.)!='']" mode="dita-ot:text-only"/>
         </xsl:when>
-        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value!='prohibited' and @value!='obsolete'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(text())!='']">
-          <xsl:value-of select="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value!='prohibited' and @value!='obsolete'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(text())!='']"/>
+        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value!='prohibited' and @value!='obsolete'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(.)!='']">
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossStatus ')][@value!='prohibited' and @value!='obsolete'][1]/preceding-sibling::*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][normalize-space(.)!='']" mode="dita-ot:text-only"/>
         </xsl:when>
-        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossAlt ')][1]/*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][not(following-sibling::glossStatus)][normalize-space(text())!='']">
-          <xsl:value-of select="$glossentry//*[contains(@class, ' glossentry/glossAlt ')][1]/*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][count(following-sibling::glossStatus)=0][normalize-space(text())!='']"/>
+        <xsl:when test="$glossentry//*[contains(@class, ' glossentry/glossAlt ')][1]/*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][not(following-sibling::glossStatus)][normalize-space(.)!='']">
+          <xsl:apply-templates select="$glossentry//*[contains(@class, ' glossentry/glossAlt ')][1]/*[contains(@class, ' glossentry/glossAcronym ') or contains(@class, ' glossentry/glossAbbreviation ')][count(following-sibling::glossStatus)=0][normalize-space(.)!='']" mode="dita-ot:text-only"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$glossentry/*[contains(@class, ' glossentry/glossterm ')][normalize-space(text())!='']"/>
+          <xsl:apply-templates select="$glossentry/*[contains(@class, ' glossentry/glossterm ')]" mode="dita-ot:text-only"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:when>
@@ -1756,7 +1362,7 @@
         </xsl:apply-templates>
       </xsl:variable>
 
-      <xsl:variable name="entry-file" select="concat($WORKDIR, $PATH2PROJ, substring-before($target, '.'), $DITAEXT)"/>
+      <xsl:variable name="entry-file" select="concat($WORKDIR, $PATH2PROJ, $target)"/>
       <xsl:variable name="entry-file-uri" select="url:getURL($entry-file)"/>
       
       <!-- Save glossary entry file contents into a variable to workaround the infamous putDocumentCache error in Xalan -->
@@ -1782,8 +1388,8 @@
       <!-- Text should be displayed -->
       <xsl:variable name="displaytext">
         <xsl:choose>
-          <xsl:when test="normalize-space(text())!=''">
-            <xsl:value-of select="normalize-space(text())"/>
+          <xsl:when test="normalize-space(.)!=''">
+            <xsl:apply-templates select="." mode="dita-ot:text-only"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:choose>
@@ -1807,7 +1413,7 @@
 
       <!-- hovertip text -->
       <xsl:variable name="hovertext">
-        <xsl:apply-templates select="." mode="getMatchingSurfaceForm">
+        <xsl:apply-templates select="." mode="getMatchingGlossdef">
           <xsl:with-param name="m_matched-target" select="$matched-target"/>
           <xsl:with-param name="m_keys" select="$keys"/>
         </xsl:apply-templates>
@@ -1831,7 +1437,9 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:apply-templates select="." mode="output-term">
-        <xsl:with-param name="displaytext" select="normalize-space(text())"/>
+        <xsl:with-param name="displaytext">
+          <xsl:apply-templates select="."  mode="dita-ot:text-only"/>
+        </xsl:with-param>
       </xsl:apply-templates>
     </xsl:otherwise>
   </xsl:choose>
@@ -1861,100 +1469,44 @@
 <!-- =========== RECORD END RESPECTING DATA =========== -->
 <!-- PRE -->
 <xsl:template match="*[contains(@class,' topic/pre ')]" name="topic.pre">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')">
-     <xsl:call-template name="find-active-rev-flag"> 
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="pre-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="pre-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <!-- Starting in DITA-OT 1.7, no longer using extra <div> to preserve @rev.
+       Just continue to "pre-fmt" which is kept for backwards compatibility. -->
+  <xsl:apply-templates select="."  mode="pre-fmt" />
 </xsl:template>
 <xsl:template match="*[contains(@class,' topic/pre ')]" mode="pre-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<xsl:if test="contains(@frame,'top')"><hr /></xsl:if>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="spec-title-nospace"/>
-<pre>
-  <xsl:attribute name="class"><xsl:value-of select="name()"/></xsl:attribute>
-  <xsl:call-template name="commonattributes"/>
-  <xsl:call-template name="gen-style">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-  </xsl:call-template>
-  <xsl:call-template name="setscale"/>
-  <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates/>
-</pre>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:if test="contains(@frame,'bot')"><hr /></xsl:if><xsl:value-of select="$newline"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:if test="contains(@frame,'top')"><hr /></xsl:if>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="spec-title-nospace"/>
+  <pre>
+    <xsl:attribute name="class"><xsl:value-of select="name()"/></xsl:attribute>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setscale"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates/>
+  </pre>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:if test="contains(@frame,'bot')"><hr /></xsl:if><xsl:value-of select="$newline"/>
 </xsl:template>
 
 
 <!-- lines - body font -->
 <xsl:template match="*[contains(@class,' topic/lines ')]" name="topic.lines">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag"> 
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="lines-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="lines-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <!-- Starting in DITA-OT 1.7, no longer using extra <div> to preserve @rev.
+       Just continue to "lines-fmt" which is kept for backwards compatibility. -->
+  <xsl:apply-templates select="."  mode="lines-fmt" />
 </xsl:template>
 <xsl:template match="*[contains(@class,' topic/lines ')]" mode="lines-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-<xsl:if test="contains(@frame,'top')"><hr /></xsl:if>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-<xsl:call-template name="spec-title-nospace"/>
- <p>
-  <xsl:call-template name="commonattributes"/>
-   <xsl:call-template name="gen-style">
-     <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template>
-  <xsl:call-template name="setscale"/>
-  <xsl:call-template name="setidaname"/>
-  <xsl:apply-templates/>
- </p>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:if test="contains(@frame,'bot')"><hr /></xsl:if><xsl:value-of select="$newline"/>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <xsl:if test="contains(@frame,'top')"><hr /></xsl:if>
+  <xsl:call-template name="spec-title-nospace"/>
+  <p>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setscale"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates/>
+  </p>
+  <xsl:if test="contains(@frame,'bot')"><hr /></xsl:if><xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/lines ')]//text()">
@@ -1970,21 +1522,7 @@
 
 <!-- =========== FIGURE =========== -->
 <xsl:template match="*[contains(@class,' topic/fig ')]" name="topic.fig">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="fig-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="fig-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <xsl:apply-templates select="."  mode="fig-fmt" />
 </xsl:template>
 
 <!-- Determine the default XHTML class attribute for a figure -->
@@ -2000,149 +1538,83 @@
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/fig ')]" mode="fig-fmt">
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
   <xsl:variable name="default-fig-class">
     <xsl:apply-templates select="." mode="dita2html:get-default-fig-class"/>
   </xsl:variable>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <div>
-   <xsl:if test="$default-fig-class!=''">
-     <xsl:attribute name="class"><xsl:value-of select="$default-fig-class"/></xsl:attribute>
-   </xsl:if>
-   <xsl:call-template name="commonattributes">
-     <xsl:with-param name="default-output-class" select="$default-fig-class"/>
-   </xsl:call-template>
-   <xsl:call-template name="gen-style">
-     <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template>
-  <xsl:call-template name="setscale"/>
-  <xsl:call-template name="setidaname"/>
-  <xsl:call-template name="place-fig-lbl"/>
-  <xsl:apply-templates select="*[not(contains(@class,' topic/title '))][not(contains(@class,' topic/desc '))] |text()|comment()|processing-instruction()"/>
- </div>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
-<xsl:value-of select="$newline"/>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <div>
+    <xsl:if test="$default-fig-class!=''">
+      <xsl:attribute name="class"><xsl:value-of select="$default-fig-class"/></xsl:attribute>
+    </xsl:if>
+    <xsl:call-template name="commonattributes">
+      <xsl:with-param name="default-output-class" select="$default-fig-class"/>
+    </xsl:call-template>
+    <xsl:call-template name="setscale"/>
+    <xsl:call-template name="setidaname"/>
+    <xsl:call-template name="place-fig-lbl"/>
+    <xsl:apply-templates select="*[not(contains(@class,' topic/title '))][not(contains(@class,' topic/desc '))] |text()|comment()|processing-instruction()"/>
+  </div>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <!-- should not need priority, default is low enough; was set to 1 -->
 <xsl:template match="*[contains(@class,' topic/figgroup ')]" name="topic.figgroup">
-  <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')">
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="figgroup-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="figgroup-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <xsl:apply-templates select="."  mode="figgroup-fmt" />
 </xsl:template>
 <xsl:template match="*[contains(@class,' topic/figgroup ')]" mode="figgroup-fmt">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <span>
-  <xsl:call-template name="commonattributes"/>
-   <xsl:call-template name="gen-style">
-     <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template>
-  <xsl:call-template name="setidaname"/>
-  <!-- Allow title to fallthrough -->
-  <xsl:apply-templates/>
- </span>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
+  <!-- Figgroup can contain blocks, maybe this should be a div? -->
+  <span>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:call-template name="setidaname"/>
+    <!-- Allow title to fallthrough -->
+    <xsl:apply-templates/>
+  </span>
 </xsl:template>
 
 
 <!-- =========== IMAGE/OBJECT =========== -->
 
 <xsl:template match="*[contains(@class,' topic/image ')]" name="topic.image">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <!-- build any pre break indicated by style -->
   <xsl:choose>
     <xsl:when test="parent::fig[contains(@frame,'top ')]">
       <!-- NOP if there is already a break implied by a parent property -->
     </xsl:when>
-    <xsl:otherwise>
-     <xsl:choose>
-      <xsl:when test="(@placement='break')"><br/>
-        <xsl:call-template name="start-flagit">
-          <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-       <xsl:call-template name="flagcheck"/>
-      </xsl:otherwise>
-     </xsl:choose>
-    </xsl:otherwise>
+    <xsl:when test="@placement='break'">
+      <br/>
+    </xsl:when>
   </xsl:choose>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
   <xsl:call-template name="setaname"/>
   <xsl:choose>
-   <xsl:when test="@placement='break'"><!--Align only works for break-->
-    <xsl:choose>
-     <xsl:when test="@align='left'">
-      <div class="imageleft">
-       <xsl:call-template name="topic-image"/>
-      </div>
-     </xsl:when>
-     <xsl:when test="@align='right'">
-      <div class="imageright">
-       <xsl:call-template name="topic-image"/>
-      </div>
-     </xsl:when>
-     <xsl:when test="@align='center'">
-      <div class="imagecenter">
-       <xsl:call-template name="topic-image"/>
-      </div>
-     </xsl:when>
-     <xsl:otherwise>
+    <xsl:when test="@placement='break'"><!--Align only works for break-->
+      <xsl:choose>
+        <xsl:when test="@align='left'">
+          <div class="imageleft">
+            <xsl:call-template name="topic-image"/>
+          </div>
+        </xsl:when>
+        <xsl:when test="@align='right'">
+          <div class="imageright">
+            <xsl:call-template name="topic-image"/>
+          </div>
+        </xsl:when>
+        <xsl:when test="@align='center'">
+          <div class="imagecenter">
+            <xsl:call-template name="topic-image"/>
+          </div>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="topic-image"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:otherwise>
       <xsl:call-template name="topic-image"/>
-     </xsl:otherwise>
-    </xsl:choose>
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:call-template name="topic-image"/>
-   </xsl:otherwise>
+    </xsl:otherwise>
   </xsl:choose>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
   <!-- build any post break indicated by style -->
   <xsl:if test="not(@placement='inline')"><br/></xsl:if>
   <!-- image name for review -->
@@ -2163,7 +1635,8 @@
     </xsl:call-template>
   </xsl:variable>
   <xsl:variable name="isSVG" select="$ends-with-svg = 'true' or $ends-with-svgz = 'true'"/>
-<xsl:choose>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:choose>
       <xsl:when test="$isSVG">
         <!--<object data="file.svg" type="image/svg+xml" width="500" height="200">-->
         <!-- now invoke the actual content and its alt text -->
@@ -2185,44 +1658,43 @@
           <xsl:apply-templates select="@height|@width"/>
         </embed>
       </xsl:when>
-<xsl:otherwise>
-  <img>
-    <xsl:call-template name="commonattributes">
-      <xsl:with-param name="default-output-class">
-        <xsl:if test="@placement='break'"><!--Align only works for break-->
-         <xsl:choose>
-          <xsl:when test="@align='left'">imageleft</xsl:when>
-          <xsl:when test="@align='right'">imageright</xsl:when>
-          <xsl:when test="@align='center'">imagecenter</xsl:when>
-         </xsl:choose>
-        </xsl:if>
-      </xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="setid"/>
-    <xsl:choose>
-      <xsl:when test="*[contains(@class, ' topic/longdescref ')]">
-        <xsl:apply-templates select="*[contains(@class, ' topic/longdescref ')]"/>
-      </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="@longdescref"/>
+        <img>
+          <xsl:call-template name="commonattributes">
+            <xsl:with-param name="default-output-class">
+              <xsl:if test="@placement='break'"><!--Align only works for break-->
+                <xsl:choose>
+                  <xsl:when test="@align='left'">imageleft</xsl:when>
+                  <xsl:when test="@align='right'">imageright</xsl:when>
+                  <xsl:when test="@align='center'">imagecenter</xsl:when>
+                </xsl:choose>
+              </xsl:if>
+            </xsl:with-param>
+          </xsl:call-template>
+          <xsl:call-template name="setid"/>
+          <xsl:choose>
+            <xsl:when test="*[contains(@class, ' topic/longdescref ')]">
+              <xsl:apply-templates select="*[contains(@class, ' topic/longdescref ')]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="@longdescref"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:apply-templates select="@href|@height|@width"/>
+          <xsl:apply-templates select="@scale"/>
+          <xsl:choose>
+            <xsl:when test="*[contains(@class,' topic/alt ')]">
+              <xsl:variable name="alt-content"><xsl:apply-templates select="*[contains(@class,' topic/alt ')]" mode="text-only"/></xsl:variable>
+              <xsl:attribute name="alt"><xsl:value-of select="normalize-space($alt-content)"/></xsl:attribute>
+            </xsl:when>
+            <xsl:when test="@alt">
+              <xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute>
+            </xsl:when>
+          </xsl:choose>
+        </img>
       </xsl:otherwise>
-    </xsl:choose>
-    <xsl:apply-templates select="@href|@height|@width"/>
-    <!-- Add by Alan for Bug:#2900417 on Date: 2009-11-23 begin -->
-    <xsl:apply-templates select="@scale"/>
-    <!-- Add by Alan for Bug:#2900417 on Date: 2009-11-23 end   -->
-    <xsl:choose>
-      <xsl:when test="*[contains(@class,' topic/alt ')]">
-        <xsl:variable name="alt-content"><xsl:apply-templates select="*[contains(@class,' topic/alt ')]" mode="text-only"/></xsl:variable>
-        <xsl:attribute name="alt"><xsl:value-of select="normalize-space($alt-content)"/></xsl:attribute>
-      </xsl:when>
-      <xsl:when test="@alt">
-        <xsl:attribute name="alt"><xsl:value-of select="@alt"/></xsl:attribute>
-      </xsl:when>
-    </xsl:choose>
-  </img>
-</xsl:otherwise>
-</xsl:choose>
+  </xsl:choose>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/alt ')]">
@@ -2235,7 +1707,6 @@
   <xsl:attribute name="src"><xsl:value-of select="."/></xsl:attribute>
 </xsl:template>
 
-<!-- Add by Alan for Bug:#2900417 on Date: 2009-11-23 begin -->
 <!-- AM: handling for scale attribute -->
 <xsl:template match="*[contains(@class,' topic/image ')]/@scale">
     <xsl:variable name="width">
@@ -2263,7 +1734,6 @@
       </xsl:attribute>
     </xsl:if>
 </xsl:template>
-<!-- Add by Alan for Bug:#2900417 on Date: 2009-11-23 end -->
 
 <xsl:template match="*[contains(@class,' topic/image ')]/@height">
   <xsl:variable name="height-in-pixel">
@@ -2273,7 +1743,6 @@
   </xsl:variable>
   <xsl:if test="not($height-in-pixel='100%')">
     <xsl:attribute name="height">
-      <!-- Edit by Alan for Bug:#2900417 on Date: 2009-11-23 begin -->
       <!--xsl:choose>
         <xsl:when test="../@scale and string(number(../@scale))!='NaN'">          
           <xsl:value-of select="number($height-in-pixel) * number(../@scale)"/>
@@ -2282,7 +1751,6 @@
           <xsl:value-of select="number($height-in-pixel)"/>
         <!--/xsl:otherwise>
       </xsl:choose-->
-      <!-- Edit by Alan for Bug:#2900417 on Date: 2009-11-23 end -->
     </xsl:attribute>
   </xsl:if>  
 </xsl:template>
@@ -2295,7 +1763,6 @@
   </xsl:variable>
   <xsl:if test="not($width-in-pixel = '100%')">
     <xsl:attribute name="width">
-      <!-- Edit by Alan for Bug:#2900417 on Date: 2009-11-23 begin -->
       <!--xsl:choose>
         <xsl:when test="../@scale and string(number(../@scale))!='NaN'">          
           <xsl:value-of select="number($width-in-pixel) * number(../@scale)"/>
@@ -2304,7 +1771,6 @@
           <xsl:value-of select="number($width-in-pixel)"/>
         <!--/xsl:otherwise>
       </xsl:choose-->
-      <!-- Edit by Alan for Bug:#2900417 on Date: 2009-11-23 end -->
     </xsl:attribute>
   </xsl:if>  
 </xsl:template>
@@ -2312,8 +1778,12 @@
 <xsl:template match="*[contains(@class,' topic/image ')]/@longdescref">
   <xsl:attribute name="longdesc">
     <xsl:choose>
-      <xsl:when test="contains(.,$DITAEXT)">  <!-- switch extension from .dita -->
-        <xsl:value-of select="substring-before(.,$DITAEXT)"/><xsl:value-of select="$OUTEXT"/><xsl:value-of select="substring-after(.,$DITAEXT)"/>
+      <!-- Guess whether link target is a DITA topic or something else -->
+      <xsl:when test="contains(., '.dita') or contains(., '.xml')">
+        <xsl:call-template name="replace-extension">
+          <xsl:with-param name="filename" select="."/>
+          <xsl:with-param name="extension" select="$OUTEXT"/>
+        </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="."/>
@@ -2326,8 +1796,11 @@
   <xsl:if test="@href and not (@href='')">
     <xsl:attribute name="longdesc">
       <xsl:choose>
-        <xsl:when test="contains(@href,$DITAEXT)">  <!-- switch extension from .dita -->
-          <xsl:value-of select="substring-before(@href,$DITAEXT)"/><xsl:value-of select="$OUTEXT"/><xsl:value-of select="substring-after(@href,$DITAEXT)"/>
+        <xsl:when test="not(@format) or @format = 'dita'">
+          <xsl:call-template name="replace-extension">
+            <xsl:with-param name="filename" select="@href"/>
+            <xsl:with-param name="extension" select="$OUTEXT"/>
+          </xsl:call-template>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="@href"/>
@@ -2385,25 +1858,17 @@
 
 <!-- =========== CALS (OASIS) TABLE =========== -->
 
+<xsl:template match="*[contains(@class,' topic/table ')]" mode="generate-table-summary-attribute">
+  <!-- Override this to use a local convention for setting table's @summary attribute,
+       until OASIS provides a standard mechanism for setting. -->
+</xsl:template>
+
 <xsl:template match="*[contains(@class,' topic/table ')]" name="topic.table">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag"> 
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="table-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-     <xsl:apply-templates select="."  mode="table-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
+  <xsl:apply-templates select="."  mode="table-fmt" />
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/table ')]" mode="table-fmt">
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
   <xsl:value-of select="$newline"/>
   <!-- special case for IE & NS for frame & no rules - needs to be a double table -->
   <xsl:variable name="colsep">
@@ -2474,114 +1939,99 @@
 </xsl:template>
 
 <xsl:template name="dotable">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
- <xsl:call-template name="setaname"/>
- <table cellpadding="4" cellspacing="0" summary="">
-  <xsl:variable name="colsep">
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:call-template name="setaname"/>
+  <table cellpadding="4" cellspacing="0" summary="">
+    <xsl:variable name="colsep">
+      <xsl:choose>
+        <xsl:when test="*[contains(@class,' topic/tgroup ')]/@colsep"><xsl:value-of select="*[contains(@class,' topic/tgroup ')]/@colsep"/></xsl:when>
+        <xsl:when test="@colsep"><xsl:value-of select="@colsep"/></xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="rowsep">
+      <xsl:choose>
+        <xsl:when test="*[contains(@class,' topic/tgroup ')]/@rowsep"><xsl:value-of select="*[contains(@class,' topic/tgroup ')]/@rowsep"/></xsl:when>
+        <xsl:when test="@rowsep"><xsl:value-of select="@rowsep"/></xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:call-template name="setid"/>
+    <xsl:call-template name="commonattributes"/>
+    <xsl:apply-templates select="." mode="generate-table-summary-attribute"/>
+    <xsl:call-template name="setscale"/>
+    <!-- When a table's width is set to page or column, force it's width to 100%. If it's in a list, use 90%.
+         Otherwise, the table flows to the content -->
     <xsl:choose>
-      <xsl:when test="*[contains(@class,' topic/tgroup ')]/@colsep"><xsl:value-of select="*[contains(@class,' topic/tgroup ')]/@colsep"/></xsl:when>
-      <xsl:when test="@colsep"><xsl:value-of select="@colsep"/></xsl:when>
+      <xsl:when test="(@expanse='page' or @pgwide='1')and (ancestor::*[contains(@class,' topic/li ')] or ancestor::*[contains(@class,' topic/dd ')] )">
+        <xsl:attribute name="width">90%</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="(@expanse='column' or @pgwide='0') and (ancestor::*[contains(@class,' topic/li ')] or ancestor::*[contains(@class,' topic/dd ')] )">
+        <xsl:attribute name="width">90%</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="(@expanse='page' or @pgwide='1')">
+        <xsl:attribute name="width">100%</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="(@expanse='column' or @pgwide='0')">
+        <xsl:attribute name="width">100%</xsl:attribute>
+      </xsl:when>
     </xsl:choose>
-  </xsl:variable>
-  <xsl:variable name="rowsep">
     <xsl:choose>
-      <xsl:when test="*[contains(@class,' topic/tgroup ')]/@rowsep"><xsl:value-of select="*[contains(@class,' topic/tgroup ')]/@rowsep"/></xsl:when>
-      <xsl:when test="@rowsep"><xsl:value-of select="@rowsep"/></xsl:when>
+      <xsl:when test="@frame='all' and $colsep='0' and $rowsep='0'">
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="not(@frame) and $colsep='0' and $rowsep='0'">
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="@frame='sides'">
+        <xsl:attribute name="frame">vsides</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="@frame='top'">
+        <xsl:attribute name="frame">above</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="@frame='bottom'">
+        <xsl:attribute name="frame">below</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="@frame='topbot'">
+        <xsl:attribute name="frame">hsides</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="@frame='none'">
+        <xsl:attribute name="frame">void</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="frame">border</xsl:attribute>
+        <xsl:attribute name="border">1</xsl:attribute>
+      </xsl:otherwise>
     </xsl:choose>
-  </xsl:variable>
-  <xsl:call-template name="setid"/>
-  <xsl:call-template name="commonattributes"/>
-   <xsl:call-template name="gen-style">
-     <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-   </xsl:call-template>
-  <xsl:call-template name="setscale"/>
-  <!-- When a table's width is set to page or column, force it's width to 100%. If it's in a list, use 90%.
-       Otherwise, the table flows to the content -->
-  <xsl:choose>
-   <xsl:when test="(@expanse='page' or @pgwide='1')and (ancestor::*[contains(@class,' topic/li ')] or ancestor::*[contains(@class,' topic/dd ')] )">
-    <xsl:attribute name="width">90%</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="(@expanse='column' or @pgwide='0') and (ancestor::*[contains(@class,' topic/li ')] or ancestor::*[contains(@class,' topic/dd ')] )">
-    <xsl:attribute name="width">90%</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="(@expanse='page' or @pgwide='1')">
-    <xsl:attribute name="width">100%</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="(@expanse='column' or @pgwide='0')">
-    <xsl:attribute name="width">100%</xsl:attribute>
-   </xsl:when>
-  </xsl:choose>
-  <xsl:choose>
-   <xsl:when test="@frame='all' and $colsep='0' and $rowsep='0'">
-    <xsl:attribute name="border">0</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="not(@frame) and $colsep='0' and $rowsep='0'">
-    <xsl:attribute name="border">0</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="@frame='sides'">
-    <xsl:attribute name="frame">vsides</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="@frame='top'">
-    <xsl:attribute name="frame">above</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="@frame='bottom'">
-    <xsl:attribute name="frame">below</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="@frame='topbot'">
-    <xsl:attribute name="frame">hsides</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="@frame='none'">
-    <xsl:attribute name="frame">void</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:attribute name="frame">border</xsl:attribute>
-    <xsl:attribute name="border">1</xsl:attribute>
-   </xsl:otherwise>
-  </xsl:choose>
-  <xsl:choose>
-   <xsl:when test="@frame='all' and $colsep='0' and $rowsep='0'">
-    <xsl:attribute name="border">0</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="not(@frame) and $colsep='0' and $rowsep='0'">
-    <xsl:attribute name="border">0</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="$colsep='0' and $rowsep='0'">
-    <xsl:attribute name="rules">none</xsl:attribute>
-    <xsl:attribute name="border">0</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="$colsep='0'">
-    <xsl:attribute name="rules">rows</xsl:attribute>
-   </xsl:when>
-   <xsl:when test="$rowsep='0'">
-    <xsl:attribute name="rules">cols</xsl:attribute>
-   </xsl:when>
-   <xsl:otherwise>
-    <xsl:attribute name="rules">all</xsl:attribute>
-   </xsl:otherwise>
-  </xsl:choose>
-  <xsl:call-template name="place-tbl-lbl"/>
-  <!-- title and desc are processed elsewhere -->
-  <xsl:apply-templates select="*[contains(@class,' topic/tgroup ')]"/>
- </table><xsl:value-of select="$newline"/>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+    <xsl:choose>
+      <xsl:when test="@frame='all' and $colsep='0' and $rowsep='0'">
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="not(@frame) and $colsep='0' and $rowsep='0'">
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$colsep='0' and $rowsep='0'">
+        <xsl:attribute name="rules">none</xsl:attribute>
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$colsep='0'">
+        <xsl:attribute name="rules">rows</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$rowsep='0'">
+        <xsl:attribute name="rules">cols</xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="rules">all</xsl:attribute>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:call-template name="place-tbl-lbl"/>
+    <!-- title and desc are processed elsewhere -->
+    <xsl:apply-templates select="*[contains(@class,' topic/tgroup ')]"/>
+    </table><xsl:value-of select="$newline"/>
+    <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/tgroup ')]" name="topic.tgroup">
@@ -2593,14 +2043,10 @@
 <xsl:template match="*[contains(@class,' topic/spanspec ')]"></xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/thead ')]" name="topic.thead">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <thead>
-  <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
+    <!-- Get style from parent tgroup, then override with thead if specified locally -->
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
+    <xsl:call-template name="commonattributes"/>
     <xsl:choose>
      <xsl:when test="@align">
       <xsl:attribute name="align">
@@ -2634,14 +2080,10 @@
 <xsl:template match="*[contains(@class,' topic/tfoot ')]"/>
 
 <xsl:template match="*[contains(@class,' topic/tbody ')]" name="topic.tbody">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <tbody>
+    <!-- Get style from parent tgroup, then override with thead if specified locally -->
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:if test="@align">
       <xsl:attribute name="align">
         <xsl:value-of select="@align"/>
@@ -2674,15 +2116,9 @@
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/row ')]" name="topic.row">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <tr>
     <xsl:call-template name="setid"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:if test="@align">
       <xsl:attribute name="align">
         <xsl:value-of select="@align"/>
@@ -2742,11 +2178,6 @@
   <!-- Rowsep/colsep: Skip if the last row or column. Only check the entry and colsep;
     if set higher, will already apply to the whole table. -->
   
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
-  
   <xsl:variable name="framevalue">
     <xsl:choose>
       <xsl:when test="ancestor::*[contains(@class,' topic/table ')][1]/@frame and ancestor::*[contains(@class,' topic/table ')][1]/@frame!=''">
@@ -2794,6 +2225,7 @@
   </xsl:choose>
     
   <xsl:call-template name="commonattributes"/>
+  <xsl:call-template name="setid"/>
   <xsl:if test="@morerows">
     <xsl:attribute name="rowspan"> <!-- set the number of rows to span -->
       <xsl:value-of select="@morerows+1"/>
@@ -2868,20 +2300,37 @@
     <xsl:variable name="entrypos">    <!-- Current column -->
       <xsl:call-template name="find-entry-start-position"/>
     </xsl:variable>
+    <xsl:variable name="colspec" select="../../../*[contains(@class,' topic/colspec ')][number($entrypos)]"/>
     <xsl:variable name="totalwidth">  <!-- Total width of the column, in units -->
       <xsl:apply-templates select="../../../*[contains(@class,' topic/colspec ')][1]" mode="count-colwidth"/>
     </xsl:variable>
+    <xsl:variable name="proportionalWidth" select="contains($colspec/@colwidth, '*')"/>
     <xsl:variable name="thiswidth">   <!-- Width of this column, in units -->
       <xsl:choose>
-        <xsl:when test="../../../*[contains(@class,' topic/colspec ')][number($entrypos)]/@colwidth">
-          <xsl:value-of select="substring-before(../../../*[contains(@class,' topic/colspec ')][number($entrypos)]/@colwidth,'*')"/>
+        <xsl:when test="$colspec/@colwidth">
+          <xsl:choose>
+            <xsl:when test="$proportionalWidth">
+              <xsl:value-of select="substring-before($colspec/@colwidth, '*')"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$colspec/@colwidth"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:when>
         <xsl:otherwise>1</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <!-- Width = width of this column / width of table, times 100 to make a percent -->
     <xsl:attribute name="width">
-      <xsl:value-of select="($thiswidth div $totalwidth) * 100"/><xsl:text>%</xsl:text>
+      <xsl:choose>
+        <xsl:when test="$proportionalWidth">
+          <xsl:value-of select="($thiswidth div $totalwidth) * 100"/>
+          <xsl:text>%</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$thiswidth"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:attribute>
   </xsl:if>
 
@@ -2912,55 +2361,22 @@
     </xsl:otherwise>
   </xsl:choose>
 
+  <!-- Add any flags from tgroup, thead or tbody, and row -->
+  <xsl:apply-templates select="../../../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="../../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
   <xsl:choose>
     <!-- When entry is empty, output a blank -->
     <xsl:when test="not(*|text()|processing-instruction())">
       <xsl:text>&#160;</xsl:text>  <!-- nbsp -->
     </xsl:when>
     <xsl:otherwise>
-      <xsl:variable name="revtest">
-        <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-          <xsl:call-template name="find-active-rev-flag">               
-            <xsl:with-param name="allrevs" select="@rev"/>
-          </xsl:call-template>
-        </xsl:if>
-      </xsl:variable>
-      <xsl:variable name="revtest-row">
-        <xsl:if test="../@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-          <xsl:call-template name="find-active-rev-flag">   
-            <xsl:with-param name="allrevs" select="../@rev"/>
-          </xsl:call-template>
-        </xsl:if>
-      </xsl:variable>
-      <xsl:choose>
-        <xsl:when test="$revtest=1">   <!-- Entry Rev is active - add the span -->
-          <span class="{@rev}">
-            <xsl:call-template name="start-revflag">
-              <xsl:with-param name="flagrules" select="$flagrules"/>
-            </xsl:call-template>            
-          <xsl:apply-templates/>
-            <xsl:call-template name="end-revflag">
-              <xsl:with-param name="flagrules" select="$flagrules"/>
-            </xsl:call-template>
-          </span>
-        </xsl:when>
-        <xsl:when test="$revtest-row=1">   <!-- Row Rev is active - add the span -->
-          <span class="{../@rev}">
-            <xsl:call-template name="start-revflag-parent">
-              <xsl:with-param name="flagrules" select="$flagrules"/>
-            </xsl:call-template>
-          <xsl:apply-templates/>
-            <xsl:call-template name="end-revflag-parent">
-              <xsl:with-param name="flagrules" select="$flagrules"/>
-            </xsl:call-template>
-          </span>
-        </xsl:when>
-        <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
-          <xsl:apply-templates/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:apply-templates/>
     </xsl:otherwise>
   </xsl:choose>
+  <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="../../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:apply-templates select="../../../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
 </xsl:template>
 
 <!-- Starting with the first colspec, add up the total width for
@@ -3200,29 +2616,18 @@
 
 <!-- =========== SimpleTable - SEMANTIC TABLE =========== -->
 
+<xsl:template match="*[contains(@class,' topic/simpletable ')]" mode="generate-table-summary-attribute">
+  <!-- Override this to use a local convention for setting table's @summary attribute,
+       until OASIS provides a standard mechanism for setting. -->
+</xsl:template>
+
 <xsl:template match="*[contains(@class,' topic/simpletable ')]" name="topic.simpletable">
- <xsl:variable name="revtest">
-   <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> 
-     <xsl:call-template name="find-active-rev-flag">
-       <xsl:with-param name="allrevs" select="@rev"/>
-     </xsl:call-template>
-   </xsl:if>
- </xsl:variable>
- <xsl:choose>
-   <xsl:when test="$revtest=1">   <!-- Rev is active - add the DIV -->
-     <div class="{@rev}"><xsl:apply-templates select="."  mode="simpletable-fmt" /></div>
-   </xsl:when>
-   <xsl:otherwise>  <!-- Rev wasn't active - process normally -->
      <xsl:apply-templates select="."  mode="simpletable-fmt" />
-   </xsl:otherwise>
- </xsl:choose>
 </xsl:template>
 <xsl:template match="*[contains(@class,' topic/simpletable ')]" mode="simpletable-fmt">
+  <!-- This template is deprecated in DITA-OT 1.7. Processing will moved into the main element rule. -->
   <!-- Find the total number of relative units for the table. If @relcolwidth="1* 2* 2*",
        the variable is set to 5. -->
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <xsl:variable name="totalwidth">
     <xsl:if test="@relcolwidth">
       <xsl:call-template name="find-total-table-width"/>
@@ -3240,12 +2645,7 @@
     </xsl:choose>
   </xsl:variable>
   <xsl:call-template name="spec-title"/>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
   <xsl:call-template name="setaname"/>
   <table cellpadding="4" cellspacing="0" summary="">
    <xsl:call-template name="setid"/>
@@ -3260,9 +2660,7 @@
      </xsl:otherwise>
     </xsl:choose>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
+    <xsl:apply-templates select="." mode="generate-table-summary-attribute"/>
     <xsl:call-template name="setscale"/>
     <xsl:apply-templates select="." mode="dita2html:simpletable-heading">
       <xsl:with-param name="width-multiplier"><xsl:value-of select="$width-multiplier"/></xsl:with-param>
@@ -3271,25 +2669,15 @@
       <xsl:with-param name="width-multiplier"><xsl:value-of select="$width-multiplier"/></xsl:with-param>
     </xsl:apply-templates>
   </table>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template><xsl:value-of select="$newline"/>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+  <xsl:value-of select="$newline"/>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/strow ')]" name="topic.strow">
   <xsl:param name="width-multiplier"/>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <tr>
    <xsl:call-template name="setid"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:choose>
       <!-- If there are any rows or headers before this, the width values have already been set. -->
       <xsl:when test="preceding-sibling::*">
@@ -3396,34 +2784,28 @@
 <!-- SF Report 2008294: support flagging in simpletable headers. Use common template to simplify
                         sharing this with all simpletable entries and specializations. -->
 <xsl:template match="*" mode="start-stentry-flagging">
+  <!-- This template is deprecated in DITA-OT 1.7. -->
   <xsl:param name="flagrules">
     <xsl:call-template name="getrules"/>
     <xsl:call-template name="getrules-parent"/>
   </xsl:param>
-  <xsl:call-template name="start-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-  </xsl:call-template>
+  <xsl:call-template name="start-flagit"><xsl:with-param name="flagrules" select="$flagrules"/></xsl:call-template>
   <xsl:call-template name="start-revflag-parent">
     <xsl:with-param name="flagrules" select="$flagrules"/>
   </xsl:call-template>
-  <xsl:call-template name="start-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
+  <xsl:call-template name="start-revflag"><xsl:with-param name="flagrules" select="$flagrules"/></xsl:call-template>
 </xsl:template>
 <xsl:template match="*" mode="end-stentry-flagging">
+  <!-- This template is deprecated in DITA-OT 1.7. -->
   <xsl:param name="flagrules">
     <xsl:call-template name="getrules"/>
     <xsl:call-template name="getrules-parent"/>
   </xsl:param>
-  <xsl:call-template name="end-revflag">
-    <xsl:with-param name="flagrules" select="$flagrules"/>
-  </xsl:call-template>
+  <xsl:call-template name="end-revflag"><xsl:with-param name="flagrules" select="$flagrules"/></xsl:call-template>
   <xsl:call-template name="end-revflag-parent">
     <xsl:with-param name="flagrules" select="$flagrules"/>
   </xsl:call-template>
-  <xsl:call-template name="end-flagit">
-    <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-  </xsl:call-template>
+  <xsl:call-template name="end-flagit"><xsl:with-param name="flagrules" select="$flagrules"/></xsl:call-template>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/stentry ')]" name="topic.stentry">
@@ -3445,10 +2827,6 @@
 <!-- sthead/stentry - bottom align the header text -->
 <xsl:template name="topic.sthead_stentry">
   <xsl:param name="width-multiplier">0</xsl:param>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
   <th valign="bottom">
     <xsl:call-template name="th-align"/>
     <!-- Determine which column this entry is in. -->
@@ -3465,29 +2843,29 @@
     </xsl:variable>
     <xsl:call-template name="output-stentry-id"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <!-- If we calculated a width, create the width attribute. -->
     <xsl:if test="string-length($widthpercent)>0">
       <xsl:attribute name="width">
         <xsl:value-of select="$widthpercent"/><xsl:text>%</xsl:text>
       </xsl:attribute>
     </xsl:if>
-    <xsl:apply-templates select="." mode="start-stentry-flagging">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:apply-templates>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
     <xsl:choose>
-      <xsl:when test="not(*|text()|processing-instruction()) and @specentry">
-        <xsl:value-of select="@specentry"/>
+      <!-- If there is text, or a PI, or non-flagging element child -->
+      <xsl:when test="*[not(contains(@class,' ditaot-d/startprop ') or contains(@class,' dita-ot/endprop '))] | text() | processing-instruction()">
+        <xsl:apply-templates/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates/>
+        <!-- Add flags, then either @specentry or NBSP -->
+        <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+        <xsl:choose>
+          <xsl:when test="@specentry"><xsl:value-of select="@specentry"/></xsl:when>
+          <xsl:otherwise>&#160;</xsl:otherwise>
+        </xsl:choose>
+        <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
       </xsl:otherwise>
      </xsl:choose>
-    <xsl:apply-templates select="." mode="end-stentry-flagging">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:apply-templates>
+     <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </th><xsl:value-of select="$newline"/>
 </xsl:template>
 
@@ -3511,17 +2889,10 @@
 <!-- Bold the @keycol column. Get the column's number. When (Nth stentry = the @keycol value) then bold the stentry -->
 <xsl:template name="topic.strow_stentry">
  <xsl:param name="width-multiplier">0</xsl:param>
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-    <xsl:call-template name="getrules-parent"/>
-  </xsl:variable>
   <td valign="top">
     <xsl:call-template name="output-stentry-id"/>
     <xsl:call-template name="set.stentry.headers"/>
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:variable name="localkeycol">
       <xsl:choose>
         <xsl:when test="ancestor::*[contains(@class,' topic/simpletable ')]/@keycol">
@@ -3548,56 +2919,18 @@
         <xsl:value-of select="$widthpercent"/><xsl:text>%</xsl:text>
       </xsl:attribute>
     </xsl:if>
-    <xsl:apply-templates select="." mode="start-stentry-flagging">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:apply-templates>
-    <xsl:variable name="revtest">
-      <xsl:if test="@rev and not($FILTERFILE='') and ($DRAFT='yes')"> <!-- revision? -->
-        <xsl:call-template name="find-active-rev-flag">               <!-- active? (revtest will be 1 when active)-->
-          <xsl:with-param name="allrevs" select="@rev"/>
-        </xsl:call-template>
-      </xsl:if>
-    </xsl:variable>
-    <xsl:variable name="revtest-row">
-      <xsl:if test="../@rev and not($FILTERFILE='') and ($DRAFT='yes')"> <!-- revision? -->
-        <xsl:call-template name="find-active-rev-flag">               <!-- active? (revtest will be 1 when active)-->
-          <xsl:with-param name="allrevs" select="../@rev"/>
-        </xsl:call-template>
-      </xsl:if>
-    </xsl:variable>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
     <xsl:choose>
-     <xsl:when test="$thiscolnum=$localkeycol and $revtest-row=1">
-      <strong><span class="{../@rev}">
-<xsl:call-template name="stentry-templates"/>
-      </span></strong>
-     </xsl:when>
-     <xsl:when test="$thiscolnum=$localkeycol and $revtest=1">
-      <strong><span class="{@rev}">
-<xsl:call-template name="stentry-templates"/>
-      </span></strong>
-     </xsl:when>
      <xsl:when test="$thiscolnum=$localkeycol">
       <strong>
-<xsl:call-template name="stentry-templates"/>
+        <xsl:call-template name="stentry-templates"/>
       </strong>
      </xsl:when>
-     <xsl:when test="$revtest-row=1">
-      <span class="{../@rev}">
-<xsl:call-template name="stentry-templates"/>
-      </span>
-     </xsl:when>
-     <xsl:when test="$revtest=1">
-      <span class="{@rev}">
-<xsl:call-template name="stentry-templates"/>
-      </span>
-     </xsl:when>
      <xsl:otherwise>
-<xsl:call-template name="stentry-templates"/>
+       <xsl:call-template name="stentry-templates"/>
      </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates select="." mode="end-stentry-flagging">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:apply-templates>
+    <xsl:apply-templates select="../*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </td><xsl:value-of select="$newline"/>
 </xsl:template>
 <xsl:template name="stentry-templates">
@@ -3713,73 +3046,42 @@
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/required-cleanup ')]" name="topic.required-cleanup">
- <xsl:if test="$DRAFT='yes'">
-   <xsl:variable name="flagrules">
-     <xsl:call-template name="getrules"/>
-   </xsl:variable>
-   <xsl:apply-templates select="." mode="ditamsg:required-cleanup-in-content"/>
-  <div>
-   <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:apply-templates select="." mode="default-required-cleanup-style"/>
-    <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="start-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-     <strong><xsl:call-template name="getString">
-        <xsl:with-param name="stringName" select="'Required cleanup'"/>
-      </xsl:call-template>
+  <xsl:if test="$DRAFT='yes'">
+    <xsl:apply-templates select="." mode="ditamsg:required-cleanup-in-content"/>
+    <div>
+      <xsl:call-template name="commonattributes"/>
+      <xsl:apply-templates select="." mode="default-required-cleanup-style"/>
+      <xsl:call-template name="setidaname"/>
+      <strong><xsl:call-template name="getString">
+         <xsl:with-param name="stringName" select="'Required cleanup'"/>
+       </xsl:call-template>
        <xsl:call-template name="getString">
         <xsl:with-param name="stringName" select="'ColonSymbol'"/>
-       </xsl:call-template><xsl:text> </xsl:text></strong><xsl:if test="@remap">[<xsl:value-of select="@remap"/>] </xsl:if>
-     <xsl:apply-templates/>
-    <xsl:call-template name="end-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
-  </div><xsl:value-of select="$newline"/>
- </xsl:if>
+       </xsl:call-template><xsl:text> </xsl:text></strong>
+      <xsl:if test="@remap">[<xsl:value-of select="@remap"/>] </xsl:if>
+      <xsl:apply-templates/>
+    </div><xsl:value-of select="$newline"/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="*[contains(@class,' topic/draft-comment ')]" name="topic.draft-comment">
  <xsl:if test="$DRAFT='yes'">
-   <xsl:variable name="flagrules">
-     <xsl:call-template name="getrules"/>
-   </xsl:variable>
    <xsl:apply-templates select="." mode="ditamsg:draft-comment-in-content"/>
-  <div>
-    <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:apply-templates select="." mode="default-draft-comment-style"/>
-    <xsl:call-template name="setidaname"/>
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="start-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
+   <div>
+     <xsl:call-template name="commonattributes"/>
+     <xsl:apply-templates select="." mode="default-draft-comment-style"/>
+     <xsl:call-template name="setidaname"/>
      <strong><xsl:call-template name="getString">
         <xsl:with-param name="stringName" select="'Draft comment'"/>
       </xsl:call-template>
       <xsl:call-template name="getString">
         <xsl:with-param name="stringName" select="'ColonSymbol'"/>
-       </xsl:call-template><xsl:text> </xsl:text></strong><xsl:if test="@author"><xsl:value-of select="@author"/><xsl:text> </xsl:text></xsl:if><xsl:if test="@disposition"><xsl:value-of select="@disposition"/><xsl:text> </xsl:text></xsl:if><xsl:if test="@time"><xsl:value-of select="@time"/></xsl:if><br/>
+       </xsl:call-template><xsl:text> </xsl:text></strong>
+     <xsl:if test="@author"><xsl:value-of select="@author"/><xsl:text> </xsl:text></xsl:if>
+     <xsl:if test="@disposition"><xsl:value-of select="@disposition"/><xsl:text> </xsl:text></xsl:if>
+     <xsl:if test="@time"><xsl:value-of select="@time"/></xsl:if>
+     <br/>
      <xsl:apply-templates/>
-    <xsl:call-template name="end-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
   </div><xsl:value-of select="$newline"/>
  </xsl:if>
 </xsl:template>
@@ -3903,6 +3205,7 @@
   <xsl:param name="default-output-class"/>
   <xsl:apply-templates select="@xml:lang"/>
   <xsl:apply-templates select="@dir"/>
+  <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
   <xsl:apply-templates select="." mode="set-output-class">
     <xsl:with-param name="default" select="$default-output-class"/>
   </xsl:apply-templates>
@@ -3915,11 +3218,25 @@
   <xsl:variable name="output-class">
     <xsl:apply-templates select="." mode="get-output-class"/>
   </xsl:variable>
+  <xsl:variable name="draft-revs">
+    <!-- If draft is on, add revisions to default class. Simplifies processing in DITA-OT 1.6 and earlier
+         that created an extra div or span around revised content, just to hold @class with revs. -->
+    <xsl:if test="$DRAFT='yes'">
+      <xsl:for-each select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/revprop">
+        <xsl:value-of select="@val"/>
+        <xsl:text> </xsl:text>
+      </xsl:for-each>
+    </xsl:if>
+  </xsl:variable>
   <xsl:variable name="using-output-class">
     <xsl:choose>
       <xsl:when test="string-length(normalize-space($output-class)) &gt; 0"><xsl:value-of select="$output-class"/></xsl:when>
       <xsl:when test="string-length(normalize-space($default)) &gt; 0"><xsl:value-of select="$default"/></xsl:when>
     </xsl:choose>
+    <xsl:if test="$draft-revs!=''">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="normalize-space($draft-revs)"/>
+    </xsl:if>
   </xsl:variable>
   <xsl:variable name="ancestry">
     <xsl:if test="$PRESERVE-DITA-CLASS='yes'">
@@ -3936,7 +3253,7 @@
       <xsl:value-of select="$ancestry"/>
       <xsl:if test="string-length(normalize-space($ancestry)) &gt; 0 and 
                     string-length(normalize-space($using-output-class)) &gt; 0"><xsl:text> </xsl:text></xsl:if>
-      <xsl:value-of select="$using-output-class"/>
+      <xsl:value-of select="normalize-space($using-output-class)"/>
       <xsl:if test="string-length(normalize-space(concat($ancestry,$using-output-class))) &gt; 0 and
                     string-length(normalize-space($outputclass-attribute)) &gt; 0"><xsl:text> </xsl:text></xsl:if>
       <xsl:value-of select="$outputclass-attribute"/>
@@ -4151,11 +3468,13 @@
 </xsl:template>
 
 <!-- Process a section heading - H4 based on: 1) title element 2) @spectitle attr -->
-<!-- DITA-OT 1.5: Deprecate this template in favor of a moded template, which allows
-     easier generated headings for a specific specialized section                 -->
 <xsl:template name="sect-heading">
   <xsl:param name="defaulttitle"/> <!-- get param by reference -->
-  <!-- Deprecated in favor of the mode template -->
+  <xsl:call-template name="output-message">
+    <xsl:with-param name="msgnum">066</xsl:with-param>
+    <xsl:with-param name="msgsev">W</xsl:with-param>
+    <xsl:with-param name="msgparams">%1=sect-heading</xsl:with-param>
+  </xsl:call-template>
   <xsl:apply-templates select="." mode="dita2html:section-heading">
     <xsl:with-param name="defaulttitle" select="$defaulttitle"/>
   </xsl:apply-templates>
@@ -4284,9 +3603,6 @@
 
 <!-- Catch footnotes that should appear at the end of the topic, and output them. -->
 <xsl:template match="*[contains(@class,' topic/fn ')]" mode="genEndnote">
-  <xsl:variable name="flagrules">
-    <xsl:call-template name="getrules"/>
-  </xsl:variable>
   <div class="p">
     <xsl:variable name="fnid"><xsl:number from="/" level="any"/></xsl:variable>
     <xsl:variable name="callout"><xsl:value-of select="@callout"/></xsl:variable>
@@ -4298,9 +3614,6 @@
     </xsl:variable>
     
     <xsl:call-template name="commonattributes"/>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
     <xsl:choose>
       <xsl:when test="@id and not(@id='')">
         <xsl:variable name="topicid">
@@ -4333,19 +3646,7 @@
       </xsl:otherwise>
     </xsl:choose>
         
-    <xsl:call-template name="start-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-    </xsl:call-template>
-    <xsl:call-template name="start-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
     <xsl:apply-templates/>
-    <xsl:call-template name="end-revflag">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
-    <xsl:call-template name="end-flagit">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-    </xsl:call-template>
   </div>
 </xsl:template>
 
@@ -4706,8 +4007,6 @@
     <xsl:if test="$genDefMeta='yes'">
       <meta name="security" content="public" /><xsl:value-of select="$newline"/>
       <meta name="Robots" content="index,follow" /><xsl:value-of select="$newline"/>
-      <meta http-equiv="PICS-Label" content="(PICS-1.1 'http://www.icra.org/ratingsv02.html' l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) 'http://www.rsac.org/ratingsv01.html' l gen true r (n 0 s 0 v 0 l 0) 'http://www.classify.org/safesurf/' l gen true r (SS~~000 1))" />
-      <xsl:value-of select="$newline"/>
     </xsl:if>
   </xsl:template>
   
@@ -4773,14 +4072,10 @@
       <xsl:variable name="ditaschtitle"><xsl:apply-templates select="/dita/*[contains(@class,' topic/topic ')][1]/*[contains(@class,' topic/titlealts ')]/*[contains(@class,' topic/searchtitle ')]" mode="text-only"/></xsl:variable>
       <xsl:variable name="maintitle"><xsl:apply-templates select="/*[contains(@class,' topic/topic ')]/*[contains(@class,' topic/title ')]" mode="text-only"/></xsl:variable>
       <xsl:variable name="ditamaintitle"><xsl:apply-templates select="/dita/*[contains(@class,' topic/topic ')][1]/*[contains(@class,' topic/title ')]" mode="text-only"/></xsl:variable>
-      <!-- edited by William on 2009-05-18 for searchtitle bug start -->
       <xsl:variable name="mapschtitle"><xsl:apply-templates select="/*[contains(@class,' topic/topic ')]/*[contains(@class,' topic/titlealts ')]/*[contains(@class,' map/searchtitle ')]" mode="text-only"/></xsl:variable>
-      <!-- edited by William on 2009-05-18 for searchtitile bug end -->
       <xsl:choose>
         <xsl:when test="string-length($schtitle)> 0"><xsl:value-of select="normalize-space($schtitle)"/></xsl:when>
-        <!-- edited by William on 2009-05-18 for searchtitle bug start -->
         <xsl:when test="string-length($mapschtitle)> 0"><xsl:value-of select="normalize-space($mapschtitle)"/></xsl:when>
-        <!-- edited by William on 2009-05-18 for searchtitile bug end -->
         <xsl:when test="string-length($ditaschtitle)> 0"><xsl:value-of select="normalize-space($ditaschtitle)"/></xsl:when>
         <xsl:when test="string-length($maintitle) > 0"><xsl:value-of select="normalize-space($maintitle)"/></xsl:when>
         <xsl:when test="string-length($ditamaintitle)> 0"><xsl:value-of select="normalize-space($ditamaintitle)"/></xsl:when>
@@ -4802,14 +4097,9 @@
     <xsl:apply-templates select="." mode="chapterBody"/>
   </xsl:template>
   <xsl:template match="*" mode="chapterBody">
-    <xsl:variable name="flagrules">
-      <xsl:call-template name="getrules"/>
-    </xsl:variable>
     <body>
       <!-- Already put xml:lang on <html>; do not copy to body with commonattributes -->
-      <xsl:call-template name="gen-style">
-        <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-      </xsl:call-template>
+      <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]/@outputclass" mode="add-ditaval-style"/>
       <!--output parent or first "topic" tag's outputclass as class -->
       <xsl:if test="@outputclass">
        <xsl:attribute name="class"><xsl:value-of select="@outputclass" /></xsl:attribute>
@@ -4822,12 +4112,7 @@
       <xsl:apply-templates select="." mode="addAttributesToBody"/>
       <xsl:call-template name="setidaname"/>
       <xsl:value-of select="$newline"/>
-      <xsl:call-template name="start-flagit">
-        <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>     
-      </xsl:call-template>
-      <xsl:call-template name="start-revflag">
-        <xsl:with-param name="flagrules" select="$flagrules"/>
-      </xsl:call-template>
+      <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
       <xsl:call-template name="generateBreadcrumbs"/>
       <xsl:call-template name="gen-user-header"/>  <!-- include user's XSL running header here -->
       <xsl:call-template name="processHDR"/>
@@ -4847,12 +4132,7 @@
       <xsl:call-template name="gen-endnotes"/>    <!-- include footnote-endnotes -->
       <xsl:call-template name="gen-user-footer"/> <!-- include user's XSL running footer here -->
       <xsl:call-template name="processFTR"/>      <!-- Include XHTML footer, if specified -->
-      <xsl:call-template name="end-revflag">
-        <xsl:with-param name="flagrules" select="$flagrules"/>
-      </xsl:call-template>
-      <xsl:call-template name="end-flagit">
-        <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param> 
-      </xsl:call-template>
+      <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
     </body>
     <xsl:value-of select="$newline"/>
   </xsl:template>
@@ -4882,31 +4162,6 @@
       <xsl:copy-of select="document($FTRFILE,/)"/>
     </xsl:if>
     <xsl:value-of select="$newline"/>
-  </xsl:template>
-
-  <xsl:template match="processing-instruction('path2project')" mode="get-path2project">
-    <xsl:call-template name="get-path2project">
-      <xsl:with-param name="s" select="."/>
-    </xsl:call-template>
-  </xsl:template>
-
-  <xsl:template name="get-path2project">
-    <!-- Deal with being handed a Windows backslashed path by accident. -->
-    <!-- This code only changes \ to / and doesn't handle the many other situations
-         where a URI differs from a file path.  Hopefully they don't occur in path2proj anyway. -->
-    <xsl:param name="s"/>
-    <xsl:choose>
-      <xsl:when test="contains($s, '\')">
-        <xsl:value-of select="substring-before($s, '\')"/>
-        <xsl:text>/</xsl:text>
-        <xsl:call-template name="get-path2project">
-          <xsl:with-param name="s" select="substring-after($s, '\')"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$s"/>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="get-file-name">
@@ -4949,7 +4204,8 @@
   <!-- Add for bodydiv  and sectiondiv-->
   <xsl:template match="*[contains(@class,' topic/bodydiv ') or contains(@class, ' topic/sectiondiv ')]">
     <div>
-    <xsl:apply-templates/>
+      <xsl:call-template name="commonattributes"/>
+      <xsl:apply-templates/>
     </div>
   </xsl:template>
 
@@ -4992,19 +4248,19 @@
           <xsl:if test="$keydef">
             <xsl:choose>
               <xsl:when test="contains($keydef/@href, '#')">
-                <xsl:value-of select="concat(substring-before(substring-before($keydef/@href, '#'), '.'), $DITAEXT)"/>
+                <xsl:value-of select="substring-before($keydef/@href, '#')"/>
               </xsl:when>
               <xsl:when test="$keydef/@href">
-                <xsl:value-of select="concat(substring-before($keydef/@href, '.'), $DITAEXT)"/>
+                <xsl:value-of select="$keydef/@href"/>
               </xsl:when>
             </xsl:choose>
           </xsl:if>
         </xsl:variable>
         <xsl:if test="not($target='' or contains($target, '://'))">
-          <xsl:value-of select="document(concat($WORKDIR, $PATH2PROJ, $target))//*[contains(@class, ' topic/title ')][normalize-space(text())!=''][1]"/>
+          <xsl:value-of select="document(concat($WORKDIR, $PATH2PROJ, $target))//*[contains(@class, ' topic/title ')][normalize-space(.)!=''][1]"/>
         </xsl:if>
       </xsl:when>
-      <xsl:when test="normalize-space(text())=''">
+      <xsl:when test="normalize-space(.)=''">
         <xsl:value-of select="$displaytext"/>
       </xsl:when>
     </xsl:choose>
@@ -5014,7 +4270,6 @@
                  plus move common code to single template -->
   <xsl:template match="*" mode="turning-to-link">
     <xsl:param name="keys">#none#</xsl:param>
-    <xsl:param name="flagrules"></xsl:param>
     <xsl:param name="type"></xsl:param>
     <xsl:variable name="elementName">
       <xsl:choose>
@@ -5036,11 +4291,12 @@
               <xsl:element name="{$elementName}">
                 <xsl:apply-templates select="." mode="common-processing-phrase-within-link">
                   <xsl:with-param name="type" select="$type"/>
-                  <xsl:with-param name="flagrules" select="$flagrules"/>
                 </xsl:apply-templates>
                 <xsl:apply-templates select="." mode="pull-in-title">
                   <xsl:with-param name="type" select="$type"/>
-                  <xsl:with-param name="displaytext" select="normalize-space(text())"/>
+                  <xsl:with-param name="displaytext">
+                    <xsl:apply-templates select="."  mode="dita-ot:text-only"/>
+                  </xsl:with-param>
                 </xsl:apply-templates>
               </xsl:element>
             </a>
@@ -5049,11 +4305,12 @@
             <xsl:element name="{$elementName}">
               <xsl:apply-templates select="." mode="common-processing-phrase-within-link">
                 <xsl:with-param name="type" select="$type"/>
-                <xsl:with-param name="flagrules" select="$flagrules"/>
               </xsl:apply-templates>
               <xsl:apply-templates select="." mode="pull-in-title">
                 <xsl:with-param name="type" select="$type"/>
-                <xsl:with-param name="displaytext" select="normalize-space(text())"/>
+                <xsl:with-param name="displaytext">
+                  <xsl:apply-templates select="."  mode="dita-ot:text-only"/>
+                </xsl:with-param>
               </xsl:apply-templates>
             </xsl:element>
           </xsl:otherwise>
@@ -5063,7 +4320,6 @@
         <xsl:element name="{$elementName}">
           <xsl:apply-templates select="." mode="common-processing-phrase-within-link">
             <xsl:with-param name="type" select="$type"/>
-            <xsl:with-param name="flagrules" select="$flagrules"/>
           </xsl:apply-templates>
         </xsl:element>
       </xsl:otherwise>
@@ -5072,26 +4328,15 @@
 
   <xsl:template match="*" mode="common-processing-phrase-within-link">
     <xsl:param name="type"/>
-    <xsl:param name="flagrules"></xsl:param>
     <xsl:call-template name="commonattributes">
       <xsl:with-param name="default-output-class">
         <xsl:if test="normalize-space($type)!=name()"><xsl:value-of select="$type"/></xsl:if>
       </xsl:with-param>
     </xsl:call-template>
-    <xsl:call-template name="gen-style">
-      <xsl:with-param name="flagrules" select="$flagrules"></xsl:with-param>
-    </xsl:call-template>
-    <xsl:call-template name="setidaname"/>   
-    <xsl:call-template name="flagcheck"/>
-    <xsl:call-template name="revtext">
-      <xsl:with-param name="flagrules" select="$flagrules"/>
-    </xsl:call-template>
+    <xsl:call-template name="setidaname"/>
+    <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="processing-instruction('workdir')" mode="get-work-dir">
-    <xsl:value-of select="."/><xsl:text>/</xsl:text>
-  </xsl:template>
-  
   <!-- MESSAGES: Refactoring places each message in a moded template, so that users
        may more easily override a message for one or all cases. -->
   <xsl:template match="*" mode="ditamsg:no-glossentry-for-key">
@@ -5099,7 +4344,7 @@
     <xsl:call-template name="output-message">
       <xsl:with-param name="msgnum">058</xsl:with-param>
       <xsl:with-param name="msgsev">W</xsl:with-param>
-      <xsl:with-param name="msgparams">%1=<xsl:value-of select="$matching-keys"/></xsl:with-param>
+      <xsl:with-param name="msgparams">%1=<xsl:value-of select="$matching-keys"/>;%2=<xsl:value-of select="name()"/></xsl:with-param>
     </xsl:call-template>
   </xsl:template>
   <xsl:template match="*" mode="ditamsg:no-title-for-topic">

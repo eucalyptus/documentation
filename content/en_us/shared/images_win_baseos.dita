@@ -14,9 +14,8 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p>The first task for creating a Windows image is installing a base
-				Windows operating system (OS). To install a base Windows OS
-				using KVM or Xen:</p>
+			<p>The first task for creating a Windows image is installing a base Windows operating system
+				(OS). To install a base Windows OS using KVM:</p>
 		</context>
 		<steps>
 			<step>
@@ -50,12 +49,8 @@
 
 			</step>
 			<step>
-				<cmd>Copy the
-						<filepath>libvirt-[hypervisor]-windows-example.xml</filepath>
-					file to your working directory and rename it to
-						<filepath>libvirt-[hypervisor]-windows.xml</filepath>,
-					where <codeph>[hypervisor]</codeph> is one of
-						<codeph>xen</codeph> or <codeph>kvm</codeph>.</cmd>
+				<cmd>Copy the <filepath>libvirt-kvm-windows-example.xml</filepath> file to your working
+					directory and rename it to <filepath>libvirt-kvm-windows.xml</filepath>.</cmd>
 				<info>
 					<codeblock> cp /usr/share/eucalyptus/doc/libvirt-kvm-windows-example.xml /var/lib/libvirt/images/libvirt-kvm-windows.xml </codeblock>
 					<p>or</p>
@@ -63,19 +58,16 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Open the new
-						<filepath>libvirt-[hypervisor]-windows.xml</filepath>
-					file and provide fully qualified paths to the VM image file
-					and iso. Make sure that the name of the bridge is the same
-					as the one used by the hypervisor on which you are creating
-					the Windows image.</cmd>
+				<cmd>Open the new <filepath>libvirt-kvm-windows.xml</filepath> file and provide fully qualified
+					paths to the VM image file and iso. Make sure that the name of the bridge is the
+					same as the one used by the hypervisor on which you are creating the Windows
+					image.</cmd>
 				<!--<info>
 					<note type="tip">brctrl show command shows bridge name—ensure that it’s the same.</note>
 					</info>-->
 				<stepresult>
-					<p>Your file should look similar to one of the following
-						examples.</p>
-					<p>For Xen:</p>
+					<p>Your file should look similar to the following example:</p>
+					<!--<p>For Xen:</p>
 					<codeblock>&lt;domain type='xen'>
     &lt;name>eucalyptus-windows&lt;/name>
     &lt;os>
@@ -100,7 +92,7 @@
             &lt;source file='/root/windows_2003.img'/>
             &lt;target dev='hda' bus='ide'/>
         &lt;/disk>
-        &lt;!--&lt;disk type='file' device='disk'>
+        &lt;!-\-&lt;disk type='file' device='disk'>
             &lt;driver name='tap' type='aio'/>
             &lt;source file='fully_qualified_path_to_secondary_disk'/>
             &lt;target dev='xvda' bus='xen'/>
@@ -108,7 +100,7 @@
         &lt;disk type='file' device='floppy'>
              &lt;source file='fully_qualified_path_to_floppy_disk'/>
              &lt;target dev='fda'/>
-        &lt;/disk> -->
+        &lt;/disk> -\->
         &lt;disk type='file' device='cdrom'>
             &lt;source file='/root/en_win_srv_2003_r2_enterprise_with_sp2_cd1_x13-05460.iso'/>
             &lt;target dev='hdc'/>
@@ -127,7 +119,7 @@
         &lt;graphics type='vnc' port='-1' autoport='yes' keymap='en-us' listen='0.0.0.0'/>
     &lt;/devices>
 &lt;/domain></codeblock>
-					<p>For KVM:</p>
+					<p>For KVM:</p>-->
 					<codeblock>&lt;domain type='kvm'>
 	  &lt;name>your-domain-name-here&lt;/name>
     &lt;os>
@@ -175,7 +167,7 @@
 				<cmd>Start the VM.</cmd>
 				<info>
 					<codeblock>cd /var/lib/libvirt/images
-virsh create libvirt-[hypervisor]-windows.xml</codeblock>
+virsh create libvirt-kvm-windows.xml</codeblock>
 				</info>
 			</step>
 			<step>

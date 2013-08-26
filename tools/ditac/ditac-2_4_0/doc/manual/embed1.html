@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Part III, Chapter 10. High-level method: embedding com.xmlmind.ditac.convert.Converter</title>
+      <link rel="stylesheet" type="text/css" href="resources/basic.css" />
+      <meta name="generator" content="XMLmind DITA Converter 2.4.0" />
+   </head>
+   <body>
+      <div class="page-navigation-bar">
+         <table class="page-navigation-layout" width="100%">
+            <tr>
+               <td align="left" valign="top"><a href="index.html" class="navigation-link" title="First page: XMLmind DITA Converter Manual" accesskey="S"><img class="navigation-icon" src="resources/first.png" alt="First page" width="16" height="16" /></a></td>
+               <td align="left" valign="top"><a href="manual-7.html" class="navigation-link" title="Previous page: Part III. Embedding XMLmind DITA Converter in a Java™ application" accesskey="P"><img class="navigation-icon" src="resources/previous.png" alt="Previous page" width="16" height="16" /></a></td>
+               <td width="25%" align="left" valign="top"><span class="page-navigation-previous">Part III. Embedding XMLmind DITA Converter in a Java™ application</span></td>
+               <td width="40%" align="center" valign="top"><span class="page-navigation-current">Part III, Chapter 10. High-level method: embedding com.xmlmind.ditac.convert.Converter</span> <span class="page-navigation-page">(17 / 21)</span></td>
+               <td width="25%" align="right" valign="top"><span class="page-navigation-next">Part III, Chapter 11. Low-level method: embedding com.xmlmind.ditac.preprocess.PreProcessor</span></td>
+               <td align="right" valign="top"><a href="embed2.html" class="navigation-link" title="Next page: Part III, Chapter 11. Low-level method: embedding com.xmlmind.ditac.preprocess.PreProcessor" accesskey="N"><img class="navigation-icon" src="resources/next.png" alt="Next page" width="16" height="16" /></a></td>
+               <td align="right" valign="top"><a href="manual-8.html" class="navigation-link" title="Last page: Index" accesskey="E"><img class="navigation-icon" src="resources/last.png" alt="Last page" width="16" height="16" /></a></td>
+            </tr>
+         </table>
+         <hr class="page-navigation-top-separator" />
+      </div>
+      <div id="embed1" class="topic">
+         <h2 class="chapter-title">Chapter 10. High-level method: embedding
+            <code class="apiname">com.xmlmind.ditac.convert.Converter</code></h2>
+         <p class="shortdesc">Quick and easy embedding: embed
+            <code class="apiname">com.xmlmind.ditac.convert.Converter</code>, the <span class="tm">Java™</span> class which is used to implement the
+            <code class="cmdname">ditac</code> command-line utility.
+         </p>
+         <div class="body">
+            <div class="p"><a href="../api/com/xmlmind/ditac/convert/Converter.html" class="xref" target="_blank">Converter <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a> is the object which is at the core of
+               the <code class="cmdname">ditac</code> command-line utility. Its <a href="../api/com/xmlmind/ditac/convert/Converter.html#run(java.lang.String[])" class="xref" target="_blank">run <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a> method accepts the same string arguments as
+               the <a href="commandLine.html#commandLine" class="xref"><code class="cmdname">ditac</code> command-line
+                  utility</a>.
+            </div>
+            <div class="p">The full source code of the <code class="apiname">Embed1</code> sample is found
+               in <a href="embed/Embed1.java" class="xref" target="_blank"><code class="filepath">Embed1.java</code> <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>.
+            </div>
+            <ol class="ol">
+               <li class="li">
+                  <div class="p">Create the <code class="apiname">Converter</code>.
+                  </div><pre class="pre language-java">StyleSheetCache cache = <span class="hl-keyword">new</span> StyleSheetCache();
+
+Console console = <span class="hl-keyword">new</span> Console() {
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> showMessage(String message, MessageType messageType) {
+        System.err.println(message);
+    }
+};
+
+Converter converter = <span class="hl-keyword">new</span> Converter(cache, console);</pre><ul class="ul">
+                     <li class="li">
+                        <div class="p"><a href="../api/com/xmlmind/ditac/convert/StyleSheetCache.html" class="xref" target="_blank">StyleSheetCache <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a> is a simple cache for the
+                           ditac XSLT 2.0 stylesheets. It is a thread-safe object which is
+                           intended to be shared by several
+                           <code class="apiname">Converter</code>s.
+                        </div>
+                        <div class="p">Unlike
+                           <code class="apiname">StyleSheetCache</code>, <code class="apiname">Converter</code> is
+                           not thread-safe. Each thread must own its
+                           <code class="apiname">Converter</code>. However, the <code class="apiname">run</code>
+                           method of a <code class="apiname">Converter</code> may be invoked several
+                           times.
+                        </div>
+                     </li>
+                     <li class="li">
+                        <div class="p"><a href="../api/com/xmlmind/util/Console.html" class="xref" target="_blank">Console <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a> is a very simple interface.
+                           Implementing this interface allows to do whatever you want with the
+                           messages reported by a <code class="apiname">Converter</code>.
+                        </div>
+                     </li>
+                  </ul>
+               </li>
+               <li class="li">
+                  <div class="p">Configure the <code class="apiname">Converter</code>.
+                  </div><pre class="pre language-java"><span class="hl-keyword">if</span> (!converter.registerFOP(path(<span class="hl-string">"/opt/fop/fop"</span>))) {
+    <span class="hl-keyword">return</span> <span class="hl-number">1</span>;
+}
+
+File xslDir = <span class="hl-keyword">new</span> File(path(<span class="hl-string">"../../../xsl"</span>));
+System.setProperty(<span class="hl-string">"DITAC_XSL_DIR"</span>, xslDir.getAbsolutePath());</pre><ul class="ul">
+                     <li class="li">
+                        <div class="p">There are several methods which allows to register an XSL-FO
+                           processor with a <code class="apiname">Converter</code>. From high-level ones
+                           to low-level ones, these methods are: <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerFOP(java.lang.String)" class="xref" target="_blank">registerFOP <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>, <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerXEP(java.lang.String)" class="xref" target="_blank">registerXEP <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>, <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerAHF(java.lang.String)" class="xref" target="_blank">registerAHF <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>, <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerXFC(java.lang.String)" class="xref" target="_blank">registerXFC <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>, <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerExternalFOConverter(java.lang.String,%20com.xmlmind.ditac.convert.Format,%20java.lang.String)" class="xref" target="_blank">registerExternalFOConverter <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>, <a href="../api/com/xmlmind/ditac/convert/Converter.html#registerFOConverter(com.xmlmind.ditac.convert.FOConverter)" class="xref" target="_blank">registerFOConverter <img border="0" src="resources/new_window.png" alt="Opens in new window" width="11" height="10" /></a>.
+                        </div>
+                     </li>
+                  </ul>
+                  <ul class="ul">
+                     <li class="li">
+                        <div class="p">A <code class="apiname">Converter</code> can automatically determine
+                           where to find the directory containing all the ditac XSLT 2.0
+                           stylesheets. It assumes that <code class="filepath">ditac.jar</code> is in
+                           the class path of <span class="tm">Java™</span>. It also assumes that
+                           <code class="filepath">ditac.jar</code> is contained in a
+                           <code class="filepath">lib/</code> directory. The<code class="filepath"> xsl/</code>
+                           directory is assumed to be a sibling of the
+                           <code class="filepath">lib/</code> directory.
+                        </div>
+                        <div class="p">However, the situation
+                           may be very different in applications other than the
+                           <code class="cmdname">ditac</code> command-line. That's why you may need to
+                           set the <tt class="tt">DITAC_XSL_DIR</tt> system property to the absolute path
+                           of the <code class="filepath">xsl/</code> directory containing the XSLT
+                           stylesheets.
+                        </div>
+                     </li>
+                  </ul>
+               </li>
+               <li class="li">
+                  <div class="p">Invoke the <code class="apiname">run</code> method.
+                  </div><pre class="pre language-java">String[] args = {
+    <span class="hl-string">"-v"</span>,
+    <span class="hl-string">"-p"</span>, <span class="hl-string">"number"</span>, <span class="hl-string">"all"</span>,
+    outFile.getPath(),
+    inFile.getPath(),
+};
+
+<span class="hl-keyword">return</span> converter.run(args);</pre><div class="p">The <code class="apiname">run</code> method returns
+                     0 if the conversion is successful and an integer greater than 0
+                     otherwise. When the conversion fails, errors messages are displayed on
+                     the <code class="apiname">Console</code>.
+                  </div>
+               </li>
+            </ol>
+            <div id="embed1__I_8gu060_" class="section">
+               <h3 class="section-title">Compiling and executing the <code class="apiname">Embed1</code>
+                  sample
+               </h3>
+               <div class="p">Compile the <code class="apiname">Embed1</code> sample by running
+                  <code class="cmdname">ant</code> in
+                  <code class="filepath"><var class="varname">ditac_install_dir</var>/doc/manual/embed/</code>.
+               </div>
+               <div class="p">Execute
+                  the <code class="apiname">Embed1</code> sample by running
+                  <code class="cmdname">ant</code> <tt class="tt">embed1</tt> in
+                  <code class="filepath"><var class="varname">ditac_install_dir</var>/doc/manual/embed/</code>.
+                  This will convert
+                  <code class="filepath"><var class="varname">ditac_install_dir</var>/docsrc/manual/manual.ditamap</code>
+                  to
+                  <code class="filepath"><var class="varname">ditac_install_dir</var>/doc/manual/embed/manual.pdf</code>,
+                  using Apache FOP.
+               </div>
+               <div class="p">Note that <code class="filepath">Embed1.java</code>
+                  contains ``hardwired filenames''. This means that this sample cannot be
+                  run from elsewhere than
+                  <code class="filepath"><var class="varname">ditac_install_dir</var>/doc/manual/embed/</code>
+                  and that you'll almost certainly need to modify the source code in order
+                  to specify the actual location of the <code class="filepath">fop</code>
+                  (<code class="filepath">fop.bat</code>) script.
+               </div>
+            </div>
+         </div>
+         <div class="related-links">
+            <h3 class="related-links-title">Related information</h3>
+            <p class="link">‣ <a href="embed2.html#embed2" title="Advanced embedding method: first invoke a preprocessor which will generate intermediate .ditac files, then invoke the XSLT 2.0 engine in order to transform all these .ditac files.">Chapter 11. Low-level method: embedding
+                  <code class="apiname">com.xmlmind.ditac.preprocess.PreProcessor</code></a></p>
+         </div>
+         <div class="unordered-members-linkpool">
+            <p class="link">‣ <span class="parent-topic-link-item">Parent topic: </span><a href="manual-7.html#I_5bc8m8_">Part III. Embedding XMLmind DITA Converter in a Java™ application</a></p>
+         </div>
+      </div>
+      <div class="page-navigation-bar">
+         <hr class="page-navigation-bottom-separator" />
+         <table class="page-navigation-layout" width="100%">
+            <tr>
+               <td align="left" valign="top"><a href="index.html" class="navigation-link" title="First page: XMLmind DITA Converter Manual" accesskey="S"><img class="navigation-icon" src="resources/first.png" alt="First page" width="16" height="16" /></a></td>
+               <td align="left" valign="top"><a href="manual-7.html" class="navigation-link" title="Previous page: Part III. Embedding XMLmind DITA Converter in a Java™ application" accesskey="P"><img class="navigation-icon" src="resources/previous.png" alt="Previous page" width="16" height="16" /></a></td>
+               <td width="25%" align="left" valign="top"><span class="page-navigation-previous">Part III. Embedding XMLmind DITA Converter in a Java™ application</span></td>
+               <td width="40%" align="center" valign="top"><span class="page-navigation-current">Part III, Chapter 10. High-level method: embedding com.xmlmind.ditac.convert.Converter</span> <span class="page-navigation-page">(17 / 21)</span></td>
+               <td width="25%" align="right" valign="top"><span class="page-navigation-next">Part III, Chapter 11. Low-level method: embedding com.xmlmind.ditac.preprocess.PreProcessor</span></td>
+               <td align="right" valign="top"><a href="embed2.html" class="navigation-link" title="Next page: Part III, Chapter 11. Low-level method: embedding com.xmlmind.ditac.preprocess.PreProcessor" accesskey="N"><img class="navigation-icon" src="resources/next.png" alt="Next page" width="16" height="16" /></a></td>
+               <td align="right" valign="top"><a href="manual-8.html" class="navigation-link" title="Last page: Index" accesskey="E"><img class="navigation-icon" src="resources/last.png" alt="Last page" width="16" height="16" /></a></td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

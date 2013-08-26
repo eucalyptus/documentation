@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN"
+"http://docs.oasis-open.org/dita/dtd/topic.dtd">
+<topic id="quickStart">
+  <title>Using the <tt>ditac</tt> command-line utility</title>
+
+  <body>
+    <section><p>In this chapter, we'll explain how to run the
+    <cmdname>ditac</cmdname> command-line utility by using examples. You'll
+    find all the DITA input files used to run the following examples in the
+    <filepath><varname>ditac_install_dir</varname>/docsrc/manual/</filepath>
+    directory.</p><note
+    conref="introduction.dita#introduction/xslutil_alternative"/><title>Converting
+    a document to PDF</title><p>Converting a document to PDF<indexterm>PDF,
+    output format</indexterm> is done by executing the following
+    command:</p><screen scale="100">$ ditac out/manual.pdf manual.ditamap</screen><p>The
+    output directory <filepath>out/</filepath> is automatically created if it
+    does not already exist.</p><p>Unless you have specified in <xref
+    href="commandLine.dita#commandLine/ditac_options_file">the
+    <filepath>ditac.options</filepath> file</xref> which XSL-FO processor to
+    use, you'll have to execute:<indexterm>FOP, XSL-FO
+    processor</indexterm></p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-fop">-fop</xref> /opt/fop/fop out/manual.pdf manual.ditamap</screen><p>or:<indexterm>XEP,
+    XSL-FO processor</indexterm></p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-xep">-xep</xref> /opt/xep/xep out/manual.pdf manual.ditamap</screen><p>or:<indexterm>AHF,
+    XSL-FO processor</indexterm></p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-ahf">-ahf</xref> "C:\AHFv6\AHFCmd.exe" out/manual.pdf manual.ditamap</screen><p>The
+    XSL-FO processors allowing to generate PDF also allows to generate
+    PostScript®<indexterm>PostScript, output format</indexterm>.
+    Example:</p><screen>$ ditac out/manual.ps manual.ditamap</screen><p>Notice
+    how the output format is determined by examining the filename extension of
+    the output file.</p><table id="supported_filename_extensions">
+        <title>Supported filename extensions</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry align="center">Format</entry>
+
+              <entry align="center">Extensions</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>XHTML 1.0<indexterm>XHTML 1.0, output
+              format</indexterm></entry>
+
+              <entry><tt>.html</tt>, <tt>.htm</tt>,
+              <tt>.xhtml</tt><indexterm>.html, filename
+              extension<index-sort-as>html</index-sort-as><index-see-also>XHTML
+              1.0, output format</index-see-also></indexterm><indexterm>.htm,
+              filename
+              extension<index-sort-as>htm</index-sort-as><index-see-also>XHTML
+              1.0, output
+              format</index-see-also></indexterm><indexterm>.xhtml, filename
+              extension<index-sort-as>xhtml</index-sort-as><index-see-also>XHTML
+              1.0, output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>EPUB 2<indexterm>EPUB 2, output
+              format</indexterm></entry>
+
+              <entry><tt>.epub</tt><indexterm>.epub, filename
+              extension<index-sort-as>epub</index-sort-as><index-see-also>EPUB
+              2, output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>HTML Help<indexterm>HTML Help, output
+              format</indexterm></entry>
+
+              <entry><tt>.chm</tt><indexterm>.chm, filename
+              extension<index-sort-as>chm</index-sort-as><index-see-also>HTML
+              Help, output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Java Help<indexterm>Java Help, output
+              format</indexterm></entry>
+
+              <entry><tt>.jar</tt><indexterm>.pdf, filename
+              extension<index-sort-as>pdf</index-sort-as><index-see-also>Java
+              Help, output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>PDF<indexterm>PDF, output format</indexterm></entry>
+
+              <entry><tt>.pdf</tt><indexterm>.pdf, filename
+              extension<index-sort-as>pdf</index-sort-as><index-see-also>PDF,
+              output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>PostScript®<indexterm>PostScript, output
+              format</indexterm></entry>
+
+              <entry><tt>.ps</tt><indexterm>.ps, filename
+              extension<index-sort-as>ps</index-sort-as><index-see-also>PostScript,
+              output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>RTF (can be opened in Word 2000+)<indexterm>RTF, output
+              format</indexterm></entry>
+
+              <entry><tt>.rtf</tt>, <tt>.doc</tt><indexterm>.rtf, filename
+              extension<index-sort-as>rtf</index-sort-as><index-see-also>RTF,
+              output format</index-see-also></indexterm><indexterm>.doc,
+              filename
+              extension<index-sort-as>doc</index-sort-as><index-see-also>RTF,
+              output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>WordprocessingML( can be opened in Word
+              2003+)<indexterm>WordprocessingML, output
+              format</indexterm></entry>
+
+              <entry><tt>.wml</tt>, <tt>.xml</tt><indexterm>.wml, filename
+              extension<index-sort-as>wml</index-sort-as><index-see-also>WordprocessingML,
+              output format</index-see-also></indexterm><indexterm>.xml,
+              filename
+              extension<index-sort-as>xml</index-sort-as><index-see-also>WordprocessingML,
+              output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Office Open XML (can be opened in Word
+              2007+)<indexterm>Office Open XML, output
+              format</indexterm></entry>
+
+              <entry><tt>.docx</tt><indexterm>.docx, filename
+              extension<index-sort-as>docx</index-sort-as><index-see-also>Office
+              Open XML, output format</index-see-also></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>OpenOffice (can be opened in OpenOffice/LibreOffice
+              2+)<indexterm>OpenOffice, output format</indexterm></entry>
+
+              <entry><tt>.odt</tt><indexterm>.odt, filename
+              extension<index-sort-as>odt</index-sort-as><index-see-also>OpenOffice,
+              output format</index-see-also></indexterm></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table><p>Note that <cmdname>ditac</cmdname> also allows to convert one
+    or more topic files rather than a single map or bookmap file:</p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-toc">-toc</xref> \
+    out/draft.pdf embed1.dita embed2.dita</screen><p>Ditac does not generate a
+    table of contents (TOC) by default. Unless the input file is a bookmap
+    containing an empty <tt>toc</tt> element in its
+    <tt>frontmatter</tt>/<tt>booklists</tt> descendant element, you'll have to
+    explicitly use the <option>-toc</option> option<indexterm>-toc,
+    option<index-sort-as>toc</index-sort-as></indexterm>. Using the
+    <option>-toc</option> option when the input file already specifies a TOC
+    is harmless, so you could as well add a <tt>-toc</tt> line to your <xref
+    href="commandLine.dita#commandLine/ditac_options_file"><filepath>ditac.options</filepath>
+    file</xref>.</p></section>
+
+    <section><title>Converting a document to a word processor
+    format</title><p>Converting a document to a word processor format just
+    requires the use of an XSL-FO processor different from the one which
+    generates PDF or PostScript. Fortunately all this automatically handled by
+    <cmdname>ditac</cmdname>.</p><p>Convert a document to RTF (can be opened
+    in Word 2000+)<indexterm>RTF, output format</indexterm>:</p><screen>$ ditac out/manual.rtf manual.ditamap</screen><p>Unless
+    you have specified in <xref
+    href="commandLine.dita#commandLine/ditac_options_file">the
+    <filepath>ditac.options</filepath> file</xref> which XSL-FO processor to
+    use, you'll have to execute:<indexterm>XFC, XSL-FO
+    processor</indexterm></p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-xfc">-xfc</xref> /opt/xfc/fo2rtf out/manual.rtf manual.ditamap</screen><p>Suffice
+    to specify the location of <filepath>fo2rtf</filepath>
+    (<filepath>fo2rtf.bat</filepath> on Windows). Using this location, ditac
+    infers the locations of <filepath>fo2wml</filepath>,
+    <filepath>fo2docx</filepath> and
+    <filepath>fo2odt</filepath>.</p><p>Convert a document to WordprocessingML
+    (can be opened in Word 2003+)<indexterm>WordprocessingML, output
+    format</indexterm>:</p><screen>$ ditac out/manual.xml manual.ditamap</screen><p>Convert
+    a document to Office Open XML (can be opened in Word
+    2007+)<indexterm>Office Open XML, output format</indexterm>:</p><screen>$ ditac out/manual.docx manual.ditamap</screen><p>Convert
+    a document to OpenOffice (can be opened in OpenOffice.org
+    2+)<indexterm>OpenOffice, output format</indexterm>:</p><screen>$ ditac -v -p number all \
+    out/manual.odt manual.ditamap</screen><note othertype="Useful options"
+    type="other"><ul>
+        <li><tt><xref
+        href="commandLine.dita#commandLine/option-v">-v</xref></tt><indexterm>-v,
+        option<index-sort-as>v</index-sort-as></indexterm> instructs
+        <cmdname>ditac</cmdname> to print progress messages on the console.
+        Recommended when converting large documents.</li>
+
+        <li>"<tt><xref
+        href="commandLine.dita#commandLine/option-param">-p</xref> <xref
+        href="xsltParams.dita#xsltParams/number">number</xref> all</tt>"
+        passes parameter "<tt>number</tt>"<indexterm>number,
+        parameter</indexterm> with value "<tt>all</tt>" to the XSLT
+        stylesheets which generate the XSL-FO. The XSL-FO are then converted
+        to OpenOffice format by the means of XMLmind XSL-FO
+        Converter<indexterm>XFC, XSL-FO Converter</indexterm>. The
+        <tt>number='all'</tt> parameter instructs the XSLT stylesheets to
+        number topics, tables and figures.</li>
+      </ul></note></section>
+
+    <section><title>Converting a document to XHTML</title><p>Converting a
+    document to multi-page XHTML 1.0<indexterm>XHTML 1.0, output
+    format</indexterm> is done by executing the following command:</p><screen
+    scale="100">$ ditac -images img -p xsl-resources-directory res \
+    out/manual/_.html manual.ditamap</screen><ul>
+        <li>All the files generated by <cmdname>ditac</cmdname> are created in
+        the <filepath>out/manual/</filepath> directory.</li>
+
+        <li>"<tt>-images img</tt>" instructs <cmdname>ditac</cmdname> to copy
+        all the image files referenced by the input DITA document to
+        <filepath>out/manual/img/</filepath>. Specifying the <xref
+        href="commandLine.dita#commandLine/option-images"><option>-images</option></xref>
+        option when generating an output format based on XHTML/HTML is needed
+        in almost all the use cases.</li>
+
+        <li>"<tt>-p xsl-resources-directory res</tt>" instructs
+        <cmdname>ditac</cmdname> to copy all the resources needed by the XSLT
+        stylesheets (CSS stylesheet, navigation icons, etc) to
+        <filepath>out/manual/res/</filepath>. Specifying a value for the <xref
+        href="xsltParams.dita#xsltParams/xsl-resources-directory"><tt>xsl-resources-directory</tt></xref>
+        parameter when generating an output format based on XHTML/HTML is
+        needed in almost all the use cases.</li>
+
+        <li>Notice the strange name of the output file:
+        <filepath>out/manual/_.html</filepath>. In fact, this name is just
+        used to specify the filename extension of the output files. The actual
+        basenames of the output files are determined by examining the
+        <tt>chunk</tt> and <tt>copy-to</tt> attributes possibly specified in
+        the DITA map.<p>Note that a command-line like:</p><screen scale="100">$ ditac -images img -p xsl-resources-directory res \
+    out/manual/<b>foo</b>.html manual.ditamap</screen><p>works fine too. The
+        only difference is that in such case, when a basename is needed and
+        cannot be determined by examining the <tt>chunk</tt> and
+        <tt>copy-to</tt> attributes specified in the DITA map,
+        <cmdname>ditac</cmdname> will use "<tt>foo</tt>" as a basename and you
+        <i>may</i> end up having some output files called
+        <filepath>foo.html</filepath>, <filepath>foo-2.html</filepath>,
+        <filepath>foo-3.html</filepath>, etc. When the basename is specified
+        as "<tt>_</tt>", it is the basename of the DITA map which is used.
+        That is, you may have some output files called
+        <filepath>manual.html</filepath>, <filepath>manual-2.html</filepath>,
+        <filepath>manual-3.html</filepath>, etc.</p></li>
+      </ul><p>What if you want to convert a document to HTML
+    4.01<indexterm>HTML 4.01, output format</indexterm> or XHTML
+    1.1<indexterm>XHTML 1.1, output format</indexterm> or XHTML 5
+    <indexterm>XHTML 5, output format</indexterm> rather than to XHTML 1.0? We
+    have learned that there is no way to specify this using a <xref
+    href="#quickStart/supported_filename_extensions">filename
+    extension</xref>. The answer is: use the <xref
+    href="commandLine.dita#commandLine/option-format"><option>-format</option></xref>
+    option (or <option>-f</option> in its short form). Example:</p><screen>$ ditac -format html \
+    -images img -p xsl-resources-directory res \
+    out/manual/_.html manual.ditamap</screen><table
+        id="supported_output_formats">
+        <title>Supported output formats</title>
+
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry align="center">Format</entry>
+
+              <entry align="center">Name</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>XHTML 1.0<indexterm>XHTML 1.0, output
+              format</indexterm></entry>
+
+              <entry><tt>xhtml</tt><indexterm>xhtml, output format
+              name<index-see>XHTML 1.0, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>XHTML 1.1<indexterm>XHTML 1.1, output
+              format</indexterm></entry>
+
+              <entry><tt>xhtml1.1</tt><indexterm>xhtml1.1, output format
+              name<index-see>XHTML 1.1, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>HTML 4.01<indexterm>HTML 4.01, output
+              format</indexterm></entry>
+
+              <entry><tt>html</tt><indexterm>html, output format
+              name<index-see>HTML 4.01, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>XHTML 5<indexterm>XHTML 5, output
+              format</indexterm></entry>
+
+              <entry><tt>xhtml5</tt><indexterm>xhtml5, output format
+              name<index-see>XHTML 5, output format</index-see></indexterm>.
+              <tt>html5</tt> is an alias for <tt>xhtml5</tt>.</entry>
+            </row>
+
+            <row>
+              <entry>Web Help<indexterm>Web Help, output format</indexterm>
+              containing XHTML 1 pages</entry>
+
+              <entry><tt>webhelp</tt><indexterm>webhelp, output format
+              name<index-see>Web Help, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Web Help<indexterm>Web Help 5, output format</indexterm>
+              containing XHTML 5 pages</entry>
+
+              <entry><tt>webhelp5</tt><indexterm>webhelp5, output format
+              name<index-see>Web Help 5, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>HTML Help<indexterm>HTML Help, output
+              format</indexterm></entry>
+
+              <entry><tt>htmlhelp</tt><indexterm>htmlhelp, output format
+              name<index-see>HTML Help, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Eclipse Help<indexterm>Eclipse Help, output
+              format</indexterm></entry>
+
+              <entry><tt>eclipsehelp</tt><indexterm>eclipsehelp, output format
+              name<index-see>Eclipse Help, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>EPUB 2<indexterm>EPUB 2, output
+              format</indexterm></entry>
+
+              <entry><tt>epub</tt><indexterm>epub, output format
+              name<index-see>EPUB 2, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>EPUB 3<indexterm>EPUB 3, output
+              format</indexterm></entry>
+
+              <entry><tt>epub3</tt><indexterm>epub3, output format
+              name<index-see>EPUB 3, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Java Help<indexterm>Java Help, output
+              format</indexterm></entry>
+
+              <entry><tt>javahelp</tt><indexterm>javahelp, output format
+              name<index-see>Java Help, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>PDF<indexterm>PDF, output format</indexterm></entry>
+
+              <entry><tt>pdf</tt><indexterm>pdf, output format
+              name<index-see>PDF, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>PostScript®<indexterm>PostScript, output
+              format</indexterm></entry>
+
+              <entry><tt>ps</tt><indexterm>ps, output format
+              name<index-see>PostScript, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>RTF (can be opened in Word 2000+)<indexterm>RTF, output
+              format</indexterm></entry>
+
+              <entry><tt>rtf</tt><indexterm>rtf, output format
+              name<index-see>RTF, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>WordprocessingML( can be opened in Word
+              2003+)<indexterm>WordprocessingML, output
+              format</indexterm></entry>
+
+              <entry><tt>wml</tt><indexterm>wml, output format
+              name<index-see>WordprocessingML, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>Office Open XML (can be opened in Word
+              2007+)<indexterm>Office Open XML, output
+              format</indexterm></entry>
+
+              <entry><tt>docx</tt><indexterm>docx, output format
+              name<index-see>Office Open XML, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>OpenOffice (can be opened in OpenOffice.org
+              2+)<indexterm>OpenOffice, output format</indexterm></entry>
+
+              <entry><tt>odt</tt><indexterm>odt, output format
+              name<index-see>OpenOffice, output
+              format</index-see></indexterm></entry>
+            </row>
+
+            <row>
+              <entry>XSL-FO<indexterm>XSL-FO, output
+              format</indexterm></entry>
+
+              <entry><tt>fo</tt><indexterm>fo, output format
+              name<index-see>XSL-FO, output
+              format</index-see></indexterm></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table><note othertype="Useful options" type="other"><ul>
+        <li>"<tt>-p <xref
+        href="xsltParams.dita#xsltParams/chain-pages">chain-pages</xref>
+        both</tt>". This XSLT stylesheet parameter specifies that a header and
+        a footer containing navigation icons should be generated in order to
+        link together all the HTML pages.</li>
+
+        <li>"<tt>-p <xref
+        href="xsltParams.dita#xsltParams/chain-topics">chain-topics</xref>
+        yes</tt>". This XSLT stylesheet parameter specifies that navigation
+        icons should be generated in order to link together all the
+        topics.</li>
+
+        <li>"<tt>-p <xref
+        href="xsltParams.dita#xsltParams/default-table-width">default-table-width</xref>
+        100%</tt>". Unless this XSLT stylesheet parameter is specified (or the
+        <tt>expanse="page"</tt> attribute is specified for all tables), web
+        browsers tend to layout the generated HTML tables in order to make
+        them as narrow as possible.</li>
+      </ul><p>A full-fledged command-line is thus:</p><screen>$ ditac -images img -p xsl-resources-directory res \
+    <b>-p number all</b> \
+    <b>-p chain-pages both</b> \
+    <b>-p chain-topics yes</b> \
+    <b>-p default-table-width 100%</b> \
+    out/manual/_.html manual.ditamap</screen></note><p>What if you want to
+    generate a single XHTML page rather than multiple XHTML page? No need to
+    create a new DITA map for that. Simply specify option "<tt><xref
+    href="commandLine.dita#commandLine/option-chunk">-chunk</xref>
+    single</tt>" (or <option>-c</option> in its short form).</p><screen>$ ditac <b>-chunk single</b> \
+    -images img -p xsl-resources-directory res \
+    out/manual.html manual.ditamap</screen></section>
+
+    <section><title>Converting a document to Web Help</title><p>Converting a
+    document to <xref format="html"
+    href="http://en.wikipedia.org/wiki/Web_help" scope="external">Web
+    Help</xref> <indexterm>Web Help, output format</indexterm> is similar to
+    converting a document to multi-page XHTML 1. The main difference is that
+    you need to explicitly specify <tt>-format webhelp</tt>:</p><screen
+    scale="100">$ ditac <b>-format webhelp</b> \
+    -images img -p xsl-resources-directory res \
+    webhelp/_.html manual.ditamap</screen><p>If you prefer to generate Web
+    Help containing XHTML 5 pages rather than XHTML 1 pages, then specify
+    <tt>-format webhelp5</tt><indexterm>Web Help 5, output
+    format</indexterm>.</p><note type="remember"><p>Do not specify any of the
+    following command-line options when generating Web Help: <xref
+    href="commandLine.dita#commandLine/option-toc"><option>-toc</option></xref>,
+    <xref
+    href="commandLine.dita#commandLine/option-index"><option>-index</option></xref>.</p></note></section>
+
+    <section><title>Converting a document to HTML Help</title><p>Converting a
+    document to HTML Help<indexterm>HTML Help, output format</indexterm> is
+    done by executing the following command:</p><screen scale="100">C:\&gt; ditac -images img -p xsl-resources-directory res \
+    out\manual.chm manual.ditamap</screen><p>Unless you have specified in
+    <xref href="commandLine.dita#commandLine/ditac_options_file">the
+    <filepath>ditac.options</filepath> file</xref> the location of
+    <filepath>hhc.exe</filepath>, you'll have to execute:</p><screen>C:\&gt; ditac <xref
+          href="commandLine.dita#commandLine/option-hhc">-hhc</xref> "C:\Program Files\HTML Help Workshop\hhc.exe" \
+    -images img -p xsl-resources-directory res \
+    out\manual.chm manual.ditamap</screen><note type="remember"><p>Do not
+    specify any of the following command-line options when generating HTML
+    Help: <xref
+    href="commandLine.dita#commandLine/option-toc"><option>-toc</option></xref>,
+    <xref
+    href="commandLine.dita#commandLine/option-index"><option>-index</option></xref>.</p></note></section>
+
+    <section><title>Converting a document to <tm tmtype="tm">Java</tm>
+    Help</title><p>Converting a document to <tm tmtype="tm">Java</tm>
+    Help<indexterm>Java Help, output format</indexterm> is done by executing
+    the following command:</p><screen scale="100">$ ditac -images img -p xsl-resources-directory res \
+    out/manual.jar manual.ditamap</screen><p>Unless you have specified in
+    <xref href="commandLine.dita#commandLine/ditac_options_file">the
+    <filepath>ditac.options</filepath> file</xref> the location of
+    <filepath>jhindexer</filepath> (<filepath>jhindexer.bat</filepath> on
+    Windows), you'll have to execute:</p><screen>$ ditac <xref
+          href="commandLine.dita#commandLine/option-jhindexer">-jhindexer</xref> /opt/jh2.0/javahelp/bin/jhindexer \
+    -images img -p xsl-resources-directory res \
+    out/manual.jar manual.ditamap</screen><note type="remember"><p>Do not
+    specify any of the following command-line options when generating <tm
+    tmtype="tm">Java</tm> Help: <xref
+    href="commandLine.dita#commandLine/option-toc"><option>-toc</option></xref>,
+    <xref
+    href="commandLine.dita#commandLine/option-index"><option>-index</option></xref>.</p></note></section>
+
+    <section><title>Converting a document to Eclipse Help</title><p>Converting
+    a document to <xref format="html" href="http://www.eclipse.org/"
+    scope="external">Eclipse</xref> Help<indexterm>Eclipse Help, output
+    format</indexterm> is similar to converting a document to multi-page
+    XHTML. The main difference is that you need to explicitly specify
+    <tt>-format eclipsehelp</tt>:</p><screen scale="100">$ ditac <b>-format eclipsehelp</b> \
+    -images img -p xsl-resources-directory res \
+    out/com.acme.widget.userguide/_.html manual.ditamap</screen><p>In order to
+    deploy the generated Eclipse Help, you need to copy the output directory
+    as a whole (<filepath>com.acme.widget.userguide/</filepath> in the case of
+    the above example) to the <filepath>plugins/</filepath> directory of
+    Eclipse and then use a text or XML editor to modify the generated
+    <filepath><varname>output_directory</varname>/plugin.xml</filepath>:</p><pre>&lt;plugin <b>name="EDIT HERE: title of this help"</b> 
+        <b>id="EDIT HERE: unique.id.of.this.plugin"</b>
+        <b>provider-name="EDIT HERE: author, company or organization"</b>
+        version="1.0.0"&gt;
+   &lt;extension point="org.eclipse.help.toc"&gt;
+      &lt;toc file="toc.xml" primary="true"/&gt;
+   &lt;/extension&gt;
+   &lt;extension point="org.eclipse.help.index"&gt;
+      &lt;index file="index.xml"/&gt;
+   &lt;/extension&gt;
+&lt;/plugin&gt;</pre><p>If you do not want to hand edit
+    <filepath>plugin.xml</filepath>, suffice to pass extra XSLT stylesheet
+    parameters to ditac:</p><screen scale="100">$ ditac -format eclipsehelp \
+    <b>-p plugin-name "ACME Widget User's Guide"</b> \
+    <b>-p plugin-id <i>com.acme.widget.userguide</i></b> \
+    <b>-p plugin-provider "ACME Corp."</b> \
+    -images img -p xsl-resources-directory res \
+    out/<b><i>com.acme.widget.documentation</i></b>/_.html manual.ditamap</screen><p>Parameter
+    <xref href="xsltParams.dita#xsltParams/plugin-id">plugin-id</xref> is
+    required to have the same value as the basename of the the output
+    directory (<filepath>com.acme.widget.userguide/</filepath> in the case of
+    the above example). Otherwise, you'll not be able to see your document by
+    selecting <menucascade>
+        <uicontrol>Help</uicontrol>
+
+        <uicontrol>Help Contents</uicontrol>
+      </menucascade> in Eclipse.</p><note type="remember"><p>Do not specify
+    any of the following command-line options when generating Eclipse Help:
+    <xref
+    href="commandLine.dita#commandLine/option-toc"><option>-toc</option></xref>,
+    <xref
+    href="commandLine.dita#commandLine/option-index"><option>-index</option></xref>.</p></note></section>
+
+    <section><title>Converting a document to EPUB</title><p>Converting a
+    document to <xref format="html" href="http://www.idpf.org/"
+    scope="external">EPUB</xref> Help<indexterm>EPUB 2, output
+    format</indexterm> is done by executing the following command:</p><screen
+    scale="100">$ ditac -images img -p xsl-resources-directory res \
+    out/manual.epub manual.ditamap</screen><p>If you prefer to generate
+    EPUB 3<indexterm>EPUB 3, output format</indexterm> rather than EPUB 2,
+    then specify <tt>-format epub3</tt><indexterm>EPUB 3, output
+    format</indexterm>.</p><note type="remember"><p>Do not specify any of the
+    following command-line options when generating EPUB: <xref
+    href="commandLine.dita#commandLine/option-toc"><option>-toc</option></xref>.
+    Note that you may specify option <xref
+    href="commandLine.dita#commandLine/option-index"><option>-index</option></xref>.</p></note></section>
+  </body>
+
+  <related-links>
+    <link href="commandLine.dita">
+      <linktext/>
+    </link>
+  </related-links>
+</topic>

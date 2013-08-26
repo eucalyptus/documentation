@@ -10,6 +10,7 @@
 <meta name="DC.Title" content="Creating DITA-OT plug-ins"/>
 <meta name="abstract" content="The DITA Open Toolkit comes with a built in mechanism for adding in extensions through plug-ins. These plug-ins may do a wide variety of things, such as adding support for specialized DITA DTDs or Schemas, integrating processing overrides, or even providing entirely new output transforms. Plug-ins are the best way to extend the toolkit in a way that is consistent, easily sharable, and easy to preserve through toolkit upgrades."/>
 <meta name="description" content="The DITA Open Toolkit comes with a built in mechanism for adding in extensions through plug-ins. These plug-ins may do a wide variety of things, such as adding support for specialized DITA DTDs or Schemas, integrating processing overrides, or even providing entirely new output transforms. Plug-ins are the best way to extend the toolkit in a way that is consistent, easily sharable, and easy to preserve through toolkit upgrades."/>
+<meta name="DC.Relation" scheme="URI" content="../dev_ref/developer-reference.html"/>
 <meta name="DC.Relation" scheme="URI" content="../dev_ref/plugin-configfile.html"/>
 <meta name="DC.Relation" scheme="URI" content="../dev_ref/plugin-xmlcatalog.html"/>
 <meta name="DC.Relation" scheme="URI" content="../dev_ref/plugin-anttarget.html"/>
@@ -44,10 +45,10 @@ new output transforms. Plug-ins are the best way to extend the toolkit
 in a way that is consistent, easily sharable, and easy to preserve
 through toolkit upgrades.</p>
 
-<div class="section"><p class="p">A plug-in consists of a directory, typically stored directly
-within the <span class="ph filepath">demo/</span> or <span class="ph filepath">plugins/</span> directory
-inside of the DITA-OT. Every plug-in is controlled by a file named <span class="ph filepath">plugin.xml</span>,
-located in the plug-in's root directory.</p>
+<div class="section"><p class="p">A plug-in consists of a directory, typically stored directly within the
+          <span class="ph filepath">plugins/</span> directory inside of the DITA-OT. Every plug-in is controlled
+        by a file named <span class="ph filepath">plugin.xml</span>, located in the plug-in's root
+        directory.</p>
 <div class="p">Benefits
 of extending the toolkit through plug-ins include:<ul class="ul">
 <li class="li">Plug-ins are easily sharable with other users, teams, or companies;
@@ -87,24 +88,28 @@ Every step in the pre-process pipeline defines an extension point before and aft
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-newtranstype.html">Integrating a new transform type</a></strong><br/>
 Plug-ins may integrate an entire new transform type. The new transform type can be very simple, such as an XHTML build that creates an additional control file; it can also be very complex, adding any number of new processing steps.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-overridestyle.html">Override styles with XSLT</a></strong><br/>
-The XSLT import extension points are used to override various steps of XSLT processing. For         this, the extension attribute indicates the step that the override applies to; the value attribute is a relative path to the override within the current plugin; if specified, the (optional) type attribute should be set to "file". The plugin installer will add an XSL import statement to the default code so that your override becomes a part of the normal build.</li>
-<li class="link ulchildlink"><strong><a href="../dev_ref/plugin-addgeneratedtext.html">Adding new generated text</a></strong><br/>
+The XSLT import extension points are used to override various steps of XSLT processing. For         this, the extension attribute indicates the step that the override applies to; the <samp class="ph codeph">file</samp> attribute is a relative path to the override within the current plugin. The plugin installer will add an XSL import statement to the default code so that your override becomes a part of the normal build.</li>
+<li class="link ulchildlink"><strong><a href="../dev_ref/plugin-addgeneratedtext.html">Modifying or adding generated text</a></strong><br/>
 Generated text is the term for strings that are automatically added by the build, such as "Note" before the contents of a &lt;note&gt; element.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-xsltparams.html">Passing parameters to existing XSLT steps</a></strong><br/>
 Plug-ins can define new parameters to be passed from the Ant build into existing XSLT pipeline stages, usually to have those parameters available as global <samp class="ph codeph">&lt;xsl:param&gt;</samp> values within XSLT overrides.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-javalib.html">Adding Java libraries to the classpath</a></strong><br/>
-If your Ant or XSLT extensions require additional Java libraries in the classpath, you can add them to the global Ant classpath with the following feature.</li>
+If your Ant or XSLT extensions require additional Java libraries in the classpath, you can add them to the global DITA-OT classpath with the following feature.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-messages.html">Adding diagnostic messages</a></strong><br/>
 Plug-in specific warning and error messages can be added to the set of messages supplied by the DITA-OT. These messages can then be used by any XSLT override.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-dependencies.html">Managing plug-in dependencies</a></strong><br/>
 The <samp class="ph codeph">&lt;require&gt;</samp> element in a <span class="ph filepath">plugin.xml</span> file is used to create a dependency on another plug-in. The <samp class="ph codeph">&lt;require&gt;</samp> element requires the <samp class="ph codeph">plugin</samp> attribute in order to reference the dependency.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-support.html">Version and support information</a></strong><br/>
-The following extension points are used by convention to define version and support info         within a plugin.</li>
+The following extension points are used by convention to define version and support info         within a plug-in.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-newextensions.html">Creating a new plug-in extension point</a></strong><br/>
-If your plug-in needs to define its own extension point in an XML file, add the string           "<samp class="ph codeph">_template</samp>" to the filename before the file suffix. During integration,         this file will be processed like the built-in DITA-OT templates.</li>
+If your plug-in needs to define its own extension point in an XML file, add the string       "<samp class="ph codeph">_template</samp>" to the filename before the file suffix. During integration, this     file will be processed like the built-in DITA-OT templates.</li>
 <li class="link ulchildlink"><strong><a href="../dev_ref/plugin-sample.html">Example plugin.xml file</a></strong><br/>
 The following is a sample of a <span class="ph filepath">plugin.xml</span> file. This file adds support for a new set of         specialized DTDs, and includes an override for the XHTML output processor.</li>
 </ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../dev_ref/developer-reference.html" title="The DITA Open Toolkit Developer Reference is designed to provide more advanced information about the DITA OT. It is geared to an audience that needs information about the DITA-OT architecture, configuring and extending the DITA-OT, and creating DITA-OT plug-ins.">DITA Open Toolkit Developer Reference</a></div>
+</div>
 </div>
 
 </body>

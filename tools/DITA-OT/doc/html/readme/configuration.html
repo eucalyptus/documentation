@@ -7,96 +7,152 @@
 <meta name="copyright" content="(C) Copyright 2005"/>
 <meta name="DC.rights.owner" content="(C) Copyright 2005"/>
 <meta name="DC.Type" content="reference"/>
-<meta name="DC.Title" content="Configuration"/>
-<meta name="abstract" content="Reference list of DITA-OT configuration properties."/>
-<meta name="description" content="Reference list of DITA-OT configuration properties."/>
-<meta name="DC.Relation" scheme="URI" content="../readme/DITA-readme.html"/>
+<meta name="DC.Title" content="lib/configuration.properties file"/>
+<meta name="abstract" content="The lib/configuration.properties file controls certain common properties, as well as some properties that control PDF processing."/>
+<meta name="description" content="The lib/configuration.properties file controls certain common properties, as well as some properties that control PDF processing."/>
+<meta name="DC.subject" content="configuration properties, default.language, generate-debug-attributes, processing-mode, org.dita.pdf2.index.frame-markup, org.dita.pdf2.i18n.enabled, org.dita.pdf2.use-out-temp, files, lib/configuration.properties, topic.fo, location of, PDF processing, configuration properties"/>
+<meta name="keywords" content="configuration properties, default.language, generate-debug-attributes, processing-mode, org.dita.pdf2.index.frame-markup, org.dita.pdf2.i18n.enabled, org.dita.pdf2.use-out-temp, files, lib/configuration.properties, topic.fo, location of, PDF processing, configuration properties"/>
+<meta name="DC.Relation" scheme="URI" content="../readme/reference.html"/>
 <meta name="DC.Format" content="XHTML"/>
 <meta name="DC.Identifier" content="configuration"/>
 <meta name="DC.Language" content="en"/>
 <link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
-<title>Configuration</title>
+<title>lib/configuration.properties file</title>
 </head>
 <body id="configuration">
 
 
-  <h1 class="title topictitle1">Configuration</h1>
+  <h1 class="title topictitle1"><span class="ph filepath">lib/configuration.properties</span> file</h1>
 
+    
   
-  <div class="body refbody"><div class="abstract">
-    <div class="shortdesc">Reference list of DITA-OT configuration properties.</div>
+  <div class="body refbody"><p class="shortdesc">The <span class="ph filepath">lib/configuration.properties</span> file controls certain common
+      properties, as well as some properties that control PDF processing.</p>
 
-    <p class="p">The <span class="ph filepath">lib/configuration.properties</span> file is used to store configuration
-      properties for DITA-OT and plug-ins. The configuration properties are available to both Ant
-      and Java processes, but unlike argument properties, they cannot be set at run-time. </p>
+    
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Properties set in the <span class="ph filepath">lib/configuration.properties</span> file</span></caption>
+        
+        
+        <thead class="thead" align="left">
+          <tr class="row">
+            <th class="entry" valign="top" width="27.27272727272727%" id="d29478e78">Property</th>
 
-    <p class="p">The <span class="ph filepath">lib/org.dita.dost.platform/plugin.properties</span> file is used to store
-      configuration properties set by the integration process. The file is regenerated from plug-in
-      configuration each time the integration process is run and should not be edited manually.</p>
+            <th class="entry" valign="top" width="72.72727272727273%" id="d29478e81">Description</th>
 
-  </div>
+          </tr>
 
-    <div class="section"><h2 class="title sectiontitle">Common properties</h2>
-      
-      <table cellpadding="4" cellspacing="0" summary="" border="1" class="simpletable"><tr class="strow">
-          <td valign="top" class="stentry"><samp class="ph codeph">default.language</samp></td>
+        </thead>
 
-          <td valign="top" class="stentry">Default language. Allowed values are those defined in IETF BCP 47, <a class="xref" href="https://tools.ietf.org/html/bcp47" target="_blank">Tags for the Identification
-              of Languages</a>.</td>
+        <tbody class="tbody">
+          <tr class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">default.language</span></td>
 
-        </tr>
-</table>
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">Specifies the language that is used if the input file does not have the @xml:lang
+              attribute set on the root element. By default, this is set to<span class="keyword option"> en</span>. The
+              allowed values are those that are defined in IETF BCP 47, <a class="xref" href="https://tools.ietf.org/html/bcp47" target="_blank">Tags for the
+                Identification of Languages</a>.</td>
 
-    </div>
+          </tr>
 
-    <div class="section"><h2 class="title sectiontitle">PDF properties</h2>
-      
-      <table cellpadding="4" cellspacing="0" summary="" border="1" class="simpletable"><tr class="strow">
-          <td valign="top" class="stentry"><samp class="ph codeph">org.dita.pdf2.index.frame-markup</samp></td>
+          <tr class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">generate-debug-attributes</span></td>
 
-          <td valign="top" class="stentry">FrameMaker index syntax processing. Allowed values are<ul class="ul">
-              <li class="li">"true" — FrameMaker index syntax processing</li>
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">Specifies whether the @xtrf and @xtrc debugging attributes are generated in the
+              temporary files. The following values are allowed: <ul class="ul">
+                <li class="li"><span class="keyword option">true</span> (default) — Enables generation of debugging
+                  attributes</li>
 
-              <li class="li">"false" (default) — normal DITA 1.2 index syntax processing</li>
+                <li class="li"><span class="keyword option">false</span> —Disables generation of debugging attributes</li>
 
-            </ul>
+              </ul>
+<div class="note note"><span class="notetitle">Note:</span> Disabling debugging attributes reduces the size of temporary files and thus
+                reduces memory consumption. However, the log messages no longer have the source
+                information available and thus the ability to debug problems might
+                deteriorate.</div>
 </td>
 
-        </tr>
-<tr class="strow">
-          <td valign="top" class="stentry"><samp class="ph codeph">org.dita.pdf2.i18n.enabled</samp></td>
+          </tr>
 
-          <td valign="top" class="stentry">I18N font processing. Allowed values are<ul class="ul">
-              <li class="li">"true" (default) — I18N processing is enabled</li>
+          <tr id="configuration__processing-mode" class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">processing-mode</span></td>
 
-              <li class="li">"false" — I18N processing is disabled</li>
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">Specifies how the DITA-OT handles errors and error recovery. The following values
+              are allowed: <ul class="ul">
+                <li class="li"><span class="keyword option">strict</span> — When an error is encountered, the DITA-OT stops
+                  processing.</li>
 
-            </ul>
+                <li class="li"><span class="keyword option">lax</span> (default) — When an error is encountered, the DITA-OT
+                  attempts to recover from it.</li>
+
+                <li class="li"><span class="keyword option">skip</span> — When an error is encountered, the DITA continues
+                  processing but does not attempt error recovery.</li>
+
+              </ul>
 </td>
 
-        </tr>
-<tr class="strow">
-          <td valign="top" class="stentry"><samp class="ph codeph">org.dita.pdf2.use-out-temp</samp></td>
+          </tr>
 
-          <td valign="top" class="stentry">Legacy temporary file mode for generating <span class="ph filepath">topic.fo</span> and
-            graphics into output directory. Allowed values are<ul class="ul">
-              <li class="li">"true" — use output directory for XSL FO file processing</li>
+          <tr class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">org.dita.pdf2.index.frame-markup</span></td>
 
-              <li class="li">"false" (default) — use tempory folder for XSL FO processing</li>
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">(PDF transformation only) Specifies how the DITA-OT handles legacy FrameMaker
+              syntax for &lt;indexterm&gt; elements. The following values are allowed: <ul class="ul">
+                <li class="li"><span class="keyword option">true</span>— Enables special processing of legacy FrameMaker syntax
+                  for &lt;indexterm&gt; elements. Standard DITA &lt;indexterm&gt; elements are processed
+                  also.</li>
 
-            </ul>
+                <li class="li"><span class="keyword option">false</span> (default) — Disables special processing of legacy
+                  FrameMaker syntax for &lt;indexterm&gt; elements.</li>
+
+              </ul>
+<div class="note note"><span class="notetitle">Note:</span> Setting the <span class="keyword parmname">org.dita.pdf2.index.frame-markup</span> parameter
+                to <span class="keyword option">yes</span> only affects how index entries are generated in PDF output.
+                For example, an <samp class="ph codeph">&lt;indexterm&gt;files:topic&lt;/index&gt;</samp> element will
+                generate an index entry of  "files:topic" in a CHM file.</div>
 </td>
 
-        </tr>
-</table>
+          </tr>
 
-    </div>
+          <tr class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">org.dita.pdf2.i18n.enabled</span></td>
+
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">(PDF transformation only) Enables I18N font processing. The following values are
+              allowed: <ul class="ul">
+                <li class="li"><span class="keyword option">true</span> (default) — Enables I18N processing</li>
+
+                <li class="li"><span class="keyword option">false</span> — Disables I18N processing</li>
+
+              </ul>
+</td>
+
+          </tr>
+
+          <tr class="row">
+            <td class="entry" valign="top" width="27.27272727272727%" headers="d29478e78 "><span class="keyword parmname">org.dita.pdf2.use-out-temp</span></td>
+
+            <td class="entry" valign="top" width="72.72727272727273%" headers="d29478e81 ">(PDF transformation only) Specifies whether the XSL-FO processing writes the
+              intermediate files (for example, the <span class="ph filepath">topic.fo</span> file) to the output
+              directory. The following values are allowed: <ul class="ul">
+                <li class="li"><span class="keyword option">true</span> — Write intermediate files to the output directory</li>
+
+                <li class="li"><span class="keyword option">false</span> (default) — Write intermediate files to the temporary
+                  directory</li>
+
+              </ul>
+</td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+</div>
 
   </div>
 
 <div class="related-links">
 <div class="familylinks">
-<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/DITA-readme.html" title="The DITA Open Toolkit is an implementation of the OASIS DITA Technical Committee's specification for DITA DTDs and Schemas. The Toolkit transforms DITA content (maps and topics) into deliverable formats, such as XHTML, PDF, Eclipse Help, HTML Help, and JavaHelp.">DITA Open Toolkit User Guide</a></div>
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/reference.html" title="This section is designed to help users to locate information easily and quickly. It includes documentation for the DITA Open Toolkit (DITA-OT) parameters and configuration properties.">Reference</a></div>
 </div>
 </div>
 

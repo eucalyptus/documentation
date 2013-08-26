@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" lang="en-us">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2005"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2005"/>
+<meta name="DC.Type" content="reference"/>
+<meta name="DC.Title" content="Ant argument properties for DITA-OT"/>
+<meta name="abstract" content="Reference list of DITA-specific Ant properties."/>
+<meta name="description" content="Reference list of DITA-specific Ant properties."/>
+<meta name="DC.Relation" scheme="URI" content="../readme/DITA-ant.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="dita-ot-ant-properties"/>
+<meta name="DC.Language" content="en-us"/>
+<link rel="stylesheet" type="text/css" href="../css/commonltr.css"/>
+<title>Ant argument properties for DITA-OT</title>
+</head>
+<body id="dita-ot-ant-properties">
+
+
+<h1 class="title topictitle1">Ant argument properties for DITA-OT</h1>
+
+  
+
+<div class="body refbody"><p class="shortdesc">Reference list of DITA-specific Ant properties.</p>
+
+<div class="section"> 	<p class="p">DITA-OT processes your documentation project as an Ant
+project, which allows several Ant build 	properties specific to DITA-OT
+and your project.  These properties can be divided into three categories:
+	</p>
+ 	 <ul class="ul">
+<li class="li">Properties specific to your documentation project</li>
+
+<li class="li">Properties specific to the DITA Open Toolkit that you may override</li>
+
+<li class="li">Properties specific to the DITA Open Toolkit that you should never
+override</li>
+
+</ul>
+ 	<p class="p">The following tables describes the first group of properties, grouped by transformation
+        type.</p>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">Parameters available to all transforms</h2><p class="p">The
+following common parameters are available for use by all DITA-OT builds.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 1. Common DITA-OT parameters</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e59">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e62">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.debug" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.debug</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies that DITA-OT print debugging information for
+                your project. Allowed values are "yes" and "no". Default value is "no".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.draft" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.draft</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Indicates whether draft-comment and required-cleanup
+                elements are included in the generated file. <span class="ph">Corresponds to XSLT parameter DRAFT in most XSLT modules.</span> Allowed values are
+                "yes" and "no". Default value is "no".<div class="note tip"><span class="tiptitle">Tip:</span> For PDF output, setting
+                    <samp class="ph codeph">${args.draft}</samp> to "yes" will also cause the contents of
+                    <samp class="ph codeph">&lt;titlealts&gt;</samp> to appear below the title.</div>
+
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.figurelink.style" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.figurelink.style</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies how cross
+                references to figures are styled. Allowed values are "NUMBER" and "TITLE". NUMBER
+                results in "Figure 5", TITLE results in the title of the figure. <span class="ph">Corresponds to the XSLT parameter
+                    <samp class="ph codeph">FIGURELINK</samp>.</span><div class="note note"><span class="notetitle">Note:</span> This parameter is available for all
+                  except the PDF transform.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.grammar.cache" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.grammar.cache</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies whether to use the
+                grammar caching feature of the XML parser. Allowed values are "yes" and "no".
+                Default value is "yes".<div class="note note"><span class="notetitle">Note:</span> For most users, this is an important option that
+                  dramatically speeds up processing time. However, there is a known problem with
+                  using this feature for documents that use XML Entities. If your build fails with
+                  parser errors about entity resolution, try setting this parameter to
+                "no".</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.input" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.input</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Typically defines the location of the .ditamap file for
+                your documentation project. However, the property can be set to a .dita file, as
+                well. DITA-OT reads this file to find the .dita files that comprise the content for
+                the documentation project.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.logdir" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.logdir</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Defines the location where DITA-OT places log files for
+                your project.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.outext" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.outext</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies the file extension for HTML files in your
+                project's output. <span class="ph">Corresponds to XHTML parameter
+                    <samp class="ph codeph">OUTEXT</samp>.</span> Default values is ".html".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.tablelink.style" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">args.tablelink.style</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies how cross
+                references to tables are styled. Allowed values are "NUMBER" or "TITLE". Default is
+                "NUMBER", which produces results such as "Table 5". TITLE results in the title of
+                the table. <span class="ph">Corresponds to the XSLT parameter
+                    <samp class="ph codeph">TABLELINK</samp>.</span><div class="note note"><span class="notetitle">Note:</span> This parameter is available for all except
+                  the PDF transform.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__basedir" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">basedir</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">The directory where your project's ant build script resides.
+                The DITA-OT will look for your .dita files relative to this directory. DITA-OT's
+                default build script sets this as an attribute of the project, but you can also
+                define it as a project property.</td>
+
+              
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.ext" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">dita.ext</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies an extension to use for DITA topics; All DITA
+                topics will use this single extension in the temp directory. <span class="ph">Corresponds to XSLT parameter DITAEXT.</span> Default
+                value is ".xml"</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.input.valfile" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">dita.input.valfile</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Defines the location of your
+                project's filter file. Filter files end with the <samp class="ph codeph">.ditaval</samp> suffix
+                and are used to filter, include and exclude, content in the generated document.
+                Alternatively, you can create multiple versions of your document by creating a
+                different <samp class="ph codeph">.ditamap</samp> file for each version.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__output.dir" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">output.dir</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">The location of the directory to hold output from your
+                documentation project.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__transtype" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">transtype</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Defines the output type for a specific Ant target. Plug-ins
+                may add new values for this option; by default, the following values are available:<ul class="ul">
+                  <li class="li">pdf</li>
+
+                  <li class="li">xhtml</li>
+
+                  <li class="li">htmlhelp</li>
+
+                  <li class="li">eclipsehelp</li>
+
+                  <li class="li">eclipsecontent</li>
+
+                  <li class="li">odt</li>
+
+                  <li class="li">troff</li>
+
+                  <li class="li">rtf</li>
+
+                  <li class="li">javahelp</li>
+
+                  <li class="li">legacypdf</li>
+
+                  <li class="li">docbook</li>
+
+                </ul>
+
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__validate" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e59 "><samp class="ph codeph">validate</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e62 ">Specifies whether DITA-OT should validate your content
+                files. Allowed values are "yes" and "no". Default value is "yes".</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">Parameters available for all XHTML based transforms</h2><p class="p">The following parameters are available for all output types that
+are based on the XHTML transform type, including:</p>
+
+<ul class="ul">
+<li class="li">XHTML</li>
+
+<li class="li">HTMLHelp</li>
+
+<li class="li">JavaHelp</li>
+
+<li class="li">eclipsehelp</li>
+
+</ul>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 2. XHTML and related parameters</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e330">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e333">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.artlbl" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.artlbl</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Adds a label to each image containing
+                the image's filename. Allowed values are "yes" and "no". Default value is
+                "no".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.breadcrumbs" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.breadcrumbs</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to generate
+                breadcrumb links. <span class="ph">Corresponds to the XSLT parameter
+                    <samp class="ph codeph">BREADCRUMBS</samp>.</span> Allowed values are "yes" and "no". Default
+                value is "no".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.copycss" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.copycss</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Indicates whether you want to copy
+                your own .css file to the output directory.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.css" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.css</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">The name of your custom .css
+                file.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.csspath" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.csspath</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">The location of your copied .css file
+                relative to the output directory. <span class="ph">Corresponds to XSLT
+                  parameter <samp class="ph codeph">CSSPATH</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.cssroot" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.cssroot</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">The directory that contains your
+                custom .css file. DITA-OT will copy the file from this location.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.ftr" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.ftr</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies the location of a well-formed
+                XML file containing your custom running-footer for the document body. <span class="ph">Corresponds to XSLT parameter
+                  <samp class="ph codeph">FTR</samp>.</span><div class="note note"><span class="notetitle">Note:</span> The fragment must be valid XML, with a single root
+                  element, common practice is to place all content into &lt;div&gt;.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.gen.default.meta" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.gen.default.meta</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to
+                generate extra metadata that targets parental control scanners, meta elements with
+                name="security" and name="Robots". Allowed values are "yes" and "no". Default value
+                is "no". <span class="ph">Corresponds to the XSLT parameter
+                    <samp class="ph codeph">genDefMeta</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.gen.task.lbl" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.gen.task.lbl</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to generate
+                locale-based default headings for sections within task topics. Allowed values are
+                "YES" and "NO". Default value is "NO". <span class="ph">Corresponds to
+                  the XSLT parameter <samp class="ph codeph">GENERATE-TASK-LABELS</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.hdf" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.hdf</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies the location of a well-formed
+                XML file to be placed in the document head.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.hdr" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.hdr</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies the location of a well-formed
+                XML file containing your custom running-header for the document body. <span class="ph">Corresponds to XSLT parameter
+                  <samp class="ph codeph">HDR</samp>.</span><div class="note note"><span class="notetitle">Note:</span> The fragment must be valid XML, with a single root
+                  element, common practice is to place all content into &lt;div&gt;.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.hide.parent.link" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.hide.parent.link</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to hide
+                links to parent topics in the rendered XHTML. <span class="ph">Corresponds to the XSLT parameter <samp class="ph codeph">NOPARENTLINK</samp>.</span> Allowed
+                values are "yes" and "no". Default value is "no".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.indexshow" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.indexshow</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Indicates whether
+                  <samp class="ph codeph">indexterm</samp> element should appear in the output. Allowed values are
+                "yes" and "no". Default value is "no".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.xhtml.toc.class" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.xhtml.toc.class</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">String for a CSS class name attribute applied to
+                the TOC (x)HTML output's &lt;body&gt; element. <span class="ph">Found
+                  in <span class="ph filepath">map2htmltoc.xsl</span>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.xhtml.classattr" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.xhtml.classattr</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to include
+                DITA class ancestry inside generated XHTML elements. Allowed values are "no" and
+                "yes"; the default is "yes" in release 1.5.2 (it was "no" in 1.5 and 1.5.1). For
+                example, the prereq element in a task (which is specialized from section) would
+                generate "<samp class="ph codeph">class="section prereq</samp>". <span class="ph">Corresponds to the XSLT parameter
+                <samp class="ph codeph">PRESERVE-DITA-CLASS</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.xsl" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">args.xsl</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies an XSL file that is used rather
+                than the default XSL transform, located in
+                  <samp class="ph codeph">toolkitdir\xsl\dita2xhtml.xsl</samp>. Property must specify the full
+                path and XSL file name.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__generate.copy.outer" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">generate.copy.outer</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether to generate
+                files for content files that are not located in or beneath the directory containing
+                your <samp class="ph codeph">ditmap</samp> file. Supported values are:<ul class="ul">
+                  <li class="li">"1"  (default) – do not generate outer files</li>
+
+                  <li class="li">"2 – generate outer files</li>
+
+                  <li class="li">"3" – old solution.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__onlytopic.in.map" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">onlytopic.in.map</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether files that are
+                linked to, or referenced with a conref attribute, should generate output. If set to
+                "yes", only files that are referenced directly from the map will generate output
+                files.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__outer.control" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e330 "><samp class="ph codeph">outer.control</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e333 ">Specifies whether content files are
+                located in or below the directory containing your <samp class="ph codeph">.ditamap</samp> file.
+                Supported values are:<ul class="ul">
+                  <li class="li">"fail" – fail quickly if files are going to be generated/copied outside of
+                    that directory</li>
+
+                  <li class="li">"warn" (default) – complete if files will be generated/copied outside, but log
+                    a warning</li>
+
+                  <li class="li">"quiet" – quietly finish with only those files (no warning or error).</li>
+
+                </ul>
+The <samp class="ph codeph">gen-list-without-flagging</samp> Ant task generates a harmless
+                warning for content outside the map directory; you can suppress these warnings by
+                setting the <samp class="ph codeph">outer.control</samp> property to "quiet". <div class="note warning"><span class="warningtitle">Warning:</span> Microsoft HTML Help Compiler cannot produce HTMLHelp for documentation projects
+                  that use outer content. Your content files must reside in or below the directory
+                  containing the <samp class="ph codeph">.ditamap</samp> file, and the map file cannot specify
+                  ".." at the start of <samp class="ph codeph">href</samp> attributes for
+                    <samp class="ph codeph">topicref</samp> elements.</div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">PDF-specific Ant Properties</h2> 	<p class="p">The following
+table describes Ant properties that are specific to the PDF transformation
+type.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 3. PDF parameters</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e663">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e666">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.fo.include.rellinks" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.fo.include.rellinks</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies which links to
+                include in the PDF file. Values are:<ul class="ul">
+                  <li class="li">"none" (default) – no links are included.</li>
+
+                  <li class="li">"all" – all links are included.</li>
+
+                  <li class="li">"nofamily" – hard coded links and reltable-based links are included. Parent,
+                    child, next, and previous links are not included.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.fo.output.rel.links" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.fo.output.rel.links</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies whether to show
+                links in your project's output. Values are "yes" (include all links) and "no" (the
+                default, include no links). If <samp class="ph codeph">${args.fo.include.rellinks}</samp> is
+                specified, this parameter is ignored.<div class="note note"><span class="notetitle">Note:</span> This parameter is deprecated in favor of
+                    <samp class="ph codeph">${args.fo.include.rellinks}</samp>.</div>
+</td>
+
+            </tr>
+
+            <tr class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.gen.task.lbl</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies whether to generate
+                locale-based default headings for sections within task topics. Allowed values are
+                "YES" and "NO". Default value is "NO". <span class="ph">Corresponds to
+                  the XSLT parameter <samp class="ph codeph">GENERATE-TASK-LABELS</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.xsl.pdf" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.xsl.pdf</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies an XSL file that is used in place of the
+                default XSL transform at <samp class="ph codeph">demo\fo\xsl\fo\topic2fo_shell.xsl</samp>. You
+                must specify the full path and XSL file name.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__publish.required.cleanup" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">publish.required.cleanup</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Indicates whether draft-comment and
+                required-cleanup elements are included in the generated file. Allowed values are "yes" and "no".
+                Default value is value of <samp class="ph codeph">args.draft</samp> property. Deprecated,
+                <samp class="ph codeph">args.draft</samp> parameter should be used instead. <span class="ph">Corresponds to XSLT parameter
+                  <samp class="ph codeph">publishRequiredCleanup</samp>.</span></td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.fo.userconfig" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.fo.userconfig</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">The parameter to specify the user configuration
+                file for FOP.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__custom.xep.config" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">custom.xep.config</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">The parameter to specify the user configuration
+                file for RenderX.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__retain.topic.fo" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">retain.topic.fo</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies whether to leave the generated FO file for
+                a PDF project.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.bookmap-order" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">args.bookmap-order</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specify if frontmatter and backmatter content
+                order is retained in bookmap. Values are "retain" and "discard" (default).</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__customization.dir" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">customization.dir</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specifies the customization directory path.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__pdf.formatter" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e663 "><samp class="ph codeph">pdf.formatter</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e666 ">Specified the XSL processor to use. Supported values are:<ul class="ul">
+                  <li class="li">"fop" (default)  – Apache FOP</li>
+
+                  <li class="li">"ah" – Antenna House Formatter</li>
+
+                  <li class="li">"xep" – RenderX XEP Engine</li>
+
+                </ul>
+The Full Easy Install distribution package comes with Apache FOP installed,
+                other XSL processors need to be separately installed. </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">ODT-specific Ant Properties</h2><p class="p">The ODT transform,
+which produces a document using the Open Document Format, is available
+in the 1.5.2 version of the DITA-OT.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 4. ODT related
+parameters</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e856">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e859">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.odt.img.embed" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e856 "><samp class="ph codeph">args.odt.img.embed</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e859 ">Determines whether images are
+                embedded as binary objects within the ODT file. </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.odt.include.rellinks" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e856 "><samp class="ph codeph">args.odt.include.rellinks</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e859 ">Specifies which links to include in the ODT
+                file. Values are:<ul class="ul">
+                  <li class="li">"none" (default) – no links are included.</li>
+
+                  <li class="li">"all" – all links are included.</li>
+
+                  <li class="li">"nofamily" – hard coded links and reltable-based links are included. Parent,
+                    child, next, and previous links are not included.</li>
+
+                </ul>
+</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">EclipseContent-specific Ant Properties</h2><p class="p">The
+"eclipsecontent" transform type produces normalized DITA files, along
+with Eclipse TOC and project files.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 5. EclipseContent
+properties</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e920">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e923">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.eclipsecontent.toc" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e920 "><samp class="ph codeph">args.eclipsecontent.toc</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e923 ">Specifies the name of the TOC file for an
+                Eclipse Content project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">XHTML-specific Ant Properties</h2><p class="p">Parameters
+in this section are used by the "xhtml" transtype, but not by other
+XHTML based transforms.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Table 6. Properties for the "xhtml"
+transform type</span></caption>
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="bottom" width="42.857142857142854%" id="d27578e962">Project Ant Property</th>
+
+              <th class="entry" valign="bottom" width="57.14285714285714%" id="d27578e965">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.xhtml.contenttarget" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e962 "><samp class="ph codeph">args.xhtml.contenttarget</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e965 ">Specifies the content frame name where links
+                from TOC are opened.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.xhtml.toc" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e962 "><samp class="ph codeph">args.xhtml.toc</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e965 ">Specifies the name of the entry point
+                for an XHTML project. Default value is <samp class="ph codeph">index.html</samp></td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+<div class="section"><h2 class="title sectiontitle">EclipseHelp-specific Ant Properties</h2> 	 <p class="p">The
+following table describes Ant properties that are specific to the
+EclipseHelp transformation type, which is an XHTML based output for
+use with the Eclipse Help System.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e1015">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e1018">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.eclipsehelp.toc" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipsehelp.toc</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the name of the TOC file.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.eclipse.country" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipse.country</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the more specific region for the
+                language specified with <samp class="ph codeph">args.eclipse.language</samp> For example, US, CA
+                and GB would clarify a value of "en" for <samp class="ph codeph">args.eclipse.language</samp>. The
+                content will be moved into the appropriate directory structure for an Eclipse
+                fragment.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.eclipse.language" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipse.language</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the base language for translated
+                content, such as "en" for English. This parameter is a prerequisite for
+                  <samp class="ph codeph">args.eclipse.country</samp>. The content will be moved into the
+                appropriate directory structure for an Eclipse fragment.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.eclipse.provider" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipse.provider</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the name of the person or
+                organization providing an Eclipse Help project. Default value is
+                  <samp class="ph codeph">DITA</samp>. <div class="note tip"><span class="tiptitle">Tip:</span> The toolkit ignores the value of this
+                  property when processing an Eclipse Collection Map,
+                  <samp class="ph codeph">eclipse.dtd</samp>.</div>
+
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.eclipse.version" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipse.version</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the version number to include in the
+                output. Default value is <samp class="ph codeph">0.0.0</samp>.<div class="note tip"><span class="tiptitle">Tip:</span> The toolkit ignores
+                  the value of this property when processing an Eclipse Collection Map,
+                    <samp class="ph codeph">eclipse.dtd</samp>.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.eclipse.symbolic.name" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1015 "><samp class="ph codeph">args.eclipse.symbolic.name</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1018 ">Specifies the symbolic name (aka plugin
+                ID) in the output for an Eclipse Help project. The @id value from the DITA map or
+                the Eclipse map collection (Eclipse help specialization) is the symbolic name for
+                the plugin in Eclipse. By default, the value
+                  <samp class="ph codeph">org.sample.help.doc</samp>.<div class="note tip"><span class="tiptitle">Tip:</span> The toolkit ignores the
+                  value of this property when processing an Eclipse Collection Map,
+                    <samp class="ph codeph">eclipse.dtd</samp>.</div>
+</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+ 	 </div>
+
+<div class="section"><h2 class="title sectiontitle">HtmlHelp-specific Ant Properties</h2> 	 <p class="p">The
+following table describes Ant properties that are specific to the
+HTML Help compiled help transformation target.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e1142">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e1145">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.htmlhelp.includefile" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1142 "><samp class="ph codeph">args.htmlhelp.includefile</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1145 ">Specifies the name of a
+                file that you want included in an HTMLHelp project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+ 	 </div>
+
+<div class="section"><h2 class="title sectiontitle">JavaHelp-specific Ant Properties</h2> 	 <p class="p">The
+following table describes Ant properties that are specific to the
+JavaHelp transformation target.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="42.857142857142854%" id="d27578e1184">Project Ant Property</th>
+
+              <th class="entry" valign="top" width="57.14285714285714%" id="d27578e1187">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.javahelp.map" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1184 "><samp class="ph codeph">args.javahelp.map</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1187 ">Specifies the name of the ditamap file for a
+                JavaHelp project.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__args.javahelp.toc" class="row">
+              <td class="entry" valign="top" width="42.857142857142854%" headers="d27578e1184 "><samp class="ph codeph">args.javahelp.toc</samp></td>
+
+              <td class="entry" valign="top" width="57.14285714285714%" headers="d27578e1187 ">Specifies the name of the file containing the TOC
+                in your JavaHelp output. Default value is the name of the ditamap file for your
+                project.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+ 	 </div>
+
+<div class="section"><h2 class="title sectiontitle">Other Toolkit Ant Properties</h2> 	 <p class="p">The following
+table describes additional Ant properties specific to the DITA Open
+Toolkit that you may override.  You should not override a DITA-OT
+Ant property if it does not appear in this table or one of the tables
+above.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all">
+          
+          
+          <thead class="thead" align="left">
+            <tr class="row">
+              <th class="entry" valign="top" width="50%" id="d27578e1236">DITA Ant Property</th>
+
+              <th class="entry" valign="top" width="50%" id="d27578e1239">Description</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr id="dita-ot-ant-properties__args.dita.locale" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">args.dita.locale</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d27578e1239 ">Specifies the language locale file to use for
+                sorting index entries. The JavaHelp transformation type also uses this
+                parameter.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__cleantemp" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">clean.temp</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d27578e1239 ">Specifies whether DITA-OT should delete the files in the
+                temporary directory, <samp class="ph codeph">dita.temp.dir</samp>, when it finishes a build.
+                Allowed values are "yes" and "no". Default value is "yes".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.dir" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">dita.dir</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d27578e1239 ">The location of your DITA-OT installation. Verify that your
+                project's build script points to the correct location.</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.extname" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">dita.extname</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d27578e1239 ">Deprecated, <samp class="ph codeph">dita.ext</samp> parameter should
+                be used instead. Defines the file extension for content files in the directory
+                specified with the <samp class="ph codeph">dita.temp.dir</samp> property. Allowed values are
+                ".xml" and ".dita"; Default value is ".xml".</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">dita.preprocess.reloadstylesheet</samp>              </td>
+
+              <td class="entry" rowspan="6" valign="top" width="50%" headers="d27578e1239 ">Instructs the toolkit to reload the
+                XSL stylesheets used for transformation. Allowed values are "true" and "false".
+                Default value is "false".<div class="note tip"><span class="tiptitle">Tip:</span> Set the value to true if you want to use
+                  more than one set of stylesheets to process a group of topics. The parameter is
+                  also useful for writers of toolkit build scripts who experience Java memory
+                  problems during transformation due to large Ant projects. Alternatively, you can
+                  adjust the size of your Java memory heap if setting
+                    <samp class="ph codeph">dita.preprocess.reloadstylesheet</samp> for this
+                reason.</div>
+</td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet.conref" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 ">
+                <samp class="ph codeph">dita.preprocess.reloadstylesheet.conref</samp>
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet.mapref" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 ">
+                <samp class="ph codeph">dita.preprocess.reloadstylesheet.mapref</samp>
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet.mappull" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 ">
+                <samp class="ph codeph">dita.preprocess.reloadstylesheet.mappull</samp>
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet.maplink" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 ">
+                <samp class="ph codeph">dita.preprocess.reloadstylesheet.maplink</samp>
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.preprocess.reloadstylesheet.topicpull" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 ">
+                <samp class="ph codeph">dita.preprocess.reloadstylesheet.topicpull</samp>
+              </td>
+
+            </tr>
+
+            <tr id="dita-ot-ant-properties__dita.temp.dir" class="row">
+              <td class="entry" valign="top" width="50%" headers="d27578e1236 "><samp class="ph codeph">dita.temp.dir</samp></td>
+
+              <td class="entry" valign="top" width="50%" headers="d27578e1239 ">Defines the directory where DITA-OT will create a
+                temporary directory to place temporary files generated during the transformation
+                process.</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+</div>
+
+</div>
+
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../readme/DITA-ant.html" title="Ant is an open tool that the DITA Open Toolkit uses to manage builds.">Running DITA-OT from Ant</a></div>
+</div>
+</div>
+
+</body>
+</html>

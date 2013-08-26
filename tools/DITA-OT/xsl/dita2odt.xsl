@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?><!-- This file is part of the DITA Open Toolkit project hosted on 
      Sourceforge.net. See the accompanying license.txt file for 
-     applicable licenses.--><!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. --><!-- &#160; --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:prodtools="http://www.ibm.com/xmlns/prodtools" xmlns:random="org.dita.dost.util.RandomUtils" exclude-result-prefixes="random" version="1.1">
+     applicable licenses.--><!-- (c) Copyright IBM Corp. 2004, 2005 All Rights Reserved. --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:prodtools="http://www.ibm.com/xmlns/prodtools" xmlns:random="org.dita.dost.util.RandomUtils" exclude-result-prefixes="random" version="1.1">
   
   
-  <xsl:import href="common/output-message.xsl"></xsl:import>
-  <xsl:import href="common/dita-utilities.xsl"></xsl:import>
-  <xsl:import href="common/related-links.xsl"></xsl:import>
-  <xsl:import href="common/dita-textonly.xsl"></xsl:import>
-  <xsl:import href="common/flag.xsl"></xsl:import>
+  <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"></xsl:import>
+  <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"></xsl:import>
+  <xsl:import href="plugin:org.dita.base:xsl/common/related-links.xsl"></xsl:import>
+  <xsl:import href="plugin:org.dita.base:xsl/common/dita-textonly.xsl"></xsl:import>
+  <xsl:import href="plugin:org.dita.base:xsl/common/flag.xsl"></xsl:import>
   <!--
   <xsl:import href="xslodt/flag-old.xsl"/>
   -->
@@ -74,7 +74,7 @@
     </xsl:when>
     <!-- topic -->
     <xsl:otherwise>
-      <xsl:value-of select="concat($FILEDIR, &apos;/&apos;, substring-before($FILENAME, &apos;.&apos;), $DITAEXT)"></xsl:value-of>
+      <xsl:value-of select="concat($FILEDIR, &apos;/&apos;, $FILENAME)"></xsl:value-of>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:param>
@@ -122,7 +122,7 @@
   Needed as a directory prefix for the @conref "document()" function calls.
   default is '../doc/')-->
 <xsl:variable name="WORKDIR">
-  <xsl:apply-templates select="document($currentfile, /)/processing-instruction(&apos;workdir&apos;)[1]" mode="get-work-dir"></xsl:apply-templates>
+  <xsl:apply-templates select="document($currentfile, /)/processing-instruction(&apos;workdir-uri&apos;)[1]" mode="get-work-dir"></xsl:apply-templates>
 </xsl:variable>
 
 <!-- the path back to the project. Used for c.gif, delta.gif, css to allow user's to have
@@ -197,35 +197,6 @@
         <xsl:apply-templates></xsl:apply-templates>
       </office:text>
     </office:body>
-  </xsl:template>
-  
-  <xsl:template match="processing-instruction(&apos;workdir&apos;)" mode="get-work-dir">
-    <xsl:value-of select="."></xsl:value-of><xsl:text>/</xsl:text>
-  </xsl:template>
-  
-  <xsl:template match="processing-instruction(&apos;path2project&apos;)" mode="get-path2project">
-    <xsl:call-template name="get-path2project">
-      <xsl:with-param name="s" select="."></xsl:with-param>
-    </xsl:call-template>
-  </xsl:template>
-  
-  <xsl:template name="get-path2project">
-    <!-- Deal with being handed a Windows backslashed path by accident. -->
-    <!-- This code only changes \ to / and doesn't handle the many other situations
-      where a URI differs from a file path.  Hopefully they don't occur in path2proj anyway. -->
-    <xsl:param name="s"></xsl:param>
-    <xsl:choose>
-      <xsl:when test="contains($s, &apos;\&apos;)">
-        <xsl:value-of select="substring-before($s, &apos;\&apos;)"></xsl:value-of>
-        <xsl:text>/</xsl:text>
-        <xsl:call-template name="get-path2project">
-          <xsl:with-param name="s" select="substring-after($s, &apos;\&apos;)"></xsl:with-param>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$s"></xsl:value-of>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

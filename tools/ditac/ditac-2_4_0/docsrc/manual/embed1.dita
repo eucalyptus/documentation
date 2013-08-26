@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN"
+"http://docs.oasis-open.org/dita/dtd/topic.dtd">
+<topic id="embed1">
+  <title>High-level method: embedding
+  <apiname>com.xmlmind.ditac.convert.Converter</apiname></title>
+
+  <shortdesc>Quick and easy embedding: embed
+  <apiname>com.xmlmind.ditac.convert.Converter</apiname>, the <tm
+  tmtype="tm">Java</tm> class which is used to implement the
+  <cmdname>ditac</cmdname> command-line utility.</shortdesc>
+
+  <body>
+    <p><xref format="html"
+    href="../api/com/xmlmind/ditac/convert/Converter.html"
+    scope="external">Converter</xref> is the object which is at the core of
+    the <cmdname>ditac</cmdname> command-line utility. Its <xref format="html"
+    href="../api/com/xmlmind/ditac/convert/Converter.html#run(java.lang.String[])"
+    scope="external">run</xref> method accepts the same string arguments as
+    the <xref href="commandLine.dita"><cmdname>ditac</cmdname> command-line
+    utility</xref>.</p>
+
+    <p>The full source code of the <apiname>Embed1</apiname> sample is found
+    in <xref format="java" href="embed/Embed1.java"
+    scope="external"><filepath>Embed1.java</filepath></xref>.</p>
+
+    <ol>
+      <li><p>Create the <apiname>Converter</apiname>.</p><pre
+      outputclass="language-java">StyleSheetCache cache = new StyleSheetCache();
+
+Console console = new Console() {
+    public void showMessage(String message, MessageType messageType) {
+        System.err.println(message);
+    }
+};
+
+Converter converter = new Converter(cache, console);</pre><ul>
+          <li><p><xref format="html"
+          href="../api/com/xmlmind/ditac/convert/StyleSheetCache.html"
+          scope="external">StyleSheetCache</xref> is a simple cache for the
+          ditac XSLT 2.0 stylesheets. It is a thread-safe object which is
+          intended to be shared by several
+          <apiname>Converter</apiname>s.</p><p>Unlike
+          <apiname>StyleSheetCache</apiname>, <apiname>Converter</apiname> is
+          not thread-safe. Each thread must own its
+          <apiname>Converter</apiname>. However, the <apiname>run</apiname>
+          method of a <apiname>Converter</apiname> may be invoked several
+          times.</p></li>
+
+          <li><p><xref format="html"
+          href="../api/com/xmlmind/util/Console.html"
+          scope="external">Console</xref> is a very simple interface.
+          Implementing this interface allows to do whatever you want with the
+          messages reported by a <apiname>Converter</apiname>.</p></li>
+        </ul></li>
+
+      <li><p>Configure the <apiname>Converter</apiname>.</p><pre
+      outputclass="language-java">if (!converter.registerFOP(path("/opt/fop/fop"))) {
+    return 1;
+}
+
+File xslDir = new File(path("../../../xsl"));
+System.setProperty("DITAC_XSL_DIR", xslDir.getAbsolutePath());</pre><ul>
+          <li><p>There are several methods which allows to register an XSL-FO
+          processor with a <apiname>Converter</apiname>. From high-level ones
+          to low-level ones, these methods are: <xref format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerFOP(java.lang.String)"
+          scope="external">registerFOP</xref>, <xref format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerXEP(java.lang.String)"
+          scope="external">registerXEP</xref>, <xref format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerAHF(java.lang.String)"
+          scope="external">registerAHF</xref>, <xref format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerXFC(java.lang.String)"
+          scope="external">registerXFC</xref>, <xref format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerExternalFOConverter(java.lang.String,%20com.xmlmind.ditac.convert.Format,%20java.lang.String)"
+          scope="external">registerExternalFOConverter</xref>, <xref
+          format="html"
+          href="../api/com/xmlmind/ditac/convert/Converter.html#registerFOConverter(com.xmlmind.ditac.convert.FOConverter)"
+          scope="external">registerFOConverter</xref>.</p></li>
+        </ul><ul>
+          <li><p>A <apiname>Converter</apiname> can automatically determine
+          where to find the directory containing all the ditac XSLT 2.0
+          stylesheets. It assumes that <filepath>ditac.jar</filepath> is in
+          the class path of <tm tmtype="tm">Java</tm>. It also assumes that
+          <filepath>ditac.jar</filepath> is contained in a
+          <filepath>lib/</filepath> directory. The<filepath> xsl/</filepath>
+          directory is assumed to be a sibling of the
+          <filepath>lib/</filepath> directory.</p><p>However, the situation
+          may be very different in applications other than the
+          <cmdname>ditac</cmdname> command-line. That's why you may need to
+          set the <tt>DITAC_XSL_DIR</tt> system property to the absolute path
+          of the <filepath>xsl/</filepath> directory containing the XSLT
+          stylesheets.</p></li>
+        </ul></li>
+
+      <li><p>Invoke the <apiname>run</apiname> method.</p><pre
+      outputclass="language-java">String[] args = {
+    "-v",
+    "-p", "number", "all",
+    outFile.getPath(),
+    inFile.getPath(),
+};
+
+return converter.run(args);</pre><p>The <apiname>run</apiname> method returns
+      0 if the conversion is successful and an integer greater than 0
+      otherwise. When the conversion fails, errors messages are displayed on
+      the <apiname>Console</apiname>.</p></li>
+    </ol>
+
+    <section><title>Compiling and executing the <apiname>Embed1</apiname>
+    sample</title><p>Compile the <apiname>Embed1</apiname> sample by running
+    <cmdname>ant</cmdname> in
+    <filepath><varname>ditac_install_dir</varname>/doc/manual/embed/</filepath>.</p><p>Execute
+    the <apiname>Embed1</apiname> sample by running
+    <cmdname>ant</cmdname> <tt>embed1</tt> in
+    <filepath><varname>ditac_install_dir</varname>/doc/manual/embed/</filepath>.
+    This will convert
+    <filepath><varname>ditac_install_dir</varname>/docsrc/manual/manual.ditamap</filepath>
+    to
+    <filepath><varname>ditac_install_dir</varname>/doc/manual/embed/manual.pdf</filepath>,
+    using Apache FOP.</p><p>Note that <filepath>Embed1.java</filepath>
+    contains ``hardwired filenames''. This means that this sample cannot be
+    run from elsewhere than
+    <filepath><varname>ditac_install_dir</varname>/doc/manual/embed/</filepath>
+    and that you'll almost certainly need to modify the source code in order
+    to specify the actual location of the <filepath>fop</filepath>
+    (<filepath>fop.bat</filepath>) script.</p></section>
+  </body>
+
+  <related-links>
+    <link href="embed2.dita">
+      <linktext/>
+    </link>
+  </related-links>
+</topic>

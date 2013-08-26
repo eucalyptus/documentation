@@ -2,38 +2,41 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="concimages_kvm_lineptId">
-	<title>Create Linux Image (KVM)</title>
+	<title>Create Linux Image</title>
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<note type="important">Before you begin, make sure that KVM
-				installed and properly functioning for the account you are going
-				to use.</note>
+			<note type="important">This example requires access to a physical machine. </note>
+			<note type="important">Before you begin, make sure that KVM is installed and properly
+				functioning for the account you are going to use.</note>
 			<p>To create a root filesystem to be used with Eucalyptus using KVM
 				and an ISO image of the guest OS you want to install:</p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Download the ISO image of the distro (guest OS) you want to
-					install.</cmd>
+				<cmd>Download the ISO image of the distro (guest OS) you want to install. For example:</cmd>
+				<info>
+					<codeblock>wget http://ftp.usf.edu/pub/centos/6.4/isos/x86_64/CentOS-6.4-x86_64-LiveCD.iso</codeblock>
+				</info>
 
 			</step>
 			<step>
-				<cmd>Create a virtual disk with the desired size. For example,
-					to create a 4 GiB disk:</cmd>
+				<cmd>Create a virtual disk with the desired size. For example, to create a 4 GiB disk named
+					test.img, type the following command:</cmd>
 				<info>
-					<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
+					<codeblock>dd if=/dev/zero of=test.img bs=1M count=4096</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Start KVM using the CDROM as the boot device and new image
-					as the disk.</cmd>
+				<cmd>Start KVM using the CDROM as the boot device and new image as the disk. For example, to use
+					the ISO image and virtual disk that we used in the previous examples, type the
+					following command:</cmd>
 				<info>
-					<codeblock>/usr/libexec/qemu-kvm -cdrom iso_image -drive if=scsi,file=&lt;image_name>,boot=off</codeblock>
-					<note type="note">You need to have a SCSI as a bus because
-						Eucalyptus expects the disk to be in
-							<filepath>/dev/sda</filepath>.</note>
+					<codeblock>/usr/libexec/qemu-kvm -m 2048 -smp 2 -cdrom CentOS-6.4-x86_64-LiveCD.iso -drive if=virtio,file=test.img,boot=off -boot once=d</codeblock>
 				</info>
+			</step>
+			<step>
+				<cmd>Connect to the instance using the VNC client of your choice.</cmd>
 			</step>
 			<step>
 				<cmd>Install the distro as you would normally would. Do not use
@@ -58,10 +61,9 @@
 
 			</step>
 			<step>
-				<cmd>Find out the starting block and the block size of the root
-					file system.</cmd>
+				<cmd>Find out the starting block and the block size of the root file system. For example:</cmd>
 				<info>
-					<codeblock>parted &lt;image_name></codeblock>
+					<codeblock>parted test.img</codeblock>
 				</info>
 			</step>
 			<step>
@@ -80,9 +82,9 @@ Unit? [compact]? b</codeblock>
 						<codeph>1024000</codeph>.</stepresult>
 			</step>
 			<step>
-				<cmd>Extract the file system.</cmd>
+				<cmd>Extract the file system. For example:</cmd>
 				<info>
-					<codeblock>dd if=&lt;image_name> of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
+					<codeblock>dd if=test.img of=rootfs.img bs=1 skip=32256 count=1024000</codeblock>
 					<note type="tip">To speed up the process, you can increase
 						the block size. Divide the size and the skip count by
 						the new block size (512 in this example) and you get
