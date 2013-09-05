@@ -12,28 +12,34 @@
             <codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
             <p>If the upgrade fails and needs to be reverted to your earlier
                 version, you can find your preserved data in this directory.</p>
-            <p>If for any reason your upgrade fails, all changes to the database
+            <p>If the upgrade fails, all changes to the database
                 and configuration files will be rolled back. You can retry the
                 upgrade by following the upgrade instructions in the sections,
                     <xref href="upgrade_shutdown.dita"/> and <xref
                     href="upgrade_packages.dita"/>.</p>
-            <p>In the event that you choose not to go ahead with the upgrade
+            <p>If you do not want to continue with the upgrade
                 after a failure, you can downgrade your installation back to the
                 previous version. Please note that downgrade instructions are
                 different, depending on whether your Eucalyptus services are
                 co-located or each run on their own machine. You will need to
                 perform the downgrade for all services running on a single
                 machine at the same time.</p>
-            <p>Eucalyptus 3.2 requires Java 1.6. If you are downgrading from
+            <!--<note type="important">Eucalyptus 3.2 requires Java 1.6. If you are downgrading from
                 Eucalyptus 3.3, you must ensure that Java 1.6 is available and
-                specified in your <codeph>CLOUD_OPTS</codeph>.</p>
-            <p><filepath>/var/lib/eucalyptus/db</filepath> and
-                    <filepath>/var/lib/eucalyptus/keys</filepath> should not be
+                specified in your <codeph>CLOUD_OPTS</codeph>.</note>-->
+            <p>The <filepath>/var/lib/eucalyptus/db</filepath> and
+                    <filepath>/var/lib/eucalyptus/keys</filepath> directories should not be
                 affected by the upgrade. If they have been removed subsequent to
                 the upgrade, you must restore the contents of these directories
                 from your backups before downgrading.</p>
+        	
+        	<p>To downgrade from a failed upgrade, perform the tasks listed in the following sections.</p>
         </context>
-        <steps>
+    </taskbody>
+	<task id="upgrade_failure_downgrade">
+		<title>Downgrade Eucalyptus</title>
+<taskbody>
+	<steps>
             <step>
                 <cmd>Downgrade to the Eucalyptus <ph
                         conref="../shared/conrefs.dita#prod/prev_version"/>
@@ -187,4 +193,25 @@ downgrade eucalyptus-enterprise-vmware-broker-libs
             </step>
         </steps>
     </taskbody>
+	</task>
+	<task id="upgrade_failure_prep">
+		<title>Prepare System for Upgrade</title>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>Clear out the <codeph>/var/run/eucalyptus/</codeph> directory on all machines used for
+						Eucalyptus.</cmd>
+				</step>
+				<step>
+					<cmd>Downgrade Euca2ools to <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>.</cmd>
+				</step>
+				<step>
+					<cmd>Perform the upgrade tasks for your Eucalyptus version.</cmd>
+				</step>
+				<step>
+					<cmd>Start the cloud back up. Make sure all services show <codeph>ENABLED</codeph>.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
 </task>
