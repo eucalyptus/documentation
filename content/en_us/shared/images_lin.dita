@@ -19,8 +19,7 @@
 			<note type="important">Before you begin, make sure that your
 				hypervisor is installed and properly functioning for the account
 				you are going to use.</note>
-			<p>To create a root filesystem to be used with Eucalyptus using Xen
-				or KVM and an ISO image of the guest OS you want to install:</p>
+			<p>To create a root filesystem to be used with Eucalyptus using KVM and an ISO image of the guest OS you want to install:</p>
 		</context>
 		<steps>
 			<step>
@@ -34,53 +33,9 @@
 					<codeblock>dd if=/dev/zero of=&lt;image_name> bs=1M count=4096</codeblock>
 				</info>
 			</step>
+			
 			<step>
-				<cmd>If you are using Xen, complete the following steps:</cmd>
-				<substeps>
-					<substep>
-						<cmd>Create a configuration file (for example,
-								<filepath>xen.cfg</filepath>) to boot off the
-							ISO image. The file should look like the
-							following:</cmd>
-						<info>
-							<codeblock>name = "bootFromISO"
-kernel = "/usr/lib/xen/boot/hvmloader"
-memory = 1024
-builder = "hvm"
-device_model = "/usr/lib64/xen/bin/qemu-dm"
-boot = "d"
-disk = ['file:PATH_TO_ISO,hdc:cdrom,r',
-'file:PATH_TO/&lt;image_name>,sda,w']
-vif = ['mac=00:01:01:00:00:03, bridge=xenbr0']
-dhcp="on"
-vnc = 1
-vncdisplay = 7
-pae = 1</codeblock>
-							<note type="important">You must modify
-									<codeph>device_model</codeph> and
-									<codeph>kernel</codeph> since they depend on
-								where the distribution puts such files. Look
-								into the Xen package file list. Also be sure
-								that all the options are correct for your
-								needs.</note>
-						</info>
-					</substep>
-					<substep>
-						<cmd>Start the domU.</cmd>
-						<info>
-							<codeblock>xen create xen.cfg</codeblock>
-						</info>
-					</substep>
-					<substep>
-						<cmd>Connect with a VNC viewer. For example:</cmd>
-						<info>
-							<codeblock>xvncviewer localhost:7</codeblock>
-						</info>
-					</substep>
-				</substeps>
-			</step>
-			<step>
-				<cmd>If you are using KVM, start KVM using the CDROM as the boot
+				<cmd>Start KVM using the CDROM as the boot
 					device and new image as the disk.</cmd>
 				<info>
 					<codeblock>/usr/libexec/qemu-kvm -cdrom iso_image -drive if=scsi,file=&lt;image_name>,boot=off</codeblock>
@@ -108,9 +63,6 @@ pae = 1</codeblock>
 						may be relevant. Failure to remove this association may
 						leave your instance unable to connect to the
 						network.</note></info>
-			</step>
-			<step>
-				<cmd>If you are using Xen, stop the domU.</cmd>
 			</step>
 			<step>
 				<cmd>Run <codeph>parted</codeph> to find out the starting block
