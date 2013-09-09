@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="security_task_replays">
+	<title>Replay Protection</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>You can configure replay detection in the CLC to allow replays of
+				the same message for a set time period. This might be needed to
+				ensure that legitimate requests submitted by automated scripts
+				closely together (such as two requests to describe instances
+				issued within the same second) are not rejected as malicious. </p>
+			<note type="important">To protect against replay attacks, the CLC
+				only caches messages for 15 minutes. So it’s important that any
+				client tools used to interact with the CLC have the Expires
+				element set to a value less than 15 minutes from the current
+				time. This is usually not an issue with standard tools, such as
+				euca2ools and Amazon EC2 API Tools. </note>
+		</context>
+		<steps>
+			<step>
+				<cmd>The CLC replay detection algorithm rejects messages with
+					the same signatures received within 15
+					minutes. The time within which messages with the same signatures are
+					accepted is controlled by the
+						<codeph>bootstrap.webservices.replay_skew_window_sec</codeph>
+					property. The default value of this property is three
+					seconds. To change this value, enter the following
+					command:</cmd>
+				<info>
+					<codeblock>euca-modify-property -p bootstrap.webservices.replay_skew_window_sec=[new_value_in_seconds]</codeblock>
+					<p>If you set this property to <codeph>0</codeph>,
+						Eucalyptus will not allow any message replays. This
+						setting provides the best protection against message
+						replay attacks, but may break some of the client-side
+						scripts that issue commands too quickly.</p>
+					<p>If you set this property to any value greater than 15
+						minutes plus the values of ws.clock_skew_sec (that is,
+						to a value >= 920 sec in the default installation),
+						Eucalyptus disables replay detection completely.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>When checking message timestamps for expiration, Eucalyptus
+					allows up to 20 seconds of clock drift between the machines.
+					This is a default setting. You can change this value for the
+					CLC at runtime by setting the
+						<codeph>bootstrap.webservices.clock_skew_sec</codeph>
+					property as follows:</cmd>
+				<info>
+					<codeblock>euca-modify-property -p bootstrap.webservices.clock_skew_sec=[new_value_in_seconds]</codeblock>
+				</info>
+			</step>
+		</steps>
+
+	</taskbody>
+</task>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="security_bp_networking">
+	<title>Network and Message Security</title>
+	<shortdesc/>
+	<conbody>
+		<section>
+			<title>Network modes</title>
+			<p>MANAGED mode is currently the only recommended networking mode
+				for secure deployments. It provides security groups, which are
+				used to control inbound traffic to instances, as well as Layer-2
+				isolation between security groups. This isolation is enforced
+				using a VLAN tag per security group, thus, protecting traffic
+				within a security group from potential eavesdropping and
+				hijacking by VM instances belonging to other security
+				groups.</p>
+			<p>Eucalyptus does not currently enforce Layer-2 isolation between
+				VMs within the same security group. This protection will be
+				available in the upcoming new Edge networking mode.</p>
+			<p>See the Installation Guide for more information on choosing a
+				networking mode.</p>
+		</section>
+		<section>
+			<title>Replay detection</title>
+			<p>Eucalyptus components receive and exchange messages using either
+				Query or SOAP interfaces (or both). Messages received over these
+				interfaces are required to have some form of a time stamp (as
+				defined by AWS specification) to prevent message replay attacks.
+				Because Eucalyptus enforces strict policies when checking
+				timestamps in the received messages, for the correct functioning
+				of the cloud infrastructure, it is crucial to have clocks
+				constantly synchronized (for example, with ntpd) on all machines
+				hosting Eucalyptus components. To prevent user commands
+				failures, it is also important to have clocks synchronized on
+				the client machines.</p>
+			<p>Following the AWS specification, all Query interface requests
+				containing the Timestamp element are rejected as expired after
+				15 minutes of the timestamp. Requests containing the Expires
+				element expire at the time specified by the element. SOAP
+				interface requests using WS-Security expire as specified by the
+				WS-Security Timestamp element. </p>
+		</section>
+		<section>
+			<title>Endpoints</title>
+			<p>Eucalyptus requires that all user requests (SOAP with WS-Security
+				and Query) are signed, and that their content is properly
+				hashed, to ensure integrity and non-repudiation of messages. For
+				stronger security, and to ensure message confidentiality and
+				server authenticity, client tools and applications should always
+				use SSL/TLS protocols with server certification verification
+				enabled for communications with Eucalyptus components.</p>
+			<p>By default, Eucalyptus components are installed with self-signed
+				certificates. For public Eucalyptus endpoints, certificates
+				signed by a trusted CA provider should be installed.</p>
+		</section>
+	</conbody>
+</concept>
