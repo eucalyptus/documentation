@@ -2,14 +2,43 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="security_bp_access">
  <title>Access and Authentication</title>
- <shortdesc></shortdesc>
+ <shortdesc/>
  <conbody>
- 	<p>(If there are enough points for each item, consider making each one its own section in the
- 		file.)</p>
-  <ul>
-  	<li>IAM best practices (list here)</li>
-  	<li>Credentials management (list here)</li>
-  	<li>LDAP security (list here)</li>
-  </ul>
+  <section>
+   <title>IAM</title>
+   <p>The <xref
+     href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html"
+     type="external">Amazon Web Services IAM Best Practices</xref> are generally
+    applicable to Eucalyptus.</p>
+   <p>You can also use IAM quotas to enforce limits on resource usage by users
+    and accounts in your Eucalyptus cloud.</p>
+  </section>
+  <section>
+   <title>The <codeph>eucalyptus</codeph> account</title>
+   <p>The <codeph>eucalyptus</codeph> account is the superuser/privileged
+    account in Eucalyptus. The security of your Eucalyptus cloud can be
+    compromised if this account is compromised.</p>
+   <p>A default password is created for the <codeph>eucalyptus</codeph>
+    account's <codeph>admin</codeph> user when you install Eucalyptus. Reset
+    this password immediately either by going to the admin console or using
+    euare-usermodloginprofile.</p>
+   <p>Use this account only for tasks that cannot be done using a less
+    privileged account, for examples tasks related to cloud setup, management
+    and monitoring. Protect and periodically rotate the credentials for this
+    account.</p>
+  </section>
+  <section>
+   <title>Credential management</title>
+   <p>Only create users and credentials for the interfaces that you will
+    actually use. For example, if you're only going to use an account through
+    the admin console, do not create credentials for the SOAP and Query
+    interfaces.</p>
+   <p>Using <codeph>euca_conf --get-credentials</codeph> or downloading
+    credentials through the admin console creates a new set of SOAP API
+    credentials. Remove unnecessary credentials from the cloud after using these
+    methods, or avoid using them by using <codeph>euare-useraddkey</codeph> and
+     <codeph>euare-usercreatecert</codeph> instead.</p>
+  </section>
+
  </conbody>
 </concept>
