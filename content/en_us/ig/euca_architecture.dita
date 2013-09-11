@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="euca_architecture">
-	<title>Understanding the Eucalyptus Architecture</title>
+	<title>Understanding <ph conref="../shared/conrefs.dita#prod/product"/> Architecture</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -39,29 +39,7 @@
 			layer-2 isolation characteristics of your existing network, you
 			might not be able to implement all of the security features
 			supported by Eucalyptus.</p>
-		<section>
-			<title>Eucalyptus HA</title>
-			<p>If you configure Eucalyptus for high availability (HA), you must
-				have primary and secondary cloud and cluster components. In the
-				event of a failure, the secondary component becomes the primary
-				component.</p>
-			<image href="../shared/images/euca-arch-basic-two-clusters-trinity.png"
-				alt="Image depicting the Eucalyptus HA"/>
-			<p>Eucalyptus HA uses a service called an Arbitrator that monitors
-				connectivity between a user and a user-facing component (CLC,
-				Walrus, and CC). An Arbitrator approximates reachability to a
-				user. Each Arbitrator uses ICMP messages to periodically test
-				reachability to an external entity (for example, a network
-				gateway or border router) or to an external site (for example,
-				google.com).</p>
-			<p>An Arbitrator is not required in HA. However, it is nice to have
-				in order to test connectivity with a user.</p>
-			<p>If all Arbitrators fail to reach a monitored entity, Eucalyptus
-				assumes there is a loss of connectivity between a user and the
-				component. At that point a failover occurs. To allow for normal
-				outages and maintenance, we recommend that you register more
-				than one Arbitrator for each user-facing component.</p>
-		</section>
+		
 
 	</conbody>
 </concept>
