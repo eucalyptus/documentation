@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="security_bp_instances">
+	<title>Images and instances</title>
+	<shortdesc/>
+	<conbody>
+		<p>As all instances are based on images, security during image
+			creation is helpful in securing instances. Below are a list of
+			things that can be done to add additional security during image
+			creation:</p>
+		<ul>
+			<li>Turn off password-based authentication and enable <xref
+					href="http://www.linux-pam.org/" type="external">PAM</xref>
+				authentication for SSH connections by specifying the following
+				options in <filepath>/etc/ssh/sshd_config</filepath>:
+				<codeblock>PasswordAuthentication no
+UsePAM yes</codeblock></li>
+			<li>Encourage non-root access by providing an unprivileged user
+				account. If necessary, use sudo to allow access to privileged
+				commands</li>
+			<li>Always delete the shell history before bundling. If you attempt
+				more than one bundle upload in the same image, the shell history
+				contains your secret access key.</li>
+			<li>Bundling a running instance requires your private key and X.509
+				certificate. Put these and other credentials in a location that
+				is not bundled (e.g. when using
+				<codeph>euca-bundle-vol</codeph>, pass the folder location where
+				the certificates are stored as part of the values for the
+					<codeph>-e</codeph> option). AWS provides more in-depth
+				information on <xref
+					href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-sharingamis.html"
+					type="external">security considerations in creating a shared
+					machine image</xref>.</li>
+			<li>By default, all images registered have private launch
+				permissions. Consider using
+					<codeph>euca-modify-image-attribute</codeph> to limit the
+				accounts that can access the image.</li>
+			<li>Consider installing <xref
+					href="https://cloudinit.readthedocs.org/en/latest/"
+					type="external">cloud-init</xref> in the image to help
+				control root and non-root access. If cloud-init isn't available,
+				a custom <filepath>/etc/rc.local</filepath> script can be
+				used.</li>
+			<li>Consider using a tool such as <xref
+					href="http://manpages.ubuntu.com/manpages/precise/man8/zerofree.8.html"
+					type="external"/>zerofree to zero-out any unused space on
+				the image.</li>
+			<li>Consider editing <filepath>/etc/rc.local</filepath> to clear out
+				the swap every time the instance is booted. This can be done
+				using the following command:
+				<codeblock>sync &amp;&amp; /sbin/sysctl vm.drop_caches=3 &amp;&amp; swapoff -a &amp;&amp; swapon -a</codeblock></li>
+			<li>Consider enabling <xref href="http://selinuxproject.org/page/Main_Page"
+				type="external">SELinux</xref> or <xref
+					href="http://wiki.apparmor.net/index.php/Main_Page"
+					type="external">AppArmor</xref> for your images</li>
+		</ul>
+		<p>After locking down the image using the steps above, additional steps
+			can be done to further secure instances started from that image. For
+			example, restrict access to the instance by allowing only trusted
+			hosts or networks to access ports on your instances. You can control
+			access to instances using <codeph>euca-authorize</codeph> and
+				<codeph>euca-revoke</codeph>.</p>
+		<p>Consider creating one security group that allows external logins and
+			keep the remainder of your instances in a group that does not allow
+			external logins. Review the rules in your security groups regularly,
+			and ensure that you apply the principle of least privilege: only
+			open up permissions as they are required. Use different security
+			groups to deal with instances that have different security
+			requirements.</p>
+		<p>When using a highly-available instance with Eucalyptus AutoScaling,
+			use an AutoScaling group of 1.</p>
+
+	</conbody>
+</concept>
