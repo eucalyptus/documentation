@@ -2,45 +2,55 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_configure_polling_frequency">
-    <title>Configuring Polling Frequency</title>
+    <title>Configuring Polling Frequency and Cache Refresh</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <note type="tip"> If there are going to be a lot of console users,
-                increasing the <codeph>pollfreq</codeph> values can help reduce
-                the load on the Cloud Controller by limiting the number of times
-                that updates are requested for users' resources. </note>
-            <p>To configure the polling frequency for console updates from the
-                CLC: </p>
+            <note type="tip"> If there are going to be a lot of console users, increasing the
+                    <codeph>pollfreq</codeph> values can help reduce the load on the Cloud
+                Controller by limiting the number of times that updates are requested for users'
+                resources. </note>
+            <p>To configure the polling frequency for console updates from the CLC: </p>
         </context>
         <steps>
             <step>
-                <cmd>Modify the <codeph>pollfreq</codeph> entry in the
-                        <codeph>[server]</codeph> section of the configuration
-                    file with a polling value in seconds. For example:</cmd>
+                <cmd>Modify the <codeph>pollfreq</codeph> entry in the <codeph>[server]</codeph>
+                    section of the configuration file with a polling value in seconds. For
+                    example:</cmd>
                 <info>
-                    <codeblock>pollfreq: 20</codeblock>
+                    <codeblock>pollfreq=15</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>You can optionally override the main polling frequency
-                    value specified in <codeph>pollfreq</codeph> by adding an
-                    entry in the form
-                        <codeph>pollfreq.&lt;resouce_name&gt;</codeph>. Valid
-                    resource name values are: <codeph>images</codeph>,
-                        <codeph>instances</codeph>, <codeph>keypairs</codeph>,
+                <cmd>You can optionally override the main polling frequency value specified in
+                        <codeph>pollfreq</codeph> by adding an entry in the form
+                        <codeph>pollfreq.&lt;resouce_name&gt;</codeph>. Valid resource name values
+                    are: <codeph>images</codeph>, <codeph>allimages</codeph>,
+                    <codeph>zones</codeph>, <codeph>instances</codeph>, <codeph>keypairs</codeph>,
                         <codeph>groups</codeph>, <codeph>addresses</codeph>,
-                        <codeph>volumes</codeph>, and
-                    <codeph>snapshots</codeph>. For example: </cmd>
+                        <codeph>volumes</codeph>, and <codeph>snapshots</codeph>. For example: </cmd>
                 <info>
-                    <codeblock>pollfreq.images: 60
-pollfreq.snapshots: 10
-pollfreq.instances: 5
-pollfreq.groups: 20
-pollfreq.addresses: 30
-pollfreq.volumes: 30
-pollfreq.keypairs: 60</codeblock>
+                    <codeblock>pollfreq.images=60
+pollfreq.allimages=500
+pollfreq.zones=500
+pollfreq.snapshots=10
+pollfreq.instances=5
+pollfreq.groups=20
+pollfreq.addresses=30
+pollfreq.volumes=30
+pollfreq.keypairs=60</codeblock>
                 </info>
+            </step>
+            <step>
+                <cmd> You can control network traffic to the proxy by setting the
+                        <codeph>min.clc.polling</codeph> value. A value of
+                        <uicontrol>True</uicontrol> will cause the proxy to only refresh data caches
+                    for the user's current view, which reduce network traffic but will result in
+                    slower performance as a user moves between pages in the console. A value of
+                        <uicontrol>False</uicontrol> will cause the proxy to refresh data for all
+                    resources, which increases network traffic but results in faster page switches
+                    for the user. Example:</cmd>
+                <info><codeblock>min.clc.polling=True</codeblock></info>
             </step>
 
         </steps>
