@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_nightlies_ha">
+	<title>Install Eucalyptus from Nightly Packages</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>installing <indexterm>nightly packages </indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+		<context>
+			<note type="important">Eucalyptus nightly packages are latest Eucalyptus
+				builds. They should be considered unstable/"bleeding edge" software and
+				should not be installed in production. In addition, upgrades from nightlies
+				to released software are not supported.</note>
+			<p>To install Eucalyptus nightly builds on servers running CentOS 6 or RHEL
+				6:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>On all servers, run the following commands:</cmd>
+				<info>
+					<codeblock>yum install http://downloads.eucalyptus.com/
+software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/eucalyptus-release-<ph conref="../shared/conrefs.dita#prod/version"/>.noarch.rpm</codeblock>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the
+					following commands:</cmd>
+				<info>
+					<codeblock>yum install http://downloads.eucalyptus.com/software/
+euca2ools/nightly/<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>/centos/6/x86_64/euca2ools-release-<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>.noarch.rpm</codeblock>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>Install the ELRepo repository on the machine that will run
+					Walrus:</cmd>
+				<info>
+					<codeblock>yum install http://downloads.eucalyptus.com/
+software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+				</info>
+			</step>
+			<step>
+				<cmd> Configure the EPEL package repository:</cmd>
+				<info>
+					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/epel-release-6.noarch.rpm</codeblock>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>On all servers, enter:</cmd>
+				<info>
+					<codeblock>yum update</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Install Eucalyptus packages. The following example shows most
+					components being installed all on the same server. You can use different
+					servers for each component.</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-cloud
+yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+					<note conref="../shared/reuse.dita#reuse/install_ha_note"/>
+				</info>
+			</step>
+			<step>
+				<cmd>If you would like Load Balancer support in your cloud, you
+					will need to install the Load Balancer image package on the
+					machine hosting the primary CLC:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-load-balancer-image</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On each planned NC server, install the NC package:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-nc</codeblock>
+					<note type="important" product="vmware">If you are using VMware, you can
+						skip this step. Eucalyptus software is not installed on these machines.
+						They are running VMware.</note>
+				</info>
+			</step>
+			
+		</steps>
+		<result>Your installation is complete.</result>
+		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
+			Eucalyptus</xref>.</postreq>
+	</taskbody>
+</task>
