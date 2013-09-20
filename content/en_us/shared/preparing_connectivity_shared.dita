@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="preparing_connectivity_shared">
+	<title>Verify Connectivity</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>Verify connectivity between the machines you’ll be installing
+				Eucalyptus on. Some Linux distributions provide default TCP/IP
+				firewalling rules that limit network access to machines. Disable
+				these default firewall settings before you install Eucalyptus
+				components to ensure that the components can communicate with
+				one another.</p>
+			<note importance="high"> Any firewall running on the CC must be
+				compatible with the dynamic changes performed by Eucalyptus when
+				working with security groups. Eucalyptus will flush the 'filter'
+				and 'nat' tables upon boot. </note>
+			<p>Verify component connectivity by performing the following checks
+				on the machines that will be running the listed Eucalyptus
+				components. </p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Verify connection from an end-user to the CLC on TCP ports
+					8443 and 8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from an end-user to Walrus on TCP port
+					8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from the CLC, SC, and NC (or VB) to SC on
+					TCP port 8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from the CLC, SC, and NC (or VB) to
+					Walrus on TCP port 8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from Walrus, SC, and VB to CLC on TCP
+					port 8777</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from CLC to CC on TCP port 8774</cmd>
+			</step>
+			
+			<step>
+				<cmd>Verify connection from CC to VB on TCP port 8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from CC to NC on TCP port 8775</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from NC (or VB) to Walrus on TCP port
+					8773. Or, you can verify the connection from the CC to
+					Walrus on port TCP 8773, and from an NC to the CC on TCP
+					port 8776</cmd>
+			</step>
+			<step>
+				<cmd>Verify connection from public IP addresses of Eucalyptus
+					instances (metadata) and CC to CLC on TCP port 8773</cmd>
+			</step>
+			<step>
+				<cmd>Verify TCP connectivity between CLC, Walrus, SC and VB on
+					TCP port 8779 (or the first available port in range
+					8779-8849)  </cmd>
+			</step>
+			<step>
+				<cmd>Verify connection between CLC, Walrus, SC, and VB on UDP
+					port 7500</cmd>
+			</step>
+			<step>
+				<cmd>Verify multicast connectivity for IP address 228.7.7.3
+					between CLC, Walrus, SC, and VB on UDP port 8773</cmd>
+			</step>
+			<step>
+				<cmd>If DNS is enabled, verify connection from an end-user and
+					instance IPs to DNS ports</cmd>
+			</step>
+			<step>
+				<cmd>If you use tgt (iSCSI open source target) for EBS storage,
+					verify connection from NC to SC on TCP port 3260</cmd>
+			</step>
+			<step>
+				<cmd>If you use VMware with Eucalyptus, verify the connection
+					from the VMware Broker to VMware (ESX, VSphere). </cmd>
+			</step>
+			
+		</steps>
+	</taskbody>
+</task>

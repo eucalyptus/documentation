@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="planning_san_shared">
+	<title>SAN Support</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>system requirements <indexterm>SAN</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<conbody>
+		<p>Eucalyptus includes optional, subscription only support for
+			integrating enterprise-grade SAN (Storage Area Network) hardware
+			devices into a Eucalyptus cloud. SAN support extends the
+			functionality of the Eucalyptus Storage Controller (SC) to provide a
+			high performance data conduit between VMs running in Eucalyptus and
+			attached SAN devices. Eucalyptus dynamically manages SAN storage
+			without the need for the administrator to manually allocate and
+			de-allocate storage, manage snapshots or set up data
+			connections.</p>
+		<image href="../shared/images/euca-arch-extras-one-cluster.png">
+			<alt>High-level architecture of Eucalyptus with SAN Support Extended
+				functionality of the Eucalyptus Storage Controller (SC) allows
+				for integration of enterprise-grade SAN devices into a
+				Eucalyptus cloud. VMs running in Eucalyptus link directly to
+				attached SANs, thus avoiding I/O communication bottlenecks of
+				the physical host. </alt>
+		</image>
+		<p>Eucalyptus with SAN support allows you to:</p>
+		<ul>
+			<li>Integrate Eucalyptus block storage functionality (dynamic block
+				volumes, snapshots, creating volumes from snapshots, etc.) with
+				existing SAN devices</li>
+			<li>Link VMs in the Eucalyptus cloud directly to SAN devices,
+				thereby removing I/O communication bottlenecks of the physical
+				hardware host</li>
+			<li>Incorporate enterprise-level SAN features (high-speed,
+				large-capacity, reliability) to deliver a production-ready EBS
+				(block storage) solution for the enterprise</li>
+			<li>Attach SAN devices to Eucalyptus deployments on Xen, KVM, and
+				VMware hypervisors</li>
+		</ul>
+		<p> To use Eucalyptus with supported SAN storage, you must decide
+			whether administrative access can be provided to Eucalyptus to
+			control the SAN. If this is possible in your environment, Eucalyptus
+			can automatically and dynamically manage SAN storage.</p>
+		<p>Currently, the Dell Equallogic series of SANs (PS 4000 and PS 6000),
+			NetApp Filer FAS 2000 and FAS 6000 series and EMC VNX are supported.
+			For Dell Equallogic, Eucalyptus requires SSH access to enable
+			automatic provisioning. Eucalyptus will manage NetApp SANs via
+			ONTAPI (version 7.3.3 and above). For EMC, Eucalyptus expects that
+			the EMC NaviSecCLI software will be installed on the Storage
+			Controller host.</p>
+		
+		<section>
+			<title>SAN Support Prerequisites</title>
+			<p>Eucalyptus supports the following SAN devices:</p>
+			<ul>
+				<li>Dell EqualLogic, PS4000 series and PS6000 series (For more
+					information about Dell EqualLogic SANs, go to <xref
+						href="http://www.dell.com" format="html"
+						scope="external">http://www.dell.com</xref>)</li>
+				<li>NetApp, FAS2000 series and FAS6000 series (For more
+					information about NetApp SANs, go to <xref
+						href="http://www.netapp.com" format="html"
+						scope="external">http://www.netapp.com</xref></li>
+				<li>EMC VNX Series (For more information about EMC VNX, go to
+					<xref
+						href="http://www.emc.com/storage/vnx/vnx-family.htm"
+						format="html" scope="external">VNX Family</xref></li>
+			</ul>
+			<p>For additional information on SAN support for Eucalyptus, contact
+				Eucalyptus Systems, Inc.</p>
+		</section>
+		
+	</conbody>
+</concept>
