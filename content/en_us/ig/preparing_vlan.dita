@@ -1,80 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="preparing_vlan">
+<task id="preparing_vlan" conref="../shared/preparing_vlan_shared.dita#preparing_vlan_shared">
 	<title>Prepare VLAN</title>
 	<shortdesc/>
-	<taskbody>
-		<context>
-			<note type="tip">You only need to read this section if you are using
-				Managed mode. If you aren’t using Managed mode, skip this
-				section.</note>
-			<p>Managed networking mode requires that switches and routers be
-				“VLAN clean.” This means that switches and routers must allow
-				and forward VLAN tagged packets. If you plan to use the Managed
-				networking mode, you can verify that the network is VLAN clean
-				between machines running Eucalyptus components by performing the
-				following test.</p>
-		</context>
-		<steps>
-			<step>
-				<cmd>Choose two IP addresses from the subnet you plan to use
-					with Eucalyptus, one VLAN tag from the range of VLANs that
-					you plan to use with Eucalyptus, and the network interface
-					that will connect your planned CC and NC servers. The
-					examples in this section use the IP addresses 192.168.1.1
-					and 192.168.1.2, VLAN tag 10, and network interface eth3,
-					respectively. </cmd>
-			</step>
-			<step>
-				<cmd>On the planned CC server, choose the interface on the local
-					Ethernet and run:</cmd>
-				<info>
-					<codeblock>vconfig add eth3 10
-ifconfig eth3.10 192.168.1.1 up</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>On a planned NC server, choose the interface on the local
-					network and run:</cmd>
-				<info>
-					<codeblock>vconfig add eth3 10
-ifconfig eth3.10 192.168.1.2 up</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>On the NC, ping the CC:</cmd>
-				<info>
-					<codeblock>ping 192.168.1.1</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>On the CC, ping the NC:</cmd>
-				<info>
-					<codeblock>ping 192.168.1.2</codeblock>
-				</info>
-				<choices>
-					<choice>If this VLAN clean test fails, configure your switch
-						to forward VLAN tagged packets. If it is a managed
-						switch, see your switch's documentation to determine how
-						to do this.</choice>
-					<choice>If the VLAN clean test passes, continue with the
-						following steps to remove the test interfaces.</choice>
-				</choices>
-			</step>
-			<step>
-				<cmd>On the CC, remove the test interface by running:</cmd>
-				<info>
-					<codeblock>vconfig rem eth3.10</codeblock>
-				</info>
-			</step>
-			<step>
-				<cmd>On the planned NC, run:</cmd>
-				<info>
-					<codeblock>vconfig rem eth3.10</codeblock>
-				</info>
-			</step>
-		</steps>
-
-	</taskbody>
+	<taskbody/>
 </task>
