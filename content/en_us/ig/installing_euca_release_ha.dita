@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="install_euca_release">
+<task id="install_euca_release_ha">
 	<title>Install Eucalyptus from Release Packages</title>
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p conref="../shared/reuse.dita#reuse/euca_install_ha_note"/>
+			
 			<p>To install Eucalyptus on servers running CentOS 6 or RHEL 6:</p>
 		</context>
 		<steps>
@@ -53,17 +53,17 @@
 				<substeps>
 					<substep>
 						<cmd>Go to <xref format="html"
-								href="http://rhn.redhat.com"
-								>http://rhn.redhat.com</xref> and navigate to
+							href="http://rhn.redhat.com"
+							>http://rhn.redhat.com</xref> and navigate to
 							the system that will run the NC.</cmd>
 					</substep>
 					<substep>
 						<cmd>Click <uicontrol>Alter Channel
-								Subscriptions</uicontrol>.</cmd>
+							Subscriptions</uicontrol>.</cmd>
 					</substep>
 					<substep>
 						<cmd>Make sure the <uicontrol>RHEL Server
-								Optional</uicontrol> checkbox is checked.</cmd>
+							Optional</uicontrol> checkbox is checked.</cmd>
 					</substep>
 					<substep>
 						<cmd>Click <uicontrol>Change
@@ -108,7 +108,7 @@
 					<substep>
 						<cmd>Check that the KVM device node has proper
 							permissions.</cmd>
-
+						
 						<info>
 							<p>Run the following command:</p>
 							<codeblock>ls -l /dev/kvm</codeblock>
@@ -143,13 +143,13 @@
 				</info>
 			</step>
 			<step>
-			        <cmd>If you would like Load Balancer
-			        support enabled in your Cloud, you
-			        will need to install the Load Balancer
-			        image package on the machine hosting
-			        the primary CLC:</cmd>
+				<cmd>If you would like Load Balancer
+					support enabled in your Cloud, you
+					will need to install the Load Balancer
+					image package on the machine hosting
+					the primary CLC:</cmd>
 				<info>
-				  <codeblock>yum install eucalyptus-load-balancer-image</codeblock>
+					<codeblock>yum install eucalyptus-load-balancer-image</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
@@ -172,7 +172,7 @@
 					<codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
 					<note type="important">To use Eucalyptus with EMC SAN
 						support, you must have the
-							<codeph>NaviCLI-Linux-64-latest.rpm</codeph> package
+						<codeph>NaviCLI-Linux-64-latest.rpm</codeph> package
 						installed on each SC. This package is not supplied with
 						Eucalyptus, please see your SAN vendor if it is not
 						already installed.</note>
@@ -181,7 +181,7 @@
 					<p>For NetApp SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
 				</info>
-
+				
 			</step>
 			<step>
 				<cmd>After you have installed Eucalyptus, test multicast
@@ -196,22 +196,24 @@
 					</substep>
 					<substep>
 						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud Controller, 
-                                                      Cluster Controller, Storage Controller, and any machines running Walrus or 
-                                                      VMware Broker, passing a list of IP addresses for each of these machines.</cmd>
+							Cluster Controller, Storage Controller, and any machines running Walrus or 
+							VMware Broker, passing a list of IP addresses for each of these machines.</cmd>
 						<info>
 							<codeblock>cd deveutils/network-tomography
 ./network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 192.168.51.99</codeblock>
 							This tool may take up to an hour to run. Check the output for reports of packet 
-                                                        loss. If there is significant packet loss, ensure that your network is available
-                                                        and multicast enabled.</info>
+							loss. If there is significant packet loss, ensure that your network is available
+							and multicast enabled.</info>
 					</substep>
-					
+					<substep>
+						<cmd>Repeat these tasks with the secondary controllers. </cmd>
+					</substep>
 				</substeps>
 			</step>
 		</steps>
-
+		
 		<result>Your installation is complete.</result>
 		<postreq>You are now ready to <xref href="configuring_euca.dita"
-				>Configure Eucalyptus</xref>.</postreq>
+			>Configure Eucalyptus</xref>.</postreq>
 	</taskbody>
 </task>
