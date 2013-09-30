@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_emc_vnx_multipath_shared">
+    <title>Configure EMC VNX Multipathing</title>
+
+    <shortdesc>Use multipathing to provide network-and-SP-redundancy for the
+        iSCSI data path between the EMC VNX SAN and NCs.</shortdesc>
+
+    <taskbody>
+        <context>
+            <note type="important">It is <b>strongly</b> recommended that you
+                get your system up and running and able to create volumes and
+                snapshots using the EMC VNX prior to configuring multipathing.
+                Multipathing can be configured after the cloud is fully
+                functional and will apply to any volumes attached/snapshotted
+                after multipathing is configured. Configuring multipathing on a
+                non-multipathed system does not require a restart of the SC, NC,
+                or CLC. </note>
+            <p>To configure multipathing for a EMC VNX SAN:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Ensure that the mutipathd service is running on each
+                    NC:</cmd>
+                <info>
+                    <codeph>mpathconf --enable</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd> Configure the /etc/multipath.conf file. </cmd>
+                <info>
+                    <note>An example configuration for EMC VNX is installed with Eucalyptus. This
+                        file is located in
+                            <codeph>/usr/share/doc/eucalyptus-3.3.0/multipath.conf.example.vnx
+                        </codeph> on each SC. You may need to copy that file to each NC. </note>
+                </info>
+            </step>
+            <step>
+                <cmd> Start the mutipathd service: </cmd>
+                <info>
+                    <codeblock>service multipathd start</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>If you modify the <filepath>/etc/multipath.conf</filepath> file, be sure to
+                    restart and reconfigure multipathd: </cmd>
+                <substeps>
+                    <substep>
+                        <cmd> Restart the multipathd service: </cmd>
+                        <info>
+                            <codeblock>service multipathd restart</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Run multipathd -k:</cmd>
+                        <info>
+                            <codeblock>multipathd -k</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Enter the following commands at the multipathd
+                            interactive prompt:</cmd>
+                        <info>
+                            <codeblock>reconfigure
+quit</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Check that the multipath udev rules file is installed by
+                    verifying that the file
+                        <codeph>/etc/udev/rules.d/12-dm-permissions.rules</codeph>
+                    file exists.</cmd>
+            </step>
+            <step>
+                <cmd> Set the ISCSI paths: </cmd>
+                <info>
+                    <note> The path specification format is
+                        iface0:ip0,iface1:ip1,...,ifaceN:ipN where iface may be
+                        re-­‐used (i.e. multiple iface0 entries). Also, note
+                        that ‘iface’ is optional, you may just specify a
+                        comma-­‐delimited list of IPs. Eucalyptus will detect
+                        which interfaces on the SC/NC can reach each specified
+                        IP and will use the first found. You must only specify
+                        the ‘iface’ value if you want precise control over which
+                        interfaces access which IPs. For using a single path
+                        only, just specify the IP of the iscsi data port to use
+                        on the VNX. </note>
+                    <note> We recommend initially getting the system working
+                        with only one path. The path values can be modified at
+                        any time to enable multipathing, so it is possible to
+                        get everything working and confirm full VNX
+                        functionality before attempting multipathing. To use one
+                        path, simply specify a single IP for each the following
+                        steps. </note>
+                </info>
+                <substeps>
+                    <substep>
+
+                        <cmd> Set the NC paths. For example: </cmd>
+                        <info>
+                            <codeph>euca-modify-property -p
+                                mypartition.storage.ncpaths=iface0:127.0.0.1</codeph>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd> Set the SC paths. For example: </cmd>
+                        <info>
+                            <codeph> euca-modify-property -p
+                                mypartition.storage.scpaths=iface0:127.0.0.1 </codeph>
+                            <note> The NC and SC may each have different path
+                                lists, or you can optionally only enable
+                                multipathing on the NCs or SC if desire. </note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>If you specified an <codeph>iface</codeph> when
+                            setting the SC paths, be sure to include a line in
+                            the eucalyptus.conf file of each NC in the cluster
+                            that defines each <codeph>iface</codeph>. For
+                            example:</cmd>
+                        <info>
+                            <codeph>STORAGE_INTERFACES="iface0=eth0"</codeph>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd> Test and verify the configuration by creating (and
+                    attaching to) a volume and creating a snapshot on the
+                    partition. </cmd>
+            </step>
+            <step>
+                <cmd> If testing is successful, you can now configure multiple
+                    paths in your *.storage.ncpaths and *.storage.scpaths
+                    configuration. </cmd>
+            </step>
+            <step>
+                <cmd> Verify that multipathing is working on an NC by attaching
+                    a volume to an instance on that NC and running the following
+                    command: </cmd>
+                <info>
+                    <codeblock> multipath -ll </codeblock>
+                    <p> This command should return output similar to the
+                        following: </p>
+                    <codeblock>
+mpathb (36006016098b0300080722f971b2ee211) dm-­‐0 DGC,VRAID 
+size=1.0G features='1 queue_if_no_path' hwhandler='1 alua' wp=rw
+|-­‐+-­‐ policy='round-­‐robin 0' prio=50 status=active
+| `-­‐ 6:0:0:1 sdd 8:48 active ready running
+`-­‐+-­‐ policy='round-­‐robin 0' prio=10 status=enabled
+`-­‐ 7:0:0:1 sdf 8:80 active ready running  
+                    </codeblock>
+                </info>
+            </step>
+        </steps>
+        <result> You have now successfully configured multipathing for your EMC
+            VNX SAN installation. </result>
+    </taskbody>
+</task>

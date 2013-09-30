@@ -25,7 +25,21 @@
 				</info>
 			</step>
 			<step id="enable_san">
-				<cmd>On the CLC (the primary CLC in an HA setup), enable SAN
+				<cmd>On the CLC, enable SAN
+					support in Eucalyptus by entering your SAN's hostname or IP
+					address, the username, and password:</cmd>
+				<info>
+					<codeblock>euca-modify-property -p [partition_name].storage.sanhost=[SAN_IP_address]
+euca-modify-property -p [partition_name].storage.sanuser=[SAN_admin_user_name]
+euca-modify-property -p [partition_name].storage.sanpassword=[SAN_admin_password]</codeblock>
+					<p>If you have multiple management IP addresses for the SAN
+						adapter, provide a comma-delimited list of IP addresses
+						to the <codeph>[partition_name].storage.sanhost</codeph>
+						property.</p>
+				</info>
+			</step>
+			<step id="enable_san_ha">
+				<cmd>On the primary CLC, enable SAN
 					support in Eucalyptus by entering your SAN's hostname or IP
 					address, the username, and password:</cmd>
 				<info>
