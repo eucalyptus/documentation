@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="registering_brokers" otherprops="subscription">
+	<title>Register the VMware Broker Pairs</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>VMware Broker <indexterm>registering</indexterm>
+					<indexterm>HA</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+		<context>
+			<note conref="shared_notes.dita#shared_notes/tip_vm_only"/>
+			<p>To register the VMware Broker</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>On the CLC, enter the following command:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca_conf --register-vmwarebroker --partition [partition_name] 
+ --host [CC_IP_address] --component [broker_name]</codeblock>
+					<p> The VMware Broker must have the same
+						<codeph>partition</codeph> name as the CC in the
+						same cluster. Like the other components, the
+						<codeph>component</codeph> is a unique name for this
+						particular component: we recommend a format such as
+						<codeph>broker-[hostname]</codeph>. </p>
+					<note type="important">Register the VMware Broker component
+						using the CC IP address, not the CLC IP address.</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Register the secondary VMware
+					Broker the same way, using the secondary CC IP address and CC
+					name, but using the same partition name as the primary
+					CC.</cmd>
+			</step>
+			<step>
+				<cmd>Repeat for each cluster, replacing the VMware Broker name,
+					partition name, CC IP address, and CC name.</cmd>
+				
+			</step>
+			
+		</steps>
+		
+	</taskbody>
+</task>

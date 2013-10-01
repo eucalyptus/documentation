@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="registering_ncs_ha">
+	<title>Register the NCs</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>node controller <indexterm>registering</indexterm>
+					<indexterm>HA</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+		<context>
+			<note type="important">If you are using the subscription-only VMware Broker module, you
+				can skip this task. Eucalyptus software is not installed on machines that are
+				running VMware. You do not have to register the NCs. Instead, you have to configure
+				the VMware Broker, as described in the <xref href="configuring_vmware_support.dita"
+					>Configure VMware Support</xref> section. </note>
+			<note type="important">If you are using host names rather than IP addresses when registering
+				your NCs, ensure that DNS is working properly, or populate /etc/hosts for all
+				nodes in a cluster.</note>
+		</context>
+		<steps>
+			<step>
+				<cmd>On a CC, register all NCs using the following command with the IP address of
+					each NC server:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca_conf --register-nodes "[node0_IP_address] ... [nodeN_IP_address]"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Repeat the previous step on the secondary CC.</cmd>
+			</step>
+			<step>
+				<cmd>Repeat the previous steps on each cluster in your cloud.</cmd>
+			</step>
+		</steps>
+		<example>
+			<p>The IP addresses of the NCs are space delimited, as in the following example:</p>
+			<codeblock>/usr/sbin/euca_conf --register-nodes "192.168.71.154 192.168.71.155 192.168.71.159"</codeblock></example>
+		
+		<postreq><note type="restriction">For HA, </note></postreq>
+		
+	</taskbody>
+</task>

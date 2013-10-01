@@ -11,19 +11,26 @@
 				automatically creates and tears down volumes, snapshots, and data connections from
 				guest instances. The administrator does not need to pre-allocate volumes or LUNs for
 				Eucalyptus.</p>
-			<p>Eucalyptus currently offers several backend providers for the Storage Controller:
-				Overlay, DAS, Equallogic, Netapp, and EMC-VNX. </p>
-			<p>The Eucalyptus Storage Controller must be configured explicitly upon registration.
+			<p>Eucalyptus currently offers several backend providers for the Storage Controller:</p>
+			<ul>
+				<li>Overlay</li>
+				<li>DAS</li>
+				<li>Equallogic</li>
+				<li>Netapp</li>
+				<li>EMC-VNX</li>
+			</ul>
+			
+			<p>The SC must be configured explicitly upon registration.
 				This is a change from previous versions (pre-3.2) of Eucalyptus, which would
 				configure themselves to a default configuration using a tgtd-based filesystem-backed
 				storage controller to provide volumes and snapshots directly from the Storage
-				Controller. As of version 3.2, Eucalyptus Storage Controllers automatically go to
-				the BROKEN state after being registered with the CLC and will remain in that state
+				Controller. As of version 3.2, SCs automatically go to
+				the <codeph>BROKEN</codeph> state after being registered with the CLC and will remain in that state
 				until the administrator explicitly configures the SC by telling it which backend
 				storage provider to use.</p>
 			<p>You can check the state of a storage controller by running
-				<codeblock>euca-describe-services -E</codeblock> and note the state and status
-				message of the Storage Controller(s). The output for an unconfigured SC will look
+				<codeph>euca-describe-services -E</codeph> and note the state and status
+				message of the SC(s). The output for an unconfigured SC will look
 				like:</p>
 			<p>
 				<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
@@ -129,7 +136,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					<cmd/>
 				</step>
 				<step>
-					<cmd>On the CLC (the primary CLC in an HA setup), set the DAS device name
+					<cmd>On the CLC, set the DAS device name
 						property. The device name can be either a raw device (/dev/sdX, for
 						example), or the name of an existing Linux LVM volume group.</cmd>
 					<info>
@@ -232,7 +239,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 						<cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
 					</step>
 					<step>
-						<cmd>On the CLC (the primary CLC in an HA setup), enable NetApp SAN
+						<cmd>On the CLC, enable NetApp SAN
 							support in Eucalyptus by entering the Filer's
 							hostname or IP address, the username and password of
 							the administrator account, and CHAP username. </cmd>
@@ -374,7 +381,7 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						<cmd>Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
 					</step>
 					<step>
-						<cmd>On the CLC (the primary CLC in an HA setup), enable NetApp SAN
+						<cmd>On the CLC, enable NetApp SAN
 							support in Eucalyptus by entering the Vserver's
 							hostname or IP address, the username and password of
 							the administrator account, CHAP username and Vserver
