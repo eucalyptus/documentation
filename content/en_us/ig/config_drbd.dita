@@ -172,7 +172,7 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
 					<codeblock>CLOUD_OPTS="-Dwalrus.storage.manager=DRBDStorageManager"</codeblock>
 				</info>
 			</step>
-			<step id="copy_drbd_conf">
+			<step>
 				<cmd>Copy the <filepath>/etc/drbd.conf</filepath>, the
 						<filepath>/etc/eucalyptus/drbd.conf</filepath>, and the
 						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
@@ -196,7 +196,7 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
 					<codeblock>service eucalyptus-cloud stop</codeblock>
 				</info>
 			</step>
-			<step>
+			<step id="create_drbd_md">
 				<cmd>On the primary Walrus, associate the DRBD block device
 						(<filepath>/dev/drbd1</filepath>) with the disk
 					partition allocated for Walrus
@@ -208,7 +208,7 @@ drbdadm up r0</codeblock>
 						Walrus.</note>
 				</info>
 			</step>
-			<step id="setup_drbd_bd">
+			<step>
 				<cmd>Set up the DRBD block device on the primary Walrus:</cmd>
 
 				<info>
@@ -220,7 +220,7 @@ drbdadm up r0</codeblock>
 drbdadm -- --overwrite-data-of-peer primary r0</codeblock>
 				</info>
 			</step>
-			<step>
+			<step id="check_drbd_consistency">
 				<cmd>On the primary Walrus only, run the following command to
 					indicate whether the data on the DRBD primary and secondary
 					is consistent:</cmd>
