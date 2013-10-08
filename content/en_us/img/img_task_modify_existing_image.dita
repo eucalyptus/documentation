@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="task_ej2_zsz_rl">
-    <title>Modify an Existing Image</title>
-    <shortdesc/>
+    <title>Image Recycling</title>
+    <shortdesc>Image recycling refers to customizing and creating a new EBS-backed Eucalyptus image
+        based on an existing EBS-backed Eucalyptus instances that is either running or
+        stopped.</shortdesc>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>The following example shows how to recycle an image.</p>
         </context>
         <steps>
+            
             <step>
-                <cmd>Task step.</cmd>
+                <cmd>Log on to an existing Eucalyptus EBS-backed instance and customize the
+                    instance.</cmd>
             </step>
+            
+            <step>
+                <cmd>Create a new image based on the image you just modified by using the
+                    eucalyptus-create-image command, specifying a name, a description, and the
+                    instance ID of the Eucalyptus instance you customized in the previous step. For
+                    example:</cmd>
+                <info>
+                    <codeph>euca-create-image -name "mynewimage" -d "This is my new custom recycled
+                        image" -i i-1ABCDEFF</codeph>
+                    <p> This command will show the ID of the new machine image and exit immediately.
+                        In the background, Eucalyptus will begin the process of creating a new image
+                        based on the instance you supplied.</p>
+                    <p>You can monitor the status of the image
+                        using the euca-describe-images command, supplying the ID of the image
+                        returned from the euca-create-image command. For example: </p>
+                    <codeph>Specific euca-describe-images command and output goes here.</codeph>
+                    <p>When the image status is listed
+                        as "available" your new image will be ready for use.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Bundle and upload the image.</cmd>
+                <info>
+                    <p>Specific example TBD [CAN BE ADAPTED FROM EXISTING DOCS].</p>
+                </info>
+            </step>
+            
         </steps>
     </taskbody>
 </task>
