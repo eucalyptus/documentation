@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="hg_task_prepare_image">
+    <title>Prepare an Image for Eucalyptus</title>
+    <shortdesc>This section explains how to prepare an image before importing it for use in
+        Eucalyptus.</shortdesc>
+    <taskbody>
+        <context/>
+
+        <steps>
+            <step>
+                <cmd><b>Install cloud software and drivers:</b></cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Make sure Virtio drivers are installed if the image is going to be run
+                            in a KVM cluster which has virtio enabled, and verify use if possible
+                            (ie. set disks and network interface in hypervisor, try hot plug in for
+                            disks, etc). For most recent Linux distributions nothing is needed to be
+                            done. For Windows the drivers are required. See Windows Image Creation
+                            guide for installing virtio tools with the Eucalyptus Windows
+                            Integration tool.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Make sure Vmware tools are installed if the image is going to be run
+                            in a vmware cluster. There are several options for Linux-based images,
+                            including RPM, yum installations, or through Vmware if the guest is
+                            running in Vmware. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Make sure appropriate init scripts are in place; for example:
+                            cloud-init packages (if appropriate), and rc.local or similar scripts to
+                            prepare new instances at boot time utilizing user/meta-data. </cmd>
+                    </substep>
+                    <substep>
+
+                        <cmd> Install cloud-init: </cmd>
+
+                        <info>
+                            <note>For more information on cloud-init, go to <xref type="html"
+                                    href="https://help.ubuntu.com/community/CloudInit"
+                                    >https://help.ubuntu.com/community/CloudInit</xref></note>
+                            <p>For Ubuntu images:</p>
+                            <codeblock>sudo apt-get install cloud-init</codeblock>
+                            <p>For Red Hat, Fedora, and CentOS EL5:</p>
+                            <codeblock>rpm -Uvh http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</codeblock>
+                            <p>For Red Hat, Fedora, and CentOS EL6:</p>
+                            <codeblock>rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+yum install cloud-init</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Install the Eucalyptus Windows Integration Tool:</cmd>
+                        <info><p> Confirm 'Eucalyptus windows integration' tool is installed an
+                                configured for use (See Eucalyptus-Admin Guide section on creating a
+                                Windows image and installing integration tool). The tool will help
+                                in setting up access to vm, hostname, etc.. </p></info>
+                    </substep>
+                    <substep>
+                        <cmd>Install and configure ssdh:</cmd>
+                        <info>
+                            <p>For Ubuntu:</p>
+                            <codeblock>sudo apt-get install openssh-server </codeblock>
+                            <p>For Red Hat, Fedora, and CentOS:</p>
+                            <codeblock>yum install openssh-server
+chkconfig sshd on</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Install Euca2ools:</cmd>
+                        <info>
+                            <p>For Ubuntu:</p>
+                            <codeblock>sudo apt-get install euca2ools</codeblock>
+                            <p>For Red Hat, Fedora, and CentOS:</p>
+                            <codeblock>yum install euca2ools</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Optionally, update existing packages.</cmd>
+                        <info>
+                            <p>For Ubuntu:</p>
+                            <codeblock>sudo apt-get update
+sudo apt-get upgrade</codeblock>
+                            <p>For Red Hat, Fedora, and CentOS:</p>
+                            <codeblock>yum update</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd><b>Prepare the network:</b></cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Disable the firewall. It is recommended that the firewall is disabled
+                            and network rules are instead enforced in the security-group the
+                            instances run in. If the guest's firewall is not disabled, review the
+                            existing rules and make sure they are appropriate for the guest's future
+                            use within a cloud environment. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Clear or disable iptable rules:</cmd>
+                        <info>
+                            <p>Save the rules in case you want to restore them later:</p>
+                            <codeblock>sudo iptables-save > /root/firewall.rules</codeblock>
+                            <p>Clear the rules:</p>
+                            <codeblock>iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT</codeblock>
+                            <p>For Red Hat, Fedora, and CentOS, you can disable iptables via service
+                                scripts. For example:</p>
+                            <codeblock>/etc/init.d/iptables stop 
+(or...) 
+service iptables stop
+(then use...) 
+chkconfig iptables off  (to disable at boot time as well) </codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Disable selinux.</cmd>
+                        <info>
+                            <p>In some distributions, the selinux configuration file can be found in
+                                the following locations:</p>
+                            <codeblock>/etc/sysconfig/selinux
+/etc/selinux/config</codeblock>
+                            <p>The following is an example selinux config file:</p>
+                            <codeblock># This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#       enforcing - SELinux security policy is enforced.
+#       permissive - SELinux prints warnings instead of enforcing.
+#       disabled - SELinux is fully disabled.
+SELINUX=disabled
+# SELINUXTYPE= type of policy in use. Possible values are:
+#       targeted - Only targeted network daemons are protected.
+#       strict - Full SELinux protection.
+SELINUXTYPE=targeted</codeblock>
+                            <note>Some distributions may not have the selinux config and may need a
+                                flag set in the booter. For example /boot/grub/grub.conf may need
+                                'enforcing=0' added to the 'kernel' configuration line.</note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Make sure there is only a single primary network interface.</cmd>
+                        <info>
+                            <p>Check the configuration for:</p>
+                            <ul>
+                                <li>Enabled on boot (<codeph>ONBOOT="yes"</codeph>)</li>
+                                <li>IP provisioning is done via DHCP
+                                        (<codeph>BOOTPROTO="dhcp"</codeph>)</li>
+                                <li>MAC address is commented out (for
+                                        example:<codeph>#HWADDR="AA:BB:CC:DD:EE:FF"</codeph>).<note>If
+                                        the system is rebooted after you've commented out the MAC
+                                        address, the MAC address may be restored and will need to be
+                                        commented out again.</note></li>
+
+                            </ul>
+                            <p> For Red Hat, Fedora, and CentOS images, the configuration for the
+                                default network interface can usually be found in the following
+                                file: </p>
+                            <codeblock>/etc/sysconfig/network-scripts/ifcfg-eth0</codeblock>
+                            <p>The following is an example of an <codeph>ifcfg-eth0</codeph>
+                                configuration file:</p>
+                            <codeblock>DEVICE=eth0
+ONBOOT=yes
+#THE HWADDR LINE MUST BE COMMENTED OUT OR REMOVED
+#HWADDR=AA:BB:CC:DD:EE:FF
+TYPE=Ethernet
+BOOTPROTO=dhcp
+PERSISTENT_DHCLIENT=yes</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Remove persistent udev rules:</cmd>
+                        <info>
+                            <codeblock>echo "" > /etc/udev/rules.d/70-persistent-net.rules 
+echo "" > /lib/udev/rules.d/75-persistent-net-generator.rules </codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>On CentOS and Red Hat, disable zeroconf by adding an entry to the
+                                <codeph>/etc/sysconfig/network</codeph> file:</cmd>
+                        <info>
+                            <codeblock>NETWORKING=yes
+NOZEROCONF=yes</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd><b>Clean the image:</b></cmd>
+                <substeps>
+                    <substep>
+                        <cmd>We recommend that you remove all non-root, non-administrator users
+                            before bundling the image.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Remove root/Administrator password. We recommend that you remove root's
+                            password for Linux systems (for windows, use sysprep (see Administrators
+                            guide for Windows Integration tool). </cmd>
+                        <info><note>Once these passwords are removed, access to this system will be
+                                limited or blocked until this image is recreated as a cloud
+                                instance. SSH host and authorization keys for Linux (or dynamically
+                                created passwords for Windows sysprep) will be used going
+                                forward.</note></info>
+                    </substep>
+                    <substep>
+                        <cmd>For larger Windows images, we recommend that you use the tool of your choice to zero out unused disk space.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Remove any unwanted programs.</cmd>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Configure a serial port by adding an option to the end of the <codeph>/boot/grub/menu.lst</codeph> file:</cmd>
+                <info><codeph>console=ttyS0</codeph></info>
+            </step>
+        </steps>
+        <result>You've now prepared your instance for image creation. ** add 'continue to...' link to image creation topic here **</result>
+    </taskbody>
+</task>
