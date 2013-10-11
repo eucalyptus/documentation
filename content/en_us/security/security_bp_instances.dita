@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="security_bp_instances">
-	<title>Images</title>
-	<shortdesc>Because all instances are based on images, security during image
-		creation is helpful in securing instances. This topic lists best practices that will add additional security during image
+	<title>Images and Instances</title>
+	<shortdesc>Because all instances are based on images, creating a secure image helps to create
+		secure instances. This topic lists best practices that will add additional security during image
 		creation.</shortdesc>
 	<conbody>
-		<p></p>
 		<ul>
-			
-			<li>Turn off password-based authentication and enable <xref
-					href="http://www.linux-pam.org/" type="external">PAM</xref>
-				authentication for SSH connections by specifying the following
-				options in <filepath>/etc/ssh/sshd_config</filepath>:
-				<codeblock>PasswordAuthentication no
-UsePAM yes</codeblock></li>
+			<li>Harden your images similar to how you would harden your physical servers.</li>
+			<li>Turn off password-based authentication by specifying the following
+				option in <filepath>/etc/ssh/sshd_config</filepath>:
+				<codeblock>PasswordAuthentication no</codeblock></li>
 			<li>Encourage non-root access by providing an unprivileged user
 				account. If necessary, use sudo to allow access to privileged
 				commands</li>
-			<li>Always delete the shell history before bundling. If you attempt
+			<li>Always delete the shell history and any other potentially sensitive information before bundling. If you attempt
 				more than one bundle upload in the same image, the shell history
 				contains your secret access key.</li>
 			<li>Bundling a running instance requires your private key and X.509
@@ -31,10 +27,6 @@ UsePAM yes</codeblock></li>
 					href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-sharingamis.html"
 					type="external">security considerations in creating a shared
 					machine image</xref>.</li>
-			<li>By default, all images registered have private launch
-				permissions. Consider using
-					<codeph>euca-modify-image-attribute</codeph> to limit the
-				accounts that can access the image.</li>
 			<li>Consider installing <xref
 					href="https://cloudinit.readthedocs.org/en/latest/"
 					type="external">cloud-init</xref> in the image to help
@@ -53,6 +45,11 @@ UsePAM yes</codeblock></li>
 				type="external">SELinux</xref> or <xref
 					href="http://wiki.apparmor.net/index.php/Main_Page"
 					type="external">AppArmor</xref> for your images</li>
+			<li>Disable all unused services and ports on the image.</li>
+			<li>By default, all images registered have private launch
+				permissions. Consider using
+				<codeph>euca-modify-image-attribute</codeph> to limit the
+				accounts that can access the image.</li>
 		</ul>
 		<p>After locking down the image using the steps above, additional steps
 			can be done to further secure instances started from that image. For
