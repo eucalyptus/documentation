@@ -32,28 +32,30 @@ BLOCKDEVICEMAPPING	/dev/sda	snap-831129f5	8	false</codeblock>
         			<codeblock>ssh </codeblock>
         		</info>
         		<substeps>
-        			<substep>
-        				<cmd>Make sure <codeph>--check-dependencies</codeph> exits with 0 if all dependencies
+        			<!--<substep>
+        				<cmd>Make sure <codeph>-\-check-dependencies</codeph> exits with 0 if all dependencies
         					necessary for the executable's operation are present and 1 otherwise</cmd>
-        			</substep>
-        			<substep>
+        			</substep>-->
+        			<!--<substep>
         				<cmd>Make sure that a path to a mounted Linux image exits with 1 if the check could be
         					invoked and did not pass (if check passed, or could not be invoked, or the image is not a Linux image, the validator is to exit with 0)</cmd>
         					
-        			</substep>
-        			<substep>
+        			</substep>-->
+        			<!--<substep>
         				<cmd>Make sure that all parameters are passed via command-line arguments, not environment variables
         					</cmd>
-        			</substep>
-        			<substep>
+        			</substep>-->
+        			<!--<substep>
         				<cmd>Make sure that all input paths/files and output paths/files are specified as
         					parameters (that is, there are no unspecified files or directories left after the validator exits)</cmd>
-        			</substep>
+        			</substep>-->
         			<substep><cmd>Check /etc/fstab and remove any non-standard drives or partitions (input:
         				block-device mapping) and any reference to Xen device names</cmd></substep>
 
         			<substep><cmd>Make sure that the acpiphp module is available</cmd></substep>
         			<substep><cmd>Make sure that udev net persistent</cmd></substep>
+        			<substep><cmd>Remove the *ec2-network-interfaces.rules file from etc/udev/rules.d</cmd></substep>
+        			<substep><cmd>Remove the *persistent-net-generator.rules file from etc/udev/rules.d</cmd></substep>
         			<substep><cmd>ensure SSHD will run</cmd></substep>
         			<substep><cmd>ensure cloud-init will run</cmd></substep>
         			<substep><cmd>ensure special system directories are not populated (places like proc, sysfs, devpts, debugfs, udevfs, cgroup, tmpfs, etc., which should not have real files in them)</cmd></substep>
@@ -74,9 +76,68 @@ BLOCKDEVICEMAPPING	/dev/sda	snap-831129f5	8	false</codeblock>
         		</info>
         	</step>
         	<step>
-        		<cmd>Bundle the running instance.</cmd>
+        		<cmd>Bundle the running instance. For example:</cmd>
         		<info>
-        			<codeblock>euca-bundle-instance </codeblock>
+        			<codeblock>sudo -s
+ec2-bundle-vol -d /mnt -u 4299-4227-3585 -k scottb-euca-aws.pem -c scottb-euca-aws-cert.pem -r x86_64 -s 2048
+Copying / into the image file /mnt/image...
+Excluding:
+	 /dev/pts
+	 /
+	 /sys
+	 /proc
+	 /proc/sys/fs/binfmt_misc
+	 /dev
+	 /media
+	 /mnt
+	 /proc
+	 /sys
+	 /mnt/image
+	 /mnt/img-mnt
+1+0 records in
+1+0 records out
+1048576 bytes (1.0 MB) copied, 0.00209056 s, 502 MB/s
+mke2fs 1.42.3 (14-May-2012)
+Bundling image file...
+Splitting /mnt/image.tar.gz.enc...
+Created image.part.00
+Created image.part.01
+Created image.part.02
+Created image.part.03
+Created image.part.04
+Created image.part.05
+Created image.part.06
+Created image.part.07
+Created image.part.08
+Created image.part.09
+Created image.part.10
+Created image.part.11
+Created image.part.12
+Created image.part.13
+Created image.part.14
+Created image.part.15
+Created image.part.16
+Created image.part.17
+Created image.part.18
+Created image.part.19
+Created image.part.20
+Created image.part.21
+Created image.part.22
+Created image.part.23
+Created image.part.24
+Created image.part.25
+Created image.part.26
+Created image.part.27
+Created image.part.28
+Created image.part.29
+Created image.part.30
+Generating digests for each part...
+Digests generated.
+Unable to read instance meta-data for ancestor-ami-ids
+Unable to read instance meta-data for ramdisk-id
+Unable to read instance meta-data for product-codes
+Creating bundle manifest...
+ec2-bundle-vol complete.</codeblock>
         		</info>
         	</step>
         	<step>
@@ -88,7 +149,7 @@ BLOCKDEVICEMAPPING	/dev/sda	snap-831129f5	8	false</codeblock>
         	<step>
         		<cmd>Upload the AWS bundled instance to Eucalyptus.</cmd>
         		<info>
-        			<codeblock>euca-upload-bundle -b bucket_name -m manifest_file</codeblock>
+        			<codeblock>ec2-upload-bundle -b hybrid-guide-sample-bucket -m image.manifest.xml --access-key myaccesskey --secret-key mysecretkey</codeblock>
         		</info>
         	</step>
         	<step>
