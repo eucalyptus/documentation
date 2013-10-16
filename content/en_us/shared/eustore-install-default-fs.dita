@@ -7,15 +7,17 @@
         immediately.</shortdesc>
     <taskbody>
         <context>
-        	<p>Your <ph conref="../shared/conrefs.dita#prod/product_fs"/> installation includes a default CentOS 5 image.
-                This section describes how to launch an instance from this image
+
+        	<p>Your <ph conref="../shared/conrefs.dita#prod/product_fs"/> installation includes a
+        		default CentOS 6 image. This section describes how to launch an instance from this image
                 and connect to that instance. The tasks listed in the follow
                 sections require a network connection. </p>
             <note type="important">Before you can use the commands that follow,
-                set up your environment variables by sourcing the eucarc file.
-                On the Frontend enter the following command: <codeph>source
-                    /root/creds/eucarc</codeph>.</note>
+                your environment variables will need to be sourced from the eucarc file.
+                This is done for you automatically, but you may do it manually if needed.
+                On the Frontend enter the following command: <codeph>source ~/credentials/eucarc</codeph>.</note>
         	<p>To launch the default image included with <ph conref="../shared/conrefs.dita#prod/product_fs"/>:</p>
+
         </context>
         <steps>
             <step>
@@ -45,18 +47,11 @@ IMAGE eri-F9A83F12 admin/initrd.img-2.6.28-11-generic.manifest.xml 508678674223 
                     output the private half of the key pair. Save this output to
                     a file for future use, as in the following example: </cmd>
                 <info>
-                    <codeblock>euca-create-keypair euca-demo > euca-demo.private</codeblock>
+                    <codeblock>euca-create-keypair euca-demo -f euca-demo.private</codeblock>
                 </info>
                 <info>
                     <note type="tip">If you've already added a keypair, you can
                         skip this step.</note>
-                </info>
-            </step>
-            <step>
-                <cmd>Change permissions on the private keypair file so that only
-                    you can access and change it: </cmd>
-                <info>
-                    <codeblock>chmod 0600 euca-demo.private</codeblock>
                 </info>
             </step>
             <step>
