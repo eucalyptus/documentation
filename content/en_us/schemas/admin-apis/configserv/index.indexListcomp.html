@@ -1,0 +1,488 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'index.indexList.html', 'index.indexListns.html', 'index.indexListcomp.html');">
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_location">Location</option>
+                     <option value="toc_group_by_component_type" selected="selected">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_component_type" style="display:block">
+            <div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Element" type="image" value="-" src="img/btM.gif" onclick="switchState('Element');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Elements</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Element" class="componentGroup" style="display:block">
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ConfigurationMessage" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ConfigurationMessage</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterArbitrator" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterArbitrator</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterArbitratorResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterArbitratorResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterCluster" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterCluster</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterClusterResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterClusterResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterComponent" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterComponent</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterComponentResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterComponentResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterEucalyptus" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterEucalyptus</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterEucalyptusResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterEucalyptusResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterNodeController" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterNodeController</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterNodeControllerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterNodeControllerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterStorageController" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterStorageController</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterStorageControllerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterStorageControllerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterVMwareBroker" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterVMwareBroker</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterVMwareBrokerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterVMwareBrokerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterWalrus" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterWalrus</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterWalrusResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterWalrusResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeArbitrators" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeArbitrators</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeArbitratorsResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeArbitratorsResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeClusters" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeClusters</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeClustersResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeClustersResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeComponents" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeComponents</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeComponentsResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeComponentsResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeEucalyptus" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeEucalyptus</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeEucalyptusResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeEucalyptusResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodeControllers" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodeControllers</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodeControllersResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodeControllersResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodes" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodes</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodesResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodesResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeStorageControllers" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeStorageControllers</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeStorageControllersResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeStorageControllersResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeVMwareBrokers" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeVMwareBrokers</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeVMwareBrokersResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeVMwareBrokersResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeWalruses" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeWalruses</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeWalrusesResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeWalrusesResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#GetComponentLogs" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:GetComponentLogs</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#GetComponentLogsResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:GetComponentLogsResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyArbitratorAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyArbitratorAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyArbitratorAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyArbitratorAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyClusterAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyClusterAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyClusterAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyClusterAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyComponentAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyComponentAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyComponentAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyComponentAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyEucalyptusAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyEucalyptusAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyEucalyptusAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyEucalyptusAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyNodeControllerAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyNodeControllerAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyNodeControllerAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyNodeControllerAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyStorageControllerAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyStorageControllerAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyStorageControllerAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyStorageControllerAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyVMwareBrokerAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyVMwareBrokerAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyVMwareBrokerAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyVMwareBrokerAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyWalrusAttribute" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyWalrusAttribute</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyWalrusAttributeResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyWalrusAttributeResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterArbitrator" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterArbitrator</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterArbitratorResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterArbitratorResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterCluster" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterCluster</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterClusterResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterClusterResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterComponent" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterComponent</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterComponentResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterComponentResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterEucalyptus" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterEucalyptus</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterEucalyptusResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterEucalyptusResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterNodeController" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterNodeController</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterNodeControllerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterNodeControllerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterStorageController" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterStorageController</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterStorageControllerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterStorageControllerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterVMwareBroker" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterVMwareBroker</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterVMwareBrokerResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterVMwareBrokerResponse</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterWalrus" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterWalrus</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterWalrusResponse" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterWalrusResponse</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <table class="componentGroup">
+                              <tbody>
+                                 <tr>
+                                    <td class="componentGroup"><input id="button_Complex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('Complex_Type');" class="control" /></td>
+                                    <td class="componentGroup">
+                                       <div class="componentGroupTitle">Complex Types</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="componentGroup"></td>
+                                    <td class="componentGroup">
+                                       <div id="Complex_Type" class="componentGroup" style="display:block">
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ComponentInfoTypeSetType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ComponentInfoTypeSetType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ComponentInfoTypeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ComponentInfoTypeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#http___msgs.eucalyptus.com__ConfigurationMessage" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ConfigurationMessage</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterArbitratorResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterArbitratorResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterArbitratorType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterArbitratorType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterClusterResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterClusterResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterClusterType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterClusterType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterComponentResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterComponentResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterComponentType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterComponentType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterEucalyptusResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterEucalyptusResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterEucalyptusType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterEucalyptusType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterNodeControllerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterNodeControllerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterNodeControllerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterNodeControllerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterStorageControllerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterStorageControllerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterStorageControllerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterStorageControllerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterVMwareBrokerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterVMwareBrokerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterVMwareBrokerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterVMwareBrokerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterWalrusResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterWalrusResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DeregisterWalrusType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DeregisterWalrusType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeArbitratorsResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeArbitratorsResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeArbitratorsType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeArbitratorsType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeClustersResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeClustersResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeClustersType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeClustersType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeComponentsResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeComponentsResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeComponentsType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeComponentsType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeEucalyptusResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeEucalyptusResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeEucalyptusType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeEucalyptusType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodeControllersResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodeControllersResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodeControllersType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodeControllersType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodesResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodesResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeNodesType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeNodesType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeStorageControllersResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeStorageControllersResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeStorageControllersType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeStorageControllersType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeVMwareBrokersResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeVMwareBrokersResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeVMwareBrokersType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeVMwareBrokersType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeWalrusesResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeWalrusesResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#DescribeWalrusesType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:DescribeWalrusesType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#GetComponentLogsResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:GetComponentLogsResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#GetComponentLogsType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:GetComponentLogsType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyArbitratorAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyArbitratorAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyArbitratorAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyArbitratorAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyClusterAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyClusterAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyClusterAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyClusterAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyComponentAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyComponentAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyComponentAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyComponentAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyEucalyptusAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyEucalyptusAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyEucalyptusAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyEucalyptusAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyNodeControllerAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyNodeControllerAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyNodeControllerAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyNodeControllerAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyStorageControllerAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyStorageControllerAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyStorageControllerAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyStorageControllerAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyVMwareBrokerAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyVMwareBrokerAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyVMwareBrokerAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyVMwareBrokerAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyWalrusAttributeResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyWalrusAttributeResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#ModifyWalrusAttributeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:ModifyWalrusAttributeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#NodeComponentInfoTypeSetType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:NodeComponentInfoTypeSetType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#NodeComponentInfoTypeType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:NodeComponentInfoTypeType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterArbitratorResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterArbitratorResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterArbitratorType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterArbitratorType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterClusterResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterClusterResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterClusterType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterClusterType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterComponentResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterComponentResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterComponentType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterComponentType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterEucalyptusResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterEucalyptusResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterEucalyptusType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterEucalyptusType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterNodeControllerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterNodeControllerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterNodeControllerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterNodeControllerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterStorageControllerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterStorageControllerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterStorageControllerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterStorageControllerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterVMwareBrokerResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterVMwareBrokerResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterVMwareBrokerType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterVMwareBrokerType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterWalrusResponseType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterWalrusResponseType</a></b></div>
+                                          <div><b><a href="msgs_eucalyptus_com_.html#RegisterWalrusType" target="mainFrame" title="http://msgs.eucalyptus.com/" onclick="updatePageTitle('Schema documentation for namespace http://msgs.eucalyptus.com/')">tns:RegisterWalrusType</a></b></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div style="clear:left"></div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div>
+   </body>
+</html>

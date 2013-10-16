@@ -1,0 +1,605 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'index.indexList.html', 'index.indexListns.html', 'index.indexListcomp.html');">
+                     <option value="toc_group_by_namespace" selected="selected">Namespace</option>
+                     <option value="toc_group_by_location">Location</option>
+                     <option value="toc_group_by_component_type">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_namespace" style="display:block">
+            <div>
+               <div class="level2">
+                  <p><input id="button_boxIdNamespace1" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1');" class="control" /><span class="indexGroupTitle">http://iam.amazonaws.com/doc/2010-05-08/</span></p>
+                  <div id="boxIdNamespace1" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_boxIdNamespace1Element" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1Element');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Elements</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="boxIdNamespace1Element" class="componentGroup" style="display:block">
+                                                <div><b><a href="2010-05-08_.html#AccessKey" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AccessKey</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AccessKeyMetadata" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AccessKeyMetadata</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AccountAliases" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AccountAliases</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AddRoleToInstanceProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AddRoleToInstanceProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AddRoleToInstanceProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AddRoleToInstanceProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AddUserToGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AddUserToGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#AddUserToGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:AddUserToGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#Certificates" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:Certificates</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccessKey" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccessKey</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccessKeyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccessKeyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccessKeyResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccessKeyResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccount" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccount</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccountAlias" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccountAlias</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccountAliasResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccountAliasResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccountResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccountResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateAccountResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateAccountResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateGroupResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateGroupResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateInstanceProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateInstanceProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateInstanceProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateInstanceProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateLoginProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateLoginProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateLoginProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateLoginProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateLoginProfileResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateLoginProfileResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateRole" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateRole</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateRoleResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateRoleResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateSigningCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateSigningCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateSigningCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateSigningCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateSigningCertificateResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateSigningCertificateResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateUser" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateUser</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateUserResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateUserResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#CreateUserResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:CreateUserResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeactivateMFADevice" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeactivateMFADevice</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeactivateMFADeviceResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeactivateMFADeviceResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccessKey" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccessKey</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccessKeyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccessKeyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccount" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccount</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccountAlias" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccountAlias</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccountAliasResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccountAliasResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccountPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccountPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccountPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccountPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteAccountResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteAccountResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteGroupPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteGroupPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteGroupPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteGroupPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteInstanceProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteInstanceProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteInstanceProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteInstanceProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteLoginProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteLoginProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteLoginProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteLoginProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteRole" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteRole</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteRolePolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteRolePolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteRolePolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteRolePolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteRoleResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteRoleResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteServerCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteServerCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteServerCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteServerCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteSigningCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteSigningCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteSigningCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteSigningCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteUser" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteUser</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteUserPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteUserPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteUserPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteUserPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#DeleteUserResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:DeleteUserResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#Detail" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:Detail</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#EnableMFADevice" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:EnableMFADevice</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#EnableMFADeviceResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:EnableMFADeviceResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#Error" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:Error</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ErrorResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ErrorResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountPolicyResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountPolicyResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountSummary" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountSummary</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountSummaryResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountSummaryResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetAccountSummaryResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetAccountSummaryResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroupPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroupPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroupPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroupPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroupPolicyResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroupPolicyResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetGroupResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetGroupResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetInstanceProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetInstanceProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetInstanceProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetInstanceProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLdapSyncStatus" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLdapSyncStatus</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLdapSyncStatusResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLdapSyncStatusResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLdapSyncStatusResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLdapSyncStatusResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLoginProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLoginProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLoginProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLoginProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetLoginProfileResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetLoginProfileResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetRole" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetRole</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetRolePolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetRolePolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetRolePolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetRolePolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetRoleResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetRoleResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetServerCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetServerCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetServerCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetServerCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetServerCertificateResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetServerCertificateResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUser" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUser</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserInfo" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserInfo</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserInfoResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserInfoResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserInfoResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserInfoResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserPolicyResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserPolicyResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#GetUserResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:GetUserResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccessKeys" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccessKeys</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccessKeysResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccessKeysResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccessKeysResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccessKeysResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountAliases" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountAliases</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountAliasesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountAliasesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountAliasesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountAliasesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountPolicies" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountPolicies</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountPoliciesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountPoliciesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountPoliciesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountPoliciesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccounts" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccounts</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountsResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountsResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListAccountsResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListAccountsResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupPolicies" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupPolicies</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupPoliciesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupPoliciesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupPoliciesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupPoliciesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroups" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroups</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupsForUser" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupsForUser</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupsForUserResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupsForUserResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupsForUserResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupsForUserResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupsResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupsResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListGroupsResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListGroupsResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListInstanceProfiles" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListInstanceProfiles</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListInstanceProfilesForRole" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListInstanceProfilesForRole</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListInstanceProfilesForRoleResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListInstanceProfilesForRoleResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListInstanceProfilesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListInstanceProfilesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListMFADevices" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListMFADevices</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListMFADevicesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListMFADevicesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListMFADevicesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListMFADevicesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListRolePolicies" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListRolePolicies</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListRolePoliciesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListRolePoliciesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListRoles" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListRoles</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListRolesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListRolesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListServerCertificates" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListServerCertificates</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListServerCertificatesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListServerCertificatesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListServerCertificatesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListServerCertificatesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListSigningCertificates" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListSigningCertificates</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListSigningCertificatesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListSigningCertificatesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListSigningCertificatesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListSigningCertificatesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUserPolicies" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUserPolicies</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUserPoliciesResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUserPoliciesResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUserPoliciesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUserPoliciesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUsers" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUsers</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUsersResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUsersResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ListUsersResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ListUsersResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#MFADevices" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:MFADevices</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutAccountPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutAccountPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutAccountPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutAccountPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutGroupPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutGroupPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutGroupPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutGroupPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutRolePolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutRolePolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutRolePolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutRolePolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutUserPolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutUserPolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#PutUserPolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:PutUserPolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#RemoveRoleFromInstanceProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:RemoveRoleFromInstanceProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#RemoveRoleFromInstanceProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:RemoveRoleFromInstanceProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#RemoveUserFromGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:RemoveUserFromGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#RemoveUserFromGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:RemoveUserFromGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ResyncMFADevice" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ResyncMFADevice</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ResyncMFADeviceResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ResyncMFADeviceResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ServerCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ServerCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#ServerCertificateMetadataList" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:ServerCertificateMetadataList</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#SummaryMap" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:SummaryMap</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateAccessKey" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateAccessKey</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateAccessKeyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateAccessKeyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateAssumeRolePolicy" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateAssumeRolePolicy</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateAssumeRolePolicyResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateAssumeRolePolicyResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateGroup" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateGroup</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateGroupResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateGroupResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateLoginProfile" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateLoginProfile</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateLoginProfileResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateLoginProfileResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateServerCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateServerCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateServerCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateServerCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateSigningCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateSigningCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateSigningCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateSigningCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateUser" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateUser</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateUserInfo" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateUserInfo</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateUserInfoResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateUserInfoResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UpdateUserResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UpdateUserResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadServerCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadServerCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadServerCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadServerCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadServerCertificateResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadServerCertificateResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadSigningCertificate" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadSigningCertificate</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadSigningCertificateResponse" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadSigningCertificateResponse</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#UploadSigningCertificateResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:UploadSigningCertificateResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#entry" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:entry</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#member" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:member</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_boxIdNamespace1Complex_Type" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1Complex_Type');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Complex Types</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="boxIdNamespace1Complex_Type" class="componentGroup" style="display:block">
+                                                <div><b><a href="2010-05-08_.html#accountListTypeType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:accountListTypeType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#accountType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:accountType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#createInstanceProfileResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:createInstanceProfileResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#createRoleResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:createRoleResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#euareMessage" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:euareMessage</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#getInstanceProfileResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:getInstanceProfileResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#getRolePolicyResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:getRolePolicyResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#getRoleResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:getRoleResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#groupListTypeType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:groupListTypeType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#groupType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:groupType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#instanceProfileListType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:instanceProfileListType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#instanceProfileType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:instanceProfileType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#listInstanceProfilesForRoleResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:listInstanceProfilesForRoleResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#listInstanceProfilesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:listInstanceProfilesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#listRolePoliciesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:listRolePoliciesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#listRolesResult" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:listRolesResult</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#loginProfileType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:loginProfileType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#policyNameListTypeType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:policyNameListTypeType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#responseMetadataType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:responseMetadataType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#roleListType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:roleListType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#roleType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:roleType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#serverCertificateMetadataType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:serverCertificateMetadataType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#signingCertificateType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:signingCertificateType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#userInfoListTypeType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:userInfoListTypeType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#userInfoType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:userInfoType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#userListTypeType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:userListTypeType</a></b></div>
+                                                <div><b><a href="2010-05-08_.html#userType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:userType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cornerTopLeft"></td>
+                              <td class="rt_lineTop"></td>
+                              <td class="rt_cornerTopRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lineLeft"></td>
+                              <td class="rt_content">
+                                 <table class="componentGroup">
+                                    <tbody>
+                                       <tr>
+                                          <td class="componentGroup"><input id="button_boxIdNamespace1Element_Group" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1Element_Group');" class="control" /></td>
+                                          <td class="componentGroup">
+                                             <div class="componentGroupTitle">Element Groups</div>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td class="componentGroup"></td>
+                                          <td class="componentGroup">
+                                             <div id="boxIdNamespace1Element_Group" class="componentGroup" style="display:block">
+                                                <div><b><a href="2010-05-08_.html#MFADeviceType" target="mainFrame" title="http://iam.amazonaws.com/doc/2010-05-08/" onclick="updatePageTitle('Schema documentation for namespace http://iam.amazonaws.com/doc/2010-05-08/')">tns:MFADeviceType</a></b></div>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </td>
+                              <td class="rt_lineRight"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cornerBottomLeft"></td>
+                              <td class="rt_lineBottom"></td>
+                              <td class="rt_cornerBottomRight"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div>
+   </body>
+</html>

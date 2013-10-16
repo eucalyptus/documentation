@@ -1,0 +1,1465 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component tns:UpdateAutoScalingGroup</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_UpdateAutoScalingGroup', 
+				'properties_UpdateAutoScalingGroup_AutoScalingGroupName', 
+				'properties_UpdateAutoScalingGroup_LaunchConfigurationName', 
+				'properties_UpdateAutoScalingGroup_MinSize', 
+				'properties_UpdateAutoScalingGroup_MaxSize', 
+				'properties_UpdateAutoScalingGroup_DesiredCapacity', 
+				'properties_UpdateAutoScalingGroup_DefaultCooldown', 
+				'properties_UpdateAutoScalingGroup_AvailabilityZones', 
+				'properties_UpdateAutoScalingGroup_HealthCheckType', 
+				'properties_UpdateAutoScalingGroup_HealthCheckGracePeriod', 
+				'properties_UpdateAutoScalingGroup_PlacementGroup', 
+				'properties_UpdateAutoScalingGroup_VPCZoneIdentifier', 
+				'properties_UpdateAutoScalingGroup_TerminationPolicies');
+
+        
+        
+        
+        var sourceBoxes= new Array('source_UpdateAutoScalingGroup', 
+				'source_UpdateAutoScalingGroup_AutoScalingGroupName', 
+				'source_UpdateAutoScalingGroup_LaunchConfigurationName', 
+				'source_UpdateAutoScalingGroup_MinSize', 
+				'source_UpdateAutoScalingGroup_MaxSize', 
+				'source_UpdateAutoScalingGroup_DesiredCapacity', 
+				'source_UpdateAutoScalingGroup_DefaultCooldown', 
+				'source_UpdateAutoScalingGroup_AvailabilityZones', 
+				'source_UpdateAutoScalingGroup_HealthCheckType', 
+				'source_UpdateAutoScalingGroup_HealthCheckGracePeriod', 
+				'source_UpdateAutoScalingGroup_PlacementGroup', 
+				'source_UpdateAutoScalingGroup_VPCZoneIdentifier', 
+				'source_UpdateAutoScalingGroup_TerminationPolicies');
+
+        var instanceBoxes= new Array('instance_UpdateAutoScalingGroup', 
+				'instance_UpdateAutoScalingGroup_AvailabilityZones', 
+				'instance_UpdateAutoScalingGroup_TerminationPolicies');
+
+        var diagramBoxes= new Array('diagram_UpdateAutoScalingGroup', 
+				'diagram_UpdateAutoScalingGroup_AutoScalingGroupName', 
+				'diagram_UpdateAutoScalingGroup_LaunchConfigurationName', 
+				'diagram_UpdateAutoScalingGroup_MinSize', 
+				'diagram_UpdateAutoScalingGroup_MaxSize', 
+				'diagram_UpdateAutoScalingGroup_DesiredCapacity', 
+				'diagram_UpdateAutoScalingGroup_DefaultCooldown', 
+				'diagram_UpdateAutoScalingGroup_AvailabilityZones', 
+				'diagram_UpdateAutoScalingGroup_HealthCheckType', 
+				'diagram_UpdateAutoScalingGroup_HealthCheckGracePeriod', 
+				'diagram_UpdateAutoScalingGroup_PlacementGroup', 
+				'diagram_UpdateAutoScalingGroup_VPCZoneIdentifier', 
+				'diagram_UpdateAutoScalingGroup_TerminationPolicies');
+
+        
+        
+        
+        
+        
+        var modelBoxes= new Array('model_UpdateAutoScalingGroup', 
+				'model_UpdateAutoScalingGroup_AvailabilityZones', 
+				'model_UpdateAutoScalingGroup_TerminationPolicies');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="UpdateAutoScalingGroup"></a><div class="componentTitle">Element <span class="qname">tns:UpdateAutoScalingGroup</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.jpeg" usemap="#autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup" /><map name="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup" id="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup">
+                                 <area alt="autoscaling-2011-01-01_xsd_Complex_Type_tns_autoScalingMessage.tmp#autoScalingMessage" href="autoscaling-2011-01-01_xsd_Complex_Type_tns_autoScalingMessage.html#autoScalingMessage" coords="300,5,571,27" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_AutoScalingGroupName" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AutoScalingGroupName" coords="368,91,527,133" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_LaunchConfigurationName" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_LaunchConfigurationName" coords="368,143,543,185" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_MinSize" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MinSize" coords="368,195,463,237" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_MaxSize" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MaxSize" coords="368,247,463,289" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_DesiredCapacity" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DesiredCapacity" coords="368,299,486,341" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_DefaultCooldown" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DefaultCooldown" coords="368,351,491,393" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_AvailabilityZones" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AvailabilityZones" coords="368,403,542,445" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_HealthCheckType" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckType" coords="368,455,492,497" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_HealthCheckGracePeriod" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckGracePeriod" coords="368,507,531,549" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_PlacementGroup" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_PlacementGroup" coords="368,559,487,601" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_VPCZoneIdentifier" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_VPCZoneIdentifier" coords="368,611,495,653" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.tmp#UpdateAutoScalingGroup_TerminationPolicies" href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_TerminationPolicies" coords="368,663,555,705" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>extension of <b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_autoScalingMessage.html#autoScalingMessage" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:autoScalingMessage')">tns:autoScalingMessage</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_autoScalingMessage.html#autoScalingMessage" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:autoScalingMessage')">tns:autoScalingMessage</a></b></li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UpdateAutoScalingGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UpdateAutoScalingGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UpdateAutoScalingGroup" style="display:block"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AutoScalingGroupName" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:AutoScalingGroupName')">tns:AutoScalingGroupName</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_LaunchConfigurationName" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:LaunchConfigurationName{0,1}')">tns:LaunchConfigurationName{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MinSize" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:MinSize{0,1}')">tns:MinSize{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MaxSize" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:MaxSize{0,1}')">tns:MaxSize{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DesiredCapacity" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:DesiredCapacity{0,1}')">tns:DesiredCapacity{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DefaultCooldown" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:DefaultCooldown{0,1}')">tns:DefaultCooldown{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AvailabilityZones" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:AvailabilityZones{0,1}')">tns:AvailabilityZones{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckType" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:HealthCheckType{0,1}')">tns:HealthCheckType{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckGracePeriod" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:HealthCheckGracePeriod{0,1}')">tns:HealthCheckGracePeriod{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_PlacementGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:PlacementGroup{0,1}')">tns:PlacementGroup{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_VPCZoneIdentifier" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:VPCZoneIdentifier{0,1}')">tns:VPCZoneIdentifier{0,1}</a></b> , <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_TerminationPolicies" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:TerminationPolicies{0,1}')">tns:TerminationPolicies{0,1}</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AutoScalingGroupName" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:AutoScalingGroupName')">tns:AutoScalingGroupName</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_AvailabilityZones" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:AvailabilityZones')">tns:AvailabilityZones</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DefaultCooldown" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:DefaultCooldown')">tns:DefaultCooldown</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_DesiredCapacity" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:DesiredCapacity')">tns:DesiredCapacity</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckGracePeriod" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:HealthCheckGracePeriod')">tns:HealthCheckGracePeriod</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_HealthCheckType" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:HealthCheckType')">tns:HealthCheckType</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_LaunchConfigurationName" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:LaunchConfigurationName')">tns:LaunchConfigurationName</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MaxSize" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:MaxSize')">tns:MaxSize</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_MinSize" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:MinSize')">tns:MinSize</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_PlacementGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:PlacementGroup')">tns:PlacementGroup</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_TerminationPolicies" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:TerminationPolicies')">tns:TerminationPolicies</a></b>, <b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup_VPCZoneIdentifier" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:VPCZoneIdentifier')">tns:VPCZoneIdentifier</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_UpdateAutoScalingGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_UpdateAutoScalingGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_UpdateAutoScalingGroup" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:UpdateAutoScalingGroup</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://autoscaling.amazonaws.com/doc/2011-01-01/"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:AutoScalingGroupName</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:AutoScalingGroupName&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:LaunchConfigurationName</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:LaunchConfigurationName&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:MinSize</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:MinSize&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:MaxSize</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:MaxSize&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:DesiredCapacity</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:DesiredCapacity&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:DefaultCooldown</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:DefaultCooldown&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:AvailabilityZones</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:AvailabilityZones&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:HealthCheckType</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:HealthCheckType&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:HealthCheckGracePeriod</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:HealthCheckGracePeriod&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:PlacementGroup</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:PlacementGroup&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:VPCZoneIdentifier</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:VPCZoneIdentifier&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:TerminationPolicies</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tns:TerminationPolicies&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:UpdateAutoScalingGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"UpdateAutoScalingGroup"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:complexContent</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"tns:autoScalingMessage"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"AutoScalingGroupName"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"LaunchConfigurationName"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"MinSize"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"MaxSize"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"DesiredCapacity"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"DefaultCooldown"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"tns:availabilityZones"</span><span class="tAN"> name=</span><span class="tAV">"AvailabilityZones"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"HealthCheckType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"HealthCheckGracePeriod"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"PlacementGroup"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"VPCZoneIdentifier"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"tns:terminationPolicies"</span><span class="tAN"> name=</span><span class="tAV">"TerminationPolicies"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:complexContent&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_AutoScalingGroupName"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:AutoScalingGroupName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_AutoScalingGroupName" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_AutoScalingGroupName');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_AutoScalingGroupName" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_AutoScalingGroupName_12.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_AutoScalingGroupName" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_AutoScalingGroupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_AutoScalingGroupName" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_AutoScalingGroupName" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_AutoScalingGroupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_AutoScalingGroupName" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"AutoScalingGroupName"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_LaunchConfigurationName"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:LaunchConfigurationName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_LaunchConfigurationName" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_LaunchConfigurationName');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_LaunchConfigurationName" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_LaunchConfigurationName_4.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_LaunchConfigurationName" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_LaunchConfigurationName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_LaunchConfigurationName" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_LaunchConfigurationName" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_LaunchConfigurationName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_LaunchConfigurationName" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"LaunchConfigurationName"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_MinSize"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:MinSize</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_MinSize" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_MinSize');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_MinSize" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_MinSize_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_MinSize" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_MinSize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_MinSize" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_MinSize" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_MinSize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_MinSize" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"MinSize"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_MaxSize"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:MaxSize</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_MaxSize" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_MaxSize');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_MaxSize" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_MaxSize_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_MaxSize" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_MaxSize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_MaxSize" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_MaxSize" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_MaxSize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_MaxSize" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"MaxSize"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_DesiredCapacity"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:DesiredCapacity</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_DesiredCapacity" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_DesiredCapacity');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_DesiredCapacity" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_DesiredCapacity_4.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_DesiredCapacity" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_DesiredCapacity');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_DesiredCapacity" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_DesiredCapacity" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_DesiredCapacity');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_DesiredCapacity" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"DesiredCapacity"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_DefaultCooldown"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:DefaultCooldown</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_DefaultCooldown" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_DefaultCooldown');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_DefaultCooldown" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_DefaultCooldown.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_DefaultCooldown" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_DefaultCooldown');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_DefaultCooldown" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_DefaultCooldown" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_DefaultCooldown');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_DefaultCooldown" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"DefaultCooldown"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_AvailabilityZones"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:AvailabilityZones</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_AvailabilityZones" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_AvailabilityZones');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_AvailabilityZones" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_AvailabilityZones_2.jpeg" usemap="#autoscaling-2011-01-01_xsd_Element_tns_AvailabilityZones_2" /><map name="autoscaling-2011-01-01_xsd_Element_tns_AvailabilityZones_2" id="autoscaling-2011-01-01_xsd_Element_tns_AvailabilityZones_2">
+                                 <area alt="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.tmp#availabilityZones_member" href="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.html#availabilityZones_member" coords="308,40,421,82" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.tmp#availabilityZones" href="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.html#availabilityZones" coords="205,3,365,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.html#availabilityZones" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:availabilityZones')">tns:availabilityZones</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_AvailabilityZones" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_AvailabilityZones');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_AvailabilityZones" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UpdateAutoScalingGroup_AvailabilityZones" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UpdateAutoScalingGroup_AvailabilityZones');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UpdateAutoScalingGroup_AvailabilityZones" style="display:block"><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.html#availabilityZones_member" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:member*')">tns:member*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_availabilityZones.html#availabilityZones_member" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:member')">tns:member</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_UpdateAutoScalingGroup_AvailabilityZones" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_UpdateAutoScalingGroup_AvailabilityZones');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_UpdateAutoScalingGroup_AvailabilityZones" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:AvailabilityZones</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://autoscaling.amazonaws.com/doc/2011-01-01/"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:member</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/tns:member&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:AvailabilityZones&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_AvailabilityZones" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_AvailabilityZones');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_AvailabilityZones" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"tns:availabilityZones"</span><span class="tAN"> name=</span><span class="tAV">"AvailabilityZones"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_HealthCheckType"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:HealthCheckType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_HealthCheckType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_HealthCheckType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_HealthCheckType" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_HealthCheckType.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_HealthCheckType" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_HealthCheckType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_HealthCheckType" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_HealthCheckType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_HealthCheckType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_HealthCheckType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"HealthCheckType"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_HealthCheckGracePeriod"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:HealthCheckGracePeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_HealthCheckGracePeriod" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_HealthCheckGracePeriod');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_HealthCheckGracePeriod" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_HealthCheckGracePeriod.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_HealthCheckGracePeriod" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_HealthCheckGracePeriod');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_HealthCheckGracePeriod" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_HealthCheckGracePeriod" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_HealthCheckGracePeriod');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_HealthCheckGracePeriod" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tAN"> name=</span><span class="tAV">"HealthCheckGracePeriod"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_PlacementGroup"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:PlacementGroup</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_PlacementGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_PlacementGroup');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_PlacementGroup" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_PlacementGroup.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_PlacementGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_PlacementGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_PlacementGroup" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_PlacementGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_PlacementGroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_PlacementGroup" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"PlacementGroup"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_VPCZoneIdentifier"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:VPCZoneIdentifier</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_VPCZoneIdentifier" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_VPCZoneIdentifier');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_VPCZoneIdentifier" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_VPCZoneIdentifier_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_VPCZoneIdentifier" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_VPCZoneIdentifier');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_VPCZoneIdentifier" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_VPCZoneIdentifier" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_VPCZoneIdentifier');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_VPCZoneIdentifier" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> name=</span><span class="tAV">"VPCZoneIdentifier"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UpdateAutoScalingGroup_TerminationPolicies"></a><div class="componentTitle">Element <span class="qname"><b><a href="autoscaling-2011-01-01_xsd_Element_tns_UpdateAutoScalingGroup.html#UpdateAutoScalingGroup" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:UpdateAutoScalingGroup')">tns:UpdateAutoScalingGroup</a></b> / tns:TerminationPolicies</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://autoscaling.amazonaws.com/doc/2011-01-01/</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UpdateAutoScalingGroup_TerminationPolicies" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UpdateAutoScalingGroup_TerminationPolicies');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UpdateAutoScalingGroup_TerminationPolicies" style="display:block"><img alt="Diagram" border="0" src="img/autoscaling-2011-01-01_xsd_Element_tns_TerminationPolicies.jpeg" usemap="#autoscaling-2011-01-01_xsd_Element_tns_TerminationPolicies" /><map name="autoscaling-2011-01-01_xsd_Element_tns_TerminationPolicies" id="autoscaling-2011-01-01_xsd_Element_tns_TerminationPolicies">
+                                 <area alt="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.tmp#terminationPolicies_member" href="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.html#terminationPolicies_member" coords="321,40,434,82" />
+                                 <area alt="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.tmp#terminationPolicies" href="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.html#terminationPolicies" coords="218,3,391,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.html#terminationPolicies" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:terminationPolicies')">tns:terminationPolicies</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UpdateAutoScalingGroup_TerminationPolicies" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UpdateAutoScalingGroup_TerminationPolicies');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UpdateAutoScalingGroup_TerminationPolicies" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UpdateAutoScalingGroup_TerminationPolicies" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UpdateAutoScalingGroup_TerminationPolicies');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UpdateAutoScalingGroup_TerminationPolicies" style="display:block"><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.html#terminationPolicies_member" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:member*')">tns:member*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="autoscaling-2011-01-01_xsd_Complex_Type_tns_terminationPolicies.html#terminationPolicies_member" target="mainFrame" title="http://autoscaling.amazonaws.com/doc/2011-01-01/" onclick="updatePageTitle('Schema documentation for component tns:member')">tns:member</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_UpdateAutoScalingGroup_TerminationPolicies" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_UpdateAutoScalingGroup_TerminationPolicies');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_UpdateAutoScalingGroup_TerminationPolicies" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:TerminationPolicies</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://autoscaling.amazonaws.com/doc/2011-01-01/"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:member</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/tns:member&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:TerminationPolicies&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UpdateAutoScalingGroup_TerminationPolicies" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UpdateAutoScalingGroup_TerminationPolicies');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UpdateAutoScalingGroup_TerminationPolicies" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> type=</span><span class="tAV">"tns:terminationPolicies"</span><span class="tAN"> name=</span><span class="tAV">"TerminationPolicies"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

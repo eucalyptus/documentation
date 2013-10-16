@@ -1,0 +1,2037 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_eucalyptus_sc.xsd', 
+				'properties_ExportVolumeType_volumeId', 
+				'properties_ExportVolumeType_token', 
+				'properties_ExportVolumeType_ip', 
+				'properties_ExportVolumeType_iqn', 
+				'properties_ExportVolumeResponseType_volumeId', 
+				'properties_ExportVolumeResponseType_connectionString', 
+				'properties_UnexportVolumeType_volumeId', 
+				'properties_UnexportVolumeType_token', 
+				'properties_UnexportVolumeType_ip', 
+				'properties_UnexportVolumeType_iqn', 
+				'properties_ExportVolume', 
+				'properties_ExportVolumeResponse', 
+				'properties_UnexportVolume', 
+				'properties_UnexportVolumeResponse', 
+				'properties_ExportVolumeType');
+
+        
+        
+        var usedByBoxes= new Array('usedBy_ExportVolumeType', 
+				'usedBy_ExportVolumeResponseType', 
+				'usedBy_UnexportVolumeType', 
+				'usedBy_UnexportVolumeResponseType');
+
+        var sourceBoxes= new Array('source_ExportVolumeType_volumeId', 
+				'source_ExportVolumeType_token', 
+				'source_ExportVolumeType_ip', 
+				'source_ExportVolumeType_iqn', 
+				'source_ExportVolumeResponseType_volumeId', 
+				'source_ExportVolumeResponseType_connectionString', 
+				'source_UnexportVolumeType_volumeId', 
+				'source_UnexportVolumeType_token', 
+				'source_UnexportVolumeType_ip', 
+				'source_UnexportVolumeType_iqn', 
+				'source_ExportVolume', 
+				'source_ExportVolumeResponse', 
+				'source_UnexportVolume', 
+				'source_UnexportVolumeResponse', 
+				'source_ExportVolumeType', 
+				'source_ExportVolumeResponseType', 
+				'source_UnexportVolumeType', 
+				'source_UnexportVolumeResponseType');
+
+        var instanceBoxes= new Array('instance_ExportVolume', 
+				'instance_ExportVolumeResponse', 
+				'instance_UnexportVolume');
+
+        var diagramBoxes= new Array('diagram_ExportVolumeType_volumeId', 
+				'diagram_ExportVolumeType_token', 
+				'diagram_ExportVolumeType_ip', 
+				'diagram_ExportVolumeType_iqn', 
+				'diagram_ExportVolumeResponseType_volumeId', 
+				'diagram_ExportVolumeResponseType_connectionString', 
+				'diagram_UnexportVolumeType_volumeId', 
+				'diagram_UnexportVolumeType_token', 
+				'diagram_UnexportVolumeType_ip', 
+				'diagram_UnexportVolumeType_iqn', 
+				'diagram_ExportVolume', 
+				'diagram_ExportVolumeResponse', 
+				'diagram_UnexportVolume', 
+				'diagram_UnexportVolumeResponse', 
+				'diagram_ExportVolumeType', 
+				'diagram_ExportVolumeResponseType', 
+				'diagram_UnexportVolumeType', 
+				'diagram_UnexportVolumeResponseType');
+
+        
+        
+        
+        
+        
+        var modelBoxes= new Array('model_ExportVolume', 
+				'model_ExportVolumeResponse', 
+				'model_UnexportVolume', 
+				'model_UnexportVolumeResponse', 
+				'model_ExportVolumeType', 
+				'model_ExportVolumeResponseType', 
+				'model_UnexportVolumeType', 
+				'model_UnexportVolumeResponseType');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="eucalyptus_sc.xsd"></a><div class="componentTitle">Main schema <span class="qname">eucalyptus_sc.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_eucalyptus_sc.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_eucalyptus_sc.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_eucalyptus_sc.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">attribute form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">element form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeType_volumeId"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeType</a></b> / tns:volumeId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeType_volumeId" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_volumeId.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeType_volumeId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeType_volumeId" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeType_token"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeType</a></b> / tns:token</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeType_token" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_token_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeType_token" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeType_token" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"token"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeType_ip"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeType</a></b> / tns:ip</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeType_ip" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_ip_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeType_ip" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeType_ip" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"ip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeType_iqn"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeType</a></b> / tns:iqn</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeType_iqn" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_iqn.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeType_iqn" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeType_iqn" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"iqn"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeResponseType_volumeId"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeResponseType</a></b> / tns:volumeId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeResponseType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeResponseType_volumeId');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeResponseType_volumeId" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_volumeId_2.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeResponseType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeResponseType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeResponseType_volumeId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeResponseType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeResponseType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeResponseType_volumeId" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeResponseType_connectionString"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeResponseType</a></b> / tns:connectionString</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeResponseType_connectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeResponseType_connectionString');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeResponseType_connectionString" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_connectionString.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeResponseType_connectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeResponseType_connectionString');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeResponseType_connectionString" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeResponseType_connectionString" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeResponseType_connectionString');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeResponseType_connectionString" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"connectionString"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeType_volumeId"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeType</a></b> / tns:volumeId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeType_volumeId" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_volumeId_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolumeType_volumeId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeType_volumeId" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeType_volumeId');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeType_volumeId" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeType_token"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeType</a></b> / tns:token</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeType_token" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_token.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolumeType_token" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeType_token" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeType_token');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeType_token" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"token"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeType_ip"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeType</a></b> / tns:ip</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeType_ip" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_ip.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolumeType_ip" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeType_ip" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeType_ip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeType_ip" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"ip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeType_iqn"></a><div class="componentTitle">Element <span class="qname"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeType</a></b> / tns:iqn</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeType_iqn" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_iqn_1.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolumeType_iqn" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeType_iqn" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeType_iqn');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeType_iqn" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"iqn"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolume"></a><div class="componentTitle">Element <span class="qname">tns:ExportVolume</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolume');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolume" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_ExportVolume.jpeg" usemap="#eucalyptus_sc_xsd_Element_tns_ExportVolume" /><map name="eucalyptus_sc_xsd_Element_tns_ExportVolume" id="eucalyptus_sc_xsd_Element_tns_ExportVolume">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" coords="300,58,413,100" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_token" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" coords="300,110,413,152" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_ip" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" coords="300,162,413,204" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_iqn" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" coords="300,214,413,256" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" coords="218,3,391,43" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolume" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_ExportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('model_ExportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_ExportVolume" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_ExportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_ExportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_ExportVolume" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:ExportVolume</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://storagecontroller.eucalyptus.ucsb.edu"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:volumeId</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:volumeId&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:token</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:token&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:ip</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:ip&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:iqn</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:iqn&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:ExportVolume&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolume" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"ExportVolume"</span><span class="tAN"> nillable=</span><span class="tAV">"true"</span><span class="tAN"> type=</span><span class="tAV">"tns:ExportVolumeType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeResponse"></a><div class="componentTitle">Element <span class="qname">tns:ExportVolumeResponse</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeResponse" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_ExportVolumeResponse.jpeg" usemap="#eucalyptus_sc_xsd_Element_tns_ExportVolumeResponse" /><map name="eucalyptus_sc_xsd_Element_tns_ExportVolumeResponse" id="eucalyptus_sc_xsd_Element_tns_ExportVolumeResponse">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeResponseType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" coords="352,40,465,82" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeResponseType_connectionString" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" coords="352,92,475,134" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeResponseType" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType" coords="270,3,495,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeResponseType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeResponse" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_ExportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('model_ExportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_ExportVolumeResponse" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:connectionString</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:connectionString</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_ExportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_ExportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_ExportVolumeResponse" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:ExportVolumeResponse</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://storagecontroller.eucalyptus.ucsb.edu"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:volumeId</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:volumeId&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:connectionString</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:connectionString&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:ExportVolumeResponse&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeResponse" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"ExportVolumeResponse"</span><span class="tAN"> nillable=</span><span class="tAV">"true"</span><span class="tAN"> type=</span><span class="tAV">"tns:ExportVolumeResponseType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolume"></a><div class="componentTitle">Element <span class="qname">tns:UnexportVolume</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolume');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolume" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_UnexportVolume.jpeg" usemap="#eucalyptus_sc_xsd_Element_tns_UnexportVolume" /><map name="eucalyptus_sc_xsd_Element_tns_UnexportVolume" id="eucalyptus_sc_xsd_Element_tns_UnexportVolume">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" coords="315,40,428,82" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_token" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" coords="315,92,428,134" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_ip" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" coords="315,144,428,186" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_iqn" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" coords="315,196,428,238" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" coords="233,3,421,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolume" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UnexportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UnexportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UnexportVolume" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_UnexportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_UnexportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_UnexportVolume" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;tns:UnexportVolume</span><span class="tT"> </span><span class="tAN">xmlns:tns=</span><span class="tAV">"http://storagecontroller.eucalyptus.ucsb.edu"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:volumeId</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:volumeId&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:token</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:token&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:ip</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:ip&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tns:iqn</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tns:iqn&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/tns:UnexportVolume&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolume" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolume');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolume" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"UnexportVolume"</span><span class="tAN"> nillable=</span><span class="tAV">"true"</span><span class="tAN"> type=</span><span class="tAV">"tns:UnexportVolumeType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeResponse"></a><div class="componentTitle">Element <span class="qname">tns:UnexportVolumeResponse</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeResponse" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Element_tns_UnexportVolumeResponse.jpeg" usemap="#eucalyptus_sc_xsd_Element_tns_UnexportVolumeResponse" /><map name="eucalyptus_sc_xsd_Element_tns_UnexportVolumeResponse" id="eucalyptus_sc_xsd_Element_tns_UnexportVolumeResponse">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeResponseType" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeResponseType" coords="285,3,525,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeResponseType" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeResponseType</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_UnexportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_UnexportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_UnexportVolumeResponse" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">nillable</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UnexportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UnexportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UnexportVolumeResponse" style="display:block"></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeResponse" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeResponse');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeResponse" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"UnexportVolumeResponse"</span><span class="tAN"> nillable=</span><span class="tAV">"true"</span><span class="tAN"> type=</span><span class="tAV">"tns:UnexportVolumeResponseType"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeType"></a><div class="componentTitle">Complex Type <span class="qname">tns:ExportVolumeType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeType" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeType.jpeg" usemap="#eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeType" /><map name="eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeType" id="eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeType">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" coords="256,6,369,48" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_token" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" coords="256,58,369,100" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_ip" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" coords="256,110,369,152" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeType_iqn" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" coords="256,162,369,204" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ExportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ExportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ExportVolumeType" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">abstract</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ExportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ExportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ExportVolumeType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolume" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolume</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_ExportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_ExportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_ExportVolumeType" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"ExportVolumeType"</span><span class="tAN"> abstract=</span><span class="tAV">"true"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- &lt;xs:complexContent&gt;
+						&lt;xs:extension base="tns:StorageMessageType"&gt;--&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"token"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"ip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"iqn"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--  &lt;/xs:extension&gt;
+					&lt;/xs:complexContent&gt;--&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ExportVolumeResponseType"></a><div class="componentTitle">Complex Type <span class="qname">tns:ExportVolumeResponseType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ExportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ExportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ExportVolumeResponseType" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeResponseType.jpeg" usemap="#eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeResponseType" /><map name="eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeResponseType" id="eucalyptus_sc_xsd_Complex_Type_tns_ExportVolumeResponseType">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeResponseType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" coords="308,0,421,42" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#ExportVolumeResponseType_connectionString" href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" coords="308,52,431,94" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ExportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ExportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ExportVolumeResponseType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponse" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ExportVolumeResponse</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_ExportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_ExportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_ExportVolumeResponseType" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:connectionString</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_connectionString" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:connectionString</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#ExportVolumeResponseType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_ExportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ExportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_ExportVolumeResponseType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"ExportVolumeResponseType"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;xs:complexContent&gt;
+						&lt;xs:extension base="tns:StorageMessageType"&gt;--&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"connectionString"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;/xs:extension&gt;
+					&lt;/xs:complexContent&gt;--&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeType"></a><div class="componentTitle">Complex Type <span class="qname">tns:UnexportVolumeType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeType" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Complex_Type_tns_UnexportVolumeType.jpeg" usemap="#eucalyptus_sc_xsd_Complex_Type_tns_UnexportVolumeType" /><map name="eucalyptus_sc_xsd_Complex_Type_tns_UnexportVolumeType" id="eucalyptus_sc_xsd_Complex_Type_tns_UnexportVolumeType">
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_volumeId" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" coords="271,0,384,42" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_token" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" coords="271,52,384,94" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_ip" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" coords="271,104,384,146" />
+                                 <area alt="storagecontroller_eucalyptus_ucsb_edu.tmp#UnexportVolumeType_iqn" href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" coords="271,156,384,198" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_UnexportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_UnexportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_UnexportVolumeType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolume" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolume</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UnexportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UnexportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UnexportVolumeType" style="display:block"><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b> , <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_ip" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:ip</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_iqn" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:iqn</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_token" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:token</a></b>, <b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeType_volumeId" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:volumeId</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"UnexportVolumeType"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- &lt;xs:complexContent&gt;
+						&lt;xs:extension base="tns:StorageMessageType"&gt;--&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"volumeId"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"token"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"ip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> nillable=</span><span class="tAV">"false"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tAN"> name=</span><span class="tAV">"iqn"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;/xs:extension&gt;
+					&lt;/xs:complexContent&gt;--&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="UnexportVolumeResponseType"></a><div class="componentTitle">Complex Type <span class="qname">tns:UnexportVolumeResponseType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://storagecontroller.eucalyptus.ucsb.edu</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_UnexportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_UnexportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_UnexportVolumeResponseType" style="display:block"><img alt="Diagram" border="0" src="img/eucalyptus_sc_xsd_Complex_Type_tns_UnexportVolumeResponseType.jpeg" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_UnexportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_UnexportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_UnexportVolumeResponseType" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="storagecontroller_eucalyptus_ucsb_edu.html#UnexportVolumeResponse" target="mainFrame" title="http://storagecontroller.eucalyptus.ucsb.edu" onclick="updatePageTitle('Schema documentation for namespace http://storagecontroller.eucalyptus.ucsb.edu')">tns:UnexportVolumeResponse</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_UnexportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('model_UnexportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_UnexportVolumeResponseType" style="display:block"></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_UnexportVolumeResponseType" type="image" src="img/btM.gif" value="-" onclick="switchState('source_UnexportVolumeResponseType');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_UnexportVolumeResponseType" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"UnexportVolumeResponseType"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- &lt;xs:complexContent&gt;
+						&lt;xs:extension base="tns:StorageMessageType"&gt;--&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--&lt;/xs:extension&gt;
+					&lt;/xs:complexContent&gt;--&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
