@@ -2,84 +2,59 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="hg_task_migrate_image_aws_to_euca">
-    <title>Migrate an Image from AWS to Eucalyptus</title>
+	<title>Migrate an Image from AWS to Eucalyptus</title>
 	<shortdesc>To migrate an image from AWS to Eucalyptus, perform the following steps.</shortdesc>
-    <taskbody>
-        <context>
-        </context>
-        <steps>
-            <step>
-            	<cmd><xref href="hg_task_setup_euca2ools.dita">Set up Euca2ools for AWS</xref></cmd>
-            </step>
-        	<step>
-        		<cmd>Choose an image.</cmd>
-        		<info>
-        			<codeblock>euca-describe-images --region aws
-IMAGE	ami-a6e15bcf	aws-marketplace/CentOS-6.3-x86_64-GA-ebs-85586466-5b6c-4495-b580-14f72b4bcf51-ami-3689325f.1	aws-marketplace	available	privatex86_64	machine	aki-88aa75e1			ebs	paravirtual	xen
-BLOCKDEVICEMAPPING	/dev/sda	snap-831129f5	8	false</codeblock>
-        		</info>
-        		
-        	</step>
-        	<step>
-        		<cmd>Run an instance from the image you chose.</cmd>
-        		<info>
-        			<codeblock>euca-run-instance ami-a6e15bcf </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>SSH into the instance and verify that the instance is valid for use with Eucalyptus.</cmd>
-        		<info>
-        			<codeblock>ssh </codeblock>
-        		</info>
-        		<substeps>
-        			<!--<substep>
-        				<cmd>Make sure <codeph>-\-check-dependencies</codeph> exits with 0 if all dependencies
-        					necessary for the executable's operation are present and 1 otherwise</cmd>
-        			</substep>-->
-        			<!--<substep>
-        				<cmd>Make sure that a path to a mounted Linux image exits with 1 if the check could be
-        					invoked and did not pass (if check passed, or could not be invoked, or the image is not a Linux image, the validator is to exit with 0)</cmd>
-        					
-        			</substep>-->
-        			<!--<substep>
-        				<cmd>Make sure that all parameters are passed via command-line arguments, not environment variables
-        					</cmd>
-        			</substep>-->
-        			<!--<substep>
-        				<cmd>Make sure that all input paths/files and output paths/files are specified as
-        					parameters (that is, there are no unspecified files or directories left after the validator exits)</cmd>
-        			</substep>-->
-        			<substep><cmd>Check /etc/fstab and remove any non-standard drives or partitions (input:
-        				block-device mapping) and any reference to Xen device names</cmd></substep>
+	<taskbody>
+		<context>
+			<note>This example works with an S3-backed Amazon Machine Image (AMI) that you own. For
+				instructions on creating an S3-backed AMI from an existing AMI, see <xref
+					href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-snapshot-s3-linux.html"
+					>Creating an Instance Store-Backed AMI From an Existing AMI</xref>.</note>
+		</context>
+		<steps>
+			<step>
+				<cmd/>
+			</step>
+			<step>
+				<cmd>Set up your Euca2ools configuration to work with both Eucalyptus and Amazon Web
+					Services. For instructions, see: <xref href="hg_task_setup_euca2ools.dita">Set
+						up Euca2ools for AWS</xref>.</cmd>
+			</step>
+			<step>
+				<cmd>Check ownership of the AMI that you want to migrate to Eucalyptus by using the
+					euca-describe-images command. For example:</cmd>
+				<info>
+					<codeblock>euca-describe-images --region us-east-1 --owner 999999999999
+IMAGE	ami-e1a1e888	999999999999/precise-test	999999999999	available	private		x86_64	machine	aki-88aa75e1			instance-store	paravirtual	xen
+	BLOCKDEVICEMAPPING	EPHEMERAL	sda2	ephemeral0
+</codeblock>
+				</info>
+			</step>
 
-        			<substep><cmd>Make sure that the acpiphp module is available</cmd></substep>
-        			<substep><cmd>Make sure that udev net persistent</cmd></substep>
-        			<substep><cmd>Remove the *ec2-network-interfaces.rules file from etc/udev/rules.d</cmd></substep>
-        			<substep><cmd>Remove the *persistent-net-generator.rules file from etc/udev/rules.d</cmd></substep>
-        			<substep><cmd>ensure SSHD will run</cmd></substep>
-        			<substep><cmd>ensure cloud-init will run</cmd></substep>
-        			<substep><cmd>ensure special system directories are not populated (places like proc, sysfs, devpts, debugfs, udevfs, cgroup, tmpfs, etc., which should not have real files in them)</cmd></substep>
-        			<substep><cmd>ensure that not more than one Ethernet device is configured</cmd></substep>
-        			
-        		</substeps>
-        	</step>
-        	<step>
-        		<cmd>Install Euca2ools on the instance.</cmd>
-        		<info>
-        			<codeblock></codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Mount a volume that is at least 1.5 times as large as the entire instance.</cmd>
-        		<info>
-        			<codeblock>df </codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Bundle the running instance. For example:</cmd>
-        		<info>
-        			<codeblock>sudo -s
-ec2-bundle-vol -d /mnt -u 4299-4227-3585 -k scottb-euca-aws.pem -c scottb-euca-aws-cert.pem -r x86_64 -s 2048
+			<step>
+				<cmd>Run the AWS instance.</cmd>
+				<info>
+					<codeblock>euca-run-instance ami-e1a1e888 --region us-east-1 </codeblock>
+				</info>
+			</step>
+
+			<step>
+				<cmd>Install Euca2ools on the instance. For instructions, see the Euca2ools
+					Guide.</cmd>
+				<info>
+					<codeblock/>
+				</info>
+			</step>
+			<step>
+				<cmd>Make sure that you have enough space on a volume to hold the bundle that we
+					will create.</cmd>
+
+			</step>
+			<step>
+				<cmd>Bundle the running AWS instance. For example:</cmd>
+				<info>
+					<codeblock>sudo -s
+ec2-bundle-vol -b testbucket -d /mnt -u 4299-4227-3585 -k my-aws.pem -c my-aws-cert.pem -r x86_64 -s 2048
 Copying / into the image file /mnt/image...
 Excluding:
 	 /dev/pts
@@ -111,26 +86,100 @@ Unable to read instance meta-data for ramdisk-id
 Unable to read instance meta-data for product-codes
 Creating bundle manifest...
 ec2-bundle-vol complete.</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Switch the Euca2ools configuration file to use Eucalyptus</cmd>
-        		<info>
-        			<codeblock>default-region = euca-release</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Upload the AWS bundled instance to Eucalyptus.</cmd>
-        		<info>
-        			<codeblock>ec2-upload-bundle -b hybrid-guide-sample-bucket -m image.manifest.xml --access-key myaccesskey --secret-key mysecretkey</codeblock>
-        		</info>
-        	</step>
-        	<step>
-        		<cmd>Test the new uploaded image.</cmd>
-        		<info>
-        			<codeblock>euca-run-instance emi-a6e15bcf</codeblock>
-        		</info>
-        	</step>
-        </steps>
-    </taskbody>
+				</info>
+			</step>
+			<step>
+				<cmd>Switch the Euca2ools configuration file to use Eucalyptus. You can do this by
+					specifying the Eucalyptus region as defined in your Euca2ools configuration file
+					by specifying the <codeph>--region</codeph> parameter on the command line, or by
+					changing the <codeph>default-region</codeph> option in the Euca2ools
+					configuration file:</cmd>
+				<info>
+					<codeblock>default-region = euca-release</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Download the bundle from the AWS S3 bucket:</cmd>
+				<info>
+					<codeblock>euca-download-bundle --bucket testbucket --directory /tmp/aws-image/ --region us-east-1
+</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Unbundle the AWS instance bundle:</cmd>
+				<info>
+					<codeblock>euca-unbundle --manifest /tmp/aws-image/image.manifest.xml --source /tmp/aws-image/ --destination /tmp/aws-image/ --region us-east-1
+</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Run some checks to make sure that the image can be used with Eucalyptus:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Mount the image via loopback:</cmd>
+						<info>
+							<codeblock>#  sudo mkdir /mnt/aws-image
+	#  sudo mount -o loop /tmp/aws-image/image /mnt/aws-image
+	#  df -ah 
+	……
+	/tmp/aws-image/image
+                      9.9G  1.1G  8.3G  12% /mnt/aws-image
+</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Make sure that the distro repositories in the image do not point to
+							EC2-specific repositories.</cmd>
+						<info>
+							<codeblock>
+								TBD
+							</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Install a non-Xen kernel into the image from distro and make sure
+							VirtIO modules are added.</cmd>
+						<info>
+							<codeblock>TBD</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Extract  the ramdisk  and kernel to be bundled, uploaded
+							and registered as ERI and EKI files. In this example,
+							initrd.img-3.2.0-53-virtual and vmlinuz-3.2.0-53-virtual will be copied
+							from /mnt/aws-image/boot to the /tmp/aws-image directory: </cmd>
+						<info>
+							<codeblock># sudo cp /mnt/aws-image/boot/initrd.img-3.2.0-53-virtual /tmp/aws-image/.
+# sudo cp /mnt/aws-image/boot/vmlinuz-3.2.0-53-virtual /tmp/aws-image/.
+</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Make sure that the file system of the image is either ext2, ext3, or ext4 by using the file command. For example:</cmd>
+						<info><codeblock># file /tmp/aws-image/image
+/tmp/aws-image/image: Linux rev 1.0 ext4 filesystem data (extents) (large files) (huge files)
+</codeblock></info>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>Bundle the image using euca-bundle-image:</cmd>
+				<info>
+					<codeblock>euca-bundle-image -i /tmp/aws-image/image</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Upload the AWS bundled instance to Eucalyptus.</cmd>
+				<info>
+					<codeblock>ec2-upload-bundle -b hybrid-guide-sample-bucket -m /tmp/aws-image/image.manifest.xml --access-key myaccesskey --secret-key mysecretkey</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Test the new uploaded image.</cmd>
+				<info>
+					<codeblock>euca-run-instance emi-a6e15bcf</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
 </task>
