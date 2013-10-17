@@ -160,15 +160,36 @@
 								format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-6531"
 								>EUCA-6531</xref>)</entry>
-						<entry>The cacheDirectoryLimitMb property does not work on VMware even after adding it to the config and euca_imager left cache directory with
-							all files after image creation.</entry>
+						<entry>The cacheDirectoryLimitMb property does not work on VMware even after
+							adding it to the config and euca_imager left cache directory with all
+							files after image creation.</entry>
 					</row>
 					<row>
 						<entry>Instance profiles don't support roles with IAM S3 policies (<xref
-							format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-7863"
-							>EUCA-7863</xref>)</entry>
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7863"
+								>EUCA-7863</xref>)</entry>
 						<entry>See linked bug for details.</entry>
+					</row>
+					<row>
+						<entry>Maximum image size for euca-register has been increased from 10GB to
+							30GB (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/DOC-1011"
+								>DOC-1011</xref>)</entry>
+						<entry>The maximum size for an image has been increased from 10GB to 30GB by
+							default. Administrators who want to change this default (for example, to
+							enforce the same 10GB limitation as EC2) can change this value by using
+							the following command: <p>
+								<codeph>euca-modify-property -p cloud.images.maximagesizegb=&lt;max
+									size in gigabytes&gt;</codeph>
+							</p>
+							<p> The value must be an integer; a value of 0 disables the size check
+								and means that there is no limit on the size of images that may be
+								registered by users. Changing the value will not invalidate
+								previously registered images. For upgraded installations, the
+								maximum size is set to '0' if the previous version of Eucalyptus did
+								not include this property (pre-3.4.0) so the admin must explicitly
+								set a limit if one is desired.</p></entry>
 					</row>
 				</tbody>
 			</tgroup>
