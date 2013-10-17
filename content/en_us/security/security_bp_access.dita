@@ -41,22 +41,18 @@
         credentials for this account.</p>
     </section>
     <section>
-      <title>Credential management</title>
+      <title>Credential Management</title>
       <p>Only create users and credentials for the interfaces that you will
         actually use. For example, if you're only going to use an account
-        through the admin console, do not create credentials for the SOAP and
+        through the Administration Console or the User Console, do not create credentials for the SOAP and
         Query interfaces.</p>
-      <p>Using <codeph>euca_conf --get-credentials</codeph> or downloading
-        credentials through the admin console creates a new set of SOAP API
-        credentials. Remove unnecessary credentials from the cloud after using
-        these methods, or use <codeph>euare-useraddkey</codeph> and
-          <codeph>euare-usercreatecert</codeph> instead.</p>
-      <p>When rotating credentials, it is possible to deactivate existing access
-        keys, secret keys, and SOAP credentials, so that requests made using
-        these credentials are no longer accepted. This can be performed using
-        the Admin Console, or using <codeph>euare-usermodkey</codeph> and
-          <codeph>euare-usermodcert</codeph>. These credentials are stored in
-        the Eucalyptus database and can be reactivated if necessary.</p>
+    	<p>Using <codeph>euca_conf --get-credentials</codeph> or downloading credentials through the
+    		Administration Console currently creates a new set of X.509 certificates on each request.  Use <codeph>euare-useraddkey</codeph> and <codeph>euare-usercreatecert</codeph> to get a specific set of credentials whenever possible.</p>
+    	<p>When rotating credentials, there is an option to deactivate, instead of removing, existing
+    		access/secret keys and X.509 certificates. Requests made using deactivated credentials will no
+    		longer be accepted, but the credentials will  remain in the Eucalyptus database and can be
+    		restored if needed. You can deactive credentials using the Administration Console, or using
+    		<codeph>euare-usermodkey</codeph> and <codeph>euare-usermodcert</codeph>.</p>
     </section>
 
   </conbody>
