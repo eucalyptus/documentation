@@ -86,10 +86,115 @@
 							there is no virtual network created, "euca_conf --configure-vmware" will
 							error out. Workaround: see linked bug.</entry>
 					</row>
+					<row>
+						<entry>Eucalyptus keeps the previous IPs in VNET_PUBLICIPS even after the
+							field is modified and CC cleanrestarted. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3856"
+								>EUCA-3856</xref>)</entry>
+						<entry>When using VMware Broker with direct connection to ESXi machine - if
+							there is no virtual network created, "euca_conf --configure-vmware" will
+							error out. Workaround: restart the cloud controller.</entry>
+					</row>
+					<row>
+						<entry>Adding nodes to vmware config requires service restart, cluster to
+							become unavailable. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-1806"
+								>EUCA-1806</xref>)</entry>
+						<entry>When uploading a new vmware config to the CLC, the update is not
+							pulled by the Broker until it is restarted. As a consequence of the
+							Broker restart the Cluster Controller becomes unavailable. Adding or
+							removing nodes from the config should not cause a service
+							interruption.</entry>
+					</row>
+					<row>
+						<entry>Registering image after euca-bundle-instance differs for vmware.
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7847"
+								>EUCA-7847</xref>)</entry>
+						<entry>Name of the manifest file on vmware differs from other virtualization
+							types. Please check content of the backet used for bundling to find out
+							correct manifest name. Generally it should be backet/prefix.manifest.xml
+							for instances started from linux paravirtualized images and
+							backet/prefix.raw.manifest.xml for instances started from all other
+							images. For example: <p>
+								<ul>
+									<li>&lt;bundle_name>/&lt;prefix>.manifest.xml for
+										paravirtualized instances</li>
+									<li>&lt;bundle_name>/&lt;prefix>.raw.manifest.xml for all other
+										instances</li>
+								</ul>
+							</p></entry>
+					</row>
+					<row>
+						<entry>Cannot add unit in create custom metric dialog in user console (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7919"
+								>EUCA-7919</xref>)</entry>
+						<entry>Workaround: use the euwatch command line tools to add a custom
+							metric.</entry>
+					</row>
+					<row>
+						<entry>Volume attachments fail with EBS backed guests using ephemeral disks
+							post stop/start (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7460"
+								>EUCA-7640</xref>)</entry>
+						<entry>Workaround: see linked bug.</entry>
+					</row>
+					<row>
+						<entry>Instance profiles don't work with IAM roles that have an IAM auto
+							scaling policy (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7874"
+								>EUCA-7847</xref>)</entry>
+						<entry>Workaround: see linked bug.</entry>
+					</row>
+					<row>
+						<entry>Search by owner on images landing page does not filter correctly
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7792"
+								>EUCA-7792</xref>)</entry>
+						<entry>When using the "Owner: me " filter, the search returns an empty page.
+						</entry>
+					</row>
+					<row>
+						<entry>euca_imager does not honour cacheDirectoryLimitMb property (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6531"
+								>EUCA-6531</xref>)</entry>
+						<entry>The cacheDirectoryLimitMb property does not work on VMware even after
+							adding it to the config and euca_imager left cache directory with all
+							files after image creation.</entry>
+					</row>
+					<row>
+						<entry>Instance profiles don't support roles with IAM S3 policies (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7863"
+								>EUCA-7863</xref>)</entry>
+						<entry>See linked bug for details.</entry>
+					</row>
+					<row>
+						<entry>Maximum image size for euca-register has been increased from 10GB to
+							30GB (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/DOC-1011"
+								>DOC-1011</xref>)</entry>
+						<entry>The maximum size for an image has been increased from 10GB to 30GB by
+							default. Administrators who want to change this default (for example, to
+							enforce the same 10GB limitation as EC2) can change this value by using
+							the following command: <p>
+								<codeph>euca-modify-property -p cloud.images.maximagesizegb=&lt;max
+									size in gigabytes&gt;</codeph>
+							</p>
+							<p> The value must be an integer; a value of 0 disables the size check
+								and means that there is no limit on the size of images that may be
+								registered by users. Changing the value will not invalidate
+								previously registered images. For upgraded installations, the
+								maximum size is set to '0' if the previous version of Eucalyptus did
+								not include this property (pre-3.4.0) so the admin must explicitly
+								set a limit if one is desired.</p></entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
-		<p><b>Outstanding known issues from the previous release:</b></p>
+		<p><b>Outstanding known issues from previous releases:</b></p>
 		<table>
 			<tgroup cols="2">
 				<thead>
