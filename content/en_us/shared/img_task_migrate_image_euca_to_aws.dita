@@ -2,31 +2,13 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="hg_task_migrate_image_aws_to_euca">
-    <title>Migrate an Image from Eucalyptus to AWS</title>
-	<shortdesc>To migrate an image from Eucalyptus to AWS, perform the following steps. THIS IS A VERY
-		ROUGH DRAFT.</shortdesc>
+	<title>Migrate an Image from Eucalyptus to AWS</title>
+	<shortdesc>To migrate an image from Eucalyptus to AWS, perform the following steps. </shortdesc>
 	<taskbody>
-		<context>
-		
-		</context>
+		<context><note>These are high-level guidelines for moving an instance from Eucalyptus to
+				AWS. Specific examples will vary depending on the distro running on the
+				image.</note></context>
 		<steps>
-			<step>
-				<cmd>Set up Euca2ools for Eucalyptus</cmd>
-			</step>
-			<step>
-				<cmd>Choose an image.</cmd>
-				<info>
-					<codeblock>euca-describe-images 
-IMAGE	emi-066A3C47	centos-builder-v2.0/centos-builder-x86_64.manifest.xml	597588406457	deregistered	public	x86_64	machine	eki-492634B3	eri-F3443527		instance-store		
-IMAGE	emi-19E2430C	597588406457/Base_6GB_EBS_Image	597588406457	available	public	x86_64	machine				ebs		
-IMAGE	emi-1A6338AE	centos-build-v2.0.8/initramfs-2.6.32-279.22.1.el6.x86_64.manifest.xml	597588406457	available	public	x86_64	machine	eki-D1D8324B	eri-64D631DB		instance-store		
-IMAGE	emi-203C3B37	precise-gold/precise-server-cloudimg-amd64.img.manifest.xml	597588406457	available	public	x86_64	machine	eki-B0343ACD	instance-store
-.
-.
-.</codeblock>
-				</info>
-				
-			</step>
 			<step>
 				<cmd>Run an instance from the image you chose.</cmd>
 				<info>
@@ -34,52 +16,48 @@ IMAGE	emi-203C3B37	precise-gold/precise-server-cloudimg-amd64.img.manifest.xml	5
 				</info>
 			</step>
 			<step>
-				<cmd>SSH into the instance and verify that the instance is valid for use with AWS.</cmd>
-				<info>
-					<codeblock>ssh </codeblock>
-					<p>??? What substeps do we need to check for a Euca-to-AWS image???</p>
-				</info>
-				<!--<substeps>
+				<cmd>SSH into the instance and verify that the instance is valid for use with
+					AWS:</cmd>
+
+				<substeps>
 					<substep>
-						<cmd>Make sure <codeph>-\-check-dependencies</codeph> exits with 0 if all dependencies
-							necessary for the executable's operation are present and 1 otherwise</cmd>
+						<cmd>Download the latest ec2-modules from <xref
+								href="http://s3.amazonaws.com/ec2-downloads"/> and put them into the
+								<codeph>/lib/modules</codeph> directory on the instance.</cmd>
 					</substep>
 					<substep>
-						<cmd>Make sure that a path to a mounted Linux image exits with 1 if the check could be
-							invoked and did not pass (if check passed, or could not be invoked, or the image is not a Linux image, the validator is to exit with 0)</cmd>
-						
+						<cmd> Copy the AWS EC2 certificate and private key from the AWS instance to
+							your local workstation. </cmd>
 					</substep>
 					<substep>
-						<cmd>Make sure that all parameters are passed via command-line arguments, not environment variables
-						</cmd>
+						<cmd> Shut down unneeded services on the AWS instance (for example, Apache
+							and MySQL). </cmd>
 					</substep>
 					<substep>
-						<cmd>Make sure that all input paths/files and output paths/files are specified as
-							parameters (that is, there are no unspecified files or directories left after the validator exits)</cmd>
+						<cmd> Clear out log files and bash history files. </cmd>
 					</substep>
-					<substep><cmd>Check /etc/fstab and remove any non-standard drives or partitions (input:
-						block-device mapping) and any reference to Xen device names</cmd></substep>
-					
-					<substep><cmd>Make sure that the acpiphp module is available</cmd></substep>
-					<substep><cmd>Make sure that udev net persistent</cmd></substep>
-					<substep><cmd>ensure SSHD will run</cmd></substep>
-					<substep><cmd>ensure cloud-init will run</cmd></substep>
-					<substep><cmd>ensure special system directories are not populated (places like proc, sysfs, devpts, debugfs, udevfs, cgroup, tmpfs, etc., which should not have real files in them)</cmd></substep>
-					<substep><cmd>ensure that not more than one Ethernet device is configured</cmd></substep>
-					
-				</substeps>-->
+					<substep>
+						<cmd> Remove your ssh keys from the instance. </cmd>
+					</substep>
+					<substep>
+						<cmd> Reset passwords for the instance, and for any services that maintain
+							their own password database. </cmd>
+					</substep>
+					<substep>
+						<cmd> Clear out any temporary directories. </cmd>
+					</substep>
+				</substeps>
 			</step>
 			<step>
 				<cmd>Install Euca2ools on the instance.</cmd>
 				<info>
-					<codeblock></codeblock>
+					<codeblock/>
 				</info>
 			</step>
 			<step>
-				<cmd>Mount a volume 1.5 as large as the entire instance</cmd>
-				<info>
-					<codeblock>df </codeblock>
-				</info>
+				<cmd>Mount a volume that is at least 1.5 times as large as the entire
+					instance.</cmd>
+
 			</step>
 			<step>
 				<cmd>Bundle the running instance.</cmd>
