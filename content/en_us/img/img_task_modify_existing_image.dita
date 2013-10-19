@@ -14,6 +14,9 @@
                 <cmd>Log on to an existing Eucalyptus EBS-backed instance and customize the
                     instance.</cmd>
             </step>
+            <step>
+                <cmd>Prepare the image. See <xref id="hg_task_prepare_image">Prepare an Image for Eucalyptus</xref> for instructions.</cmd>
+            </step>
             
             <step>
                 <cmd>Create a new image based on the image you just modified by using the
@@ -26,18 +29,28 @@
                     <p> This command will show the ID of the new machine image and exit immediately.
                         In the background, Eucalyptus will begin the process of creating a new image
                         based on the instance you supplied.</p>
-                    <p>You can monitor the status of the image
-                        using the euca-describe-images command, supplying the ID of the image
-                        returned from the euca-create-image command. For example: </p>
-                    <codeph>Specific euca-describe-images command and output goes here.</codeph>
-                    <p>When the image status is listed
-                        as "available" your new image will be ready for use.</p>
+                    <p>You can monitor the status of the image using the euca-describe-images
+                        command, supplying the ID of the image returned from the euca-create-image
+                        command. For example: </p>
+                    <codeph>euca-describe-images i-e12398ab</codeph>
+                    <p>When the image status is listed as "available", your new image will be ready
+                        to bundle and upload.</p>
                 </info>
             </step>
             <step>
-                <cmd>Bundle and upload the image.</cmd>
+                <cmd>Bundle and upload the image. For example:</cmd>
                 <info>
-                    <p>Specific example TBD [CAN BE ADAPTED FROM EXISTING DOCS].</p>
+                    <codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-upload-bundle -b example_rf_bucket -m /tmp/fedora.10.x86-64.img.manifest.xml
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml
+IMAGE	 emi-XXXXXXXX
+                    </codeblock>
                 </info>
             </step>
             

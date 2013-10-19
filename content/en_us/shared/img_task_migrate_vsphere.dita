@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="hg_task_migrate_vsphere">
+    <title>Migrate an Image from vSphere to Eucalyptus</title>
+    <shortdesc>To migrate a disk in VMSDK format from vSphere to Eucalyptus, perform the following
+        steps.</shortdesc>
+    <taskbody>
+        <context/>
+
+        <steps>
+            <step>
+                <cmd>Download the Eucalyptus Image Tools from github:</cmd>
+                <info>
+                    <codeblock>yum install python-pip git
+pip-python install -U psphere
+git clone https://github.com/eucalyptus/eucalyptus-image-tools.git
+cd eucalyptus-image-tools</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Download the disk image from vSphere, supplying your vSphere IP address, login,
+                    password, and VM name. For example: </cmd>
+                <info>
+                    <codeblock>python tools/exporters/export_vmdk.py --ip 10.111.1.133 --user your-vsphere-login --password your-vsphere-password\
+                        --vmName your-vm-name --workDir /path.to/yourworkdir
+Downloading 490 bytes
+ File saved to /path.to/yourworkdir/your-vm-name.vmdk
+Downloading 5473598976 bytes
+ File saved to /path.to/yourworkdir/your-vm-name-flat.vmdk</codeblock>
+                    <p><note>The command will fail if the VM has more than one disk or
+                        NIC.</note></p>
+                </info>
+            </step>
+            <step>
+                <cmd>Convert the VMDK into a raw disk image:</cmd>
+                <info>
+                    <codeblock>cd /path.to/yourworkdir
+sudo qemu-img convert -O raw your-vm-name.vmdk disk.raw</codeblock>
+                    <p> This command will create a raw disk image which can then be bundled, uploaded, and
+                        registered with Eucalyptus. <note importance="high"> When registering the converted disk
+                            image, you must specify the <codeph>--virtualization-type=hvm</codeph>
+                            option when running the <codeph>euca-register</codeph> command line
+                            tool.)</note>
+                    </p>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

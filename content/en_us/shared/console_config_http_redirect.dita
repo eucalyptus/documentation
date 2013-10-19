@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="console_http_redirect">
+    <title>Configure HTTP Redirect</title>
+    <shortdesc>To help direct users to the correct protocol/port the user console is running on
+        (especially when SSL is enabled), you can configure the console to listen on a
+        standard HTTP port. When the user enters a a non-SSL URL (http:// instead https://), they
+        will be automatically redirected to the proper URL.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To enable HTTP redirect: </p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Modify the <codeph>http.redirect</codeph> entry in the <codeph>[server]</codeph>
+                    section of the configuration file to <codeph>True</codeph> to enable HTTP redirect.</cmd>
+                <info>
+                    <codeblock>http.redirect=True</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>
+                    Set the <codeph>http.port</codeph> entry to 80 if running as root; otherwise set to a higher number. For example:
+                </cmd>
+                <info>
+                    <codeph>http.port=8080</codeph>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
