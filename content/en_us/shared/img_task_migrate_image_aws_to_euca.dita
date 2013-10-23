@@ -3,10 +3,10 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="hg_task_migrate_image_aws_to_euca">
 	<title>Migrate a Linux Image from AWS to Eucalyptus</title>
-	<shortdesc>To migrate an image from AWS to Eucalyptus, perform the following steps.</shortdesc>
+	<shortdesc>You can migrate an S3-backed image from AWS to Eucalyptus.</shortdesc>
 	<taskbody>
 		<context>
-			<note>This example works with an S3-backed Amazon Machine Image (AMI) that you own. For
+			<note>This topic assumes you are migrating an S3-backed Amazon Machine Image (AMI) that you own. For
 				instructions on creating an S3-backed AMI from an existing AMI, see <xref
 					href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-snapshot-s3-linux.html"
 					scope="external" format="html"
@@ -25,8 +25,7 @@
 				<info>
 					<codeblock>euca-describe-images --region us-east-1 --owner 999999999999
 IMAGE	ami-e1a1e888	999999999999/precise-test	999999999999	available	private		x86_64	machine	aki-88aa75e1			instance-store	paravirtual	xen
-	BLOCKDEVICEMAPPING	EPHEMERAL	sda2	ephemeral0
-</codeblock>
+	BLOCKDEVICEMAPPING	EPHEMERAL	sda2	ephemeral0</codeblock>
 				</info>
 			</step>
 
@@ -40,9 +39,6 @@ IMAGE	ami-e1a1e888	999999999999/precise-test	999999999999	available	private		x86
 			<step>
 				<cmd>Install Euca2ools on the instance. For instructions, see the Euca2ools
 					Guide.</cmd>
-				<info>
-					<codeblock/>
-				</info>
 			</step>
 			<step>
 				<cmd>Make sure that you have enough space on a volume to hold the bundle that we
@@ -127,20 +123,14 @@ ec2-bundle-vol complete.</codeblock>
 						</info>
 					</substep>
 					<substep>
+						
 						<cmd>Make sure that the distro repositories in the image do not point to
-							EC2-specific repositories.</cmd>
-						<info>
-							<codeblock>
-								TBD
-							</codeblock>
-						</info>
+							EC2-specific repositories.<draft-comment>TODO: Need an actual example here.</draft-comment></cmd>
+						
 					</substep>
 					<substep>
 						<cmd>Install a non-Xen kernel into the image from distro and make sure
-							VirtIO modules are added.</cmd>
-						<info>
-							<codeblock>TBD</codeblock>
-						</info>
+							VirtIO modules are added. <draft-comment>TODO: Need an actual example here.</draft-comment></cmd>
 					</substep>
 					<substep>
 						<cmd>Extract  the ramdisk  and kernel to be bundled, uploaded
