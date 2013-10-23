@@ -30,6 +30,7 @@
 					partition (either on a new disk or an existing disk) should
 					be dedicated to Walrus. The partition sizes should be
 					identical.</li>
+
 			</ul>
 			<note type="tip">Consider backing the DRBD resource with a logical
 				volume using LVM, this will make growing the backing store
@@ -160,6 +161,11 @@ include "/etc/eucalyptus/drbd.conf";</codeblock>
 					the device:</cmd>
 				<info>
 					<codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>
+					<note type="important">
+						Make sure the <filepath>/etc/fstab</filepath> file has the right filesystem format for the
+						device that DRBD will be using. If labeled incorrectly, status of DRBD will be
+						<codeph>Secondary/Secondary</codeph>.
+					</note>
 				</info>
 			</step>
 			<step>
