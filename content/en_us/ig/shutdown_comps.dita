@@ -6,35 +6,33 @@
 	<shortdesc/>
 	<taskbody id="shutdown_comps_task">
 		<context>
-			<p>To shut down Eucalyptus components:</p>
-		</context>
-		<steps>
-			<step>
-				<cmd>Terminate any running instances, as in the following
-					example:</cmd>
-				<info><codeblock>euca-terminate-instances &lt;instance01_id> &lt;instance02_id></codeblock></info>
-			</step>
-			<step>
-				<note type="tip"><p>The following is an example that scripts the
-						individual steps to shut down Eucalyptus components
-						noted in this section.</p>
-					<codeblock>for x in $( euca_conf --list-nodes | tail -n +2 | awk '{ print $1 }');
+			<note type="tip"><p>The following is an example that scripts the
+				individual steps to shut down Eucalyptus components
+				noted in this section.</p>
+				<codeblock>for x in $( euca_conf -\-list-nodes | tail -n +2 | awk '{ print $1 }');
 do ssh root@$x "service eucalyptus-nc stop"; done
-for x in $( euca_conf --list-clusters | tail -n +2 | awk '{ print $2
+for x in $( euca_conf -\-list-clusters | tail -n +2 | awk '{ print $2
 }'); do ssh root@$x "service eucalyptus-cc stop"; done
-for x in $( euca_conf --list-scs | tail -n +2 | awk '{ print $2 }');
+for x in $( euca_conf -\-list-scs | tail -n +2 | awk '{ print $2 }');
 do ssh root@$x "service eucalyptus-cloud stop"; done
-for x in $( euca_conf --list-walruses | tail -n +2 | awk '{ print $2
+for x in $( euca_conf -\-list-walruses | tail -n +2 | awk '{ print $2
 }'); do ssh root@$x "service eucalyptus-cloud stop"; done
 service eucalyptus-cloud stop</codeblock>
-					<p>If you don't have ssh keys set up, you'll have to type a
-						lot of passwords during this.</p></note>
+				<p>If you don't have ssh keys set up, you'll have to type a
+					lot of passwords during this.</p></note>
+			<p>To manually shut down Eucalyptus components:</p>
+		</context>
+		<steps>
+			
+			<step>
+				
 				<cmd>Log in to an NC host and shut down the NC service.</cmd>
 				<info><codeblock>service eucalyptus-nc stop</codeblock>
+					<note type="important">Running instances on the NC will continue running.</note>
 					<p>Repeat for each machine hosting an NC.</p>
 				</info>
-
 			</step>
+			
 			<step>
 				<cmd>Log in to a CC host and shut down the CC service.</cmd>
 				<info><codeblock>service eucalyptus-cc stop</codeblock>
