@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_bridge_ubuntu">
+	<title>Ubuntu</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To configure a bridge on Ubuntu 10.04 LTS (Lucid) or 12.04 LTS
+				(Precise):</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Enter the following command:</cmd>
+				<info>
+					<codeblock>apt-get install bridge-utils</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Modify the <filepath>/etc/network/interfaces</filepath>
+					file to match one of the following examples. If you have
+					more than one ethernet device, br0 can be associated with
+					the device of your choice. Replace lines associated with
+					that device as in these examples. You do not need to remove
+					or modify lines associated with other devices.</cmd>
+				<choices>
+					<choice>If you are using DHCP, the configuration will look
+						similar to the following example:
+						<codeblock>auto lo 
+iface lo inet loopback
+ 
+auto br0  
+iface br0 inet dhcp
+    bridge_ports eth0</codeblock>
+					</choice>
+					<choice>If you are using a static IP address, the
+						configuration will look similar to the following
+						example:
+						<codeblock>auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static
+    address &lt;static_IP_address>
+    network &lt;network>
+    netmask &lt;netmask>
+    broadcast &lt;broadcast_IP_address>
+    gateway &lt;gateway>
+    bridge_ports eth0
+    bridge_stp off</codeblock>
+					</choice>
+				</choices>
+			</step>
+			<step>
+				<cmd>Enter the following command:</cmd>
+				<info>
+					<codeblock>service networking restart</codeblock>
+				</info>
+			</step>
+		</steps>
+
+	</taskbody>
+
+</task>

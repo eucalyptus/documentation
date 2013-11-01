@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_packages_ubuntu1004" platform="ubuntu1004">
+	<title>Upgrade Eucalyptus Packages</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To upgrade the Eucalyptus packages, perform the following
+				steps.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Enter the following command to upgrade the Eucalyptus
+					packages:</cmd>
+				<info><codeblock>apt-get dist-upgrade</codeblock></info>
+				<stepresult>
+					<p>If you have previously customized your configuration
+						files, <codeph>apt</codeph> returns a warning, and
+						installs the new configuration files with a different
+						name. This preserves your customizations. Before you
+						continue, customize and rename the new configuration
+						files.</p>
+					<note type="tip">For larger deployments, use a script to
+						upgrade the component host machines. For example:
+						<codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
+192.168.51.$host 'apt-get dist-upgrade -y $( rpm -qa | grep euca )' ; done</codeblock>
+					</note>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>Run the following command to install the required libraries
+					for the upgrade to work properly:</cmd>
+				<info>
+					<codeblock>apt-get install eucalyptus-enterprise-libs</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
+</task>

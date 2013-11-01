@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="policies_samples">
+  <title>Sample Policies</title>
+  <shortdesc>A few example use cases and associated policies.</shortdesc>
+  <conbody>
+    <p>Here are some example use cases and associated polices. You can edit
+      these polices for your use, or use them as examples of JSON syntax and
+      form.</p>
+
+    <note type="tip">For more information about JSON syntax used with AWS
+      resources, go to <xref href="http://aws.amazon.com/documentation/iam/"
+        format="html" type="external">Using AWS Identity and Access
+        Management</xref>.</note>
+
+    <section>
+      <title>Examples: Allowing Specific Actions</title>
+      <p>The following policy allows a user to only run instances and describe
+        things.</p>
+      <codeblock>{
+   "Statement":[{
+      "Effect":"Allow",
+      "Action":["ec2:*Describe*",​"ec2:*Run*"],
+      "Resource":"*",
+      }
+   ]
+   }</codeblock>
+      <p>The following policy allows a user to only list things:</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313686153864",
+      "Action": [
+        "iam:List*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+  }</codeblock>
+      <p>The following policy grants a generic basic user permission for running
+        instances and describing things.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313605116084",
+      "Action": [
+        "ec2:AllocateAddress",
+        "ec2:AssociateAddress",
+        "ec2:AttachVolume",
+        "ec2:Authorize*",
+        "ec2:CreateKeyPair",
+        "ec2:CreateSecurityGroup",
+        "ec2:CreateSnapshot",
+        "ec2:CreateVolume",
+        "ec2:DeleteKeyPair",
+        "ec2:DeleteSecurityGroup",
+        "ec2:DeleteSnapshot",
+        "ec2:DeleteVolume",
+        "ec2:Describe*",
+        "ec2:DetachVolume",
+        "ec2:DisassociateAddress",
+        "ec2:GetConsoleOutput",
+        "ec2:RunInstances",
+        "ec2:TerminateInstances"
+        "ec2:ReleaseAddress"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</codeblock>
+    </section>
+
+    <section>
+      <title>Examples: Denying Specific Actions</title>
+      <p>The following policy allows a user to do anything but delete.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Delete*"
+      ],
+      "Effect": "Deny",
+      "Resource": "*"
+    }
+  ]
+  }</codeblock>
+      <p>The following policy denies a user from creating other users.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313686153864",
+      "Action": [
+        "iam:CreateUser"
+      ],
+      "Effect": "Deny",
+      "Resource": "*"
+    }
+  ]
+}</codeblock>
+    </section>
+
+    <section>
+      <title>Examples: Specifying Time Limits</title>
+      <p>The following policy allows a user to run instances within a specific
+        time.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313453084396",
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Effect": "Allow",
+      "Resource": "*",
+      "Condition": {
+        "DateLessThanEquals": {
+          "aws:CurrentTime": "2011-08-16T00:00:00Z"
+        }
+      }
+    }
+  ]
+}</codeblock>
+      <p>The following policy blocks users from running instances at a specific
+        time.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313453084396",
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Effect": "Allow",
+      "Resource": "*",
+      "Condition": {
+        "DateLessThanEquals": {
+          "aws:CurrentTime": "2011-08-16T00:00:00Z"
+        }
+      }
+    }
+  ]
+  }</codeblock>
+      <p>The following policy keeps alive an instance for <draft-comment>60000
+          milliseconds or seconds or what?</draft-comment>.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": ["ec2:RunInstances" ],
+      "Effect": "Allow",
+      "Resource": "*",
+      "Condition": { "NumericEquals":{"ec2:KeepAlive":"60000"}}
+    }
+  ]
+  }</codeblock>
+      <p>The following policy sets an expiration date on running instances.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": ["ec2:RunInstances" ],
+      "Effect": "Allow",
+      "Resource": "*",
+      "Condition": { "DateEquals":{"ec2:ExpirationTime":"2011-08-16T00:00:00Z"}}
+    }
+  ]
+}</codeblock>
+    </section>
+
+    <section>
+      <title>Examples: Restricting Resources</title>
+      <p>The following policy allows users to only launch instances with a large
+        image type.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:ec2:::vmtype/m1.xlarge"
+    }
+  ]
+  }</codeblock>
+      <p>The following policy restricts users from launching instances with a
+        specific image ID.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Effect": "Deny",
+      "Resource": "arn:aws:ec2:::image/emi-0FFF1874"
+    }
+  ]
+  }</codeblock>
+      <p>The following policy restricts users from allocating addresses to a
+        specific elastic IP address.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Sid": "Stmt1313626078249",
+      "Action": "*",
+      "Effect": "Deny",
+      "Resource": "arn:aws:ec2:::address/192.168.10.140"
+    }
+  ]
+  }</codeblock>
+      <p>The following policy denies volume access.</p>
+      <codeblock>{
+  "Statement": [
+    {
+      "Action": [
+        "ec2:*"
+      ],
+      "Effect": "Deny",
+      "Resource": "arn:aws:ec2:::volume/*"
+    }
+  ]
+}</codeblock>
+    </section>
+
+
+
+    <!--<section>
+ 		<title></title>
+ 		<p></p>
+ 		<codeblock></codeblock>
+ 	</section>
+ 	
+ 	<section>
+ 		<title></title>
+ 		<p></p>
+ 		<codeblock></codeblock>
+ 	</section>
+ 	
+ 	<section>
+ 		<title></title>
+ 		<p></p>
+ 		<codeblock></codeblock>
+ 	</section>
+ 	
+ 	<section>
+ 		<title></title>
+ 		<p></p>
+ 		<codeblock></codeblock>
+ 	</section>-->
+
+  </conbody>
+</concept>

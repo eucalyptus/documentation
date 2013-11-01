@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euwatch-put-metric-alarm">
+	<title>euwatch-put-metric-alarm</title>
+	<shortdesc>Creates a new alarm, or updates an existing alarm.</shortdesc>
+  <refbody>
+  	<section>
+  		<title>Syntax</title>
+  		<codeblock>euwatch-put-metric-alarm <b>AlarmName</b>  --comparison-operator  <b>value</b>  --evaluation-periods  <b>value</b>
+--metric-name  <b>value</b>  --namespace  <b>value</b>  --period  <b>value</b>  --statistic 
+<b>value</b>  --threshold  <b>value</b> [--actions-enabled  <b>value</b> ] [--alarm-actions 
+<b>value</b>[,<b>value</b>...] ] [--alarm-description  <b>value</b> ] [--dimensions 
+"<b>key1=value1</b>,<b>key2=value2</b>..." ] [--ok-actions  <b>value</b>[,<b>value</b>...] ] [--unit 
+<b>value</b> ] [--insufficient-data-actions  <b>value</b>[,<b>value</b>...] ]</codeblock>
+  	</section>
+  	<section>
+  		<title>Options</title>
+  		<table>
+  			<tgroup cols="3">
+  				<colspec colwidth="25*"/>
+  				<colspec colwidth="60*"/>
+  				<colspec colwidth="15*"/>
+  				<thead>
+  					<row>
+  						<entry>Option</entry>
+  						<entry>Description</entry>
+  						<entry>Required</entry>
+  						
+  					</row>
+  				</thead>
+  				<tbody>
+  					<row>
+  						<entry><codeph><i>AlarmName</i></codeph></entry>
+  						<entry>Name of the alarm. You can also set this value using <codeph>--alarm-name</codeph>.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--actions-enabled <i>value</i></codeph></entry>
+  						<entry>This determines if you want actions be executed when this alarm changes state.
+  							<p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--alarm-actions <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>Describes what you want to do if the alarm changes state. The value is the Amazon resource
+  							name (ARN) of the resource you want to act on. </entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--alarm-description <i>value</i></codeph></entry>
+  						<entry>Description of the alarm.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--comparison-operator <i>value</i></codeph></entry>
+  						<entry>The operator with which the comparison with threshold will be made.
+  							<p>Valid values: <codeph>GreaterThanOrEqualToThreshold</codeph> |
+  								<codeph>GreaterThanThreshold</codeph> |
+  								<codeph>LessThanThreshold</codeph> | <codeph>LessThanOrEqualToThreshold</codeph></p></entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--dimensions "<i>key1=value1</i>,<i>key2=value2</i>..."</codeph></entry>
+  						<entry>Dimensions of the metric on which to alarm.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--evaluation-periods <i>value</i></codeph></entry>
+  						<entry>Number of consecutive periods for which the value of the metric needs to
+  							be compared to threshold.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--metric-name <i>value</i></codeph></entry>
+  						<entry>The name of the metric on which to alarm.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--namespace <i>value</i></codeph></entry>
+  						<entry>Namespace of the metric on which to alarm.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--ok-actions <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+  						<entry>Describes what you want to do if the alarm goes to state <codeph>OK</codeph>. The value is the Amazon resource
+  							name (ARN) of the resource you want to act on. </entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--period <i>value</i></codeph></entry>
+  						<entry>Period of metric on which to alarm.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--statistic <i>value</i></codeph></entry>
+  						<entry>The statistic of the metric on which to alarm. 
+  							<p>Valid values: <codeph>SampleCount</codeph> | <codeph>Average</codeph> | <codeph>Sum</codeph> | <codeph>Minimum</codeph> | <codeph>Maximum</codeph></p></entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--threshold <i>value</i></codeph></entry>
+  						<entry>The threshold with which the metric value will be compared.</entry>
+  						<entry align="center">Yes</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--unit <i>value</i></codeph></entry>
+  						<entry>The unit of the metric on which to alarm.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--insufficient-data-actions <i>value1</i>,<i>value2</i>,<i>value3</i>..</codeph></entry>
+  						<entry>Describes what you want to do if the alarm goes to state  <codeph>INSUFFICIENT_DATA</codeph>. The value is the Amazon resource
+  							name (ARN) of the resource you want to act on. </entry>
+  						<entry align="center">No</entry>
+  					</row>
+  				</tbody>
+  			</tgroup>
+  		</table>
+  	</section>
+  	
+  	<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>
+  	<section>
+  		<title>Output</title>
+  		<p>Eucalyptus does not return a response.</p>
+  	</section>
+  	
+  	<section>
+  		<title>Example</title>
+  		<p>The following example creates an alarm, test-alarm, that add a message to a topic when
+  			the CPU
+  			utilization of an instance exceeds 90% for three consecutive one minute periods.</p>
+  		<codeblock>euwatch-put-metric-alarm --alarm-name test-alarm --alarm-description "some desc"
+ --metric-name CPUUtilization --namespace AWS/EC2 --statistic Average  --period 60 --threshold
+ 90 --comparison-operator GreaterThanThreshold  --dimensions AutoScalingGroupName=dev01
+ --evaluation-periods 3  --unit Percent --alarm-actions 
+ arn:aws:autoscaling::scalingPolicy:45e9ed16-9462-4905-b9d4-ff99fecc0d43
+ :autoScalingGroupName/dev01:policyName/cap01-add</codeblock>
+  	</section>
+  	
+  </refbody>
+</reference>

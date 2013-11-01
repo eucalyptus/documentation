@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="access_create_acct">
+
+	<title>Account Creation</title>
+	<shortdesc>This topic describes the process for creating an account.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>Eucalyptus account creation</keyword>
+				<keyword>create account Eucalyputs</keyword>
+				<indexterm>account <indexterm>create</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<conbody>
+		<p>You can create accounts two ways:</p>
+		<ul>
+			<li>Direct creation using command line tool or Eucalyptus dashboard by sys admin. The accounts
+				created in this method will be available for accessing immediately.</li>
+			<li>Registration process. One can apply for an account through the dashboard. The process is
+				as follows: <ol>
+					<li>The cloud user registers using the form on the dashboard interface.</li>
+					<li>An email will then be sent to the sys admin for review. Sys admin can approve or
+						reject the application by invoking a URL included in the email. A notification email
+						will be sent to the intended account owner.</li>
+					<li>If the application is approved, the account owner needs to invoke the URL included in
+						the notification email to confirm the approval.</li>
+					<li>Once confirmed, the new account becomes available.</li>
+				</ol>
+			</li>
+
+		</ul>
+
+
+		<p>The account registration status can be found in Eucalyptus Administrator Console. The account
+			registration status is actually associated with the account admin user. That means you can use
+			the following command to obtain the same information:</p>
+
+		<codeblock>euare-usergetattributes --as-account account -u admin --show-extra</codeblock>
+		<p>Where the <codeph>--show-extra</codeph> option displays extra information of a user in the
+			following order:</p>
+		<ul>
+			<li>Enabled status</li>
+			<li>Registration status</li>
+			<li>Password expires</li>
+		</ul>
+
+		<p>The account registration status has the following values based on the status of registration
+			process: <codeph>REGISTERED</codeph>, <codeph>APPROVED</codeph>, or
+			<codeph>CONFIRMED</codeph>. An account that is not confirmed cannot be used or accessed. The
+			system administrator can manipulate the account registration status in both dashboard and
+			command line:</p>
+
+		<codeblock>euare-usermod --as-account account -u admin --reg-status=status</codeblock>
+		<p>The command line manipulation of the registration status does not send the notification
+			emails. Unless you are experienced, we recommend that you use the Eucalyptus Administrator
+			Console.</p>
+	</conbody>
+
+	<!--<related-links>
+		<link></link>
+	</related-links>-->
+</concept>

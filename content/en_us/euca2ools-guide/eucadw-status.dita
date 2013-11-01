@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="eucadw-status">
+	<title>eucadw-status</title>
+	<shortdesc>Checks for a connection to the data warehouse and for available
+		data stored in the data warehouse.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>eucadw-status -p <b>password</b></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>-p, <i>password</i></codeph></entry>
+							<entry>Administrator password you configured in the
+								data warehouse installation.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Common Options</title>
+			<p>None.</p>
+		</section>
+
+		<section>
+			<title>Output</title>
+			<p>Eucalyptus returns the connection status.</p>
+		</section>
+		<section>
+			<title>Examples</title>
+			<p>The following example shows a successful connection.</p>
+			<codeblock>eucadw-status -p mypassword
+Connected to database: localhost:8777/reporting as eucalyptus
+Data present from 2012-05-27 22:25:01 to 2012-09-24 22:58:01</codeblock>
+			<p>The following example shows an unsuccessful connection.</p>
+			<codeblock>eucadw-status -p mypassword
+Database access failed with the following details.
+SQLState  : 3D000
+Error Code: 0
+FATAL: database "blah" does not exist</codeblock>
+		</section>
+	</refbody>
+</reference>

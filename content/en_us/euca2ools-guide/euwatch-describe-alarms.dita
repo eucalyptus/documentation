@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euwatch-describe-alarms">
+	<title>euwatch-describe-alarms</title>
+	<shortdesc>Returns information about the specified alarm(s).</shortdesc>
+  <refbody>
+  	<section>
+  		<title>Syntax</title>
+  		<codeblock>euwatch-describe-alarms [<b>AlarmNames</b> [<b>AlarmNames</b> ...] ] [--action-prefix  <b>value</b> ]
+[--alarm-name-prefix  <b>value</b> ] [--state-value  <b>value</b> ]</codeblock>
+  	</section>
+  	<section>
+  		<title>Options</title>
+  		<table>
+  			<tgroup cols="3">
+  				<colspec colwidth="25*"/>
+  				<colspec colwidth="60*"/>
+  				<colspec colwidth="15*"/>
+  				<thead>
+  					<row>
+  						<entry>Option</entry>
+  						<entry>Description</entry>
+  						<entry>Required</entry>
+  						
+  					</row>
+  				</thead>
+  				<tbody>
+  					<row>
+  						<entry><codeph>AlarmNames</codeph></entry>
+  						<entry>Names of the alarms. You can also set this value using <codeph>--alarm-name</codeph>.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--action-prefix <i>value</i></codeph></entry>
+  						<entry>Prefix of action names.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--alarm-name-prefix <i>value</i></codeph></entry>
+  						<entry>Prefix of alarm names.</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>--state-value <i>value</i></codeph></entry>
+  						<entry>State of Alarm. 
+  							<p>Valid values: <codeph>OK</codeph> | <codeph>ALARM</codeph> | <codeph>INSUFFICIENT_DATA</codeph></p>
+  						</entry>
+  						<entry align="center">No</entry>
+  					</row>
+  				</tbody>
+  			</tgroup>
+  		</table>
+  	</section>
+  	
+  	<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options_desc"/>
+  	<section>
+  		<title>Output</title>
+  		<p>This command returns a table that contains the following information:</p>
+  		<ul>
+  			<li>ALARM: Alarm name.</li>
+  			<li>DESCRIPTION: Alarm description. This column appears only in the
+  			<codeph>--show-long</codeph> view.</li>
+  			<li>STATE: Alarm state.</li>
+  			<li>STATE_REASON: Human readable reason for state. This column appears only
+  			in the <codeph>--show-long</codeph> view.</li>
+  			<li>STATE_REASON_DATA: Machine readable reason for state (JSON format). This
+  			column appears only in the <codeph>--show-long</codeph> view.</li>
+  			<li>ENABLED: Actions enabled or not. This column appears only in the
+  			<codeph>--show-long</codeph> view.</li>
+  			<li>OK_ACTIONS: Action to execute on OK status. This column appears only in
+  			the <codeph>--show-long</codeph> view.</li>
+  			<li>ALARM_ACTIONS: Action to execute on ALARM status.</li>
+  			<li>INSUFFICIENT_DATA_ACTIONS: Action to execute on INSUFFICIENT_DATA status. This column appears
+  			only in the <codeph>--show-long</codeph> view.</li>
+  			<li>NAMESPACE: Namespace for metric.</li>
+  			<li>METRIC_NAME: Metric name.</li>
+  			<li>DIMENSIONS: Dimensions. This column appears only in the <codeph>--show-long</codeph> view.</li>
+  			<li>PERIOD: Period.</li>
+  			<li>STATISTIC: Statistic.</li>
+  			<li>UNIT: Unit. This column appears only in the <codeph>--show-long</codeph> view.</li>
+  			<li>EVAL_PERIODS: Number of periods for which metric will be evaluated.</li>
+  			<li>COMPARISON: Comparison operator.</li>
+  			<li>THRESHOLD: Threshold.</li>
+  		</ul>
+  	</section>
+  	
+  	<section>
+  		<title>Examples</title>
+  		<p>The following example describes all of your alarms whose name starts with
+  			<codeph>my-alm</codeph>.</p>
+  		<codeblock>euwatch-describe-alarms --alarm-name-prefix my-alm --headers</codeblock>
+  		
+  		<p>The following is an example of output for this command.</p>
+  		<codeblock>ALARM  STATE ALARM_ACTIONS      NAMESPACE  METRIC_NAME    PERIOD  STATISTIC  EVAL_PERIODS  COMPARISON   THRESHOLD
+my-alm1  OK  arn:aws:autoscaling:.. AWS/EC2  CPUUtilization 60      Average    3   GreaterThanThreshold  100.0
+my-alm2  OK  arn:aws:autoscaling:.. AWS/EC2  CPUUtilization 60      Average    5   GreaterThanThreshold  80.0</codeblock>
+  	</section>
+  	
+  </refbody>
+</reference>

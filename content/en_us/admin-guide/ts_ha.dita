@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ts_ha">
+	<title>High Availability</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>troubleshooting <indexterm>high availability
+					</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<conbody>
+		<p>In the event that incorrect keys for a secondary CLC are used,
+			Eucalyptus behaves as if that CLC no longer exists. The current
+			primary CLC continues to operate as expected. In order to bring back
+			the secondary CLC, perform the following tasks.</p>
+		<ol>
+			<li>Stop the secondary CLC.
+				<codeblock>service eucalyptus-cloud stop</codeblock></li>
+			<li>On the secondary CLC, delete all files from
+					<filepath>/var/lib/eucalyptus/db</filepath>.</li>
+			<li>On the secondary CLC, delete all .pem and vtunpass files from
+					<filepath>var/lib/eucalyptus/keys</filepath>.</li>
+			<li>Start the secondary CLC.
+				<codeblock>service eucalyptus-cloud start</codeblock></li>
+			<li>Re-register the secondary CLC with the primary CLC.
+				<codeblock>/usr/sbin/euca_conf --register-cloud --partition eucalyptus 
+--host [Secondary_CLC_IP] --component [CLC_Name]</codeblock></li>
+		</ol>
+
+	</conbody>
+</concept>

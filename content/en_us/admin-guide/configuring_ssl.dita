@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="configuring_ssl">
+	<title>Configure SSL</title>
+	<shortdesc>In order to connect to Eucalyptus using SSL, you must have a valid
+		certificate for the Cloud Controller (CLC). You must also be running
+		the Cloud Controller and Cluster Controller (CC) on separate
+		machines.</shortdesc>
+	<conbody>
+
+		<section>
+			<title>Create a keystore</title>
+			<p>Eucalyptus uses a PKCS12-format keystore. If you are using a
+				certificate signed by a trusted root CA, use the following
+				command to convert your trusted certificate and key into an
+				appropriate format:</p>
+			<codeblock>openssl pkcs12 -export -in [YOURCERT.crt] -inkey [YOURKEY.key] \
+ -out tmp.p12 -name [key_alias]</codeblock>
+			<p>Note: this command will request an export password, which is used
+				in the following steps.</p>
+			<p>Save a backup of the Eucalyptus keystore, at
+					<filepath>/var/lib/eucalyptus/keys/euca.p12</filepath>, and
+				then import your keystore into the Eucalyptus keystore as
+				follows:</p>
+			<codeblock>keytool -importkeystore \ 
+-srckeystore tmp.p12 -srcstoretype pkcs12 -srcstorepass [export_password] \ 
+-destkeystore /var/lib/eucalyptus/keys/euca.p12 -deststoretype pkcs12 \ 
+-deststorepass eucalyptus -alias [key_alias] \ 
+-srckeypass [export_password] -destkeypass [export_password]</codeblock>
+		</section>
+
+		<section>
+			<title>Enable the Cloud Controller to use this keystore</title>
+			<p>Run the following commands on the Cloud Controller (CLC):</p>
+			<codeblock>euca-modify-property -p bootstrap.webservices.ssl.server_alias=[key_alias]
+euca-modify-property -p \ bootstrap.webservices.ssl.server_password=[export_password]</codeblock>
+			<p>Restart the CLC by running <codeph>service eucalyptus-cloud
+					restart</codeph> or <codeph>/etc/init.d/eucalyptus-cloud
+					restart</codeph></p>
+		</section>
+
+		<section>
+			<title>Optional: Configure the Cloud Controller and Walrus to
+				redirect requests on port 443 to port 8773</title>
+			<p>The Cloud Controller and Walrus listen for both SSL and non-SSL
+				connections on port 8773. If you have other tools that expect to
+				speak SSL on port 443, you should forward requests on that port
+				to port 8773. For example, the following iptables command can be
+				used:</p>
+			<codeblock>iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8773</codeblock>
+		</section>
+
+	</conbody>
+</concept>

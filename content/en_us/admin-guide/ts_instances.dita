@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ts_intances">
+	<title>Instances</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>troubleshooting <indexterm>instances </indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<conbody>
+		<dl>
+			<dlentry>
+				<dt>Inaccurate IP addresses display in the output of euca-describe-addresses.</dt>
+				<dd>
+					<p>This can occur if you add IPs from the wrong subnet into your public IP pool,
+						do a restart on the CC, swap out the wrong ones for the right ones, and
+						do another restart on the CC. To resolve this issue, run the following
+						commands.</p>
+					<note importance="high">A restart should only be performed when no instances are running, or
+						when instance service interruption can be tolerated. A restart causes the CC
+						to reset its networking configuration, regardless of whether or not it is in
+						use. A restart of a CC in Managed and Managed (NoVLAN) modes that is
+						managing active VMs can cause a temporary loss of network connectivity until
+						the CC relearns the network topology and rebuilds the IP table
+						entries.</note>
+					<codeblock>/etc/init.d/eucalyptus-cloud stop
+/etc/init.d/eucalyptus-cc stop
+iptables -F
+/etc/init.d/eucalyptus-cc restart
+/etc/init.d/eucalyptus-cloud start</codeblock>
+				</dd>
+			</dlentry>
+			<dlentry>
+				<dt>NC does not recalculate disk size correctly</dt>
+				<dd>
+					<p> This can occur when trying to add extra disk space for instance ephemeral
+						storage. To resolve this, you need to delete the instance cache and restart
+						the NC. </p>
+					<p>For example: </p>
+					<codeblock>rm -rf /var/lib/eucalyptus/instances/* 
+service eucalyptus-nc restart                				</codeblock>
+				</dd>
+			</dlentry>
+		</dl>
+	</conbody>
+</concept>

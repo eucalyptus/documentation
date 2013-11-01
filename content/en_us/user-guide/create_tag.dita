@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_tage">
+    <title>Add a Tag</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>Use the <apiname>euca-create-tags</apiname> command to add a tag to a resource. </p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command and parameters:</cmd>
+                <info>
+                    <codeblock>euca-create-tags [resource_id] --tag [tag_key]=[tag_value]</codeblock>
+                </info>
+                <stepresult>Eucalyptus returns a the resource identifier and its tag key and value.</stepresult>
+            </step>
+           
+        </steps>
+        <example>
+            <p>The following example shows how to add a tag to an EMI. This tag key is <codeph>dataserver</codeph>
+                and has no value.</p>
+                <codeblock>euca-create-tags emi-1A2B3C4D --tag dataserver 
+TAG  emi-1a2b3c4d  image  dataserver</codeblock>
+            <p>The following example shows how to add the same two tags to both an EMI and an instance.
+                One tag key is dataserver, which has no value, an empty string. The other tag key is stack,
+                which has a value of <codeph>Production</codeph>.</p>
+            <codeblock>euca-create-tags emi-1A2B3C4D i-6F5D4E3A --tag dataserver --tag stack=Production
+TAG  emi-1A2B3C4D  image  dataserver
+TAG  emi-1A2B3C4D  image  stack  Production
+TAG  i-6F5D4E3A  image  dataserver
+TAG  i-6F5D4E3A  image  stack  Production</codeblock>
+
+        </example>
+    </taskbody>
+</task>

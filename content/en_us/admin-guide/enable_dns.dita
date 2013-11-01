@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="enable_dns">
+	<title>Enable DNS</title>
+	<shortdesc>To enable DNS perform the steps listed in this topic.</shortdesc>
+	<taskbody>
+		<context>
+			<p>Because most Linux distributions have "dnsmasq" or "bind" or
+				another DNS server running on the same physical host as the CLC,
+				DNS in Eucalyptus is disabled by default. You can enable DNS
+				after disabling or re-configuring any other services that listen
+				on port 53. </p>
+
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the CLC.</cmd>
+			</step>
+			<step>
+				<cmd>Open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file and the change value of <codeph>DISABLE_DNS</codeph> to
+						<codeph>N</codeph>.</cmd>
+				<info>
+					<codeblock>DISABLE_DNS=N </codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Restart the CLC.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud restart</codeblock>
+				</info>
+			</step>
+		</steps>
+		<result>Eucalyptus DNS server is now enabled. <note type="tip">To verify
+				that the DNS service is running, run <codeph>netstat
+					-al</codeph> and look for <codeph>53</codeph>. Port 53
+				should be bound by the process
+				<codeph>eucalyptus-cloud</codeph>.</note></result>
+	</taskbody>
+</task>

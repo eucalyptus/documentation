@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configuring_static_mode">
+	<title>Static Mode</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>Static mode requires you to specify the network configuration
+				each VM should receive from the Eucalyptus DHCP server running
+				on the same physical server as the CC component. Configure each
+				CC to use an Ethernet device that lies within the same broadcast
+				domain as all of its NCs.</p>
+			<p>To configure for Static mode:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the CLC and open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file.</cmd>
+			</step>
+			<step>
+				<cmd>Navigate to the following lines, uncomment, and enter IP
+					address information:</cmd>
+				<info>
+					<codeblock>VNET_MODE="STATIC"
+VNET_SUBNET="&lt;your subnet>173.205.188.0"
+VNET_NETMASK="255.255.255.0"
+VNET_BROADCAST="173.205.188.255"
+VNET_ROUTER="&lt;your_subnet_router_ip>"
+VNET_DNS="&lt;your_ dnx_ip>"
+VNET_MACMAP="AA:DD:11:CE:FF:ED=173.205.188.133
+AA:DD:11:CE:FF:EE=173.205.188.134 AA:DD:11:CE:FF:EF=173.205.188.135"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Uncomment and edit the following line:</cmd>
+
+				<info>
+					<codeblock>VNET_PRIVINTERFACE="&lt;ethernet_device>"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Uncomment and modify the following
+						lines:<draft-comment>???Is this self-explanatory? I
+						don't know what to what to enter for
+						VNET_DHCPUSER.</draft-comment></cmd>
+				<info>
+					<codeblock>VNET_DHCPDAEMON=&lt;path_to_DHCP_daemon> 
+VNET_DHCPUSER=&lt;DHCP_user></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Save the file.</cmd>
+			</step>
+			<!--<step>
+    			<cmd>If If the CLC and CC components are on separate machines, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file on the CC, uncomment, and edit the following line:</cmd>
+    			<info>
+    				<codeblock>VNET_CLOUDIP="&lt;ip-of-cloud-controller>"</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Save the file.</cmd>
+    		</step>
+    		<step>
+    			<cmd>If you are running multiple clusters, specify the IP address that the CC used to register with the CLC:</cmd>
+    			<info>
+    				<codeblock>VNET_LOCALIP="&lt;ip-of-cluster-controller>"</codeblock>
+    			</info>
+    		</step>
+    		<step>
+    			<cmd>Save the file.</cmd>
+    		</step>-->
+			<step>
+				<cmd>On each NC server, open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file, uncomment, and edit the following lines: </cmd>
+				<info>
+					<codeblock>VNET_BRIDGE="&lt;bridge_name>"</codeblock>
+					<p>and</p>
+					<codeblock>VNET_MODE="STATIC"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Save the file.</cmd>
+			</step>
+		</steps>
+	</taskbody>
+</task>

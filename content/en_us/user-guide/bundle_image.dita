@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="bundle_image">
+    <title>Bundle an Image</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>Use the <codeph>euca-bundle-image</codeph> command to bundle an
+                image for use with Eucalyptus (or Amazon). Bundling an image
+                splits the image into several image parts and generates an XML
+                manifest file containing metadata referencing the image. When
+                you bundle an image file, the manifest file and image files are
+                stored by default in the <codeph>$TMPDIR</codeph>. In many
+                cases, the <codeph>$TMPDIR</codeph> environmental variable is
+                defined to be <filepath>/tmp</filepath>.</p>
+            <p>To bundle an image:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command:</cmd>
+                <info>
+                    <codeblock>euca-bundle-image -i &lt;image_name></codeblock>
+                </info>
+                <choices>
+                    <choice>If necessary, <draft-comment>???When is it
+                            necessary???</draft-comment> you can specify
+                        separate credentials when bundling an image using the
+                            <codeph>-c</codeph> option for the PEM encoded
+                        certificate and <codeph>-k</codeph> option for the PEM
+                        encoded private key. For example:
+                            <codeph>euca-bundle-image -i euca-centos-5.3
+                            \x86_64/centos.5-3.x86-64.img -c cert-xyz.pem -k
+                            pk-xyz.pem</codeph>.</choice>
+                </choices>
+            </step>
+        </steps>
+        <example>
+            <p>The following example shows the bundling of a Eucalyptus-provided
+                image named euca-centos-5.3-x86_64/centos.5-3.x86-64.img. Note
+                that in the absence of a <codeph>-d</codeph> option (destination
+                directory), the bundled image parts and manifest file are saved
+                to a default $TMPDIR directory:</p>
+            <codeblock>euca-bundle-image -i euca-centos-5.3 \ 
+ 	x86_64/centos.5-3.x86-64.img 
+  Checking image
+  Tarring image
+  Encrypting image
+  Splitting image...
+  Part: centos.5-3.x86-64.img.part.0
+  Part: centos.5-3.x86-64.img.part.1
+  Part: centos.5-3.x86-64.img.part.2
+  Part: centos.5-3.x86-64.img.part.3
+  Part: centos.5-3.x86-64.img.part.4
+  Part: centos.5-3.x86-64.img.part.5
+  Part: centos.5-3.x86-64.img.part.6
+  Part: centos.5-3.x86-64.img.part.7
+  Part: centos.5-3.x86-64.img.part.8
+  Part: centos.5-3.x86-64.img.part.9
+  Part: centos.5-3.x86-64.img.part.10
+  Part: centos.5-3.x86-64.img.part.11
+  Part: centos.5-3.x86-64.img.part.12
+  Part: centos.5-3.x86-64.img.part.13
+  Part: centos.5-3.x86-64.img.part.14
+  Part: centos.5-3.x86-64.img.part.15
+  Part: centos.5-3.x86-64.img.part.16
+  Part: centos.5-3.x86-64.img.part.17
+  Part: centos.5-3.x86-64.img.part.18
+  Generating manifest</codeblock>
+        </example>
+        <postreq>You are now ready to <xref href="upload_image.dita">upload the
+                image</xref>.</postreq>
+    </taskbody>
+</task>

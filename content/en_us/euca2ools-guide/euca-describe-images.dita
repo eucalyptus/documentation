@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-describe-images">
+	<title>euca-describe-images</title>
+
+	<shortdesc>Shows information about an image you own, or an image you have been given permission
+		ot execute, or a public image owned by someone else. </shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-images  [-a][-o <b>owner</b> ][-x <b>executable_by</b> ]
+      [ image ] [[--filter "name=value"] ...]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>image</codeph></entry>
+							<entry>Image ID to describe </entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-a, --all</codeph></entry>
+							<entry>Describe all Eucalyptus machine images (EMIs)</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-o, owner <i>owner</i></codeph></entry>
+							<entry>Returns EMIs owned by the specified owner. <p>Valid values:
+										<codeph>self</codeph> | <codeph><i>Account
+									ID</i></codeph></p></entry>
+							<entry align="center">No</entry>
+
+						</row>
+						<row>
+							<entry><codeph>-x, --executable-by <i>user_id</i></codeph></entry>
+							<entry>Returns EMIs the specified user ID has launch permissions
+								for</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section>
+			<title>Available Filters</title>
+			<p>You can add filters to your request so that the response includes information for
+				only certain images. For example, you can use a filter to specify that you want to find images that use a specific kernel. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for an image only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify images that use a specific kernel and use an EBS volume as the root device. Eucalyptus responds
+					with the information for an image only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-images</apiname>:</p>
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><codeph>architecture</codeph></entry>
+							<entry>Image architecture. <p>Valid values: <codeph>i386</codeph> |
+										<codeph>x86_64</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.delete-on-termination</codeph></entry>
+							<entry>Whether the EBS volume is deleted on instance termination.
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.device-name</codeph></entry>
+							<entry>Device name (for example, /dev/sdh) for an EBS volume mapped to
+								the image.</entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.snapshot-id</codeph></entry>
+							<entry>Snapshot ID for an EBS volume mapped to the image. </entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.volume-size</codeph></entry>
+							<entry>Volume size for an EBS volume mapped to the image. </entry>
+						</row>
+						<row>
+							<entry><codeph>block-device-mapping&#8203;.volume-type</codeph></entry>
+							<entry>Volume type for an EBS volume mapped to the image. <p>Valid
+									values: <codeph>standard</codeph> |
+								<codeph>io1</codeph></p></entry>
+						</row>
+						<row>
+							<entry><codeph>description</codeph></entry>
+							<entry>Description of the EMI</entry>
+						</row>
+						<row>
+							<entry><codeph>hypervisor</codeph></entry>
+							<entry>Hypervisor type of the image. <p>Valid values:
+										<codeph>ovm</codeph> | <codeph>xen</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>image-id</codeph></entry>
+							<entry>ID of the image</entry>
+						</row>
+						<row>
+							<entry><codeph>image-type</codeph></entry>
+							<entry>Type of the image. <p>Valid values: <codeph>machine</codeph> |
+										<codeph>kernel</codeph> | <codeph>ramdisk</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>is-public</codeph></entry>
+							<entry>Whether the image is public <p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p></entry>
+						</row>
+						<row>
+							<entry><codeph>kernel-id</codeph></entry>
+							<entry>Kernel ID</entry>
+						</row>
+						<row>
+							<entry><codeph>manifest-location</codeph></entry>
+							<entry>Path to the image manifest</entry>
+						</row>
+						<row>
+							<entry><codeph>name</codeph></entry>
+							<entry>Name of the EMI</entry>
+						</row>
+						<row>
+							<entry><codeph>owner-alias</codeph></entry>
+							<entry>Account alias (for example, eucalyptus or self) </entry>
+						</row>
+						<row>
+							<entry><codeph>owner-id</codeph></entry>
+							<entry>Eucalyptus account ID of the image owner</entry>
+						</row>
+						<row>
+							<entry><codeph>platform</codeph></entry>
+							<entry>Enter <codeph>windows</codeph> if you have Windows-based EMIs.
+								Otherwise leave blank. </entry>
+						</row>
+						<row>
+							<entry><codeph>product-code</codeph></entry>
+							<entry>Product code associated with the EMI</entry>
+						</row>
+						<row>
+							<entry><codeph>ramdisk-id</codeph></entry>
+							<entry>ID of the ramdisk</entry>
+						</row>
+						<row>
+							<entry><codeph>root-device-name</codeph></entry>
+							<entry>Root device name of the EMI (for example,
+									<codeph>/dev/sda1</codeph>) </entry>
+						</row>
+						<row>
+							<entry><codeph>root-device-type</codeph></entry>
+							<entry>Root device type the EMI uses. <p>Valid Values:
+										<codeph>ebs</codeph> | <codeph>instance-store</codeph></p>
+							</entry>
+						</row>
+						<row>
+							<entry><codeph>state</codeph></entry>
+							<entry>State of the image. <p>Valid values: <codeph>available</codeph> |
+										<codeph>pending</codeph> | <codeph>failed</codeph></p>
+							</entry>
+						</row>
+						<!--<row>
+							<entry><codeph>state-reason-code</codeph></entry>
+							<entry>Reason code for the state change</entry>
+						</row>
+						<row>
+							<entry><codeph>state-reason-message</codeph></entry>
+							<entry>Message for the state change</entry>
+						</row>-->
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-key">
+							<entry/>
+						</row>
+						<row conref="../shared/shared_filters.dita#shared_filters/tag-value">
+							<entry/>
+						</row>
+							<row conref="../shared/shared_filters.dita#shared_filters/tag:key">
+								<entry/>
+						</row>
+						<!--<row>
+							<entry><codeph>virtualization-type</codeph></entry>
+							<entry>Virtualization type of the image. <p>Valid values:
+										<codeph>paravirtual</codeph> | <codeph>hvm</codeph></p>
+							</entry>
+						</row>-->
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("IMAGE")</li>
+				<li>Image ID</li>
+				<li>Manifest path</li>
+				<li>Account ID that registered the image </li>
+				<li>Image status (available, pending, failed)</li>
+				<li>Image visibility (public or private)</li>
+				<li>Product codes, if any, attached to the instance</li>
+				<li>Image architecture (i386 or x86_64)</li>
+				<li>Image type (machine, kernel, or ramdisk)</li>
+				<li>Kernel ID of the kernel (machine images only)</li>
+				<li>RAM ID associated with the image (machine images only)</li>
+				<li>Root device type (ebs or instance-store)</li>
+				<li>Virtualization type (paravirtual or hvm)</li>
+				<li>Output type identifier ("BLOCKDEVICEMAPPING") for EMIs that use one or more EBS
+					volumes</li>
+				<li>Any tags assigned to the image</li>
+				<li>Hypervisor type (xen or kvm)</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-describe-images
+IMAGE   eki-3E5B3B31
+mah-bukkit/vmlinuz-2.6.28-11-generic.manifest.xml  000000000001
+available   public      x86_64  kernel          instance-store
+IMAGE   emi-815A395B    mah-bukkit/ubuntu.9-04.x86-64.img.manifest.xml
+790547641019    available   public      x86_64  machine eki-3E5B3B31
+ eri-32B338DC    instance-store
+IMAGE   eri-32B338DC
+mah-bukkit/initrd.img-2.6.28-11-generic.manifest.xml   000000000001
+available   public      x86_64  ramdisk         instance-store</codeblock>
+		</section>
+	</refbody>
+
+</reference>

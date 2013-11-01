@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_start">
+	<title>Start Eucalyptus</title>
+	<shortdesc/>
+	<taskbody id="upgrade_start_task">
+
+		<context><note importance="required">Eucalyptus 3.4 requires version 7 of the Java Virtual Machine.
+			Make sure that your CLOUD_OPTS settings in the /etc/eucalyptus/eucalyptus.conf file
+			either do not set <codeph>--java-home</codeph>, or that <codeph>--java-home</codeph>
+			points to a version 7 JVM. This needs to happen before services are started but after
+			the upgraded packages are installed.</note> </context>
+		<steps>
+			
+			
+			<step>
+				<cmd>In the CLC, enter the following command. </cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud start</codeblock>
+				</info>
+				<stepresult>
+					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
+						will see that the process starts the database upgrade. Eucalyptus
+						returns output similar to the following example.</p>
+                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph conref="../shared/conrefs.dita#prod/prev_version"/>
+at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326904600...
+#                           UPGRADE INFORMATION
+#================================================================================
+# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
+# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
+# Upgrade keys:             false              using:
+# Upgrade configuration:    false              using:
+# Upgrade database:         true               using: upgrade_db
+# Same version:             false              using:
+# Start upgrading: db
+Upgrading your database...
+.
+.
+.
+# Done upgrading:  db
+done.
+[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
+and stderr to //var/log/eucalyptus/startup.log
+done.</codeblock>
+					<note>You might see some warnings in the output. These are a
+						known issue.</note>
+				</stepresult>
+			</step>
+
+
+			<step>
+				<cmd>Log in to the Walrus server and enter the following
+					command:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+				<stepresult>
+					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
+						will see that Eucalyptus returns output similar to the following
+						example.</p>
+                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph conref="../shared/conrefs.dita#prod/prev_version"/>
+at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905005...
+#                           UPGRADE INFORMATION
+#================================================================================
+# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
+# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
+# Upgrade keys:             false              using:
+# Upgrade configuration:    false              using:
+# Upgrade database:         true               using: upgrade_db
+# Same version:             false              using:
+# Start upgrading: db
+CLC is disabled.  Skipping DB upgrade.
+# Done upgrading:  db
+done.
+[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
+and stderr to //var/log/eucalyptus/startup.log
+done.</codeblock>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>If you are using Eucalyptus with VMware support, start the
+					VMware Broker on the CC server by running the following
+					command:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+			</step>
+			<step>
+				<cmd>Log in to the CC server and enter the following:</cmd>
+				<info>
+					<codeblock>service eucalyptus-cc start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>If you have a multi-cluster setup, repeat the previous step
+					for each cluster.</cmd>
+			</step>
+
+			<step>
+				<cmd>Repeat for each CC server.</cmd>
+			</step>
+			<step>
+				<cmd>Log in to the SC server and enter the following
+					command:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+				<stepresult>
+					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
+						will see that Eucalyptus returns output similar to the following
+						example></p>
+                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph
+                    	conref="../shared/conrefs.dita#prod/prev_version"/>
+at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905005...
+#                           UPGRADE INFORMATION
+#================================================================================
+# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
+# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
+# Upgrade keys:             false              using:
+# Upgrade configuration:    false              using:
+# Upgrade database:         true               using: upgrade_db
+# Same version:             false              using:
+# Start upgrading: db
+CLC is disabled.  Skipping DB upgrade.
+# Done upgrading:  db
+done.
+[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
+and stderr to //var/log/eucalyptus/startup.log
+done.</codeblock>
+				</stepresult>
+			</step>
+			<step>
+				<cmd>Log in to an NC server and enter the following
+					command:</cmd>
+				<info>
+					<codeblock>service eucalyptus-nc start</codeblock>
+				</info>
+
+			</step>
+			<step>
+				<cmd>Repeat for each NC server.</cmd>
+			</step>
+		</steps>
+		<postreq>You are now ready to <xref href="upgrade_verify.dita"/>.</postreq>
+	</taskbody>
+</task>

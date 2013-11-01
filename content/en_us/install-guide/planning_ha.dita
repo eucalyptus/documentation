@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="planning_ha">
+	<title>High Availability Support</title>
+	<shortdesc>Eucalyptus includes the ability to run redundant, hot-swappable
+		instances for the CLC, Walrus, CC, SC, and VMware Broker components.
+		In a high availability (HA) configuration, a failure of any single
+		component will not cause the system to halt. </shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>system requirements <indexterm>high
+						availability</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+
+	<conbody>
+		<p>If your network
+			configuration includes redundant networking hardware and routing
+			paths, HA Eucalyptus can then tolerate a network component failure
+			(for example, the loss of a networking switch) without halting.</p>
+		<p>The deployment choices for HA Eucalyptus are similar to a regular
+			Eucalyptus deployment, with the following additional
+			considerations:</p>
+		<ul>
+			<li>You must host redundant Eucalyptus software components on
+				separate hardware components in order to be able to tolerate a
+				hardware failure. If, for example, you install redundant CLCs on
+				the same machine and the machine crashes, both CLCs will become
+				inoperable. </li>
+			<li>The redundant components occur in pairs, one primary, the other
+				secondary. These components must be able to communicate with
+				each other through the network to which they are both attached
+				while they are running. For example, both CLC components in an
+				HA installation must be able to exchange messages. If you use a
+				firewall to separate them, one will not detect a failure of the
+				other and a hot failover will not occur. This ability for pairs
+				of components to communicate is required for the CLC, Walrus,
+				CC, SC, and the VMware Broker for HA to operate properly.</li>
+		</ul>
+
+		<p>The following images shows a single cluster deployment with the
+			component pairs at the cloud and cluster level. The NCs are not
+			redundant.</p>
+		<image href="../shared/images/euca-arch-ha-one-cluster.png"/>
+		<p>Note that the same considerations for a regular Eucalyptus deployment
+			with respect to networking mode and components placement apply to HA
+			Eucalyptus in addition to the need for redundant component pairs to
+			be able to communicate. Note also that the NC components are
+			deployed redundantly in an HA Eucalyptus deployment. If a machine
+			running an NC fails, Eucalyptus will continue to be available for
+			user requests. However, instances running on that specific NC will
+			be lost.</p>
+
+		<note type="restriction">The installation and configuration sections
+			will note instructions specific to HA deployment by the HA
+			icon.</note>
+
+	</conbody>
+</concept>

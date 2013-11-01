@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="registering_arbitrator">
+	<title>Register Arbitrators</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>arbitrator <indexterm>registering</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+
+	<taskbody>
+		<context>
+			<note type="warning">This task is only for high availability (HA)
+				installations. Do not register an arbitrator if you do not have
+				an HA environment. If you do, you will not be able to access
+				your cloud.</note>
+			<p>Eucalyptus uses a periodic ICMP echo test to an Arbitrator. This
+				test approximates an end user's ability to access the system. If
+				Eucalyptus determines that it cannot reach the host associated
+				with a registered Arbitrator, all Eucalyptus services operating
+				on that host attempt to failover to the alternate hosts running
+				those services. </p>
+			<note type="restriction">In HA, you can register each Arbitrator
+				service on the primary and secondary CLC and Walrus. If you are
+				using either Managed or Managed (No VLAN) mode, you can also
+				register Arbitrator services on both the primary CC and the
+				secondary CC.</note>
+			<p>We recommend that you register more than one Arbitrator for each
+				Eucalyptus component. This will allow for normal outages and
+				maintenance. There is no limit on the number of Arbitrators on a
+				CLC and a Walrus. You can only register up to three on a CC. </p>
+			<p>Register an Arbitrator service on each host that has a cloud
+				component (CLC or Walrus) installed. An Arbitrator is a
+				host-wide component: when an Arbitrator is registered on a host,
+				it is registered with all cloud components enabled on that host.
+				A separate arbitrator has to be registered per each network
+				entity that needs to be monitored from the host.</p>
+			<!--	<draft-comment>I'd like to reword this previous paragraph. We strongly recommend that in
+        		HA, each component on its own host.</draft-comment>-->
+			<p>To register an Arbitrator:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Log in to the primary CLC.</cmd>
+			</step>
+			<step>
+				<cmd>Enter the following command to register an
+					arbitrator:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca_conf --register-arbitrator --partition [ID]
+ --component [ID] --host [target_IP]></codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>[ID]</codeph> is a globally unique ID that
+							identifies an Arbitrator. Note that you must use the
+							same [ID] as both a partition and component ID.</li>
+						<li><codeph>[target_IP]</codeph> is the IP of the
+							machine running the Eucalyptus component that will
+							run the Arbitrator.</li>
+					</ul>
+				</info>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>euca_conf --register-arbitrator --partition EXAMPLE_ARB --component EXAMPLE_ARB --host 192.168.1.10</codeblock>
+				</stepxmp>
+
+			</step>
+			<step>
+				<cmd>Repeat for the secondary CLC and for both Walrus
+					servers.</cmd>
+			</step>
+			<step>
+				<cmd>Define the gateway for each Arbitrator:</cmd>
+				<info>
+					<codeblock>/usr/sbin/euca-modify-property -p &lt;ID>.arbitrator.gatewayhost=&lt;gateway></codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>&lt;ID></codeph> is the globally unique ID
+							of the registered Arbitrator.</li>
+						<li><codeph>&lt;gateway></codeph> is an external
+							hostname or IP address used to approximate
+							connectivity to the end user.</li>
+					</ul>
+				</info>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>euca-modify-property -p EXAMPLE_ARB.arbitrator.gatewayhost=192.168.1.1</codeblock>
+				</stepxmp>
+			</step>
+			<step>
+				<cmd>Repeat for each registered Arbitrator.</cmd>
+			</step>
+			<step>
+				<cmd>To register on each CC, log in to the primary CC, and open
+					the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file.</cmd>
+			</step>
+			<step>
+				<cmd>Provide a list of Arbitrators (up to three) as values for
+					the <codeph>CC_ARBITRATORS</codeph> property. For
+					example:</cmd>
+				<info>
+					<codeblock>CC_ARBITRATORS="192.168.48.11 192.168.48.12"</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Save the file and restart the CC.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cc restart </codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Repeat on the secondary CC.</cmd>
+			</step>
+		</steps>
+		<example>
+			<p>In the following example, the primary CLC is on &lt;CLC_host_p>,
+				the secondary CLC is on &lt;CLC_host_s>, the primary Walrus is
+				on &lt;Walrus_host_p>, and the secondary Walrus is on
+					&lt;Walrus_host_s>.<draft-comment>Change example to actual
+					hostname or IP address, once that issue is cleared
+					up.</draft-comment></p>
+			<codeblock>/usr/sbin/euca_conf --register-arbitrator --host &lt;CLC_host_p> --component ARB00 --partition ARB00
+/usr/sbin/euca_conf --register-arbitrator --host &lt;CLC_host_p> --component ARB01 --partition ARB01
+/usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_p> --component ARB02 --partition ARB02
+/usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_p> --component ARB03 --partition ARB03
+/usr/sbin/euca_conf --register-arbitrator --host &lt;CLC_host_s> --component ARB04 --partition ARB04
+/usr/sbin/euca_conf --register-arbitrator --host &lt;CLC_host_s> --component ARB05 --partition ARB05
+/usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_s> --component ARB06 --partition ARB06
+/usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_s> --component ARB07 --partition ARB07</codeblock>
+		</example>
+	</taskbody>
+</task>

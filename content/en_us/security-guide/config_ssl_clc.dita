@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="config_ssl_clc">
+    <title>Configure SSL for the CLC</title>
+    <shortdesc>This topic details tasks to configure SSL for the CLC.</shortdesc>
+    <taskbody>
+        <context>
+           
+        </context>
+    </taskbody>
+	<task id="config_ssl_clc_keystore">
+		<title>Create a Keystore</title>
+		<taskbody>
+			<context>
+					<p>Eucalyptus uses a PKCS12-format keystore. If you are using a
+						certificate signed by a trusted root CA, perform the following steps.</p>
+
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command to convert your trusted certificate and key into an
+						appropriate format:</cmd>
+					<info>
+						<codeblock>openssl pkcs12 -export -in [YOURCERT.crt] -inkey [YOURKEY.key] \
+ -out tmp.p12 -name [key_alias]</codeblock>
+					</info>
+					<stepresult>This command will request an export password, which is used
+						in the following steps.</stepresult>
+				</step>
+				<step>
+					<cmd>Save a backup of the Eucalyptus keystore, at
+						<filepath>/var/lib/eucalyptus/keys/euca.p12</filepath>.</cmd>
+				</step>
+				<step>
+					<cmd>Import your keystore into the Eucalyptus keystore</cmd>
+					<info>
+						<codeblock>keytool -importkeystore \ 
+-srckeystore tmp.p12 -srcstoretype pkcs12 -srcstorepass [export_password] \ 
+-destkeystore /var/lib/eucalyptus/keys/euca.p12 -deststoretype pkcs12 \ 
+-deststorepass eucalyptus -alias [key_alias] \ 
+-srckeypass [export_password] -destkeypass [export_password]</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="config-ssl_clc_enable">
+		<title>Enable the CLC to Use the Keystore</title>
+		<taskbody>
+			<context>To enable the CLC to use the keystore, perform the following steps.</context>
+			<steps>
+				<step>
+					<cmd>Enter the following commands on the CLC:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p bootstrap.webservices.ssl.server_alias=[key_alias]
+euca-modify-property -p \ bootstrap.webservices.ssl.server_password=[export_password]</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Restart the CLC by running <codeph>service eucalyptus-cloud
+						restart</codeph> or <codeph>/etc/init.d/eucalyptus-cloud
+							restart</codeph>.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="config_ssl_clc_redirect">
+		<title>Optional: Redirect Requests</title>
+		<taskbody>
+			<context>
+				<p>The CLC and Walrus listen for both SSL and non-SSL
+				connections on port 8773. If you have other tools that expect to
+				speak SSL on port 443, you should forward requests on that port
+				to port 8773. For example, the following iptables command can be
+				used:</p>
+				<codeblock>iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8773</codeblock>
+			</context>
+		</taskbody>
+	</task>
+</task>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="autoscaling_examples_basic_config">
+    <title>Creating a Basic Auto Scaling Configuration</title>
+    <shortdesc>Auto scaling requires two basic elements to function properly: a launch configuration
+        and an Auto Scaling group. The following examples show how to set up the basic elements of
+        an Auto Scaling configuraton. </shortdesc>
+    <taskbody/>
+    <task id="autoscaling_basic_config_launch_config">
+        <title>Create a Launch Configuration</title>
+        <shortdesc>The launch configuration specifies the parameters that Auto Scaling will use when
+            launching new instances for your Auto Scaling group. In this example, we will create a
+            launch configuration with the minimum required parameters - in this case, we set up a
+            launch configuration that specifies that all instances launched in the Auto Scaling
+            group will be of instance type <codeph>m1.small</codeph> and use the
+                <codeph>emi-00123456</codeph> image.</shortdesc>
+        <taskbody>
+            <context>
+                <p> To create a launch configuration:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Enter the following command:</cmd>
+                    <info>
+                        <codeph>euscale-create-launch-config MyLaunchConfig --image-id emi-00123456
+                            --instance-type m1.small </codeph>
+                    </info>
+                </step>
+                <step>
+                    <cmd>To verify the launch configuration, enter the following command:</cmd>
+                    <info>
+                        <codeph>euscale-describe-launch-configs MyLaunchConfig</codeph>
+                    </info>
+                    <info>
+                        <p>You should see output similar to the following:</p>
+                        <codeblock>LAUNCH-CONFIG	MyLaunchConfig	emi-00123456	m1.small</codeblock>
+                    </info>
+                </step>
+            </steps>
+            <result>You've now created a launch configuration..</result>
+            <postreq/>
+        </taskbody>
+    </task>
+    <task id="autoscaling_basic_config_create_scaling_group">
+        <title>Create an Auto Scaling Group</title>
+        <shortdesc>The Auto Scaling group contains settings like the minimum, maximum, and desired
+            number of Eucalyptus instances. At minimum, you must specify the name of the Auto
+            Scaling group, the name of an existing launch configuration, the availability zone, and
+            the minimum and maximum number of instances that should be running. In the following
+            example, we will create an Auto Scaling group called MyScalingGroup in availability zone
+            PARTI00, with a minimum size of 2 and a maximum size of 5.</shortdesc>
+        <taskbody>
+            <context>To create an Auto Scaling group:</context>
+            <steps>
+                <step>
+                    <cmd>Enter the following command:</cmd>
+                    <info>
+                        <codeph>euscale-create-auto-scaling-group MyScalingGroup
+                            --launch-configuration MyLaunchConfig --availability-zones PARTI00
+                            --min-size 2 --max-size 5</codeph>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Enter the following command to verify the Auto Scaling group you just
+                        created:</cmd>
+                    <info>
+                        <codeph>euscale-describe-auto-scaling-groups MyScalingGroup</codeph>
+                    </info>
+                    <info>
+                        <p>This command will return output similar to the following:</p>
+                        <codeblock>AUTO-SCALING-GROUP	MyScalingGroup	MyLaunchConfig	PARTI00		2	5	2	Default
+INSTANCE	i-1B853EC3	PARTI00	InService	Healthy	MyLaunchConfig
+INSTANCE	i-ABC53ED7	PARTI00	InService	Healthy	MyLaunchConfig</codeblock>
+                    </info>
+                </step>
+            </steps>
+            <result>Once you've created the Auto Scaling group, Auto Scaling will launch the
+                appropriate number of instances.</result>
+            <postreq/>
+        </taskbody>
+    </task>
+    
+</task>

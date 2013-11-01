@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="bundle_win_image">
+	<title>Bundle a Windows Instance</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>image tasks <indexterm>bundle Windows instance
+					</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p>The euca-bundle-instance command lets you bundle a new Windows
+				image from a running Windows instance directly to Walrus
+				storage. Using euca-bundle-instance is an efficient way to
+				generate modified Windows VMs. You can spin up a Windows VM
+				instance from an existing Windows VM image, modify it as needed,
+				then save the modified image to Walrus storage, where it is
+				immediately available for registering and running with the
+				modifications already in place. </p>
+			<p>To bundle a Windows instance:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Enter the following command, supplying a bucket name, an instance ID, and the appropriate
+					architecture (<codeph>x86_64</codeph> or <codeph>i386</codeph>):</cmd>
+				<info>
+					<codeblock>euca-bundle-instance -b &lt;bucket_name> -r &lt;architecture>-p
+&lt;prefix_starting_with_windows> -o $EC2_ACCESS_KEY -w
+$EC2_SECRET_KEY &lt;instance_ID></codeblock>
+					<note type="tip">You can query the progress of a bundling
+						tasks using the
+							<cmdname>euca-describe-bundle-task</cmdname>
+						command. You can cancel the active bundle task using
+							<cmdname>euca-cancel-bundle-task</cmdname>
+						command.</note>
+				</info>
+			</step>
+		</steps>
+		<example>
+			<p>The following example bundles and registers a new Windows image
+				from an existing Windows instance with ID
+					<codeph>i-12c4af6a</codeph>, to the bucket
+					<codeph>mybucket</codeph>, with image prefix
+					<codeph>windows2003_bundle</codeph>:</p>
+			<codeblock>euca-bundle-instance -b mybucket -p windows2003_bundle -o $EC2_ACCESS_KEY -w $EC2_SECRET_KEY  i-12c4af6a
+
+euca-register -n windows2008 mybucket/windows2003_bundle.manifest.xml </codeblock>
+		</example>
+
+	</taskbody>
+
+</task>

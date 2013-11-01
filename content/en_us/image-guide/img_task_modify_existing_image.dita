@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="img_task_modify_existing_image">
+    <title>Create a New Linux Image from an Existing Image</title>
+    <shortdesc>A common way to create a new image is to customize an existing image.</shortdesc>
+    <taskbody>
+        <context>
+            <p>This example shows how to create a new EBS-backed Eucalyptus image
+                based on an existing EBS-backed Eucalyptus instance.</p>
+        </context>
+        <steps>
+            
+            <step>
+                <cmd>Log on to an existing Eucalyptus EBS-backed instance and customize the
+                    instance.</cmd>
+            </step>
+            <step>
+                <cmd>Prepare the image. See <xref keyref="prepare_img"/> for instructions.</cmd>
+            </step>
+            
+            <step>
+                <cmd>Create a new image based on the image you just modified by using the
+                    eucalyptus-create-image command, specifying a name, a description, and the
+                    instance ID of the Eucalyptus instance you customized in the previous step. For
+                    example:</cmd>
+                <info>
+                    <codeph>euca-create-image -name "mynewimage" -d "This is my new custom recycled
+                        image" -i i-1ABCDEFF</codeph>
+                    <p> This command will show the ID of the new machine image and exit immediately.
+                        In the background, Eucalyptus will begin the process of creating a new image
+                        based on the instance you supplied.</p>
+                    <p>You can monitor the status of the image using the euca-describe-images
+                        command, supplying the ID of the image returned from the euca-create-image
+                        command. For example: </p>
+                    <codeph>euca-describe-images i-e12398ab</codeph>
+                    <p>When the image status is listed as "available", your new image will be ready
+                        to bundle and upload.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Bundle and upload the image. For example:</cmd>
+                <info>
+                    <codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-upload-bundle -b example_rf_bucket -m /tmp/fedora.10.x86-64.img.manifest.xml
+...
+Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
+
+euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml
+IMAGE	 emi-XXXXXXXX
+                    </codeblock>
+                </info>
+            </step>
+            
+        </steps>
+    </taskbody>
+</task>

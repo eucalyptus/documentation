@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="monitoring_alarms_tasks">
+ <title>Create an Alarm</title>
+ <shortdesc></shortdesc>
+ <taskbody>
+ 	<context>You can create a CloudWatch alarm using a resource's metric, and then add an action using
+ 		the action’s dedicated Amazon Resource Name (ARN). You can add the action to any alarm state.
+ 	<note type="important">Eucalyptus currently only supports actions for executing Auto Scaling
+ 		policies.</note>
+ 		<p>To create an alarm, perform the following step.</p>
+ 	</context>
+ 	
+ 	<steps>
+ 		<step>
+ 			<cmd>Enter the following command:</cmd>
+ 			<info>
+ 				<codeblock>euwatch-put-metric-alarm [alarm_name] --namespace "AWS/EC2" 
+-- dimensions "InstanceId=[instance_id]" --statistic [statistic] --metric-name	
+[metric] --comparison-operator	[operator]	--threshold	[value]	--period	
+[seconds] --evaluation-periods	[value] -- alarm-actions [action]</codeblock>
+ 			</info>
+ 			<stepxmp>For example, the following triggers an Auto Scaling policy if the average CPUUtilization is less than 10 percent over a 24 hour period.
+ 				<codeblock>euwatch-put-metric-alarm test-Alarm --namespace	"AWS/EC2" -- dimensions
+"InstanceId=i-abc123" --statistic Average --metric-name	CPUUtilization 
+--comparison-operator	LessThanThreshold	--threshold	10	--period	86400 
+--evaluation-periods	4 -- alarm-actions arn:aws:autoscaling::429942273585:scalingPolicy:
+12ad560b-58b2-4051-a6d3-80e53b674de4:autoScalingGroupName/testgroup01:
+policyName/testgroup01-pol01</codeblock></stepxmp>
+ 		</step>
+ 	</steps>
+ 	
+ </taskbody>
+	<!-- Not implemented at 3.3.0
+		<task id="monitoring_alarms_stop">
+		<title>Create an alarm to stop an instance</title>
+		<taskbody>
+			<context>To create an alarm to stop an instance, perform the following step.</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>euwatch-put-metric-alarm [alarm_name] -\-namespace "AWS/EC2" -\- dimensions
+"InstanceId=[instance_id]" -\-statistic [statistic] -\-metric-name	[metric] 
+-\-comparison-operator	[operator]	-\-threshold	[value]	-\-period	[seconds] 
+-\-evaluation-periods	[value] -\- alarm-actions arn:aws:automate::ec2:stop</codeblock>
+					</info>
+					<stepxmp>For example, the following shows how to stop an instance if the average CPUUtilization is less than 10 percent over a 24 hour period.
+						<codeblock>euwatch-put-metric-alarm test-Alarm -\-namespace	"AWS/EC2" -\- dimensions
+"InstanceId=i-abc123" -\-statistic Average -\-metric-name	CPUUtilization 
+-\-comparison-operator	LessThanThreshold	-\-threshold	10	-\-period	86400 
+-\-evaluation-periods	4 -\- alarm-actions arn:aws:automate::ec2:stop</codeblock></stepxmp>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="monitoring_alarms_terminate">
+		<title>Create an alarm to terminate an instance</title>
+		<taskbody>
+			<context>To create an alarm to terminate an instance, perform the following step.</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command:</cmd>
+					<info>
+						<codeblock>euwatch-put-metric-alarm [alarm_name] -\-namespace	"AWS/EC2"	-\- dimensions
+"InstanceId=i-[instance_id]" -\-statistic [statistic] -\-metric-name	[metric]	
+-\-comparison-operator	[operator] -\-threshold	[value]	-\-period	[seconds] 
+-\-evaluation-periods	[value] -\-alarm-actions arn:aws:automate::ec2:terminate</codeblock>
+					</info>
+					<stepxmp>For example, the following shows how to terminate an instance if the average CPUUtilization is less than 10 percent over a 24 hour period.
+						<codeblock>euwatch-put-metric-alarm my-Alarm -\-namespace	"AWS/EC2"	-\- dimensions 
+"InstanceId=i-abc123" -\-statistic Average -\-metric- name	CPUUtilization 
+-\-comparison-operator	GreaterThanThreshold  -\-threshold	10	-\-period	86400 
+-\-evaluation-periods	4 -\-alarm-actions arn:aws:automate::ec2:terminate</codeblock></stepxmp>
+				</step>
+			</steps>
+		</taskbody>
+	</task>-->
+</task>

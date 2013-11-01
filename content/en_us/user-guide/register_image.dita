@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="register_image">
+	<title>Register an Image</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>After bundling and uploading an image, the final task in adding
+				an image is to register the image with Eucalyptus.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Enter the following command to register the image:</cmd>
+				<info>
+					<codeblock>euca-register &lt;bucket_name>/&lt;manifest_filename></codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Make the image publically available. The default permission
+					for an image is private. To make the image public:</cmd>
+				<info>
+					<codeblock>euca-modify-image-attribute &lt;image_filename> --launch-permission --add all</codeblock>
+				</info>
+			</step>
+		</steps>
+		<example>
+			<p>Enter the euca-register command followed by the path name to the
+				bucket containing the image you want to register. The following
+				example shows the registering of the bundled image referenced by
+				the manifest file centos.5-3.x86-64.img.manifest.xml that has
+				been uploaded to the bucket “mybucket” (note output showing the
+				newly registered image file emi-216211A7):</p>
+			<codeblock>euca-register mybucket/centos.5-3.x86-64.img.manifest.xml
+IMAGE	emi-216211A7</codeblock>
+			<p>The following example makes the new registered image publically
+				available:</p>
+			<codeblock>euca-modify-image-attribute emi-216211A7 --launch-permission --add all</codeblock>
+		</example>
+	</taskbody>
+</task>

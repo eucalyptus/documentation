@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="metrics_instances">
+	<title>Instance Metrics and Dimensions</title>
+	<shortdesc>This section describes the instance metrics and dimensions available to CloudWatch.</shortdesc>
+ <conbody>
+ 	<section>
+ 		<title>Available Metrics for Instances</title>
+ 		<table>
+ 			<tgroup cols="3">
+ 				<thead>
+ 					<row>
+ 						<entry>Metric</entry>
+ 						<entry>Description</entry>
+ 						<entry>Unit</entry>
+ 					</row>
+ 				</thead>
+ 				<tbody>
+ 					<row>
+ 						<entry><codeph>CPUUtilization</codeph></entry>
+ 						<entry>The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application upon a selected instance.
+ 						</entry>
+ 						<entry>Percent</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>DiskReadOps</codeph></entry>
+ 						<entry>Completed read operations from all ephemeral disks available to the instance (if your instance uses EBS, see EBS Metrics.)
+ 							
+ 							This metric identifies the rate at which an application reads a disk. This can be used to determine the speed in which an application reads data from a hard disk.</entry>
+ 						<entry>Count</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>DiskWriteOps</codeph></entry>
+ 						<entry>Completed write operations to all ephemeral disks available to the instance (if your instance uses Amazon EBS, see Amazon EBS Metrics.)
+ 							
+ 							This metric identifies the rate at which an application writes to a hard disk. This can be used to determine the speed in which an application saves data to a hard disk.</entry>
+ 						<entry>Count</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>DiskReadBytes</codeph></entry>
+ 						<entry>Bytes read from all ephemeral disks available to the instance (if your instance uses Amazon EBS, see Amazon EBS Metrics.)
+ 							
+ 							This metric is used to determine the volume of the data the application reads from the hard disk of the instance. This can be used to determine the speed of the application.</entry>
+ 						<entry>Bytes</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>DiskWriteBytes</codeph></entry>
+ 						<entry>Bytes written to all ephemeral disks available to the instance (if your instance uses Amazon EBS, see Amazon EBS Metrics.)
+ 							
+ 							This metric is used to determine the volume of the data the application writes onto the hard disk of the instance. This can be used to determine the speed of the application.</entry>
+ 						<entry>Bytes</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>NetworkIn</codeph></entry>
+ 						<entry>The number of bytes received on all network interfaces by the instance. This metric identifies the volume of incoming network traffic to an application on a single instance.</entry>
+ 						<entry>Bytes</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>NetworkOut</codeph></entry>
+ 						<entry>The number of bytes sent out on all network interfaces by the instance. This metric identifies the volume of outgoing network traffic to an application on a single instance.</entry>
+ 						<entry>Bytes</entry>
+ 					</row>
+ 					<!-- Not implemented at 3.3.0
+ 						<row>
+ 						<entry><codeph>StatusCheckFailed</codeph></entry>
+ 						<entry>A combination of StatusCheckFailed_Instance and StatusCheckFailed_System that reports if either of the status checks has failed. Values for this metric are either 0 (zero) or 1 (one.) A zero indicates that the status check passed. A one indicates a status check failure.</entry>
+ 						<entry>Count</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>StatusCheckFailed_Instance</codeph></entry>
+ 						<entry>Reports whether the instance has passed the EC2 instance status check in the last 5 minutes. Values for this metric are either 0 (zero) or 1 (one.) A zero indicates that the status check passed. A one indicates a status check failure.</entry>
+ 						<entry>Count</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>StatusCheckFailed_System</codeph></entry>
+ 						<entry>Reports whether the instance has passed the EC2 system status check in the last 5 minutes. Values for this metric are either 0 (zero) or 1 (one.) A zero indicates that the status check passed. A one indicates a status check failure.</entry>
+ 						<entry>Count</entry>
+ 					</row>-->
+ 				</tbody>
+ 			</tgroup>
+ 		</table>
+ 	</section>
+ 	
+ 	<section>
+ 		<title>Available Dimensions for Instances</title>
+ 		<p>You can filter the instance data using any of the dimensions in the following table.</p>
+ 		<table>
+ 			<tgroup cols="2">
+ 				<thead>
+ 					<row>
+ 						<entry>Dimension</entry>
+ 						<entry>Description</entry>
+ 					</row>
+ 				</thead>
+ 				<tbody>
+ 					<row>
+ 						<entry><codeph>AutoScalingGroupName</codeph></entry>
+ 						<entry>This dimension filters the data you request for all instances in a specified capacity group. An <codeph>AutoScalingGroup</codeph> is a collection of instances you define if you're using the Auto Scaling service. This dimension is available only for instance metrics when the instances are in such an Auto Scaling group.</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>ImageId</codeph></entry>
+ 						<entry>This dimension filters the data you request for all instances running this Eucalyptus Machine Image (EMI).</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>InstanceId</codeph></entry>
+ 						<entry>This dimension filters the data you request for the identified instance only. This helps you pinpoint an exact instance from which to monitor data.</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>InstanceType</codeph></entry>
+ 						<entry>This dimension filters the data you request for all instances running with this specified instance type. This helps you categorize your data by the type of instance running. For example, you might compare data from an m1.small instance and an m1.large instance to determine which has the better business value for your application.</entry>
+ 					</row>
+ 				</tbody>
+ 			</tgroup>
+ 		</table>
+ 	</section>
+ </conbody>
+</concept>

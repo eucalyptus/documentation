@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_prep_ubuntu">
+	<title>Prepare the Configuration File</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>To update the distro in Ubuntu 12.04 LTS:</p>
+			<note type="important"> The steps in this section should be
+				performed on all machines with Eucalyptus installed. </note>
+		</context>
+		<steps>
+			<step props="subscribe">
+				<note type="tip">If you are a Eucalyptus subscriber, you should
+					have received a deb package file that you will need to
+					install. If you are not a Eucalyptus subscriber, skip this
+					step.</note>
+				<cmd>On all servers, copy over your deb package file and run the
+					following command:</cmd>
+				<info>
+					<codeblock>dpkg -i eucalyptus-enterprise-release_3.1-*lucid_all.deb</codeblock>
+				</info>
+			</step>
+
+			<step>
+
+				<cmd>Create a file in
+						<filepath>/etc/apt/sources.list.d</filepath> called
+						<filepath>eucalyptus.list</filepath> with the following
+					content:</cmd>
+				<info>
+					<codeblock>deb http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu lucid main</codeblock>
+				</info>
+			</step>
+
+			<step>
+
+				<cmd>On all machines that will run either Eucalyptus or
+					Euca2ools, create a file in
+						<filepath>/etc/apt/sources.list.d</filepath> called
+					euca2ools.list with the following content:</cmd>
+				<info>
+					<codeblock>deb http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu lucid main</codeblock>
+				</info>
+			</step>
+
+		</steps>
+	</taskbody>
+</task>

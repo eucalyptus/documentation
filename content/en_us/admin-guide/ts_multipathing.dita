@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ts_multipathing">
+	<title>Troubleshooting EMC VNX Multipathing</title>
+	<shortdesc>This topic is intended to help you troubleshoot EMC VNX multipathing.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>troubleshooting <indexterm>multipathing </indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<conbody>
+		<note importance="high">FEATURE PREVIEW: The multipathing feature is
+			not yet complete, and may change or be removed from future releases.
+			It is included in this release so that users can try it out and
+			provide feedback. </note>
+		<p>The Eucalyptus EMC VNX Multipathing feature requires the following
+			to function properly: </p>
+		<ul>
+			<li>Properly installed and configured Linux Device Mapper
+				Multipathing software on both the Storage Controller and Node
+				Controller hosts.</li>
+			<li>Correctly configured iSCSI path system property and related
+				STORAGE_INTERFACES parameters in the “eucalyptus.conf”
+				configuration file for both SC and NC. </li>
+		</ul>
+
+		<dl>
+			<dlentry>
+				<dt>Prerequisites for Troubleshooting Typical Multipathing
+					Failures</dt>
+				<dd>
+					<p>Before you start diagnosing the problems with
+						multipathing, make sure you set the proper logging level
+						on both SC and NC machines, so that you can get detailed
+						failure logs. To do that: </p>
+					<ul>
+						<li>Set the “cloud.euca_log_level” system property to
+							“DEBUG”</li>
+						<li>Uncomment the “LOGLEVEL=DEBUG” entry in the
+							“eucalyptus.conf” file on the NC, and then restart
+							the NC service</li>
+					</ul>
+				</dd>
+			</dlentry>
+			<dlentry>
+				<dt>General Troubleshooting Techniques for Multipathing
+					Failures</dt>
+				<dd>
+					<p> The following are general tips to help diagnose
+						multipathing problems: </p>
+					<ul>
+						<li>Make sure you turn on the DEBUG log level for both
+							SC and NC so that you can get detailed information
+							from the logs.</li>
+						<li> Eucalyptus calls some external Perl scripts to
+							perform the actual iSCSI connect/disconnect
+							operations. These scripts are: <ul>
+								<li>/usr/share/eucalyptus/connect_iscsitarget.pl</li>
+								<li>/usr/share/eucalyptus/disconnect_iscsitarget.pl</li>
+								<li>/usr/share/eucalyptus/get_iscsitarget.pl</li>
+							</ul>
+							<p>The STDERR output of these scripts is logged; you
+								can add debug code to print information to
+								STDERR to see what happens during connection or
+								disconnection operations.</p>
+						</li>
+						<li> The <cmdname>iscsiadm</cmdname> open-iscsi
+							initiator command line tool can help you get the
+							current status of all the iSCSI connections in the
+							system. For example: <p>
+								<codeph>iscsiadm -m session -P 3</codeph>
+							</p>
+						</li>
+						<li> Use the multipath command line tool to see
+							multipathing status. For example: <p>
+								<codeph>multipath -ll -v 3</codeph>
+							</p>
+						</li>
+					</ul>
+				</dd>
+			</dlentry>
+
+			<dlentry>
+				<dt>Cannot attach volumes</dt>
+				<dd>
+					<p>This can occur for a number of reasons. To diagnose this,
+						try some of the following:</p>
+					<ul>
+						<li> Make sure you can attach a volume without using
+							multipathing.</li>
+						<li>Check your SAN-related system properties to see if
+							you have set the correct values. </li>
+						<li>Use a single path for the NC; for example, set
+							“PARTITION.storage.ncpaths” to something like
+							“192.168.25.182”. If you specify an iface in your
+							path, like “iface0:192.168.25.182”, also make sure
+							you have “iface0” defined with “STORAGE_INTERFACES”
+							in “eucalyptus.conf” configuration file on the NC. </li>
+						<li> If you have no problem attaching a volume with a
+							single path, the failure may be due to the incorrect
+							state of the Linux device mapper multipathing tool.
+							Check if the “multipathd” service is running on the
+							NC hosts and if “/etc/multipath.conf” is installed
+							and configured properly (for example, copy the
+							example configuration provided by Eucalyptus).
+							Remember to set “user_friendly_names” to “yes” in
+							“/etc/multipath.conf”. You can try restarting
+							“multipathd” and/or reloading “/etc/multipath.conf”
+							if you changed it previously. Run “multipath -ll” on
+							NC host and see if it returns reasonable output
+							without any error. </li>
+						<li> Check that the “PARTITION.storage.ncpaths”
+							configuration file entries are correct. A typo can
+							cause volume attach failures. </li>
+						<li> Make sure that the networking configuration is
+							correct for the NC hosts. If you set the paths
+							without specific ifaces, check to see if you can
+							connect to each IP in the path using default network
+							interface; otherwise, check each path’s connectivity
+							using a specific network interface.</li>
+						<li>Check network connectivity with all of the
+							configured paths.</li>
+						<li> Check the “nc.log” log file for the string
+							“connect_iscsitarget”. Examine the return results,
+							especially the “stderr” output. </li>
+					</ul>
+				</dd>
+			</dlentry>
+			<dlentry>
+				<dt>Not all paths are connected</dt>
+				<dd>
+					<p> Sometimes when you run “multipath -ll” on NC hosts after
+						attaching a volume, you find that the multipath device
+						does not have all of the paths connected. In this case,
+						the problem could be due to one of the following:</p>
+					<ul>
+						<li> There is a mistake in the paths in one of the
+							“PARTITION.storage.ncpaths” entries. If one of the
+							paths specified in the system property is wrong,
+							then it is possible that the specific path can not
+							be connected. Make sure you have all the paths
+							specified correctly. </li>
+						<li> The missing paths are not valid networking paths,
+							or have networking issues. For example, when you
+							ignore the iface part of a path, are you sure that
+							the destination of the path (the IP part of the
+							path) can be connected via the default network
+							interface? Or if you specified the iface, are you
+							sure you defined the iface in the “eucalyptus.conf”
+							configuration file, and that the destination can be
+							connected with the specified network interface? </li>
+						<li> If the paths specified are all valid, but some of
+							them do not have connectivity, try to ping each of
+							the specified paths on the NC hosts to check for
+							connectivity. If there are connectivity issues,
+							contact your network administrator. </li>
+					</ul>
+				</dd>
+			</dlentry>
+			<dlentry>
+				<dt>Snapshotting failed</dt>
+				<dd>
+					<p> The Eucalyptus Storage Controller needs to attach a
+						volume on the machine it runs so it can upload to Walrus
+						during an EC2 snapshot call. To help ensure maximum
+						reliability for snapshotting, you should use
+						multipathing for the SC host; this is configured with
+						the “PARTITION.storage.scpaths” system property. When
+						multipathing is enabled for the SC, if you see a
+						snapshot failure, it may be caused by multipathing.
+						Techniques for diagnosing SC multipathing failures is
+						similar to those used for NC multipathing failures. In
+						the case of SC multipathing failures, the logs are in
+						“/var/log/eucalyptus/cloud-*.log”, not “nc.log”, since
+						the iSCSI connect scripts are invoked by Java code.</p>
+				</dd>
+			</dlentry>
+		</dl>
+	</conbody>
+</concept>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euwatch-describe-alarm-history">
+	<title>euwatch-describe-alarm-history</title>
+	<shortdesc>Provides summary information or detailed history about the specified alarm.</shortdesc>
+ <refbody>
+ 	<section>
+ 		<title>Syntax</title>
+ 		<codeblock>euwatch-describe-alarm-history [<b>AlarmName</b>] [--start-date  <b>value</b> ] 
+[--end-date  <b>value</b> ] [--history-item-type  <b>value</b> ]</codeblock>
+ 	</section>
+ 	<section>
+ 		<title>Options</title>
+ 		<table>
+ 			<tgroup cols="3">
+ 				<colspec colwidth="25*"/>
+ 				<colspec colwidth="60*"/>
+ 				<colspec colwidth="15*"/>
+ 				<thead>
+ 					<row>
+ 						<entry>Option</entry>
+ 						<entry>Description</entry>
+ 						<entry>Required</entry>
+ 						
+ 					</row>
+ 				</thead>
+ 				<tbody>
+ 					<row>
+ 						<entry><codeph>AlarmName</codeph></entry>
+ 						<entry>Names of the alarm. By default Eucalyptus returns history for all alarms.
+ 							You can also set this value using <codeph>--alarm-name</codeph>.</entry>
+ 						<entry align="center">No</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>--start-date <i>value</i></codeph></entry>
+ 						<entry>Start of date range for history. By default it extends to all available
+ 							history.</entry>
+ 						<entry align="center">No</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>--end-date <i>value</i></codeph></entry>
+ 						<entry>End of date range for history.
+ 							<p>Default: current time</p></entry>
+ 						<entry align="center">No</entry>
+ 					</row>
+ 					<row>
+ 						<entry><codeph>--history-item-type <i>value</i></codeph></entry>
+ 						<entry>Type of history items you want Eucalyptus to return. By default, Eucalyptus returns all types.
+ 							<p>Value values:</p>:<codeph> ConfigurationUpdate</codeph> | <codeph>StateUpdate</codeph> | <codeph>Action</codeph>. 
+ 							</entry>
+ 						<entry align="center">No</entry>
+ 					</row>
+ 					
+ 				</tbody>
+ 			</tgroup>
+ 		</table>
+ 	</section>
+ 	
+ 	<section
+ 		conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options_desc"/>
+ 	<section>
+ 		<title>Output</title>
+ 		<p>Eucalyptus returns a table with the following information:</p>
+ 		<ul>
+ 			<li>ALARM: Alarm name.</li>
+ 			<li>TIMESTAMP: Timestamp.</li>
+ 			<li>TYPE: Type of event, one of ConfigurationUpdate, StateUpdate and Action.</li>
+ 			<li>SUMMARY: Human readable summary of history event.</li>
+ 			<li>DATA Detailed data on event in machine readable JSON format. This column
+ 			appears only in the <codeph>--show-long</codeph> view.</li>
+ 		</ul>
+ 	</section>
+ 	
+ 	<section>
+ 		<title>Examples</title>
+ 		<p>The following example requests all history items for the alarm, <codeph>my-alarm</codeph>.</p>
+ 		<codeblock>euwatch-describe-alarm-history --alarm-name my-alarm --headers</codeblock>
+ 		<p>The following is example output.</p>
+ 		<codeblock>ALARM   TIMESTAMP                 TYPE                 SUMMARY
+my-alarm  2010-05-07T18:46:16.121Z  Action               Published a notification to arn:aws:sns:...
+my-alarm  2010-05-07T18:46:16.118Z  StateUpdate          Alarm updated from INSUFFICIENT_DATA to OK
+my-alarm  2010-05-07T18:46:07.362Z  ConfigurationUpdate  Alarm "my-alm" created</codeblock>
+ 	</section>
+ 	
+ </refbody>
+</reference>

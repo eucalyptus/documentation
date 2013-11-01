@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="filter_by_tag">
+    <title>Filter by Tag</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>You can describe your resources and filter the results based on the tags. To filter by tag:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Enter the following command and parameter:</cmd>
+            	<info>
+            		<codeblock>euca-describe-tags --filter resource-type=[resource_type]</codeblock>
+            	</info>
+            </step>
+        </steps>
+    	<example><p>The following example describes all your tags.</p>
+    		<codeblock>euca-describe-tags
+TAG  emi-1A2B3C4D  image  appserver
+TAG  emi-1A2B3C4D  image  stack  dev
+TAG  i-5F4E3D2A  instance  appserver
+TAG  i-5F4E3D2A  instance  stack  dev
+TAG  i-12345678  instance  database_server
+TAG  i-12345678  instance  stack  test</codeblock>
+    		
+    		<p>The following example describes the tags for a resource with ID emi-1A2B3C4D.</p>
+    		<codeblock>euca-describe-tags --filter "resource-id=emi-1A2B3C4D"
+TAG  emi-1A2B3C4D  image  appserver
+TAG  emi-1A2B3C4D  image  stack  dev</codeblock>
+    		
+    		<p>The following example describes the tags for all your instances.</p>
+    		<codeblock>euca-describe-tags --filter "resource-type=instance"
+TAG  i-5F4E3D2A  instance  appserver
+TAG  i-5F4E3D2A  instance  stack  dev
+TAG  i-12345678  instance  database_server
+TAG  i-12345678  instance  stack  test</codeblock></example>
+    </taskbody>
+</task>

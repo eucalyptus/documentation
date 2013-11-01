@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="rn_features_3.2.1">
+	<title>What's New?</title>
+	<shortdesc/>
+	<conbody>
+		
+		<p>Eucalyptus 3.2.1 has the following new feature:</p>
+		<ul>
+			<li>We added the ability to generate instance usage reports for VMware hypervisor. This feature is
+				supported for vCenter 5.0 and up. For more information,
+				see <xref href="https://eucalyptus.atlassian.net/browse/EUCA-4616"
+					scope="external" format="html">EUCA-4616</xref>.</li>
+		</ul>
+		<p>Eucalyptus 3.2.1 has the following changes:</p>
+
+		<ul>
+			<li>The location of the iptables-preload file has changed in 3.2.1 from
+					<filepath>/var/run/eucalyptus/net /iptables-preload</filepath> to
+					<filepath>/etc/eucalyptus/iptable-preload</filepath>. If iptables-preload exists
+				in the old location during the upgrade to 3.2.1, it will be moved from
+					<filepath>/var/run/</filepath> to <filepath>/etc</filepath>. For more
+				information, see <xref href="https://eucalyptus.atlassian.net/browse/EUCA-3693"
+					scope="external" format="html">EUCA-3693</xref> and <xref
+					href="https://eucalyptus.atlassian.net/browse/EUCA-4702" scope="external"
+					format="html">EUCA-4702</xref>.</li>
+			<li>The Cluster Controller now broadcasts a gratuitous ARP message in situations where an
+				IP address is reassigned from one machine to another (for example, after a high
+				availability Cluster Controller failure). We added a new dependency, arping, to the
+				Cluster Controller package to support this functionality. For more information, see
+					<xref href="https://eucalyptus.atlassian.net/browse/EUCA-2973" scope="external"
+					format="html">EUCA-2973</xref> and <xref
+					href="https://eucalyptus.atlassian.net/browse/EUCA-3540" scope="external"
+					format="html">EUCA-3540</xref>.</li>
+			<li>We added the following EMC VNX EBS driver enhancements: the ability to set snapshot
+				consistency point immediately at snapshot creation time; support for clone as well
+				as lun migration for snapshots; and hardening of the multipathing
+				functionality.</li>
+
+			<li>We added the ability to configure advanced options for NetApp filers (snap sched,
+				vol autosize, no_atime_update, create_ucode, convert_ucode, guarantee, try_first,
+				fractional_reserve).</li>
+			
+			
+			<!-- Add note about and link to Advanced Storage Configuration Options -->
+			
+			
+			
+		</ul>
+		<note type="important">At release 3.2.1, the Node Controller requires that users have Euca2ools
+			2.1.3 or higher. To download the latest version of Euca2ools, go to <xref
+				href="http://www.eucalyptus.com/download/euca2ools" scope="external"
+				format="html">http://www.eucalyptus.com/download/euca2ools</xref>.</note>
+
+		<note type="tip">Eucalyptus no longer provides commercial support for installations on CentOS 5,
+			RHEL 5, or Ubuntu. We test and commercially support CentOS 6 or RHEL 6 as host operating systems.
+			<!--As guest operating systems, the following are supported: [list them]. -->Because Eucalyptus
+			is open source software, it is possible that someone in the user community will prepare Eucalyptus for other operating systems.</note>
+
+
+	</conbody>
+</concept>

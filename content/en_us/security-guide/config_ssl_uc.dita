@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="config_ssl_uc">
+    <title>Configure SSL for the User Console</title>
+    <shortdesc>This topic details tasks required to configure SSL for the User Console.</shortdesc>
+    <taskbody>
+        <context>
+           
+        </context>
+        
+    </taskbody>
+<task id="config_ssl_uc_disable">
+	<title>Disable Automatic SSL Certificate Generation</title>
+	<taskbody>
+		<context>
+			<p>When the user console service is run for the first time, it will
+				generate a self-signed certificate and key which will be put into
+				<codeph>/etc/eucalyptus-console/</codeph>. If you do not want to
+				have a certificate and key generated and would like to use your own, you
+				can disable automatic generation of the certificate and key.</p>
+			<p>To disable automatic generation of the console certificate and
+				key, perform the following task.</p>
+		</context>
+		<steps-unordered>
+			<step>
+				<cmd>Add the following line to
+					<filepath>/etc/sysconfig/eucalyptus-console</filepath>:</cmd>
+				<info>
+					<codeblock>GENERATE_CERT=NO</codeblock>
+					<note type="tip">If you choose not to use the default SSL certificate
+						and key, you must provide your own. For more
+						information on generating self-signed SSL
+						certificates, go to <xref
+							href="http://www.akadia.com/services/ssh_test_certificate.html"
+							scope="external" format="html"
+							>http://www.akadia.com/services/ssh_test_certificate.html</xref>. 
+					</note>
+				</info>
+			</step>
+		</steps-unordered>
+	</taskbody>
+</task>
+	<task id="config_ssl_uc_paths">
+		<title>Configure SSL Certificate Paths</title>
+		<taskbody>
+			<context>
+				<p>If you don't use the self-signed certificate and key
+					that are provided by the User Console, you will need to provide your
+					own. </p>
+				<p>To optionally specify an SSL certificate to run your console over
+					Secure HTTP, modify the <codeph>sslcert</codeph> and
+					<codeph>sslkey</codeph> entries in the
+					<codeph>[server]</codeph> section of the configuration
+					file with paths to your SSL certificate and key files. For
+					example:</p>
+				
+				<codeblock>sslcert=/example/path/server.crt
+sslkey=/example/path/server.key</codeblock>
+				
+				<note type="tip">
+					<p> For more information on generating self-signed SSL
+						certificates, go to <xref
+							href="http://www.akadia.com/services/ssh_test_certificate.html"
+							scope="external" format="html"
+							>http://www.akadia.com/services/ssh_test_certificate.html</xref>.
+					</p>
+				</note>
+				
+			</context>
+		</taskbody>
+	</task>
+</task>

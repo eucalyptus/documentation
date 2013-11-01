@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="image_caching">
+	<title>Caching Images on the Cluster Controller</title>
+	<shortdesc>To reduce calls to Walrus, Eucalyptus provides a means for
+				images, including ramdisk and kernel images, to be cached on a
+				cluster controller (CC).</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>image tasks <indexterm>caching</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p>If this feature is enabled, when
+				Eucalyptus starts an instance, it will first look for the
+				instance image in the CC image cache location. If the image is
+				not found in the CC image cache, it will be loaded from Walrus,
+				and stored in the cache if space is available.</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Edit <filepath>/var/eucalyptus/eucalyptus.conf</filepath>
+					as follows:</cmd>
+				<substeps>
+					<substep>
+						<cmd>Uncomment the CC_IMAGE_PROXY line and specify the
+							IP of the CC host on which to cache images.</cmd>
+						<info>
+							<codeblock>
+# Set this to make the CC cache images, kernels and ramdisks.  NCs must
+# be able to reach the CC with the specified value.
+CC_IMAGE_PROXY="192.168.0.100"
+							</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Set <codeph>CC_IMAGE_PROXY_PATH</codeph> to point
+							to the location of the image cache.</cmd>
+						<info>
+							<codeblock>
+# Set this to the location where the CC image proxy should store cached
+# images.  The default is /var/lib/eucalyptus/dynserv/
+CC_IMAGE_PROXY_PATH="/disk1/storage/cc_cache"
+							</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Set <codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph> to
+							the maximum size of the image cache.</cmd>
+						<info>
+							<codeblock>
+# Set this to the maximum size (in megabytes) of the CC image proxy cache.
+# The default is 32768, or 32 gigabytes.
+CC_IMAGE_PROXY_CACHE_SIZE="32768"
+							</codeblock>
+							<note type="important">Setting
+									<codeph>CC_IMAGE_PROXY_CACHE_SIZE</codeph>
+								to <codeph>0</codeph> will cause any attempts to
+								create an instance from an uncached image to
+								remain pending indefinitely. To disable image
+								caching, comment out the
+									<codeph>CC_IMAGE_PROXY</codeph> line.</note>
+						</info>
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>Create a <codeph>data</codeph> directory at the location
+					specified in <codeph>CC_IMAGE_PROXY_PATH</codeph>, and give
+					the “eucalyptus” user full access to the directory.</cmd>
+				<info>
+					<codeblock>
+mkdir -p /disk1/storage/cc_cache/data
+chmod -R 777 /disk1/storage/cc_cache
+					</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Perform a restart of the cluster controller.</cmd>
+				<info>
+					<note type="important">A restart should only be performed when no instances are running, or
+						when instance service interruption can be tolerated. A restart causes the CC
+						to reset its networking configuration, regardless of whether or not it is in
+						use. A restart of a CC in Managed and Managed (NoVLAN) modes that is
+						managing active VMs can cause a temporary loss of network connectivity until
+						the CC relearns the network topology and rebuilds the IP table
+						entries.</note>
+					<codeblock>
+service eucalyptus-cc restart 
+					</codeblock>
+				</info>
+			</step>
+		</steps>
+	</taskbody>
+</task>

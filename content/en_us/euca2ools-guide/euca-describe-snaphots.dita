@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-describe-snapshots">
+	<title>euca-describe-snapshots</title>
+	<shortdesc>Shows information about snapshots.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-snapshots [ <b>snapshot_id</b> ] [-o, <b>owner</b> ]
+    		[-r <b>restorable_by</b> ] [-v] [[--filter "name=value"] ...]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>snapshot_id</codeph></entry>
+							<entry>Snapshot ID to describe</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+  						<entry><codeph>-o, --owner <i>owner</i></codeph></entry>
+  						<entry>Returns snapshots owned by the specified owner.
+  							Multiple owners can be specified.
+  							<p>Valid values: <codeph>self</codeph> | <codeph>account ID</codeph></p></entry>
+  						<entry align="center">No</entry>
+  					</row>
+						<row>
+  						<entry><codeph>-r, --restorable-by <i>user_id</i></codeph></entry>
+  						<entry>Account ID that can create volumes from the snapshot
+  							<p>Valid values: <codeph>self</codeph> | <codeph>all</codeph> | <codeph>account ID</codeph></p></entry>
+  						<entry align="center">No</entry>
+  						</row>
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		
+  	<section>
+  		<title>Available Filters</title>
+  		<p>You can add filters to your request so that the response includes information for
+  			only certain snapshots. For example, you can use a filter to specify that you want to find
+  			snapshots whose status is <codeph>pending</codeph>. Some tips for using filters with this
+  			command:</p>
+  		<ul>
+  			<li>You can use multiple values for a filter. Eucalyptus responds with information
+  				for a snapshot only if it matches at least one of the filter values that you
+  				specified.</li>
+  			
+  			<li>You can use multiple filters. For example, you can use a filter to specify that you want to find
+  				snapshots whose status is <codeph>pending</codeph> and have a specific tag. Eucalyptus responds
+  				with the information for a snapshot only if it matches all the filters that
+  				you specified. If there is no match, Eucalyptus returns an empty response.</li>
+  			
+  			<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+  				more characters. Use a question mark (?) to match exactly one character. To
+  				escape special characters, use a backslash (\) before the character. For
+  				example, a value of \*eucalyptus\?\\ searches for the literal string
+  				*eucalyptus?\.</li>
+  		</ul>
+  		<p>The following are the available filters for
+  			<apiname>euca-describe-snapshots</apiname>:</p>
+  		
+  		<table>
+  			<tgroup cols="2">
+  				<colspec colwidth="25*"/>
+  				<colspec colwidth="75*"/>
+
+  				<thead>
+  					<row>
+  						<entry>Filter</entry>
+  						<entry>Description</entry>
+  					</row>
+  					
+  				</thead>
+  				<tbody>
+  					<row>
+  						<entry><codeph>description</codeph></entry>
+  						<entry>Description of the snapshot
+  						</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>owner-alias</codeph></entry>
+  						<entry>Account alias (for example, eucalyptus or self) or
+  							Account ID that owns the snapshot.
+  						</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>owner-id</codeph></entry>
+  						<entry>Account ID of the snapshot owner</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>progress</codeph></entry>
+  						<entry>The progress of the snapshot, in percentage</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>snapshot-id</codeph></entry>
+  						<entry>The ID of the snapshot.</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>start-time</codeph></entry>
+  						<entry>Time stamp when the snapshot was initiated
+  						</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>status</codeph></entry>
+  						<entry>Status of the snapshost.
+  							<p>Valid values: <codeph>pending</codeph> | <codeph>completed</codeph> | <codeph>error</codeph></p>
+  						</entry>
+  					</row>
+  					<row conref="../shared/shared_filters.dita#shared_filters/tag-key">
+  						<entry/>
+  					</row>
+  					<row conref="../shared/shared_filters.dita#shared_filters/tag-value">
+  						<entry/>
+  					</row>
+  					<row conref="../shared/shared_filters.dita#shared_filters/tag:key">
+  						<entry/>
+  					</row>
+  					<row>
+  						<entry><codeph>volume-id</codeph></entry>
+  						<entry>ID of the volume the snapshot is for</entry>
+  					</row>
+  					<row>
+  						<entry><codeph>volume-size</codeph></entry>
+  						<entry>The size of the volume, in GB</entry>
+  					</row>
+  					
+  				</tbody>
+  			</tgroup>
+  		</table>
+
+  	</section>
+		<section
+			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("SNAPSHOT")</li>
+				<li>Snapshot ID</li>
+				<li>Volume ID</li>
+				<li>Snapshot state</li>
+				<li>Time stamp when snapshot initiated</li>
+				<li>Percentage of completion</li>
+				<li>Owner ID </li>
+				<li>Volume size</li>
+				<li>Description</li>
+			</ul>
+		</section>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-describe-snapshots
+SNAPSHOT    snap-5E313F37   vol-84B54112    completed
+2012-01-01T00:00:00Z    100%</codeblock>
+		</section>
+
+	</refbody>
+</reference>

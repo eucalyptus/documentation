@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="inspect_health">
+	<title>Inspect System Health</title>
+	<shortdesc>Eucalyptus provides access to the current view of service state
+				and the ability to manipulate the state. You can inspect the
+				service state to either ensure system health or to identify
+				faulty services. You can modify a service state to maintain
+				activities and apply external service placement policies. </shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>cloud tasks <indexterm>inspect system
+						health</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+
+	<taskbody>
+		<context>
+
+		</context>
+
+	</taskbody>
+	<task id="inspect_health_inspect">
+		<title>View Service State</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Use the <cmdname>euca-describe-services</cmdname> command to
+					view the service state. The output indicates:</p>
+				<ul>
+					<li>Component type of the service</li>
+					<li>Partition in which the service is registered</li>
+					<li>Unique name of the service</li>
+					<li>Current view of service state</li>
+					<li>Last reported epoch (this can be safely ignored)</li>
+					<li>Service URI</li>
+					<li>Fully qualified name of the service (This is needed for
+						manipulating services that did not get unique names
+						during registration. For example: internal services like
+						reporting or DNS)</li>
+				</ul>
+				<p>The default output includes the services that are registered
+					during configuration, as well as information about the DNS
+					service, if present. You can obtain additional service state
+					information, such as internal services, by providing the
+						<codeph>-system-internal</codeph> flag.</p>
+				<p>You can also make requests to retrieve service information
+					that is filtered by either:</p>
+				<ul>
+					<li>current state (for example,
+						<codeph>NOTREADY</codeph>)</li>
+					<li>host where service is registered</li>
+					<li>partition where service is registered</li>
+					<li>type of service (for example, CC or Walrus)</li>
+				</ul>
+				<p>When you investigate service failures, you can specify
+						<codeph>-events</codeph> to return a summary of the last
+					fault. You can retrieve extended information (primarily
+					useful for debugging) by specifying <codeph>-events
+						-events-verbose</codeph>.</p>
+			</context>
+
+		</taskbody>
+	</task>
+	<task id="inspect_health_heartbeat">
+		<title>Heartbeat Service</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p><codeph>http://CLCIPADDRESS:8773/services/Heartbeat</codeph>
+					provides a list of components and their respective statuses.
+					This allows you to find out if a service is enabled without
+					requiring cloud credentials.</p>
+			</context>
+		</taskbody>
+	</task>
+	<task id="inspect_health_mod">
+		<title>Modify Service State</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>To modify a service:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command on the CLC, Walrus, SC, or
+						VMWareBroker machines:</cmd>
+					<info>
+						<codeblock>eucalyptus-cloud stop</codeblock>
+					</info>
+					<info>
+						<p>On the CC, use the following command:</p>
+						<codeblock>eucalyptus-cc stop</codeblock>
+					</info>
+				</step>
+			</steps>
+			<example>
+				<p>If, for example, you have SCs that are correctly configured
+					and operating in HA mode. However, you want to shut down the
+					primary SC for maintenance. The primary SC is
+						<codeph>SC00</codeph> and the secondary SC is
+						<codeph>SC01</codeph>. <codeph>SC00</codeph> is
+						<codeph>ENABLED</codeph> and <codeph>SC01</codeph> is
+						<codeph>DISABLED</codeph>.</p>
+				<p>To stop <codeph>SC00</codeph> and cause <codeph>SC01</codeph>
+					to take over, you would enter the following command on
+					SC00:</p>
+				<codeblock>eucalyptus-cloud stop</codeblock>
+				<p>To check status of services, you would enter:</p>
+				<codeblock>euca-describe-services</codeblock>
+				<p>When <codeph>SC01</codeph> starts, the eucalyptus-cloud
+					process on the host that SC00 is shutdown and maintenance
+					tasks can be performed. When maintenance is complete, you
+					can start the eucalyptus-cloud process on
+						<codeph>SC00</codeph>. <codeph>SC00</codeph> will enter
+					the <codeph>DISABLED</codeph> state by default. You can
+					chose to let <codeph>SC01</codeph> continue to be the
+					primary and <codeph>SC00</codeph> will be the secondary.</p>
+				<p>If you want to designate <codeph>SC00</codeph> as the
+					primary, make sure no volumes or snapshots are being created
+					and that no volumes are being attached or detached, and then
+					enter on SC01:</p>
+				<codeblock>eucalyptus-cloud stop</codeblock>
+				<p>Monitor the state of services using
+						<codeph>euca-describe-services</codeph> until
+						<codeph>SC01</codeph> is marked
+						<codeph>DISABLED</codeph> and <codeph>SC00</codeph> is
+						<codeph>ENABLED</codeph>.</p>
+			</example>
+		</taskbody>
+	</task>
+</task>

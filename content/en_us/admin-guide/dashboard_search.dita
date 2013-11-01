@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="dashboard_search">
+	<title>Using Search</title>
+	<shortdesc>This section details the <uicontrol>Search</uicontrol> function
+		in the Eucalyptus Administrator Console.</shortdesc>
+	<conbody>
+		<p>Experienced users can use search box to get any information provided
+			by the dashboard. The basic syntax of a search is as follows:</p>
+		<codeblock>&lt;type&gt;: &lt;field1&gt;=&lt;value1&gt;,&lt;value2&gt;
+&lt;field2&gt;=&lt;value1&gt;,&lt;value2&gt;</codeblock>
+		<p>The &lt;type&gt; specifies the information type provided by the
+			Eucalyptus Administrator Console. Currently Eucalyptus supports the
+			following types:</p>
+		<table>
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry>Type Name</entry>
+						<entry>Description</entry>
+						<entry>Fields</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>start</entry>
+						<entry>Start page</entry>
+						<entry>None</entry>
+					</row>
+					<row>
+						<entry>config</entry>
+						<entry>Service components configuration</entry>
+						<entry>None</entry>
+					</row>
+					<row>
+						<entry>account</entry>
+						<entry>Accounts</entry>
+						<entry><b>name</b>, id</entry>
+					</row>
+					<row>
+						<entry>group</entry>
+						<entry>User groups</entry>
+						<entry><b>account</b>, <b>name</b>, id, <b>path</b>,
+							user</entry>
+					</row>
+					<row>
+						<entry>user</entry>
+						<entry>Users</entry>
+						<entry><b>account</b>, <b>name</b>, id, <b>path</b>,
+							enabled, registration, group, [custom keys...] <ul>
+								<li>User’s custom keys can be used as
+									fields.</li>
+								<li><userinput>group</userinput> field means the
+									user has membership in that group.</li>
+							</ul>
+						</entry>
+					</row>
+					<row>
+						<entry>policy</entry>
+						<entry>Eucalyptus policies</entry>
+						<entry><b>account</b>, <b>user</b>, <b>group</b>,
+								<varname>name</varname>, id, <b>version</b>,
+								<b>text</b></entry>
+					</row>
+					<row>
+						<entry>key</entry>
+						<entry>Access keys</entry>
+						<entry><b>account</b>, <b>user</b>, id, active,
+							user</entry>
+					</row>
+					<row>
+						<entry>cert</entry>
+						<entry>X509 certificates</entry>
+						<entry><b>account</b>, <b>user</b>, id, revoked,
+							active</entry>
+					</row>
+					<row>
+						<entry>image</entry>
+						<entry>VM images</entry>
+						<entry>None</entry>
+					</row>
+					<row>
+						<entry>vmtype</entry>
+						<entry>VM types</entry>
+						<entry>None</entry>
+					</row>
+					<row>
+						<entry>report</entry>
+						<entry>Report page</entry>
+						<entry>None</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<note>In the table, the field names in bold font means that for that
+			field, the query evaluator does a partial match for the
+			value.</note>
+		<p>The minimal search query contains the type name and a colon. For
+			example, to display the <uicontrol>Start Guide</uicontrol> page, you
+			would enter:</p>
+		<codeblock>start:</codeblock>
+
+		<p>After the colon, you enter a list of conditions, if any are accepted
+			by the type name. Each condition has a field name and a list of
+			values. The field name and values are separated by an equal sign.
+			There is no space between the field name and value. Separate values
+			with a comma, and don't include a space. Separate multiple
+			conditions with a space.</p>
+
+		<p>To evaluate the search query, all conditions must be satisfied. For
+			each condition, only one of the value for the field needs to be
+			matched. For example, to find all users in the accounts whose names
+			contain "testaccount", and whose user names contain "user1" or
+			"user2", and who are enabled, enter the following:</p>
+
+		<codeblock>user:account=testaccount name=user1,user2 enabled=true</codeblock>
+
+		<p>After entering a search query in the search box in the header area of
+			the main screen, press the <uicontrol>Enter</uicontrol> key. The
+			search result displays in the content area. The browser URL will
+			also change to reflect the search. Actually, the search query itself
+			is part of the URL (after the pound sign). For example:</p>
+		<codeblock>https://localhost:8443/#account:name=test</codeblock>
+
+		<p>In fact, you can type a search directly in the URL box of the
+			browser. But remember that the URL itself is URL encoded. This also
+			enables Eucalyptus to construct a search URL and add to any web
+			page.</p>
+	</conbody>
+</concept>

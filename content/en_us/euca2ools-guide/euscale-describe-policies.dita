@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euscale-describe-policies">
+	<title>euscale-describe-policies</title>
+	<shortdesc>Describes the specified (or all) policies.</shortdesc>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euscale-describe-policies
+[PolicyName [PolicyName...] ]
+[-g, --auto-scaling-group <b>value</b> ]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph><i>PolicyName</i>,<i>PolicyName</i>...</codeph></entry>
+							<entry>A list of one or more policies to describe.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-g, --auto-scaling-group <b>value</b></codeph></entry>
+							<entry>Show only policies for the named auto scaling group.</entry>
+							<entry align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>
+		<section>
+			<title>Output</title>
+			<p>This command returns a table that contains the name of the auto scaling group associated with
+				the policy, the name of the policy, the change value, the type of change, and the
+				ARN of the scaling policy.</p>
+		</section>
+
+		<section>
+			<title>Examples</title>
+			<p></p>
+			<codeblock>euscale-describe-policies</codeblock>
+			<p>The following shows sample output for this command.</p>
+			<codeblock>SCALING-POLICY	MyScalingGroup	MyScaleinPolicy	-2	ChangeInCapacity
+	arn:aws:autoscaling::706221218191:scalingPolicy:90356ab3-e795-4741-b058-a3499c8a6ee6
+	:autoScalingGroupName/MyScalingGroup:policyName/MyScaleinPolicy
+SCALING-POLICY	MyScalingGroup	MyScaleoutPolicy	30	PercentChangeInCapacity	
+    arn:aws:autoscaling::706221218191:scalingPolicy:5d02981b-f440-4c8f-98f2-8a620dc2b787
+    :autoScalingGroupName/MyScalingGroup:policyName/MyScaleoutPolicy</codeblock>
+		</section>
+
+	</refbody>
+</reference>

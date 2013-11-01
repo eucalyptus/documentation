@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="installing_euca_ubuntu_firewall">
+    <title>Ubuntu Local Installation</title>
+    <shortdesc>This task augments the existing installation instructions with
+        additional steps needed to install Eucalyptus from a local
+        repository.</shortdesc>
+    <taskbody>
+        <prereq>This task is not standalone; it augments the <xref
+                href="installing_euca_ubuntu.dita">existing installation
+                instructions</xref>.</prereq>
+        <context>
+            <p>To install Eucalyptus from behind a firewall on Ubuntu 10.04 and
+                12.04 LTS:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Download the Eucalyptus repository:</cmd>
+                <info>
+                    <codeblock>wget -r --no-parent --certificate /etc/pki/tls/certs/eucalyptus-enterprise.crt
+--private-key /etc/pki/tls/private/eucalyptus-enterprise.key
+http://downloads.eucalyptus.com/software/eucalyptus/3.1/ubuntu -P /root/ubuntu-packages                   </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> In step 5 of the <xref href="installing_euca_ubuntu.dita"
+                        >instructions</xref>, modify the URL to point to the
+                    local repository: </cmd>
+                <info>
+                    <codeblock>file:///root/ubuntu-packages/downloads.eucalyptus.com/software/enterprise/3.1/ubuntu                    </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> Proceed with the <xref href="installing_euca_ubuntu.dita"
+                        >existing installation instructions</xref>. </cmd>
+            </step>
+            <stepsection>Install euca2ools</stepsection>
+            <step>
+                <cmd>Download euca2ools:</cmd>
+                <info>
+                    <codeblock>wget -r --no-parent http://downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu -P /root/local-euca2ools-repo                  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>In step 2 of the <xref href="installing_euca_ubuntu.dita"
+                        >installation instructions</xref>, modify the baseurl to
+                    point to the local repository:</cmd>
+                <info>
+                    <codeblock>file:///root/local-euca2ools-repo/downloads.eucalyptus.com/software/euca2ools/2.1/ubuntu                  </codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Run apt-get update:</cmd>
+                <info>
+                    <codeblock>apt-get update</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

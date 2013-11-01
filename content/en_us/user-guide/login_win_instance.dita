@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="login_win_instance">
+	<title>Log in to a Windows Instance</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>Users log into Windows VM instances (in Eucalyptus and EC2) via a
+				Remote Desktop Protocol (RDP) client, which prompts the user for
+				a login name and password. Windows VM instances are configured
+				by default with a single user (named ‘Administrator’) and a
+				random password generated at boot time. So, before you can log
+				into a Windows VM instance via RDP, you must retrieve the random
+				password generated at boot time using the
+					<cmdname>euca-get-password</cmdname> command. </p>
+			<p>To log into a Windows instance:</p>
+		</context>
+		<steps>
+			<step>
+				<cmd>Enter the <cmdname>euca-get-password</cmdname> command
+					followed by the unique id tag of the Windows VM instance and
+					the <codeph>-k</codeph> option with the name of private key
+					file that corresponds to your credential keypair. In the
+					following example we retrieve the password for a Windows VM
+					instance with id tag i-5176095D and private key file name
+					‘mykey.private.’ Note the password for the Windows VM is
+					returned as Y4rX4Az2.</cmd>
+				<info>
+					<codeblock>euca-get-password i-5176095D -k mykey.private</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Log into the RDP client using the public (external) IP
+					address associated with the running Windows VM instance.
+					(You can view the IP addresses associated with your Windows
+					instance using the euca-describe-instances query command). </cmd>
+				<info>
+					<codeblock/>
+				</info>
+			</step>
+			<step>
+				<cmd>At the <uicontrol>Log On to Windows</uicontrol> prompt,
+					prepend the user name <uicontrol>Administrator</uicontrol>
+					to the public IP address of the instance, and enter the
+					password that you retrieved with euca-get-password, as
+					shown: </cmd>
+				<info>
+					<image href="images/win_login.png" scale="75"
+						alt="Windows login screen"/>
+				</info>
+			</step>
+		</steps>
+		<result>You are now logged in and ready to use your Windows
+			instance.</result>
+	</taskbody>
+</task>
