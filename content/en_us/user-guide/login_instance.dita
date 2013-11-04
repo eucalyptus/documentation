@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="login_instance">
+	<title>Log in to an Instance</title>
+	<task id="login_lin_instance">
+		<title>For a Linux Instance</title>
+		<shortdesc/>
+		<prolog>
+			<metadata>
+				<keywords>
+					<indexterm>Instances <indexterm>Logging in</indexterm>
+					</indexterm>
+				</keywords>
+			</metadata>
+		</prolog>
+		<taskbody>
+			<context>
+				<p>When you create an instance, Eucalyptus assigns the instance
+					two IP addresses: a public IP address and a private IP
+					address. The public IP address provides access to the
+					instance from external network sources; the private IP
+					address provides access to the instance from within the
+					Eucalyptus cloud environment. Note that the two IP addresses
+					may be the same depending on the current networking mode set
+					by the administrator. For more information on Eucalyptus
+					networking modes, see the Eucalyptus Administrator’s
+					Guide.</p>
+				<p>To use an instance you must log into it via ssh using one of
+					the IP addresses assigned to it. You can obtain the
+					instance’s IP addresses using the euca-describe-instances
+					query as shown in the following example. </p>
+				<p>To log into a VM instance:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Enter the following command to view the IP addresses of
+						your instance:</cmd>
+					<info>
+						<codeblock>euca-describe-instances</codeblock>
+					</info>
+					<stepresult>Eucalyptus returns output similar to the
+						following: <codeblock>RESERVATION	r-338206B5	alice	default
+INSTANCE	i-4DCF092C  emi-EC1410C1  192.168.7.24	  10.17.0.130 ↵ running 	alice-keypair 	0 	m1.small  2010-03-15T21:57:45.134Z</codeblock>
+						<p>Note that the public IP address appears after the
+							image name, with the private address immediately
+							following.</p></stepresult>
+				</step>
+				<step>
+					<cmd>Look for the instance ID in the second field and write
+						it down. Use this ID to manipulate and terminate this
+						instance.</cmd>
+				</step>
+				<step>
+					<note>Be sure that the security group for the instance allows SSH access. For more information,
+						see <xref href="authorize_sg.dita">Authorize Security Groups.</xref></note>
+					<cmd>Use SSH to log into the instance, using your private
+						key and the external IP address. For example:</cmd>
+					<info>
+						<codeblock>ssh -i alice-keypair.private root@192.168.7.24 </codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>You are now logged in to your Linux instance.</result>
+			<!--  Tip: When attempting to log into a VM using SSH, you may receive a warning message stating that your “Remote Host Identification Has Changed”.  	-->
+		</taskbody>
+	</task>
+	<task id="login_win_instance">
+		<title>For a Windows Instance:</title>
+		<shortdesc/>
+		<taskbody>
+			<context>
+				<p>Log into Windows VM instances using a Remote Desktop Protocol
+					(RDP) client. An RDP prompts you for a login name and
+					password. By default, Windows VM instances are configured
+					with a single user (named
+						<userinput>Administrator</userinput>) and a random
+					password generated at boot time. So, before you can log into
+					a Windows VM instance via RDP, you must retrieve the random
+					password generated at boot time using the
+						<cmdname>euca-get-password</cmdname> command. </p>
+				<p>To log into a Windows instance:</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Use <codeph>euca-describe-groups</codeph> to make sure
+						the port for remote desktop (3389) is authorized in your
+						security group. </cmd>
+					<stepresult>
+						<p>The response from this command will look like the
+							following example.</p>
+						<codeblock>GROUP	955340183797	default	default group
+PERMISSION	955340183797	default	ALLOWS	tcp	3389	3389	FROM	CIDR	0.0.0.0/0</codeblock>
+					</stepresult>
+				</step>
+				<step>
+
+					<cmd>Enter the <cmdname>euca-get-password</cmdname> command
+						followed by the unique id tag of the Windows VM instance
+						and the <codeph>-k</codeph> option with the name of
+						private key file that corresponds to your credential
+						keypair. In the following example we retrieve the
+						password for a Windows VM instance with id tag
+							<codeph>i-5176095D</codeph> and private key file
+						name <codeph>mykey.private</codeph>. </cmd>
+					<info>
+						<codeblock>euca-get-password i-5176095D -k mykey.private</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Log into the RDP client using the public (external) IP
+						address associated with the running Windows VM instance.
+						Enter the following command to view the IP addresses of
+						your instance: </cmd>
+					<info>
+						<codeblock>euca-describe-instances</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>At the <uicontrol>Log On to Windows</uicontrol> prompt,
+						prepend the user name
+							<uicontrol>Administrator</uicontrol> to the public
+						IP address of the instance, and enter the password that
+						you retrieved with <cmdname>euca-get-password</cmdname>,
+						as shown: </cmd>
+					<info>
+						<image href="images/win_login.png" scale="75"
+							alt="Windows login screen"/>
+					</info>
+				</step>
+			</steps>
+			<result>You are now logged in and ready to use your Windows
+				instance.</result>
+		</taskbody>
+	</task>
+</task>

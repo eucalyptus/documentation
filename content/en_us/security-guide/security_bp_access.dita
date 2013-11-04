@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="security_bp_access">
+  <title> Authentication and Access Control</title>
+	<shortdesc>This topic describes best practices for Identity and Access Management and the <codeph>eucalyptus</codeph>
+		account.</shortdesc>
+  <conbody>
+    <section>
+    	<title>Identity and Access Management</title>
+      <p>Eucalyptus manages access control through an authentication,
+        authorization, and accounting system. This system manages user
+        identities, enforces access controls over resources, and provides
+        reporting on resource usage as a basis for auditing and managing cloud
+        activities. The user identity organizational model and the scheme of
+        authorizations used to access resources are based on and compatible with
+        the AWS Identity and Access Management (IAM) system, with some
+        Eucalyptus extensions provided that support ease-of-use in a private
+        cloud environment.</p>
+      <p>For a general introduction to IAM in Eucalyptus, see <xref
+          href="../admin-guide/concepts_eiam.dita"/> in the Administration Guide. For information
+        about using IAM quotas to enforce limits on resource usage by users and
+        accounts in Eucalyptus, see the <xref
+          href="../admin-guide/access_policy_quota.dita"/> section in the Administration Guide.</p>
+      <p>The <xref
+          href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html"
+          scope="external" format="html">Amazon Web Services IAM Best Practices</xref> are also
+        generally applicable to Eucalyptus.</p>
+    </section>
+    <section>
+      <title>The <codeph>eucalyptus</codeph> Account</title>
+      <p>The <codeph>eucalyptus</codeph> account is the superuser/privileged
+        account in Eucalyptus. The security of your Eucalyptus cloud can be
+        compromised if this account is compromised.</p>
+      <p>A default password is created for the <codeph>eucalyptus</codeph>
+        account's <codeph>admin</codeph> user when you install Eucalyptus. Reset
+        this password immediately either by going to the admin console or using
+        euare-usermodloginprofile.</p>
+      <p>Use this account only for tasks that cannot be done using a less
+        privileged account, for examples tasks related to cloud setup,
+        management and monitoring. Protect and periodically rotate the
+        credentials for this account.</p>
+    </section>
+    <section>
+      <title>Credential Management</title>
+      <p>Only create users and credentials for the interfaces that you will
+        actually use. For example, if you're only going to use an account
+        through the Administration Console or the User Console, do not create credentials for the SOAP and
+        Query interfaces.</p>
+    	<p>Using <codeph>euca_conf --get-credentials</codeph> or downloading credentials through the
+    		Administration Console currently creates a new set of X.509 certificates on each request.  Use <codeph>euare-useraddkey</codeph> and <codeph>euare-usercreatecert</codeph> to get a specific set of credentials whenever possible.</p>
+    	<p>When rotating credentials, there is an option to deactivate, instead of removing, existing
+    		access/secret keys and X.509 certificates. Requests made using deactivated credentials will no
+    		longer be accepted, but the credentials will  remain in the Eucalyptus database and can be
+    		restored if needed. You can deactive credentials using the Administration Console, or using
+    		<codeph>euare-usermodkey</codeph> and <codeph>euare-usermodcert</codeph>.</p>
+    </section>
+  </conbody>
+	<!--<related-links>
+		<link><desc></desc></link>
+	</related-links>-->
+</concept>
