@@ -85,6 +85,29 @@
 				<cmd>If you use VMware with Eucalyptus, verify the connection
 					from the VMware Broker to VMware (ESX, VSphere). </cmd>
 			</step>
+			<step>
+				<cmd>Test multicast connectivity between each CLC and Walrus, SC, and VMware broker host.</cmd>
+				<substeps>
+					<substep>
+						<cmd>Clone the Eucalyptus <codeph>deveutils</codeph> repository</cmd>
+						<info>
+							<codeblock>git clone https://github.com/eucalyptus/deveutils</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud Controller, Cluster
+							Controller, Storage Controller, and any machines running Walrus or VMware Broker,
+							passing a list of IP addresses for each of these machines.</cmd>
+						<info>
+							<codeblock>cd deveutils/network-tomography
+./network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 192.168.51.99</codeblock>
+							This tool may take up to an hour to run. Check the output for reports of packet loss.
+							If there is significant packet loss, ensure that your network is available and
+							multicast enabled.</info>
+					</substep>
+					
+				</substeps>
+			</step>
 			
 		</steps>
 	</taskbody>
