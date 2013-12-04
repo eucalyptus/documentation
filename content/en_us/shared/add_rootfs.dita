@@ -21,15 +21,15 @@
 			<step>
 				<cmd>Use the following three commands:</cmd>
 				<info>
-					<codeblock>euca-bundle-image -i &lt;root_filesystem_file> 
+					<codeblock>euca-bundle-image -i &lt;root_filesystem_file> -r &lt;architecture>
 euca-upload-bundle -b &lt;root_filesystem_file_bucket> -m /tmp/&lt;root_filesystem_file>.manifest.xml
-euca-register &lt;root_filesystem_file_bucket>/&lt;root_filesystem_file>.manifest.xml</codeblock>
+euca-register &lt;root_filesystem_file_bucket>/&lt;root_filesystem_file>.manifest.xml -n &lt;rootfs_name> -a &lt;architecture></codeblock>
 				</info>
 			</step>
 		</steps>
 		<example>
 			<p>For example:</p>
-			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859
+			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/fedora.10.x86-64.img  --ramdisk eri-722B3CBA --kernel eki-5B3D3859 -r x86_64
 ...
 Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
 
@@ -37,7 +37,7 @@ euca-upload-bundle -b example_rf_bucket -m /tmp/fedora.10.x86-64.img.manifest.xm
 ...
 Generating manifest /tmp/fedora.10.x86-64.img.manifest.xml
 
-euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml
+euca-register example_rf_bucket/fedora.10.x86-64.img.manifest.xml -n example_rf -a x86_64
 IMAGE	 emi-XXXXXXXX</codeblock>
 			<p>Where the returned value <codeph>emi-XXXXXXXX</codeph> is the
 				unique ID of the registered machine image.</p>
