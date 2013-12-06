@@ -3,9 +3,9 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="configure_advanced_storage_netapp_properties">
  <title>Configurable NetApp SAN Properties</title>
-	<shortdesc>This topic lists the NetApp SAN-specific properties you can configure using
-		<codeph>euca-modify-property</codeph>, along with their valid values and Eucalyptus default
-		values.</shortdesc>
+ <shortdesc>This topic lists the NetApp SAN-specific properties you can configure using
+   <codeph>euca-modify-property</codeph>, along with their valid values and Eucalyptus default
+  values.</shortdesc>
  <conbody>
 
   <note importance="high">The following configuration options are a subset of the Netapp SAN
@@ -14,8 +14,8 @@
    the <xref format="html"
     href="http://support.netapp.com/documentation/bytypedocweb/index.html?productID=30094&amp;subtypeID=61030"
     >NetApp Data ONTAP 7G documentation</xref> and the <xref format="html"
-     href="http://support.netapp.com/documentation/bytypedocweb/index.html?productID=30092&amp;subtypeID=61030"
-     >NetApp Data ONTAP 8G documentation</xref> (these links require you to register and login). </note>
+    href="http://support.netapp.com/documentation/bytypedocweb/index.html?productID=30092&amp;subtypeID=61030"
+    >NetApp Data ONTAP 8G documentation</xref> (these links require you to register and login). </note>
   <section id="configure_advanced_storage_netapp_properties.bothmodes">
    <title>7-Mode and Cluster Mode Properties</title>
    <p>The following table lists properties that are applicable to both 7-mode and cluster mode:</p>
@@ -29,7 +29,67 @@
       </row>
      </thead>
      <tbody>
-      
+
+      <!-- 3.4.1 properties start here -->
+
+      <row>
+       <entry>&lt;region&gt;.storage.enablespacereservation</entry>
+       <entry>LUN space reservation determines when space for the LUN is reserved or allocated from
+        the flex volume. With reservations enabled the space is subtracted from the volume total
+        when the LUN is created. If reservations are disabled, space is first taken out of the
+        volume as writes to the LUN are performed. </entry>
+       <entry>Default value: true</entry>
+      </row>
+
+      <row>
+       <entry>&lt;region&gt;.storage.enablededup</entry>
+       <entry>Data deduplication removes duplicate blocks, storing only unique blocks of data in the
+        flex volume, and it creates a small amount of additional metadata in the process. It is
+        disabled by default. &lt;region>.storage.enablecompression must be <codeph>false</codeph>
+        before disabling deduplication.</entry>
+       <entry>Default value: false</entry>
+      </row>
+
+      <row>
+       <entry>&lt;region&gt;.storage.enablecompression</entry>
+       <entry>Data compression is a software-based solution that provides transparent data
+        compression. It has the ability to run either as an inline process as data is written to
+        disk or as a scheduled process. Compression is disabled by default.
+        &lt;region>.storage.enablededup must be true before enabling data compression.
+        &lt;region>.storage.enableinlinecompression must be false before disabling
+        compression.</entry>
+       <entry>Default value: false</entry>
+      </row>
+
+      <row>
+       <entry>&lt;region&gt;.storage.enableinlinecompression</entry>
+       <entry>When data compression is configured for inline operation, data is compressed in memory
+        before it is written to disk. It is disabled by default.
+        &lt;region>.storage.enablecompression must be true before enabling inline
+        compression.</entry>
+       <entry>Default value: false</entry>
+      </row>
+
+      <row>
+       <entry>&lt;region&gt;.storage.dedupschedule</entry>
+       <entry>Schedule string for the dedup and or compression operation on flex volumes.
+         <codeph>&lt;region>.storage.enablededup</codeph> must be <codeph>true</codeph> before
+        configuring the schedule. If the schedule is not configured, NetApp applies a default
+        schedule to the flex volume. In Cluster-Mode, either the schedule or the policy can be
+        configured for the flex volume. Both cannot be configured together. The format of the
+        schedule string is: “day_list@hour_list” or “hour_list@day_list” or ”-” or “auto”. day_list
+        specifies which days of the week the sis operation should run. It is a comma-separated list
+        of the first three letters of the day: sun, mon, tue, wed, thu, fri, sat. Day ranges such as
+        mon-fri can also be used. hour_list specifies which hours of the day the sis operation
+        should run on each scheduled day. hour_list is a comma-separated list of the integers from 0
+        to 23. Hour ranges such as 8-17 are allowed. Step values can be used in conjunction with
+        ranges. If ”-” is specified, no schedule is set. The “auto” schedule string means the sis
+        operation will be triggered by the amount of new data written to the volume.</entry>
+       <entry>Default value: n/a</entry>
+      </row>
+
+      <!-- 3.4.1 properties end here -->
+
       <row>
        <entry>&lt;region&gt;.storage.lunostype</entry>
        <entry>The operating system of the host accessing the LUN. This determines the layout of the
@@ -41,14 +101,14 @@
           <codeph>linux</codeph>, <codeph>netware</codeph>, <codeph>vmware</codeph>,
           <codeph>xen</codeph>, or <codeph>hyper_v</codeph></p></entry>
       </row>
-      
+
       <row>
        <entry>&lt;region&gt;.storage.initiatorostype</entry>
        <entry> Operating system type of the hypervisor hosting the instances.</entry>
-       <entry>Default value: linux <p>Valid values: <codeph>solaris</codeph>, <codeph>windows</codeph>,
-         <codeph>hpux</codeph>, <codeph>aix</codeph>, <codeph>linux</codeph>,
-         <codeph>netware</codeph>, <codeph>vmware</codeph>, <codeph>xen</codeph>, or
-         <codeph>hyper_v</codeph></p></entry>
+       <entry>Default value: linux <p>Valid values: <codeph>solaris</codeph>,
+          <codeph>windows</codeph>, <codeph>hpux</codeph>, <codeph>aix</codeph>,
+          <codeph>linux</codeph>, <codeph>netware</codeph>, <codeph>vmware</codeph>,
+          <codeph>xen</codeph>, or <codeph>hyper_v</codeph></p></entry>
       </row>
 
       <row>
@@ -202,6 +262,27 @@
         (“none”) in its place to the NetApp SAN. </entry>
        <entry>"true" (default) or "false"</entry>
       </row>
+
+      <!-- 3.4.1 properties start here -->
+
+      <row>
+       <entry>&lt;region&gt;.storage.deduppolicy</entry>
+       <entry> Name of the sis policy to be attached to flex volumes in cluster-mode.
+        &lt;region>.storage.enablededup must be true before configuring the policy. Either the
+        schedule or the policy can be configured for the flex volume. Both cannot be configured
+        together.</entry>
+       <entry>Default value: n/a</entry>
+      </row>
+
+      <row>
+       <entry>&lt;region&gt;.storage.portset</entry>
+       <entry> Name of the portset to bind to an igroup in cluster-mode. Port sets are collections
+        of iSCSI ports/LIFs. A port set can be used to restrict access to the LUN by making it
+        visible only through target ports that are contained in the port set definition.</entry>
+       <entry>Default value: n/a</entry>
+      </row>
+      
+      <!-- 3.4.1 properties start here -->
 
      </tbody>
     </tgroup>

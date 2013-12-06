@@ -15,15 +15,15 @@
             <step>
                 <cmd>Use the following three commands:</cmd>
                 <info>
-                    <codeblock>euca-bundle-image -i &lt;kernel_file> --kernel true
+                    <codeblock>euca-bundle-image -i &lt;kernel_file> --kernel true --arch &lt;architecture>
 euca-upload-bundle -b &lt;kernel_bucket> -m /tmp/&lt;kernel_file>.manifest.xml
-euca-register &lt;kernel_bucket>/&lt;kernel_file>.manifest.xml</codeblock>
+euca-register &lt;kernel_bucket>/&lt;kernel_file>.manifest.xml -a x86_64 -n mynewkernel</codeblock>
                 </info>
             </step>
         </steps>
         <example>
             <p>For example:</p>
-            <codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/vmlinuz-2.6.27.21-0.1-xen --kernel true
+            <codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/vmlinuz-2.6.27.21-0.1-xen --kernel true --arch x86_64
 ...
 Generating manifest /tmp/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
 
@@ -31,7 +31,7 @@ euca-upload-bundle -b example_kernel_bucket -m /tmp/vmlinuz-2.6.27.21-0.1-xen.ma
 ...
 Uploaded image as example_kernel_bucket/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
 
-euca-register example_kernel_bucket/vmlinuz-2.6.27.21-0.1-xen.manifest.xml
+euca-register example_kernel_bucket/vmlinuz-2.6.27.21-0.1-xen.manifest.xml -a x86_64 -n mynewkernel
 IMAGE	eki-XXXXXXXX</codeblock>
             <p>Where the returned value <codeph>eki-XXXXXXXX</codeph> is the
                 unique ID of the registered kernel image.</p>
