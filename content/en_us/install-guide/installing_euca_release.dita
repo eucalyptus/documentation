@@ -165,9 +165,10 @@
 					Walrus, SC, and VMware broker host.</cmd>
 				<substeps>
 					<substep>
-						<cmd>Clone the Eucalyptus <codeph>deveutils</codeph> repository</cmd>
+						<cmd>Install the the network tomography package on the Cloud Controller, Cluster Controller,
+							Storage Controller, and any machines running Walrus or VMware Broker.</cmd>
 						<info>
-							<codeblock>git clone https://github.com/eucalyptus/deveutils</codeblock>
+							<codeblock>yum install --nogpgcheck http://downloads.eucalyptus.com/software/tools/centos/6/x86_64/network-tomography-1.0.0-3.el6.x86_64.rpm</codeblock>
 						</info>
 					</substep>
 					<substep>
@@ -175,8 +176,8 @@
 							Controller, Storage Controller, and any machines running Walrus or VMware Broker,
 							passing a list of IP addresses for each of these machines.</cmd>
 						<info>
-							<codeblock>cd deveutils/network-tomography
-./network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 192.168.51.99</codeblock>
+							<codeblock>/usr/bin/network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 
+192.168.51.99</codeblock>
 							This tool may take up to an hour to run. Check the output for reports of packet loss.
 							If there is significant packet loss, ensure that your network is available and
 							multicast enabled.</info>
