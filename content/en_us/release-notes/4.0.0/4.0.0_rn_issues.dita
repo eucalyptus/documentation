@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="rn_issues_3.4.0">
+	<title>Known Issues</title>
+	<shortdesc/>
+	<conbody>
+		<p>The following known issues exist in Eucalyptus 3.4.1 and its dependencies. Please contact
+			Eucalyptus support for known workarounds to these issues.</p>
+		<!-- Reorder by component? -->
+		<p><b>New known issues for this release:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>The default password has been removed from Eucalyptus installs to
+							enhance security. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-8497"
+								>EUCA-8497</xref>)</entry>
+						<entry>Default password for the eucalyptus/admin user is removed. To set a
+							password allowing access to the admin/user consoles the following can be
+							run using eucalyptus account credentials: <p>
+								<codeblock>euare-useraddloginprofile -u admin -p $PASSWORD
+euare-userupdateinfo -u admin -k email -i $EMAIL							</codeblock>
+							</p>
+							<p>Setting the email is not required, but doing so prevents the user
+								from being prompted to change the password upon first log in.</p>
+						</entry>
+					</row>
+
+
+				</tbody>
+			</tgroup>
+		</table>
+		<p><b>Outstanding known issues from previous releases:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Load Balancer VM not able to contact CLC when CC is not collocated
+							with at least 1 Java component (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7845"
+								>EUCA-7845</xref>)</entry>
+						<entry>When running ELB in EDGE networking mode the Servo VM is trying to
+							contact the CLC via the 169.254.169.254 address. For some reason this
+							works in the other networking modes although the only NAT rule that is
+							setup is specifically for port 80. Workaround: Change the default port
+							to 80 in servo/ws/_init_.py.</entry>
+					</row>
+					<row>
+						<entry>"Manage Instances" dialog is not called from "More actions" menu on
+							Windows 7/ IE 10 (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-8424"
+								>EUCA-8424</xref>)</entry>
+						<entry>When the Auto Scaling group is check-marked and the "Manage
+							instances" button is clicked in the "More Actions" menu, no dialog
+							appears.</entry>
+					</row>
+					<row>
+						<entry>On Security groups landing page "More actions" button sometimes fails
+							to activate in Windows7 / IE10 (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-8166"
+								>EUCA-8166</xref>)</entry>
+						<entry>Workaround: refresh the page.</entry>
+					</row>
+					<row>
+						<entry>An IAM policy that allows all IAM actions does not work in Eucalyptus
+							3.4 (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7870"
+								>EUCA-7870</xref>)</entry>
+						<entry>Workaround: see linked bug.</entry>
+					</row>
+					<row>
+						<entry>Post-upgrade steps for upgrading Load Balancer may be confusing
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/DOC-1071"
+								>DOC-1071</xref>)</entry>
+						<entry>If you already have load balancing enabled on 3.3.x, then there is
+							nothing you "must" do post upgrade for load balancing support. However,
+							the 3.4 release of Eucalyptus includes an updated load balancer image
+							that contains many bugfixes. If you are coming from 3.3.x and already
+							had ELB enabled, you need to run <codeph>euca-install-loadbalancer
+								--install-default</codeph> after the upgrade. The command will
+							install the current image and set it as the default load balancer image,
+							and all new load balancers will use the new image. The old image is
+							still registered and in S3, and any existing load balancer that may be
+							running at the time of upgrade will still use the old image. If you are
+							coming from a version of Eucalyptus that did not have the load balancing
+							feature, or did not have load balancing enabled on 3.3.x, then after
+							installing the load balancer image you should get new credentials so the
+							load balancer endpoint is defined.</entry>
+					</row>
+
+				</tbody>
+			</tgroup>
+		</table>
+	</conbody>
+</concept>
