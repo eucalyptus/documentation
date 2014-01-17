@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><project name="dita2epub3" default="dita2epub3">
+	<!-- NOTE: This build file depends on targets defined in the epub transtype -->
+  
+  <!-- test to see where the plugin is located, plugins or demo -->
+  <dirname property="epub3.dir" file="${ant.file.dita2epub3}"></dirname>
+
+	<!-- Global properties that affect the base Toolkit processing: -->
+	
+  <target name="dita2epub3" unless="noMap" depends="d4p.map-driven-build-init,build-init,preprocess,epub3">
+  </target>
+  
+  <target name="epub3" unless="noMap" depends="dita.map.epub3, zipepub"></target>
+	  
+  <target name="dita.map.epub3" depends="dita.map.epub.init, epub-copy-css" description="Generate all EPUB3 components from input map and topics">
+  	
+  	<mkdir dir="${epub.temp.dir}"></mkdir>
+  	<makeurl file="${epub.temp.dir}" property="epub.xslt.outdir"></makeurl>
+  	<makeurl file="${dita.temp.dir}" property="epub.xslt.tempdir"></makeurl>
+  	<makeurl file="${cover.graphic.file}" property="cover.graphic.uri" validate="false"></makeurl>
+    <makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>    
+    
+  	<property name="args.xsl" location="${epub3.dir}/xsl/map2epub3.xsl"></property>
+  	
+  	<!-- NOTE: since we're not using the direct output of the base XSLT transform we just
+  	     set the output directory to the temp dir where it will be ignored.
+  	  -->
+    <xslt processor="trax" basedir="${dita.temp.dir}" destdir="${dita.temp.dir}" includesfile="${dita.temp.dir}${file.separator}${user.input.file.listfile}" classpathref="dost.class.path" style="${args.xsl}">
+     	<param name="cssOutputDir" expression="${css.output.dir}"></param>
+      <param name="debug" expression="${debug}"></param>
+    	<param name="coverGraphicUri" expression="${cover.graphic.uri}" if="cover.graphic.file"></param>
+    	<param name="idURIStub" expression="${epub.pubid.uri.stub}"></param>
+     	<param name="imagesOutputDir" expression="${images.output.dir}"></param>
+     	<param name="outdir" expression="${epub.xslt.outdir}"></param>
+      <param name="outext" expression="${out.ext}"></param><!-- Extension to use for result files, e.g., ".html" -->
+     	<param name="tempdir" expression="${epub.xslt.tempdir}"></param>
+    	<param name="rawPlatformString" expression="${os.name}"></param>
+    	<param name="titleOnlyTopicClassSpec" expression="${title.only.topic.class.spec}"></param>
+    	<param name="titleOnlyTopicTitleClassSpec" expression="${title.only.topic.title.class.spec}"></param>
+     	<param name="topicsOutputDir" expression="${topics.output.dir}"></param>
+    	<param name="generateGlossary" expression="${html2.generate.glossary}" if="html2.generate.glossary"></param>
+    	<param name="generateHtmlToc" expression="${epub.generate.html.toc}" if="epub.generate.html.toc"></param>
+    	<param name="generateIndex" expression="${html2.generate.index}" if="html2.generate.index"></param>
+      <param name="html.toc.OUTPUTCLASS" expression="${args.xhtml.toc.class}" if="args.xhtml.toc.class"></param>
+      <param name="maxTocDepth" expression="${d4p.max.toc.depth}" if="d4p.max.toc.depth"></param>
+      <param name="maxNavDepth" expression="${d4p.max.nav.depth}" if="d4p.max.nav.depth"></param>
+
+    	<!-- Parameters from dita2xhtml and similar transtypes: -->   
+      <param name="WORKDIR" expression="${workdir}" if="workdir"></param>
+      <param name="BASEDIR" expression="${basedir}"></param>
+      <param name="CSS" expression="${args.css.file}" if="args.css.file"></param>
+      <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"></param>
+      <param name="DRAFT" expression="${args.draft}" if="args.draft"></param>
+      <param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"></param>
+      <param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"></param>
+      <param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"></param>
+      <param name="NOPARENTLINK" expression="${epub.hide.parent.link}"></param>
+      <param name="BREADCRUMBS" expression="${args.breadcrumbs}" if="args.breadcrumbs"></param>
+      <param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"></param>
+    	<param name="OUTPUTDIR" expression="${epub.temp.dir}"></param>
+    	<param name="FILEDIR" expression="."></param>
+      <param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"></param>
+      <param name="DBG" expression="${args.debug}" if="args.debug"></param>
+    </xslt>
+  	
+  	<antcall target="epub.copy.graphics"></antcall>
+  	
+  </target>
+  
+</project>
