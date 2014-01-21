@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="osg_register">
+    <title>Register Object Storage Gateways (OSGs)</title>
+    <shortdesc>You can register multiple Object Storage Gateways (OSGs) with the Eucalyptus Cloud
+        Controller (CLC)</shortdesc>
+    <taskbody>
+        <context>
+            <p>To register an Object Storage Gateway: </p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Use the <codeph>euca-conf</codeph> command to register each OSG:</cmd>
+                <info>
+                    <codeblock>euca_conf --register-osg &lt;OSG IP></codeblock>
+                    <p>
+                        The OSGs will be assigned a name in the format <codeph>osg-&lt;ip-address></codeph>. For example:
+                    </p>
+                    <codeblock>osg-192.168.1.16</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> You can use the <codeph>euca-describe-services</codeph> command to list the
+                    OSGs you've registered. For example: </cmd>
+                <info>
+                    <codeblock>SERVICE objectstorage   objectstorage   osg-192.168.1.16    NOTREADY    
+  23      http://192.168.1.16:8773/services/objectstorage 
+  arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeblock>
+                </info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
