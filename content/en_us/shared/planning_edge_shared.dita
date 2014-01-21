@@ -16,53 +16,31 @@
 	</prolog>
 	
 	<conbody>
-		<p>In Edge mode, Eucalyptus manages the local network
-			of VM instances and provides all networking features Eucalyptus
-			currently supports, including VM network isolation, security groups,
-			elastic IPs, and metadata service.</p>
-		<p>In Managed mode, you define a large network (usually private,
-			unroutable) from which VM instances will draw their private IP
-			addresses. Eucalyptus maintains a DHCP server with static mappings
-			for each VM instance that is created. When you create a new VM
-			instance, you can specify the name of the security group to which
-			that VM will belong. Eucalyptus then selects a subset of the entire
-			range of IPs, to hand out to other VMs in the same security group. </p>
-		<p>You can also define a number of security groups, and use those groups
-			to apply network ingress rules to any VM that runs within that
-			network. In this way, Eucalyptus provides functionality similar to
-			Amazon's security groups. In addition, the administrator can specify
-			a pool of public IP addresses that users may allocate, then assign
-			to VMs either at boot or dynamically at run-time. This capability is
-			similar to Amazon's 'elastic IPs'. Eucalyptus administrators that
-			require security groups, elastic IPs, and VM network isolation must
-			use this mode.</p>
-		<p>Managed mode uses a Virtual LAN (VLAN) to enforce network isolation
-			between instances in different security groups. If your underlying
-			physical network is also using a VLAN, there can be conflicts that
-			prevent instances from being network accessible. So you have to
-			determine if your network between the CC and NCs is VLAN clean
-			(that is, if your VLANs are usable by Eucalyptus). To test if the
-			network is VLAN clean, see VLAN Preparation.</p>
-		<p>Each VM receives two IP addresses: a public IP address and a private
-			IP address. Eucalyptus maps public IP addresses to private IP
-			addresses. Access control is managed through security groups.</p>
-		<section>
-			<title>Managed Mode Requirements</title>
+		<p>The name "EDGE" was chosen for this new mode in reference to the most fundamental architectural
+			choices for the new mode - that the component responsible for implementing Eucalyptus VM
+			networking artifacts be running at the so-called 'edge' of a Eucalyptus deployment. For the first implementation that has the previously mentioned primary and secondary characteristics, the 'edge' of the Eucalyptus deployment is at the Node Controllers, which is as close to the VMs as we can get.</p>
+			
+			<p>In EDGE, we run a new stand-alone component called 'eucanetd' along side each node controller,
+				which fetches dynamically changing Eucalyptus VM networking view and is responsible for configuring the Linux machine on which the Node Controller/eucanetd is running to reflect the latest view. In this way, we provide the benefits of primary characteristic 1, 2, 3 and secondary characteristic 2.</p>
+			
+			<p>In order to provide the benefits of secondary characteristics 1 and 3, as well as function without a single point where the networking view can be implemented, the initial implementation of "EDGE" mode integrates with a site administrator's existing network infrastructure, allowing the admin to 'tell' Eucalyptus (through configuration parameters for EDGE mode) about the extant network, which "EDGE" then will consume when implementing the Eucalyptus networking view.</p>
+			
+			<p>The two basic types of pre-existing network setups that "EDGE" will integrate with are:</p>
 			<ul>
-				<li>There must be an available range of IP addresses for the
-					virtual subnets. This range must not interfere with the
-					physical network. Typically these IP addresses are selected
-					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
-				<li>The network between the CC and NCs must be VLAN clean,
-					meaning that all switch ports that Eucalyptus components are
-					connected to will allow and forward VLAN tagged
-					packets.</li>
-				<li>Any firewall running on the Cluster Controller must be
-					compatible with the dynamic changes performed by Eucalyptus
-					when working with security groups. (Note that Eucalyptus
-					will flush the 'filter' and 'nat' tables upon boot).</li>
-				<li>Any DHCP server on the subnet must be configured not to
-					serve Eucalyptus instances.</li>
+			<li>a single flat IP network which is used to service Euca component systems, Eucalyptus VM public IPs (elastic IPs), and Eucalyptus VM private IPs.</li>
+			<li>two networks - one for Euca components and Euca VM public IPs, and the other for Euca VM private IPs.</li>
+			</ul>
+			<p>See below for diagrams depicting example topologies for one or two network deployments. In each networking cases, it should be noted that "EDGE" will not 'set up' the network from scratch as the MANAGED* modes do, but instead should be thought of as 'integrating' with networks that already exist. If the networks don't already exist, they will need to be created outside of Eucalyptus software  before configuring "EDGE" with knowledge of the networks. See the next section for more information on the requirements of EDGE.</p>
+		<section>
+			<title>Edge Mode Requirements</title>
+			<p>Requirements for running Eucalyptus in "EDGE" networking mode are different from the other modes (which each have their own requirements). Although "EDGE" provides a full Eucalyptus  networking feature set (Elastic IPs, Sec. Groups, VM isolation) like the existing MANAGED* modes, the requirements are more like those of the existing SYSTEM/STATIC modes, in that pre-existing networks must be present to deploy in "EDGE". A summary of the unique infrstructure requirements of "EDGE" follows:
+			</p>
+			<ul>
+			<li>depending on the type of pre-existing network that is available/put in place (see Overview for types of pre-existing networks that EDGE can integrate with), those pre-existing networks need to be in place and ready for Eucalyptus to use. Briefly, Eucalyptus in "EDGE" requires that NCs have an interface configured with an IP on the VM public and VM private network (which may be the same network).</li>
+			<li>there must be unused IP addresses on the VM public network for EDGE to use as VM elastic IPs</li>
+			<li>there must be unused IP addresses on the VM private network for EDGE to use as VM private IPs</li>
+			<li>there must be IP connectivy from the NC machines (where eucanetd runs) and their related CC machine (with eucanetd acting as an HTTP client to the CC).</li>
+			<li>there must be IP connectivity from the NC machines (where eucanetd runs) and the CLC, for metadata re-directs for 169.254.169.254 to the active CLC to function.</li>
 			</ul>
 		</section>
 		
