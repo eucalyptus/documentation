@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_edge_shared">
-	<title>Static Mode</title>
+	<title>Configure for Static Mode</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -28,7 +28,7 @@
 
 	
 	<task id="nw_edge_cc_shared">
-		<title>CC Configuration</title>
+		<title>Configure the CC</title>
 		<taskbody>
 			<context> </context>
 			<steps>
@@ -41,26 +41,17 @@
 					<cmd>Go to the <b>Network Configuration</b> section,
 						uncomment and set the following:</cmd>
 					<info>
-						<codeblock>VNET_MODE="STATIC"
-
-VNET_SUBNET="&lt;public subnet to be used by instances>"
-
-VNET_NETMASK="&lt;netmask used in your network layout>"
-
-VNET_BROADCAST="&lt;broadcast IP to supply to instances in DHCP responses. Example: 192.168.1.255>"
-
-VNET_ROUTER="&lt;subnet router IP/gateway IP to supply to instances in DHCP responses>"
-
-VNET_DNS="&lt;IP of your DNS server>"
-
-VNET_MACMAP="&lt;MAC-to-IP mapping for your VMs. Example: AA:BB:CC:DD:EE:FF=192.168.1.1
-A1:B1:C1:D1:E1:F1=192.168.1.2>"
-
-VNET_PRIVINTERFACE="&lt;Ethernet device on same network as the NCs. Example: eth0>"
-
-VNET_DHCPDAEMON="&lt;path to DCHP daemon binary. Example /usr/sbin/dhcp3d>"
-
-VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
+						<codeblock>VNET_MODE="EDGE"
+VNET_PRIVINTERFACE="em1"
+VNET_PUBINTERFACE="em1"
+VNET_SUBNET="&lt;public subnet to be used by instances. Example: 1.100.192.0>"
+VNET_NETMASK="&lt;netmask used in your network layout. Example: 255.255.192.0>"
+VNET_BROADCAST="&lt;broadcast IP to supply to instances in DHCP responses. Example: 1.100.255.255>"
+VNET_ROUTER="&lt;subnet router IP/gateway IP to supply to instances in DHCP responses. Example:
+1.100.192.1>"
+VNET_DNS="&lt;IP of your DNS server. Example: 10.1.1.254>"
+VNET_PUBLICIPS="&lt;Range or public IP addresses. Example: 192.168.10.10-192.168.10.50>"
+VNET_PRIVATEIPS="&ltp;Range of private IP addresses. Example: 1.100.192.10-1.100.192.100"</codeblock>
 					</info>
 				</step>
 
@@ -77,7 +68,7 @@ VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
 		</taskbody>
 	</task>
 	<task id="nw_edge_nc_shared">
-		<title>NC Configuration</title>
+		<title>Configure the NC</title>
 		<taskbody>
 			<steps>
 				<step>
@@ -89,8 +80,11 @@ VNET_DHCPUSER="&lt;DHCP user name. Example: dhcpd>"</codeblock>
 					<cmd>Go to the <b>Network Configuration</b> section,
 						uncomment and set the following:</cmd>
 					<info>
-						<codeblock>VNET_MODE="STATIC"
-VNET_BRIDGE="&lt;name of bridge on the same network as the CC. Examples: xenbr0 or eth0>"</codeblock>
+						<codeblock>VNET_MODE="EDGE"
+VNET_PRIVINTERFACE="br0"
+VNET_PUBINTERFACE="br0"
+VNET_BRIDGE="br0"
+VNET_DHCPDAEMON="/usr/sbin/dhcpd41"</codeblock>
 					</info>
 				</step>
 				<step>
