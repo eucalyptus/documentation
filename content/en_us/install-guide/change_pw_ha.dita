@@ -3,15 +3,24 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="change_pw_ha">
 	<title>Change the Administration Password</title>
-	<shortdesc>Change the default password for the administration user. You can
-		do this using the <apiname>euare-usermodloginprofile</apiname>
-		or by logging in to the Eucalyptus Administrator Console
-		(https://[CLC_IP_address]:8443).</shortdesc>
+	<shortdesc>For enhanced security, the <codeph>eucalyptus</codeph> administrative account does
+		not have a default password when Eucalyptus is initially installed. You will be prompted for
+		a password the first time you log in to the system unless you set the password during the
+		initial installation and configuration of your Eucalyptus cloud.</shortdesc>
 	<taskbody>
 		<context>
-			<p>The first time you log in to
-				the console, you are prompted for a new password.</p>
+			<p>To set a password for the eucalyptus administrative account:</p>
 		</context>
+		<steps>
+			<step>
+				<cmd> To set a password for the <codeph>eucalyptus</codeph> account, run the
+					following commands: </cmd>
+				<info>
+					<codeblock>euare-useraddloginprofile -u admin -p &lt;password>
+euare-userupdateinfo -u admin -k email -i &lt;email></codeblock>
+				</info>
+			</step>
+		</steps>
 		
 	</taskbody>
 </task>
