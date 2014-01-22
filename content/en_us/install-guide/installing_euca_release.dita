@@ -42,7 +42,7 @@
 				</info>
 			</step>
 			<step>
-				<cmd>For RHEL 6 systems only, it is necessary to enable the Optional repository in Red Hat
+				<cmd>For RHEL 6 systems only, you must enable the Optional repository in Red Hat
 					Network for each NC, as follows:</cmd>
 				<substeps>
 					<substep>
@@ -83,10 +83,10 @@
 			<step>
 				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use VMware then
 					skip this step. </note>
-				<cmd> </cmd>
+				<cmd/>
 				<substeps>
 					<substep>
-						<cmd> Install the Eucalyptus node controller software on each planned NC host: </cmd>
+						<cmd>Install the Eucalyptus node controller software on each planned NC host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
@@ -111,7 +111,15 @@
 				</substeps>
 			</step>
 			<step>
-				<cmd>Install the Eucalyptus cloud controller software on each planned CLC host: </cmd>
+				<note>Skip this step ff you plan to use VMware.</note>
+				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking mode</xref>, install
+					the package for Edge support on each planned NC host.</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-eucanet</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>On each planned CLC host, install the Eucalyptus cloud controller software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
