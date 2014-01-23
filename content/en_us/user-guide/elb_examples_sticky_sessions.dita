@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="elb_examples_sticky_sessions">
+    <title>Creating Elastic Load Balancing Sticky Sessions</title>
+    <shortdesc>By default, a load balancer routes each request independently to the application
+        instance with the smallest load. However, you can use the sticky session feature (also known
+        as session affinity) which enables the load balancer to bind a user's session to a specific
+        application instance. This ensures that all requests coming from the user during the session
+        will be sent to the same application instance.</shortdesc>
+
+    <taskbody/>
+    <task id="elb_enable_duration_stickiness">
+        <title>Enable Duration-Based Session Stickiness</title>
+        <abstract>
+            <p>The load balancer uses a special load-balancer-generated cookie to track the
+                application instance for each request. When the load balancer receives a request, it
+                first checks to see if this cookie is present in the request. If so, the request is
+                sent to the application instance specified in the cookie. If there is no cookie, the
+                load balancer chooses an application instance based on the existing load balancing
+                algorithm. A cookie is inserted into the response for binding subsequent requests
+                from the same user to that application instance. The stickiness policy configuration
+                defines a cookie expiration, which establishes the duration of validity for each
+                cookie. The cookie is automatically updated after its duration expires.</p>
+            <p>In this example, you create a stickiness policy and then use it to enable sticky
+                sessions for a load balancer that has load balancer-generated HTTP cookies. Before
+                you get started, be sure you've created a load balancer with Elastic Load Balancing. </p>
+        </abstract>
+
+        <taskbody>
+            <context>
+                <p> To enable duration-based sticky sessions for a load balancer:</p>
+            </context>
+            <steps>
+
+                <step>
+                    <cmd>Use the <codeph>eulb-create-lb-cookie-stickiness-policy</codeph> command to
+                        create a load-balancer-generated cookie stickiness policy with a cookie
+                        expiration period of 60 seconds.</cmd>
+                    <info>
+                        <codeph>eulb-create-lb-cookie-stickiness-policy example-lb --policy-name
+                            MyLoadBalancerPolicy --expiration-period 60</codeph>
+                    </info>
+                    <info>
+                        <p>Elastic Load Balancing returns output similar to the following:</p>
+                        <codeblock>OK-Creating LB Stickiness Policy</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd> Use the <codeph>eulb-set-lb-policies-of-listener</codeph> command to
+                        enable session stickiness for a load balancer using the
+                        MyLoadBalancerPolicy. </cmd>
+                    <info>
+                        <codeph>eulb-set-lb-policies-of-listener example-lb --lb-port 80
+                            --policy-names MyLoadBalancerPolicy</codeph>
+                    </info>
+                    <info>
+                        <p>Elastic Load Balancing returns output similar to the following:</p>
+                        <codeblock>OK-Setting Policies</codeblock>
+                    </info>
+                </step>
+
+            </steps>
+        </taskbody>
+    </task>
+    <task id="elb_enable_session_stickiness">
+        <title>Enable Application-Controlled Session Stickiness</title>
+        <abstract>
+            <p>The load balancer uses a special cookie to associate the session with the original
+                server that handled the request, but follows the lifetime of the
+                application-generated cookie corresponding to the cookie name specified in the
+                policy configuration. The load balancer only inserts a new stickiness cookie if the
+                application response includes a new application cookie. The load balancer stickiness
+                cookie does not update with each request. If the application cookie is explicitly
+                removed or expires, the session stops being sticky until a new application cookie is
+                issued.</p>
+            <p>If an application server fails or is removed, the load balancer will try to route the
+                sticky session to another healthy application server. The load balancer will try to
+                stick to new healthy application server and continue routing to currently stick
+                application server even after the failed application server comes back. However, it
+                is up to the new application server on how it'll respond to a request which it has
+                not seen previously. </p>
+            <p>In this example, you configure a load balancer for session stickiness when the life
+                of the session follows that of an application-generated cookie. Before you get
+                started, be sure you've created a load balancer with Elastic Load Balancing. </p>
+        </abstract>
+        <taskbody>
+            <context>To enable application-controlled session stickiness:</context>
+            <steps>
+
+                <step>
+                    <cmd>Use the <codeph>eulb-create-app-cookie-stickiness-policy</codeph> command
+                        to create a load application-generated cookie stickiness policy:</cmd>
+                    <info>
+                        <codeph>eulb-create-app-cookie-stickiness-policy my-load-balancer -p
+                            my-app-cookie-lb-policy -c my-cookie</codeph>
+                    </info>
+                    <info>
+                        <p>Elastic Load Balancing returns output similar to the following:</p>
+                        <codeblock>OK-Creating App Stickiness Policy</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd> Use the <codeph>eulb-set-lb-policies-of-listener</codeph> command to
+                        enable session stickiness for a load balancer using the my-load-balancer
+                        policy. </cmd>
+                    <info>
+                        <codeph>eulb-set-lb-policies-of-listener example-lb --lb-port 80
+                            --policy-names my-app-cookie-lb-policy</codeph>
+                    </info>
+                    <info>
+                        <p>Elastic Load Balancing returns output similar to the following:</p>
+                        <codeblock>OK-Setting Policies</codeblock>
+                    </info>
+                </step>
+            </steps>
+            <result/>
+            <postreq/>
+        </taskbody>
+    </task>
+
+</task>
