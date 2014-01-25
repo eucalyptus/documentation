@@ -2,14 +2,58 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="osg_configure">
     <title>Configure Object Storage Gateways</title>
-    <shortdesc/>
+    <abstract>
+        <p>You must configure an object storage gateway before it will function properly. OSGs that
+            have been registered but not properly configured will be listed in the BROKEN state when
+            listed with the euca-describe-services command. For example:</p>
+        <p>
+            <codeph>SERVICE objectstorage objectstorage osg-192.168.1.16 BROKEN 23
+                http://192.168.1.16:8773/services/objectstorage
+                arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeph>
+        </p>
+    </abstract>
     <taskbody>
         <context>
-            <p>TBD</p>
+            <p>To configure an Object Storage Gateway:</p>
         </context>
         <steps>
             <step>
-                <cmd>Task step.</cmd>
+                <cmd>specify a storage provider using the euca-modify-property command. To use
+                    RiakCS as the backend, you will need to pick "s3" as the storage provider. For
+                    example: </cmd>
+                <info>
+                    <codeph>euca-modify-property -p objectstorage.providerclient=s3</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd> Specify the RiakCS/S3 endpoint that you wish to use with Eucalyptus. For
+                    example: </cmd>
+                <info>
+                    <codeph>euca-modify-property -p
+                        objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd> Provide your RiakCS credentials to access your RiakCS installation: </cmd>
+                <info>
+                    <codeblock>euca-modify-property -p objectstorage.s3provider.s3accesskey=&lt;RiakCS access key>
+euca-modify-property -p objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd> After successful configuration, check to ensure that the state of the OSG is
+                    ENABLED by running the euca-describe-services command. For example: </cmd>
+                <info>
+                    <codeph>SERVICE objectstorage objectstorage osg-192.168.1.16 ENABLED 23
+                        http://192.168.1.16:8773/services/objectstorage
+                        arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeph>
+                </info>
+                <info>
+                    <p>If the state appears as DISABLED or BROKEN, please check the cloud-*.log
+                        files in the <codeph>/var/log/eucalyptus</codeph> directory. A <codeph>DISABLED</codeph>
+                        state generally indicates that there is a problem with your network or
+                        credentials.</p>
+                </info>
             </step>
         </steps>
     </taskbody>
