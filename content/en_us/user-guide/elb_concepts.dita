@@ -70,5 +70,43 @@
                 defines the stickiness duration and a special Elastic Load Balancing cookie named
                 AWSELB, that has the mapping to the application instance. </p>
         </section>
+        <section>
+            <title>HTTPS/SSL Support</title>
+            <p> HTTPS Support is a feature that allows you to use the SSL/TLS protocol for encrypted
+                connections (also known as SSL offload). This feature enables traffic encryption
+                between the clients that initiate HTTPS sessions with your load balancer and also
+                for connections between the load balancer and your back-end instances. </p>
+            <p> There are several advantages to using HTTPS/SSL connections with your load balancer: </p>
+            <ul>
+                <li>
+                    <p>The SSL server certificate used to terminate client connections can be
+                        managed centrally on the load balancer, rather than on every individual
+                        application instance.</p>
+                </li>
+                <li>
+                    <p> The work of encrypting and decrypting SSL traffic is moved from the
+                        application instance to the load balancer. </p>
+                </li>
+                <li>
+                    <p> The load balancer can ensure session affinity or "sticky sessions" by
+                        terminating the incoming HTTPS request and then re-encrypting the content to
+                        send to the back-end application instance. </p>
+                </li>
+                <li>
+                    <p> All of the features available for HTTP can be used with HTTPS connections.
+                    </p>
+                </li>
+            </ul>
+            <p> Using HTTPS/SSL protocols for both front-end and back-end connections ensures
+                end-to-end traffic encryption. If you are using SSL and do not want Elastic Load
+                Balancing to terminate, you can use a TCP listener and install certificates on all
+                the back-end instances handling requests. </p>
+            <p> To enable HTTPS support for your load balancer, you'll have to install an SSL server
+                certificate on your load balancer by using Identity and Access Management
+                (IAM) to upload your SSL certificate and key. After you upload your certificate,
+                specify its Amazon Resource Name (ARN) when you create a new load balancer or update
+                an existing load balancer. The load balancer uses the certificate to terminate and
+                then decrypt requests before sending them to the back-end instances.</p>
+        </section>
     </conbody>
 </concept>
