@@ -3,79 +3,132 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-create-image">
 	<title>euca-create-image</title>
+
+
+	<shortdesc>Creates a Eucalyptus Machine Image (EMI) from an EBS-based instance.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>EC2 compatible commands</keyword>
+				<keyword>Eucalyptus create image</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	
 	<refbody>
-		<!-- This command is not supported in Eucalyptus. -->
-		<!--
-	<shortdesc>Creates an AMI from an EBS-based instance.</shortdesc>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-create-image <b>instance_id</b> -n, --name &lt;name> [--no-reboot] [-d, --description &lt;description> ][-S,
+     --secret-key &lt;secret_key> ][-I &lt;key_id>]
+      </codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="25*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
 
-    <section>
-    	<title>Syntax</title>
-    	<codeblock>euca-create-image  -n, -\-name &lt;name> [-a, -\-access-key &lt;access_key> ][-s,
-     -\-secret-key &lt;secret_key> ][-\-config &lt;config_path>
-     ][-\-debug][-\-debugger][-h, -\-help][-\-region &lt;region_name>
-     ][-U, -\-url &lt;url> ][-\-version][-\-euca-auth][-d, -\-description
-     &lt;description> ][-\-no-reboot] instance_id</codeblock>
-    </section>
-  	<section>
-  		<title>Options</title>
-  		<table>   			<tgroup cols="3">   				<colspec colwidth="25*"/>   				<colspec colwidth="60*"/>   				<colspec colwidth="25*"/>   				<thead>   					<row>    						<entry>Option</entry>   						<entry>Description</entry>    						<entry>Required</entry>   					</row>   				</thead>
-  			
-  				<tbody>
-  					<row>
-  						<entry><codeph>-n,-\-name</codeph></entry>
+					<tbody>
+						<row>
+							<entry><codeph>-n,--name</codeph> <i>name</i></entry>
+							<entry>The name of the new image. </entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-d,--description</codeph> <i>description</i></entry>
+							<entry>The description of the new image. </entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>--no-reboot</codeph></entry>
+							<entry>Indicates that the instance should not be shut down before creating the image. <note importance="high">This may affect image integrity.</note></entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-b,--block-device-mapping </codeph></entry>
+							<entry>Block device mapping for the instance. This is passed in the form
+								of &lt;devicename>=&lt;blockdevice>, where:
+								<codeph>devicename</codeph> is the device name of the physical
+								device on the instance to map and <codeph>blockdevice</codeph> is
+								one of the following values: <ul>
+									<li><codeph>none</codeph>: Use this value to suppress existing
+										mapping on the specified image for this device. For example:
+										<codeph>/dev/sdc=none</codeph></li>
+									<li><codeph>ephemeral[0..3]</codeph>: Use this value to indicate
+										that an instance local storage device should be mapped to
+										this device. For example:
+										<codeph>/dev/sdc=ephemeral0</codeph></li>
+									<li><codeph>[snapshot-id]:[size]:[delete-on-termination
+										(true|false)]</codeph>: Use this value to map a device
+										to an existing EBS-backed volume, and to specify whether the
+										EBS volume should be deleted on termination. This value
+										defaults to <codeph>true</codeph>. <p>To specify a new
+											EBS-backed volume, skip the snapshot ID and pass in a
+											volume size instead. For example:<codeph>
+												/dev/sdb=:20</codeph>.</p></li>
+								</ul></entry>
+							<entry align="center">No</entry>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Required Parameters</title>
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="80*"/>
 
-    	<codeblock>euca-create-image  -n, -\-name &lt;name> [-a, -\-access-key &lt;access_key> ][-s,
-     -\-secret-key &lt;secret_key> ][-\-config &lt;config_path>
-     ][-\-debug][-\-debugger][-h, -\-help][-\-region &lt;region_name>
-     ][-U, -\-url &lt;url> ][-\-version][-\-euca-auth][-d, -\-description
-     &lt;description> ][-\-no-reboot] instance_id</codeblock>
-    </section>
-  	<section>
-  		<title>Required Parameters</title>
-  		<table>
-  			<tgroup cols="2">
-  				<colspec colwidth="25*"/>
-  				<colspec colwidth="80*"/>
-  				
-  				<thead>
-  					<row>
-  						<entry>Parameter</entry>
-  						<entry>Description</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph>-n,-\-name</codeph></entry>
+					<thead>
+						<row>
+							<entry>Parameter</entry>
+							<entry>Description</entry>
 
-  						<entry>Name for the new image you are creating</entry>
-  					</row>
-  					<row conref="../shared/shared_params.dita#shared_params/instance_id">
-  						<entry></entry>
-  					</row>
-  					
-  				</tbody>
-  			</tgroup>
-  		</table>
-  	</section>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>-n,--name</codeph></entry>
 
-  	<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
-  	
-  	<section>
-  		<title>Output</title>
-  		<ul>
-  			<li></li>
-  			<li></li>
-  		</ul>
-  	</section>
-  	
-  	<section>
-  		<title>Example</title>
-  		<codeblock></codeblock>
-  	</section>
-  </refbody>-->
+							<entry>Name for the new image you are creating</entry>
+						</row>
+						<row conref="../shared/shared_params.dita#shared_params/instance_id">
+							<entry/>
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+<!--		<section>
+			<title>Output</title>
+			<ul>
+				<li/>
+				<li/>
+			</ul>
+		</section>
 
 		<section>
+			<title>Example</title>
+			<codeblock/>
+		</section>-->
+
+
+		<!--<section>
 			<title>Optional Parameters</title>
 			<table>
 				<tgroup cols="2">
@@ -89,63 +142,45 @@
 
 					</thead>
 					<tbody>
-						<row
-							conref="../shared/shared_params.dita#shared_params/access_key_id">
+						<row conref="../shared/shared_params.dita#shared_params/access_key_id">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/secret_key">
+						<row conref="../shared/shared_params.dita#shared_params/secret_key">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/config">
+						<row conref="../shared/shared_params.dita#shared_params/config">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/debug">
+						<row conref="../shared/shared_params.dita#shared_params/debug">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/debugger">
+						<row conref="../shared/shared_params.dita#shared_params/debugger">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/help">
+						<row conref="../shared/shared_params.dita#shared_params/help">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/region">
+						<row conref="../shared/shared_params.dita#shared_params/region">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/url">
+						<row conref="../shared/shared_params.dita#shared_params/url">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/version">
+						<row conref="../shared/shared_params.dita#shared_params/version">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/euca_auth">
+						<row conref="../shared/shared_params.dita#shared_params/euca_auth">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/description">
+						<row conref="../shared/shared_params.dita#shared_params/description">
 							<entry/>
 						</row>
-						<row
-							conref="../shared/shared_params.dita#shared_params/no_reboot">
+						<row conref="../shared/shared_params.dita#shared_params/no_reboot">
 							<entry/>
 						</row>
 					</tbody>
 				</tgroup>
 			</table>
-		</section>
-		<!--<section>
-  		<title>Errors</title>
-  		</section>-->
-		<!--<section>
-  		<title>Example</title>
-  		</section>-->
+		</section>-->
 	</refbody>
 </reference>
