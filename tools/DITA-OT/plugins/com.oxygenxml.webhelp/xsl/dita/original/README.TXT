@@ -1,1 +1,0 @@
-A small fragment of the DITA-OT. Ensures portability for Docbook.
