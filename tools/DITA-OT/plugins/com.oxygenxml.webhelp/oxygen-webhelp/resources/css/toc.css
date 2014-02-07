@@ -1,0 +1,284 @@
+/*
+
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt
+available in the base directory of this Oxygen Webhelp plugin.
+
+*/
+
+html,body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    font-family: arial, helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+.tab span{
+    float: left;
+    display: inline-block;
+}
+
+#productTitle h1 {
+    font-size: 1.8em;
+    margin: 0.5em 0 0 0.3em;
+    padding-bottom: 0.5em;
+    line-height: 1.1em;
+}
+
+/* Expand / Collapse Buttons */
+#expnd{
+    float: right;
+    text-align: right;
+    display: inline-block;
+    padding: 3px;
+}
+#expnd a{
+    display: none;
+}
+
+/*Left pane TABs*/
+#tocMenu{
+    clear: both;
+    width: 100%;
+    margin: 0 auto;
+}
+#tocMenu div{
+    background-color : #eee;
+    text-decoration:none;
+    color:#336699;
+    padding:1px 7px 1px 7px;
+    cursor:pointer;
+    margin-top: 1px;
+    margin-bottom: 0;
+    margin-right: 2px;
+    border:1px solid #ccc;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
+    border-bottom:0;
+    float: left;
+    min-height: 1px;
+    text-shadow:0 1px 0 #fff;
+}
+#tocMenu div:hover{
+    color:#cc0000;
+}
+#tocMenu div.selectedTab{
+    text-decoration: none;
+    color:#333;
+    background-color:#D3E1F1;
+    border:1px solid #ccc;
+    border-top-left-radius:4px;
+    border-top-right-radius:4px;
+    border-bottom:0;
+    text-shadow:0 1px 0 #fff;
+}
+
+#bck_toc #searchBlock,#bck_toc #indexBlock, #bck_toc #contentBlock{
+    background-color:white;
+    padding-top:10px;
+    vertical-align:top;
+}
+
+/*Content block with navigation tree*/
+#contentBlock>ul>li{
+    padding: 1px 0 1px 0;
+}
+#contentBlock ul>li ul{
+    display:none;
+}
+#contentBlock ul{
+    margin: 0;
+}
+#contentBlock li span{
+    display: block;
+    padding: 2px 5px 2px 21px;
+}
+#contentBlock,#contentBlock ul{
+    padding-left: 10px;
+}
+#contentBlock a, a.link, a.navheader_parent_path{
+    text-decoration: none;
+    font-size: 10pt;
+    color: navy;
+    font-family: arial, helvetica, tahoma, sans-serif;
+    white-space: nowrap;
+}
+#contentBlock a:hover{
+    background: #F2F7FD;
+}
+#contentBlock a:hover, a.link:hover, a.navheader_parent_path:hover{
+    text-decoration: none;
+    color: red;
+}
+.hasSubMenuClosed{
+    background: url('../img/book_closed16.png') no-repeat;
+    padding-left: 16px;
+    cursor: pointer;
+
+}
+.hasSubMenuOpened{
+    background: url('../img/book_opened16.png') no-repeat;
+    padding-left: 16px;
+    cursor: pointer;
+}
+
+.menuItemSelected{
+    font-weight: bolder;
+    background-color: #f9f9f9;
+}
+
+/*Index block from left pane*/
+#indexBlock {
+    line-height:1.8em;
+}
+#indexBlock a{
+    text-decoration:none;
+}
+#indexBlock fieldset{
+    border:0;
+    padding-top:0;
+    border-bottom:1px solid #eee;
+}
+#indexBlock ul{
+    color:#444;
+    list-style:none;
+    margin:0;
+    padding-left:16px;
+}
+
+li{
+    list-style: none;
+}
+
+#searchBlock #searchForm {
+    margin: 0 10px;
+}
+
+#searchForm{
+    margin:15px 10px;
+    padding:0 10px 15px 10px;
+    border-bottom:0 solid #eee;
+}
+#indexForm {
+    margin:15px 10px;
+}
+
+.textToSearch{
+    width: 150px;
+    border: 1px #999 solid;
+    padding: 0 3px;
+    margin-right: 4px;
+    line-height: 1.5em;
+}
+
+.topic{
+    background-image: url('../img/topic16.png');
+    background-repeat:  no-repeat;
+    padding-left: 16px;
+}
+
+#id_search{
+    border: 1px #999 solid;
+    line-height: 1.4em;
+    padding: 0 3px;
+    margin: 0;
+}
+
+#rightDiv{
+    clear: both;
+    position: relative;
+    margin-top: 5px;
+    width: 98%;
+    text-align: right;
+}
+
+a.foundResult{
+    color:#0000FF;
+}
+a.foundResult:visited{
+    color:#660066;
+}
+a.foundResult:hover{
+    color:red;
+}
+
+/*Rating of searched terms*/
+#star .star {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 85px;
+    height: 20px;
+    left: 1px;
+    top: -5px;
+    position: relative;
+    float: right;
+    background: url('../img/starsSmall.png') repeat-x 0 -25px;
+}
+#star div {
+    padding: 0;
+    margin: 0;
+    float: right;
+    display: block;
+    width: 85px;
+    height: 20px;
+    text-decoration: none;
+    text-indent: -9000px;
+    z-index: 20;
+}
+#star .curr {
+    background: url('../img/starsSmall.png') 0 25px;
+    float: left;
+    width: 85px;
+    font-size: 1px;
+}
+#star div.user {
+    left: 5px;
+    position: relative;
+    float: right;
+    font-size: 13px;
+    font-family: Arial,sans-serif;
+    color: #888;
+}
+
+.searchExpression {
+    color: #0050A0;
+    font-size: 10pt;
+    font-weight:bold;
+}
+
+#searchResults{
+    padding: 0.6em;
+}
+
+.searchresult{
+    margin:0;
+    padding:0
+}
+.searchresult li{
+    margin-top:0.2em;
+    padding: 0.6em;
+}
+
+.highlight{
+    background: lightyellow;
+}
+
+/*The copyright.*/
+.legal {
+    margin: 1em;
+}
+.legalCopyright{
+    font-size: 0.8em;
+    text-align: right;
+    font-weight:normal;
+}
+.legalNotice{
+    margin-top: 1em;
+    border-top: 1px solid gray;
+    padding-top: 1em;
+    color: #999;
+}

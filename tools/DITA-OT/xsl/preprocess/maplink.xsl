@@ -4,5 +4,6 @@
   <xsl:import href="maplinkImpl.xsl"></xsl:import>
   
 <xsl:import href="../../plugins/org.dita.specialization.eclipsemap/xsl/maplink-plugin.xsl"/>
+<xsl:import href="../../plugins/com.oxygenxml.webhelp/xsl/dita/nextPrevFullIteration.xsl"/>
   <xsl:output method="xml" encoding="utf-8" indent="no"></xsl:output>
 </xsl:stylesheet>
