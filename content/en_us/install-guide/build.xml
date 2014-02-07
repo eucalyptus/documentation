@@ -55,6 +55,19 @@
 		</ant>
 	</target>
 	
+	<target name="webhelp" depends="integrate" description="Builds webhelp files and TOC.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}webhelp{file.separator}ig"/>
+			<property name="args.xhtml.classattr" value="no"/>
+			<property name="args.hdr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}webhelp${file.separator}euca_header.xml"/>
+			<property name="args.ftr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}webhelp${file.separator}euca_footer.xml"/>
+			<property name="transtype" value="xhtml"/>
+		</ant>
+	</target>
+	
 	<target name="xhtml" depends="integrate" description="Builds XHTML files and TOC.">
 		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
 			<property name="output.dir"
