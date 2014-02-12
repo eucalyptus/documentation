@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of the com.citrix.qa project hosted on 
+     Sourceforge.net.-->
+<!-- (c) Copyright Citrix Systems, Inc. All Rights Reserved. -->
+<project name="dita2qa" default="dita2qa">
+	<property name="transtype" value="qa"/>
+	<target name="dita2qa" depends="dita2jit"> <!-- change this to depends on json target-->
+		<!-- Copy images to the output directory -->
+		<mkdir dir="${output.dir}${file.separator}img"/>
+		<copy todir="${output.dir}${file.separator}img">
+			<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}img">
+			<include name="fail.PNG"/>
+			<include name="failsm.png"/>
+			<include name="pass.PNG"/>
+			<include name="passsm.png"/>
+			</fileset>
+		</copy>
+		<copy todir="${output.dir}">
+			<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}">
+			<include name="log.xsl"/>
+			<include name="jit-yc.js"/> <!-- for jit charts -->
+			</fileset>
+		</copy>
+		<!-- copy pie chart files -->
+		<copy todir="${output.dir}${file.separator}css">
+			<fileset dir="${dita.dir}${file.separator}plugins${file.separator}com.citrix.qa${file.separator}xsl${file.separator}css">
+			<include name="base.css"/>
+			<include name="PieChart.css"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<!-- insert json target that depends on buildqahtml-->
+	<target name="dita2jit" depends="buildqahtml">
+	<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" classpathref="dost.class.path" extension=".js" style="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/dita2jit_pie_chart.xsl" filenameparameter="FILENAME" filedirparameter="FILEDIR"></xslt>
+	</target>
+	
+	
+	<target name="buildqahtml" depends=" build-init, preprocess, dita.map.xhtml, dita.topics.qa, dita.inner.topics.qa, dita.outer.topics.qa"/>
+	<!-- xhtml output -->
+	<target name="dita.topics.qa" description="Target 1: Build QA output from dita topics">
+		<condition property="out.ext" value=".html">
+			<not>
+				<isset property="out.ext"/>
+			</not>
+		</condition>
+		<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
+			<not>
+				<isset property="args.xsl"/>
+			</not>
+		</condition>
+		<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" extension="${out.ext}" style="${args.xsl}">
+			<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/>
+			<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"/>
+			<param name="FILTERFILE" expression="${dita.input.valfile}" if="dita.input.valfile"/>
+			<param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
+			<param name="input" expression="${args.input}" if="args.input"/>
+			<param name="OUTPUTDIR" expression="${output.dir}" if="output.dir"/>
+			<param name="BASEDIR" expression="${basedir}"/>
+			<param name="fileroot" expression="${dita.map.filename.root}"/>
+		</xslt>
+		<antcall target="copy-css"/>
+	</target>
+	<target name="dita.inner.topics.qa" unless="noTopic" if="inner.transform" description="Target 2: Build QA output from inner dita topics">
+		<condition property="out.ext" value=".html">
+			<not>
+				<isset property="out.ext"/>
+			</not>
+		</condition>
+		<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
+			<not>
+				<isset property="args.xsl"/>
+			</not>
+		</condition>
+		<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"/>
+		<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}" includesfile="${dita.temp.dir}${file.separator}${fullditatopicfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
+			<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/>
+			<includesfile name="${dita.temp.dir}${file.separator}${chunkedtopicfile}" if="chunkedtopicfile"/>
+			<param name="TRANSTYPE" expression="${transtype}"/>
+			<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"/>
+			<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"/>
+			<param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"/>
+			<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"/>
+			<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"/>
+			<param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
+			<param name="BASEDIR" expression="${basedir}"/>
+			<param name="OUTPUTDIR" expression="${output.dir}"/>
+			<param name="input" expression="${args.input}" if="args.input"/>
+			<mapper type="regexp" from="^(${tempdirToinputmapdir.relative.value})(.*?)(\.(xml|dita))$$" to="\2${out.ext}"/>
+			<param name="fileroot" expression="${dita.map.filename.root}"/>
+		</xslt>
+	</target>
+	<target name="dita.outer.topics.qa" unless="noTopic" if="outer.transform" depends="checkouterTransform" description="Target 3: Build QA output from outer dita topics">
+		<condition property="out.ext" value=".html">
+			<not>
+				<isset property="out.ext"/>
+			</not>
+		</condition>
+		<condition property="args.xsl" value="${dita.dir}${file.separator}plugins/com.citrix.qa/xsl/qascript.xsl">
+			<not>
+				<isset property="args.xsl"/>
+			</not>
+		</condition>
+		<makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"/>
+		<xslt processor="trax" basedir="${dita.temp.dir}" destdir="${output.dir}${file.separator}${uplevels}" includesfile="${dita.temp.dir}${file.separator}${outditafilesfile}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
+			<excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/>
+			<param name="TRANSTYPE" expression="${transtype}"/>
+			<param name="DITAEXT" expression="${dita.ext}" if="dita.ext"/>
+			<param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"/>
+			<param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"/>
+			<param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"/>
+			<param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
+			<param name="BASEDIR" expression="${basedir}"/>
+			<param name="OUTPUTDIR" expression="${output.dir}"/>
+			<param name="input" expression="${args.input}" if="args.input"/>
+			<param name="fileroot" expression="${dita.map.filename.root}"/>
+		</xslt>
+	</target>
+</project>
