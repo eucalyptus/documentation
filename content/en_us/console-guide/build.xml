@@ -27,6 +27,19 @@
 	<!-- Import the DITA-OT integrator.xml file. -->
 	<import file="${dita-ot.dir}${file.separator}integrator.xml"/>
 	
+	<target name="webhelp" depends="integrate" description="Builds webhelp files and TOC.">
+		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
+			<property name="output.dir"
+				value="out${file.separator}webhelp${file.separator}cg"/>
+			<property name="args.xhtml.classattr" value="no"/>
+			<property name="args.hdr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}webhelp${file.separator}euca_header.xml"/>
+			<property name="args.ftr" 
+				value="${dita-ot.dir}${file.separator}demo${file.separator}fo${file.separator}Customization${file.separator}xhtml${file.separator}xsl${file.separator}webhelp${file.separator}euca_footer.xml"/>
+			<property name="transtype" value="xhtml"/>
+		</ant>
+	</target>
+	
 	<target name="pdf" depends="integrate" description="Builds a PDF file.">
 		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
 			<property name="output.dir"
@@ -121,13 +134,7 @@
 		</ant>
 	</target>
 	
-	<target name="webhelp" description="Build webhelp files" depends="integrate">
-		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">
-			<property name="output.dir"
-				value="out${file.separator}webhelp"/>
-			<property name="transtype" value="webhelp"/>
-		</ant>
-	</target>
+	
 	
 	<target name="qa" description="Generates quality assurance report" depends="integrate">
 		<ant antfile="${dita-ot.dir}${file.separator}build.xml" target="init">

@@ -32,6 +32,7 @@ See the accompanying license.txt file for applicable licenses.
     <xsl:import href="topic2fo.xsl"></xsl:import>
     
     
+<xsl:import href="../../../com.oxygenxml.highlight/pdfHighlight.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.formatting-d.fo/xsl/formatting-d2fo.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.variables-d.pdf/xsl/variables-d2pdf.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.pubContent-d.fo/xsl/pubContent-d2fo.xsl"/>

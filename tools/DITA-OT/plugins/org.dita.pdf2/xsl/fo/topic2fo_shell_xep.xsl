@@ -12,6 +12,7 @@
   <xsl:import href="index_xep.xsl"></xsl:import>
 
   
+<xsl:import href="../../../com.oxygenxml.highlight/pdfHighlight.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.formatting-d.fo/xsl/formatting-d2fo.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.variables-d.pdf/xsl/variables-d2pdf.xsl"/>
 <xsl:import href="../../../net.sourceforge.dita4publishers.pubContent-d.fo/xsl/pubContent-d2fo.xsl"/>
