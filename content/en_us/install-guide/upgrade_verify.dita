@@ -6,8 +6,8 @@
 	<shortdesc/>
 	<taskbody id="upgrade_verify_task">
 		<context>
-			<p>Verify that all Eucalyptus components are running and properly connected to one
-				another. Check to make sure that the status of each component is enabled.</p>
+			<p>Verify that all Eucalyptus components are running and properly connected to one another.
+				Check to make sure that the status of each component is enabled.</p>
 			<p>To verify that all services are enabled:</p>
 		</context>
 		<steps>
@@ -34,33 +34,14 @@ CLUSTER test01     test01_cc     192.168.51.35     ENABLED {}</codeblock>
 			</step>
 			<step>
 				<cmd>Verify your SCs:</cmd>
-				<substeps>
-					<substep>
-						<cmd/>
-						<info>
-							<codeblock>euca_conf --list-scs</codeblock>
-						</info>
-						<stepresult>
-							<p>Eucalyptus returns a list, as in the following example.</p>
-							<codeblock>STORAGECONTROLLER     test01     test01_sc     192.168.51.39      ENABLED {}
+				<info>
+					<codeblock>euca_conf --list-scs</codeblock>
+				</info>
+				<stepresult>
+					<p>Eucalyptus returns a list, as in the following example.</p>
+					<codeblock>STORAGECONTROLLER     test01     test01_sc     192.168.51.39      ENABLED {}
 STORAGECONTROLLER     test00     test00_sc     192.168.51.32      ENABLED {}</codeblock>
-						</stepresult>
-					</substep>
-					<substep>
-						<note importance="high">If you are a subscriber and use NetApp as the
-							storage SAN backend, the following step is required to enable the SAN
-							support in 3.3.</note>
-						<cmd> On the CLC (the primary CLC in an HA setup), configure the CHAP
-							username to be used by the Eucalyptus. The CHAP username can be any
-							value, however it should be unique when sharing a NetApp Filer across
-							multiple Eucalyptus clusters. The SC will not transition to ENABLED
-							state until the CHAP username is configured. For example:</cmd>
-						<info>
-							<codeph>euca-modify-property -p
-								&lt;partition>.storage.chapuser=&lt;Chap_username></codeph>
-						</info>
-					</substep>
-				</substeps>
+				</stepresult>
 
 			</step>
 			<step>
@@ -89,10 +70,8 @@ AVAILABILITYZONE        |- m1.xlarge    0002 / 0002   2   1024    20
 AVAILABILITYZONE        |- c1.xlarge    0001 / 0001   4   2048    20</codeblock>
 				</stepresult>
 			</step>
-			<!--<step>
-        		<cmd><draft-comment>Other describe commands.</draft-comment></cmd>
-        	</step>-->
+			
 		</steps>
-		<postreq>You are now ready to <xref href="upgrade_creds.dita"/>.</postreq>
+		<postreq>You are now ready to <xref href="upgrade_from_oldv.dita"/>.</postreq>
 	</taskbody>
 </task>

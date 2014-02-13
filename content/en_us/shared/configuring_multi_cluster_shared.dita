@@ -19,51 +19,53 @@
 
 	<conbody>
 
-		<p></p>
-		<p>In System or Static networking modes, Eucalyptus does not perform any special
-			configuration for a multi-cluster setup. In Managed and Managed (No VLAN) modes,
-			Eucalyptus sets up Layer 2 Tunneling Protocol (L2TP) between your clusters. This means
-			that virtual machines in the same security group, but distributed across clusters
-			(potentially each in their own broadcast domain), can communicate with one another.
-			Eucalyptus uses the VTun package to handle all L2TP tunnels between clusters. If VTun is
-			installed on each of your CCs, multi-cluster tunneling is automatically handled by each
-			CC.</p>
-		
-		
-		<note type="important">You must set VNET_PUBLICIPS identically on all CCs in a multi-cluster configuration.</note>
-		
-		<note type="important"> When L2TP tunneling is enabled in a multi-cluster setup, make sure
-			that you are using different IP ranges for the nodes in each cluster. </note>
+		<p>In System or Static networking modes, Eucalyptus does not perform any special configuration
+			for a multi-cluster setup. In Managed and Managed (No VLAN) modes, Eucalyptus sets up Layer 2
+			Tunneling Protocol (L2TP) between your clusters. This means that virtual machines in the same
+			security group, but distributed across clusters (potentially each in their own broadcast
+			domain), can communicate with one another. Eucalyptus uses the VTun package to handle all L2TP
+			tunnels between clusters. If VTun is installed on each of your CCs, multi-cluster tunneling is
+			automatically handled by each CC.</p>
+
 		<p>Depending on the networking mode and network topology, keep the following network
 			configuration considerations in mind.</p>
 		<dl>
 			<dlentry>
 				<dt>Managed Mode:</dt>
-				<dd>During normal operation, you will see many tunnel interfaces being created and
-					destroyed as virtual networks are constructed and torn down.</dd>
+				<dd>During normal operation, you will see many tunnel interfaces being created and destroyed
+					as virtual networks are constructed and torn down.</dd>
 			</dlentry>
 			<dlentry>
 				<dt>Managed (No VLAN) Mode:</dt>
-				<dd>In order for VTun tunneling to work in this mode, you must configure each CC
-					with a bridge as its primary, public interface (<codeph>VNET_PUBINTERFACE</codeph>).</dd>
+				<dd>In order for VTun tunneling to work in this mode, you must configure each CC with a
+					bridge as its primary, private interface (<codeph>VNET_PRIVINTERFACE</codeph>). All
+					traffic from nodes in one cluster to nodes in another cluster is routed through the CCs.
+					Each cluster requires that the interface that faces the nodes for the CC (the private
+					interface) be a bridge device for the nodes themselves.</dd>
 			</dlentry>
 			<dlentry>
 				<dt>Managed Mode and Managed (No VLAN) Mode:</dt>
-				<dd>The CC attempts to auto-discover its list of local IP addresses upon startup,
-					but if the IP that was used to register the CC is not locally available, you can
-					override the CC's notion of 'self' by setting the <codeph>VNET_LOCALIP</codeph>
-					variable in the <filepath>eucalyptus.conf</filepath> file. </dd>
-				
+				<dd>The CC attempts to auto-discover its list of local IP addresses upon startup, but if the
+					IP that was used to register the CC is not locally available, you can override the CC's
+					notion of 'self' by setting the <codeph>VNET_LOCALIP</codeph> variable in the
+						<filepath>eucalyptus.conf</filepath> file. </dd>
+
 			</dlentry>
 		</dl>
-		<note type="important">Do not run two CCs in the same broadcast domain with tunneling
-			enabled, as this will potentially lead to a broadcast storm as tunnels start forwarding
-			packets in a loop on your local network. Please disable tunneling by setting
-				<codeph>DISABLE_TUNNELING=Y</codeph> in <filepath>eucalyptus.conf</filepath> on both
-			CC hosts.</note>
-		<note type="important">If you are using a multi-hypervisor and multi-cluster setup (for example,
-			KVM in one cluster and VMware in another cluster), you must install the
-			<filepath>vmware-broker-libs</filepath> package on SCs in all clusters.</note>
-
+		<note type="important"> Note the following: <ul>
+				<li>You must set VNET_PUBLICIPS identically on all CCs in a multi-cluster
+					configuration.</li>
+				<li>When L2TP tunneling is enabled in a multi-cluster setup, make sure that you are using
+					different IP ranges for the nodes in each cluster. </li>
+				<li>Do not run two CCs in the same broadcast domain with tunneling enabled, as this will
+					potentially lead to a broadcast storm as tunnels start forwarding packets in a loop on
+					your local network. Please disable tunneling by setting
+						<codeph>DISABLE_TUNNELING=Y</codeph> in <filepath>eucalyptus.conf</filepath> on both CC
+					hosts.</li>
+				<li>If you are using a multi-hypervisor and multi-cluster setup (for example, KVM in one
+					cluster and VMware in another cluster), you must install the
+						<filepath>vmware-broker-libs</filepath> package on SCs in all clusters.</li>
+			</ul>
+		</note>
 	</conbody>
 </concept>

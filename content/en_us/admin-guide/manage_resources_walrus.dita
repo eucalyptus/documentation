@@ -2,16 +2,29 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="managing_resources_walrus">
-    <title>Manage Walrus</title>
-    <shortdesc></shortdesc>
-    <taskbody>
-        <context>
-            <p>Context for the current task</p>
-        </context>
-        <steps>
-            <step>
-                <cmd>Task step.</cmd>
-            </step>
-        </steps>
-    </taskbody>
+	<title>Manage Walrus Resources</title>
+	<shortdesc>This topic explains Walrus resources.</shortdesc>
+	<taskbody>
+		<context>
+			<ul>
+				<li><b>Bucket ACLs:</b> These allow an account to explicity grant access to a bucket or
+					object to another account. ACLs only work between accounts, not IAM users. You specify
+					accounts with the CanonicalID or the email address associated with the account (for
+					Eucalyptus this is the email of the account admin).</li>
+
+				<li><b>Bucket Policies:</b> These are IAM-like policies set by the bucket owner that allow
+					the owner to specify access controls for other users or accounts for that specific bucket.
+					A bucket policy looks like an IAM policy, but the policy is uploaded to S3, not IAM, and the bucket
+					owner sets it rather than the account admin. A bucket policy can allow or deny access to
+					accounts and IAM users in multiple accounts by the bucket owners. Any ACL can be
+					translated into bucket policy, but not the other way around.</li>
+
+				<li><b>IAM Policies:</b> These are set by the admin of an account to control the access of
+					users within that specific account. This is how an admin controls what users in that
+					specific account are allowed to do. Policies can specify allow/deny on specific S3
+					operations (e.g. s3:GetObject, or s3:PutObject). IAM policies are set by sending the
+					policy to the IAM (Euare) endpoint, not S3 (Walrus).</li>
+			</ul></context>
+
+	</taskbody>
 </task>

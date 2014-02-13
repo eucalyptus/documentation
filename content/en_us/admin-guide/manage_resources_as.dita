@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="manage_resources_as">
+    <title>Manage Auto Scaling Resources</title>
+	<shortdesc>You can list, delete, update, and suspend your Eucalyptus cloud's Autoscaling resources
+		by passing the <codeph>-show-long</codeph> option with the keyword <codeph>verbose</codeph> with
+		the appropriate <codeph>euscale-</codeph> command.</shortdesc>
+    <taskbody>
+        <context>
+            <p>Below are some examples you can use to act on your Auto Scaling resources. For more
+            	information about Auto Scaling commands, see <xref
+            		href="../euca2ools-guide/euscale.dita">.</xref></p>
+        </context>
+        <steps-unordered>
+            <step>
+                <cmd>To show all launch configurations in your cloud, run the following command:</cmd>
+            	<info>
+            		<codeblock>euscale-describe-launch-configs --show-long verbose</codeblock>
+            	</info>
+            </step>
+        	<step>
+        		<cmd>To show all Auto Scaling instances in your cloud, run the following command:</cmd>
+        		<info>
+        			<codeblock>euscale-describe-auto-scaling-groups --show-long verbose</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>To show all Auto Scaling instances in your cloud, run the following command:</cmd>
+        		<info>
+        			<codeblock>euscale-describe-auto-scaling-groups --show-long verbose</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>To delete an Auto Scaling resource in your cloud, first get the ARN of the resource,
+        			as in this example:</cmd>
+        		<info>
+        			<codeblock>$ euscale-describe-launch-configs --show-long verbose
+LAUNCH-CONFIG  TestLaunchConfig  emi-06663A57  m1.medium  2013-10-30T22:52:39.392Z  true
+arn:aws:autoscaling::961915002812:launchConfiguration:5ac29caf-9aad-4bdb-b228-5f
+ce841dc062:launchConfigurationName/TestLaunchConfig</codeblock>
+        			<p>Then run the following command with the ARN:</p>
+        			<codeblock>euscale-delete-launch-config
+arn:aws:autoscaling::961915002812:launchConfiguration:5ac29caf-9aad-4bdb-b228-5f
+ce841dc062:launchConfigurationName/TestLaunchConfig</codeblock>
+        		</info>
+        	</step>
+        </steps-unordered>
+    </taskbody>
+</task>

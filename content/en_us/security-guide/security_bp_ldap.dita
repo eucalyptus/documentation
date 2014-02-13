@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="security_bp_ldap">
+ <title>LDAP Security</title>
+ <shortdesc>This topic explains variables in the LIC file you should use to secure configuration.</shortdesc>
+ <conbody>
+ 	<p>When you enable LDAP/Active Directory (AD) integration with Eucalyptus, we recommend that you
+ 		use the following variables in the LDAP/AD Integration Configuration (LIC) file. These variables
+ 		are located under the <codeph>ldap-service</codeph> element in the LIC file.</p>
+ 	
+ 	<table>
+ 		<tgroup cols="2">
+ 			<thead>
+ 				<row>
+ 					<entry>Element</entry>
+ 					<entry>Description</entry>
+ 				</row>
+ 			</thead>
+ 			<tbody>
+ 				<row>
+ 					<entry>auth-method</entry>
+ 					<entry>The LDAP/AD authentication method to perform
+ 						synchronization. Supports three types of methods:
+ 						<ul><li><varname>simple</varname>: for clear text
+ 							user/password authentication.</li>
+ 							<li><varname>DIGEST-MD5</varname>: for SASL
+ 								authentication using MD5</li>
+ 							<li><varname>GSSAPI</varname>: SASL
+ 								authentication using Kerberos V5.</li>
+ 						</ul>
+ 					</entry>
+ 				</row>
+ 				
+ 				<row>
+ 					<entry>user-auth-method</entry>
+ 					<entry>The LDAP/AD authentication method for normal
+ 						users to perform Eucalyptus Administrator Console
+ 						login. Supports three types of methods:<ul>
+ 							<li><varname>simple</varname>: for clear text
+ 								user/password authentication.</li>
+ 							<li><varname>DIGEST-MD5</varname>: for SASL
+ 								authentication using MD5</li>
+ 							<li><varname>GSSAPI</varname>: SASL
+ 								authentication using Kerberos V5.</li>
+ 						</ul>
+ 					</entry>
+ 				</row>
+ 				
+ 				<row>
+ 					<entry>use-ssl</entry>
+ 					<entry>Specifies whether to use SSL for connecting to
+ 						LDAP/AD service. If this option is enabled, make sure
+ 						the SSL port for LDAP is defined as part of the server-url.
+ 						The default port for LDAP+SSL is port 636.</entry>
+ 				</row>
+ 				
+ 				<row>
+ 					<entry>ignore-ssl-cert-validation</entry>
+ 					<entry>Specifies whether to ignore self-signed SSL
+ 						certs. This is useful when you only have self-signed
+ 						SSL certs for your LDAP/AD services.</entry>
+ 				</row>
+ 				<row>
+ 					<entry>krb5-conf</entry>
+ 					<entry>The file path for <filepath>krb5.conf</filepath>, if you use GSSAPI
+ 						authentication method. </entry>
+ 				</row>
+ 			</tbody>
+ 		</tgroup>
+ 	</table>
+ 	
+ 	<p>When use-ssl is enabled, ldaps will be used. However, the <codeph>server-url</codeph> still needs to begin with <codeph>ldap://</codeph>.</p>
+ 	
+ 	<p>We recommend using a proxy user for the <codeph>auth-principal</codeph>. Typically, proxy users
+ 		are used to associate with the application that needs to do reads (and in some cases writes)
+ 		against the LDAP/AD directory. Proxy users also make it easier for security audits done on the
+ 		LDAP/AD directory. To use with Eucalyptus and the LDAP/AD sync, the proxy user only needs read
+ 		access. For more information about using proxy authentication with OpenLDAP and Active Directory,
+ 		go to the following resources:</p>
+ 	<ul>
+ 		<li>For LDAP: <xref href="http://www.openldap.org/doc/admin24/sasl.html"
+ 			scope="external" format="html">Using SASL</xref> (see the <b>SASL Proxy Authorization</b>
+ 			section)</li>
+ 		<li>For Active Directory: <xref href="http://msdn.microsoft.com/en-us/library/cc223505.aspx" scope="external"
+ 			format="html">Supported Types of Security Principles</xref></li>
+ 		<li></li>
+ 	</ul>
+ 	
+ 		<p>For more information about LDAP and security, go to the following resources:</p>
+ 			<ul>
+ 				<li><xref href="http://www.openldap.org/doc/admin24/security.html" scope="external"
+ 					format="html">Authentication Methods</xref> (see the <b>"simple" method</b> section)</li>
+ 				<li><xref href="http://www.openldap.org/doc/admin24/sasl.html">Using SASL</xref></li>
+ 				<li><xref href="http://www.openldap.org/doc/admin24/security.html" scope="external" format="html">Security Considerations</xref></li>
+ 				
+ 		</ul>
+ 		
+ 		<p>For more information about Active Directory and security, go to the following resources:</p>
+ 	<ul>
+ 		<li><xref href="http://msdn.microsoft.com/en-us/library/cc223499.aspx"
+ 			scope="external" format="html">Simple Authentication</xref></li>
+ 		<li><xref href="http://msdn.microsoft.com/en-us/library/cc223500.aspx"
+ 			scope="external" format="html">SASL Authentication</xref></li>
+ 		<li><xref href="http://msdn.microsoft.com/en-us/library/cc223496.aspx"
+ 			scope="external" format="html">LDAP Security</xref></li>
+ 		</ul>
+ 		
+ </conbody>
+	<related-links>
+		<link href="../admin-guide/integrating_ldap.dita"/>
+	</related-links>
+</concept>

@@ -1,37 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_from_oldv">
-	<title>Install the Load Balancer Image</title>
+	<title>Update the Load Balancer Image</title>
     <shortdesc/>
     <taskbody>
         <context>
-			<p>In Eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/> we
-			        introduced load balancer support. In order to enable this
-				after upgrade, you must first source your existing credentials, and then follow the instructions for
-				load balancer installation and configuration. For more information, see <xref
+			<p>If you have not configured load balancer support in your previous version of Eucalyptus, skip to <xref
+				href="upgrade_creds.dita"/>. If you want to configure load balancer support for the first time, see <xref
 					href="configure_load_balancer.dita"/>.</p>
-				<!-- TODO: add links here after the pages are created -->
         </context>
-<!--
-        <steps>
-            <step>
-                <cmd>Enter the following command.</cmd>
-            	<info>
-            		<codeblock>euca-modify-property -p [zone].storage.blockstoragemanager=[ebs_manager]</codeblock>
-            		<p>where <codeph>ebs_manager</codeph> is one of the following
-            			options:</p>
-            		<ul conref="../shared/conrefs.dita#lists/san_devices">
-            			<li/>
-            		</ul>
-            		
-            		<p>See <xref href="configure_storage_controller.dita">Configure the
-            			Storage Controller</xref> for more information.</p>
-            		
-            	</info>
-            </step>
-        </steps>
--->
-    	<result>Your upgrade is now complete. If at any point your upgrade failed, see <xref
-    		href="upgrade_failure.dita"/>.</result>
+    	<steps-unordered>
+    		<step>
+    			<cmd>Run the following command on the machine where you installed the Eucalyptus load
+    				balancer package:</cmd>
+    			<info>
+    				<codeblock>euca-install-load-balancer --install-default</codeblock>
+    			</info>
+    		</step>
+    		
+    	</steps-unordered>
+    	
+    	<result>You are now ready to <xref
+    		href="upgrade_creds.dita"/>.</result>
     </taskbody>
 </task>
