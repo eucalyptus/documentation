@@ -2,13 +2,14 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="manage_resources_euare">
-    <title>Manage Euare Resources</title>
+    <title>Manage IAM Resources</title>
 	<shortdesc>To manage Euare (IAM) resources on your Eucalyptus cloud, use the
 		<codeph>--as-account</codeph> option with any <codeph>euare-</codeph> command that describes, adds,
-		deletes, or modifies resources. This option allows you to assume the role of the admin user for a given account.</shortdesc>
+		deletes, or modifies resources. This option allows you to assume the role of the admin user for a
+		given account. You can also use a policy to control and limit instances to specific availability zones.</shortdesc>
     <taskbody>
         <context>
-            <p>Below are some examples. For more information about Euare commands, see <xref
+            <p>The following are some examples. For more information about IAM commands, see <xref
             	href="../euca2ools-guide/eiam.dita"/>.</p>
         </context>
         <steps-unordered>
@@ -35,6 +36,68 @@
         		<info>
         			<codeblock>euare-usermod --as-account &lt;account-name> -u &lt;user_name> -n
 &lt;new_user_name></codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>To restrict an image to a specific availability zone, edit and attach this sample
+        			policy to a user:</cmd>
+        		<info>
+        			<codeblock>{
+    "Statement":[
+      {
+        "Effect":"Allow",
+        "Action":"ec2:*",
+         "Resource":"*"
+      },
+      {
+        "Effect": "Deny",
+        "Action": [ "ec2:*" ],
+        "Resource": "arn:aws:ec2:::availabilityzone/PARTI00",
+        "Condition": {
+          "ArnLike": {
+            "ec2:TargetImage": "arn:aws:ec2:*:*:image/emi-239D37F2"
+          }
+        }
+      }
+    ]
+  }</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>To restrict a user to actions only within a specific availability zone, edit and
+        			attach this sample policy to a user:</cmd>
+        		<info>
+        			<codeblock>{
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Action": [ "ec2:TerminateInstances" ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:AvailabilityZone": "PARTI00"
+        }
+      }
+    }]
+  }</codeblock>
+        		</info>
+        	</step>
+        	<step>
+        		<cmd>To deny actions at the account level, edit and attach this example policy to an
+        			account:</cmd>
+        		<info>
+        			<codeblock>{
+    "Statement": [ {
+      "Effect": "Deny",
+      "Action": [ "ec2:RunInstances" ],
+      "Resource": "arn:aws:ec2:::availabilityzone/PARTI00",
+      "Condition": {
+          "ArnLike": {
+              "ec2:TargetImage": "arn:aws:ec2:*:*:image/emi-239D37F2"
+          }
+      }
+    } ]
+  }</codeblock>
         		</info>
         	</step>
         </steps-unordered>
