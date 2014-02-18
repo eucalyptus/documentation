@@ -19,6 +19,39 @@
 				</thead>
 				<tbody>
 					<row>
+						<entry>Instance Migration Fails on CentOS/RHEL 6.5 (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-8650"
+								>EUCA-8650</xref>)</entry>
+						<entry>Instance live migration does not work with the default qemu-kvm version. <p>Workaround:
+								after installing the eucalyptus-nc package (for a fresh install) or
+								immediately after upgrading the cloud and the base OS to CentOS 6.5,
+								downgrade the qemu-kvm and qemu-img packages by running the
+								following commands on the node controllers:</p><p>
+								<codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
+  http://vault.centos.org/6.4/os/x86_64/Packages/qemu-img-0.12.1.2-2.355.el6.x86_64.rpm
+service libvirtd restart</codeblock>
+							</p></entry>
+					</row>
+					
+					
+
+				</tbody>
+			</tgroup>
+		</table>
+		<p><b>Outstanding known issues from previous releases:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					
+					<!-- The following rows are previous-release Known Issues from 3.4.1 -->
+					
+					<row>
 						<entry>Load Balancer VM not able to contact CLC when CC is not collocated
 							with at least 1 Java component (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-7845"
@@ -54,7 +87,7 @@
 					</row>
 					<row>
 						<entry>Post-upgrade steps for upgrading Load Balancer may be confusing
-								(<xref format="html"
+							(<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/DOC-1071"
 								>DOC-1071</xref>)</entry>
 						<entry>If you already have load balancing enabled on 3.3.x, then there is
@@ -72,20 +105,9 @@
 							installing the load balancer image you should get new credentials so the
 							load balancer endpoint is defined.</entry>
 					</row>
-
-				</tbody>
-			</tgroup>
-		</table>
-		<p><b>Outstanding known issues from previous releases:</b></p>
-		<table>
-			<tgroup cols="2">
-				<thead>
-					<row>
-						<entry>Issue</entry>
-						<entry>Description</entry>
-					</row>
-				</thead>
-				<tbody>
+					
+					<!-- The following rows are previous-release Known Issues from 3.4.0 -->
+					
 					<row>
 						<entry>If a configuration file with the extension .rpmnew already exists
 							when an upgrade is performed, then the user's config file will be
