@@ -57,6 +57,17 @@
     		conref="../shared/conrefs.dita#prod/prev_version"/>.</note>
     	<codeph>yum install eucalyptus-enterprise-storage-san-equallogic-libs</codeph></info>
    </step>-->
+   <step>
+    <note importance="high">The following step is necessary when performing an upgrade or live migration on CentOS 6.5.</note>
+    <cmd>Downgrade the <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> packages by running the
+      following commands on the node controllers:
+    </cmd>
+    <info>
+       <codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
+  http://vault.centos.org/6.4/os/x86_64/Packages/qemu-img-0.12.1.2-2.355.el6.x86_64.rpm
+service libvirtd restart</codeblock>
+    </info>
+   </step>
   </steps>
  	<postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
  </taskbody>
