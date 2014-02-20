@@ -6,44 +6,38 @@
  <shortdesc/>
  <taskbody id="upgrade_packages_task">
   <context>
-   <p>Before upgrading Eucalyptus packages, we suggest fully updating your
-    systems using <codeph>yum update</codeph> where possible.</p>
-   <note importance="high">When using Walrus in a high availability (HA)
-    configuration, <xref href="http://linux.die.net/man/8/mount" format="html"
-     >mount(8)</xref> is now used for mounting and unmounting the DRBD device,
-    instead of <xref href="http://linux.die.net/man/2/mount" format="html"
-     >mount(2)</xref>. If Walrus HA is configured, add an entry to the
+   <p>Before upgrading Eucalyptus packages, we suggest fully updating your systems using <codeph>yum
+     update</codeph> where possible.</p>
+   <note importance="high">When using Walrus in a high availability (HA) configuration, <xref
+     href="http://linux.die.net/man/8/mount" format="html">mount(8)</xref> is now used for mounting
+    and unmounting the DRBD device, instead of <xref href="http://linux.die.net/man/2/mount"
+     format="html">mount(2)</xref>. If Walrus HA is configured, add an entry to the
      <filepath>/etc/fstab</filepath> to mount the DRBD device to
-     <filepath>/var/lib/eucalyptus/bukkits</filepath> on both primary and
-    secondary Walrus. For example, if the DRBD device in the Eucalyptus DRBD
-    resource file is defined as <filepath>/dev/drbd1</filepath> and the
-    filesystem format is ext3, add the following line to
+     <filepath>/var/lib/eucalyptus/bukkits</filepath> on both primary and secondary Walrus. For
+    example, if the DRBD device in the Eucalyptus DRBD resource file is defined as
+     <filepath>/dev/drbd1</filepath> and the filesystem format is ext3, add the following line to
      <filepath>/etc/fstab</filepath>:
     <codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>.</note>
    <p>To upgrade Eucalyptus packages:</p>
   </context>
   <steps>
    <step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+    <cmd>Enter the following command on each machine running a Eucalyptus component:</cmd>
     <info>
      <codeblock>yum clean expire-cache</codeblock>
     </info>
    </step>
    <step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+    <cmd>Enter the following command on each machine running a Eucalyptus component:</cmd>
     <info>
      <codeblock>yum update 'eucalyptus*'</codeblock>
     </info>
     <stepresult>
-     <p>If you have previously customized your configuration files,
-       <codeph>yum</codeph> returns a warning, and installs the new
-      configuration files with a different name. This preserves your
-      customizations. Before you continue, customize and rename the new
-      Configuration files.</p>
-     <note type="tip">For larger deployments, use a script to upgrade the
-      component host machines. For example:
+     <p>If you have previously customized your configuration files, <codeph>yum</codeph> returns a
+      warning, and installs the new configuration files with a different name. This preserves your
+      customizations. Before you continue, customize and rename the new Configuration files.</p>
+     <note type="tip">For larger deployments, use a script to upgrade the component host machines.
+      For example:
       <codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; ssh
 192.168.51.$host 'yum update $( rpm -qa | grep euca )' ; done</codeblock>
      </note>
@@ -58,17 +52,18 @@
     	<codeph>yum install eucalyptus-enterprise-storage-san-equallogic-libs</codeph></info>
    </step>-->
    <step>
-    <note importance="high">The following step is necessary when performing an upgrade or live migration on CentOS 6.5.</note>
-    <cmd>Downgrade the <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> packages by running the
-      following commands on the node controllers:
-    </cmd>
+    <note importance="high">The following step is necessary when performing an upgrade or live
+     migration on CentOS 6.5.Please note that downgrading these components on RHEL 6.5 may be
+     unsupported by your RHEL support contract; please contact RHEL support for more information. </note>
+    <cmd>Downgrade the <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> packages by running
+     the following commands on the node controllers: </cmd>
     <info>
-       <codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
+     <codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
   http://vault.centos.org/6.4/os/x86_64/Packages/qemu-img-0.12.1.2-2.355.el6.x86_64.rpm
 service libvirtd restart</codeblock>
     </info>
    </step>
   </steps>
- 	<postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
+  <postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
  </taskbody>
 </task>
