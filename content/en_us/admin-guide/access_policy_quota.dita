@@ -3,30 +3,25 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="access_policy_quota">
 	<title>Quotas</title>
-	<shortdesc>Eucalyptus adds quota enforcement to resource usage. To avoid
-		introducing another configuration language into Eucalyptus, and
-		simplify the management, we extend the IAM policy language to
-		support quotas.</shortdesc>
+	<shortdesc>Eucalyptus adds quota enforcement to resource usage. To avoid introducing another
+		configuration language into Eucalyptus, and simplify the management, we extend the IAM policy
+		language to support quotas.</shortdesc>
 	<conbody>
-		<p>The only addition added to the language is the new
-				<codeph>limit</codeph> effect. If a policy statement’s
-				<codeph>effect</codeph> is <codeph>limit</codeph>, it is a quota
-			statement.</p>
+		<p>The only addition added to the language is the new <codeph>limit</codeph> effect. If a policy
+			statement’s <codeph>effect</codeph> is <codeph>limit</codeph>, it is a quota statement.</p>
 
-		<p>A quota statement also has action and resource fields. You can use
-			these fields to match specific requests, for example, quota only
-			being checked on matched requests. The actual quota type and value
-			are specified using special quota keys, and listed in the
-				<codeph>condition</codeph> part of the statement. Only condition
-			type <codeph>NumericLessThanEquals</codeph> can be used with quota
-			keys.</p>
+		<p>A quota statement also has action and resource fields. You can use these fields to match
+			specific requests, for example, quota only being checked on matched requests. The actual quota
+			type and value are specified using special quota keys, and listed in the
+				<codeph>condition</codeph> part of the statement. Only condition type
+				<codeph>NumericLessThanEquals</codeph> can be used with quota keys.</p>
 
-		<note type="important">An account can only have a quota policy. If you
-			attach an IAM policy to an account (where, for example, the Effect
-			is "Allow" or "Deny"), there will be unexpected results.</note>
+		<note type="important">An account can only have a quota policy. Accounts can only accept IAM
+			policies where Effect is "Deny" or "Limit". If you attach an IAM policy to an account where
+			the Effect is "Allow", you will get unexpected results.</note>
 
-		<p>The following quota policy statement limits the attached user to only
-			launch a maximum of 16 instances in an account.</p>
+		<p>The following quota policy statement limits the attached user to only launch a maximum of 16
+			instances in an account.</p>
 		<codeblock>{
  "Version":"2011-04-01",
  "Statement":[{
@@ -41,14 +36,11 @@
    }
  }]
 }</codeblock>
-		<p>You can attach quotas to both users and accounts, although some of
-			the quotas only apply to accounts. Quota attached to groups will
-			take no effect.</p>
-		<p>When a quota policy is attached to an account, it actually is
-			attached to the account administrator user. Since only system
-			administrator can specify account quotas, the account administrator
-			can only inspect quotas but can't change the quotas attached to
-			herself.</p>
+		<p>You can attach quotas to both users and accounts, although some of the quotas only apply to
+			accounts. Quota attached to groups will take no effect.</p>
+		<p>When a quota policy is attached to an account, it actually is attached to the account
+			administrator user. Since only system administrator can specify account quotas, the account
+			administrator can only inspect quotas but can't change the quotas attached to herself.</p>
 
 		<p>The following is all the quota keys implemented in Eucalyptus:</p>
 
@@ -93,8 +85,7 @@
 						<entry>account and user</entry>
 					</row>
 					<row>
-						<entry><codeph>ec2:quota-snapshotnumber
-							</codeph></entry>
+						<entry><codeph>ec2:quota-snapshotnumber </codeph></entry>
 						<entry>Number of EC2 snapshots</entry>
 						<entry>account and user</entry>
 					</row>
@@ -128,11 +119,10 @@
 		</table>
 		<section>
 			<title>Default Quota</title>
-			<p>Contrary to IAM policies, by default, there is no quota limits
-				(except the hard system limit) on any resource allocations for a
-				user or an account. Also, system administrators are not
-				constrained by any quota. Account administrators are only be
-				constrained by account quota.</p>
+			<p>Contrary to IAM policies, by default, there is no quota limits (except the hard system
+				limit) on any resource allocations for a user or an account. Also, system administrators are
+				not constrained by any quota. Account administrators are only be constrained by account
+				quota.</p>
 		</section>
 	</conbody>
 </concept>
