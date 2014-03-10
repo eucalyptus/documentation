@@ -1,0 +1,336 @@
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<style type="text/css" charset="utf-8">@import "@relPath@oxygen-webhelp/resources/css/jquery.cleditor.css"; </style>
+
+<script type="text/javascript" src="@relPath@oxygen-webhelp/resources/js/jquery.realperson.min.js" charset="utf-8"> </script>	
+<div id="commentsContainer">
+    <div id="u_Profile" style="display: none;">
+		<span class="bt_close" title="Close"></span>
+		<form action="" enctype="application/x-www-form-urlencoded" method="post">
+			<table>
+				<thead>
+					<tr>
+						<td colspan="2">
+							<span id="l_profile">
+							<script type="text/javascript">$('#l_profile').html(getLocalization('label.userProfile'));</script>
+							</span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div id="u_response" class="u_response"></div>
+						</td>
+					</tr>
+				</thead>
+				<tr>
+					<td>
+						<span>
+							<span id="l_CPwd">							
+								<script type="text/javascript">$('#l_CPwd').html(getLocalization('label.currentPwd'));</script>
+							</span>						
+							<span class="red">*</span>
+						</span>
+					</td>
+					<td><input name="u_Cpass" type="password" id="u_Cpass"/></td>
+				</tr>
+			
+				<tr>
+					<td>
+						<span id="l_name">
+							<script type="text/javascript">$('#l_name').html(getLocalization('label.yourName'));</script>
+						</span>
+					</td>
+					<td><input name="u_name" type="text" id="u_name" value=""/></td>
+				</tr>
+				<tr>
+					<td>
+						<span id="l_email">
+							<script type="text/javascript">$('#l_email').html(getLocalization('label.yourEmail'));</script>							
+						<span class="red">*</span>
+						</span>
+					</td>
+					<td><input name="u_email" type="text" id="u_email"/></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<table id="u_notification">
+							<tr>
+								<td colspan="2">
+									<span id="l_wantEmail">
+										<script type="text/javascript">$('#l_wantEmail').html(getLocalization('label.IwantEmail'));</script>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>- <span id="l_cmtPage">
+										<script type="text/javascript">$('#l_cmtPage').html(getLocalization('label.commentPage'));</script>
+									</span>
+								</td>
+								<td><input name="u_notify_page" type="checkbox" class="ck" id="u_notify_page" value="yes"/></td>
+							</tr>
+							<tr>
+								<td> - <span id="l_cmtTopic">
+							<script type="text/javascript">$('#l_cmtTopic').html(getLocalization('label.commentTopic'));</script>
+							</span> 								
+								</td>
+								<td><input name="u_notify_all" type="checkbox" class="ck" id="u_notify_all" value="yes"/></td>
+							</tr>
+							<tr>
+								<td> - <span id="l_cmtMy">
+							<script type="text/javascript">$('#l_cmtMy').html(getLocalization('label.commentMy'));</script>
+							</span> 
+								 </td>
+								<td><input name="u_notify_reply" type="checkbox" class="ck" id="u_notify_reply" value="yes"/></td>
+							</tr>
+						</table>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>
+						<span>
+							<span id="l_newPwd">							
+								<script type="text/javascript">$('#l_newPwd').html(getLocalization('label.newPwd'));</script>
+							</span>						
+						</span>
+					</td>
+					<td><input name="u_pass" type="password" id="u_pass"/></td>
+				</tr>
+				<tr>
+					<td>
+						<span>
+							<span id="l_reNew">							
+								<script type="text/javascript">$('#l_reNew').html(getLocalization('label.reNewPwd'));</script>
+							</span>
+						</span>
+					</td>
+					<td><input name="u_pass1" type="password" id="u_pass1"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+                        <input type="button" id="bt_profile" value="Apply Changes"/>
+					    <script type="text/javascript">$('#bt_profile').attr("value",getLocalization('label.apply'));</script>
+
+						<span class="btnHGlue"></span>
+                        <input type="button" class="bt_cancel" id="l_cancelp" value="cancel" />
+						<script type="text/javascript">$('#l_cancelp').attr("value",getLocalization('label.cancel'));</script>
+					</td>
+				</tr>
+				
+			</table>
+		</form>
+	</div>
+	
+	<div id="comments">
+	
+		<div class="cmTitle">
+		<span id="cm_count"></span>
+		<span id="cm_title">
+			<script type="text/javascript">$('#cm_title').html(getLocalization('label.comments'));</script>						
+		</span>
+    <span id="preload">        
+        <img src="@relPath@oxygen-webhelp/resources/img/ajax-loader.gif" alt="Loading" />
+        <span id="l_plsWait"></span>
+      </span>
+		<span id="cmt_info"></span>
+		</div>		
+		<div id="userAccount">
+			<span id="accountInfo"></span> 
+			<input type="button" value="Log In" id="bt_logIn"/>
+			<script type="text/javascript">$('#bt_logIn').attr("value", getLocalization('label.login'));</script>
+
+			<input  type="button" id="bt_signUp" value="Sign Up" onclick="showSignUp();">
+			<script type="text/javascript">$('#bt_signUp').attr("value",getLocalization('label.signUp'));</script>
+
+            <span id="show_profile" style="display: none;">
+
+                    <input type="button" id="bt_editProfile" onclick="showProfileChange()" value="Edit" />
+					<script type="text/javascript">$('#bt_editProfile').attr("value",getLocalization('label.edit'));</script>
+
+                    <input type="button" id="bt_logOff" value="Log Off" />
+					<script type="text/javascript">$('#bt_logOff').attr("value",getLocalization('label.logOff'));</script>
+
+			</span>
+		</div>
+	</div>
+	
+	<div id="approveAll" style="display:none">
+            <input type="button" id="bt_approveAll" value="Approve All" />
+			<script type="text/javascript">$('#bt_approveAll').attr("value",getLocalization('label.approveAll'));</script>
+		<div id="showConfirmApproveAll" style="display:none">
+			<div id="approveInfo"></div>
+			<div id="confirmActions">
+                    <input type="button" id="bt_yesApprove" value="Yes" />
+					<script type="text/javascript">$('#bt_yesApprove').attr("value",getLocalization('label.yes'));</script>
+                    <input type="button" id="bt_noApprove" value="No" />
+					<script type="text/javascript">$('#bt_noApprove').attr("value",getLocalization('label.no'));</script>
+			</div>
+		</div>
+	</div>
+	<div id='bt_new' style="display:none;">
+        <input type="button" id="l_addNewCmt" class="bt_new" value="Add New Comment"/>
+        <script type="text/javascript">$('#l_addNewCmt').attr("value",getLocalization('label.addNewCmt'));</script>
+	</div>
+	
+	<div id="preload1" style="display: none">
+		<!-- <span id="l_plsWait">
+				<script type="text/javascript">$('#l_plsWait').html(getLocalization('label.plsWait'));</script>
+			</span>
+		<p>  -->
+			<img src="@relPath@oxygen-webhelp/resources/img/loading.gif" alt="Loading" />
+		<!-- </p> -->
+	</div>
+	
+	<div id="oldComments"></div>
+	<div id="new_comment"></div>
+	<div id="newComment" style="display: none;">
+		<span id="commentTitle">
+			<!--  <script type="text/javascript">$('#commentTitle').html(getLocalization('label.insertCmt'));</script> -->			
+		</span>
+		<span class="bt_close" title="Close"></span>
+		<form action="" onsubmit="return postNewComment();" enctype="application/x-www-form-urlencoded" method="post" name="form_newCmt">		
+			<textarea rows="7" cols="70" name="commentText" id="commentText"></textarea>
+			
+      <div class="captcha" id="o_captcha">				
+        <span id="l_captcha">Enter the captcha code seen below:</span> <span class='red'>*</span>
+				<input type="hidden" class="realperson-hash" name="defaultRealHash" value="193489297"/>
+				<input type="text" id="defaultReal" name="defaultReal" class="hasRealPerson"/>
+        <div id="captchaCode"></div>
+			</div>		
+			<script type='text/javascript'>
+        $("#captchaCode").realperson({length: 5,regenerate: ""});
+        $("#l_captcha").html(getLocalization('label.captcha'));
+      </script>
+			
+			<div>
+				<input type="hidden" name="editedId" id="editedId" value=""/> 				
+				<input type="hidden" name="referedCmtId" id="referedCmtId" value=""/> 				
+				<input id="l_bt_submit_nc" type="submit" value="Submit"/>
+				<script type="text/javascript">$('#l_bt_submit_nc').attr('value',getLocalization('label.submit'));</script>
+				<span class="btnHGlue"></span>
+				<input class="bt_cancel" id="l_cancelLog" type="button" value="Cancel"/>												
+			    <script type="text/javascript">$('#l_cancelLog').attr('value',getLocalization('label.cancel'));</script>
+			</div>
+		</form>	
+	</div>	
+	<div id="signUp" style="display: none">
+		<span class="bt_close" title="Close"></span>
+		<form action="" enctype="application/x-www-form-urlencoded" onsubmit="return signUp();" method="post">
+			<table>
+				<thead>
+					<tr>
+						<td colspan="2"> <span id="l_signUp"><script type="text/javascript">$('#l_signUp').html(getLocalization('label.signUp'));</script></span>							
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div id="signUpResponse"></div>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+				<tr>
+						<td colspan="2">
+						<div class="share">
+						<div id="shareWithTitle"></div>
+							<script type="text/javascript">$('#shareWithTitle').html(getLocalization('label.shareFrom'));</script>
+						<div id="shareWith"></div>
+						</div>
+						</td>
+					</tr>
+				<tr>
+					<td><span id="l_signUp_userName"><script type="text/javascript">$('#l_signUp_userName').html(getLocalization('label.signUp_userName'));</script></span><span class="red">*</span></td>
+					<td><input class="inputTable" name="myNewUserName" type="text" id="myNewUserName"/></td>
+				</tr>
+				<tr>
+					<td><span id="l_signUp_email"><script type="text/javascript">$('#l_signUp_email').html(getLocalization('label.signUp_email'));</script></span><span class="red">*</span></td>
+					<td><input class="inputTable" name="myEmail" type="text" id="myEmail"/></td>
+				</tr>
+				<tr>
+					<td><span id="l_signUp_name"><script type="text/javascript">$('#l_signUp_name').html(getLocalization('label.signUp_name'));</script></span></td>
+					<td><input class="inputTable" name="myName" type="text" id="myName"/></td>
+				</tr>
+				<tr>
+					<td><span id="l_signUp_password"><script type="text/javascript">$('#l_signUp_password').html(getLocalization('label.signUp_password'));</script></span><span class="red">*</span></td>
+					<td><input class="inputTable" name="myNewPassword" type="password" id="myNewPassword"/></td>
+				</tr>
+				<tr>
+					<td><span id="l_signUp_rPassword"><script type="text/javascript">$('#l_signUp_rPassword').html(getLocalization('label.signUp_rPassword'));</script></span><span class="red">*</span></td>
+					<td><input class="inputTable" name="myNewPassword1" type="password" id="myNewPassword1"/></td>
+				</tr> 
+				<tr>
+					<td colspan="2" align="center">
+					
+					<input class="btn" id="bt_signUp" type="submit" value="Submit"/>
+				    <script type="text/javascript">$('#bt_signUp').attr('value',getLocalization('label.signUp'));</script>
+					<span class="btnHGlue"></span>
+                    <input type="button" class="bt_cancel" id="l_cancelSign" value="Cancel" />
+                    <script type="text/javascript">$('#l_cancelSign').attr("value",getLocalization('label.cancel'));</script>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+		</form>
+	</div>
+	<div id="recoverPwd" style="display: none">
+		<span class="bt_close" title="Close"></span>
+		<form action="" enctype="application/x-www-form-urlencoded" method="post">
+			<table>
+				<thead>
+					<tr>
+						<td colspan="2"><span id="l_recoverPwd"><script type="text/javascript">$('#l_recoverPwd').html(getLocalization('label.recoverPwd'));</script></span></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div id="recoverPwdResponse"></div>
+						</td>
+					</tr>
+				</thead>
+				<tr>
+					<td><span id="l_recoverEmail"><script type="text/javascript">$('#l_recoverEmail').html(getLocalization('label.recoverEmail'));</script></span><span class="red">*</span></td>
+					<td><input name="recoverEmail" type="text" id="recoverEmail"/></td>
+				</tr>
+				<!-- <tr>
+					<td><span id="l_recoverUser"><script type="text/javascript">$('#l_recoverUser').html(getLocalization('label.recoverUser'));</script></span></td>
+					<td><input name="recoverUser" type="text" id="recoverUser"/></td>
+				</tr> -->
+					<tr>
+					<td colspan="2" align="center">
+					<input id="bt_recover" type="submit" value="Submit"/>
+					<script type="text/javascript">$('#bt_recover').attr('value',getLocalization('label.bt_recover'));</script>
+					<span class="btnHGlue"></span>
+                    <input type="button" class="bt_cancel" id="l_cancelRec" value="Cancel" />
+                    <script type="text/javascript">$('#l_cancelRec').attr("value",getLocalization('label.cancel'));</script>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<div id="confirmDelete" style="display: none">
+		<span class="bt_close" title="Close"></span>
+		<form action="" enctype="application/x-www-form-urlencoded" method="post">
+			<div id="question"><script type="text/javascript">$('#question').html(getLocalization('label.question'));</script></div>
+			<div id="commentToDelete"></div>
+			<input type="hidden" id="idToDelete"/>
+			<div id="confirmActions">
+                <input type="button" value="Yes" id="bt_yesDelete" />
+                <script type="text/javascript">$('#bt_yesDelete').attr("value",getLocalization('label.yes'));</script>
+                <input type="button" id="bt_noDelete" value="No" />
+                <script type="text/javascript">$('#bt_noDelete').attr("value",getLocalization('label.no'));</script>
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript" src="@relPath@oxygen-webhelp/resources/js/jquery.cleditor.min.js"> </script>
+	<script type="text/javascript" src="@relPath@oxygen-webhelp/resources/js/base64.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="@relPath@oxygen-webhelp/resources/js/comments.js"></script>
+	
+</div>

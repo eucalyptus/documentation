@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<html lang="en-us">
+	<head>
+		<link rel="stylesheet" type="text/css" href="./css/install.css" />
+		<title>oXygen WebHelp with Feedback for @PRODUCT_ID@ @PRODUCT_VERSION@ was generated
+			successfully!</title>
+	</head>
+	<body id="webhelp-with-feedback-installation">
+		<h1>oXygen WebHelp with Feedback for @PRODUCT_ID@ @PRODUCT_VERSION@ was generated
+			successfully!</h1>
+		<div class="body taskbody">
+			<p></p>
+			<div>
+				<h2>Output location</h2>
+				<p> The folder containing the generated output is: <b>@FOLDER_OUTPUT_PATH@</b>. </p>
+				<h2>oXygen WebHelp Requirements</h2>
+				<ul>
+					<li>Apache Web Server running</li>
+					<li>MySQL server running</li>
+					<li>PHP Version>= 5.1.6</li>
+					<li>PHP MySQL Support</li>
+					<li>oXygen WebHelp system supports the following browsers:IE7+, Chrome 19+,
+						Firefox 11+, Safari 5+, Opera 11+</li>
+				</ul>
+				<h2>Installation Instructions</h2>
+				<p>In case you already have a web server configured with PHP, MySQL, please jump
+					directly to <a href="#deploy">Deploy the WebHelp output.</a></p>
+				<p>Otherwise, read how to get started with XAMPP, a bundle containing the required
+					software (Apache HTTP Server, PHP and My SQL). The installation is straight
+					forward and should take under 20 minutes.</p>
+			</div>
+			<ol>
+				<li><strong>Install XAMPP.</strong> Download and install the XAMPP package: <ol>
+						<li>Download XAMPP, for instance for a Windows system: <a class="xref"
+								href="http://www.apachefriends.org/en/xampp-windows.html"
+								target="_blank"
+								>http://www.apachefriends.org/en/xampp-windows.html</a>. </li>
+						<li>Install it in <span class="filepath">C:\xampp</span>. </li>
+						<li>From the XAMPP control panel, start <span class="q">"MySQL"</span>, and
+							then <span class="q">"Apache"</span>. </li>
+						<li>Check that the HTTP server is working. For this try opening in your
+							browser: <a class="xref" href="http://localhost/xampp/index.php"
+								target="_blank"> http://localhost/xampp/index.php </a>. </li>
+					</ol></li>
+
+				<li><span><strong>Prepare the MySQL database.</strong></span>
+					<p>Create a new database for the feedback system and a MySQL user with
+						privileges on that database. The feedback system uses the MySQL user to
+						connect to the database. </p><p>
+						<strong class="ph b">Prerequisites</strong>: The user name and password for
+						the database administrator. For XAMPP, the defaults are <em>root</em> with
+						an empty password. We will use <em>phpmyadmin</em> to create a new
+						database.</p><ol>
+						<li>In your browser go to: <a class="xref" href="http://localhost/phpmyadmin/" target="_blank"
+								> http://localhost/phpmyadmin/</a>
+						</li>
+						<li> Click on <em>Databases</em> tab in the right frame and then create a new
+								<em>database</em>. Name it as you like, for example can be named
+								<em>comments.</em>
+						</li>
+						<li> Create a new user with connection privileges for this database. Select
+							the <em>SQL</em> tab and paste the text below. Make sure you change the
+								<strong>user_name</strong> and <strong>user_password</strong> values. <span
+								class="code"> INSERT INTO `mysql`.`user` (`Host`, `User`,
+								`Password`, `Select_priv`, `Insert_priv`, `Update_priv`,
+								`Delete_priv`, `Create_priv`, `Drop_priv`, `Reload_priv`,
+								`Shutdown_priv`, `Process_priv`, `File_priv`, `Grant_priv`,
+								`References_priv`, `Index_priv`, `Alter_priv`, `Show_db_priv`,
+								`Super_priv`, `Create_tmp_table_priv`, `Lock_tables_priv`,
+								`Execute_priv`, `Repl_slave_priv`, `Repl_client_priv`,
+								`Create_view_priv`, `Show_view_priv`, `Create_routine_priv`,
+								`Alter_routine_priv`, `Create_user_priv`, `Event_priv`,
+								`Trigger_priv`, `Create_tablespace_priv`, `ssl_type`,
+								`max_questions`, `max_updates`, `max_connections`,
+								`max_user_connections`, `plugin`, `authentication_string`) VALUES
+								('localhost', '<span class="bld">user_name</span>', PASSWORD('<span
+									class="bld">user_password</span>'), 'Y', 'Y', 'Y', 'Y', 'Y',
+								'Y', 'Y', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'Y', 'N', 'Y', 'Y',
+								'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'Y', '', '0', '0',
+								'0', '0', '', '');</span>
+						</li>
+						<li> Click on <em>Users</em> tab in the right frame and then, at the bottom of the page, click on the
+								<em>reload the privileges</em> link. </li>
+					</ol></li>
+
+				<li>
+					<span><a name="deploy"></a><strong>Deploy the WebHelp output.</strong></span>
+					<ol>
+						<li>Locate the directory of the HTML documents. For this, open in your browser: <a
+								class="xref" href="http://localhost/xampp/phpinfo.php"
+								target="_blank"> http://localhost/xampp/phpinfo.php </a> and see the
+							value of the <samp class="ph codeph">DOCUMENT_ROOT</samp> variable. For
+							instance, if you installed XAMPP in <span class="ph filepath"
+								>C:\xampp</span>, it will be: <samp class="ph codeph"
+								>C:/xampp/htdocs</samp></li>
+						<li>Copy the transformation output folder (<samp>@FOLDER_OUTPUT_PATH@</samp>) to the <samp
+								class="ph codeph">DOCUMENT_ROOT</samp>.</li>
+						<li>Rename it to a relevant name - we'll use as a sample <em>@PRODUCT_ID@</em>. </li>
+						<li>Open <a class="xref" href="http://localhost/@PRODUCT_ID@/" target="_blank"
+								>http://localhost/@PRODUCT_ID@/</a> - it will redirect to <a
+								class="xref" href="http://localhost/@PRODUCT_ID@/install/"
+								target="_blank">http://localhost/@PRODUCT_ID@/install/</a>. <ol>
+								<li>Verify that the prerequisites are fulfilled.</li>
+								<li>Press <em>Start installation</em>. </li>
+								<li>Configure the email addresses, and database user and password - the ones created in step 2.3. Select the <em>Create new database structure</em>
+									- but <strong>only if you perform a new installation!</strong>
+									Enter the WebHelp system <em>administrator</em> password. This
+									special user will be able to moderate new posts and manage other
+									WebHelp users. </li>
+								<li>Press <em>Next Step</em>. </li>
+								<li>Remove installation folder from your web server. </li>
+								<li>Click on the link pointing to the index of the documentation, or
+									visit: <a class="xref" href="http://localhost/@PRODUCT_ID@/"
+										target="_blank">http://localhost/@PRODUCT_ID@/</a>. </li>
+								<li>Test your system. Create a new user or post as anonymous. Check
+									that the notification emails are delivered to your inbox.</li>
+							</ol></li>
+					</ol></li>
+			</ol>
+		</div>
+	</body>
+</html>

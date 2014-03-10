@@ -1,0 +1,23 @@
+<project>
+<!--
+////////////////////////////////////
+/// December 2011
+/// Bryan Schnabel
+/// DITA-XLIFF Roundtrip Tool for DITA OT version 0.01
+/// (c) Copyright Bryan Schnabel
+/// 
+/// Apache License\
+/// Version 2.0, January 2004
+/// http://www.apache.org/licenses/ 
+////////////////////////////////////
+-->
+  <path id="dost.class.path">
+    <pathelement location="${dita.dir}${file.separator}demo/fo/fo.jar"/>
+    <pathelement location="${dita.dir}${file.separator}lib${file.separator}dost.jar"/>
+  </path>
+	<target name="dita2xliff" depends="build-init, preprocess, map2pdf2, topic2pdf2,d2xXSL"/>
+  <target name="d2xXSL">
+    <xslt processor="trax" in="${dita.temp.dir}${file.separator}stage1.xml" out="${output.dir}${file.separator}d_x.xml" style="${dita.dir}${file.separator}demo${file.separator}xliff${file.separator}xsl${file.separator}d2x.xsl"/>
+  </target>
+
+</project>

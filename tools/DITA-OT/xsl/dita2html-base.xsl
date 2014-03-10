@@ -37,6 +37,18 @@
 <xsl:import href="xslhtml/abbrev-d.xsl"></xsl:import>
 
 
+<xsl:import href="../plugins/com.oxygenxml.highlight/xhtmlHighlight.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.common.html/xsl/commonHtmlExtensionSupport.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.ruby.html/xsl/rubyDomain2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.enumeration-d.html/xsl/enumerationDomain2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.media-d.html/xsl/media-d2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.xmldomain.html/xsl/xmlDomain2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.formatting-d.html/xsl/formatting-d2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.html5/xsl/map2html5flagging.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.pubmap.html/xsl/pubmap2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.shakespear.html/xsl/play2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.math-d.html/xsl/math-d2html.xsl"/>
+<xsl:import href="../plugins/net.sourceforge.dita4publishers.variables-d.html/xsl/variables-d2html.xsl"/>
 
 <!-- the dita to xhtml converter for element reference documents - not used now -->
 <!--<xsl:import href="elementrefdisp.xsl"/>-->
