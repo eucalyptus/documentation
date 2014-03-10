@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<!-- Extend the toolkit's XHTML processing to generate WebHelp output. -->
+<project name="webhelp.integrator" default="dita2webhelp" basedir=".">
+  
+  <!-- By default the mobile is off. It will be turned on from specific targets. 
+  <property name="webhelp.mobile" value=""/>
+  -->
+
+  <!-- Directory of the Webhelp plugin. -->
+  <property name="webhelp.dir" value="${dita.dir}/plugins/com.oxygenxml.webhelp"/>
+  
+  <import file="build_common.xml"/>
+
+  <target name="dita2webhelp-common" 
+          depends="build-init, check-license, 
+                   dita.map.webhelp.init, preprocess,
+                   copy-webhelp-resources, dita.out.map.webhelp.toc, 
+                   copy-css , dita.topics.xhtml, dita.inner.topics.webhelp,
+                   dita.outer.topics.xhtml, 
+                   webhelp-indexterms, 	                       
+                   create-main-files,
+                   webhelp-index"/>
+	
+  <target name="dita2webhelp" 
+          depends="dita2webhelp-common"/>
+	
+  <!-- The same as the classic target, but adds a parameter we can pass to the stylesheets. -->
+  <target name="dita2webhelp-mobile">
+  	<antcall target="dita2webhelp">
+  		<param name="webhelp.mobile" value="mobile"/>
+  	</antcall>
+  </target>
+    
+  <target name="dita2webhelp-feedback" 
+    	  depends="copy-webhelp-resources-feedback, dita2webhelp-common"/>
+  
+  <!-- The same as the classic target, but adds a parameter we can pass to the stylesheets. -->
+  <target name="dita2webhelp-feedback-mobile">
+  	<antcall target="dita2webhelp-feedback">
+  		<param name="webhelp.mobile" value="mobile"/>
+  	</antcall>
+  </target>
+	
+  <property name="webhelp.plugin.path" value="${dita.dir}/plugins/com.oxygenxml.webhelp/"/>
+  
+    <!-- Default language for translated strings in HTML pages. Should be set by caller process. -->
+    <property name="args.default.language" value="en-US"/>
+    
+   <!--EXM-22509 Set to args.xhtml.toc a default value -->
+  <target name="dita.map.webhelp.init">
+    <condition property="out.ext" value=".html">
+      <not>
+        <isset property="out.ext"></isset>
+      </not>
+    </condition>
+    <condition property="args.xhtml.toc" value="toc">
+      <not>
+        <isset property="args.xhtml.toc"></isset>
+      </not>
+    </condition>
+  </target> 
+	
+  <!-- Declare the foreach task. -->
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+    <classpath>
+      <pathelement location="${webhelp.plugin.path}lib/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+	
+    <target name="detectIndexerLang">
+    	<property name="webhelp.language" value="en"/>
+    	<property name="inputMap" value="${dita.temp.dir}/${user.input.file}"/>
+    
+    	<taskdef name="detect-lang" classname="com.suite.sol.ditaot.DetectLang">
+    		<classpath path="${dita.dir}/plugins/org.dita.pdf2/lib/fo.jar"/>
+    	</taskdef>
+    	
+    	<!-- Set document.locale from xml:lang -->
+         <!-- The map takes precedence, followed by the first topic -->
+         <detect-lang documentPath="${inputMap}"/>
+    
+    	<!-- Set webhelp.language property -->
+      
+      	<if>
+       		<isset property="args.default.language"/>
+       	 	<then>
+           		<!-- Use use propertyregex from antcontrib -->
+               	<propertyregex property="webhelp.language" input="${args.default.language}" 
+                 		regexp="(..)" 
+                 		select="\1"
+                 		defaultvalue="en"
+                 		override="true"/>
+       	 	</then>
+      	  <else>
+      	    <!-- Default to locale -->
+      	    <if>
+      	      <isset property="document.locale"/>
+      	      <then>
+      	        <!-- Use use propertyregex from antcontrib -->
+      	        <propertyregex property="webhelp.language" input="${document.locale}" 
+      	          regexp="(..)" 
+      	          select="\1"
+      	          defaultvalue="en"
+      	          override="true"/>
+      	      </then>
+      	    </if>
+      	  </else>
+    	</if>
+        <echo>Indexer language=${webhelp.language}</echo>
+    </target>
+  
+
+  <target name="webhelp-indexterms" description="Build list of index terms">
+    <property name="args.extract.indexterms.xsl" value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/indexterms/extractIndexterms.xsl"/>
+    <xslt processor="trax" 
+          basedir="${dita.temp.dir}" 
+          destdir="${dita.temp.dir}" 
+          includesfile="${dita.temp.dir}/${fullditatopicfile}" 
+          style="${args.extract.indexterms.xsl}"
+          classpathref="dost.class.path">
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="TEMPFOLDER" expression="${dita.temp.dir}"/>
+      <param name="OUT_EXT" expression="${out.ext}"/>
+      <mapper type="regexp" from="^(.*?)$$" to="\1.indexterms"/>
+    </xslt>
+    
+    <property name="args.collect.indexterms.xsl" value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/indexterms/collectIndexterms.xsl"/>
+    <xslt processor="trax"
+          in="${dita.temp.dir}/${user.input.file}"
+          out="${output.dir}/index.xml"
+          style="${args.collect.indexterms.xsl}"
+          classpathref="dost.class.path">
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="TEMPFOLDER" expression="${dita.temp.dir}"/>
+      <param name="FILELIST" expression="${dita.temp.dir}/${fullditatopicfile}"/>
+    </xslt>
+  </target>
+  
+  
+  <!-- Create the index.html and toc.html files. -->
+  <target name="create-main-files">
+    
+    <if>
+      <isset property="webhelp.mobile"/>
+      <then>
+        <property name="args.create.main.files.xsl"      
+          value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/mobile/createMainFiles.xsl"/>
+      </then>
+      <else>
+        <property name="args.create.main.files.xsl"      
+          value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/createMainFiles.xsl"/>        
+      </else>
+    </if>
+    
+    <echo message="Stylesheet: ${args.create.main.files.xsl}"/>
+    <xslt processor="trax"
+          in="${dita.temp.dir}/${user.input.file}"
+          out="${output.dir}/dummy.html"
+          style="${args.create.main.files.xsl}"
+          force="yes"
+          classpathref="dost.class.path">
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="TOC_XML_FILEPATH" expression="${output.dir}/toc.xml"/>
+      <param name="INDEX_XML_FILEPATH" expression="${output.dir}/index.xml"/>
+      <param name="XHTML_FOLDER" expression="${output.dir}"/>
+      <param name="OUTPUTDIR" expression="${output.dir}"/>
+      <param name="BASEDIR" expression="${dita.dir}/plugins/com.oxygenxml.webhelp"/>
+      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="WEBHELP_COPYRIGHT" expression="${webhelp.copyright}" if="webhelp.copyright"/>
+      <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
+      <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
+      <param name="WEBHELP_HEAD_SCRIPT" expression="${webhelp.head.script}" if="webhelp.head.script"/>
+      <param name="WEBHELP_BODY_SCRIPT" expression="${webhelp.body.script}" if="webhelp.body.script"/>
+    </xslt>
+      
+    <replaceregexp 
+        file="${output.dir}/index.html"
+        match="&lt;\?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;\?&gt;"
+        replace=""
+        encoding="UTF-8"/>
+    <if>
+      <not>
+        <isset property="webhelp.mobile"/>
+      </not>
+      <then>
+        <replaceregexp 
+            file="${output.dir}/toc.html"
+            match="&lt;\?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;\?&gt;"
+            replace=""
+            encoding="UTF-8"/>
+      </then>
+    </if>
+      
+    <delete dir="${output.dir}">
+      <include name="dummy.html"/>
+      <include name="toc.xml"/>
+      <include name="index.xml"/>
+      <include name="index_frames.html" if="webhelp.mobile"/>
+      <include name="toc.html" if="webhelp.mobile"/>
+    </delete>
+  </target>
+  
+  
+  <!-- Customize header and footer of each topic. -->
+  <target name="dita.inner.topics.webhelp" description="Build WebHelp output from dita topics">
+    <property name="out.ext" value=".html"/>
+    <property name="transtype.ext" value=".xsl"/>
+
+
+    <if>
+      <isset property="webhelp.mobile"/>
+      <then>
+        <property name="args.xsl"
+          value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/mobile/dita2webhelp.xsl"/>
+      </then>
+      <else>
+        <property name="args.xsl"
+          value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/desktop/dita2webhelp.xsl"/>
+      </else>
+    </if>
+    
+    <makeurl file="${dita.input.valfile}" property="dita.input.valfile.url" validate="no"></makeurl>
+    
+    <xslt processor="trax" 
+          basedir="${dita.temp.dir}" 
+          destdir="${output.dir}" 
+          includesfile="${dita.temp.dir}/${fullditatopicfile}" 
+          classpathref="dost.class.path" 
+          extension="${out.ext}" 
+          style="${args.xsl}" 
+          filenameparameter="FILENAME" 
+          filedirparameter="FILEDIR">
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <excludesfile name="${dita.temp.dir}/${resourceonlyfile}" if="resourceonlyfile"/>
+      <includesfile name="${dita.temp.dir}/${chunkedtopicfile}" if="chunkedtopicfile"/>
+      <param name="TRANSTYPE" expression="${transtype}"/>
+      <param name="DITAEXT" expression="${dita.ext}" if="dita.ext"/>
+      <param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"/>
+      <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
+      <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
+      <param name="HDF" expression="${args.hdf}" if="args.hdf"/>
+      <param name="HDR" expression="${args.hdr}" if="args.hdr"/>
+      <param name="FTR" expression="${args.ftr}" if="args.ftr"/>
+      <param name="DRAFT" expression="${args.draft}" if="args.draft"/>
+      <param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"/>
+      <param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"/>
+      <param name="PRESERVE-DITA-CLASS" expression="${args.xhtml.classattr}" if="args.xhtml.classattr"/>
+      <param name="NOPARENTLINK" expression="${args.hide.parent.link}" if="args.hide.parent.link"/>
+      <param name="include.rellinks" expression="${include.rellinks}" if="include.rellinks"/>
+      <param name="BREADCRUMBS" expression="${args.breadcrumbs}" if="args.breadcrumbs"/>
+      <param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"/>
+      <param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"/>
+      <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
+      <param name="BASEDIR" expression="${basedir}"/>
+      <param name="OUTPUTDIR" expression="${output.dir}"/>
+      <param name="LANGUAGE" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DBG" expression="${args.debug}" if="args.debug"/>
+      <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
+      <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
+      <param name="CUSTOM_RATE_PAGE_URL" expression="${custom.rate.page.url}" if="custom.rate.page.url"/>
+      <param name="CUSTOM_BASEDIR" expression="${dita.temp.dir}"/>
+      <param name="WEBHELP_FOOTER_INCLUDE" expression="${webhelp.footer.include}" if="webhelp.footer.include"/>
+      <param name="WEBHELP_FOOTER_FILE" expression="${webhelp.footer.file}" if="webhelp.footer.file"/>
+      <param name="WEBHELP_TRIAL_LICENSE" expression="${webhelp.trial.license}" if="webhelp.trial.license"/>
+      <param name="WEBHELP_HEAD_SCRIPT" expression="${webhelp.head.script}" if="webhelp.head.script"/>
+      <param name="WEBHELP_BODY_SCRIPT" expression="${webhelp.body.script}" if="webhelp.body.script"/>
+      <param name="WEBHELP_PRODUCT_ID" expression="${webhelp.product.id}" if="webhelp.product.id"/>
+      <param name="WEBHELP_PRODUCT_VERSION" expression="${webhelp.product.version}" if="webhelp.product.version"/>
+
+      <mapper type="regexp" from="^(${tempdirToinputmapdir.relative.value})(.*?)(\.(xml|dita))$$" to="\2${out.ext}"/>
+    </xslt>
+  </target>
+
+
+  <!-- Customize table of contents. -->
+  <target name="dita.out.map.webhelp.toc" depends="detectIndexerLang" description="Build WebHelp TOC file">
+      <xslt processor="trax"
+          basedir="${dita.temp.dir}"
+          destdir="${output.dir}"
+          includesfile="${dita.temp.dir}/${user.input.file.listfile}"
+          classpathref="dost.class.path"
+          style="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/map2xhtmtoc.xsl">
+      <excludesfile name="${dita.temp.dir}/${resourceonlyfile}" if="resourceonlyfile"/>
+      <param name="DITAEXT" expression="${dita.ext}" if="dita.ext" />
+      <param name="OUTEXT" expression="${out.ext}" if="out.ext" />
+      <param name="BASEDIR" expression="${basedir}"/>
+      <param name="OUTPUTDIR" expression="${output.dir}"/>
+      <param name="LANGUAGE" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="TOC_FILE_NAME" expression="${args.xhtml.toc}${out.ext}" if="args.xhtml.toc"/>
+      <param name="contenttarget" expression="${args.xhtml.contenttarget}" if="args.xhtml.contenttarget"/>
+      <param name="CSS" expression="${args.css.file}" if="args.css.file" />
+      <param name="CSSPATH" expression="${user.csspath}" if="user.csspath" />
+      <param name="OUTPUTCLASS" expression="${args.xhtml.toc.class}" if="args.xhtml.toc.class" />
+      <param name="WEBHELP_COPYRIGHT" expression="${webhelp.copyright}" if="webhelp.copyright"/>
+      <param name="INDEXER_LANGUAGE" expression="${webhelp.language}" if="webhelp.language"/>
+      <mapper type="glob" from="${user.input.file}" to="${args.xhtml.toc}${out.ext}" />
+    </xslt>
+
+    <property name="args.generate.toc.xsl" 
+      value="${dita.dir}/plugins/com.oxygenxml.webhelp/xsl/dita/tocDita.xsl"/>
+    <xslt processor="trax" 
+          in="${dita.temp.dir}/${user.input.file}" 
+          out="${output.dir}/toc.xml" 
+          style="${args.generate.toc.xsl}"
+          classpathref="dost.class.path">
+      <param name="OUT_EXT" expression="${out.ext}"/>
+    </xslt>
+  </target>
+</project>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<project name="Oxygen-Webhelp" default="output" basedir=".">
+
+  <!-- 
+    Path of Webhelp plugin relative to DITA-OT folder. 
+    When Webhelp pages are generated outside DITA-OT (for example a DocBook transformation)
+    the value must be empty, that is paths are relative to the folder of this build file.
+  -->
+  <property name="webhelp.plugin.path" value=""/>
+  <import file="integrator.xml"/>
+  
+  <!-- Base directory for resolving the relative paths. -->
+  <property name="base.dir" location="."/>
+
+  <!-- Output directory for generated files. -->
+  <property name="output.dir" location="out"/>
+
+  <!-- Directory for input files. Must be inside base.dir. -->
+  <property name="input.dir" location="in"/>
+  
+  <!-- Language of indexer used for creating the search files. -->
+  <property name="webhelp.language" value="en"/>
+  
+  <target name="dita2webhelp"/>
+  
+  <!-- The main target. Creates the complete set of output files. -->
+  <target name="output" 
+          depends="copy-html-pages, 
+                   copy-webhelp-resources, 
+                   annotate-all-html-files, 
+                   create-main-files, 
+                   webhelp-index"/>
+  
+  
+  <!-- Create the index.html and toc.html files. -->
+  <target name="create-main-files">
+    <property name="args.create.main.files.xsl" value="${base.dir}/xsl/createMainFiles_dita.xsl"/>
+    <xslt processor="trax"
+            in="${input.dir}/toc.xml"
+            out="${output.dir}/dummy.html"
+            style="${args.create.main.files.xsl}"
+            force="yes">
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="TOC_XML_FILEPATH" expression="${input.dir}/toc.xml"/>
+      <param name="INDEX_XML_FILEPATH" expression="${input.dir}/index.xml"/>
+      <param name="XHTML_FOLDER" expression="${input.dir}"/>
+      <param name="OUTPUTDIR" expression="${output.dir}"/>
+      <param name="BASEDIR" expression="${base.dir}"/>
+      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+    </xslt>
+    <replaceregexp 
+        file="${output.dir}/index.html"
+        match="&lt;\?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;\?&gt;"
+        replace="" 
+        encoding="UTF-8"/>
+    <replaceregexp 
+        file="${output.dir}/toc.html"
+        match="&lt;\?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;\?&gt;"
+        replace="" 
+        encoding="UTF-8"/>
+      <delete dir="${output.dir}">
+          <include name="dummy.html"/>
+          <include name="toc.xml"/>
+          <include name="index.xml"/>
+      </delete>
+  </target>
+  
+
+  <target name="copy-html-pages">
+    <copy todir="${output.dir}"  encoding="UTF-8">
+      <fileset dir="${input.dir}">
+        <include name="**/*"/>
+        <exclude name="index.xml"/>
+        <exclude name="toc.xml"/>
+      </fileset>
+    </copy>
+  </target>
+</project>

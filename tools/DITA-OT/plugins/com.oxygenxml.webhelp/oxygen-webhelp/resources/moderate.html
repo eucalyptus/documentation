@@ -1,0 +1,81 @@
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<html>
+<head>
+	<script src="./js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./php/cnf.php"></script>
+	<link rel="stylesheet" href="./css/style.css" type="text/css" />
+</head>
+<body onload="confirm()">
+
+<!-- to be generated  -->
+<div id="productInfo" style="display:none;">
+	<span id="oxy_productid">@PRODUCT_ID@</span>
+	<span id="oxy_productVersion">@PRODUCT_VERSION@</span>
+</div>
+<!-- /to be generated  -->
+
+	<div id="info">
+	</div>	
+	<div id="preload" style="display: none">
+		Please Wait ...
+		<p>
+			<img src="./img/spinner.gif" alt="Loading" />
+		</p>
+	</div>
+	
+	<script type="text/javascript">
+		<!--
+	var productName=$("#oxy_productid").text();
+	var productVersion=$("#oxy_productVersion").text();
+
+	function loadPageVar(sVar) {
+			return unescape(window.location.search.replace(new RegExp(
+				"^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&")
+				+ "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+		}
+
+		function confirm() {
+			var commentId = loadPageVar("c");
+			//var action = loadPageVar("act");
+			if (commentId != "") {
+				$("#preload").show();
+				
+				//console.log("c:"+commentId+" ; act="+action);
+				$.ajax({
+					type : "POST",
+					url : "./php/moderate.php",
+					data : "id=" + commentId + "&productName=" + productName + "&productVersion=" + productVersion,
+					success : function(data_response) {
+						// display old comments		    	 		    	 
+						//console.log(data_response);
+						$("#preload").hide();
+						$('#info').show();
+						if (data_response != "") {
+							//console.log(data_response);
+							window.location.href=data_response;
+						} else {
+							$("#info").html("Action not performed !")
+						}						
+					},
+					error : function(data_response) {
+						$("#preload").hide();
+						$('#info').show();
+						$('#info').html(data_response);
+					}
+				});
+
+			}
+		}
+				-->
+	</script>
+
+</body>
+</html>

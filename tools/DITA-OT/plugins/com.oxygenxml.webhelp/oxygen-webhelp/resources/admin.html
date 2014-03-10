@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<html>
+<head>
+<!-- <link href="./css/admin.css" type="text/css" rel="stylesheet" /> -->
+<link rel="stylesheet" type="text/css" media="screen" href="./php/css.php">
+<script src="./js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./php/cnf.php"></script>
+<script src="./js/jquery.quicksearch.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./localization/strings.js" charset="utf-8"> </script>
+<script type="text/javascript">
+	function getLocalization(localizationKey) {
+			var toReturn=localizationKey;
+			if(localizationKey in localization){
+				toReturn=localization[localizationKey];
+			}
+	    return toReturn;
+	}
+	</script>
+
+</head>
+<body>
+
+
+	<!-- to be generated  -->    
+	<div id="productInfo" style="display: none;">
+		<span id="oxy_productid">@PRODUCT_ID@</span> 
+		<span id="oxy_productVersion">@PRODUCT_VERSION@</span>
+	</div>
+	<!-- /to be generated  -->
+
+	<div id="comments">
+		<span id="cm_count"></span> <span id="cm_title"> </span> <span id="cmt_info"></span>
+		<div id="userAccount">
+			<span id="accountInfo"></span> <input  type="button" id="bt_logIn" style="display: none;" value="Log In"/> <input type="button" id="bt_logOff" value="Log Off"
+				style="display: none;" />
+		</div>
+	</div>
+
+	<div id="adminMenu">
+		<input type="button" value="Clean DB" class="btn" id="cleanDbBtn" />
+		<span class="btnHGlue"></span> 
+		<input type="button" value="Clean Users" class="btn" id="cleanDbUsrBtn" />
+		<input type="button" value="Set Version" id="bt_setVersion" class="span_bt" style="display: none;" />
+		<input type="button" value="Export" id="bt_export" class="span_bt" style="display: none;" />
+		<input type="button" value="View Posts" id="bt_viewPosts" class="span_bt" style="..." />
+
+		<div id="setVersionDiv" style="display: none">
+			<span class="bt_close" title="Close"></span>
+			<div class="formTitle">
+				<span id="ll_setVersion"></span>
+			</div>
+			<div id="v_preload" style="display: none">
+				<img src="./img/loadingSmall.gif" alt="Loading" />
+			</div>
+			<div id="setVersionInfo"></div>
+			<div id="versions"></div>
+			<div class="toolbar" style="margin: 10px 0px 10px 0px;">
+                    <input type="button" class="bt_cancel" id="l_cancelVer" />
+                    <script type="text/javascript">$('#l_cancelVer').attr("value",getLocalization('label.cancel'));</script>
+                <span class="btnHGlue"></span>
+			</div>
+		</div>
+		<div id="exportDiv" style="display: none">
+			<div class="bt_close" title="Close"></div>
+			<div class="band">
+				<div class="formTitle" id="ll_exp_tit"></div>
+			</div>
+			<div id="ex_prod_val"></div>
+			<div class="band">
+
+				<div style="text-align: center; margin: 10px 0px 10px 0px;">
+					<input type="submit" id="bt_do_export" class="btn" value="Submit"/>
+					<input type="reset" id="l_cancelMsg" class="bt_cancel" value="Reset"/>
+						<script type="text/javascript">$('#l_cancelMsg').attr('value',getLocalization('label.cancel'));</script>
+				</div>
+			</div>
+			<form action="php/exportComments.php" enctype="application/x-www-form-urlencoded" method="post" name="exportCmts">
+				<input type="hidden" id="exFrmProductName" name="productN"> <input type="hidden" id="exProductVersion"
+					name="productV"> <input type="hidden" id="fl_ProductName" name="productName"> <input type="hidden"
+					id="fl_ProductVersion" name="productVersion">
+			</form>
+		</div>
+
+		<div id="inlineViewDiv" style="display: none">
+			<span class="bt_close" title="Close"></span>
+
+			<div class="inLineFormTitle" id="ll_viewAll_tit"></div>
+			<div class="inLineFormTitle" id="ll_viewAll_tit_info"></div>
+
+            <div id="v_preload" style="margin: auto; float: none; clear: both; width: 40px;"><img src="./img/loadingSmall.gif" alt="Loading"/></div>
+			<div id="ex_inline"></div>
+			<div class="inLineBand">
+
+                <input type="button" class="btn" id="l_cancelEdit" value="Cancel" />
+                <script	type="text/javascript">$('#l_cancelEdit').attr("value",getLocalization('label.cancel'));</script>
+
+                <span class="btnHGlue" style="float: right; margin-top: 0px;"></span>
+
+                <input type="button" class="btn" id="checkAll" value="Invert Selection" />
+				<script type="text/javascript">$('#checkAll').attr("value",getLocalization('label.invertSel'));</script>
+
+				<span class="btnHGlue" style="float: right; margin-top: 0px;"></span>
+
+				<input type="button" value="Clean Users" class="btn" style="float: right; margin-top: 0px;" id="bt_cleanUsr" onclick="cleanDeleteUsr()" />
+				<input type="button" value="Delete Comments" class="btn" style="float: right;" id="bt_deleteCmts" onclick="deleteCmts()" />
+				<input type="button" value="Clean Comments" class="btn" style="float: right; margin-top: 0px;" id="bt_cleanCmts" onclick="cleanDeleteCmts()" />
+			</div>
+		</div>
+		<span class="btnHGlue" style="width: 15px;"></span>
+		<div id="msgInfo"></div>
+		</div>
+
+	<div id="adminUsers" style="display: none">
+		<form action="" enctype="application/x-www-form-urlencoded" method="post">
+			<fieldset>
+				<span id="l_Search"> </span> <input type="text" name="search" value="" id="id_search" placeholder="" />
+			</fieldset>
+		</form>
+		<div id="list"></div>
+	</div>
+
+	<div id="preload" style="display: none">
+			<img src="./img/loadingSmall.gif" id="preload_circle" alt="Loading..." />
+		<br/>
+			<span id="l_plsWait"> </span>
+	</div>
+
+	<div id="loginData" style="display: none">
+		<span class="bt_close" title="Close"></span>
+		<form action="" method="POST" name="loginForm" onsubmit="return logInAdmin();">
+			<table class="login">
+				<thead>
+					<tr>
+						<td colspan="2"><span id="ll_login"> </span></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div id="loginResponse"></div>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span id="ll_username"> </span></td>
+						<td><input name="username" type="text" id="myUserName" required="required" /></td>
+					</tr>
+					<tr>
+						<td><span id="ll_pswd"> </span></td>
+						<td><input name="password" type="password" id="myPassword" required="required" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><span id="ll_remember"> <script type="text/javascript">
+								$('#ll_remember').html(getLocalization('label.rememberme'));
+							</script>
+						</span> &nbsp;&nbsp;&nbsp; <input name="myLoginRemember" type="checkbox" id="myRemember" value="yes" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><input id="logIn" type="submit" value="Submit" /> <script
+								type="text/javascript">$('#logIn').attr('value',getLocalization('label.login'));</script>
+                        </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+	<div id="editUser" style="display: none">
+		<span class="bt_close" title="Close"></span>
+		<form action="" enctype="application/x-www-form-urlencoded" method="post" name="updateUser"
+			onsubmit="return persistEdit();">
+			<h2>
+				<span id="ll_editUser"> </span> <span id="edit_uName"></span>
+			</h2>
+			<input type="hidden" id="edit_userId" value="" />
+			<table>
+				<tr>
+					<td><span id="ll_name"> </span></td>
+					<td><input name="edit_name" type="text" id="edit_name" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_level"> </span></td>
+					<td><select name="edit_level" id="edit_level">
+							<option value="admin" id="leveladmin"></option>
+							<option value="user" id="leveluser"></option>
+							<option value="moderator" id="levelmoderator"></option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><span id="ll_company"> </span></td>
+					<td><input name="edit_company" type="text" id="edit_company" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_email"> </span></td>
+					<td><input name="edit_email" type="text" id="edit_email" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_date"> </span></td>
+					<td><span id="edit_date"></span></td>
+				</tr>
+				<tr>
+					<td><span id="ll_wh_notify"> </span></td>
+					<td><input name="edit_nAll" type="checkbox" id="edit_nAll" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_r_notify"> </span></td>
+					<td><input name="edit_nReply" type="checkbox" id="edit_nReply" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_p_notify"> </span></td>
+					<td><input name="edit_nPage" type="checkbox" id="edit_nPage" /></td>
+				</tr>
+				<tr>
+					<td><span id="ll_status"> </span></td>
+					<td><select name="edit_status" id="edit_status">
+							<option value="created" id="statuscreated"></option>
+							<option value="validated" id="statusvalidated"></option>
+							<option value="suspended" id="statussuspended"></option>
+					</select></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"></td>
+				</tr>
+			</table>
+			<div style="text-align: center;">
+				<input class="btn" id="bt_confirmUserEdit" type="submit" value="Submit" name="editUsr" />
+				<script type="text/javascript">$('#bt_confirmUserEdit').attr('value',getLocalization('label.updateUser'));</script>
+				<span class="btnHGlue" style="margin-top: 0;"></span>
+                <input type="button" class="bt_cancel" id="l_cancelEditU" value="Cancel" />
+                <script type="text/javascript">$('#l_cancelEditU').html(getLocalization('label.cancel'));</script>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+	<!--
+        $('#cm_title').append($('#oxy_productid').html()+"&nbsp;"+$('#oxy_productVersion').html()+"&nbsp; - &nbsp;"+getLocalization('label.admin.title'));
+		$('#bt_logOff').attr("value",getLocalization('label.logOff'));
+        $('#bt_logIn').attr("value",getLocalization('label.login'));
+		$('#l_Search').append(getLocalization('label.search.user'));
+		$('#l_plsWait').html(getLocalization('label.plsWait'));
+		$('#ll_pswd').append(getLocalization('label.pswd'));					
+		$('#ll_editUser').append(getLocalization('label.editUser'));
+		$('#bt_lostPwd').append(getLocalization('label.lostPswd'));
+		$('#bt_signUp').attr("value",getLocalization('label.signUp'));
+		$('#ll_level').append(getLocalization('admin.level.label'));
+		$('#ll_name').append(getLocalization('admin.name.label'));
+		$('#leveluser').html(getLocalization('label.user'));
+		$('#levelmoderator').html(getLocalization('label.moderator'));
+		$('#ll_company').append(getLocalization('admin.company.label'));
+		$('#ll_email').append(getLocalization('admin.email.label'));
+		$('#ll_date').append(getLocalization('admin.date.label'));
+		$('#ll_wh_notify').append(getLocalization('admin.notifyAll.label'));
+		$('#ll_r_notify').append(getLocalization('admin.notifyReply.label'));
+		$('#ll_p_notify').append(getLocalization('admin.notifyPage.label'));
+		$('#ll_status').append(getLocalization('admin.status.label'));
+		$('#statuscreated').html(getLocalization('label.created'));
+		$('#statusvalidated').html(getLocalization('label.validated'));
+		$('#statussuspended').html(getLocalization('label.suspendend'));		
+		$('#leveladmin').html(getLocalization('label.admin'));
+		$('#ll_login').append(getLocalization('label.login'));								
+		$('#ll_username').append(getLocalization('admin.userName.label'));
+		$('#bt_setVersion').attr("value",getLocalization('label.setVersion'));
+        $('#bt_setVersion').attr("title",getLocalization('label.setVersionTooltip'));
+		$('#bt_export').attr("value",getLocalization('label.export'));
+        $('#bt_export').attr("title",getLocalization('label.exportTooltip'));
+		$('#ll_setVersion').html(getLocalization('label.version'));
+		$('#setVersionInfo').html(getLocalization('label.versionInfo'));
+		$('#bt_do_export').attr('value',getLocalization('label.confirmGo'));
+		//$('#ll_exp_sel').html(getLocalization('label.selection'));
+		$('#bt_viewPosts').attr("value",getLocalization('label.viewAllPosts'));
+        $('#bt_viewPosts').attr("title",getLocalization('label.viewAllPostsTooltip'));
+		$('#ll_viewAll_tit').html(getLocalization('label.allPosts'));
+		$('#bt_deleteCmts').attr("value",getLocalization('delete'));
+		$('#cleanDbBtn').attr("value",getLocalization('label.cleanComments'));
+        $('#cleanDbBtn').attr("title",getLocalization('label.cleanCommentsTooltip'));
+		$('#bt_cleanCmts').attr("value",getLocalization('label.cleanComments'));
+		$('#cleanDbUsrBtn').attr("value",getLocalization('label.cleanUsers'));
+        $('#cleanDbUsrBtn').attr("title",getLocalization('label.cleanUsersTooltip'));
+		$('#bt_cleanUsr').attr("value",getLocalization('label.cleanUsers'));
+	-->
+	</script>
+
+	<script src="./js/base64.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./js/comments-admin.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

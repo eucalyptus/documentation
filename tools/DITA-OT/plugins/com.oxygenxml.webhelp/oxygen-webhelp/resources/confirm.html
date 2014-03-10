@@ -1,0 +1,128 @@
+<!--
+    
+Oxygen Webhelp plugin
+Copyright (c) 1998-2014 Syncro Soft SRL, Romania.  All rights reserved.
+Licensed under the terms stated in the license file EULA_Webhelp.txt 
+available in the base directory of this Oxygen Webhelp plugin.
+
+-->
+
+<html>
+<head>
+	<script src="./js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./php/cnf.php"></script>
+	<link rel="stylesheet" href="./css/comments.css" type="text/css" />
+<script type="text/javascript" src="./localization/strings.js" charset="utf-8"> </script>
+	<script type="text/javascript">
+	function getLocalization(localizationKey) {
+			var toReturn=localizationKey;
+			if(localizationKey in localization){
+				toReturn=localization[localizationKey];
+			}
+	    return toReturn;
+	}
+	</script>
+</head>
+<body onload="confirm()">
+
+<!-- to be generated  -->
+<div id="productInfo" style="display:none;">
+ 	<span id="oxy_productid">@PRODUCT_ID@</span>
+	<span id="oxy_productVersion">@PRODUCT_VERSION@</span>
+</div>
+<!-- /to be generated  -->
+
+	<div id="info">
+	</div>	
+	<div id="preload" style="display: none">
+		Please Wait ...
+		<p>
+			<img src="./img/spinner.gif" alt="Loading" />
+		</p>
+	</div>
+	
+	<div id="newPassword" style="display: none; text-align: center;">		
+		<form action="" method="POST" name="form_redirect" onsubmit="return redirect();" >
+			<div style="text-align: center;" id="ll_remember">
+							<script type="text/javascript">
+								$('#ll_remember').html(getLocalization('recoveryConfirmation'));
+							</script>			
+						</div>
+			<div>
+			<br/>
+			<input id="l_bt_redirec_log" type="submit" value="Submit"/>
+			<script type="text/javascript">$('#l_bt_redirec_log').attr('value',getLocalization('label.confirmGo'));</script>
+			</div>
+		</form>
+	</div>
+	
+	
+	<script type="text/javascript">
+		<!-- 
+	var productName=$("#oxy_productid").text();
+	var productVersion=$("#oxy_productVersion").text();
+
+	function loadPageVar(sVar) {
+			return unescape(window.location.search.replace(new RegExp(
+				"^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&")
+				+ "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+		}
+function redirect(){
+	var cookie=getCookie("page");
+	if (cookie==null || cookie==""){
+		var loc= window.location.pathname.split('/');
+		var basePath="/";
+  		for(var i=(loc.length-4);i>0;i--){
+    		basePath='/'+loc[i]+basePath;
+ 		}
+  		var baseUrl=window.location.protocol+'//'+window.location.host+basePath;
+		window.location.href=baseUrl;
+	}else{
+		var pageSignUp=encodeURI(getCookie("page"));
+		window.location.href=pageSignUp;
+	}
+	return false;
+}
+		function confirm() {
+			var id = loadPageVar("id");
+			if (id != "") {
+				$("#preload").show();
+				//console.log("id:"+id);
+				$.ajax({
+					type : "POST",
+					url : "./php/confirmUser.php",
+					data : "id=" + id + "&productName=" + productName + "&productVersion=" + productVersion,
+					success : function(data_response) {
+						var response = eval("("+data_response+")");
+						$("#preload").hide();
+						$('#ll_remember').html(response.msg);
+						$("#newPassword").show();						
+						//$("#l_bt_redirec_log").click(redirect);						
+					},
+					error : function(data_response) {
+						$("#preload").hide();
+						$('#info').html(data_response);
+						$('#info').show();
+					}
+				});
+
+			}
+		}
+	function getCookie(c_name){
+		var i,x,y,cookies=document.cookie.split(";");
+		var toReturn="";
+		for (i=0;i<cookies.length;i++){
+		  x=cookies[i].substr(0,cookies[i].indexOf("="));
+		  y=cookies[i].substr(cookies[i].indexOf("=")+1);
+		  x=x.replace(/^\s+|\s+$/g,"");
+		  if (x==c_name){
+		  	toReturn = unescape(y);
+		  }
+		}
+		return toReturn;
+	}
+		 -->
+	</script>
+
+</body>
+</html>
