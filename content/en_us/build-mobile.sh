@@ -9,7 +9,7 @@ echo “Building mobile docs:”
 
 
 # The path of the Java Virtual Machine install directory
-JVM_INSTALL_DIR=$JAVA_HOME
+# JVM_INSTALL_DIR=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
 
 # The path of the DITA Open Toolkit install directory
 DITA_OT_INSTALL_DIR=$DITA_HOME
