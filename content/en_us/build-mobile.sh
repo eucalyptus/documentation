@@ -1,4 +1,4 @@
-echo “Building mobile docs:”
+echo "Building mobile docs:"
 
 #!/bin/sh
 
@@ -37,7 +37,7 @@ DITAVAL_FILE=my_ditaval.ditaval
 DITAVAL_DIR=/Applications/oxygen/samples/dita
 
 
-"$JVM_INSTALL_DIR/bin/java"\
+"java"\
  -Xmx512m\
  -classpath\
  "$DITA_OT_INSTALL_DIR/tools/ant/lib/ant-launcher.jar"\
@@ -61,7 +61,7 @@ DITAVAL_DIR=/Applications/oxygen/samples/dita
  -f "$DITA_OT_INSTALL_DIR/build.xml"\
  "-Dtranstype=$TRANSTYPE"\
  "-Dbasedir=$DITA_MAP_BASE_DIR"\
- "-Doutput.dir=$DITA_MAP_BASE_DIR/out/$TRANSTYPE"\
+ "-Doutput.dir=$DITA_MAP_BASE_DIR/../../products/en_us/"\
  "-Ddita.temp.dir=$DITA_MAP_BASE_DIR/temp/$TRANSTYPE"\
  "-Dargs.hide.parent.link=no"\
  "-Dargs.filter=$DITAVAL_DIR/$DITAVAL_FILE"\
