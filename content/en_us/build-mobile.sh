@@ -61,7 +61,7 @@ DITAVAL_DIR=/Applications/oxygen/samples/dita
  -f "$DITA_OT_INSTALL_DIR/build.xml"\
  "-Dtranstype=$TRANSTYPE"\
  "-Dbasedir=$DITA_MAP_BASE_DIR"\
- "-Doutput.dir=$DITA_MAP_BASE_DIR/../../products/en_us/"\
+ "-Doutput.dir=$DITA_MAP_BASE_DIR/../../products/en_us/mobile/”\
  "-Ddita.temp.dir=$DITA_MAP_BASE_DIR/temp/$TRANSTYPE"\
  "-Dargs.hide.parent.link=no"\
  "-Dargs.filter=$DITAVAL_DIR/$DITAVAL_FILE"\
