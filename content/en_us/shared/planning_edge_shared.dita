@@ -18,14 +18,13 @@
 	<conbody>
 		<p>In Edge networking mode, the component responsible for implementing Eucalyptus VM
 			networking artifacts is running at the edge of a Eucalyptus deployment: the Node Controller (NC).
-			For the first implementation that has the previously mentioned primary and secondary
-			characteristics, the 'edge' of the Eucalyptus deployment is at the NCs, which is as close to the VMs as we can get.</p>
+			Eucalyptus provides a stand-alone component called <codeph>eucanetd</codeph> in each NC. This
+			componenent dynamically fetches changing Eucalyptus VM networking is responsible for
+				configuring the Linux machine on which the NC is running to reflect the latest view.</p>
 			
-			<p>In EDGE, we run a new stand-alone component called <codeph>eucanetd</codeph> alongside each node controller,
-				which fetches dynamically changing Eucalyptus VM networking view and is responsible for
-				configuring the Linux machine on which the NC/eucanetd is running to reflect the latest view. In this way, we provide the benefits of primary characteristic 1, 2, 3 and secondary characteristic 2.</p>
-			
-			<p>In order to provide the benefits of secondary characteristics 1 and 3, as well as function without a single point where the networking view can be implemented, the initial implementation of "EDGE" mode integrates with a site administrator's existing network infrastructure, allowing the admin to 'tell' Eucalyptus (through configuration parameters for EDGE mode) about the extant network, which "EDGE" then will consume when implementing the Eucalyptus networking view.</p>
+			<p>Edge networking mode integrates with your existing network infrastructure, allowing you to
+				'tell' Eucalyptus (through configuration parameters for Edge mode) about the existing network,
+				which Eucalyptus then will consume when implementing the networking view.</p>
 			
 			<p>Edge networking mode integrates with two basic types of pre-existing network setups:</p>
 			<ul>
@@ -33,7 +32,9 @@
 			<li>Two networks, one for Eucalyptus components and Eucalyptus VM public IPs, and the other for
 				Eucalyptus VM private IPs.</li>
 			</ul>
-			<p>See below for diagrams depicting example topologies for one or two network deployments. In each networking cases, it should be noted that "EDGE" will not 'set up' the network from scratch as the MANAGED* modes do, but instead should be thought of as 'integrating' with networks that already exist. If the networks don't already exist, they will need to be created outside of Eucalyptus software  before configuring "EDGE" with knowledge of the networks. See the next section for more information on the requirements of EDGE.</p>
+			<p>Edge networking mode will not set up the network from scratch as Managed and Managed (No VLAN)
+				modes do. Instead, it integrates with networks that already exist. If the networks don't already
+				exist, you must create them outside of Eucalyptus software  before configuring Edge.</p>
 		<section>
 			<title>Edge Mode Requirements</title>
 			<ul>
