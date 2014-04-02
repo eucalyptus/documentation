@@ -22,7 +22,7 @@
 		<p>In Edge networking mode, the component responsible for implementing Eucalyptus VM
 			networking artifacts is running at the edge of a Eucalyptus deployment: the Node Controller (NC).
 			Eucalyptus provides a stand-alone component called <codeph>eucanetd</codeph> in each NC. This
-			componenent dynamically fetches changing Eucalyptus VM networking is responsible for
+			componenent dynamically receives changing Eucalyptus networking views and is responsible for
 				configuring the Linux machine on which the NC is running to reflect the latest view.</p>
 			
 			<p>Edge networking mode integrates with your existing network infrastructure, allowing you to
@@ -35,9 +35,10 @@
 			<li>Two networks, one for Eucalyptus components and Eucalyptus VM public IPs, and the other for
 				Eucalyptus VM private IPs.</li>
 			</ul>
-			<p>Edge networking mode will not set up the network from scratch as Managed and Managed (No VLAN)
-				modes do. Instead, it integrates with networks that already exist. If the networks don't already
-				exist, you must create them outside of Eucalyptus software  before configuring Edge.</p>
+			<note type="important">Edge networking mode will not set up the network from scratch as Managed and Managed (No VLAN)
+				modes do. Instead, it integrates with networks that already exist. If the network, netmask, and
+				router don't already exist,  you must create them outside of Eucalyptus before configuring
+				Edge.</note>
 		<section>
 			<title>Edge Mode Requirements</title>
 			<ul>
@@ -48,7 +49,6 @@
 				<li>There must be unused IP addresses on the VM private network for Eucalyptus to assign VM private IPs</li>
 				</ul>
 				</li>
-					<li>There must be IP connectivy from each NC machine (where <codeph>eucanetd</codeph> runs) and their related CC machine (with <codeph>eucanetd</codeph> acting as an HTTP client to the CC).</li>
 				<li>There must be IP connectivity from each NC machine (where <codeph>eucanetd</codeph> runs) and the CLC, for metadata re-directs for 169.254.169.254 to the active CLC to function.</li>
 				<li>There must be a functioning router in place for the private network. This router will be the default gateway for VM instances.</li>
 				<li>The private and public networks can be the same network, but they can
