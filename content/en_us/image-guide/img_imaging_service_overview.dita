@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="img_task_img_svc_overview">
+ <title>Working with the Eucalyptus Imaging Service</title>
+ <shortdesc/>
+ <conbody>
+  <p>The Eucalyptus Imaging Service is a new service that makes it easier to import disk images into
+   your Eucalyptus cloud. The Eucalyptus Imaging Service automates many of the labor-intensive
+   processes required for importing images that previously had to be done manually.</p>
+  <p><b>How It Works</b></p>
+  <p>The Eucalyptus Imaging Service is implented as a system-controlled "worker" virtual machine
+   that is monitored and controlled via Auto Scaling. The Imaging Service VM is started
+   automatically when the euca-import-volume or euca-import-instance command line tools are
+   invoked.</p>
+  <p>In this release of Eucalyptus, there are three usage scenarios for the Eucalyptus Imaging
+   Service:</p>
+  <p>
+   <ul id="ul_wdd_rps_qn">
+    <li><b>Importing a raw disk image as a volume:</b> If you have a raw disk image (containing
+     either a data partition or a full operating system with a boot record), you can use the Imaging
+     Service to import this in your your Eucalyptus cloud as a volume. </li>
+    <li>
+     <b>Importing a raw disk image as an instance:</b>  If you have a raw disk image containing an
+     bootable operating system, you can import this disk image into Eucalyptus as an instance - the
+     Imaging Service automatically creates a volume, registers the EMI, and launched an instance
+     from the EMI. </li>
+    <li>
+     <b>Registering an image:</b> Starting with Eucalyptus 4.0, the default type of EMI will be a
+     full disk image, as opposed to the partitioned EMI with a root partition and separate EKI and
+     ERIs). If you have a partitioned EMI, you can use the Imaging Service to import it into your
+     Eucalyptus Cloud - the Imaging Service automatically converts the partition, kernel, and
+     ramdisk to a full disk image.</li>
+   </ul>
+  </p>
+ </conbody>
+</concept>
