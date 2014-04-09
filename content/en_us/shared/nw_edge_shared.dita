@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_edge_shared">
-	<title>Configure for Static Mode</title>
+	<title>Configure for Edge Mode</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -17,12 +17,12 @@
 
 	<taskbody>
 		<context id="nw_edge_oview_shared">
-			<p>Static mode requires you to specify the network configuration
+			<!--<p>Edge mode requires you to specify the network configuration
 				each VM should receive from the Eucalyptus DHCP server running
 				on the same physical server as the CC component. Configure each
 				CC to use an Ethernet device that lies within the same broadcast
 				domain as all of its NCs.</p>
-			<p>To configure for Static mode:</p>
+			<p>To configure for Edge mode:</p>-->
 		</context>
 	</taskbody>
 
@@ -41,17 +41,7 @@
 					<cmd>Go to the <b>Network Configuration</b> section,
 						uncomment and set the following:</cmd>
 					<info>
-						<codeblock>VNET_MODE="EDGE"
-VNET_PRIVINTERFACE="em1"
-VNET_PUBINTERFACE="em1"
-VNET_SUBNET="&lt;public subnet to be used by instances. Example: 1.100.192.0>"
-VNET_NETMASK="&lt;netmask used in your network layout. Example: 255.255.192.0>"
-VNET_BROADCAST="&lt;broadcast IP to supply to instances in DHCP responses. Example: 1.100.255.255>"
-VNET_ROUTER="&lt;subnet router IP/gateway IP to supply to instances in DHCP responses. Example:
-1.100.192.1>"
-VNET_DNS="&lt;IP of your DNS server. Example: 10.1.1.254>"
-VNET_PUBLICIPS="&lt;Range or public IP addresses. Example: 192.168.10.10-192.168.10.50>"
-VNET_PRIVATEIPS="&ltp;Range of private IP addresses. Example: 1.100.192.10-1.100.192.100"</codeblock>
+						<codeblock>VNET_MODE="EDGE"</codeblock>
 					</info>
 				</step>
 
@@ -78,8 +68,14 @@ VNET_PRIVATEIPS="&ltp;Range of private IP addresses. Example: 1.100.192.10-1.100
 				</step>
 				<step>
 					<cmd>Go to the <b>Network Configuration</b> section,
-						uncomment and set the following:</cmd>
+						uncomment and set the following parameters:</cmd>
 					<info>
+						<codeblock>VNET_MODE
+VNET_PRIVINTERFACE
+VNET_PUBINTERFACE"
+VNET_BRIDGE
+VNET_DHCPDAEMON</codeblock>
+						<p>For example:</p>
 						<codeblock>VNET_MODE="EDGE"
 VNET_PRIVINTERFACE="br0"
 VNET_PUBINTERFACE="br0"
@@ -92,6 +88,81 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd41"</codeblock>
 				</step>
 				<step>
 					<cmd>Repeat on each NC.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="nw_edge_json_shared">
+		<title>Create and Upload the JSON File</title>
+		<taskbody>
+			<context>
+				<p>To configure the rest of the Edge mode parameters, you must create a JSON configuration file.
+					Once created, you will upload this file the CLC.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Create the JSON file.</cmd>
+					<substeps>
+						<substep>
+							<cmd>Open a text editor. </cmd>
+						</substep>
+						<substep>
+							<cmd>Enter information similar to the following example. Substitute values for your system
+								settings.</cmd>
+							<info>
+								<codeblock>{
+    "InstanceDnsDomain": "eucalyptus.internal",
+    "InstanceDnsServers": ["10.1.1.254"],
+    "PublicIps": [
+        "10.111.101.84",
+        "10.111.101.91",
+        "10.111.101.92",
+        "10.111.101.93"
+    ],
+    "Subnets": [
+    ],
+    "Clusters": [
+        {
+            "Name": "PARTI00",
+            "MacPrefix": "d0:0d",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.94",
+                "10.111.101.95"
+            ]
+        },
+        {
+            "Name": "PARTI01",
+            "MacPrefix": "d0:0d",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.96",
+                "10.111.101.97"
+            ]
+        }
+    ]
+}</codeblock>
+								<p>This example depicts a setup with two clusters (AZs), one called PARTI00 and one called
+									PARTI01, with a flat network topology.</p>
+							</info>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>Run the following command to upload the configuration file to the CLC (with valid eucalyptus/admin credentials sourced):</cmd>
+					<info>
+<codeblock>euca-modify-property -f cloud.network.network_configuration=&lt;/path/to/your/config_file.json></codeblock>
+					</info>
 				</step>
 			</steps>
 		</taskbody>
