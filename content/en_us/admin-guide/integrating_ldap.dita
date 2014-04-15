@@ -3,37 +3,23 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="integrating_ldap">
 	<title>LDAP/AD Integration</title>
-	<shortdesc>You can use the Eucalyptus LDAP/Active Directory (AD) integration to
-			synchronize existing LDAP/AD user and group information with
-			Eucalyptus.</shortdesc>
+	<shortdesc>You can use the Eucalyptus LDAP/Active Directory (AD) integration to synchronize
+		existing LDAP/AD user and group information with Eucalyptus.</shortdesc>
 	<conbody>
 
-		<p> When you enable LDAP/AD synchronization, Eucalyptus does
-			the following:</p>
+		<p> When you enable LDAP/AD synchronization, Eucalyptus imports specified user and group
+			information from LDAP or AD and maps them into a predefined two-tier account/group/user
+			structure</p>
+		<p>Note that Eucalyptus only imports the identities and some related information. Any
+			Eucalyptus-specific attributes are still managed from Eucalyptus. These include:</p>
 		<ul>
-			<li>Imports specified user and group information from LDAP or AD and
-				maps them into a predefined two-tier account/group/user
-				structure</li>
-			<li>Authenticates Eucalyptus Administrator Console users through the
-				connected LDAP or AD service</li>
+			<li>User credentials: secret access keys and X.509 certificates.</li>
+			<li>Policies: IAM policies and quotas. Policies are associated with identities within
+				Eucalyptus, and stored in internal database.</li>
 		</ul>
-		<p>Note that Eucalyptus only imports the identities and some related
-			information. Any Eucalyptus-specific attributes are still managed
-			from Eucalyptus. These include:</p>
-		<ul>
-			<li>User credentials: secret access keys and X.509 certificates. The
-				Eucalyptus Administrator Console login password is an exception.
-				Eucalyptus does not download passwords from LDAP/AD and does not
-				save them either. Eucalyptus authenticates Eucalyptus
-				Administrator Console logins directly through LDAP/AD, using
-				LDAP/AD authentication (simple or SASL).</li>
-			<li>Policies: IAM policies and quotas. Policies are associated with
-				identities within Eucalyptus, and stored in internal
-				database.</li>
-		</ul>
-		<p>Also note that special identities, including system administrators
-			and account administrators, are created in Eucalyptus and not
-			imported from LDAP/AD. Only normal user identities are imported.</p>
+		<p>Also note that special identities, including system administrators and account
+			administrators, are created in Eucalyptus and not imported from LDAP/AD. Only normal user
+			identities are imported.</p>
 
 		<note type="important">If you integrate LDAP/AD, you do not need to create IAM user login
 			profiles for your users.</note>
