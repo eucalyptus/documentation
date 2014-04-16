@@ -5,8 +5,7 @@
  <shortdesc/>
  <conbody>
   <p>A <i>role</i> is a mechanism that allows applications to request temporary security credentials
-   on a user's behalf. Instead of creating and distributing your AWS credentials, roles enable you
-   to delegate permission to make API requests. </p>
+   on a user or application's behalf.  </p>
   <p>A role lets you define a set of permissions to access the resources that a user or service
    needs, but the permissions are not attached to an IAM user or group. Instead, at run time,
    applications or other Eucalyptus services can programmatically assume the role. When a role is
@@ -17,34 +16,49 @@
   <p> A role is associated with a Eucalyptus account, and has one or more <i><xref
      href="access_policies.dita">policies</xref></i> associated with it that defines which resources
    and services owned by that account that the role is allowed to access. </p>
-
   <note importance="high">Eucalyptus roles are managed through Eucalyptus' Euare service, which is
    compatible with Amazon's Identity and Access Management service. For more information on IAM and
    roles, please see the <xref
     href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Amazon IAM User
     Guide</xref>.</note>
+  <section id="roles_usage_scenarios">
+   <title>Usage Scenarios for Roles</title>
+   <p>There are several scenarios in which roles can be useful, including:</p>
+   <p><b>Applications</b></p>
+   <p>Applications running on instances in your Eucalyptus cloud will often need access to other resources in your cloud. Instead of creating AWS credentials for each application, or distributing your own credentials,,
+    you can use roles to enable you to delegate permission to the application to make API requests. For more information, see ** INSERT LINK TO TASK HERE ***</p>
+   <p><b>Account Delegation</b></p>
+   <p>You can use roles to allow one account to access resources owned by another account. For more information, see ** INSERT LINK TO TASK HERE ***</p>
+  </section>
   <section id="roles_concept_predefined">
    <title>Pre-Defined Roles</title>
    <p> Eucalyptus currently offers the following pre-defined privileged personas: </p>
-   <p><b>Cloud Super Admin</b></p>
-   <p>The Cloud Super Admin (CSA) is the super user, and can perform any privileged operation in
-    Eucalyptus. The CSA can also delegate these privileges. The CSA is the only user who can create,
-    modify, and delete privileged policies. The CSA is also the only user who can assign these
-    policies to users.</p>
-   <p><b>Cloud Account Admin</b></p>
-   <p> The Cloud Account Admin (CAA) can manage Eucalyptus accounts. </p>
-   <p><b>Cloud Resource Admin</b></p>
-   <p>The Cloud Resource Admin (CRA) can manage AWS-defined resources (such as S3 objects,
+   <p><b>Cloud Super Administrator</b></p>
+   <p>The Cloud Super Administrator (CSA) is the super user, and can perform any privileged
+    operation in Eucalyptus. The CSA can also delegate these privileges. The CSA is the only user
+    who can create, modify, and delete privileged policies. The CSA is also the only user who can
+    assign these policies to users.</p>
+   <p><b>Cloud Account Administrator</b></p>
+   <p> The Cloud Account Administrator (CAA) can manage Eucalyptus accounts. </p>
+   <p><b>Cloud Resource Administrator</b></p>
+   <p>The Cloud Resource Administrator (CRA) can manage AWS-defined resources (such as S3 objects,
     instances, users, etc) across accounts</p>
-   <p><b>Infrastructure Admin</b></p>
-   <p>The Infrastructre Admin (IA) can perform operations related to system setup and management.
-    Typical responibilities include:</p>
+   <p><b>Infrastructure Administrator</b></p>
+   <p>The Infrastructre Administrator (IA) can perform operations related to system setup and
+    management. Typical responibilities include:</p>
    <ul>
-    <li>installation and configuration (prepare environment, install Eucalyptus, configure
+    <li>Installation and configuration (prepare environment, install Eucalyptus, configure
      Eucalyptus)</li>
-    <li>monitoring and maintenance (infrastructure supporting the cloud, cloud management layer,
+    <li>Monitoring and maintenance (infrastructure supporting the cloud, cloud management layer,
      upgrades, security patches, diagnostics and troubleshooting)</li>
-    <li>backup and restore</li>
+    <li>Backup and restoration</li>
+   </ul>
+   <p>To use a role:</p>
+   <ul>
+    <li>Define which AWS accounts or services can use the role</li>
+    <li>Define which resources and actions the application can use</li>
+    <li>Specify the role when you launch your instances</li>
+    <li>Have the application retrieve a set of </li>
    </ul>
   </section>
 
