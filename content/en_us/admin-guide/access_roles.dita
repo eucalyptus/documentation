@@ -5,7 +5,7 @@
  <shortdesc/>
  <conbody>
   <p>A <i>role</i> is a mechanism that allows applications to request temporary security credentials
-   on a user or application's behalf.  </p>
+   on a user or application's behalf. </p>
   <p>A role lets you define a set of permissions to access the resources that a user or service
    needs, but the permissions are not attached to an IAM user or group. Instead, at run time,
    applications or other Eucalyptus services can programmatically assume the role. When a role is
@@ -13,10 +13,12 @@
    credentials that can then be used to make programmatic requests to resources in your account.
    This eliminates the need to share or hardcode security credentials with applications that need
    access to resources in your cloud. </p>
+  <note>The Eucalyptus Euare service automatically rotates the temporary security
+   credentials.</note>
   <p> A role is associated with a Eucalyptus account, and has one or more <i><xref
      href="access_policies.dita">policies</xref></i> associated with it that defines which resources
    and services owned by that account that the role is allowed to access. </p>
-  <note importance="high">Eucalyptus roles are managed through Eucalyptus' Euare service, which is
+  <note importance="high">Eucalyptus roles are managed through the Eucalyptus Euare service, which is
    compatible with Amazon's Identity and Access Management service. For more information on IAM and
    roles, please see the <xref
     href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Amazon IAM User
@@ -25,14 +27,17 @@
    <title>Usage Scenarios for Roles</title>
    <p>There are several scenarios in which roles can be useful, including:</p>
    <p><b>Applications</b></p>
-   <p>Applications running on instances in your Eucalyptus cloud will often need access to other resources in your cloud. Instead of creating AWS credentials for each application, or distributing your own credentials,,
-    you can use roles to enable you to delegate permission to the application to make API requests. For more information, see ** INSERT LINK TO TASK HERE ***</p>
+   <p>Applications running on instances in your Eucalyptus cloud will often need access to other
+    resources in your cloud. Instead of creating AWS credentials for each application, or
+    distributing your own credentials,, you can use roles to enable you to delegate permission to
+    the application to make API requests. For more information, see <xref
+     href="roles_tasks_create_role_application.dita">Launch an Instance with a Role</xref>.</p>
    <p><b>Account Delegation</b></p>
-   <p>You can use roles to allow one account to access resources owned by another account. For more information, see ** INSERT LINK TO TASK HERE ***</p>
+   <p>You can use roles to allow one account to access resources owned by another account. </p>
   </section>
   <section id="roles_concept_predefined">
    <title>Pre-Defined Roles</title>
-   <p> Eucalyptus currently offers the following pre-defined privileged personas: </p>
+   <p> Eucalyptus currently offers the following pre-defined privileged roles: </p>
    <p><b>Cloud Super Administrator</b></p>
    <p>The Cloud Super Administrator (CSA) is the super user, and can perform any privileged
     operation in Eucalyptus. The CSA can also delegate these privileges. The CSA is the only user
@@ -52,13 +57,6 @@
     <li>Monitoring and maintenance (infrastructure supporting the cloud, cloud management layer,
      upgrades, security patches, diagnostics and troubleshooting)</li>
     <li>Backup and restoration</li>
-   </ul>
-   <p>To use a role:</p>
-   <ul>
-    <li>Define which AWS accounts or services can use the role</li>
-    <li>Define which resources and actions the application can use</li>
-    <li>Specify the role when you launch your instances</li>
-    <li>Have the application retrieve a set of </li>
    </ul>
   </section>
 
