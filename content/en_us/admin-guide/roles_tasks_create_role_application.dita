@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="roles_tasks_create_role_application">
+    <title>Launch an Instance with a Role</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>To create a role for a Eucalyptus instance:</p>
+        </context>
+        <steps>
+            <step>
+                <note importance="normal">For more information on policies, see <xref href="access_policies.dita">Policy Overview</xref>.</note>
+                <cmd>Create a policy and save it in a text file with a <codeph>.json</codeph>
+                    extenstion. The following example shows a policy that allows listing
+                    the contents of an S3 bucket called "mybucket":</cmd>
+                
+                <info><codeblock>{
+  "Statement": [
+    {
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::mybucket"
+    }
+  ]
+}</codeblock></info>
+            </step>
+            <step>
+                <cmd>Create a role using the <cmdname>euare-rolecreate</cmdname> command, passing in
+                    the filename of the policy you created in the previous step:</cmd>
+                <info><codeph>euare-rolecreate --role-name mytestrole --assume-policy-document
+                        file://my-test-policy.json</codeph></info>
+            </step>
+            <step>
+                <cmd>Create an instance profile and add the newly created role:</cmd>
+                <info><codeph>euare-instanceprofile-create -s myinstanceprofile -r
+                        mytestrole</codeph></info>
+            </step>
+            <step>
+                <cmd>Launch an instance with the role:</cmd>
+                <info><codeblock>euca-run-instances --instance-type m1.small --image-id emi-e123ba2c --iam-instance-profile Name="myinstanceprofile" 
+   --key-name my-key-pair --security-groups my-security-group</codeblock></info>
+            </step>
+            <step>
+                <cmd>From your instance, retrieve the security credentials for the role. For example:</cmd>
+                <info><codeph>GET http://128.0.0.1/latest/meta-data/euare/security-credentials/mytestrole</codeph></info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
