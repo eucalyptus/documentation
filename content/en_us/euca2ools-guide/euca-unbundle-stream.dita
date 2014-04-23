@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-fingerprint-key">
+	<title>euca-unbundle-stream</title>
+	<shortdesc>Recreate an image solely from its combined bundled parts without using
+		a manifest.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>EC2 compatible commands</keyword>
+				<keyword>Eucalyptus unbundle stream</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-unbundle-stream [-i filename] [-o filename] --enc-key hex --enc-iv hex
+                            [--image-size bytes] [--sha1-digest hex]
+                            [--progress | --no-progress]
+                            [--region user@region] [--debug] [--debugger]
+                            [--version] [-h]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry>--enc-key <i>hex</i></entry>
+							<entry>The symmetric key used to encrypt the bundle.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry>--enc-iv <i>hex</i></entry>
+							<entry>The initialization vector used to encrypt the bundle</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-i <i>filename</i></codeph></entry>
+							<entry>File to read the bundle from. Defaults to <codeph>stdin</codeph>.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-o <i>filename</i></codeph></entry>
+							<entry>File to write the bundle to. Defaults to <codeph>stdout</codeph>.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry>--image-size <i>bytes</i></entry>
+							<entry>Verify the unbundled image is the specified size in bytes.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry>--sha1-digest <i>hex</i></entry>
+							<entry>Verify the image's contents against a SHA1 digest from
+								its manifest file.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--progress</codeph></entry>
+							<entry>Show a progress bar during command execution. This is the default
+								when this command is run interactively.</entry>
+							
+							<entry align="center">No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--no-progress</codeph></entry>
+							<entry>Do not show a progress bar during command execution. This is the
+								default when this command is run non-interactively.</entry>
+							
+							<entry align="center">No</entry>
+						</row>
+						
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section
+			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<!--<section>
+			<title>Example</title>
+			<codeblock>euca-fingerprint-key my-private-key.pem
+17:db:9a:f4:33:1c:ff:6a:b2:ae:69:0d:22:2c:fc:a9:44:6e:22:f8
+</codeblock>
+		</section>-->
+	</refbody>
+
+</reference>
