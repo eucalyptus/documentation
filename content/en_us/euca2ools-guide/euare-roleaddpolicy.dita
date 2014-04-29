@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euare-useraddpolicy">
-	<title>euare-useraddpolicy</title>
+<reference id="euare-roleaddpolicy">
+	<title>euare-roleaddpolicy</title>
 
-	<shortdesc>Adds a new policy for a user.</shortdesc>
+	<shortdesc>Adds a new policy for a role.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<keyword>IAM compatible commands</keyword>
-				<keyword>Eucalyptus user add policy</keyword>
+				<keyword>Eucalyptus role add policy</keyword>
 			</keywords>
 		</metadata>
 	</prolog>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euare-useraddpolicy -p <b>policyname</b> -e {Allow,Deny} -u <b>user</b> -a <b>action</b> [-r RESOURCE]</codeblock>
+			<codeblock>euare-roleaddpolicy -r <b>role_name</b> -p <b>policy_name</b> -e {Allow,Deny} -a <b>actions</b> 
+	-c <b>resources</b> [-o] [--as-account <b>account</b>]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -35,21 +36,20 @@
 
 					<tbody>
 						<row>
-							<entry><codeph>-u, --user-name
-									<i>user_name</i></codeph></entry>
-							<entry>Name of the user to associate the policy
+							<entry><codeph>-r, --role-name</codeph>
+								<i>role_name</i></entry>
+							<entry>Name of the role to associate the policy
 								with</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-p, --policy-name
-									<i>policy_name</i></codeph></entry>
-							<entry>Name of the policy document</entry>
+							<entry><codeph>-p, --policy-name</codeph>
+								<i>policy_name</i></entry>
+							<entry>Name of the new policy</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-e, --effect
-								<i>effect</i></codeph></entry>
+							<entry><codeph>-e, --effect </codeph><i>effect</i></entry>
 							<entry>The value for the policy's
 									<codeph>Effect</codeph> element. <p>Valid
 									values: <codeph>Allow</codeph> |
@@ -57,8 +57,8 @@
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-a, --action
-								<i>action</i></codeph></entry>
+							<entry><codeph>-a, --action</codeph>
+								<i>action</i></entry>
 							<entry>The value for the policy's
 									<codeph>Action</codeph> element. This value
 								specifies both the service and action you want
@@ -67,11 +67,15 @@
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-o</codeph></entry>
-							<entry>This option tells Eucalyptus to output the
-								JSON policy document that
-									<codeph>euare-useraddpolicy</codeph> created
-								for you.</entry>
+							<entry><codeph>-c, <codeph>--actions</codeph>
+								</codeph><i>actions</i></entry>
+							<entry>Actions that the policy should apply to. At least one is required.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--as-account</codeph>
+								<i>account</i></entry>
+							<entry>[Eucalyptus cloud administrator only] Run this command as the administrator of another account.</entry>
 							<entry align="center">No</entry>
 						</row>
 					</tbody>
@@ -89,10 +93,10 @@
 		<section>
 			<title>Example</title>
 			<p>The following policy allows myuser all actions in EC2.</p>
-			<codeblock>euare-useraddpolicy -u myuser -p mypolicy -e Allow -a 'ec2:*' -r '*'</codeblock>
+			<codeblock>euare-roleaddpolicy -r myrole -p mypolicy -e Allow -a 'ec2:*' -r '*'</codeblock>
 			<p>The following policy allows myuser all actions in EC2 and outputs
 				the generated JSON policy.</p>
-			<codeblock>euare-useraddpolicy -u myuser -p mypolicy -e Allow -a 'ec2:*' -r '*' -o
+			<codeblock>euare-roleaddpolicy -r myrole -p mypolicy -e Allow -a 'ec2:*' -r '*' -o
 {"Version":"2008-10-17","Statement":[{"Effect":"Allow",
 "Action":["ec2:*"], "Resource":["*"]}]}</codeblock>
 		</section>

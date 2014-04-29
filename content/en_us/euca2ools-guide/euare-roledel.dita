@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euare-groupremoveuser">
-	<title>euare-groupremoveuser</title>
+<reference id="euare-userdel">
+	<title>euare-roledel</title>
 
-	<shortdesc>Removes a user from a group.</shortdesc>
+	<shortdesc>Deletes a user.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<keyword>IAM compatible commands</keyword>
-				<keyword>Eucalyptus group remove user</keyword>
+				<keyword>Eucalyptus user delete</keyword>
 			</keywords>
 		</metadata>
 	</prolog>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euare-groupremoveuser -g <b>group_name</b> -u <b>user_name</b></codeblock>
+			<codeblock>euare-roledel -u <b>rolename</b> [-r]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -35,25 +35,39 @@
 
 					<tbody>
 						<row>
-							<entry><codeph>-g, --group-name
-									<i>group_name</i></codeph></entry>
-							<entry>Name of the group to remove the user
-								from</entry>
+							<entry><codeph>-r, --role-name</codeph>
+								<i>user_name</i></entry>
+							<entry>Name of the user to delete</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-u, --user-name
-									<i>user_name</i></codeph></entry>
-							<entry>Name of the user to remove from the
-								group</entry>
-							<entry align="center">Yes</entry>
+							<entry><codeph>-c, --recursive</codeph></entry>
+							<entry>Remove all IAM resources associated with the role first.</entry>
+							<entry align="center">No</entry>
 						</row>
+
+						<row>
+							<entry><codeph>-p, --pretend</codeph></entry>
+							<entry>List the resources that
+								would be deleted if the <codeph>-c</codeph> or
+									<codeph>--recursive</codeph> option were actually
+								sent in with the request.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--as-account</codeph>
+								<i>account</i></entry>
+							<entry>[Eucalyptus cloud administrator only] Run this command as the administrator of another account.</entry>
+							<entry align="center">No</entry>
+						</row>
+
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
 		<section
 			conref="../shared/euare-common.dita#euare-common/euare_common_options_with_as-account"/>
+
 		<section>
 			<title>Output</title>
 			<p
@@ -63,7 +77,7 @@
 
 		<section>
 			<title>Example</title>
-			<codeblock>euare-groupremoveuser -g mygroup -u myuser</codeblock>
+			<codeblock>euare-roledel -r myrole</codeblock>
 		</section>
 	</refbody>
 

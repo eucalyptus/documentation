@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euare-instanceprofilecreate">
-	<title>euare-instanceprofilecreate</title>
+<reference id="euare-usergetpolicy">
+	<title>euare-rolegetpolicy</title>
 
-	<shortdesc>Creates a new instance profile.</shortdesc>
+	<shortdesc>Returns information about a role's policy.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<keyword>IAM compatible commands</keyword>
-				<keyword>Eucalyptus instance profile create</keyword>
+				<keyword>Eucalyptus user get policy</keyword>
 			</keywords>
 		</metadata>
 	</prolog>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euare-instanceprofilecreate -s <b>instance_profile_name</b> [-p <b>path</b>] [-r <b>role</b>] [-v]
-	[--as-account <b>account</b>] [-U URL]</codeblock>
+			<codeblock>euare-rolegetpolicy -u <b>user_name</b> -p <b>policy_name</b> 
+	[--pretty-print][--as-account <b>account</b>]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -36,31 +36,24 @@
 
 					<tbody>
 						<row>
-							<entry><codeph>-s, --instance-profile-name</codeph>
-								<i>instance_profile_name</i></entry>
-							<entry>Name of the new instance profile.</entry>
+							<entry><codeph>-r, --role-name</codeph>
+								<i>user_name</i></entry>
+							<entry>Name of the role that the policy is associated with</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
-							<entry><codeph>-p, --path</codeph>
-								<i>path</i></entry>
-							<entry>Path for the instance profile. Default: "/"</entry>
+							<entry><codeph>-p, --policy-name</codeph>
+								<i>policy_name</i></entry>
+							<entry>Name of the policy document to retrieve</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--pretty-print </codeph></entry>
+							<entry>Reformat the policy output for legibility.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-r, --add-role</codeph>
-								<i>role_name</i></entry>
-							<entry>Add the specified role to the new instance profile.</entry>
-							<entry align="center">No</entry>
-						</row>
-						<row>
-							<entry><codeph>-v, --verbose</codeph></entry>
-							<entry>Display the new instance profile's ARN and GUID.</entry>
-							<entry align="center">No</entry>
-						</row>
-						<row>
-							<entry><codeph>--as-account</codeph>
-								<i>account</i></entry>
+							<entry><codeph>--as-account </codeph><i>account</i></entry>
 							<entry>[Eucalyptus cloud administrator only] Run this command as the administrator of another account.</entry>
 							<entry align="center">No</entry>
 						</row>
@@ -71,17 +64,17 @@
 		<section
 			conref="../shared/euare-common.dita#euare-common/euare_common_options_with_as-account"/>
 
-	<!--	<section>
+		<section>
 			<title>Output</title>
-			<p
-				conref="../shared/shared_params.dita#shared_params/euca_no_output"
-			/>
+			<p>Eucalyptus returns the policy content.</p>
 		</section>
 
 		<section>
 			<title>Example</title>
-			<codeblock>euare-groupadduser -g mygroup -u myuser</codeblock>
-		</section>-->
+			<codeblock>euare-rolegetpolicy -r myrole -p mypolicy
+{"Version":"2008-10-17","Statement":[{"Effect":"Allow",
+"Action":["ec2:*"], "Resource":["*"]}]}</codeblock>
+		</section>
 	</refbody>
 
 </reference>
