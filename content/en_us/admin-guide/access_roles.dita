@@ -4,25 +4,23 @@
  <title>Roles</title>
  <shortdesc/>
  <conbody>
-  <p>A <i>role</i> is a mechanism that allows applications to request temporary security credentials
-   on a user or application's behalf. </p>
-  <p>A role lets you define a set of permissions to access the resources that a user or service
-   needs, but the permissions are not attached to an IAM user or group. Instead, at run time,
-   applications or other Eucalyptus services can programmatically assume the role. When a role is
-   assumed, the Eucalyptus Euare service (like the AWS IAM service) returns temporary security
-   credentials that can then be used to make programmatic requests to resources in your account.
-   This eliminates the need to share or hardcode security credentials with applications that need
-   access to resources in your cloud. </p>
-  <note>The Eucalyptus Euare service automatically rotates the temporary security
-   credentials.</note>
-  <p> A role is associated with a Eucalyptus account, and has one or more <i><xref
-     href="access_policies.dita">policies</xref></i> associated with it that defines which resources
-   and services owned by that account that the role is allowed to access. </p>
-  <note importance="high">Eucalyptus roles are managed through the Eucalyptus Euare service, which is
-   compatible with Amazon's Identity and Access Management service. For more information on IAM and
-   roles, please see the <xref
-    href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Amazon IAM User
-    Guide</xref>.</note>
+  <p>A <i>role</i> A role is a mechanism that enables the delegation of access to users or
+   applications. </p>
+  <p>A role is associated with an account, and has a set of permissions associated with it that are
+   defined in the form of an IAM <i>policy</i>. A policy specifies a set of actions and resources
+   within that account that the role is allowed to access.<note>For more information on policies,
+    see <xref href="access_policies.dita">policies</xref>Policy Overview.</note></p>
+  <p>By assuming a role, a user or an applications gets a set of permissions associated with that
+   role. When a role is assumed, the Eucalyptus STS service returns a set of temporary security credentials
+   that can then be used to make programmatic requests to resources in your account. This eliminates
+   the need to share or hardcode security credentials with applications that need access to
+   resources in your cloud. </p>
+ 
+
+  <p>Eucalyptus roles are managed through the Eucalyptus Euare service, which is compatible with
+   Amazon's Identity and Access Management service. For more information on IAM and roles, please
+   see the <xref href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Amazon
+    IAM User Guide</xref>.</p>
   <section id="roles_usage_scenarios">
    <title>Usage Scenarios for Roles</title>
    <p>There are several scenarios in which roles can be useful, including:</p>
@@ -37,19 +35,17 @@
   </section>
   <section id="roles_concept_predefined">
    <title>Pre-Defined Roles</title>
-   <p> Eucalyptus currently offers the following pre-defined privileged roles: </p>
-   <p><b>Cloud Super Administrator</b></p>
-   <p>The Cloud Super Administrator (CSA) is the super user, and can perform any privileged
-    operation in Eucalyptus. The CSA can also delegate these privileges. The CSA is the only user
-    who can create, modify, and delete privileged policies. The CSA is also the only user who can
-    assign these policies to users.</p>
-   <p><b>Cloud Account Administrator</b></p>
-   <p> The Cloud Account Administrator (CAA) can manage Eucalyptus accounts. </p>
-   <p><b>Cloud Resource Administrator</b></p>
-   <p>The Cloud Resource Administrator (CRA) can manage AWS-defined resources (such as S3 objects,
+   <p> Eucalyptus offers a number of pre-defined privileged roles. These roles are associated with
+    the <codeph>eucalyptus</codeph> account, and have privileges to manage resources across the
+    cloud and non-privileged accounts. Only the eucalyptus account can manage or modify these
+    roles.</p>
+   <p><b>Account Administrator</b></p>
+   <p> The Account Administrator (AA) can manage Eucalyptus accounts. </p>
+   <p><b>Resource Administrator</b></p>
+   <p>The Resource Administrator (RA) can manage AWS-defined resources (such as S3 objects,
     instances, users, etc) across accounts</p>
    <p><b>Infrastructure Administrator</b></p>
-   <p>The Infrastructre Administrator (IA) can perform operations related to system setup and
+   <p>The Infrastructre Administrator (IA) can perform operations related to cloud setup and
     management. Typical responibilities include:</p>
    <ul>
     <li>Installation and configuration (prepare environment, install Eucalyptus, configure
