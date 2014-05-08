@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="switch_dhcp">
+    <!--we will no longer maintain or ship it, so it will not be available for newly-installed machines, whose VNET_DHCPDAEMON options will be set to /usr/sbin/dhcpd out of the box.-->
+    <title>Switching to the Stock DHCP Package</title>
+    <shortdesc/>
+    <taskbody>
+        <context>This procedure is optional but Eucalyptus 4.0 uses the stock DHCP server package. Prior to starting Eucalyptus services after upgrading packages, edit the configurations on each Cluster Controller (CC) and Node Controller (NC).
+        <p>To edit the values in the CCs and NCs:</p>
+        </context>
+            <steps>
+            <step>
+                <cmd>Go to <codeph>/etc/eucalyptus/eucalyptus.conf</codeph> and change the value of VNET_DHCPDAEMON from <codeph>/usr/sbin/dhcpd41</codeph> to <codeph>/usr/sbin/dhcpd</codeph>.</cmd>
+            </step>
+            <step>
+                <cmd>After you have started all Eucalyptus services as described in the proceeding section, ensure that DHCP is functioning correctly. Make sure that instances are being assigned addresses from the DHCP server.</cmd>
+                <info>        
+                    <note type="tip">Not applying this change does not cause the cloud to malfunction. However, the existing VNET_DHCPDAEMON package will no longer be maintained, as newly installed machines will already have the stock package applied.</note>
+                </info>                
+            </step> 
+            </steps>
+    </taskbody>
+</task>
