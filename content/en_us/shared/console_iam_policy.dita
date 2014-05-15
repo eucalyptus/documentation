@@ -5,8 +5,8 @@
     <title>Add Access Policy</title>
     <shortdesc>An IAM access policy allows you to explicitly define permissions over what your users
         and groups can access. The Add Access Policy page enables you to select and apply an
-        existing access policy template, or define your own access policy by either using the policy
-        generator or writing a policy directly using the built-in editor.</shortdesc>
+        existing access policy template, or define your own access policies by either using the
+        policy generator or writing a policy directly using the built-in editor.</shortdesc>
     <taskbody>
         <context><note importance="high">For information on IAM access policies, see <xref
                     href="http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html"
@@ -16,13 +16,158 @@
         <title>Create a custom policy using the policy generator</title>
         <shortdesc>The policy generator is an easy-to-use graphical tool that allows you to create a
             new access policy without having to know IAM's access policy language.</shortdesc>
-        <taskbody>
-            <steps>
-                <step>
-                    <cmd>TBD</cmd>
-                </step>
-            </steps>
-        </taskbody>
+        <taskbody/>
+        <task id="add_access_policy_generator_allow_all">
+            <title>Allow actions</title>
+            <shortdesc>You can allow all actions for a specific service</shortdesc>
+            <taskbody>
+                <context>To allow all actions for a service:</context>
+                <steps>
+                    <step>
+                        <cmd>Select the check mark icon next to the service name in the Allow/Deny
+                            list.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+        <task id="add_access_policy_generator_deny_all">
+            <title>Deny all actions</title>
+            <shortdesc>You can deny all actions for a specific service</shortdesc>
+            <taskbody>
+                <context>To deny all actions for a service:</context>
+                <steps>
+                    <step>
+                        <cmd>Select the x mark icon next to the service name in the Allow/Deny
+                            list.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+        <task id="add_access_policy_generator_allow_specific">
+            <title>Allow specific actions</title>
+            <shortdesc>You can allow specific actions for a service.</shortdesc>
+            <taskbody>
+                <context>To allow specific actions for a service:</context>
+                <steps>
+                    <step>
+                        <cmd>Click the + icon to the left of the service to expand the list of
+                            available actions for that service.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Select the check mark icon next to the action in the Allow/Deny
+                            list.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+        <task id="add_access_policy_generator_deny_specific">
+            <title>Deny specific actions</title>
+            <shortdesc>You can deny specific actions for a service.</shortdesc>
+            <taskbody>
+                <context>To allow specific actions for a service:</context>
+                <steps>
+                    <step>
+                        <cmd>Click the + icon to the left of a service to expand the list of
+                            available actions for that service.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Select the x mark icon next to the action in the Allow/Deny list.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+        <task id="add_access_policy_generator_specific_resources">
+            <title>Allow or deny actions for a specific resource</title>
+            <shortdesc>You can allow or deny actions for a specific resource.</shortdesc>
+            <taskbody>
+                <context>To allow or deny actions for a specific resource:</context>
+                <steps>
+                    <step>
+                        <cmd>Click the + icon to the left of a service to expand the list of
+                            available actions for that service.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Click the <uicontrol>Advanced</uicontrol> button next to the action in
+                            the Allow/Deny list. The list entry for the action will expand to show
+                            drop-down lists for setting up resources and conditionals.</cmd>
+                    </step>
+                    <step>
+                        <cmd>From the <uicontrol>Set a specific resource</uicontrol> drop-down list
+                            on the left, select a resource. The drop-down list to the right will
+                            automatically populate with valid values for the selected
+                            resource.</cmd>
+                    </step>
+                    <step>
+                        <cmd>From the drop-down list on the right, select the appropriate value for
+                            the resource you've selected. </cmd>
+                    </step>
+                    <step>
+                        <cmd>Select the check box next to the action entry to allow access to the
+                            specified resource, or select the x mark to deny access.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Click the <uicontrol>Add Resource</uicontrol> button. Note that the ARN
+                            of the resource you've selected will apepar in the list, and the results
+                            of your selections will appear in the <uicontrol>View/Edit
+                                Policy</uicontrol> text box on the right side of the page.</cmd>
+                        <info>
+                            <note>To remove a resource you've added, click the
+                                    <uicontrol>-</uicontrol> icon next to the ARN in the resource
+                                list.</note>
+                        </info>
+                    </step>
+
+                </steps>
+            </taskbody>
+        </task>
+        <task id="add_access_policy_generator_conditionals">
+            <title>Conditional permissions</title>
+            <shortdesc>You can allow or deny permissions based on specific conditions, such as user
+                name or image ID.</shortdesc>
+            <taskbody>
+                <context>To add a condition:</context>
+                <steps>
+                    <step>
+                        <cmd>Click the + icon to the left of a service to expand the list of
+                            available actions for that service.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Click the <uicontrol>Advanced</uicontrol> button next to the action in
+                            the Allow/Deny list. The list entry for the action will expand to show
+                            drop-down lists for setting up resources and conditionals.</cmd>
+                    </step>
+                    <step>
+                        <cmd>In the <uicontrol>Conditions (optional)</uicontrol> section, from the
+                                <uicontrol>Add a condition</uicontrol> drop-down list on the left,
+                            select a comparison element. The drop-down list to the right will
+                            automatically populate with valid conditional comparisons for the
+                            selected element.</cmd>
+                    </step>
+                    <step>
+                        <cmd>From the drop-down list on the right, select the appropriate comparison
+                            operator for the element you've selected. </cmd>
+                    </step>
+                    <step>
+                        <cmd>If appropriate, enter the comparison value in the text field that
+                            appears under the drop-down lists. </cmd>
+                    </step>
+                    <step>
+                        <cmd>Click the <uicontrol>Add Resource</uicontrol> button. Note that the
+                            conditional you've just added will appear in the list, and the results
+                            of your selections will appear in the <uicontrol>View/Edit
+                                Policy</uicontrol> text box on the right side of the page.</cmd>
+                        <info>
+                            <note>To remove a condition that you've added, click the
+                                    <uicontrol>-</uicontrol> icon next to the conditional in the
+                                list.</note>
+                        </info>
+                    </step>
+
+                </steps>
+            </taskbody>
+        </task>
+
+
     </task>
     <task id="add_access_policy_write">
         <title>Upload or write a policy</title>
@@ -31,7 +176,13 @@
         <taskbody>
             <steps>
                 <step>
-                    <cmd>TBD</cmd>
+                    <cmd>You can paste or type policy language directly into the View/Edit policy
+                        text box on the right side of the screen.</cmd>
+                </step>
+                <step>
+                    <cmd>To upload an existing policy file: expand the + icon next to the
+                            <uicontrol>Upload or write a file (advanced)</uicontrol> label and click
+                        the <uicontrol>Browse...</uicontrol> button.</cmd>
                 </step>
 
             </steps>
@@ -44,7 +195,7 @@
         <taskbody>
             <steps>
                 <step>
-                    <cmd>TBD</cmd>
+                    <cmd>Click on <uicontrol>Select</uicontrol> button next to the appropriate template in the list.</cmd>
                 </step>
             </steps>
         </taskbody>
