@@ -13,14 +13,19 @@
         </context>
         <steps>
             <step>
-                <cmd>Modify the <codeph>sslcert</codeph> and
-                        <codeph>sslkey</codeph> entries in the
-                        <codeph>[server]</codeph> section of the configuration
-                    file with paths to your SSL certificate and key files. For
+                <cmd>Uncomment and modify the the SSL certificate paths in <codeph>/eucaconsole/conf/nginx.conf</codeph>. For
                     example:</cmd>
                 <info>
-                    <codeblock>sslcert=/example/path/server.crt
-sslkey=/example/path/server.key</codeblock>
+                    <codeblock> server {
+        listen 80;
+        server_name  localhost;
+
+        # SSL configuration
+        listen 443 ssl;
+        ssl_certificate /path/to/ssl/pem_file;
+        ssl_certificate_key /path/to/ssl/certificate_key;
+        # end of SSL configuration
+</codeblock>
                 </info>
                 <info>
                     <note>
