@@ -3,24 +3,25 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="sync_keys_components">
     <title>Sync Keys on Components</title>
-    <shortdesc/>
+	<shortdesc>After upgrading to <ph
+		conref="../shared/conrefs.dita#prod/version"/> synchronize keys on remote java
+		component. This registers user services and sets the storage backend.</shortdesc>
     <taskbody>
         <context>
-            <p>It is necessary to sync keys on remote java components after upgrading to <ph
-                conref="../shared/conrefs.dita#prod/version"/> in order to register user services and setting the storage backend.</p>
             <p>The new Object Storage Gateway (OSG) and WalrusBackend components (WS) have new keys. Those keys are generated and need to be synced to all java components after upgrade, in order for everyone to have the same key set.</p>
             
-            <p>To sync keys on components after the CLC is started, and DB upgrades successfully:</p>
+            <p>To sync keys on components after the CLC is started and the database is successfully
+            	upgraded:</p>
         </context>
         <steps>
             <step>
-                <cmd>register User-Facing Services (UFS):</cmd>
+                <cmd>Register User-Facing Services (UFS):</cmd>
                 <info>
                     <codeblock>euca_conf --register-service -T user-api -H &lt;UFS HOST IP> -N API_&lt;last octet of HOST IP></codeblock>
                 </info>
-                <info>example:<codeblock># euca_conf --register-service -T user-api -H 10.111.1.135 -N API_135</codeblock></info>
+                <info>For example:<codeblock># euca_conf --register-service -T user-api -H 10.111.1.135 -N API_135</codeblock></info>
                 <stepresult>
-                    <p>sample output:<codeblock>Created new partition 'API_135’...</codeblock>
+                    <p>Sample output:<codeblock>Created new partition 'API_135’...</codeblock>
                     </p>
                 </stepresult>
             </step>
@@ -29,19 +30,20 @@
                 <info>
                     <codeblock># euca-modify-property -p objectstorage.providerclient=&lt;riakcs,ceph-rgw,walrus,s3></codeblock>
                 </info>
-                <info>example:<codeblock># euca-modify-property -p objectstorage.providerclient=walrus</codeblock></info>
+                <info>For example:<codeblock>euca-modify-property -p objectstorage.providerclient=walrus</codeblock></info>
                 <stepresult>
-                    <p>sample output:<codeblock>PROPERTY        objectstorage.providerclient    walrus was {}</codeblock>
+                	<p>Sample output:
+                		<codeblock>PROPERTY        objectstorage.providerclient    walrus was {}</codeblock>
                     </p>
                 </stepresult>
             </step>
             <step>
-                <cmd>Sync the keys:</cmd>
+                <cmd>Synchronize the keys:</cmd>
                 <info>
-                    <codeblock># euca_conf --sync-euca-p12</codeblock>
+                    <codeblock>euca_conf --sync-euca-p12</codeblock>
                 </info>
                 <stepresult>
-                    <p>sample output:<codeblock>Copying euca.p12 to 10.111.1.174...</codeblock>
+                    <p>Sample output:<codeblock>Copying euca.p12 to 10.111.1.174...</codeblock>
                     </p>
                     <p><codeblock>Copying euca.p12 to 10.111.5.15...</codeblock>
                     </p>
@@ -50,10 +52,10 @@
             <step>
                 <cmd>Install the imaging worker image:</cmd>
                 <info>
-                    <codeblock># euca-install-imaging-worker --install-default</codeblock>
+                    <codeblock>euca-install-imaging-worker --install-default</codeblock>
                 </info>
                 <stepresult>
-                    <p>sample output:<codeblock>Installing default Imaging Service tarball...</codeblock>
+                    <p>Sample output:<codeblock>Installing default Imaging Service tarball...</codeblock>
                     </p>
                     <p>As the commands process, the final output shows each service is enabled, indicating the commands ran successfully.
                     </p>
