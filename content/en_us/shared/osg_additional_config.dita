@@ -17,13 +17,23 @@
 
         <tbody>
           <row>
-            <entry><codeph>objectstorage.cleanuptaskintervalseconds</codeph> </entry>
+            <entry><codeph>objectstorage.cleanuptaskintervalseconds</codeph>
+            </entry>
             <entry> The interval, in seconds, at which background cleanup tasks are run. Default is
               60 seconds. The background cleanup tasks purge the backend of overwritten objects and
               clean up object history. </entry>
           </row>
           <row>
-            <entry><codeph>objectstorage.failedputtimeouthours</codeph> </entry>
+            <entry><codeph>objectstorage.dogetcopyputonfail</codeph>
+            </entry>
+            <entry> When this property is enabled, the OSG will attempt to perform a manual copy
+              (performing a GET operation on the source, followed by a PUT operation on destination)
+              whenever the copy operation fails against the upstream provider. Because manual copies
+              can be slow and memory-intensive, this capability is turned off by default. </entry>
+          </row>
+          <row>
+            <entry><codeph>objectstorage.failedputtimeouthours</codeph>
+            </entry>
             <entry> The time, in hours, after which to consider an un-committed object upload to be
               failed. The default is 24 hours. This allows cleansing of metadata for objects that
               were pending upload when an OSG fails or is stopped in the middle of a user operation.
@@ -41,14 +51,15 @@
               100.</entry>
           </row>
           <row>
-            <entry><codeph>objectstorage.s3provider.s3usehttps</codeph> </entry>
+            <entry><codeph>objectstorage.s3provider.s3usehttps</codeph>
+            </entry>
             <entry> Whether or not to use https for the connections to the backend provider. If you
               configure this, be sure you can use the backend properly with HTTPS (certs, etc.) or
               the OSG will fail to connect. For RiakCS, you must configure certificates and
               identities to support HTTPS, it is not enabled in a default RiakCS installation.
               Default value is false. </entry>
           </row>
-          
+
         </tbody>
       </tgroup>
     </table>
