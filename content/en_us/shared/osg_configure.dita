@@ -1,32 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="osg_configure">
-    <title>Configure Object Storage Gateways</title>
-    <abstract>
-        <p>You must configure an object storage gateway (OSG) before it will function properly. OSGs that
-            have been registered but not properly configured will be listed in the <codeph>BROKEN</codeph> state when
-            listed with the euca-describe-services command. For example:</p>
-        <p>
-            <codeph>SERVICE objectstorage objectstorage osg-192.168.1.16 BROKEN 23
-                http://192.168.1.16:8773/services/objectstorage
-                arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeph>
-        </p>
-    </abstract>
-    <taskbody>
-        <context>
-            <p>To configure an OSG:</p>
-        </context>
+    <title>Configure Object Storage Gateway</title>
+    <shortdesc>This topic details how to configure OSG for either Walrus or Riak.
+        
+    </shortdesc>
+	<taskbody>
+		<context>
+		<p>You must configure an object storage gateway (OSG) before it will function properly. OSGs that
+			have been registered but not properly configured will be listed in the <codeph>BROKEN</codeph> state when
+			listed with the euca-describe-services command. For example:</p>
+			<codeph>SERVICE objectstorage objectstorage osg-192.168.1.16 BROKEN 23
+				http://192.168.1.16:8773/services/objectstorage
+				arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeph>
+		</context>
+	</taskbody>
+	<task id="osg_configure_walrus">
+		<title>Configure OSG for Walrus</title>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>Enter <codeph>walrus</codeph> as the storage provider using the <codeph>euca-modify-property</codeph>
+						command.</cmd>
+					<info>
+						<codeph>euca-modify-property -p objectstorage.providerclient=walrus</codeph>
+					</info>
+				</step>
+				<step>
+					<cmd>Check that the OSG is enabled.</cmd>
+					<info>
+						<codeblock>euca-describe-services</codeblock>
+						<p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
+							check the cloud-*.log files in the
+							<codeph>/var/log/eucalyptus</codeph> directory. A
+							<codeph>DISABLED</codeph> state generally indicates that there is a
+							problem with your network or credentials.</p>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="osg_configure_riak">
+		<title>Configure OSG for Riak</title>
+
+	<taskbody>
+        
         <steps>
             <step>
-                <cmd>Specify a storage provider using the <codeph>euca-modify-property</codeph>
-                    command. To use RiakCS as the backend, you will need to pick "s3" as the storage
-                    provider. For example: </cmd>
+                <cmd>Enter <codeph>riakcs</codeph> as the storage provider using the <codeph>euca-modify-property</codeph>
+                    command.</cmd>
                 <info>
-                    <codeph>euca-modify-property -p objectstorage.providerclient=s3</codeph>
+                    <codeph>euca-modify-property -p objectstorage.providerclient=riakcs</codeph>
                 </info>
             </step>
             <step>
-                <cmd>Specify the RiakCS/S3 endpoint that you wish to use with Eucalyptus. For
+                <cmd>Specify the RiakCS/S3 endpoint that you want to use with Eucalyptus. For
                     example: </cmd>
                 <info>
                     <codeph>euca-modify-property -p
@@ -51,7 +79,7 @@ euca-modify-property -p objectstorage.s3provider.s3secretkey=&lt;RiakCS secret k
                 </info>
                 <info>
                     <p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
-                        please check the cloud-*.log files in the
+                         check the cloud-*.log files in the
                             <codeph>/var/log/eucalyptus</codeph> directory. A
                             <codeph>DISABLED</codeph> state generally indicates that there is a
                         problem with your network or credentials.</p>
@@ -59,4 +87,5 @@ euca-modify-property -p objectstorage.s3provider.s3secretkey=&lt;RiakCS secret k
             </step>
         </steps>
     </taskbody>
+	</task>
 </task>
