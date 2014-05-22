@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="clean_up_cached_EMIs">
+    <title>Clean up Cached EMIs from VMware Broker</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>If you are using Eucalyptus with VMware support, remove all the VMs with the name, <codeph>emi-XXXX-YYYY</codeph> before starting the VMware Broker. The easiest way to do this is through either the vSphere Client (a Windows application) or the vSphere Web Client (a browser app available on vCenter installations).</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>In either  of those cases, log into your vSphere endpoints (either vCenter or ESXi hosts) with username and password.</cmd>
+            <stepresult>
+                <p>A management interface window opens, displaying an "inventory" of hosts,
+                        Datastores, VMs, networks, and so on.</p>
+            </stepresult>
+                </step>
+            <step>
+                <cmd>On the left-hand navigation panel, select <b>vCenter</b> <b>> VMs and Templates.</b> </cmd>
+            </step>    
+            <step>
+                <cmd>Locate and click the name of the vCenter that contains the cached EMI images.</cmd>
+            </step>
+            <step>
+            <cmd>Click the arrow to expand on the name of one of the data centers.</cmd>
+            </step>
+            <step>
+                <cmd>Double-click to open the folder called <b>eucalyptus-</b>...</cmd>
+            </step>
+            <step>
+                <cmd>Select <codeph>emi-XXX-YYY</codeph>.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <b>Actions</b> menu in the middle of the page.</cmd>
+            </step>
+           
+            <step>
+                <cmd>Select <b>All vCenter Actions > Remove from Inventory</b>.
+                    <image href="images/vmware_remove_emis.png"
+                        alt="Navigating to 'Remove from Inventory'"/>
+                </cmd>
+            </step>
+         
+            <step>
+                <cmd>Repeat this procedure to remove all the remaining EMI instances from the VM inventory.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>
