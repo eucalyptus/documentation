@@ -19,13 +19,40 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>The Node Controller (NC) does not support the <codeph>cancel-bundle-task</codeph> operation. (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-9351"
-								>EUCA-9351</xref>)</entry>
+						<entry>The <codeph>delete on terminate</codeph> checkbox on the Launch Configuration Wizard of the Eucalyptus Management Console is always enabled. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/GUI-1039"
+								>GUI-1039</xref>)</entry>
 						<entry>
-							<p>The <codeph>cancel-bundle-task</codeph> operation has no effect on bundle tasks already under way (on both KVM and VMware), allowing the bundling process to complete and then marking it as failed/canceled. </p>
+							<p>The <codeph>delete on terminate</codeph> flag is always be set to <codeph>True</codeph> despite the checkbox value. </p>
 					</entry>
 					</row>
+					<row>
+						<entry>Creating an IAM policy for a user or group whose name that contains a <codeph>+</codeph> character will cause errors. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-1030"
+							>GUI-1030</xref>)</entry>
+						<entry>
+							<p>When adding an IAM policy, and the user or group name contains a <codeph>+</codeph> character, a 502 Bad Gateway error results. Upon returning to the previous page using the back button on the browser, another error message displays on the top of the Management Console.</p>
+							<p>Workaround: Use the CLI commands (e.g. <codeph>euare-useraddpolicy</codeph> or <codeph>euare-groupaddpolicy</codeph>) instead.</p>
+						</entry>
+					</row>
+					<row>
+						<entry>Setting any quota to 0 for an IAM user causes errors. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-1029"
+							>GUI-1029</xref>)</entry>
+						<entry>
+							<p>When setting quotas for a particulary IAM user, entering a value of 0 causes errors. </p>
+							<p>Workaround: Some users find it more useful to define a quota limit with the value 0 instead of using a 'Deny' action. Since we currently do not support using 0 as a value, use the CLI commands <codeph>ec2-deny-vmtypes</codeph> or <codeph>ec2-vmquota</codeph>) instead to enforce the policy at the account level.</p>
+						</entry>
+					</row>			
+					<row>
+						<entry>The Node Controller (NC) does not support the <codeph>cancel-bundle-task</codeph> operation. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-9351"
+							>EUCA-9351</xref>)</entry>
+						<entry>
+							<p>The <codeph>cancel-bundle-task</codeph> operation has no effect on bundle tasks already under way (on both KVM and VMware), allowing the bundling process to complete and then marking it as failed/canceled. </p>
+						</entry>
+					</row>
+					
 					<row>
 						<entry>The Broker does not support the <codeph>cancel-bundle-task</codeph> operation. (<xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/EUCA-9350"
