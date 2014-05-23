@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="moving_to_edge">
+	<title>Eucalyptus Migration to Edge Networking Mode</title>
+	<shortdesc>You can configure your existing cloud to use Edge networking mode. This topic
+		provides instructions for configuring and installing additional Eucalyptus
+		components in an existing environment for
+		the purpose of moving to Edge.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>
+					<indexterm/>
+				</indexterm>
+				<indexterm>
+					<indexterm/>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+		<context>
+			<note type="important">Migrating to Edge will require
+				downtime of your cloud platform.</note>
+		</context>
+		<steps>
+			<step>
+				<cmd>Terminate all running instances.</cmd>
+				<substeps>
+					<substep>
+						<cmd>Find out which instances are running:</cmd>
+						<info>
+							<codeblock>euca-describe-instances</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>List the instances to terminate:</cmd>
+						<info>
+							<codeblock>euca-terminate-instances instance_id [instance_id ...]</codeblock>
+						</info>
+					</substep>
+				</substeps>
+				
+			</step>
+			<step>
+				<cmd>Shut down all Eucalyptus components.</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Edit all the config files on NC and CC for Edge networking mode. For more information, see
+					<xref href="nw_edge.dita"/> or <xref href="nw_edge_ha.dita"/> (for HA).</cmd>
+			</step>
+			<step>
+				<cmd>Install <codeph>eucanetd</codeph> on all NCs. </cmd>
+				<info>
+					<codeblock>yum install eucanetd</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start <codeph>eucanetd</codeph> on all NCs</cmd>
+				<info>
+					<codeblock>service eucanetd start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Start all components: CLC, CC, WS, SC, NCs. For more information, see <xref
+					href="starting_euca.dita"/> or <xref href="starting_euca_ha.dita"/> (for HA).</cmd>
+			</step>
+			<step>
+				<cmd>Set the Edge JSON property. For more information, see <xref
+					href="nw_edge.dita#nw_edge_json"/> or <xref href="nw_edge_ha.dita#nw_edge_ha/nw_edge_json_ha"/>
+				(for HA).</cmd>
+			</step>
+		</steps>
+		<result>Your Edge networking mode is now properly configured.</result>
+	</taskbody>
+</task>
