@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-install-image">
+	<title>euca-install-image</title>
+
+	<shortdesc>Import a public RSA key as a new key pair for Eucalyptus.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>EC2 compatible commands</keyword>
+				<keyword>Eucalyptus install image</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-install-image -n NAME [--description DESCRIPTION]
+	[--max-pending-parts MAX_PENDING_PARTS]
+	[--virtualization-type {paravirtual,hvm}]
+	[--platform windows] [--ec2-url EC2_URL] -i FILE
+	[-p PREFIX] [-d DIR] -r
+		{i386,x86_64,armhf,ppc,ppc64} [-k FILE] [-c FILE]
+	[--ec2cert FILE] [-u ACCOUNT] [--kernel IMAGE]
+	[--ramdisk IMAGE]
+	[-B VIRTUAL1=DEVICE1,VIRTUAL2=DEVICE2,...]
+	[--productcodes CODE1,CODE2,...]
+	[--image-size IMAGE_SIZE] -b BUCKET[/PREFIX]
+	[--acl {public-read,aws-exec-read,ec2-bundle-read}]
+	[--upload-policy POLICY | --upload-policy-file FILE]
+	[--upload-policy-signature SIGNATURE]
+	[--location LOCATION] [--retry]
+	[--progress | --no-progress] [--show-empty-fields]
+	[-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
+	[--security-token TOKEN] [--debug] [--debugger]
+	[--version] [-h]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Options</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>-n <i>name</i></entry>
+							<entry>The name of the new image.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--description</codeph></entry>
+							<entry>The description of the new image.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry>--max-pending-parts <i>max_parts</i></entry>
+							<entry>Pause the bundling process when more than this number of parts
+								are waiting to be uploaded. </entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry>--virtualization-type <i>type</i></entry>
+							<entry>[Privileged] Virtualization type for the new image. <p>Valid
+									values: <codeph>paravirtual</codeph>,
+								<codeph>hvm</codeph></p></entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--platform-windows</codeph></entry>
+							<entry>Indicates the new image is based on Windows.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--ec2-url</codeph></entry>
+							<entry>Compute service endpoint URL</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-i <i>file</i>, --image <i>file</i></codeph></entry>
+							<entry>The file containing the image to bundle. </entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-p <i>prefix</i>, --prefix <i>prefix</i></codeph></entry>
+							<entry>The file name prefix to give the bundle's files. Required when
+								bundling <codeph>stdin</codeph>; otherwise defaults to the image's
+								file name.</entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>-d <i>directory</i>, --destination
+									<i>directory</i></codeph></entry>
+							<entry>The the file name prefix to give the bundle's files. Required
+								when bundling <codeph>stdin</codeph>; otherwise defaults to the
+								image's file name.</entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>-r <i>architecture</i>, --arch
+									<i>architecture</i></codeph></entry>
+							<entry>Architecture of the new image. <p>Valid values:
+										<codeph>i386</codeph>,<codeph>x86_64</codeph>,<codeph>armhf</codeph>,<codeph>ppc</codeph>,
+									or <codeph>ppc64</codeph>.</p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-k <i>file</i>, --privatekey <i>file</i></codeph></entry>
+							<entry>File containing your private key to sign the bundle's manifest
+								with. This private key will also be required to unbundle the image
+								in the future.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-c <i>file</i>, --cert <i>file</i></codeph></entry>
+							<entry>File containing your X.509 certificate.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>---ec2cert <i>file</i></codeph></entry>
+							<entry>File containing your cloud's X.509 certificate.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-u <i>account</i>, --user <i>account</i></codeph></entry>
+							<entry>Your account ID.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--kernel <i>image</i></codeph></entry>
+							<entry>ID of the kernel image to associate with this machine
+								image.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--ramdisk <i>image</i></codeph></entry>
+							<entry>ID of the ramdisk image to associate with this machine
+								image.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row
+							conref="../shared/shared_params.dita#shared_params/block_device_mapping">
+							<entry/>
+						</row>
+						<row>
+							<entry><codeph>--productcodes</codeph><varname>code1</varname>
+									[<varname>, code2, ...</varname>]</entry>
+							<entry>Comma-delimited list of product codes.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--image-size <i>size</i></codeph></entry>
+							<entry>The size of the image. Required when reading from
+									<codeph>stdin</codeph>.</entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>-b <i>bucket</i>, --bucket <i>bucket</i></codeph></entry>
+							<entry>Bucket to upload image to.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--acl <i>policy</i></codeph></entry>
+							<entry>ACL policy to apply to the bucket. <p>Default:
+										<codeph>aws-exec-read</codeph></p><p>Valid values:
+										<codeph>public-read</codeph>,<codeph>aws-exec-read</codeph>,<codeph>ec2-bundle-read</codeph></p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--upload-policy <i>policy</i></codeph></entry>
+							<entry>Upload policy to use for authorization.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--upload-policy-file <i>file</i></codeph></entry>
+							<entry>File containing an upload policy to use for
+								authorization.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--upload-policy-signature <i>policy</i></codeph></entry>
+							<entry>signature for the upload policy. Required when an upload policy
+								is used.</entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>--location <i>location</i></codeph></entry>
+							<entry>Location constraint of the destination bucket. <p>Default: obtained from s3-location-constraint in
+								configuration, or otherwise none. </p></entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>--retry</codeph></entry>
+							<entry>Retry failed uploads up to five times. </entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--progress</codeph></entry>
+							<entry>Show a progress bar during command execution. This is the default
+								when this command is run interactively.</entry>
+
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--no-progress</codeph></entry>
+							<entry>Do not show a progress bar during command execution. This is the
+								default when this command is run non-interactively.</entry>
+
+							<entry align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-import-keypair -f /path/to/keypair mykey</codeblock>
+		</section>
+
+	</refbody>
+</reference>
