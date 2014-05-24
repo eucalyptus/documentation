@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-install-image">
+	<title>euca-modify-instance-attribute</title>
+
+	<shortdesc>Modify an attribute of the specified instance.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>EC2 compatible commands</keyword>
+				<keyword>Eucalyptus modify instance attribute</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-modify-instance-attribute [-b <b>device</b>=::(true|false)] 
+	[--disable-api-termination {true,false}]
+	[--ebs-optimized {true,false}]  [-g <b>group</b>]
+	[--instance-initiated-shutdown-behavior
+		{stop,terminate}]  [-t <b>instancetype</b>]
+	[--kernel <b>image</b>] [--ramdisk <b>image</b>]	
+	[--source-dest-check {true,false}]
+	[--sriov simple]  [--user-data <b>data</b>] 
+	[--user-data-file <b>filename</b>)] <b>instance_id</b></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Options</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><i>instance_id</i></entry>
+							<entry>The ID of the instance to modify.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-b <i>device=::{true|false}</i>, --block-device-mapping <i>device=::{true|false}</i></codeph></entry>
+							<entry>Change whether a volume attached to the instance will
+								be deleted upon the instance's termination.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--disable-api-termination {<b>true</b>|false<b></b>}</codeph></entry>
+							<entry>Prevent API calls from terminating the instance(s).</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--ebs-optimized {<b>true</b>|false<b></b>}</codeph></entry>
+							<entry>Change whether or not the instance should be optimized
+								for EBS I/O.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-g,--group <i>group</i></codeph></entry>
+							<entry>Security group to run the instance in</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-t,--instance-type</codeph></entry>
+							<entry>Instance type to run. <p>Valid
+								values: <codeph>m1.small</codeph> | <codeph>t1.micro</codeph> | <codeph>m1.medium</codeph> | <codeph>m1.large</codeph> | 
+								<codeph>c1.medium</codeph> | <codeph>m1.xlarge</codeph> | <codeph>c1.xlarge</codeph> | <codeph>m2.xlarge</codeph> |
+								<codeph>m3.xlarge</codeph> | <codeph>cc1.4xlarge</codeph> | <codeph>m2.2xlarge</codeph> |<codeph> m3.2xlarge</codeph> | 
+								<codeph>m2.4xlarge</codeph> | <codeph>hi1.4xlarge</codeph> | <codeph>cc2.8xlarge</codeph> | <codeph>cg1.4xlarge</codeph> | 
+								<codeph>cr1.8xlarge</codeph> | <codeph>hs1.8xlarge</codeph>
+							</p>
+							</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--kernel</codeph></entry>
+							<entry>Kernel ID to be used</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--ramdisk</codeph></entry>
+							<entry>Ramdisk ID to be used</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--source-dest-check {<b>true</b>|false<b></b>}</codeph></entry>
+							<entry>Change whether source/destination address checking is
+								enabled</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--sriov <i>simple</i></codeph></entry>
+							<entry>Enable enhanced networking for the instance and its
+								descendants.</entry>
+							<entry align="center">No</entry>
+						</row>
+
+						
+						<row>
+							<entry><codeph>--instance-initiated-shutdown-behavior
+								<i>behavior</i></codeph></entry>
+							<entry>Indicates whether to stop or terminate the instance when it's shut down. <p>Valid
+								values: <codeph>stop</codeph>,
+								<codeph>terminate</codeph></p><p>Default:
+									<codeph>stop</codeph></p></entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--user-data <i>user_data</i></codeph></entry>
+							<entry>User data to pass to the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--user-data-file <i>file</i></codeph></entry>
+							<entry>File containing user data to supply to the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row
+							conref="../shared/shared_params.dita#shared_params/block_device_mapping">
+							<entry/>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-install-image myinstanceid --disable-api-termination true -g mygroupname</codeblock>
+		</section>
+
+	</refbody>
+</reference>
