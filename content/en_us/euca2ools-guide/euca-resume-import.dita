@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="euca-cancel-bundle-task">
-	<title>euca-cancel-conversion-task</title>
-	<shortdesc>Cancels a previously submitted bundle task.</shortdesc>
+<reference id="euca-resume-import">
+	<title>euca-resume-import</title>
+	<shortdesc>Perform the upload step of an import task.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<keyword>EC2 compatible commands</keyword>
-				<keyword>Eucalyptus cancel conversion task</keyword>
+				<keyword>Eucalyptus resume import</keyword>
 			</keywords>
 		</metadata>
 	</prolog>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euca-cancel-conversion-task <b>task_id</b></codeblock>
+			<codeblock>euca-resume-import -t <b>task_id</b> [-x <b>days</b>]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -34,9 +34,20 @@
 
 					<tbody>
 						<row>
-							<entry><codeph><i>bundle_id</i></codeph></entry>
-							<entry>ID of the conversion task to cancel</entry>
+							<entry><codeph>filename</codeph></entry>
+							<entry>The file containing the disk image to import.</entry>
 							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph><i>-t <i>task</i>, --task <i>task</i></i></codeph></entry>
+							<entry>ID of the import you want to resume.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-x <i>days</i>, --expires <i>days</i></codeph></entry>
+							<entry>The amount of time, in days, that the import manifest should
+								remain valid. <p>Default: 30 days</p></entry>
+							<entry align="center">Conditional</entry>
 						</row>
 					</tbody>
 				</tgroup>
@@ -49,7 +60,8 @@
 
 		<section>
 			<title>Example</title>
-			<codeblock>euca-cancel-conversion-task bun-CFF03DFA</codeblock>
+			<p>The following example resets launch permissions for an image.</p>
+			<codeblock>euca-resume-import mydiskimage -t 12314123</codeblock>
 		</section>
 	</refbody>
 

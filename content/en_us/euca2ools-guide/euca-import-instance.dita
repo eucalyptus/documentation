@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-install-image">
+	<title>euca-import-instance</title>
+
+	<shortdesc>Import an instance into the cloud.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>EC2 compatible commands</keyword>
+				<keyword>Eucalyptus import instance</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-import-instance -t <b>instance_type</b> -f <b>format</b> -a <b>architecture</b> 
+    -p {Windows,Linux} (-b <b>bucket</b> | --manifest-url <b>URL</b>)
+	[--prefix <b>prefix</b>] [-x <b>days</b>] [--no-upload]
+	[-d <b>description</b>] [-g <b>group</b>] [-z <b>zone</b>] [-s <b>GBs</b>]
+	[--image-size <b>bytes</b>]
+	[--user-data <b>data</b> | --user-data-file <b>filename</b>]
+	[--subnet <b>subnet</b>] [--private-ip-address <b>address</b>]
+	[--monitor]
+	[--instance-initiated-shutdown-behavior {stop,terminate}]
+	[--key <b>keypairname</b>] <b>filename</b></codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Options</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>filename</codeph></entry>
+							<entry>The file containing the disk image to import.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-t <i>type</i>, --instance-type </codeph><i>type</i></entry>
+							<entry>The type of instance to import.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-f <i>format</i>, --format <i>format</i></codeph></entry>
+							<entry>The format of the image.<p>Valid values: <codeph>vmdk</codeph>,
+										<codeph>raw</codeph>, or <codeph>vhd</codeph></p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-a <i>architecture</i>, --arch
+									<i>architecture</i></codeph></entry>
+							<entry>Architecture of the new instance. <p>Valid values:
+										<codeph>i386</codeph>,<codeph>x86_64</codeph>,<codeph>armhf</codeph>,<codeph>ppc</codeph>,
+									or <codeph>ppc64</codeph>.</p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-p <i>platform</i>, --platform
+								<i>platform</i></codeph></entry>
+							<entry>The operating system for the instance. <p>Valid values:
+								<codeph>Windows</codeph> or <codeph>Linux</codeph></p></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--platform-windows</codeph></entry>
+							<entry>Indicates the new image is based on Windows.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-b <i>bucket</i>, --bucket <i>bucket</i></codeph></entry>
+							<entry>Bucket to upload volume to.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry>--manifest-url <i>URL</i></entry>
+							<entry>A pre-signed URL that points to the import manifest to use. </entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--prefix <i>prefix</i></codeph></entry>
+							<entry>The prefix to add to the names of the volume parts as they are
+								uploaded.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-x <i>days</i>, --expires <i>days</i></codeph></entry>
+							<entry>The amount of time, in days, that the import manifest should
+								remain valid. <p>Default: 30 days</p></entry>
+							<entry align="center">Conditional</entry>
+						</row>
+
+						<row>
+							<entry><codeph>--no-upload</codeph></entry>
+							<entry>Start the import process, but do not actually upload the
+								volume</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--description</codeph></entry>
+							<entry>Description of the import task.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-g <i>group</i>, --group <i>group</i></codeph></entry>
+							<entry>Name of the security group to create the instance in.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-z <i>zone</i>, --zone <i>zone</i></codeph></entry>
+							<entry>Name of the zone to create the instance in.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-s <i>gb</i>, --size <i>gb</i></codeph></entry>
+							<entry>Size of the volume to import to, in gigabytes.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--image-size <i>size</i></codeph></entry>
+							<entry>The size of the image. Required for non-raw files.</entry>
+							<entry align="center">Conditional</entry>
+						</row>
+						<row>
+							<entry><codeph>--user-data <i>data</i></codeph></entry>
+							<entry>User data to supply to the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--user-data-file <i>file</i></codeph></entry>
+							<entry>File containing user data to supply to the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--subnet <i>subnet</i></codeph></entry>
+							<entry>[VPC only] Subnet in which to create the the instance's network
+								interface.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--private-ip-address <i>address</i></codeph></entry>
+							<entry>[VPC only] Assign the specified primary private IP address to the
+								instance's interface.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--monitor</codeph></entry>
+							<entry>Enable detailed monitoring for the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--instance-initiated-shutdown-behavior
+									<i>behavior</i></codeph></entry>
+							<entry>Indicates whether to stop or terminate the instance when it's shut down. <p>Valid
+									values: <codeph>stop</codeph>,
+									<codeph>terminate</codeph></p><p>Default:
+									<codeph>stop</codeph></p></entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--key <i>keypairname</i></codeph></entry>
+							<entry>[Eucalyptus only] The name of the key pair to use when
+								running the instance.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-o <i>key</i>, --owner-akid <i>key</i></codeph></entry>
+							<entry>The access key to use for the object storage service.
+								<p>Default: same as that for the compute service.</p></entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-w <i>key</i>, --owner-sak <i>key</i></codeph></entry>
+							<entry>The secret key to use for the object storage service.
+								<p>Default: same as that for the compute service.</p></entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--progress</codeph></entry>
+							<entry>Show a progress bar during command execution. This is the default
+								when this command is run interactively.</entry>
+							
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--no-progress</codeph></entry>
+							<entry>Do not show a progress bar during command execution. This is the
+								default when this command is run non-interactively.</entry>
+							<entry align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Example</title>
+			<codeblock>euca-import-instance myimagefile -p Linux -f raw -t m1.large -a x86_64 -b my-bukkit</codeblock>
+		</section>
+
+	</refbody>
+</reference>
