@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="img_task_install_hvm_image">
+	<title>Install an HVM Image</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>image tasks <indexterm>install HVM image</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p> HVM images are, essentially, sequences of raw sectors of a complete bootable disk,
+				including a boot loader and one or more partitions with an operating system. Such
+				images are self-contained and can be booted on hardware that supports virtualization
+				or on a full software emulation of hardware (QEMU).</p>
+			<p>At run time, HVM images can be deployed to disks local to the hypervisor (so-called
+				Instance Store images) or they can run off of dynamic volumes on EBS (so-called
+				EBS-backed instances or boot-from-EBS instances). We show methods for how to install
+				an image into either type of EMI.</p>
+		</context>
+	</taskbody>
+	<task id="img_task_install_hvm_image.instance_store">
+		<title>Install HVM image as an Instance Store EMI</title>
+		<shortdesc/>
+		<prolog>
+			<metadata>
+				<keywords>
+					<indexterm>image tasks <indexterm>install instance-store HVM image</indexterm>
+					</indexterm>
+				</keywords>
+			</metadata>
+		</prolog>
+		<taskbody>
+			<context/>
+			<steps>
+				<step>
+					<cmd>Bundle, upload, and register the HVM image:</cmd>
+					<info>
+						<note>When installing a Windows image, be sure to add --platform=windows
+							option</note>
+						<codeph>euca-install-image -i /path/to/hvm-image -n name-of-image -r x86_64
+							--virtualization-type hvm -b bucket-name-for-image</codeph>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+
+	<task id="img_task_install_hvm_image.ebs">
+		<title>Install HVM image as an EBS-Backed EMI</title>
+		<shortdesc/>
+		<prolog>
+			<metadata>
+				<keywords>
+					<indexterm>image tasks <indexterm>install EBS image</indexterm>
+					</indexterm>
+				</keywords>
+			</metadata>
+		</prolog>
+		<taskbody>
+			<context>
+				<p> An EBS-backed image (sometimes referred to as a "bfEBS" image) is an image with
+					a root device that is an EBS volume created from an EBS snapshot. An EBS-backed
+					image has a number of advantages (over an Instance Store image), including: </p>
+				<ul>
+					<li>Faster boot time</li>
+					<li>Larger volume size limits</li>
+					<li>Changes to the data on the image persist after instance termination </li>
+				</ul>
+			</context>
+		</taskbody>
+
+		<task id="img_task_install_hvm_image.ebs.import_vol">
+			<title>Option A: install EBS image with euca-import-vol</title>
+			<shortdesc>With this method, a single command uploads image data into Object Store and
+				triggers a conversion task, which copies the data into an EBS volume. The volume
+				will be the source of the snapshot behind the EBS-backed EMI. </shortdesc>
+			<taskbody>
+				<context/>
+				<steps>
+					<step>
+						<cmd>Import HVM image file into Object Storage and then copy it into
+							EBS.</cmd>
+						<info>
+							<codeph>euca-import-volume /path/to/hvm-image --format raw
+								--availability-zone AZ-NAME --bucket bucket-for-hvm-image
+								--owner-akid $EC2_ACCESS_KEY --owner-sak $EC2_SECRET_KEY --prefix
+								image-name-prefix --description "textual description"</codeph>
+						</info>
+					</step>
+					<step>
+						<cmd>If volume import process was interrupted (by an interruption of the
+							command or due to a network mishap, import can be resumed (within a
+							one-week deadline).</cmd>
+						<info>
+							<codeph>euca-resume-import ...</codeph>
+						</info>
+					</step>
+					<step>
+						<cmd>After volume data has been uploaded to Object Store, an internal
+							"conversion task" will copy the data into a new EBS volume. Progress of
+							this task can be queries.</cmd>
+						<info><codeph>euca-describe-conversion-tasks</codeph></info>
+					</step>
+				</steps>
+			</taskbody>
+		</task>
+
+		<task id="img_task_install_hvm_image.ebs.import_instance">
+			<title>Option B: install EBS image with euca-import-instance</title>
+			<shortdesc>With this method, a single command uploads image data into Object Store and
+				triggers a conversion task, which copies the data into an EBS volume, which is then
+				snapshotted, registered as an EMI, and deployed as an instance.</shortdesc>
+			<taskbody>
+				<context/>
+				<steps>
+					<step>
+						<cmd>Turn HVM image into a running EBS instance with a single command.</cmd>
+						<info>
+							<note>Just as with euca-run-instance, one can specify the Instance Type
+								for the instance that will run, as well as the SSH key.</note>
+							<codeph>euca-import-instance /path/to/hvm-image --format raw
+								--architecture x86_64 --platform Linux --availability-zone AZ-NAME
+								--bucket bucket-for-instance --owner-akid $EC2_ACCESS_KEY
+								--owner-sak $EC2_SECRET_KEY --prefix image-name-prefix --description
+								"textual description" --key LaunchSpecification.KeyName=ssh-key-name
+								--instance-type m1.small</codeph>
+						</info>
+					</step>
+					<step>
+						<cmd>If volume import process was interrupted (by an interruption of the
+							command or due to a network mishap, import can be resumed (within a
+							one-week deadline).</cmd>
+						<info>
+							<codeph>euca-resume-import ...</codeph>
+						</info>
+					</step>
+					<step>
+						<cmd>After volume data has been uploaded to Object Store, an internal
+							"conversion task" will copy the data into a new EBS volume. Progress of
+							this task can be queries.</cmd>
+						<info><codeph>euca-describe-conversion-tasks</codeph></info>
+					</step>
+				</steps>
+			</taskbody>
+		</task>
+
+		<task id="img_task_install_hvm_image.ebs.manual">
+			<title>Option C: install EBS image using a helper instance</title>
+			<shortdesc>This is a more manual method for installing an HVM image into an EBS-backed
+				EMI. Instead of importing image data into an EBS volume directly, a helper instance
+				is used to copy data from the image file into the volume. The helper instance can be
+				either an instance store or EBS-backed instance and can be deleted when ﬁnished. The
+				volume will be the source of the snapshot behind the EBS-backed EMI. </shortdesc>
+			<taskbody>
+				<context/>
+				<steps>
+					<step>
+						<cmd> Create and launch a help instance. </cmd>
+						<info/>
+					</step>
+
+					<step>
+						<cmd> Create a volume big enough to hold the bootable .img file. </cmd>
+						<info>
+							<codeph>euca-create-volume -z &lt;cluster_name> -s
+								&lt;size_in_GB></codeph>
+						</info>
+					</step>
+
+					<step>
+						<cmd> Attach the volume to the helper instance. </cmd>
+						<info>
+							<codeph>euca-attach-volume &lt;volume-id> -i &lt;instance-id> -d
+								&lt;device></codeph>
+						</info>
+					</step>
+
+					<step>
+						<cmd>Log in to the instance and copy the bootable image to the attached
+							volume by performing one of the following steps:</cmd>
+						<choices>
+							<choice>If the bootable image is saved in an http or ftp repository, use
+									<codeph>curl</codeph> or <codeph>wget</codeph> to download the
+								.img file to the attached volume. For example: <p>
+									<codeph>curl &lt;path_to_bootable_image> > &lt;device></codeph>
+								</p></choice>
+							<choice> If the bootable image is from a source other than an http or
+								FTP repository, copy the bootable image from its source to the
+								helper instance, and then copy it to the attached volume using the
+									<codeph>dd</codeph> command. For example: <p>
+									<codeph>dd if=&lt;path_to_bootable_image> of=&lt;device>
+										bs=1M</codeph>
+								</p></choice>
+						</choices>
+					</step>
+					<step>
+						<cmd>Detach the volume from the instance:</cmd>
+						<info>
+							<codeph>euca-detach-volume &lt;volume-id></codeph>
+						</info>
+					</step>
+
+					<step>
+						<cmd>Create a snapshot of the volume:</cmd>
+						<info><codeph>euca-create-snapshot &lt;volume-id></codeph></info>
+					</step>
+					<step>
+						<cmd> Register the snapshot: </cmd>
+						<info>
+							<codeph>euca-register --name &lt;image-name> --snapshot &lt;snapshot-id>
+								--root-device-name &lt;device></codeph>
+						</info>
+					</step>
+				</steps>
+				<result>You've now created a EBS-backed image. To maintain data persistence, be sure
+					to use <codeph>euca-stop-instances</codeph> and
+						<codeph>euca-start-instances</codeph> to stop and start your EBS-backed
+					instance.</result>
+			</taskbody>
+		</task>
+	</task>
+</task>

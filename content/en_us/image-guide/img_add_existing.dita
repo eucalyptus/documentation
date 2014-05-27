@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="add_existing">
-	<title>Bundle, Upload, and Register an Image with Eucalyptus</title>
+	<title>Install a paravirtual image</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -14,12 +14,16 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p>Once you've customized or acquired an image to use with Eucalyptus, you must enable an image
-				as an executable entity. To do that, you must do the following:</p>
+			<p>Once you've customized or acquired a paravirtual image to use with Eucalyptus, you can enable
+				the image as an executable entity with the following steps:</p>
 			<ol>
-				<li>Bundle a root disk image and kernel/ramdisk pair</li>
-				<li>Upload the bundled image to Walrus bucket storage</li>
-				<li>Register the data with Eucalyptus</li>
+				<li>Unless a suitable kernel is already registered, bundle the kernel, upload it to Object
+					Storage, and register it as a new EKI.</li>
+				<li>Unless a suitable ramdisk is already registered, bundle the ramdisk, upload it to Object
+					Storage, and register it as a new ERI</li>
+				<li>Bundle the root disk image, which must be a Linux partition, requesting the kernel and
+					ramdisk that you desire, upload the bundle to Object Storage, and register it as
+					a new EMI.</li>
 			</ol>
 			<note type="important">Note that while all users can bundle, upload and register images,
 				only users under the <codeph>administrator</codeph> account have the required
