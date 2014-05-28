@@ -39,13 +39,21 @@
 			<context/>
 			<steps>
 				<step>
-					<cmd>Bundle, upload, and register the HVM image:</cmd>
-					<info>
-						<note>When installing a Windows image, be sure to add --platform=windows
-							option</note>
-						<codeph>euca-install-image -i /path/to/hvm-image -n name-of-image -r x86_64
-							--virtualization-type hvm -b bucket-name-for-image</codeph>
-					</info>
+					<cmd>Bundle, upload, and register the HVM image. All of this can be accomplished
+						with a single command.</cmd>
+					<choices>
+						<choice>
+							<p>For Linux images, the required options are:</p>
+							<codeph>euca-install-image -i /path/to/hvm-image -n name-of-the-image -r
+								x86_64 --virtualization-type hvm -b bucket-name-for-image</codeph>
+						</choice>
+						<choice>
+							<p>When installing a Windows image, an additional flag is necessary:</p>
+							<codeph>euca-install-image -i /path/to/hvm-image -n name-of-the-image -r
+								x86_64 --virtualization-type hvm -b bucket-name-for-image
+								--platform=windows</codeph>
+						</choice>
+					</choices>
 				</step>
 			</steps>
 		</taskbody>
@@ -98,16 +106,34 @@
 							command or due to a network mishap, import can be resumed (within a
 							one-week deadline).</cmd>
 						<info>
-							<codeph>euca-resume-import ...</codeph>
+							<codeph>euca-resume-import -t import-vol-fae1e94d
+								/path/to/hvm-image</codeph>
 						</info>
 					</step>
 					<step>
 						<cmd>After volume data has been uploaded to Object Store, an internal
 							"conversion task" will copy the data into a new EBS volume. Progress of
 							this task can be queries.</cmd>
-						<info><codeph>euca-describe-conversion-tasks</codeph></info>
+						<info><codeph>euca-describe-conversion-tasks
+							import-vol-fae1e94d</codeph></info>
+					</step>
+					<step>
+						<cmd>Once the task has finished successfully and the volume is available,
+							the volume can be snapshotted. Create a snapshot of the volume:</cmd>
+						<info><codeph>euca-create-snapshot &lt;volume-id></codeph></info>
+					</step>
+					<step>
+						<cmd> Register the snapshot: </cmd>
+						<info>
+							<codeph>euca-register --name &lt;image-name> --snapshot &lt;snapshot-id>
+								--root-device-name &lt;device></codeph>
+						</info>
 					</step>
 				</steps>
+				<result>You've now created a EBS-backed image. To maintain data persistence, be sure
+					to use <codeph>euca-stop-instances</codeph> and
+						<codeph>euca-start-instances</codeph> to stop and start your EBS-backed
+					instance.</result>
 			</taskbody>
 		</task>
 
@@ -137,16 +163,23 @@
 							command or due to a network mishap, import can be resumed (within a
 							one-week deadline).</cmd>
 						<info>
-							<codeph>euca-resume-import ...</codeph>
+							<codeph>euca-resume-import -t import-vol-fae1e94d
+								/path/to/hvm-image</codeph>
 						</info>
 					</step>
 					<step>
 						<cmd>After volume data has been uploaded to Object Store, an internal
 							"conversion task" will copy the data into a new EBS volume. Progress of
 							this task can be queries.</cmd>
-						<info><codeph>euca-describe-conversion-tasks</codeph></info>
+						<info><codeph>euca-describe-conversion-tasks
+							import-vol-fae1e94d</codeph></info>
 					</step>
 				</steps>
+				<result>Once the task has finished successfully, you should see a running instance.
+					You may log into that instance if you specified an SSH key. To maintain data
+					persistence, be sure to use <codeph>euca-stop-instances</codeph> and
+						<codeph>euca-start-instances</codeph> to stop and start your EBS-backed
+					instance.</result>
 			</taskbody>
 		</task>
 
