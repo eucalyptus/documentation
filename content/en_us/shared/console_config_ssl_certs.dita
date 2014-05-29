@@ -16,14 +16,22 @@
                 <cmd>Uncomment and modify the the SSL certificate paths in <codeph>/eucaconsole/conf/nginx.conf</codeph>. For
                     example:</cmd>
                 <info>
-                    <codeblock> server {
+                    <codeblock>     server {
         listen 80;
         server_name  localhost;
-
+	return 301 https://$host$request_uri;
+    }
+    server {
         # SSL configuration
         listen 443 ssl;
-        ssl_certificate /path/to/ssl/pem_file;
-        ssl_certificate_key /path/to/ssl/certificate_key;
+        ssl_certificate &lt;path to euca console cert file&gt;;
+        #EXAMPLE: 
+        #ssl_certificate /etc/eucaconsole/eucalyptus.com.chained.crt;
+
+        ssl_certificate_key &lt;path to euca console key file&gt;
+        #EXAMPLE: 
+        #ssl_certificate_key /etc/eucaconsole/eucalyptus.com.key;
+        
         # end of SSL configuration
 </codeblock>
                 </info>

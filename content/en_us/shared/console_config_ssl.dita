@@ -2,41 +2,27 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_configure_ssl_certs">
-    <title>Disable Automatic SSL Certificate Generation</title>
+    <title>Enable SSL</title>
 
-    <shortdesc>When the user console service is run for the first time, it will
-        generate a self-signed certificate and key which will be put into
-            <codeph>/etc/eucalyptus-console/</codeph>. If you do not want to
-        have a certificate and key generated and would like to use your own, you
-        can disable automatic generation of the certificate and key.</shortdesc>
+    <shortdesc>You can enable Secure HTTP for the console.</shortdesc>
 
     <taskbody>
         <context>
-            <p>To disable automatic generation of the console certificate and
-                key: </p>
+            <p>To enable secure HTTP: </p>
         </context>
         <steps>
             <step>
-                <cmd>Add the following line to
-                        <codeph>/etc/sysconfig/eucalyptus-console</codeph>:</cmd>
+                <cmd>Be sure to configure SSL certificate paths. See <xref href="console_config_ssl_certs.dita">Configure SSL Certificate Paths</xref>.</cmd>
+            </step>
+            <step>
+                
+                <cmd>Add the following lines to the <codeph>console.ini</codeph> file:</cmd>
                 <info>
-                    <codeblock>GENERATE_CERT=NO</codeblock>
+                    <codeblock>session.secure = true
+sslcert=/etc/eucaconsole/eucalyptus.com.chained.crt
+sslkey=/etc/eucaconsole/eucalyptus.com.key</codeblock>
                 </info>
-                <info>
-                    <note>
-                        <p> If you choose not to use the default SSL certificate
-                            and key, you must provide your own. For more
-                            information on generating self-signed SSL
-                            certificates, go to <xref
-                                href="http://www.akadia.com/services/ssh_test_certificate.html"
-                                scope="external" format="html"
-                                >http://www.akadia.com/services/ssh_test_certificate.html</xref>. </p>
-                        <p> For information on configuring SSL certificate and
-                            key paths for your own certificate and key, see
-                                <xref href="console_config_ssl_certs.dita"
-                                >Configuring SSL Certificate Paths</xref>. </p>
-                    </note>
-                </info>
+                
             </step>
         </steps>
     </taskbody>
