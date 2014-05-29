@@ -6,162 +6,154 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			
 			<p>To install Eucalyptus on servers running CentOS 6 or RHEL 6:</p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Configure the Eucalyptus package repository on each host
-					that will run a Eucalyptus component:</cmd>
+				<cmd>Configure the Eucalyptus package repository on each host that will run a
+					Eucalyptus component:</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/eucalyptus-release-<ph conref="../shared/conrefs.dita#prod/version_short"/>.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the Euca2ools package repository on each host
-					that will run a Eucalyptus component or Euca2ools:</cmd>
+				<cmd>Configure the Euca2ools package repository on each host that will run a
+					Eucalyptus component or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/euca2ools/<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>/centos/6/x86_64/euca2ools-release-<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the EPEL package repository on each host that
-					will run a Eucalyptus component or Euca2ools: </cmd>
+				<cmd>Configure the EPEL package repository on each host that will run a Eucalyptus
+					component or Euca2ools: </cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/epel-release-6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>If you are using Walrus as your object storage backend configure the ELRepo repository on
-					each machine that will run Walrus. Otherwise, skip this step. </cmd>
+				<cmd>If you are using Walrus as your object storage backend configure the ELRepo
+					repository on each machine that will run Walrus. Otherwise, skip this step. </cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>For RHEL 6 systems, you must enable the
-					Optional repository in Red Hat Network for each NC, as
-					follows:</cmd>
+				<cmd>For RHEL 6 systems, you must enable the Optional repository in Red Hat Network
+					for each NC, as follows:</cmd>
 				<substeps>
 					<substep>
-						<cmd>Go to <xref format="html"
-							href="http://rhn.redhat.com"
-							>http://rhn.redhat.com</xref> and navigate to
-							the system that will run the NC.</cmd>
+						<cmd>Go to <xref format="html" href="http://rhn.redhat.com"
+								>http://rhn.redhat.com</xref> and navigate to the system that will
+							run the NC.</cmd>
 					</substep>
 					<substep>
-						<cmd>Click <uicontrol>Alter Channel
-							Subscriptions</uicontrol>.</cmd>
+						<cmd>Click <uicontrol>Alter Channel Subscriptions</uicontrol>.</cmd>
 					</substep>
 					<substep>
-						<cmd>Make sure the <uicontrol>RHEL Server
-							Optional</uicontrol> checkbox is checked.</cmd>
+						<cmd>Make sure the <uicontrol>RHEL Server Optional</uicontrol> checkbox is
+							checked.</cmd>
 					</substep>
 					<substep>
-						<cmd>Click <uicontrol>Change
-							Subscriptions</uicontrol>.</cmd>
+						<cmd>Click <uicontrol>Change Subscriptions</uicontrol>.</cmd>
 					</substep>
 				</substeps>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are not a Eucalyptus subscriber, skip this step. If
-					you are a Eucalyptus subscriber, you should have received an
-					rpm package file containing subscription-only components.
-					Install the Eucalyptus subscription package on each host
-					that will run a Eucalyptus component, as follows:</cmd>
+				<cmd>If you are not a Eucalyptus subscriber, skip this step. If you are a Eucalyptus
+					subscriber, you should have received an rpm package file containing
+					subscription-only components. Install the Eucalyptus subscription package on
+					each host that will run a Eucalyptus component, as follows:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/version_short"/>*.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are a Eucalyptus subscriber and use VMware Broker, install the
-					VMware Broker packages on the host that will run your
-					Cluster Controller (CC), as follows:</cmd>
+				<cmd>If you are a Eucalyptus subscriber and use VMware Broker, install the VMware
+					Broker packages on the host that will run your Cluster Controller (CC), as
+					follows:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-enterprise-vmware-broker eucalyptus-enterprise-vmware-broker-libs </codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this
-						package.</p>
+					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<note>Clouds that use the VMware hypervisor do not have NCs; if
-					you plan to use VMware then skip this step. </note>
+				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use
+					VMware then skip this step. </note>
 				<cmd> </cmd>
 				<substeps>
 					<substep>
-						<cmd> Install the Eucalyptus node controller software on
-							each planned NC host: </cmd>
+						<cmd> Install the Eucalyptus node controller software on each planned NC
+							host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
 					</substep>
 					<substep>
-						<cmd>Check that the KVM device node has proper
-							permissions.</cmd>
-						
+						<cmd>Check that the KVM device node has proper permissions.</cmd>
+
 						<info>
 							<p>Run the following command:</p>
 							<codeblock>ls -l /dev/kvm</codeblock>
 						</info>
 						<info>
-							<p>Verify the output shows that the device node is
-								owned by user root and group kvm.</p>
+							<p>Verify the output shows that the device node is owned by user root
+								and group kvm.</p>
 							<codeblock>crw-rw-rw- 1 root kvm 10, 232 Nov 30 10:27 /dev/kvm</codeblock>
 						</info>
 						<info>
-							<p>If your kvm device node does not have proper
-								permissions, you need to reboot your NC
-								host.</p>
+							<p>If your kvm device node does not have proper permissions, you need to
+								reboot your NC host.</p>
 						</info>
 					</substep>
 				</substeps>
 			</step>
 			<step>
 				<note>Skip this step ff you plan to use VMware.</note>
-				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking mode</xref>, install
-					the package for Edge support on each planned NC host.</cmd>
+				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking
+						mode</xref>, install the package for Edge support on each planned NC
+					host.</cmd>
 				<info>
 					<codeblock>yum install eucanetd</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>On each planned CLC host, install the Eucalyptus cloud controller software.</cmd>
+				<cmd>On each planned CLC host, install the Eucalyptus cloud controller
+					software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Install the software for the remaining Eucalyptus
-					components. The following example shows most components
-					being installed on the same host. We recommend that you use
-					different hosts for each component:</cmd>
+				<cmd>Install the Imaging Worker image package on the machine hosting the primary
+					CLC:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-imaging-worker-image</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Install the software for the remaining Eucalyptus components. The following
+					example shows most components being installed on the same host. We recommend
+					that you use different hosts for each component:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>If you would like Load Balancer
-					support enabled in your Cloud, you
-					will need to install the Load Balancer
-					image package on the machine hosting
-					the primary CLC:</cmd>
+				<cmd>If you would like Load Balancer support enabled in your Cloud, you will need to
+					install the Load Balancer image package on the machine hosting the primary
+					CLC:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-load-balancer-image</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are a subscriber and use SAN, run the appropriate
-					command for your device on each machine hosting a CLC:</cmd>
+				<cmd>If you are a subscriber and use SAN, run the appropriate command for your
+					device on each machine hosting a CLC:</cmd>
 				<info>
 					<p>For EMC SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-emc-libs</codeblock>
@@ -172,28 +164,25 @@
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are a subscriber and use SAN, run the appropriate
-					command for your device on each machine hosting a SC:</cmd>
+				<cmd>If you are a subscriber and use SAN, run the appropriate command for your
+					device on each machine hosting a SC:</cmd>
 				<info>
 					<p>For EMC SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-emc</codeblock>
-					<note type="important">To use Eucalyptus with EMC SAN
-						support, you must have the
-						<codeph>NaviCLI-Linux-64-latest.rpm</codeph> package
-						installed on each SC. This package is not supplied with
-						Eucalyptus, please see your SAN vendor if it is not
-						already installed.</note>
+					<note type="important">To use Eucalyptus with EMC SAN support, you must have the
+							<codeph>NaviCLI-Linux-64-latest.rpm</codeph> package installed on each
+						SC. This package is not supplied with Eucalyptus, please see your SAN vendor
+						if it is not already installed.</note>
 					<p>For EqualLogic SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
 					<p>For NetApp SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-netapp</codeblock>
 				</info>
-				
+
 			</step>
 			<step>
-				<cmd>After you have installed Eucalyptus, test multicast
-					connectivity between each CLC and OSG, SC, and VMware
-					broker host.</cmd>
+				<cmd>After you have installed Eucalyptus, test multicast connectivity between each
+					CLC and OSG, SC, and VMware broker host.</cmd>
 				<substeps>
 					<substep>
 						<cmd>Clone the Eucalyptus <codeph>deveutils</codeph> repository</cmd>
@@ -202,15 +191,16 @@
 						</info>
 					</substep>
 					<substep>
-						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud Controller, 
-							Cluster Controller, Storage Controller, and any machines running Walrus or 
-							VMware Broker, passing a list of IP addresses for each of these machines.</cmd>
+						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud
+							Controller, Cluster Controller, Storage Controller, and any machines
+							running Walrus or VMware Broker, passing a list of IP addresses for each
+							of these machines.</cmd>
 						<info>
 							<codeblock>cd deveutils/network-tomography
 ./network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 192.168.51.99</codeblock>
-							This tool may take up to an hour to run. Check the output for reports of packet 
-							loss. If there is significant packet loss, ensure that your network is available
-							and multicast enabled.</info>
+							This tool may take up to an hour to run. Check the output for reports of
+							packet loss. If there is significant packet loss, ensure that your
+							network is available and multicast enabled.</info>
 					</substep>
 					<substep>
 						<cmd>Repeat these tasks with the secondary controllers. </cmd>
@@ -218,9 +208,9 @@
 				</substeps>
 			</step>
 		</steps>
-		
+
 		<result>Your installation is complete.</result>
-		<postreq>You are now ready to <xref href="configuring_euca.dita"
-			>Configure Eucalyptus</xref>.</postreq>
+		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
+			Eucalyptus</xref>.</postreq>
 	</taskbody>
 </task>
