@@ -3,7 +3,7 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="elb_examples_basic_config">
     <title>Uploading SSL Certificates for Elastic Load Balancing</title>
-    <shortdesc>**** UNFINISHED INITIAL DRAFT ****   You must install an X.509 certificate on your load balancer in order to use HTTPS or
+    <shortdesc>You must install an X.509 certificate on your load balancer in order to use HTTPS or
         SSL termination. The X.509 certificate is issued by a central Certificate Authority (CA) and
         contains identifying information, including a digial signature. X.509 certificates have a
         validity period. Once an X.509 certificate expires, you must create and install a new
@@ -23,19 +23,18 @@
                         >SSL Certificate for Elastic Load Balancing</xref>. </note>
                 <p> To upload a certificate :</p>
             </context>
-            <steps>
+            <steps-unordered>
                 <step>
-                    <cmd>Enter the <codeph>euare-upload-server-certificate</codeph> command,
+                	<cmd>Enter the <codeph>euare-servercertupload</codeph> command,
                         specifying the name of your certificate, the contents of the PEM-encoded
                         public- and private-keys:</cmd>
                     <info>
-                        <codeblock>euare-upload-server-certificate --server-certificate-name  your-certificate-name --certificate-body encoded-public-certificate --private-key encoded-private-key --certificate-chain encoded-certificate-chain
-                        </codeblock>
+                        <codeblock>euare-servercertupload -s cert-name --certificate-file ssl_server_cert.crt --private-key-file ssl_server_cert.pem</codeblock>
                     </info>
                 </step>
 
 
-            </steps>
+            </steps-unordered>
             <result>You've now created an elastic load balancer.</result>
             <postreq/>
         </taskbody>
@@ -48,13 +47,13 @@
             <context>To verify an uploaded certificate:</context>
             <steps>
                 <step>
-                    <cmd>Use the <codeph>euare-get-server-certificate</codeph> command to verify the
-                        certificate is store in IAM:</cmd>
+                	<cmd>Use the <codeph>euare-servercertlistbypath</codeph> command to verify the
+                        certificate is stored in IAM:</cmd>
                     <info>
-                        <codeblock>euare-get-server-certificate --server-certificate-name myservercertname</codeblock>
+                        <codeblock>euare-servercertgetattributes -s elb-ssl-cert</codeblock>
                         <p>The command will return the ARN, followed by the GUID. For example:</p>
-                        <codeblock>arn:aws:iam::5558675309:server-certificate/vanhalen/myservercertname
-EXAMPLEGUID</codeblock>
+                        <codeblock>arn:aws:iam::495375389014:server-certificate/elb-ssl-cert
+ASCWDKTJBXPSZTHWFERVP</codeblock>
                     </info>
                 </step>
 
