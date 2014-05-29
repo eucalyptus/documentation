@@ -12,15 +12,14 @@
 			</keywords>
 		</metadata>
 	</prolog>
-	
+
 	<taskbody>
 		<context>
-			<note type="important">Eucalyptus nightly packages are latest Eucalyptus
-				builds. They should be considered unstable/"bleeding edge" software and
-				should not be installed in production. In addition, upgrades from nightlies
-				to released software are not supported.</note>
-			<p>To install Eucalyptus nightly builds on servers running CentOS 6 or RHEL
-				6:</p>
+			<note type="important">Eucalyptus nightly packages are latest Eucalyptus builds. They
+				should be considered unstable/"bleeding edge" software and should not be installed
+				in production. In addition, upgrades from nightlies to released software are not
+				supported.</note>
+			<p>To install Eucalyptus nightly builds on servers running CentOS 6 or RHEL 6:</p>
 		</context>
 		<steps>
 			<step>
@@ -32,8 +31,8 @@ software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_shor
 				</info>
 			</step>
 			<step>
-				<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the
-					following commands:</cmd>
+				<cmd>On all systems that will run either Eucalyptus or Euca2ools, run the following
+					commands:</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/software/
 euca2ools/nightly/<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>/centos/6/x86_64/euca2ools-release-<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/>.noarch.rpm</codeblock>
@@ -41,9 +40,9 @@ euca2ools/nightly/<ph conref="../shared/conrefs.dita#prod/e2ools_version_short"/
 				</info>
 			</step>
 			<step>
-				<cmd>If you are using Walrus as your object storage backend, install the ELRepo repository on
-					each machine that will run
-					Walrus. Otherwise, skip this step.</cmd>
+				<cmd>If you are using Walrus as your object storage backend, install the ELRepo
+					repository on each machine that will run Walrus. Otherwise, skip this
+					step.</cmd>
 				<info>
 					<codeblock>yum install http://downloads.eucalyptus.com/
 software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
@@ -64,9 +63,9 @@ software/eucalyptus/nightly/<ph conref="../shared/conrefs.dita#prod/version_shor
 				</info>
 			</step>
 			<step>
-				<cmd>Install Eucalyptus packages. The following example shows most
-					components being installed all on the same server. You can use different
-					servers for each component.</cmd>
+				<cmd>Install Eucalyptus packages. The following example shows most components being
+					installed all on the same server. You can use different servers for each
+					component.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud
 yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
@@ -74,9 +73,15 @@ yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>If you would like Load Balancer support in your cloud, you
-					will need to install the Load Balancer image package on the
-					machine hosting the primary CLC:</cmd>
+				<cmd>Install the Imaging Worker image package on the machine hosting the primary
+					CLC:</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-imaging-worker-image</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>If you would like Load Balancer support in your cloud, you will need to install
+					the Load Balancer image package on the machine hosting the primary CLC:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-load-balancer-image</codeblock>
 				</info>
@@ -85,14 +90,15 @@ yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				<cmd>On each planned NC server, install the NC package:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-nc</codeblock>
-					<note type="important" product="vmware">If you are using VMware, you can
-						skip this step. Eucalyptus software is not installed on these machines.
-						They are running VMware.</note>
+					<note type="important" product="vmware">If you are using VMware, you can skip
+						this step. Eucalyptus software is not installed on these machines. They are
+						running VMware.</note>
 				</info>
 			</step>
 			<step>
-				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking mode</xref>, install
-					the package for Edge support on each planned NC host.</cmd>
+				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking
+						mode</xref>, install the package for Edge support on each planned NC
+					host.</cmd>
 				<info>
 					<codeblock>yum install eucanetd</codeblock>
 				</info>

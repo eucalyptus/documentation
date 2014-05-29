@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_load_balancer_shared" props="subscribe">
+	<title>Configure the Imaging Service</title>
+	<shortdesc> The Eucalyptus Imaging Service is a service, introduced in Eucalyptus 4.0, that makes
+		it easier to deploy EBS images in your Eucalyptus cloud. This service automates many of the
+		labor-intensive processes required for uploading data into EBS images. The Imaging Service
+		is also involved in running paravirtual images: it converts the partitions of paravirtual
+		images into disks and caches them in a system-owned bucket in Object Store (in Eucalyptus
+		4.0,  raw disks are exclusively used within the system for deploying images to Node
+		Controllers.)</shortdesc>
+	<taskbody>
+		<context><note>Imaging Service is <b>required</b> to run paravirtual images in your
+				Eucalyptus cloud.</note> The Eucalyptus Imaging Service is implemented as a
+			system-controlled "worker" virtual machine that is monitored and controlled via Auto
+			Scaling. Once the Imaging Service is configured, the Imaging Service VM will be started
+			automatically upon the first request that requires it: either an EBS volume ingress or a
+			run of a paravirtual image that hasn't been converted. Specifically, in this release of
+			Eucalyptus, there are three usage scenarios for the Eucalyptus Imaging Service: <ul>
+				<li><i><b>Importing a raw disk image as a volume:</b></i> If you have a raw disk image
+					(containing either a data partition or a full operating system with a boot
+					record, e.g., an HVM image), you can use the Imaging Service to import this into
+					your your Eucalyptus cloud as a volume. This is accomplished with
+					euca-import-volume command. If the volume was populated with a bootable disk,
+					that volume can be snapshotted and registered as an EMI.</li>
+				<li><b><i>Importing a raw disk image as an instance:</i></b> If you have a raw disk image
+					containing a bootable operating system, you can import this disk image into
+					Eucalyptus as an instance: the Imaging Service automatically creates a volume,
+					registers the EMI, and launches an instance from the EMI. This is accomplished
+					with euca-import-instance command, which has options for specifying the instance
+					type and the SSH key for the instance to use.</li>
+				<li><b><i>Running a paravirtual image:</i></b> If your system has partition-based paravirtual
+					EMIs (which entered the system via the standard bundle/upload/register process),
+					the Imaging Service will be engaged when you run such an EMI on a 4.0 system for
+					the first time: Soon after run request is acknowledged, an Imaging Worker
+					instance will start (unless one is already running) and will begin processing
+					the paravirtual image. During this time, both the pending instance and the EMI
+					will have tags associated with them showing the status of conversion. If
+					conversion is successful, the instance will be deployed and the image will be
+					usable again, without requiring conversion upon next run.</li>
+			</ul>
+		</context>
+	</taskbody>
+	<task id="installing_and_registering_imaging_worker">
+		<title>Install and Register the Imaging Worker Image</title>
+		<shortdesc>Eucalyptus provides a command-line tool for installing and registering the
+			Imaging Worker image. Once you have run the tool, the Imaging Worker will be ready to
+			use. </shortdesc>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>Run the following command on the machine where you installed the
+							<codeph>eucalyptus-load-balancer-image</codeph> RPM package (it will set
+						the <codeph>imaging.imaging_worker_emi</codeph> property to the newly
+						created EMI of the imaging worker):</cmd>
+					<info>
+						<codeblock>euca-install-imaging-worker --install-default</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Consider setting the <codeph>imaging.imaging_worker_instance_type</codeph> property to an
+						Instance Type with enough ephemeral disk to convert any of your paravirtual
+						images. The Imaging Worker root filesystem takes up about 2GB, so the
+						maximum paravirtual image that the Imaging Worker will be able to convert is
+						the disk allocation of the Instance Type minus 2GBs.</cmd>
+					<info>
+						<codeblock># euca-modify-property -p imaging.imaging_worker_instance_type=m3.xlarge
+PROPERTY        imaging.imaging_worker_instance_type    m3.xlarge was m1.small</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Consider setting the <codeph>imaging.imaging_worker_keyname</codeph> property to an SSH
+						keyname (previously created with the <codeph>euca-create-keypair</codeph>
+						command), so that you can perform troubleshooting inside the Imaging Worker
+						instance, if necessary:</cmd>
+					<info>
+						<codeblock># euca-modify-property -p imaging.imaging_worker_keyname=mykey</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="troubleshoot_imaging_worker">
+		<title>Troubleshooting Imaging Worker</title>
+		<shortdesc>If the Imaging Worker is configured correctlyl, users will be able to import data into
+			EBS volumes with <codeph>euca-import-*</codeph> commands, and paravirtual EMIs will run
+			as instances. In some cases, though, paravirtual images may fail to convert (e.g., due
+			to intermittent network failures or a network setup that doesn't allow the Imaging
+			Worker to communicate with the CLC), leaving the images in a special state. To
+			troubleshoot:</shortdesc>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>If the Imaging Worker Instance Type does not provide sufficient 
+						disk space for converting all paravirtual images, the administrator
+						may have to change the Instance Type used by the Imaging Worker.
+						After changing the instance type, the Imaging Worker instance should
+						be restarted by terminating the old Imaging Worker instance:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p imaging.imaging_worker_instance_type=m2.2xlarge
+euca-terminate-instances $(euca-describe-instances --filter tag-value=euca-internal-imaging-workers | grep INSTANCE | cut -f 2)</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>If the status of the conversion operation is 'Image conversion failed', but the image is
+						marked as 'available' (in the output of euca-describe-images), the
+						conversion can be retried by running the EMI again: :</cmd>
+					<info>
+						<codeblock>euca-run-instance ...</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>If the image is marked as 'failed', but the status of conversion operation is 'Pending conversion' (in the output of euca-describe-images), the
+						conversion can be retried using one of two methods:</cmd>
+					<choices>
+						<choice>Deregister the EMI, and register that same bucket/manifest path again. 
+							Running the new EMI will re-retry the conversion. 
+							The caveat is that the EMI changes.
+							</choice>
+						<choice>Modify the Eucalyptus DB entry (only cloud administrator can do this) and put the image back in the 
+							state in which running the image again will re-try the conversion. 
+							EMI does not change in this case. The DB command, to be executed on the CLC host:
+						<codeblock>psql -p 8777 -h /var/lib/eucalyptus/db/data eucalyptus_cloud -c "update metadata_images set metadata_state='pending_available', metadata_image_conversion_id='' where metadata_display_name='emi-XXXXXX';"</codeblock>
+						where emi-XXXXXX is the ID of the image in the 'failed' state.
+						</choice>
+					</choices>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+</task>
