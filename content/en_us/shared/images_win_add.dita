@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="images_win_add">
-	<title>Add Image to Eucalyptus</title>
+	<title>Add a Windows Image to Eucalyptus</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -16,26 +16,29 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p>To enable an image as an executable entity, you must bundle and upload the Windows
-				disk image to Walrus, and then register the uploaded image with Eucalyptus.</p>
+			<p>After the Windows virtual machine has been shut down, its entire disk can be uploaded
+				to Eucalyptus as an HVM image.</p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Run the following command to bundle, upload, and register your Windows disk
-					image:</cmd>
-				<info>
-					<codeblock>euca-bundle-image -i &lt;vm_image_file> 
-euca-upload-bundle -b &lt;image_bucket> -m /tmp/&lt;vm_image_file>.manifest.xml
-euca-register --name windows-image-name &lt;image_bucket>/&lt;vm_image_file>.manifest.xml</codeblock>
-				</info>
+				<cmd>Extract the disk from the hypervisor into a file.</cmd>
+				<choices>
+					<choice>With KVM, the disk may already be a file in raw format. If it's a file
+						in a different format, convert it into raw disk format. If it's a block
+						device, you can use 'dd' utility to copy contents of the block device into a
+						file.</choice>
+					<choice>With VMware, the disk resides in VMDK format on a possibly remote
+						datastore. A number of VMware tools can be used to extract the disk from a
+						datastore and convert it into raw format. Follow instructions in the <xref
+							href="ig_task_migrate_vsphere.dita">Extract a disk from a vSphere
+							virtual machine</xref> to obtain a raw disk.</choice>
+				</choices>
+			</step>
+			<step>
+				<cmd>Upload the raw disk file using the instructions in the <xref
+						href="img_task_install_hvm_image.dita#img_task_install_hvm_image">Install an
+						HVM image</xref> section.</cmd>
 			</step>
 		</steps>
-		<result>Your Windows image is now ready to run as an instance.</result>
-		<postreq>After you register the image, Walrus decrypts the image bundle. This process might
-			take a few minutes for a large Windows image to be decrypted. For example, a 10G image
-			requires that you wait about 10 minutes before you launch the instance. You can use the
-				<xref
-				href="../euca2ools-guide/euca-describe-bundle-tasks.dita#euca-describe-bundle-tasks"/> command line
-			utility to check the status of active bundle tasks. </postreq>
 	</taskbody>
 </task>

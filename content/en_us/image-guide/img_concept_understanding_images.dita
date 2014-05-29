@@ -3,10 +3,10 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="img_concept_understanding_images">
 	<title>Image Overview</title>
-	<shortdesc>An image defines what will run on a guest instance with your Eucalyptus cloud.
-		Typically, an image contains one of the Linux distributions like CentOS, Fedora, Ubuntu,
-		Debian or others. It could also contain one of the supported Windows server versions. The
-		format for these is identical.</shortdesc>
+	<shortdesc>An image defines what will run on a guest instance in your Eucalyptus cloud. An image
+		contains everything necessary to boot and run an operating system: either one of the Linux
+		distributions – CentOS, Fedora, Ubuntu, Debian, etc – or one of the supported Windows server
+		versions.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -18,36 +18,46 @@
 		</metadata>
 	</prolog>
 	<conbody>
-
-		<p>Normally when we use the term "image" we mean the root file system. Once bundled,
-			uploaded, and registered with Eucalyptus, such an image is known as a Eucalyptus machine
-			image (EMI).</p>
-
-		<p>There are, however, other types of images that support the EMI. They are the kernel (EKI)
-			and ramdisk (ERI). They contain kernel modules necessary for proper functioning of the
-			image. Often, one set of these ERIs and EKIs are used by multiple EMIs. Once loaded into
-			the Eucalyptus cloud, the EKI and ERI are referred to by the image and you don't have
-			much interaction with them directly. </p>
-
-		<p>To help get you started, Eucalyptus provides pre-packaged virtual machines that are ready
-			to run in your cloud. You can get them at the <xref href="http://emis.eucalyptus.com/"
-				format="html" scope="external">Eucalyptus Machine Images</xref> page. Each
-			Eucalyptus image from this site comes bundled with a correspoding EKI and ERI. You can
-			manually download these images from the web page, or you can use the Eualyptus Image
-			Store commands to list and describe these images, as well as to install an image in your
-			cloud. For more information, see <xref href="img_task_eustore.dita">Browse and Install
-				Images from EuStore</xref>.</p>
+		<p>Images of two types are supported by Eucalyptus: <ul>
+				<li><b>HVM images</b> are raw disks that can boot independently. They can contain
+					Linux or Windows operating systems. HVM stands for Hardware-assisted Virtual
+					Machine because such images can only run efficiently on hardware that supports
+					virtualization. When an HVM image is uploaded and registered, it becomes a
+					Eucalyptus Machine Image (EMI) of type "hvm", with a unique ID.</li>
+				<li><b>Paravirtual images</b> are Linux images that can boot if they are paired with
+					a kernel and ramdisk that are compatible with the host's hypervisor. Currently
+					only root file system images are supported (on AWS, a paravirtual image can be a
+					file system or a full disk). When a paravirtual image is uploaded and
+					registered, it also becomes an EMI of "paravirtual" type, which needs to be
+					paired with a kernel (EKI) and ramdisk (ERI) images to be usable. EKI contains a
+					kernel (i.e., the ‘vmlinuz’ file typically found in the /boot directory of a
+					Linux system). ERI contains the kernel modules (i.e., the ‘initrd’ file from the
+					/boot directory).</li>
+			</ul>
+		</p>
+		<p>Depending on the method used for upload, an instance's disk will reside on one of two types of
+			storage: <ul>
+				<li><b>Instance Store - </b> volumes are located on temporary disk space that is destroyed when
+					instances shut down. These volumes are based on a template residing in Object
+					Storage. Instance Store can host either HVM or paravirtual images.</li>
+				<li><b>Elastic Block Store (EBS) - </b> volumes are disks with lifetimes that can be independent
+					of instances. These volumes are based on snapshots of EBS volumes (instead of
+					templates in Object Storage). Only HVM images can be deployed on EBS in
+					Eucalyptus (in AWS, EBS can also host paravirtual images).</li>
+			</ul></p>
+		<p>To help get you started, Eucalyptus Systems provides pre-packaged virtual machine images that
+			are ready to run in your cloud. You can download them from the <xref
+				href="http://emis.eucalyptus.com/" format="html" scope="external">Eucalyptus Machine
+				Images</xref> page. Both HVM and paravirtual images are available there. Each
+			paravirtual image comes bundled with a correspoding EKI and ERI.</p>
 
 		<p>If you find that the pre-packaged images don't meet your needs, you can migrate an image
 			from another cloud system (such as vSphere or Amazon Web Services) or create your own
 			image. See the rest of this guide for more information. </p>
 
-		<p>Once you've created or downloaded the image(s) you plan to use, you can bundle, upload
-			and register the images with your Eucalyptus cloud.</p>
-		
-		<note type="tip">For a list of supported guest operating systems, go to
-			<xref href="https://www.eucalyptus.com/eucalyptus-cloud/iaas/compatibility" scope="external"
-				format="html">Eucalyptus Cloud Compatibility Matrix</xref>.</note>
+		<note type="tip">For a list of supported guest operating systems, go to <xref
+				href="https://www.eucalyptus.com/eucalyptus-cloud/iaas/compatibility"
+				scope="external" format="html">Eucalyptus Cloud Compatibility Matrix</xref>.</note>
 
 	</conbody>
 </concept>
