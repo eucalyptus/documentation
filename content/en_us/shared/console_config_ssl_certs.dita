@@ -2,19 +2,27 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_configure_ssl_certs">
-    <title>Configure SSL Certificate Paths</title>
-    <shortdesc>If you’ve chosen not to use the self-signed certificate and key
-        that are provided by the User Console, you will need to provide your
-        own. </shortdesc>
+    <title>Configure and Enable SSL</title>
+    <shortdesc>You can use secure HTTP for your console. </shortdesc>
     <taskbody>
         <context>
-            <p>To optionally specify an SSL certificate to run your console over
-                Secure HTTP: </p>
+            <p>To run your console over Secure HTTP: </p>
         </context>
         <steps>
             <step>
-                <cmd>Uncomment and modify the the SSL certificate paths in <codeph>/eucaconsole/conf/nginx.conf</codeph>. For
-                    example:</cmd>
+                <cmd>Install nginx on your console server with the following command:</cmd>
+                <info>
+                    <codeph>yum install nginx</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd> Overwrite the default <codeph>nginx.conf</codeph> file with the template
+                    provided in <codeph>/usr/share/doc/eucaconsole-4.0.0/nginx.conf.</codeph>
+                </cmd>
+            </step>
+            <step>
+                <cmd>Uncomment and modify the the SSL certificate paths in
+                        <codeph>/eucaconsole/conf/nginx.conf</codeph>. For example:</cmd>
                 <info>
                     <codeblock>     server {
         listen 80;
@@ -37,14 +45,29 @@
                 </info>
                 <info>
                     <note>
-                        <p> For more information on generating self-signed SSL
-                            certificates, go to <xref
+                        <p> For more information on generating self-signed SSL certificates, go to
+                                <xref
                                 href="http://www.akadia.com/services/ssh_test_certificate.html"
                                 scope="external" format="html"
                                 >http://www.akadia.com/services/ssh_test_certificate.html</xref>.
                         </p>
                     </note>
                 </info>
+            </step>
+            <step>
+                <cmd>Restart nginx using the following command:</cmd>
+                <info><codeph>service nginx restart</codeph></info>
+            </step>
+
+            <step>
+
+                <cmd>Add the following lines to the <codeph>console.ini</codeph> file:</cmd>
+                <info>
+                    <codeblock>session.secure = true
+sslcert=/etc/eucaconsole/eucalyptus.com.chained.crt
+sslkey=/etc/eucaconsole/eucalyptus.com.key</codeblock>
+                </info>
+
             </step>
         </steps>
     </taskbody>
