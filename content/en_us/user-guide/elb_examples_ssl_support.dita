@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="elb_examples_ssl_support">
+    <title>Adding SSL Support</title>
+    <shortdesc> This topic describes how to add SSL support to a new or existing load
+        balancer.</shortdesc>
+    <taskbody/>
+    <task id="elb_examples_ssl_support_create">
+        <title>Creating a new listener with SSL support</title>
+        <shortdesc>This tasks shows how to create a new listener with SSL support.</shortdesc>
+        <taskbody>
+            <context>
+                <note>In order to use HTTPS support, you'll need to install an SSL server
+                    certificate on your load balancer. If you haven't already done this, see <xref
+                        href="elb_examples_ssl_certificates">Uploading SSL Certificates for Elastic
+                        Load Balancing</xref>.</note> To add a new listener to your load balancer: </context>
+            <steps>
+
+                <step>
+                    <cmd>Using the ARN for the certificate you installed, use the
+                            <codeph>eulb-create-listener </codeph>command to create a new listener.
+                        For example:</cmd>
+                    <info>
+                        <codeph>eulb-create-lb-listeners my-test-loadbalancer --listener
+                            "protocol=HTTPS,lb-port=443,instance-port=80,instance-protocol=HTTP,
+                            cert-id=arn:aws:iam::12345678901:my-server-certificate/testing/myNewCert"
+                        </codeph></info>
+                </step>
+                <step>
+                    <cmd>Use the <codeph>eulb-describe-lbs</codeph> command to see the details of
+                        your load balancer. For example:</cmd>
+                    <info>
+                        <codeph>eulb-describe-lbs my-test-loadbalancer</codeph>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="elb_examples_ssl_support_update">
+        <title>Updating a listener with SSL support</title>
+        <shortdesc>This tasks shows how to update an existing listener with SSL support.</shortdesc>
+        <taskbody>
+            <context>
+                <note>In order to use HTTPS support, you'll need to install an SSL server
+                    certificate on your load balancer. If you haven't already done this, see <xref
+                        href="elb_examples_ssl_certificates">Uploading SSL Certificates for Elastic
+                        Load Balancing</xref>.</note> To update an existing listener with SSL
+                support: </context>
+            <steps>
+                
+                <step>
+                    <cmd>Use the
+                        <codeph>elb-set-lb-listener-ssl-cert</codeph>command with the ARN of your server certificate to update an existing listener to use SSL.
+                        For example:</cmd>
+                    <info>
+                        <codeph>eulb-set-lb-listener-ssl-cert  my-test-loadbalancer --lb-port 443 --cert-id arn:aws:iam::12345678901:my-server-certificate/testing/myNewCert</codeph></info>
+                </step>
+                <step>
+                    <cmd>Use the <codeph>eulb-describe-lbs</codeph> command to see the details of
+                        your load balancer. For example:</cmd>
+                    <info>
+                        <codeph>eulb-describe-lbs my-test-loadbalancer</codeph>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    
+</task>
