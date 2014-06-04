@@ -109,25 +109,19 @@ euare-userupdateinfo -u admin -k email -i $EMAIL							</codeblock>
 				</thead>
 				<tbody>
 					<row>
-						<entry>Load Balancer VM not able to contact CLC when CC is not collocated
-							with at least 1 Java component (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-7845"
-								>EUCA-7845</xref>)</entry>
-						<entry>When running ELB in EDGE networking mode the Servo VM is trying to
-							contact the CLC via the 169.254.169.254 address. For some reason this
-							works in the other networking modes although the only NAT rule that is
-							setup is specifically for port 80. Workaround: Change the default port
-							to 80 in servo/ws/_init_.py.</entry>
-					</row>
-					<row>
-						<entry>"Manage Instances" dialog is not called from "More actions" menu on
-							Windows 7/ IE 10 (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-8424"
-								>EUCA-8424</xref>)</entry>
-						<entry>When the Auto Scaling group is check-marked and the "Manage
-							instances" button is clicked in the "More Actions" menu, no dialog
-							appears.</entry>
-					</row>
+						<entry>Instance Migration Fails on CentOS/RHEL 6.5 (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-8650"
+							>EUCA-8650</xref>)</entry>
+						<entry>Instance live migration does not work with the default qemu-kvm version. <p>Workaround:
+							after installing the eucalyptus-nc package (for a fresh install) or
+							immediately after upgrading the cloud and the base OS to CentOS 6.5,
+							downgrade the qemu-kvm and qemu-img packages by running the
+							following commands on the node controllers:</p><p>
+								<codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
+  http://vault.centos.org/6.4/os/x86_64/Packages/qemu-img-0.12.1.2-2.355.el6.x86_64.rpm
+service libvirtd restart</codeblock>
+							</p></entry>
+					</row>				
 					<row>
 						<entry>On Security groups landing page "More actions" button sometimes fails
 							to activate in Windows7 / IE10 (<xref format="html"
@@ -136,33 +130,345 @@ euare-userupdateinfo -u admin -k email -i $EMAIL							</codeblock>
 						<entry>Workaround: refresh the page.</entry>
 					</row>
 					<row>
-						<entry>An IAM policy that allows all IAM actions does not work in Eucalyptus
-							3.4 (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-7870"
-								>EUCA-7870</xref>)</entry>
-						<entry>Workaround: see linked bug.</entry>
+						<entry>Cannot change launch config of autoscaling group from the user
+							console while running Internet Explorer 10 and Windows 7 (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7952"
+								>EUCA-7952</xref>)</entry>
+						<entry>Attempting to change a launch configuration with the user console
+							while running Internet Explorer 10 on Windows 7 results in the error "
+							"Failed to update sclaing group. Please try again.". Workaround: use the
+							Firefox or Google Chrome browser, or use the command line tools.</entry>
 					</row>
 					<row>
-						<entry>Post-upgrade steps for upgrading Load Balancer may be confusing
+						<entry>EBS image registration ignores user-supplied architecture argument
 								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/DOC-1071"
-								>DOC-1071</xref>)</entry>
-						<entry>If you already have load balancing enabled on 3.3.x, then there is
-							nothing you "must" do post upgrade for load balancing support. However,
-							the 3.4 release of Eucalyptus includes an updated load balancer image
-							that contains many bugfixes. If you are coming from 3.3.x and already
-							had ELB enabled, you need to run <codeph>euca-install-loadbalancer
-								--install-default</codeph> after the upgrade. The command will
-							install the current image and set it as the default load balancer image,
-							and all new load balancers will use the new image. The old image is
-							still registered and in S3, and any existing load balancer that may be
-							running at the time of upgrade will still use the old image. If you are
-							coming from a version of Eucalyptus that did not have the load balancing
-							feature, or did not have load balancing enabled on 3.3.x, then after
-							installing the load balancer image you should get new credentials so the
-							load balancer endpoint is defined.</entry>
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7337"
+								>EUCA-7337</xref>)</entry>
+						<entry>EBS image registration defaults to x86_64. The default should be
+							i386. In addition, if you attempt to change the architecture explicitly,
+							it's ignored and stays x86_64. The is cosmetic, as the backend ignores
+							the architecture argument.</entry>
 					</row>
-
+					<row>
+						<entry>euca-describe-nodes does not return output in certain distributed
+							topologies (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7039"
+								>EUCA-7039</xref>)</entry>
+						<entry>When the CLC, CC, and NCs are distributed components,
+							euca-describe-nodes returns nothing. This is an issue with the CLC.
+							Workaround: see linked bug. Note: This workaround just allows you to
+							figure out how many nodes are attached to running instances as an
+							administrator.</entry>
+					</row>
+					<row>
+						<entry>Misleading error from euca_conf --configure-vmware (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-378"
+								>EUCA-378</xref>)</entry>
+						<entry>When using VMware Broker with direct connection to ESXi machine - if
+							there is no virtual network created, "euca_conf --configure-vmware" will
+							error out. Workaround: see linked bug.</entry>
+					</row>
+					<row>
+						<entry>Eucalyptus keeps the previous IPs in VNET_PUBLICIPS even after the
+							field is modified and CC cleanrestarted. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3856"
+								>EUCA-3856</xref>)</entry>
+						<entry>When using VMware Broker with direct connection to ESXi machine - if
+							there is no virtual network created, "euca_conf --configure-vmware" will
+							error out. Workaround: restart the cloud controller.</entry>
+					</row>
+					<row>
+						<entry>Registering image after euca-bundle-instance differs for vmware.
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7847"
+								>EUCA-7847</xref>)</entry>
+						<entry>Name of the manifest file on vmware differs from other virtualization
+							types. Please check content of the backet used for bundling to find out
+							correct manifest name. Generally it should be backet/prefix.manifest.xml
+							for instances started from linux paravirtualized images and
+							backet/prefix.raw.manifest.xml for instances started from all other
+							images. For example: <p>
+								<ul>
+									<li>&lt;bundle_name>/&lt;prefix>.manifest.xml for
+										paravirtualized instances</li>
+									<li>&lt;bundle_name>/&lt;prefix>.raw.manifest.xml for all other
+										instances</li>
+								</ul>
+							</p></entry>
+					</row>
+					<row>
+						<entry>Volume attachments fail with EBS backed guests using ephemeral disks
+							post stop/start (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7460"
+								>EUCA-7460</xref>)</entry>
+						<entry>Workaround: see linked bug.</entry>
+					</row>
+					<!--<row>
+						<entry>Search by owner on images landing page does not filter correctly
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7792"
+								>EUCA-7792</xref>)</entry>
+						<entry>When using the "Owner: me " filter, the search returns an empty page.
+						</entry>
+					</row>-->
+					<row>
+						<entry>euca_imager does not honour cacheDirectoryLimitMb property (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6531"
+								>EUCA-6531</xref>)</entry>
+						<entry>The cacheDirectoryLimitMb property does not work on VMware even after
+							adding it to the config and euca_imager left cache directory with all
+							files after image creation.</entry>
+					</row>
+					<row>
+						<entry>Broker does not support some host configurations (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/BROKER-36"
+								>BROKER-36</xref>)</entry>
+						<entry>When using VMware, all hosts must either be managed by VCenter or the
+							Eucalyptus VMware Broker. Mixed management of the hosts is not supported
+							and will result connectivity issues with the Broker.</entry>
+					</row>
+					<row>
+						<entry>Eucalyptus cloud service JVM SIGSEGV in HA configuration (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-7030"
+								>EUCA-7030</xref>)</entry>
+						<entry>In an HA configuration, the <codeph>eucalyptus-cloud</codeph> service
+							exits with a SIGSEGV fatal error after a fairly short period. When this
+							occurs the current thread is always "C2 CompilerThread0" and the method
+							under compilation is "java.sql.DriverManager::getDriver". A workaround
+							for this issue is to add "-Xint" to CLOUD_OPTS in eucalyptus.conf to
+							disable hotspot. However, please note that this workaround might have
+							some performance impact.</entry>
+					</row>
+					<row>
+						<entry>When LDAP/AD integration is enabled, login profiles are not enabled
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6760"
+								>EUCA-6760</xref>)</entry>
+						<entry>When LDAP/AD integration is enabled,
+								<apiname>euare-userloginprofiles</apiname> are not created. To make
+							sure that users can log into the Administration Console, do the
+							following: <ol>
+								<li>Create a login profile using a "dummy" password:
+									<codeblock>euare-useraddloginprofile --delegate account1 -u user03 -p test</codeblock>
+								</li>
+								<li>Check to see that the user's login profile has been created:
+									<codeblock>euare-usergetloginprofile --delegate account1 -u user03
+user03</codeblock>
+								</li>
+							</ol>
+							<p>The user can now log into the Administration Console using their user
+								ID and LDAP/AD password.</p>
+							<note type="important">This only applies to the Administration Console.
+								You do not need to creat login profiles for the User
+							Console.</note>_</entry>
+					</row>
+					<row>
+						<entry>Modify service does not work always (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6389"
+								>EUCA-6389</xref>)</entry>
+						<entry>In some cases the <codeph>euca-modify-service</codeph> command does
+							not work. A subsequent retry of this command should succeed. </entry>
+					</row>
+					<row>
+						<entry>NC often goes to NOTREADY state during multiple instance migration
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6366"
+								>EUCA-6366</xref>)</entry>
+						<entry>During a multiple instance migration the user may see the source NC
+							transition into NOTREADY state. There is no explicit action required.
+							The NC will transition back to ENABLED and the migration will succeed.
+						</entry>
+					</row>
+					<row>
+						<entry>Failure to create backing for instance migration (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6228"
+								>EUCA-6228</xref>)</entry>
+						<entry>In some cases the user may see a failure when attempting multiple
+							instance migration. The workaround is to run the migration a second
+							time, which should succeed. </entry>
+					</row>
+					<row>
+						<entry>Instances become inaccessible if CC is clean restarted during
+							migration (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6232"
+								>EUCA-6232</xref>)</entry>
+						<entry>Performing a clean-restart operation during a migration may cause
+							instances to become inaccessible. It is best to avoid a clean-restart
+							operation during migration. </entry>
+					</row>
+					
+					<row>
+						<entry>Walrus image cache is hidden to the user (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6068"
+								>EUCA-6068</xref>)</entry>
+						<entry>When a registered image is deleted from Walrus the cache files stay
+							behind, but they are not shown when listing bucket contents. An attempt
+							to delete the bucket will return a <codeph>409 BucketNotEmpty.</codeph>
+							To workaround this issue de-register the deleted images and then delete
+							the bucket.</entry>
+					</row>
+					<row>
+						<entry>Successfully started migration can be reported as failed (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-6043"
+								>EUCA-6043</xref>)</entry>
+						<entry>The user may see an error message when attempting to migrate an
+							instance: <codeph>Error(MigrateInstancesType): Migrating instance
+								i-820A3F02 failed because of:
+								com.eucalyptus.ws.WebServicesException:
+								com.eucalyptus.ws.WebServicesException: Error parsing document (line
+								-1, col -1, in SOAP-message) </codeph> In spite of this error the
+							migration has started and should successfully complete.</entry>
+					</row>
+					<row>
+						<entry>BundleInstance always produces x86_64 images (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-5979"
+								>EUCA-5979</xref>,<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-5980"
+								>EUCA-5980</xref>)</entry>
+						<entry>The <codeph>euca-bundle-instance</codeph> command defaults to the
+							x86_64 architecture for both the NC and VMWare Broker. In order to
+							ensure the appropriate architecture the user must always supply the
+								<codeph>--arch</codeph> option to <codeph>euca-register</codeph>.
+						</entry>
+					</row>
+					<row>
+						<entry>Some components are initialized rather than disabled after an
+							unexpected reboot (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4354"
+								>EUCA-4354</xref>)</entry>
+						<entry>This only occurs when CLC, Walrus, and SC are located on the same
+							machine in an HA setting. In an unexpected reboot within that setting,
+							when the redundant components switch roles, some secondary components
+							can become initialized rather than disabled. For a workaround, restart
+							the initialized components. We strongly recommend that you use one
+							machine for each Eucalyptus component in HA mode.</entry>
+					</row>
+					<row>
+						<entry>User console requires upload of private key to access a Windows
+							instance password (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4293"
+								>EUCA-4293</xref>)</entry>
+						<entry>Passwords for Windows instances are encrypted for a specified key
+							pair. The user console requires that you upload the appropriate private
+							key to access an instance password. <b>We strongly recommend against
+								using this feature without HTTPS!</b> To access the instance
+							password without uploading your private key, use
+								<codeph>euca-get-password [instance id] -k [keyfile]</codeph> on the
+							command line.</entry>
+					</row>
+					<row>
+						<entry>User console cannot generate new Windows password on restarting a
+							stopped instance (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4291"
+								>EUCA-4291</xref>)</entry>
+						<entry>The user console continues to display an old password after a Windows
+							instance is stopped and restarted. You must log out of the user console,
+							log in again, and then generate a password, in order to log in to a
+							Windows instance that has been stopped and restarted.</entry>
+					</row>
+					<row>
+						<entry>The reporting feature in the Eucalyptus Administrator Console show no
+							metrics. (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4168"
+								>EUCA-4168</xref>)</entry>
+						<entry>This occurs only if you run a report that includes the current date.
+							The metrics that show no data are: <uicontrol>CpuUsage%</uicontrol>,
+								<uicontrol>Net Total In/Out</uicontrol>, <uicontrol>Disk
+								R/W</uicontrol>, <uicontrol>Disk IOPS R/W</uicontrol>, and
+								<uicontrol>DiskTime</uicontrol>. For a workaround, use the CLI
+							command, <apiname>eureport-generate-report</apiname>, to run reports
+							from the Cloud Controller for a time period that includes the current
+							date. You can also use the Eucalyptus Administrator Console and move the
+							end date up the previous day.</entry>
+					</row>
+					<row>
+						<entry>No client side reporting on exceeding maxtotalvolumesizeingb (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4030"
+								>EUCA-4030</xref>)</entry>
+						<entry>If an EBS-backed instance is launched that is larger than the cloud
+							property <codeph>maxtotalvolumesizeingb</codeph>, then there is no error
+							reported back to the client. The instance is terminated. The workaround
+							is to increase the following cloud properties: <ul>
+								<li><codeph>storage.maxtotalvolumesizeingb</codeph></li>
+								<li><codeph>storage.maxvolumesizeingb</codeph></li>
+							</ul>
+							<p>Once these values are increased, the instances will
+							launch.</p></entry>
+					</row>
+					<row>
+						<entry>[error:0290] message printed on upgrade (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4027"
+								>EUCA-4027</xref>)</entry>
+						<entry>The Eucalyptus upgrade process requires a large number of file
+							descriptors, and an error may occur if <codeph>ulimit</codeph> is not
+							set to an appropriate value. To avoid this error, set <codeph>ulimit -n
+								5000</codeph> before upgrading Eucalyptus. This error is not an
+							indication of a failed upgrade.</entry>
+					</row>
+					<row>
+						<entry>Unable to start stopped instances after upgrade (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-4026"
+								>EUCA-4026</xref>)</entry>
+						<entry>Eucalyptus 3.2 manages ISCSI targets in a different way to previous
+							versions. The first attempt to start any stopped instances relying on
+								<codeph>iscsiadm</codeph> will fail, but the issue is resolved
+							during cleanup so subsequent requests for that instance will
+							work.</entry>
+					</row>
+					<row>
+						<entry>ERR-1009 "Mismatched cryptographical keys" gets written too many
+							times in cc-fault.log (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3986"
+								>EUCA-3986</xref>)</entry>
+						<entry>Currently, CC may log this fault once for each process in the pool.
+							This is because the logic that suppresses duplicate faults relies on
+							process-local memory rather than memory regions shared across CC
+							processes.</entry>
+					</row>
+					<row>
+						<entry>Vague error message: <codeph>Failed to find corresponding class
+								mapping for element: RegisterVMwareBroker in namespace</codeph>.
+								(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3808"
+								>EUCA-3808</xref>)</entry>
+						<entry>If you get this error message, you need to install the
+								<codeph>eucalyptus-enterprise-vmware-broker-libs</codeph> on the
+							CLC. Run <codeph>yum install
+								eucalyptus-enterprise-vmware-broker-libs</codeph> on each CLC in
+							your cloud.</entry>
+					</row>
+					<row>
+						<entry>Capacity report shows unordered list of VM types (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3707"
+								>EUCA-3707</xref>)</entry>
+						<entry>When running a capacity report, the VM types are not ordered from
+							smallest to largest instance type when displayed at the cloud or AZ
+							property level.</entry>
+					</row>
+					<!--these are issues carried over...discuss-->
+					<row>
+						<entry>ENABLED CC have two NAT rules about 169.254.169.254 (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3440"
+								>EUCA-3440</xref>)</entry>
+						<entry>In HA Mode, ENABLED CC can get into a state where it reports both
+							ENABLED and DISABLED CLC in iptables for the metadata service.</entry>
+					</row>
+					<row>
+						<entry>Walrus does not failover in HA if eucalyptus-cloud process is
+							forcibly killed on primary (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-3202"
+								>EUCA-3202</xref>)</entry>
+						<entry>If the eucalyptus-cloud process is forcibly terminated (kill -9) on
+							the primary Walrus, failover to the secondary Walrus is not
+							automatically triggered.</entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
