@@ -70,8 +70,14 @@
 				to encapsulate your desired range. For example, for a VLAN range
 				of 1024-2048, you could set VNET_NETMASK to 255.254.0.0 to get a
 				large enough network (131072 addresses), and VNET_ADDRSPERNET to
-				64, to give 2048 possible VLANs.</li>
-			<li>Configure your cloud controller to work within that range. Use
+				64, to give 2048 possible security groups.
+				<p><note type="tip">The number of instances per security group can be calculated as follows:
+					<sl>
+						<sli>subnets (SGs) = no. hosts / addrspernet</sli>
+						<sli>instances per subnet (SG) = addrspernet - 10</sli>
+					</sl>
+					</note></p></li>	
+		<li>Configure your cloud controller to work within that range. Use
 				the following commands to verify that the range is now set to be
 				2-2048, a superset of the desired range.
 				<codeblock>euca-describe-properties | grep cluster.maxnetworktag  
