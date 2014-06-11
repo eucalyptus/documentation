@@ -18,20 +18,17 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euca-bundle-vol [-s, --size <b>size</b> ][-u, --user <b>user</b> ]
-    		[-c, --cert <b>cert_path</b> ][-k, --privatekey <b>private_key_path</b> ]
-    		[-a, --all][-p, --prefix <b>prefix</b> ][--no-inherit]
-			[-e, --exclude <b>exclude</b> ][--kernel <b>kernel_id</b>]
-			[--ramdisk <b>ramdisk_id</b>][--product-codes <b>product_codes</b>]
-			[-B, --block-device-mapping <b>block_device_mapping</b>]
-			[-d, --destination <b>destination_path</b>]
-			[--ec2cert <b>ec2cert_path</b> ]
-			[-r, --arch <b>target_architecture</b>]
-			[--volume <b>volume_path</b> ][--fstab <b>fstab_path</b>]
-			[--generate-fstab][--batch][-a, --all][--inherit][--no-inherit]
-			[--volume <b>path</b>][--fspath <b>path</b>][--generate-fstab]
-			[--ec2cert <b>file</b>][--kernel <b>image</b>]
-			[--ramdisk <b>image</b>][--progress][--no-progress]</codeblock>
+			<codeblock>euca-bundle-vol [-p PREFIX] [-d DIR] [-r {i386,x86_64,armhf,ppc,ppc64}]
+                       [-e PATH,...] [-i PATH,...] [-s MiB] [--no-filter]
+                       [--all] [--inherit | --no-inherit] [-v DIR]
+                       [-P {mbr,gpt,none}] [-S FILE]
+                       [--fstab FILE | --generate-fstab] [--grub-config FILE]
+                       [-k FILE] [-c FILE] [--ec2cert FILE] [-u ACCOUNT]
+                       [--kernel IMAGE] [--ramdisk IMAGE]
+                       [-B VIRTUAL1=DEVICE1,VIRTUAL2=DEVICE2,...]
+                       [--productcodes CODE1,CODE2,...]
+                       [--progress | --no-progress] [--debug] [--debugger]
+                       [--version] [-h]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -49,6 +46,12 @@
 					</thead>
 
 					<tbody>
+						<row id="prefix">
+							<entry><codeph>-p,--prefix
+								<i>prefix</i></codeph></entry>
+							<entry>File name prefix for the bundle files. Default is "image".</entry>
+							<entry align="center">No</entry>
+						</row>
 						<row id="private_key">
 							<entry><codeph>-k,--privatekey
 									<i>private_key</i></codeph></entry>
@@ -109,7 +112,7 @@
 						</row>
 						<row>
 							<entry><codeph>--no-inherit</codeph></entry>
-							<entry>Explicitly inherit instance metadata and add it to the bundled image (this is the default behavior).</entry>
+							<entry>Do not inherit instance metadata and add it to the bundled image.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
