@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="cf_usecase">
+ <title>CloudFormation Use Case</title>
+	<shortdesc>This topic describes a use case for creating a stack, checking the stack progress, and deleting the stack.</shortdesc>
+ <taskbody>
+ 	<context>
+  <p>For this use case, we will use the following template:</p>
+ 	<codeblock></codeblock>
+ 		<p>This template creates an instance with a security group that allows global SSH access (port
+ 			22), but uses a keypair to log in. It requires two parameters, <codeph>MyImageId</codeph>, which
+ 			is the image ID of the instance to create, and <codeph>MyKeyPair</codeph>, which is the name of
+ 			the keypair to use to log in with. You can use both values with the
+ 			<codeph>euca-run-instances</codeph> command to create an instance manually (for example,
+ 			<codeph>euca-run-instances -k mykey emi-db0b2276</codeph>) so the arguments needed here are
+ 			standard instance arguments.</p>
+ 		<p>The steps to run this template through the system are explained in the following steps.</p>
+ 		<note type="important">These steps require that you have an available image (run
+ 			<codeph>euca-describe-images</codeph> to verify) and that the CloudFormation service is running
+ 			(run <codeph>euca-describe-services</codeph> to verify).</note>
+ 	</context>
+ 	<steps>
+ 		<step>
+ 			<cmd>Verify connectivity to the CloudFormation service.</cmd>
+ 			<info>
+ 				<codeblock>euform-describe-stacks</codeblock>
+ 			</info>
+ 			<stepresult>You should not see anything returned, including any errors.</stepresult>
+ 		</step>
+ 		<step>
+ 			<cmd>Create a file called <filepath>ex_template.json</filepath> that contains the following
+ 				content:</cmd>
+ 			<info>
+ 				<codeblock>{
+  "Parameters": {
+    "MyImageId": {
+      "Description":"Image id",
+      "Type":"String"
+    },
+    "MyKeyPair": {
+      "Description":"Key Pair",
+      "Type":"String"
+    }
+  },
+  "Resources" : {
+    "MySecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription" : "Security Group with Ingress Rule for MyInstance",
+        "SecurityGroupIngress" : [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "22",
+            "ToPort" : "22",
+            "CidrIp" : "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+    "MyInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId" : { "Ref":"MyImageId" },
+        "SecurityGroups" : [ 
+          { "Ref" : "MySecurityGroup" } 
+        ],
+        "KeyName" : { "Ref" : "MyKeyPair" }
+      }
+    }
+  }
+}</codeblock>
+ 			</info>
+ 		</step>
+ 		<step>
+ 			<cmd>Create a keypair.</cmd>
+ 			<info>
+ 				<codeblock>euca-create-keypair myKey > myKey.pem</codeblock>
+ 			</info>
+ 		</step>
+ 		<step>
+ 			<cmd>Set the permissions on the keypair.</cmd>
+ 			<info>
+ 				<codeblock>chmod 0600 myKey.pem</codeblock>
+ 			</info>
+ 		</step>
+ 		<step>
+ 			<cmd>Find what resources have been created., run the  command and the euca-describe-groups commands.  Make note of the output for later.</cmd>
+ 			<substeps>
+ 				<substep>
+ 					<cmd>Run:</cmd>
+ 					<info>
+ 						<codeblock>euca-describe-instances</codeblock>
+ 					</info>
+ 					<stepresult>Note the output for later use.</stepresult>
+ 				</substep>
+ 				<substep>
+ 					<cmd>Run:</cmd>
+ 					<info>
+ 						<codeblock>euca-describe-groups</codeblock>
+ 					</info>
+ 					<stepresult>Note the output for later use.</stepresult>
+ 				</substep>
+ 			</substeps>
+ 		</step>
+ 		<step>
+ 			<cmd>Create the stack.</cmd>
+ 			<info>
+ 				<codeblock>euform-create-stack --template-file ex_template.json -p MyImageId=&lt;your_image_id>, MyKeyPair=myKey MyStack</codeblock>
+ 			</info>
+ 			<stepresult>Eucalyptus returns output similar to the following:
+ 		<codeblock>arn:aws:cloudformation::299958418681:stack/MyStack/28fd422b-0836-4374-ade2-eddab2fab3e3</codeblock>
+ 			</stepresult>
+ 		</step>
+ 		<step>
+ 			<cmd>Check the status of the stack.</cmd>
+ 			<info>
+ 				<codeblock>euform-describe-stack</codeblock>
+ 			</info>
+ 			<stepresult>Eucalyptus returns output similar to the following:
+ 			<codeblock>STACK    MyStack    CREATE_COMPLETE    Complete!   		 2014-05-30T18:45:54.695Z</codeblock>
+ 			</stepresult>
+ 		</step>
+ 		<step>
+ 			<cmd>18.	Run the euform-describe-stack-events command with the stack name at any time to see all the events that have occurred during the stack lifecycle.</cmd>
+ 			<info>
+ 				<codeblock></codeblock>
+ 			</info>
+ 		</step>
+ 	</steps>
+ </taskbody>
+</task>
