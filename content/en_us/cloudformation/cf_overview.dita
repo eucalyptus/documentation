@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="cf_overview">
+ <title>CloudFormation Overview</title>
+	<shortdesc>This topic describes the Eucalyptus implementation of the AWS CloudFormation web
+		service, how CloudFormation works, and some details and examples of how to add CloudFormation to
+		your Eucalyptus deployment.</shortdesc>
+ <conbody>
+ 	<section>
+ 		<title>Why use CloudFormation?</title>
+ 		<p>Virtualization technology, together with cloud computing, allows for application repeatability
+ 		and redundancy. You can spin up as many virtual machines as you need, application configuration
+ 		needs to happen only when virtual images are created. CloudFormation takes this concept to the
+ 		next level because it allows you to configure an entire set of resources (instances,
+ 		security groups, user roles and policies, and more) in a single <xref
+ 			href="../shared/glossary.dita#json">JSON</xref> template file, and executed with a single
+ 		command. This means that you get not just machine repeatability, but environment repeatability.
+ 		CloudFormation allows you to clone environments in different cloud setups, as well as giving
+ 		applications the ability to be set up and torn down in a repeatable manner.</p>
+ 	</section>
+ 		<section>
+ 			<title>How does Cloudformation Work?</title>
+ 			<p>CloudFormation manages a set of resources, called a stack, in batch operations (create,
+ 				update, or delete). Stacks are described in JSON templates, and can be simple, as the following
+ 			example:</p>
+ 			<codeblock>{
+  "Resources" : {
+    "MyInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId" : "emi-db0b2276"
+      }
+    }
+  }
+}
+</codeblock>
+ 			<p>This stack creates a single instance, based on the image with ID
+ 				<codeph>emi-db0b2276</codeph>. However, this stack is not portable because different
+ 				clouds might have different image IDs.</p>
+ 			<p>CloudFormation allows stack customization through user parameters that are passed in at stack
+ 				creation time. The following is an example of the template above with a user parameter called
+ 				<codeph>MyImageId</codeph>. Changes are in bold.</p>
+ 			<codeblock><b>{
+  "Parameters": {
+    "MyImageId": {
+      "Description":"Image id",
+      "Type":"String"
+    }
+  },</b>
+  "Resources" : {
+    "MyInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId" : <b>{ "Ref" : "MyImageId" }</b>
+      }
+    }
+  }
+}</codeblock>
+ 			<p>This stack creates a single instance, but the image ID will be required to be passed in using
+ 				the command line. For example, the following example uses the
+ 				<codeph>euform-create-stack</codeph> command in Euca2ools:</p>
+ 			<codeblock>euform-create-stack --template-file template.json -p MyImageId=emi-db0b2276 MyStack</codeblock>
+ 			
+ 			<p>This command passes the parameter <codeph>MyImageId</codeph> with value
+ 				<codeph>emi-db0b2276</codeph> into the stack creation process using the <codeph>-p</codeph> flag.</p>
+ 			
+ 			<p>You can also use templates to create multiple resources and associate them with each other.
+ 				For example, the following template creates an instance with its own security group and ingress rule. Additions are in bold.</p>
+ 			<codeblock>{
+  "Parameters": {
+    "MyImageId": {
+      "Description":"Image id",
+      "Type":"String"
+    }
+  },
+  "Resources" : {
+    <b>"MySecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription" : "Security Group with Ingress Rule for MyInstance",
+        "SecurityGroupIngress" : [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "22",
+            "ToPort" : "22",
+            "CidrIp" : "0.0.0.0/0"
+          }
+        ]
+      }
+    },</b>
+    "MyInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId" : { "Ref":"MyImageId" },
+        <b>"SecurityGroups" : [ 
+          { "Ref" : "MySecurityGroup" } 
+        ]</b>
+      }
+    }
+  }
+}
+</codeblock>
+ 			<p>Templates can be more complicated than the ones shown above, but CloudFormation allows many resources to be deployed in one operation. Resources from most Eucalyptus services are supported.</p>
+ 			</section>
+ 	
+ 	<section>
+ 		<title>CloudFormation Requirements</title>
+ 		<p>To run CloudFormation on Eucalyptus, you need the following:</p>
+ 		<ul>
+ 		<li>A running Eucalyptus cloud, version 4.0 or later, with at least one Cloud Controller, Node Controller, and Cluster Controller up, running and registered</li>
+ 		<li>At least one active running service of each of the following: CloudWatch, AutoScaling, Load
+ 			Balancing, Compute, and IAM</li>
+ 		<li>A registered active CloudFormation service</li>
+ 		</ul>
+ 		
+ 	</section>
+ 	
+ 	<section>
+ 		<title>CloudFormation Registration</title>
+ 		<p>To register CloudFormation for your cloud, enter the following command:</p>
+ 		<codeblock>euca_conf  --register-service -T CloudFormation -H &lt;cloudformation_host_ip> -N &lt;service_name></codeblock>
+ 		
+ 		<p>For example:</p>
+ 		<codeblock>euca_conf  --register-service -T CloudFormation -H 10.111.1.134 -N cfn</codeblock>
+ 		
+ 		<p>Eucalyptus returns information similar to the folowing:</p>
+ 			<codeblock>Created new partition 'cfn'
+ 			SERVICE    cloudformation   	 cfn  		 cfn             		 http://10.111.1.134:8773/services/CloudFormation    arn:euca:bootstrap:cfn:cloudformation:cfn/</codeblock>
+ 			
+ 			<p>The CloudFormation service will be shown when you run
+ 		<codeph>euca-describe-services</codeph>.</p>
+ 		
+ 		<note type="tip">You might have to regenerate credentials using the <codeph>euca_conf 
+ 			--get-credentials</codeph> command because some command line tools such as Euca2ools use the <codeph>AWS_CLOUDFORMATION_URL</codeph> variable defined in the .eucarc file.</note>
+
+ 	</section>
+ 	
+ 	<section>
+ 		<title>WSDL URL</title>
+ 		<p>The service WSDL URL for CloudFormation is of the form:</p>
+ 			
+ 			<codeblock>http://&lt;host-ip>:8773/services/CloudFormation</codeblock>
+ 		
+ 				<p>The services path may not be necessary if DNS is enabled, it may look something like this:</p>
+ 				
+ 				<codeblock>http://cloudformation.g-19-10.autoqa.qa1.eucalyptus-systems.com:8773/</codeblock>
+ 				
+ 				<p>CloudFormation follows the same convention as the other <xref
+ 					href="../shared/glossary.dita#ufs">user-facing services</xref>.</p>
+ 	</section>
+ </conbody>
+</concept>
