@@ -105,25 +105,70 @@
  		<step>
  			<cmd>Create the stack.</cmd>
  			<info>
- 				<codeblock>euform-create-stack --template-file ex_template.json -p MyImageId=&lt;your_image_id>, MyKeyPair=myKey MyStack</codeblock>
+ 				<codeblock>euform-create-stack --template-file ex_template.json -p 
+ MyImageId=&lt;your_image_id>, MyKeyPair=myKey MyStack</codeblock>
  			</info>
  			<stepresult>Eucalyptus returns output similar to the following:
  		<codeblock>arn:aws:cloudformation::299958418681:stack/MyStack/28fd422b-0836-4374-ade2-eddab2fab3e3</codeblock>
  			</stepresult>
  		</step>
  		<step>
- 			<cmd>Check the status of the stack.</cmd>
- 			<info>
- 				<codeblock>euform-describe-stack</codeblock>
- 			</info>
- 			<stepresult>Eucalyptus returns output similar to the following:
- 			<codeblock>STACK    MyStack    CREATE_COMPLETE    Complete!   		 2014-05-30T18:45:54.695Z</codeblock>
- 			</stepresult>
+ 			<cmd>Run the checks you want on your stack.</cmd>
+ 			<choices>
+ 				<choice>
+ 					<p>Check the status of the stack.</p>
+ 					<codeblock>euform-describe-stack
+ STACK    MyStack    CREATE_COMPLETE    Complete!   		 2014-05-30T18:45:54.695Z</codeblock>
+ 				</choice>
+ 				<choice>
+ 					<p>Check the stack at any time to see all the events that have occurred during the stack lifecycle.</p>
+ 					<codeblock>euform-describe-stack-events MyStack
+EVENT  MyStack  40de93ad-1aec-48c3-9c9e-680fe46ce194    AWS::CloudFormation::Stack    
+MyStack    arn:aws:cloudformation::299958418681:stack/MyStack/28fd422b-0836-4374-ade2-eddab2fab3e3  
+2014-05-30T18:45:54.747Z    CREATE_IN_PROGRESS    User Initiated
+EVENT  MyStack  MySecurityGroup-CREATE_IN_PROGRESS-1401475554805   AWS::EC2::SecurityGroup
+MySecurityGroup   	 2014-05-30T18:45:54.805Z    CREATE_IN_PROGRESS    
+EVENT  MyStack  MySecurityGroup-CREATE_IN_PROGRESS-1401475555003    AWS::EC2::SecurityGroup
+MySecurityGroup    MyStack-MySecurityGroup-PSLNKQK0BGY9A   2014-05-30T18:45:55.003Z    CREATE_IN_PROGRESS    
+EVENT  MyStack  MySecurityGroup-CREATE_COMPLETE-1401475555170   AWS::EC2::SecurityGroup
+MySecurityGroup    MyStack-MySecurityGroup-PSLNKQK0BGY9A    2014-05-30T18:45:55.17Z    CREATE_COMPLETE    
+EVENT  MyStack  MyInstance-CREATE_IN_PROGRESS-1401475555228    AWS::EC2::Instance
+MyInstance   	 2014-05-30T18:45:55.228Z    CREATE_IN_PROGRESS    
+EVENT  MyStack  MyInstance-CREATE_IN_PROGRESS-1401475556078    AWS::EC2::Instance
+MyInstance    i-d141ae0a    2014-05-30T18:45:56.078Z    CREATE_IN_PROGRESS    
+EVENT  MyStack  MyInstance-CREATE_IN_PROGRESS-1401475566466    AWS::EC2::Instance
+MyInstance    i-d141ae0a    2014-05-30T18:46:06.466Z    CREATE_IN_PROGRESS    
+EVENT  MyStack  MyInstance-CREATE_COMPLETE-1401475566507    AWS::EC2::Instance 
+MyInstance    i-d141ae0a    2014-05-30T18:46:06.507Z    CREATE_COMPLETE    
+EVENT  MyStack  26e4445a-2f84-4239-90bf-e34e74fd646f    AWS::CloudFormation::Stack
+MyStack    arn:aws:cloudformation::299958418681:stack/MyStack/28fd422b-0836-4374-ade2-eddab2fab3e3
+2014-05-30T18:46:06.574Z    CREATE_COMPLETE    Complete!</codeblock>
+ 				</choice>
+ 				<choice>
+ 					<p>Run <codeph>euca-describe-instances</codeph> and <codeph>euca-describe-groups</codeph> to make sure the new resources have been created.</p>
+ 					<codeblock>euca-describe-instances
+RESERVATION    r-4ed04891    299958418681    MyStack-MySecurityGroup-PSLNKQK0BGY9A
+INSTANCE    i-d141ae0a    emi-db0b2276   
+euca-10-111-101-87.eucalyptus.g-19-10.autoqa.qa1.eucalyptus-systems.com   
+euca-1-121-167-77.eucalyptus.internal   running   myKey   0   m1.small   
+2014-05-30T18:45:55.994Z   PARTI00   monitoring-disabled    10.111.101.87    1.121.167.77  
+instance-store   hvm   sg-b4814192    
+TAG    instance    i-d141ae0a    euca:node    10.111.1.135
+euca-describe-groups
+GROUP    sg-b4814192    299958418681    MyStack-MySecurityGroup-PSLNKQK0BGY9A   
+Security Group with Ingress Rule for MyInstance    
+PERMISSION    299958418681    MyStack-MySecurityGroup-PSLNKQK0BGY9A    
+ALLOWS    tcp    22    22    FROM    CIDR    0.0.0.0/0    ingress
+</codeblock>
+ 				</choice>
+ 			</choices>
+ 			
  		</step>
  		<step>
- 			<cmd>18.	Run the euform-describe-stack-events command with the stack name at any time to see all the events that have occurred during the stack lifecycle.</cmd>
+ 			<cmd>Try to SSH into the instance.</cmd>
  			<info>
- 				<codeblock></codeblock>
+ 				<codeblock>ssh -i myKey.pem root@10.111.101.87</codeblock>
+ 				<note type="tip">Username may depend on instance type, might be root or ubuntu or ec2-user</note>
  			</info>
  		</step>
  	</steps>
