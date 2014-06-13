@@ -116,6 +116,45 @@
  	</section>
  	
  	<section>
+ 		<title>Support Resources</title>
+ 		<p>The following resources are supported by CloudFormation in Eucalyptus.</p>
+ 		<table>
+ 			<tgroup cols="2">
+ 				<thead>
+ 					<row>
+ 						<entry>Resource</entry>
+ 						<entry>Description</entry>
+ 					</row>
+ 				</thead>
+ 				<tbody>
+ 					<row><entry>AWS::AutoScaling::AutoScalingGroup</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except: HealthCheckType, Tags, and VpcZoneIdentifier. </entry></row>
+ 					<row><entry>AWS::AutoScaling::LaunchConfiguration </entry><entry>All properties in the
+ 						Template Reference section of the AWS CloudFormation User Guide are supported except AssociatePublicIpAddress.</entry></row>
+ 					<row><entry>AWS::AutoScaling::ScalingPolicy</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::CloudWatch::Alarm</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::EC2::EIP</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except Domain.</entry></row>
+ 					<row><entry>AWS::EC2::EIPAssociation</entry> <entry>-- All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except: AllocationId, NetworkInterfaceId, and PrivateIpAddress.</entry></row> 	
+ 					<row><entry>AWS::EC2::Instance</entry> <entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except: NetworkInterfaces, SecurityGroupIds, SourceDestCheck, Tags, and Tenancy.  All other properties are forwarded to the Compute service internally but VPC is not implemented so VPC oriented properties are likely ignored there.</entry></row>
+ 					<row><entry>AWS::EC2::SecurityGroup</entry><entry>All properties in the Template Reference
+ 						section of the AWS CloudFormation User Guide are supported except: SecurityGroupEgress, Tags, and VpcId.</entry></row>
+ 					<row><entry>AWS::EC2::SecurityGroupIngress</entry> <entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except SourceSecurityGroupId.</entry></row>
+ 					<row><entry>AWS::EC2::Volume</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except: HealthCheckType and Tags.</entry></row>
+ 					<row><entry>AWS::EC2::VolumeAttachment</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::ElasticLoadBalancing::LoadBalancer</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except: AccessLoggingPolicy, ConnectionDrainingPolicy, CrossZone, Policies.InstancePorts, and Policies.LoadBalanerPorts.  All other properties are passed through to the LoadBalancing service internally but some features are not implemented so properties 	may be ignored there.</entry></row>
+ 					<row><entry>AWS::IAM::AccessKey</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported except Serial.</entry></row>
+ 					<row><entry>AWS::IAM::Group</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::IAM::InstanceProfile</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::IAM::Policy</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::IAM::Role</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::IAM::User</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 					<row><entry>AWS::IAM::UserToGroupAddition</entry><entry>All properties in the Template Reference section of the AWS CloudFormation User Guide are supported.</entry></row>
+ 				</tbody>
+ 			</tgroup>
+ 			
+ 		</table>
+ 	</section>
+ 	
+ 	<section>
  		<title>CloudFormation Registration</title>
  		<p>To register CloudFormation for your cloud, enter the following command:</p>
  		<codeblock>euca_conf  --register-service -T CloudFormation -H &lt;cloudformation_host_ip> -N &lt;service_name></codeblock>
@@ -125,7 +164,8 @@
  		
  		<p>Eucalyptus returns information similar to the folowing:</p>
  			<codeblock>Created new partition 'cfn'
- 			SERVICE    cloudformation   	 cfn  		 cfn             		 http://10.111.1.134:8773/services/CloudFormation    arn:euca:bootstrap:cfn:cloudformation:cfn/</codeblock>
+ SERVICE    cloudformation   	 cfn  		 cfn http://10.111.1.134:8773/services/
+ CloudFormation    arn:euca:bootstrap:cfn:cloudformation:cfn/</codeblock>
  			
  			<p>The CloudFormation service will be shown when you run
  		<codeph>euca-describe-services</codeph>.</p>
