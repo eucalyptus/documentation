@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="autoscaling_examples_delete_scaling_group">
+    <title>Delete an Autoscaling Group </title>
+    <shortdesc>This topic shows how to shut down and delete an auto scaling group.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To shut down and delete an auto scaling group:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>An auto scaling group can only be deleted if it has no running instances.
+                    Update your auto scaling group by setting the minimum and maximum size of the
+                    auto scaling group to zero:</cmd>
+                <info>
+                    <codeph>euscale-update-auto-scaling-group myscalinggroup --max-size 0 --min-size 0 </codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify that your auto scaling group has been updated:</cmd>
+                <info>
+                    <codeph>euscale-describe-auto-scaling-groups myscalinggroup</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Delete the auto scaling group:</cmd>
+                <info>
+                    <codeph>euscale-delete-auto-scaling-group myscalinggroup</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>You can optionally delete the launch configuration associated with the auto scaling group:</cmd>
+                <info>euscale-delete-launch-config mylaunchconfig </info>
+            </step>
+            <step>
+                <cmd>If you're using Elastic Load Balancing, you can optionally delete the load balancer associated with the auto scaling group:</cmd>
+                <info>eulb-delete-lb myloadbalancer</info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
