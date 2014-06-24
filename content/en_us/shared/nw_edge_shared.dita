@@ -136,7 +136,39 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
                 "10.111.101.95"
             ]
         },
+    ]
+}</codeblock>
+								<p>This example depicts a setup with one cluster (AZs), called PARTI00, with a flat network
+									topology. For a multi-cluster deployment, add an additional
+									cluster to your configuration for each cluster you have. The following example has an
+									additional cluster, PARTI01. </p>
+								<codeblock>{
+    "InstanceDnsDomain": "eucalyptus.internal",
+    "InstanceDnsServers": ["10.1.1.254"],
+    "PublicIps": [
+        "10.111.101.84",
+        "10.111.101.91",
+        "10.111.101.92",
+        "10.111.101.93"
+    ],
+    "Subnets": [
+    ],
+    "Clusters": [
         {
+            "Name": "PARTI00",
+            "MacPrefix": "d0:0d",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.94",
+                "10.111.101.95"
+            ]
+        },
+        <b>{
             "Name": "PARTI01",
             "MacPrefix": "d0:0d",
             "Subnet": {
@@ -149,11 +181,12 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
                 "10.111.101.96",
                 "10.111.101.97"
             ]
-        }
+        }</b>
     ]
 }</codeblock>
-								<p>This example depicts a setup with two clusters (AZs), one called PARTI00 and one called
-									PARTI01, with a flat network topology.</p>
+								<p>For more information about multi-cluster configuration, see <xref
+									href="../install-guide/configuring_multi_cluster.dita"/> or <xref
+										href="../install-guide/configuring_multi_cluster_ha.dita"/> (for HA).</p>
 							</info>
 						</substep>
 					</substeps>
