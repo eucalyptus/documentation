@@ -14,14 +14,14 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p> HVM  (Hardware-assisted Virtual Machine) images are sequences of raw sectors of a complete
-				bootable disk, including a boot loader and one or more partitions with an operating
-				system. Such images are self-contained and can be booted on hardware that supports
-				virtualization or on a full software emulation of hardware (QEMU).</p>
-			<p>At run time, HVM images can be deployed to disks local to the hypervisor (so-called Instance
-				Store images) or they can run off of dynamic volumes on EBS (so-called EBS-backed
-				instances or boot-from-EBS instances). This topic covers methods for installing an
-				HVM image into either type of EMI.</p>
+			<p> HVM (Hardware-assisted Virtual Machine) images are sequences of raw sectors of a
+				complete bootable disk, including a boot loader and one or more partitions with an
+				operating system. Such images are self-contained and can be booted on hardware that
+				supports virtualization or on a full software emulation of hardware (QEMU).</p>
+			<p>At run time, HVM images can be deployed to disks local to the hypervisor (so-called
+				Instance Store images) or they can run off of dynamic volumes on EBS (so-called
+				EBS-backed instances or boot-from-EBS instances). This topic covers methods for
+				installing an HVM image into either type of EMI.</p>
 		</context>
 	</taskbody>
 	<task id="img_task_install_hvm_image.instance_store">
@@ -149,13 +149,13 @@
 						<cmd>Turn HVM image into a running EBS instance with a single command.</cmd>
 						<info>
 							<note>Just as with euca-run-instance, one can specify the Instance Type
-								for the instance that will run, as well as the SSH key.</note>
-							<codeph>euca-import-instance /path/to/hvm-image --format raw
-								--architecture x86_64 --platform Linux --availability-zone AZ-NAME
-								--bucket bucket-for-instance --owner-akid $EC2_ACCESS_KEY
-								--owner-sak $EC2_SECRET_KEY --prefix image-name-prefix --description
-								"textual description" --key LaunchSpecification.KeyName=ssh-key-name
-								--instance-type m1.small</codeph>
+								for the instance that will run, as well as the SSH key. For example:</note>
+							<codeph>euca-import-instance /root/paravirtualimage/ubuntuJune06.img
+								--format raw --architecture x86_64 --platform Linux
+								--availability-zone EDU --bucket import_instance --owner-akid
+								$EC2_ACCESS_KEY --owner-sak $EC2_SECRET_KEY --prefix eduii
+								--description "import instance" --key admin --instance-type
+								m1.small</codeph>
 						</info>
 					</step>
 					<step>
@@ -163,16 +163,14 @@
 							command or due to a network mishap, import can be resumed (within a
 							one-week deadline).</cmd>
 						<info>
-							<codeph>euca-resume-import -t import-vol-fae1e94d
-								/path/to/hvm-image</codeph>
+							<codeph>euca-resume-import -t import-i-b393f3f6 /path/to/hvm-image</codeph>
 						</info>
 					</step>
 					<step>
 						<cmd>After volume data has been uploaded to Object Store, an internal
 							"conversion task" will copy the data into a new EBS volume. Progress of
 							this task can be queries.</cmd>
-						<info><codeph>euca-describe-conversion-tasks
-							import-vol-fae1e94d</codeph></info>
+						<info><codeph>euca-describe-conversion-tasks import-i-b393f3f6</codeph></info>
 					</step>
 				</steps>
 				<result>Once the task has finished successfully, you should see a running instance.

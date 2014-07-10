@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="disable_sts">
+ <title>Configure STS Actions</title>
+ <shortdesc>The Security Token Service (STS) allows you to enable or disable specific token actions. </shortdesc>
+ <conbody>
+ 	<p>By default, the enabled actions list is empty. However, this means that all actions are
+ 		enabled. To enable specific actions, you must list them in the enabledactions property. To deny
+ 		specific actions, you must list them in the disabledactions property.</p>
+ 	
+ 	<codeblock># euca-describe-properties tokens
+PROPERTY	tokens.disabledactions	{}
+PROPERTY	tokens.enabledactions	{}</codeblock>
+ 	
+ <p>The values are case insensitive space or comma-separated lists of token service actions.
+ 	
+ 	If an action is in the disable list then it will not be permitted and the request will fail with HTTP status 503 and the code ServiceUnavailable.
+ 	
+ 	If the enable list is non-empty then only the actions specifically listed will be permitted (though any action also in the denied list will be denied)</p>
+ 	<table>
+ 		<tgroup cols="2">
+ 			<thead>
+ 				<row>
+ 					<entry>Action</entry>
+ 					<entry>Description</entry>
+ 				</row>
+ 			</thead>
+ 			<tbody>
+ 				<row>
+ 					<entry>AssumeRole</entry>
+ 					<entry>Roles as per AWS/STS and Eucalyptus-specific personas admin functionality</entry>
+ 				</row>
+ 				<row>
+ 					<entry>GetAccessToken</entry>
+ 					<entry>Eucalyptus extension for password logins (for example, the User Console)</entry>
+ 				</row>
+ 				<row>
+ 					<entry>GetImpersonationToken</entry>
+ 					<entry>Eucalyptus extension that allows cloud administrators to act as specific users</entry>
+ 				</row>
+ 				<row>
+ 					<entry>GetSessionToken</entry>
+ 					<entry>Session tokens in the sameas per AWS/STS</entry>
+ 				</row>
+ 			</tbody>
+ 		</tgroup>
+ 	</table>
+ 	<p>For more information about STS, go to <xref href=""></xref></p>
+ </conbody>
+</concept>
