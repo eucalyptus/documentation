@@ -1,11 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="planning_managed_ha"
-	conref="../shared/planning_managed_shared.dita#planning_managed_shared">
- <title>Managed Mode</title>
- <shortdesc></shortdesc>
- <conbody>
-  
- </conbody>
+<concept id="planning_managed_ha">
+	<title>Managed Mode</title>
+	<shortdesc>Managed mode offers the most features of the networking modes, but
+		also carries with it the most potential constraints on the setup of
+		the network. </shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>networking modes <indexterm>managed</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<conbody>
+		<note conref="../shared/conrefs.dita#prod/tech_preview"/>
+		<p>In Managed mode, Eucalyptus manages the local network
+			of VM instances and provides all networking features Eucalyptus
+			currently supports, including VM network isolation, security groups,
+			elastic IPs, and metadata service.</p>
+		<p>In Managed mode, you define a large network (usually private,
+			unroutable) from which VM instances will draw their private IP
+			addresses. Eucalyptus maintains a DHCP server with static mappings
+			for each VM instance that is created. When you create a new VM
+			instance, you can specify the name of the security group to which
+			that VM will belong. Eucalyptus then selects a subset of the entire
+			range of IPs, to hand out to other VMs in the same security group. </p>
+		<p>You can also define a number of security groups, and use those groups
+			to apply network ingress rules to any VM that runs within that
+			network. In this way, Eucalyptus provides functionality similar to
+			Amazon's security groups. In addition, the administrator can specify
+			a pool of public IP addresses that users may allocate, then assign
+			to VMs either at boot or dynamically at run-time. This capability is
+			similar to Amazon's 'elastic IPs'. Eucalyptus administrators that
+			require security groups, elastic IPs, and VM network isolation must
+			use this mode.</p>
+		<p>Managed mode uses a Virtual LAN (VLAN) to enforce network isolation
+			between instances in different security groups. If your underlying
+			physical network is also using a VLAN, there can be conflicts that
+			prevent instances from being network accessible. So you have to
+			determine if your network between the CC and NCs is VLAN clean
+			(that is, if your VLANs are usable by Eucalyptus). To test if the
+			network is VLAN clean, see VLAN Preparation.</p>
+		<p>Each VM receives two IP addresses: a public IP address and a private
+			IP address. Eucalyptus maps public IP addresses to private IP
+			addresses. Access control is managed through security groups.</p>
+		<section>
+			<title>Managed Mode Requirements</title>
+			<ul>
+				<li>There must be an available range of IP addresses for the
+					virtual subnets. This range must not interfere with the
+					physical network. Typically these IP addresses are selected
+					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc.</li>
+				<li>The network between the CC and NCs must be VLAN clean,
+					meaning that all switch ports that Eucalyptus components are
+					connected to will allow and forward VLAN tagged
+					packets.</li>
+				<li>Any firewall running on the Cluster Controller must be
+					compatible with the dynamic changes performed by Eucalyptus
+					when working with security groups. (Note that Eucalyptus
+					will flush the 'filter' and 'nat' tables upon boot).</li>
+				<li>Any DHCP server on the subnet must be configured not to
+					serve Eucalyptus instances.</li>
+				<li>There must be a separate Layer 2 network for each cluster in a multi-cluster setup.</li>
+			</ul>
+		</section>
+		
+		<section>
+			<title>Managed Mode Limitations</title>
+			<ul>
+				<li>The machine that hosts the CC will be a router in the data path for any VM
+					traffic that is not 'VM private IP to VM private IP, where both VMs
+					are in the same security group'.</li>
+				<li>Network switch must be properly configured. For more information, see <xref
+					href="../install-guide/preparing_vlan.dita"/> or <xref
+						href="../install-guide/preparing_vlan_ha.dita"/> (for HA).</li>
+				<li>In non-HA mode, the machine that hosts the CC is a single point of failure for
+					most VM network communication.
+				</li>
+			</ul>
+		</section>
+		
+	</conbody>
 </concept>
