@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="configuring_vmware_support_ha" product="product1"
-	conref="../shared/configuring_vmware_support_shared.dita#configuring_vmware_support_shared">
+<task id="configuring_vmware_support_ha" product="product1">
 	<title>Configure VMware Support</title>
-	<shortdesc/>
+	<shortdesc>After registering the VMware Broker, it will be enabled but not configured. This
+		topic details how to configure VMware Broker with information about your VMware
+		infrastructure.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -13,5 +14,381 @@
 			</keywords>
 		</metadata>
 	</prolog>
-	<taskbody/>
+
+	<taskbody>
+		<context>
+			<note conref="../shared/conrefs.dita#prod/tech_preview"/>
+			<p>An unconfigured Broker is as good as a Cluster Controller with no Node Controllers to
+				deploy virtual machines on. Until the Broker is properly configured, its logs (e.g.,
+					<codeph>cloud-output.log</codeph>) will contain a reminder of the fact:</p>
+			<codeblock>VMware Broker has not been configured (see euca-configure-vmware)</codeblock>
+			<p>Configuration for the VMware Broker is described by an XML document. A minimal
+				configuration, which would supply just enough information for the Broker to become
+				usable, can be generated automatically, by answering a set of questions about your
+				VMware endpoints. All further configuration must be done by editing the XML document
+				manually, though with help from a validation mechanism. We recommend starting with a
+				minimal configuration and editing the generated document to further expand it.</p>
+			<p>The steps for creating minimal and full-featured configurations, as well as for
+				validating them, are described next. All these steps involve
+					<userinput>euca-configure-vmware</userinput> command, which must be executed on
+				the CC/Broker host. For authorization, the same type of credentials that other
+				administrative <userinput>euca-</userinput> commands require must be supplied (e.g.,
+				via <userinput>eucarc</userinput>). If CLC and CC/Broker run on different hosts, the
+				credentials may have to be copied from the CLC host to the CC/Broker host.</p>
+		</context>
+	</taskbody>
+	<task id="configuring_vmware_minimal">
+		<title>Minimal VMware Broker configuration</title>
+		<shortdesc/>
+		<taskbody>
+			<context> At the very least, a VMware Broker needs the IP addresses and access
+				credentials of each VMware endpoint (either vCenter or ESX/ESXi host). To create a
+				minimal configuration automatically, this information must be entered, for each
+				endpoint, when prompted by <userinput>euca-configure-vmware</userinput> command. If
+				the Broker has never been configured, the command will detect that and will ask for
+				information upon invocation without any flags. </context>
+			<steps>
+				<step>
+					<cmd>On the CC/Broker host, enter the following command:</cmd>
+					<info>
+						<codeblock>euca-configure-vmware</codeblock>
+					</info>
+					<stepresult>The output of the above command prompts for the same parameters that
+						the vSphere Client application, distribued by VMware, requests at startup.
+					</stepresult>
+				</step>
+				<step>
+					<cmd>Enter the requested parameters, making sure to specify just the IP
+						addresses of VMware endpoints and not URLs. If you want to use vCenter, then
+						enter the IP address of the vCenter server. If you do not want to use
+						vCenter, then enter IP addresses of each ESX/ESXi host. We recommend using
+						vCenter because it is easier to configure and can be more efficient.</cmd>
+					<info>
+						<codeblock>Please, supply vSphere endpoint IP: 192.168.51.77
+Please, supply vSphere username: root
+Please, supply vSphere password: 
+Do you want to enter another endpoint? [N]: y
+Please, supply vSphere endpoint IP: 192.168.51.78
+Please, supply vSphere username [root]:     
+Please, supply vSphere password [*****]: 
+Do you want to enter another endpoint? [N]: N</codeblock>
+					</info>
+					<stepresult>After entering all vSphere endpoint information, if the access
+						credentials are correct, you should see output similar to the following: <codeblock>discovered 2 host(s)
+        192.168.51.78 login=root datastoreName=datastore1 (7) uploadViaHost=true network=VM Network
+        192.168.51.77 login=root datastoreName=datastore1 (6) uploadViaHost=true network=VM Network</codeblock>
+						<p>If vCenter endpoint is entered, the output may list multiple ESX(i) hosts
+							that were discovered by querying vCenter:</p>
+						<codeblock>Please, supply vSphere endpoint IP: 192.168.51.48
+Please, supply vSphere username: Administrator
+Please, supply vSphere password: 
+Do you want to enter another endpoint? [N]: 
+discovered 7 host(s)
+        192.168.51.175 login=Administrator datastoreName=datastore1 uploadViaHost=null network=VM Network
+        192.168.51.24 login=Administrator datastoreName=datastore1 (3) uploadViaHost=null network=VM Network
+        192.168.51.22 login=Administrator datastoreName=datastore1 (5) uploadViaHost=null network=VM Network
+        192.168.51.78 login=Administrator datastoreName=datastore1 (7) uploadViaHost=null network=VM Network
+        192.168.51.18 login=Administrator datastoreName=datastore1 (4) uploadViaHost=null network=VM Network
+        192.168.51.77 login=Administrator datastoreName=datastore1 (6) uploadViaHost=null network=VM Network
+        192.168.51.116 login=Administrator datastoreName=datastore1 (1) uploadViaHost=null network=VM Network</codeblock>
+						This process both generates the XML configuration and configures the Broker.
+						From this point onward, invoking
+							<userinput>euca-configure-vmware</userinput> with no parameters will
+						cause the current configuration of the Broker to be validated. To make the
+						new configuration active, the Broker must be restarted. </stepresult>
+				</step>
+				<step>
+					<cmd>Restart the VMware Broker.</cmd>
+					<info><codeblock>service eucalyptus-cloud restart</codeblock></info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+
+	<task id="configuring_vmware_regenerate">
+		<title>Re-generating VMware Broker configuration</title>
+		<shortdesc/>
+		<taskbody>
+			<context> After the Broker has been configured, to generate a configuration again, one
+				must use a two-step process: </context>
+			<steps>
+				<step>
+					<cmd>On the CC/Broker host, use the <userinput>--generate</userinput> flag to
+						create another configuration, which is saved in an XML file in the
+							<userinput>/tmp</userinput> directory.</cmd>
+					<info>
+						<codeblock>euca-configure-vmware --generate</codeblock>
+					</info>
+					<stepresult>Note the path to the newly generated XML configuration that is
+						printed by the command.
+						<codeblock>Please, supply vSphere endpoint IP: 192.168.51.116
+Please, supply vSphere username: root 
+Please, supply vSphere password: 
+Do you want to enter another endpoint? [N]:  
+discovered 1 host(s)
+        192.168.51.116 login=root datastoreName=datastore1 (1) uploadViaHost=true network=VM Network
+New config file was saved to /tmp/euca_vmwarexsiVPj.xml</codeblock>
+					</stepresult>
+				</step>
+				<step>
+					<cmd>Modify the configuration in Broker's database by providing that file to
+							<userinput>euca-configure-vmware</userinput>:</cmd>
+					<info>
+						<codeblock>euca-configure-vmware /tmp/euca_vmwarexsiVPj.xml</codeblock>
+					</info>
+					<stepresult>The XML document is validated by contacting the vSphere endpoints
+						and some diagnostic information is reported.
+						<codeblock>Network mode: MANAGED
+discovered 1 host(s)
+        192.168.51.116 login=root datastoreName=datastore1 (1) uploadViaHost=true network=VM Network</codeblock></stepresult>
+				</step>
+				<step>
+					<cmd>Restart the VMware Broker.</cmd>
+					<info><codeblock>service eucalyptus-cloud restart</codeblock></info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+
+
+	<task id="configuring_vmware_advanced">
+		<title>Full-featured VMware Broker configuration</title>
+		<shortdesc/>
+		<taskbody>
+			<context> This section may be skipped if the minimal configuration produced
+				automatically was sufficient to access all hypervisor nodes and the default names
+				chosen for networks and datastores were adequate. If that is not the case, the
+				configuration, in the form of an XML document, will have to be edited manually. </context>
+			<steps>
+				<step>
+					<cmd>There are two ways to edit the XML document:</cmd>
+					<choices>
+						<choice>By invoking <userinput>euca-configure-vmware</userinput> with
+								<userinput>--edit</userinput> flag, which invokes an editor (as
+							specified by the <userinput>$EDITOR</userinput> environment variable,
+							which must be set for the flag to work), with current configuration
+							loaded in it, and updates the configuration when the editor terminates
+							successfully. <codeblock>euca-configure-vmware --edit</codeblock>
+						</choice>
+						<choice>By editing an XML file out of band and providing
+								<userinput>euca-configure-vmware</userinput> with the path to the
+							file, which is then used to update the configuration of the Broker.
+							<codeblock>euca-configure-vmware /path/to/file.xml</codeblock>
+						</choice>
+					</choices>
+					<stepresult>In both cases, before the configuration is updated, the XML document
+						is validated for correctness, both in terms of XML syntax and in the
+						validity of information provided therein with respect to the VMware
+						infrastructure (i.e., endpoints, access credentials, and any named
+						resources, such as networks and datastores, are verified by requests to
+						VMware).
+						<codeblock>Network mode: MANAGED
+discovered 1 host(s)
+        192.168.51.116 login=root datastoreName=datastore1 (1) uploadViaHost=true network=VM Network</codeblock></stepresult>
+				</step>
+				<step>
+					<cmd>Restart the VMware Broker.</cmd>
+					<info><codeblock>service eucalyptus-cloud restart</codeblock></info>
+				</step>
+			</steps>
+		</taskbody>
+		<task id="configuring_vmware_xml">
+			<title>XML configuration structure</title>
+			<shortdesc/>
+			<taskbody>
+				<context>
+					<p>The part of the document that describes vSphere endpoints can
+						be hierarchical, reflecting the hierarchy of abstractions defined within
+						vSphere: endpoints may contain datacenters, datacenters may contain
+						clusters, and clusters may contain hosts.  However, just as parts of the
+						hierarchy are optional in vSphere (e.g., there may be one default datacenter
+						and no clusters) the hierarchy is optional in the VMware Broker
+						configuration.</p>
+					<p>The only  required element is <codeph><![CDATA[<endpoint/>]]></codeph>, which
+						must be enclosed by the <codeph><![CDATA[<vsphere/>]]></codeph> element,
+						which in turn must be enclosed by the
+							<codeph><![CDATA[<configuration/>]]></codeph> element.  These
+						requirements are satisifed by any minimal configuration, as generated by the
+						steps described above. Minimal configurations typically look as follows:</p>
+					<codeblock><![CDATA[<configuration>
+    <vsphere>
+        <endpoint 
+           url="https://192.168.51.116/sdk"
+           login="root"
+           password="RSA/ECB/PKCS1PaddingDYGIG..."
+           discover="true"/>
+    </vsphere>						
+</configuration>]]></codeblock>
+					<p>When other elements are present, however, they must be arranged relative to
+						each other in a hierarchy. This hierarchy is shown in the following
+						template, which describes all valid elements in a VMware Broker
+						configuration and their attributes (some attributes are grouped into
+						categories, namely <codeph>CREDENTIALS</codeph> and
+						<codeph>EXTRAS</codeph>).</p>
+					<codeblock><![CDATA[<configuration>
+   <vsphere cacheLimitMb="......" CREDENTIALS EXTRAS>
+      <endpoint url="https://..." CREDENTIALS EXTRAS discover=BOOLEAN>
+         <datacenter name="....." CREDENTIALS EXTRAS discover=BOOLEAN>
+            <cluster name="....." CREDENTIALS EXTRAS discover=BOOLEAN>
+               <host name="....." CREDENTIALS EXTRAS />
+            </cluster>
+         </datacenter>
+      </endpoint>
+   </vsphere>
+   <paths
+      scratchDirectory="/path"
+      scratchDirectoryLimitMb="..."
+      cacheDirectory="/path"
+      cacheDirectoryLimitMb="..."/>
+</configuration>]]></codeblock>
+					<p>For example, if a <codeph><![CDATA[<datacenter/>]]></codeph> is specified, it
+						must be contained by the <codeph><![CDATA[<endpoint/>]]></codeph> to which
+						it belongs. Likewise,  any <codeph><![CDATA[<cluster/>]]></codeph> must be
+						contained within an <codeph><![CDATA[<endpoint/>]]></codeph>, if any. And so
+						on. All endpoints must be contained by the single
+							<codeph><![CDATA[<vsphere/>]]></codeph> element. These elements and
+						attributes will be discussed below.</p>
+				</context>
+			</taskbody>
+		</task>
+
+		<task id="configuring_vmware_xml_attributes">
+			<title>XML configuration attributes</title>
+			<shortdesc/>
+			<taskbody>
+				<context>
+					<p>Each <codeph><![CDATA[<datacenter/>]]></codeph>,
+							<codeph><![CDATA[<cluster/>]]></codeph>, and
+							<codeph><![CDATA[<host/>]]></codeph> element requires the
+							<codeph>'name'</codeph> attribute, which must match the name of that
+						abstraction in vSphere; whereas <codeph><![CDATA[<endpoint/>]]></codeph>
+						requires the <codeph>'url'</codeph> attribute, which is normally the IP of a
+						vSphere endpoint prefixed by <userinput>https://</userinput>.</p>
+					<p><codeph>CREDENTIALS</codeph> and <codeph>EXTRAS</codeph> are categories of
+						attributes. These attributes can be specified for any vSphere-related
+						element with values propagating from higher-level elements to lower-level
+						elements, where the values can be overridden selectively. For example, if
+						one were to specify <codeph>maxCores="4"</codeph> in the
+							<codeph><![CDATA[<endpoint/>]]></codeph> element, then all hosts
+						belonging to that endpoint would advertise 4 cores instead of their actual
+						number of physical cores. However, the lower-level parameter always
+						overrides the higher-level parameter. So, if a
+							<codeph><![CDATA[<host/>]]></codeph> specifies
+							<codeph>maxCores="8"</codeph>, that will override
+							<codeph>maxCores="4"</codeph> specified in the
+							<codeph><![CDATA[<endpoint/>]]></codeph> or
+							<codeph><![CDATA[<datacenter/>]]></codeph> that contains it. This kind
+						of inheritance of values with possibility of overriding applies to all
+						attributes in <codeph>CREDENTIALS</codeph> and <codeph>EXTRAS</codeph>
+						categories.</p>
+					<ul>
+						<li><p><b><codeph>CREDENTIALS</codeph></b> consist of
+									<codeph>'login'</codeph> and <codeph>'password'</codeph>
+								attributes, the latter of which can be specified in plaintext or
+								encrypted (as produced by
+									<userinput>euca-configure-vmware</userinput>). At the very least
+								they must be specified either for each
+									<codeph><![CDATA[<endpoint/>]]></codeph> or once in the
+								enclosing <codeph><![CDATA[<vsphere/>]]></codeph> element, in which
+								case they will be used for all endpoints without explicitly
+								specified credentials. If credentials are specified for any elements
+								contained by <codeph><![CDATA[<endpoint/>]]></codeph>, they will be
+								used for the optional data transfer connections to individual
+								ESX/ESXi hosts (see <codeph>uploadViaHost</codeph> attribute below).
+								Thus, if login or password on ESX/ESXi hosts are different from
+								login and password on vCenter, the values for ESX/ESXi must be
+								specified separately.</p></li>
+
+						<li><p><b><codeph>EXTRAS</codeph></b> attributes allow one to restrict
+								Eucalyptus's behavior in several ways. By default, Eucalyptus will
+								attempt to use all resources that it discovers, such as memory,
+								cores, and storage space on a datastore. Furthermore, when multiple
+								options are available, e.g., for a datastore or a network, it will
+								make an arbitrary choice. With the following attributes, one can
+								make the exact choices when desired:</p>
+							<ul>
+								<li><codeph>'datastore'</codeph> - name of the vSphere datastore to
+									use (first one found by default).</li>
+								<li><codeph>'network'</codeph> - name of the vSphere network to use
+									(first one found by default).</li>
+								<li><codeph>'networkCardType'</codeph> - type of network card used on the host. Default
+									value is <codeph>E1000</codeph>. Valid values are
+										<codeph>E1000</codeph>, <codeph>E1000e</codeph>,
+										<codeph>VmxNet</codeph>, <codeph>Vmxnet2</codeph>,
+										<codeph>Vmxnet3</codeph>, and <codeph>PCNet32</codeph>.</li>
+								<li><codeph>'maxCores'</codeph> - number of virtual cores to use on
+									an ESX(i) host for Eucalyptus instances (same as physical cores
+									by default).</li>
+								<li><codeph>'maxMemMB'</codeph> - memory, in MB, to use on an ESX(i)
+									host for Eucalyptus instances (same as physical RAM by
+									default).</li>
+								<li><codeph>'maxDiskMB'</codeph> - disk size, in MB, to use on a
+									datastore for Eucalyptus instances (free space on the datastore
+									by default).</li>
+								<li><codeph>'uploadViaHost'</codeph> - upload VM disk contents
+									directly to the ESX(i) host rather than through vCenter ("false"
+									by default). This option is ignored when the endpoint is an
+									ESX(i) host. The default behavior is to upload VM's disk files
+									through vCenter. To avoid overloading the vCenter with I/O
+									traffic, however, Eucalyptus can perform the upload directly to
+									an individual host. In this case, if the credentials (login or
+									password) for the host are different from vCenter credentials,
+									they must be specified explicitly in one or more elements
+									contained by the <codeph><![CDATA[<endpoint/>]]></codeph> (e.g.,
+									in each <codeph><![CDATA[<datacenter/>]]></codeph> or each
+										<codeph><![CDATA[<cluster/>]]></codeph> or each
+										<codeph><![CDATA[<host/>]]></codeph> element).</li>
+							</ul>
+						</li>
+					</ul>
+					<p>Three elements, <codeph><![CDATA[<endpoint/>]]></codeph>,
+							<codeph><![CDATA[<datacenter/>]]></codeph>, and
+							<codeph><![CDATA[<cluster/>]]></codeph>, may specify the boolean
+						attribute <codeph>'discover'</codeph> (with "true" and "false" as the only
+						allowed values). Setting it to "true" implies that VMware Broker is allowed
+						to add to its inventory any elements (clusters or hosts) contained therein
+						even if they are not specified explicitly. Conversely, setting it to "false"
+						implies that VMware Broker may not add to its inventory any containing
+						elements that are not specified explicitly with
+							<codeph><![CDATA[<cluster/>]]></codeph> or
+							<codeph><![CDATA[<host/>]]></codeph> tags. If a host is not added to the
+						inventory because discovery is forbidden and the host is not specified
+						explicitly with a <codeph><![CDATA[<host/>]]></codeph> element, that
+						incident will be reported as:
+						<codeblock>DISALLOWED BY CONFIGURATION</codeblock></p>
+				</context>
+			</taskbody>
+			<task id="configuring_vmware_xml_storage">
+				<title>Storage attributes</title>
+				<shortdesc/>
+				<taskbody>
+					<context>
+						<p>You can change disk locations and the size limits used by VMware Broker
+							for constructing and caching of disk images.</p>
+						<ul>
+							<li><codeph>cacheLimitMb</codeph>, the only attribute unique to the
+									<codeph><![CDATA[<vsphere/>]]></codeph> element, specifies how
+								much space Eucalyptus is allowed to use on vSphere, cumulatively
+								across all datastores, for caching VM templates. The default value
+								is 50GB.</li>
+							<li><codeph>scratchDirectory</codeph> and
+									<codeph>scratchDirectoryLimitMb</codeph> attributes of the
+								optional element <codeph><![CDATA[<paths/>]]></codeph> define where
+								on the file system and how much space the VMware Broker may use for
+								non-cacheable work. Default values are
+									<codeph>/var/lib/eucalyptus/vmware/tmp</codeph> and 50GB,
+								respectively.</li>
+							<li><codeph>cacheDirectory</codeph> and
+									<codeph>cacheDirectoryLimitMb</codeph> attributes of the
+								optional element <codeph><![CDATA[<paths/>]]></codeph> define where
+								on the file system and how much space the VMware Broker may use for
+								cacheable work. Default values are
+									<codeph>/var/lib/eucalyptus/vmware/cache</codeph> and 50GB,
+								respectively.</li>
+						</ul>
+					</context>
+				</taskbody>
+			</task>
+		</task>
+	</task>
 </task>

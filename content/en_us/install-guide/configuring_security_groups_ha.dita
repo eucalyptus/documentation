@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="configuring_security_groups_ha" conref="../shared/configuring_security_groups_shared.dita#configuring_security_groups_shared">
+<concept id="configuring_security_groups_ha">
 	<title>Set Up Security Groups</title>
-	<shortdesc/>
+	<shortdesc>In Managed and Managed (No VLAN) networking modes, you must configure
+		the system with parameters that define how Eucalyptus will allocate
+		and manage virtual machine networks. These virtual machine networks
+		are known as security groups. The relevant parameters are set in the
+		<filepath>eucalyptus.conf</filepath> on all machines running a
+		CC.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -15,5 +20,83 @@
 		</metadata>
 	</prolog>
 	
-	<conbody/>
+	<conbody>
+		<note conref="../shared/conrefs.dita#prod/tech_preview"/>
+		<p>These parameters are:</p>
+		<ul>
+			<li><codeph>VNET_SUBNET</codeph></li>
+			<li><codeph>VNET_NETMASK</codeph></li>
+			<li><codeph>VNET_ADDRSPERNET</codeph></li>
+		</ul>
+		<p>The CC will read <codeph>VNET_SUBNET</codeph> and
+			<codeph>VNET_NETMASK</codeph> to construct a range of IP
+			addresses that are available to all security groups. This range will
+			then be further divided into smaller networks based on the size
+			specified in <codeph>VNET_ADDRSPERNET</codeph>. Note that Eucalyptus
+			reserves eleven addresses per security group, so these networks will
+			be smaller than the value specified in
+			<codeph>VNET_ADDRSPERNET</codeph>.</p>
+		
+		<p>The first time an instance runs in a given security group, Eucalyptus
+			chooses an unused range of IPs of size specified in
+			<codeph>VNET_ADDRSPERNET</codeph>. Eucalyptus then implements
+			this network across all CCs. All instances that run within this
+			given security group obtain a specific IP from this range.</p>
+		
+		<note type="tip">Eleven of the IP addresses within each security group
+			network are reserved for Eucalyptus to use as gateway addresses,
+			broadcast address, etc. For example, if you set
+			<codeph>VNET_ADDRSPERNET</codeph> to <codeph>32</codeph>, there
+			will be 21 free IPs that are available for instances running in that
+			security group. </note>
+		
+		<p>In Managed mode, each security group network is assigned an
+			additional parameter that is used as the VLAN tag. This parameter is
+			added to all virtual machine traffic running within the security
+			group. By default, Eucalyptus uses VLAN tags starting at 2, going to
+			a maximum of 4094. The maximum is dependent on how many security
+			group networks of the size specified in
+			<codeph>VNET_ADDRSPERNET</codeph> fit in the network defined by
+			<codeph>VNET_SUBNET</codeph> and <codeph>VNET_NETMASK</codeph>. </p>
+		<p>If your networking environment is already using VLANs for other
+			reasons, Eucalyptus supports the definition of a smaller range of
+			VLANs that are available to Eucalyptus. To configure Eucalyptus to
+			use VLANs within a specified range: </p>
+		
+		<ol>
+			<li>Choose your range (a contiguous range of VLANs between 2 and
+				4095).</li>
+			<li>Configure your cluster controllers with a
+				VNET_SUBNET/VNET_NETMASK/VNET_ADDRSPERNET that is large enough
+				to encapsulate your desired range. For example, for a VLAN range
+				of 1024-2048, you could set VNET_NETMASK to 255.254.0.0 to get a
+				large enough network (131072 addresses), and VNET_ADDRSPERNET to
+				64, to give 2048 possible security groups.
+				<p><note type="tip">The number of instances per security group can be calculated as follows:
+					<sl>
+						<sli>subnets (SGs) = no. hosts / addrspernet</sli>
+						<sli>instances per subnet (SG) = addrspernet - 10</sli>
+					</sl>
+				</note></p></li>	
+			<li>Configure your cloud controller to work within that range. Use
+				the following commands to verify that the range is now set to be
+				2-2048, a superset of the desired range.
+				<codeblock>euca-describe-properties | grep cluster.maxnetworktag  
+euca-describe-properties | grep cluster.minnetworktag</codeblock></li>
+			<li> Constrict the range to be within the range that the CC can
+				support as follows:
+				<codeblock>euca-modify-property -p cloud.network.global_max_network_tag=&lt;max_vlan_tag>
+euca-modify-property -p cloud.network.global_min_network_tag=&lt;min_vlan_tag></codeblock>
+				This ensures that Eucalyptus will only use tags between 1024 and
+				2048, giving you a total of 1024 security groups, one VLAN per
+				security group. </li>
+		</ol>
+		<note type="tip"> If VMs are already running in the system using a VLAN
+			tag that is outside the range specified by
+			global_min_network_tag-global_max_network_tag, that network will
+			continue to run until all VMs within the network are terminated and
+			the system removes reference to that network. Best practice is to
+			configure these values in advance of running virtual machines. </note>
+		
+	</conbody>
 </concept>

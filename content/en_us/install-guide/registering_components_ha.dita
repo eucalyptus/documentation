@@ -1,7 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="registering_components_ha" conref="../shared/registering_components_shared.dita#registering_components_shared">
+<concept id="registering_components_ha">
 	<title>Register Eucalyptus</title>
-	<conbody/>
+	<shortdesc>After you start Eucalyptus for the first time, register the Eucalyptus components as
+		described in this section.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>components <indexterm>registering</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<conbody>
+		<note conref="../shared/conrefs.dita#prod/tech_preview"/>
+		<p>Eucalyptus implements a secure protocol for registering separate components so that the
+			overall system can’t be tricked into including a component run by an unauthorized
+			administrator or user. You only need to register components the first time Eucalyptus is
+			started after it was installed.</p>
+		<p>Most registration commands run on the CLC server. NCs, however, are registered on each
+			CC. You must register each NC on every CC for the cluster on which the NC
+			participates.</p>
+		
+		<p>Note that each registration command will attempt an SSH as root to the remote physical
+			host where the registering component is assumed to be running. The registration command
+			also contacts the component so it must be running at the time of the command is issued.
+			If a password is required to allow SSH access, the command will prompt the user for
+			it.</p>
+		<p>Except for NCs, each registration command requires four pieces of information:</p>
+		<ul>
+			<li>The <b>component</b> (<codeph>--register-XYZ</codeph>) you are registering, because
+				this affects where the commands must be executed.</li>
+			<li>The <b>partition</b> (<codeph>--partition</codeph>) the component will belong to.
+				The partition is the same thing as availability zone in AWS.</li>
+			<li>The <b>name</b> (<codeph>--component</codeph>) you assign to the component, up to 256
+				characters. This is
+				the name used to identify the component in a human-friendly way. This name is also
+				used when reporting system state changes which require administrator attention. This
+				name must be globally-unique with respect to other component registrations. To
+				ensure this uniqueness, we recommend using a combination of the component type (CLC,
+				SC, CC, etc) and system hostname or IP address when you choose your component names.
+				For example: <codeph>clc-eucahost15</codeph> or
+				<codeph>clc-192.168.0.15</codeph>.</li>
+			<li>The <b>IP address</b> (<codeph>--host</codeph>) of the service being registered. The host
+				must be specified by IP address to function correctly.<note importance="high">You
+					must specify public IP addresses.</note></li>
+		</ul>
+		<p>NCs only have two pieces of information: component name and IP address.</p>
+		<note importance="high">We recommend that you use IP addresses rather than host names when
+			registering Eucalyptus components. If you do use hostnames, the underlying IP address
+			may not be a site-local, any-cast, loopback, link-local, or multicast address.</note>
+		<note> Once you've registered a Eucalyptus component with a host name, to avoid connectivity
+			issues, do not change the host name's underlying IP address. </note>
+		<!-- Taking this part out because it's not true. Say something specific for each component, or let
+ 	the tasks speak for themselves. -->
+		<!--	<p>In general, each registration command has the following format:</p>
+ <codeblock>	/usr/sbin/euca_conf -\-register-&lt;component_type> -\-partition=&lt;partition_name> 
+ 	-\-name=&lt;component_unique_name> &lt;machine_IP_address></codeblock>-->
+		
+	</conbody>
 </concept>
