@@ -2,9 +2,9 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="get_cred">
-	<title>Get User Credentials</title>
-	<shortdesc>You must have proper credentials to use client tools (such as
-		Euca2ools) to interact with a Eucalyptus cloud.</shortdesc>
+	<title>Setup User Credentials and Euca2ools</title>
+	<shortdesc>You must have proper credentials to use client tools (such as Euca2ools) to interact
+		with a Eucalyptus cloud.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,29 +14,18 @@
 	</prolog>
 	<taskbody>
 		<context>
-			<p>After you have
-				signed up for an account and have received approval from the
-				administrator, you can log in to the Eucalyptus Administrator
-				Console as the admin user and obtain these credentials.</p>
-			<p>To get user credentials</p>
+			<p>Once you've signed up for a cloud account, your cloud administrator should send you a
+				zip file containing your cloud credentials. This zip file contains an X.509
+				certificate, as well as a .eucarc file that will set environment variables needed to
+				access your Eucalyptus cloud using the command line tools.</p>
+			<p>To setup user credentials</p>
 		</context>
 		<steps>
+
 			<step>
-				<cmd>Log in to the Eucalyptus Administrator Console using your
-					username and password.</cmd>
-			</step>
-			<step>
-				<cmd>Click your username at the top of the screen and then click
-						<uicontrol>Download new credentials</uicontrol>.</cmd>
-				<stepresult>The download contains a zip-file with your
-					public/private key pair, a bash script, and several other
-					required files. </stepresult>
-			</step>
-			<step>
-				<cmd>Unzip your credentials zip file to a directory of your
-					choice. In the following example we download the credentials
-					zip file to ~/.euca, then change access permissions, as
-					shown: </cmd>
+				<cmd>From a command line, unzip your credentials zip file to a directory of your
+					choice. In the following example we download the credentials zip file to
+					~/.euca, then change access permissions, as shown: </cmd>
 				<info>
 					<codeblock>mkdir ~/.euca
 cd ~/.euca
@@ -45,8 +34,21 @@ chmod 0700 ~/.euca
 chmod 0600 * </codeblock>
 				</info>
 			</step>
+			<step>
+				<cmd>From a command line, enter the following:</cmd>
+				<info>
+					<codeblock>source eucarc</codeblock>
+					<note>For your convenience, you may want to add these environment variables to
+						your shell's resource configuration file (for example: bashrc). Please
+						consult your system documentation for more information.</note>
+				</info>
+			</step>
 		</steps>
-		<result>You're now ready to use the command-line interface (CLI), called
-			"Euca2ools."</result>
+		<result>You're now ready to use <xref
+				href="https://www.eucalyptus.com/docs/eucalyptus/latest/index.html#shared/euca2ools_section.html"
+				>Euca2ools</xref>, the Eucalyptus command-line interface (CLI). To explore further,
+			please continue to the <xref id="using_instances">Using Instances</xref> section and go
+			through the <xref id="working_instances">Instance Tasks</xref>.</result>
 	</taskbody>
+	<related-links/>
 </task>
