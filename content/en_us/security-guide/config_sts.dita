@@ -5,18 +5,17 @@
  <shortdesc>The Security Token Service (STS) allows you to enable or disable specific token actions. </shortdesc>
  <conbody>
  	<p>By default, the enabled actions list is empty. However, this means that all actions are
- 		enabled. To enable specific actions, you must list them in the enabledactions property. To deny
- 		specific actions, you must list them in the disabledactions property.</p>
+ 		enabled. To disable actions, list each action in the <codeph>disabledactions</codeph> property. To enable specific actions, list them in the <codeph>enabledactions</codeph> property. </p>
  	
  	<codeblock># euca-describe-properties tokens
 PROPERTY	tokens.disabledactions	{}
 PROPERTY	tokens.enabledactions	{}</codeblock>
  	
- <p>The values are case insensitive space or comma-separated lists of token service actions.
+ <p>The values for each property are case-insensitive, space or comma-separated lists of token
+ 	service actions. If an action is in the disable list it will not be permitted. Eucalyptus returns
+ 	an HTTP status 503 and the code <codeph>ServiceUnavailable</codeph>.</p>
  	
- 	If an action is in the disable list then it will not be permitted and the request will fail with HTTP status 503 and the code ServiceUnavailable.
- 	
- 	If the enable list is non-empty then only the actions specifically listed will be permitted (though any action also in the denied list will be denied)</p>
+ 	<p>If the enable list is not empty, Eucalyptus only permits the actions specifically listed.</p>
  	<table>
  		<tgroup cols="2">
  			<thead>
@@ -45,6 +44,8 @@ PROPERTY	tokens.enabledactions	{}</codeblock>
  			</tbody>
  		</tgroup>
  	</table>
- 	<p>For more information about STS, go to <xref href=""></xref></p>
+ 	<p>For more information about STS, go to <xref
+ 		href="http://docs.aws.amazon.com/cli/latest/reference/sts/index.html" scope="external"
+ 		format="html">STS section of the AWS CLI Reference</xref>.</p>
  </conbody>
 </concept>
