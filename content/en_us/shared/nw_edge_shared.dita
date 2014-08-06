@@ -107,23 +107,26 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
 							<cmd>Open a text editor. </cmd>
 						</substep>
 						<substep>
-							<cmd>Enter information similar to the following example. Substitute values for your system
+							<cmd>Create a file to the following example. Substitute values for your system
 								settings.</cmd>
 							<info>
 								<codeblock>{
-    "InstanceDnsDomain": "eucalyptus.internal",
-    "InstanceDnsServers": ["10.1.1.254"],
+    "InstanceDnsDomain": "The internal DNS domain used for instance private DNS names",
+    "InstanceDnsServers": ["A list of servers that instances receive to resolve DNS names"],
     "PublicIps": [
         "10.111.101.84",
         "10.111.101.91",
         "10.111.101.92",
         "10.111.101.93"
     ],
-    "Subnets": [
+    "Subnets": ["The subnets you do not want Eucalyptus to put on the public-facing
+                 network. These are forward directly, without having their source
+                 addresses remapped to the public-facing address"
     ],
-    "Clusters": [
+    "Clusters": ["A list of of cluster objects that define each availability zone (AZ) in your
+    cloud"
         {
-            "Name": "PARTI00",
+            "Name": "The name of the cluster as it was registered",
             "MacPrefix": "d0:0d",
             "Subnet": {
                 "Name": "10.111.0.0",
