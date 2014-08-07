@@ -32,7 +32,6 @@
 				<li>Central Processing Units (CPUs): We recommend that each
 					machine in your Eucalyptus cloud contain either an Intel or
 					AMD processor with a minimum of two, 2GHz cores.</li>
-
 				<li>Operating Systems: Eucalyptus supports the following Linux
 					distributions: CentOS 6 and RHEL 6. Eucalyptus only supports
 					64-bit architecture.</li>
@@ -40,25 +39,9 @@
 					client machine clocks must be synchronized (for example,
 					using NTP). These clocks must be synchronized all the time,
 					not just at installation.</li>
-				<li>Hypervisor: CentOS 6 and RHEL 6 installations must have KVM
-					installed and configured on NC host machines. When you
-					install Eucalyptus from packages, KVM will be installed on
-					all NCs. <ul>
-						<li>For information about using KVM on CentOS 6, go to
-							the <xref format="html"
-								href="http://docs.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/6/html/6.0_Release_Notes/virtualization.html"
-								scope="external">Virtualization</xref>
-							page.</li>
-						<li>For more information about using KVM on RHEL 6, go
-							to the <xref format="html"
-								href="http://docs.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/6/html/6.0_Release_Notes/virtualization.html"
-								scope="external">Virtualization</xref> page in
-							the Red Hat documentation.</li>
-						<li>VMware-based installations do not include NCs, but
+					<li>VMware-based installations do not include Node Controllers, but
 							must have a VMware hypervisor pool installed and
 							configured (VMware versions 4.0, 4.1 and 5.0).</li>
-					</ul>
-				</li>
 				<li>Machine Access: Verify that all machines in your network
 					allow SSH login, and that root or sudo access is available
 					on each of them.</li>
@@ -94,21 +77,15 @@
 				<li>Some configurations require that machines hosting a CC have
 					two network interfaces, each with a minimum of 1Gb
 					Ethernet.</li>
-				<li>Depending on the feature set that is to be deployed, the
-					network ports connecting the Ethernet interfaces may need to
-					allow VLAN trunking.</li>
-				<li>Depending on some configurations, Eucalyptus requires that
-					you make available two sets of IP addresses. The first range
-					is private, to be used only within the Eucalyptus system
-					itself. The second range is public, to be routable to and
-					from end-users and VM instances. Both sets must be unique to
-					Eucalyptus, not in use by other components or applications
-					within your network.</li>
-				<li>The network interconnecting physical servers hosting
-					Eucalyptus components (except the CC and NC) must support
+				<li>For virtual machine traffic isolation, the network ports connecting Ethernet interfaces
+					might	 need to allow VLAN trunking.</li>
+				<li>For <xref href="planning_managed.dita">Managed</xref> and <xref href="planning_managed_novlan.dita">Managed (No VLAN)</xref> modes, Eucalyptus needs two sets of IP addresses.</li>
+				<li>For <xref href="planning_edge.dita">Edge</xref> mode, Eucalyptus needs at least one existing network.</li>
+				<li>The network connecting machines that host Eucalyptus components (except the CC and NC) must support
 					UDP multicast for IP address 228.7.7.3. Note that UDP
-					multicast is not used over the network that interconnects
-					the CC to the NCs.</li>
+					multicast is not used over the network that connects
+					the CC to the NCs. For information about testing connectivity, see <xref
+						href="preparing_connectivity.dita"/>.</li>
 
 			</ul>
 			<p> Once you are satisfied that your systems requirements are met,
