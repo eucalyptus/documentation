@@ -107,10 +107,67 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
 							<cmd>Open a text editor. </cmd>
 						</substep>
 						<substep>
-							<cmd>Enter information similar to the following example. Substitute values for your system
-								settings.</cmd>
+							<cmd>Create a file similar to the following structure. Substitute comments for your system
+								settings. See examples at the end of this topic.</cmd>
 							<info>
 								<codeblock>{
+  "InstanceDnsDomain": ""
+    "_comment": "Internal DNS domain used for instance private DNS names"
+  "InstanceDnsServers": [],
+    "_comment": "A list of servers that instances receive to resolve 
+                 DNS names"
+  "PublicIps": [],
+    "_comment": "List of public IP addresses"
+  "Subnets":   [],
+    "_comment": "Subnets you want Eucalyptus to route through the private 
+                 network rather than the public"
+  "Clusters":  [
+    "_comment": "A list of of cluster objects that define each 
+                 availability zone (AZ) in your cloud"
+    {
+       "Name": "",
+         "_comment": "Name of the cluster as it was registered"
+       "MacPrefix": "",
+         "_comment": "First 2 octets of any VM's mac address launched in 
+                      this cluster"
+       "Subnet": { 
+         "_comment": "Subnet definition that this cluster will use for 
+                      private addressing"
+         "Name": "",
+           "_comment": "Arbitrary name for the subnet"
+         "Subnet": "",
+           "_comment": "The subnet that will be used for private 
+                        addressing"
+         "Netmask": "",
+           "_comment": "Netmask for the subnet defined above"
+         "Gateway": "",
+           _comment": "Gateway that will route packets for the 
+                       private subnet"
+       },
+       "PrivateIps": []
+         "_comment": "Private IPs that will be handed out to instances 
+                      as they launch"
+     },
+  ]
+}</codeblock>
+							</info>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>Save the file with a <filepath>.json</filepath> extension.</cmd>
+				</step>
+				<step>
+					<cmd>Run the following command to upload the configuration file to the CLC (with valid eucalyptus/admin credentials sourced):</cmd>
+					<info>
+<codeblock>euca-modify-property -f cloud.network.network_configuration=&lt;/path/to/your/config_file.json></codeblock>
+					</info>
+				</step>
+			</steps>
+			<example>
+				<p>The following example is for a setup with one cluster (AZ), called PARTI00, with a flat network
+					topology.</p>
+				<codeblock>{
     "InstanceDnsDomain": "eucalyptus.internal",
     "InstanceDnsServers": ["10.1.1.254"],
     "PublicIps": [
@@ -138,11 +195,10 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
         },
     ]
 }</codeblock>
-								<p>This example depicts a setup with one cluster (AZs), called PARTI00, with a flat network
-									topology. For a multi-cluster deployment, add an additional
-									cluster to your configuration for each cluster you have. The following example has an
-									additional cluster, PARTI01. </p>
-								<codeblock>{
+				<p>For a multi-cluster deployment, add an additional
+					cluster to your configuration for each cluster you have. The following example has an
+					two clusters, PARTI00 and PARTI01. </p>
+				<codeblock>{
     "InstanceDnsDomain": "eucalyptus.internal",
     "InstanceDnsServers": ["10.1.1.254"],
     "PublicIps": [
@@ -168,7 +224,7 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
                 "10.111.101.95"
             ]
         },
-        <b>{
+        {
             "Name": "PARTI01",
             "MacPrefix": "d0:0d",
             "Subnet": {
@@ -181,23 +237,13 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
                 "10.111.101.96",
                 "10.111.101.97"
             ]
-        }</b>
+        }
     ]
 }</codeblock>
-								<p>For more information about multi-cluster configuration, see <xref
-									href="../install-guide/configuring_multi_cluster.dita"/> or <xref
-										href="../install-guide/configuring_multi_cluster_ha.dita"/> (for HA).</p>
-							</info>
-						</substep>
-					</substeps>
-				</step>
-				<step>
-					<cmd>Run the following command to upload the configuration file to the CLC (with valid eucalyptus/admin credentials sourced):</cmd>
-					<info>
-<codeblock>euca-modify-property -f cloud.network.network_configuration=&lt;/path/to/your/config_file.json></codeblock>
-					</info>
-				</step>
-			</steps>
+				<p>For more information about multi-cluster configuration, see <xref
+					href="../install-guide/configuring_multi_cluster.dita"/> or <xref
+						href="../install-guide/configuring_multi_cluster_ha.dita"/> (for HA).</p>
+			</example>
 		</taskbody>
 	</task>
 </task>
