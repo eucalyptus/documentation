@@ -26,17 +26,21 @@
                 </stepresult>
             </step>
             <step>
-                <cmd>Set the object storage provider:</cmd>
-                <info>
-                    <codeblock># euca-modify-property -p objectstorage.providerclient=&lt;riakcs,ceph-rgw,walrus,s3></codeblock>
-                </info>
-                <info>For example:<codeblock>euca-modify-property -p objectstorage.providerclient=walrus</codeblock></info>
-                <stepresult>
-                	<p>Sample output:
-                		<codeblock>PROPERTY        objectstorage.providerclient    walrus was {}</codeblock>
-                    </p>
-                </stepresult>
-            </step>
+                <cmd>(OPTIONAL) If you are upgrading from Walrus and want to use Riak CS:</cmd>
+            	<substeps>
+            		<substep>
+            			<cmd>Set the object storage provider:</cmd>
+            			<info>
+            				<codeblock># euca-modify-property -p objectstorage.providerclient=riakcs</codeblock>
+            			</info>
+            
+            		</substep>
+            		<substep>
+            			<cmd>If the <codeph>eucalyptus-cloud</codeph> service is running, restart it (on the
+            				CLC/UFS machine).</cmd>
+            		</substep>
+            	</substeps>
+            	</step>
             <step>
                 <cmd>Synchronize the keys:</cmd>
                 <info>

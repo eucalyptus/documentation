@@ -41,7 +41,7 @@
 		</taskbody>
 	</task>
 	<task id="osg_configure_riak">
-		<title>Configure OSG for Riak</title>
+		<title>Configure OSG for Riak CS</title>
 
 	<taskbody>
         
@@ -61,8 +61,12 @@
                         objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com</codeph>
                 </info>
             </step>
-            <step>
-                <cmd> Provide your RiakCS credentials to access your RiakCS installation: </cmd>
+        	<step>
+        		<cmd>Restart any running <codeph>eucalyptus-cloud</codeph> services that have registered
+        			OSGs on them (i.e., on the CLC). </cmd>
+        	</step>
+        	<step>
+                <cmd>Provide your RiakCS credentials to access your RiakCS installation: </cmd>
                 <info>
                     <codeblock>euca-modify-property -p objectstorage.s3provider.s3accesskey=&lt;RiakCS access key>
 euca-modify-property -p objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key></codeblock>
