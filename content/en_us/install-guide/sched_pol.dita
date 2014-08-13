@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="sched_pol">
+ <title>Create Scheduling Policy</title>
+ <shortdesc>This topic describes how to set up the Cluster Controller (CC) to choose which Node
+ 	Controller (NC) to run each new instance.</shortdesc>
+ <taskbody>
+ 	<context></context>
+ 	<steps>
+ 		<step>
+ 			<cmd>In the CC, open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+ 		</step>
+ 		<step>
+ 			<cmd>In the <codeph>SCHEDPOLICY=</codeph> parameter, set the value to one of the following:</cmd>
+ 			<choicetable>
+ 				<chrow>
+ 					<choption><codeph>GREEDY</codeph></choption>
+ 					<chdesc>When the CC receives a new instance run request, it runs the instance on the first NC
+ 						in an ordered list of NCs that has capacity to run the instance. At partial capacity with
+ 						some amount of churn, this policy generally results in a steady state over time where some
+ 						nodes are running many instances, and some nodes are running few or no instances.</chdesc>
+ 				</chrow>
+ 				<chrow>
+ 					<choption><codeph>ROUNDROBIN</codeph></choption>
+ 					<chdesc>(Default) When the CC receives a new instance run request, it runs the
+ 						instance on the next NC in an ordered list of NCs that has capacity. The next NC is
+ 						determined by the last NC to have received an instance. At partial capacity with some amount
+ 						of churn, this policy generally results in a steady state over time where instances are more evenly distributed across the set of NCs.</chdesc>
+ 				</chrow>
+ 			</choicetable>
+ 		</step>
+ 		<step>
+ 			<cmd>Save the file.</cmd>
+ 		</step>
+ 	</steps>
+
+ </taskbody>
+</task>
