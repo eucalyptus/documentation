@@ -20,12 +20,25 @@
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>If you are not a Eucalyptus subscriber, skip this step. If you are a Eucalyptus subscriber, you should have received an rpm package file containing your license for subscription-only components. Install that package, along with the Eucalyptus subscription package, on each host that will run a Eucalyptus component, as follows: </cmd>
-				<info>
-					<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm \
-http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/version_short"/>-1.el6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
-				</info>
+				<cmd>(Optional) If you are a Eucalyptus subscriber,
+					you will receive two rpm package files containing your license for subscription-only
+					components. Install these packages on each host that will run a Eucalyptus component.</cmd>
+				<substeps>
+					<substep>
+						<cmd>Install the license files to access the enterprise repository.</cmd>
+						<info>
+							<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm \
+http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph
+	conref="../shared/conrefs.dita#prod/version_short"/>-1.el6.noarch.rpm</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Install the actual repository file.</cmd>
+						<info>
+							<codeblock>yum install eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/version_short"/>*.noarch.rpm eucalyptus-license-*.rpm</codeblock>
+						</info>
+					</substep>
+				</substeps>
 			</step>
 			<step>
 				<cmd>Configure the Euca2ools package repository on each host that will run a Eucalyptus
@@ -54,7 +67,7 @@ http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph conref="../
 				</info>
 			</step>
 			<step>
-				<cmd>For RHEL 6 systems only, you must enable the Optional repository in Red Hat
+				<cmd>If you are installing on RHEL 6, you must enable the Optional repository in Red Hat
 					Network for each NC, as follows:</cmd>
 				<substeps>
 					<substep>
@@ -106,7 +119,6 @@ http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph conref="../
 				</substeps>
 			</step>
 			<step>
-				<note>Skip this step if you plan to use VMware.</note>
 				<cmd>If you plan to run in <xref href="planning_edge.dita">Edge networking mode</xref>, install
 					the package for Edge support on each planned NC host.</cmd>
 				<info>
