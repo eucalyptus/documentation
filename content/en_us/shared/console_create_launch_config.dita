@@ -35,13 +35,14 @@
             scaling group.</shortdesc>
         <taskbody>
             <steps>
+                
                 <step>
-                    <cmd>Type the name of your launch configuration into the
-                            <uicontrol>Name</uicontrol> text box.</cmd>
+                    <cmd> Type the name of your launch configuration in the
+                        <uicontrol>Name</uicontrol> text box.</cmd>
                 </step>
                 <step>
-                    <cmd> Select an instance size from the <uicontrol>Instance type</uicontrol>
-                        drop-down list.. </cmd>
+                    <cmd> Select an instance size/type from the <uicontrol>Instance type</uicontrol>
+                        drop-down list.</cmd>
                     <info>
                         <note> Information about the instance size is displayed when you click the
                             instance size link. </note>
@@ -56,20 +57,23 @@
     </task>
     <task id="create_launch_configuration_ui_security_steps">
         <title>Specify Security</title>
-        <shortdesc>This panel allows you to specify the key pair and security group that will be
-            used by the new instances in your auto scaling group NOTE: if you create a key pair or
+        <shortdesc>This panel allows you to specify the VPC network settings, key pair and a security group that will be
+            used by the new instances in your auto scaling group. NOTE: if you create a key pair or
             security group in this section, they will automatically be selected for use in your new
             instances. </shortdesc>
 
         <taskbody>
             <steps>
                 <step>
+                    <cmd> If the launch configuration is used with a scaling group using a VPC network,
+                        select how the VPC IP assignment is to be applied by selecting an option from the drop-down list box.</cmd>
+                </step>
+                <step>
                     <cmd> Select a key pair using the <uicontrol>Key name</uicontrol> drop-down list
                         box. </cmd>
                     <info>
                         <note> You can also create a new key pair by clicking the <uicontrol>Create
-                                new key pair</uicontrol> link to display the <uicontrol>Create new
-                                key pair</uicontrol> dialog box. </note>
+                            key pair</uicontrol> link. This opens the Create Key Pair dialog box. </note>
                     </info>
 
                 </step>
@@ -77,26 +81,40 @@
                     <cmd> Select a security group using the <uicontrol>Security group</uicontrol>
                         drop-down list box. </cmd>
                     <info>
-                        <note> You can also create a new security group by clicking the
-                                <uicontrol>Create new security group</uicontrol> link to display the
-                                <uicontrol>Create new security group</uicontrol> dialog box. </note>
                         <note> If you select the default security group, make sure that you've added
                             rules to the default security group so that you can access your
                             instances. </note>
+                        <note> You can also create a new security group by clicking the
+                            <uicontrol>Create a security group</uicontrol> link. This opens the Create Security Group dialog box.</note>
+                    </info>
+                    <stepresult> If one of the existing security groups is chosen, the rules associated with
+                        the security group display, along information about the VPC network in which it resides, if any.</stepresult>
+                </step>
+                <step>
+                    <cmd> You can optionally specify an IAM role using the <uicontrol>Role</uicontrol>
+                        drop-down list box.</cmd>
+                    <info>
+                        <note> If you select a role, make sure that the correct permissions are
+                            defined for that role so that the appropriate level of access is applied
+                            to your instance. </note>
                     </info>
                 </step>
                 <step>
-                    <cmd> You can optionally choose to create a new auto scaling group based on this
-                        launch configuration by selecting the <uicontrol>Create scaling group using
-                            this launch configuration</uicontrol> check box. When this is selected,
+                    <cmd> The <uicontrol>Create scaling group using this launch configuration</uicontrol>
+                        checkbox is checked by default, allowing you to create a new auto scaling
+                        group based on this launch configuration. When this is selected,
                         the <uicontrol>New Scaling Group</uicontrol> dialog will display after
-                        you've clicked the <uicontrol>Create launch configuration</uicontrol>
+                        you've clicked the <uicontrol>Create Launch Configuration</uicontrol>
                         button, with the Launch configuration field pre-populated with the name of
                         your new launch configuration. </cmd>
                 </step>
                 <step>
+                    <cmd> </cmd>
+                </step>
+                <step>
                     <cmd> You can optionally specify advanced options by clicking the
-                            <uicontrol>Select advanced options</uicontrol> link. </cmd>
+                        <uicontrol>Select advanced options</uicontrol> link and refer to the
+                        next section for further details. </cmd>
                 </step>
 
                 
@@ -168,7 +186,7 @@
                     </cmd>
                 </step>
             </steps>
-            <result>For more information on Auto Scaling, see Eucalyptus User Guide.</result>
+            <result>For more information on Auto Scaling, see the <i>Eucalyptus User Guide</i>.</result>
         </taskbody>
     </task>
 </task>

@@ -48,11 +48,11 @@
                 </step>
                 <step>
                     <cmd> You can optionally enter one or more names for your new instance(s) in the
-                            <uicontrol>Name(s)</uicontrol> text box(es). </cmd>
+                            <uicontrol>Instance name(s)</uicontrol> text box(es). </cmd>
                 </step>
                 <step>
-                    <cmd> Select an instance type from the <uicontrol>Instance type</uicontrol>
-                        drop-down list box.. </cmd>
+                    <cmd> Select an instance size from the <uicontrol>Instance size</uicontrol>
+                        drop-down list box.</cmd>
                     <info>
                         <note> Information about the instance size is displayed when you click the
                             instance size link. </note>
@@ -63,6 +63,10 @@
                     <cmd> If you want to specify an availability zone other than the default, select
                         an availability zone using the <uicontrol>Availability zone</uicontrol>
                         drop-down list box. </cmd>
+                    <info>
+                        <note> The availability zone does not apply if you choose a VPC network for
+                            your security settings in the proceeding panel. </note>
+                    </info>
                 </step>
 
                 <step>
@@ -105,30 +109,45 @@
     
     <task id="launch_instances_ui_security_steps">
         <title>Security</title>
-        <shortdesc>This panel allows you to specify the key pair and security group that will be
+        <shortdesc>This panel allows you to specify a Virtual Private Cloud (VPC) network, key pair and security group that will be
             used by your new instance(s). NOTE: if you create a key pair or security group in this
             section, they will automatically be selected for use in your new instance. </shortdesc>
 
         <taskbody>
             <steps>
                 <step>
+                    <cmd> Select a VPC network from the drop-down list box.</cmd>
+                    <stepresult>If a VPC network is selected, the <uicontrol>VPC subnet</uicontrol>
+                        and the <uicontrol>Auto-assign public IP</uicontrol> drop-down list boxes display.</stepresult>
+                </step>
+                <step>
+                    <cmd> Select a CIDR range from the <uicontrol>VPC subnet</uicontrol> drop-down list box.</cmd>
+                </step>
+                <step>
+                    <cmd> Select whether to enable or disable public IP auto assignment from the
+                        <uicontrol>Auto-assign public IP</uicontrol> drop-down list box.</cmd>
+                </step>
+                
+                <step>
                     <cmd> Select a key pair using the <uicontrol>Key name</uicontrol> drop-down list
                         box. </cmd>
                     <info>
                         <note> You can also create a new key pair by clicking the <uicontrol>Create
-                                key pair</uicontrol> link.</note></info>
+                                a key pair</uicontrol> link.</note></info>
 
                 </step>
                 <step>
                     <cmd> Select a security group using the <uicontrol>Security group</uicontrol>
                         drop-down list box. </cmd>
                     <info>
-                        <note> You can also create a new security group by clicking the
-                                <uicontrol>Create security group</uicontrol> link. </note>
                         <note> If you select the default security group, make sure that you've added
                             rules to the default security group so that you can access your
                             instances. </note>
+                        <note> You can also create a new security group by clicking the
+                                <uicontrol>Create a security group</uicontrol> link. This opens the Create Security Group dialog box.</note>
                     </info>
+                    <stepresult> If one of the existing security groups is chosen, the rules associated with
+                    the security group display.</stepresult>
                 </step>
                 <step>
                     <cmd> You can optionally specify an IAM role using the <uicontrol>Role</uicontrol>
@@ -173,7 +192,7 @@
                             <uicontrol>RAM disk ID (RAMFS)</uicontrol> drop-down list box. </cmd>
                 </step>
                 <step>
-                    <cmd>Click the <uicontrol>Enable monitoring</uicontrol> check box to specify that
+                    <cmd> Click the <uicontrol>Enable monitoring</uicontrol> check box to specify that
                         detailed CloudWatch metric gathering should be enabled for your new
                         instance(s).</cmd>
                 </step>
@@ -184,7 +203,7 @@
                         Translation) device or an elastic IP address mapped to the instance. </cmd>
                 </step>
                 <step>
-                    <cmd>The Storage section will only display if you have an EBS-backed image. If
+                    <cmd> The Storage section will only display if you have an EBS-backed image. If
                         this is the case, you can configure additional storage for your
                         instance:</cmd>
                     <substeps id="launch_instances_ui_advanced_storage_steps">
@@ -193,12 +212,12 @@
                                 drop-down list box. </cmd>
                         </substep>
                         <substep>
-                            <cmd>Type the desired mapping for the storage into the
+                            <cmd> Type the desired mapping for the storage into the
                                 <uicontrol>Mapping</uicontrol> text box (for example:<codeph>
                                     /dev/sdb</codeph>).</cmd>
                         </substep>
                         <substep>
-                            <cmd>If you want to create the storage from an existing snapshot,
+                            <cmd> If you want to create the storage from an existing snapshot,
                                 specify it in the <uicontrol>Create from snapshot</uicontrol>
                                 drop-down list box.</cmd>
                         </substep>
@@ -212,7 +231,7 @@
                                 instance is terminated. </cmd>
                         </substep>
                         <substep>
-                            <cmd>Click the <uicontrol>Add device</uicontrol> button to add this storage.</cmd>
+                            <cmd> Click the <uicontrol>Add device</uicontrol> button to add this storage.</cmd>
                         </substep>
                         <substep>
                             <cmd>You can delete storage you've already added by clicking the minus button on the right side of the storage list item.</cmd>
