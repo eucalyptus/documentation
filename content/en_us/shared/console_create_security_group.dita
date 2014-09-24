@@ -5,7 +5,7 @@
     <title>Create a Security Group</title>
     <shortdesc> Eucalyptus enables you to control access to your cloud using
         security groups. A security group contains a group of rules that control
-        inbound traffic to instances in the group for the specified protocols
+        inbound and outbound traffic to instances in the group for the specified protocols
         and ports. </shortdesc>
     <taskbody/>
     <task id="create_sgroup_ui_help_steps_general">
@@ -22,73 +22,93 @@
                             <uicontrol>Description</uicontrol> text box. </cmd>
                 </step>
                 
+                <step>
+                    <cmd> Select a Virtual Private Cloud (VPC) network from the drop-down menu.</cmd>
+                  
+                </step>
                 
             </steps>
         </taskbody>
     </task>
     <task id="create_sgroup_ui_help_steps_rules">
-        <title>Inbound Rules section</title>
-        <shortdesc/>
+        <title>Rules section</title>
+        <shortdesc>You can optionally create one or more rules for the
+            security group. A <term>rule</term> grants a specified
+            range of IP addresses access (inbound to or outbound from) your instances
+            for a protocol or custom port range. Rules for many of
+            the most popular protocols are pre-defined and available
+            for selection in the drop-down list box, or you can
+            define your own rule. </shortdesc>
         <taskbody>
             <steps>
                 
                 
                 <step>
-                    <cmd>You can optionally create one or more rules for the
-                        security group. A <term>rule</term> grants a specified
-                        range of IP addresses inbound access to your instances
-                        for a protocol or custom port range. Rules for many of
-                        the most popular protocols are pre-defined and available
-                        for selection in the drop-down list box, or you can
-                        define your own rule. </cmd>
+                    <cmd>Select Inbound to set the rules for inbound access or select
+                        Outbound to set the rules for outbound access. </cmd>
                     <info>
-                        <note type="important">You should specify at least one
-                            rule for your security group.</note>
+                        <note>The Outbound option is not available if <i>No VPC</i> was selected for VPC
+                                network.</note>
+                        <note type="important">You should specify at least one rule for your
+                            security group.</note>
                     </info>
+                </step>         
+                <step>
+                    <cmd>Select a protocol for the rule from the <uicontrol>Protocol</uicontrol> drop-down
+                        list box, or select a custom protocol. If a custom protocol is selected:</cmd>
                     <substeps>
                         <substep>
-                            <cmd> Select a protocol for the rule from the
-                                <uicontrol>Protocol</uicontrol> drop-down
-                                list box, or select a custom protocol. </cmd>
+                            <cmd>for TCP or UDP, enter a port range for the rule in the <uicontrol>Port range</uicontrol> text box.</cmd>
+                        </substep>
+                         <substep>
+                            <cmd>for ICMP, associate an ICMP type by selecting it from the drop-down list box.</cmd>
                         </substep>
                         <substep>
-                            <cmd> If you've selected a custom protocol, enter a
-                                port range for the rule in the <uicontrol>Port
-                                    range</uicontrol> text box. </cmd>
-                        </substep>
-                        <substep>
-                            
-                            <cmd> Select the type of inbound traffic for the
-                                rule using the radio buttons: </cmd>
+                            <cmd>Identify the type of traffic to allow by selecting one of the following options:</cmd>
                             <info>
-                                <p>To grant access to an IP address or range of
-                                    IP addresses, select the <uicontrol>IP
-                                        Address</uicontrol> radio button and
-                                    enter a CIDR range in the text box.</p>
+                                <ul>
+                                    <li>To grant access to an IP address or range of
+                                        IP addresses, select the <uicontrol>IP
+                                            Address</uicontrol> radio button and
+                                        enter a CIDR range in the text box.</li>
+                                </ul>
+                                
                                 <note>For more information on CIDR notation,
                                     please see the <xref
                                         href="http://en.wikipedia.org/wiki/CIDR_notation"
                                         format="html" scope="external">CIDR
-                                        notation Wikipedia
-                                        article</xref>.</note>
-                                <p>To grant access to another security group,
-                                    select the <uicontrol>Other security
-                                        group</uicontrol> radio button and enter
-                                    the name of the security group in the text
-                                    box.</p>
-                                <!--<note> To specify a security group in another
-                                    account, use the format "userid/groupname".
-                                </note>-->
+                                        notation Wikipedia article</xref>.</note>
+                                <ul>
+                                    <li>To grant access to all IP addresses, click <uicontrol>Open to all addresses</uicontrol>.
+                                        This sets the value to 0.0.0.0/0</li>
+                                    <li>To grant access to only your computer, click <uicontrol>Use my IP address</uicontrol>.</li>
+                                </ul>
+                                <ul>
+                                    <li>To grant access to a security group,
+                                        select the <uicontrol>Security
+                                            group</uicontrol> radio button and select a group from the drop-down list box or enter
+                                        the name of the security group in the text box.</li>
+                                </ul>
+                                <note> To specify a security group in another
+                                    account, use the format <userinput>accountid/groupname</userinput>.
+                                </note>
                             </info>
                         </substep>
                         <substep>
-                            <cmd>Click the <uicontrol>Add Rule</uicontrol> button.</cmd>
+                            <cmd>Click the <uicontrol>Add Rule</uicontrol> button when done.</cmd>
+                            <stepresult>The newly added rule displays above the rule form.</stepresult>
                         </substep>
-                        <substep>
-                            <cmd>Repeat as needed to add more rules.</cmd>
-                        </substep>
+                       
                     </substeps>
                 </step>
+       
+            <step>
+                <cmd>Repeat as needed to add more rules.</cmd>
+                <stepresult>A list of added rules display above the rule form to indicate they have been successfully added.</stepresult>
+            </step>
+                
+            
+
             </steps>
         </taskbody>
     </task>
@@ -102,7 +122,7 @@
             <steps>
                 
                 <step>
-                    <cmd>Click the <uicontrol>Create</uicontrol> button to save your work,
+                    <cmd>Click the <uicontrol>Create Security Group</uicontrol> button to save your work,
                         or click the <uicontrol>Cancel</uicontrol> button to cancel the
                         operation.</cmd>
                 </step>
