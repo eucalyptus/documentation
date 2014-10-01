@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ops_ts_instance_fails">
+    <title>Problem: instance runs but fails</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+        	<p>Run <apiname>euca_describe_nodes</apiname> to verify if instance is there. </p>
+        </context>
+    	<steps-unordered>
+    		<step>
+    			<cmd>If the instance is there:</cmd>
+    			<substeps>
+    				<substep>
+    					<cmd>Go to NC log for that NC and grep your instance ID and see if the instance is there.</cmd>
+    					<info>
+    						<ul>
+    							<li>If the instance is there: is there error message?
+    							<ul>
+    								<li>If there is an error message, this clues you in to some helpful information</li>
+    								<li>No: go to CC log, grep instance ID</li>
+    							</ul>
+    							</li>
+    					</ul>
+    					</info>
+    				</substep>
+    				<substep>
+    					<cmd>No: go to CC log, grep Instance ID. Is it there error message?</cmd>
+    					<info>
+    						<ul>
+    							<li>Yes: good- this clues you in to some helpful information
+    								</li>
+    							<li>No: grep instance ID in cloud-output.log. Is there error message?
+    								<ul><li>Yes: good - this clues you in to some helpful information</li>
+    								<li>No: grep volume ID in SC log</li></ul></li>
+    						</ul>
+    					</info>
+    				</substep>
+    			</substeps>
+    				
+    			</step>
+    		<step><cmd>If the instance is not there, log in as admin and run
+    			<apiname>euca_describe_instance</apiname>. Is the instance there?</cmd>
+    			<info>
+    				<ul>
+    					<li>If the instance is there, note your A2 and do the following. 
+    						<ul>
+    							<li>Run <apiname>euca_describe-az verbose</apiname>. </li>
+    							<li>Note the CC IP</li>
+    								<li>Go to the CC log and grep Instance ID.</li>
+    						</ul>
+    						</li>
+    					<li>If the instance is not there, start over and run a new instance, recreate failure, and
+    						start these steps over.</li>
+    				</ul>
+    			</info>
+    				
+    		</step>
+    	</steps-unordered>
+    </taskbody>
+</task>
