@@ -6,24 +6,13 @@
  <shortdesc></shortdesc>
  <taskbody>
  	<context>
- 		<p>To synchronize your Eucalyptus component machines with an NTP server, perform the following
- 			tasks.</p>
- 		
- 	</context>
-  <steps>
-  	<step>
-  		<cmd>Enter the following command on a machine hosting a Eucalyptus component:</cmd>
-  		<info>
-  			<codeblock># ntpdate pool.ntp.org
-# service ntpd start
-# chkconfig ntpd on
-# ps ax | grep ntp
-# hwclock --systohc  </codeblock>
-  		</info>
-  	</step>
- 	<step>
-  		<cmd>Repeat for each machine hosting a Eucalyptus component.</cmd>
-  	</step>
-  </steps>
+ 		Start a LIC File
+
+The LIC is a file in JSON format, specifying everything Eucalyptus needs to know about how to synchronize with an LDAP or AD service. Eucalyptus provides a LIC template at ${EUCALYPTUS}/usr/share/eucalyptus/lic_template. This template shows all the fields of the LIC, and provides detailed documentation and example values for each field.
+To start a LIC file:
+Enter the following command:
+/usr/sbin/euca-lictool --password secret --out example.lic
+The above command invokes the LIC tool to create a template LIC and fill in the encrypted password for authenticating to LDAP/AD service (i.e. the password of the administrative user for accessing the LDAP/AD during synchronization). The LIC tool’s primary functions are to encrypt the LDAP/AD password and to generate the starting LIC template. The usage of the LIC tool shows different ways to invoke the command.
+Once you have the LIC template, you can fill in the details by editing the *.lic file using a text editor. Each top level entity specifies one aspect of the LDAP/AD synchronization.
  </taskbody>
 </task>
