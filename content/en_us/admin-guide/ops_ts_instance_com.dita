@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ops_ts_instance_com">
+	<title>Problem: can't communicate with instance</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>Use ping from client (not CLC). Can you ping it?:</p>
+		</context>
+		<steps-unordered>
+			<step>
+				<cmd>Yes: check open ports on security groups, retry connection (ssh, hhtp, etc) - did it work?</cmd>
+				<substeps>
+					<substep>
+						<cmd>Yes.</cmd>
+					</substep>
+					<substep>
+						<cmd>No: same procedure as if you can't ping it upfront.</cmd>
+					</substep>
+				</substeps>
+				
+			</step>
+			<step><cmd>If the instance is not there, log in as admin and run
+				<apiname>euca_describe_instance</apiname>. Is the instance there?</cmd>
+				<info>
+					<ul>
+						<li>If the instance is there, note your A2 and do the following. 
+							<ul>
+								<li>Run <apiname>euca_describe-az verbose</apiname>. </li>
+								<li>Note the CC IP</li>
+								<li>Go to the CC log and grep Instance ID.</li>
+							</ul>
+						</li>
+						<li>If the instance is not there, start over and run a new instance, recreate failure, and
+							start these steps over.</li>
+					</ul>
+				</info>
+				
+			</step>
+		</steps-unordered>
+	</taskbody>
+</task>
+
