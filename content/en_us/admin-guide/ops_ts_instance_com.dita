@@ -9,7 +9,8 @@
 		</context>
 		<steps-unordered>
 			<step>
-				<cmd>Yes: check open ports on security groups, retry connection (ssh, hhtp, etc) - did it work?</cmd>
+				<cmd>Yes: check open ports on security groups, retry connection (ssh, hhtp, etc) - did it
+					work?</cmd>
 				<substeps>
 					<substep>
 						<cmd>Yes.</cmd>
@@ -18,26 +19,37 @@
 						<cmd>No: same procedure as if you can't ping it upfront.</cmd>
 					</substep>
 				</substeps>
-				
+
 			</step>
-			<step><cmd>If the instance is not there, log in as admin and run
-				<apiname>euca_describe_instance</apiname>. Is the instance there?</cmd>
+			<step>
+				<cmd>No: Is it Edge networking mode? </cmd>
 				<info>
 					<ul>
-						<li>If the instance is there, note your A2 and do the following. 
-							<ul>
-								<li>Run <apiname>euca_describe-az verbose</apiname>. </li>
-								<li>Note the CC IP</li>
-								<li>Go to the CC log and grep Instance ID.</li>
+						<li>Yes: run euca_describe_nodes. Is your instance there? <ul>
+								<li>Yes: ping instance public IP from NC. Can you ping it? check network between
+									client and NC (indicates problem is not euca network)</li>
+							<li>No: check eucanetd.log and IP tables rules. Make sure IP address  has visible public IPs
+								and that the IP tables have expected ports opened.</li>
 							</ul>
 						</li>
-						<li>If the instance is not there, start over and run a new instance, recreate failure, and
-							start these steps over.</li>
+						<li>No, it is not in Edge networking mode: <ol>
+								<li>Run describe instance</li>
+								<li>get A2</li>
+								<li>euca describe A2 verbose</li>
+								<li>get CC IP</li>
+								<li>ping private IP (instance) from CC. <p>Are there error messages?</p>
+									<ul>
+										<li>Yes: check network between client and CC</li>
+										<li>No: check eucanetd.log and IP tables rules. Make sure IP address  has visible public IPs
+											and that the IP tables have expected ports opened.</li>
+									</ul>
+								</li>
+							</ol>
+						</li>
 					</ul>
 				</info>
-				
+
 			</step>
 		</steps-unordered>
 	</taskbody>
 </task>
-
