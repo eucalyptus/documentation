@@ -310,9 +310,9 @@ discovered 1 host(s)
 									use (first one found by default).</li>
 								<li><codeph>'network'</codeph> - name of the vSphere network to use
 									(first one found by default).</li>
-								<li><codeph>'networkCardType'</codeph> - type of network card used on the host. Default
-									value is <codeph>E1000</codeph>. Valid values are
-										<codeph>E1000</codeph>, <codeph>E1000e</codeph>,
+								<li><codeph>'networkCardType'</codeph> - type of network card used
+									on the host. Default value is <codeph>E1000</codeph>. Valid
+									values are <codeph>E1000</codeph>, <codeph>E1000e</codeph>,
 										<codeph>VmxNet</codeph>, <codeph>Vmxnet2</codeph>,
 										<codeph>Vmxnet3</codeph>, and <codeph>PCNet32</codeph>.</li>
 								<li><codeph>'maxCores'</codeph> - number of virtual cores to use on
@@ -324,19 +324,24 @@ discovered 1 host(s)
 								<li><codeph>'maxDiskMB'</codeph> - disk size, in MB, to use on a
 									datastore for Eucalyptus instances (free space on the datastore
 									by default).</li>
-								<li><codeph>'uploadViaHost'</codeph> - upload VM disk contents
-									directly to the ESX(i) host rather than through vCenter ("false"
-									by default). This option is ignored when the endpoint is an
-									ESX(i) host. The default behavior is to upload VM's disk files
-									through vCenter. To avoid overloading the vCenter with I/O
-									traffic, however, Eucalyptus can perform the upload directly to
-									an individual host. In this case, if the credentials (login or
-									password) for the host are different from vCenter credentials,
-									they must be specified explicitly in one or more elements
-									contained by the <codeph><![CDATA[<endpoint/>]]></codeph> (e.g.,
-									in each <codeph><![CDATA[<datacenter/>]]></codeph> or each
+								<li><codeph>'uploadViaHost'</codeph> - upload VM disk contents directly to the ESX(i) host
+									rather than through vCenter ("false" by default). This option is
+									ignored when the endpoint is an ESX(i) host. The default
+									behavior is to upload VM's disk files through vCenter. To avoid
+									overloading the vCenter with I/O traffic, however, Eucalyptus
+									can perform the upload directly to an individual host. In this
+									case, if the credentials (login or password) for the host are
+									different from vCenter credentials, they must be specified
+									explicitly in one or more elements contained by the
+										<codeph><![CDATA[<endpoint/>]]></codeph> (e.g., in each
+										<codeph><![CDATA[<datacenter/>]]></codeph> or each
 										<codeph><![CDATA[<cluster/>]]></codeph> or each
-										<codeph><![CDATA[<host/>]]></codeph> element).</li>
+										<codeph><![CDATA[<host/>]]></codeph> element). <note>We
+										strongly recommend setting the
+											<codeph>uploadViaHost</codeph> attribute to
+											<codeph>true</codeph> unless you are unable to provide
+										Eucalyptus with the credentials of your ESX
+									hosts.</note></li>
 							</ul>
 						</li>
 					</ul>
