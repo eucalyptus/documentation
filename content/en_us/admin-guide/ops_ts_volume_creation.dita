@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ops_ts_volume_creation">
+	<title>Problem: volume creation failed</title>
+	<shortdesc>Symptom: Went from available to fail. This is typically caused by the CLC and the SC.</shortdesc>
+	<taskbody>
+		<context>
+			<p>On the SC, use <codeph>df</codeph> or <codeph>lvdisplay</codeph> to check the disk space. Is there enough space?</p>
+		</context>
+		<steps-unordered>
+			<step>
+				<cmd>Yes:</cmd>
+				<info>Check the <xref href="../troubleshooting-guide/ts_logs.dita">SC log</xref> and grep the volume ID. Is there error message?</info>
+				<substeps>
+					<substep>
+						<cmd>Yes. This provides clues to helpful information.</cmd>
+					</substep>
+					<substep>
+						<cmd>No:</cmd>
+						<info>Check <xref
+							href="../troubleshooting-guide/ts_logs.dita">cloud-output.log</xref> a volume ID error.</info>
+					</substep>
+				</substeps>
+				
+			</step>
+			<step>
+				<cmd>No:</cmd>
+				<info>Delete volumes or add disk space.</info>
+			</step>
+		</steps-unordered>
+	</taskbody>
+</task>
