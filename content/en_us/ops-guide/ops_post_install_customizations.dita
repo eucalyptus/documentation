@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ops_post_install_customizations">
+    <title>Post-Install Customizations</title>
+    <shortdesc/>
+    <taskbody>
+        <context>
+            <p>For most production deployments, we recommend that you use a configuration management tool.
+                Customers have been successful deploying using the following:</p>
+            <ul>
+                <li>Chef</li>
+                <li>Puppet F-Secure</li>
+                <li>Anisible</li>
+            </ul>
+            <p>This section describes the most commonly applied post-install customizations and the issues they pose:</p>
+            <ul>
+                <li>Over-subscription</li>
+                <li>Networking changes (Edge and managed modes)</li>
+                <li>Reporting / CloudWatch tweaks/customizations</li>
+                <li>Capacity changes</li>
+            </ul>
+        </context>
+    </taskbody>
+        <task id="over_subscription">
+            <title>Over-subscription</title>
+                <shortdesc>Over-subscription refers to the practice of expanding your computer beyond its limits.
+                    Over-subscription applies only to node controllers. You may modify disks and cores to allow enough usage buffer for your instance. 
+                    </shortdesc>
+            <taskbody>
+                
+                <steps>
+                    
+                    <step>
+                        <cmd> Navigate to <codeph>/etc/eucalyptus/</codeph> and locate the <codeph>eucalyptus.conf</codeph> file. </cmd>
+                    </step>
+                    <step>
+                        <cmd> Edit the following values to define the appropriate size buffers for your instances:</cmd>
+                        <choicetable>
+                            <chrow>
+                                <choption><codeph>NC_WORK_SIZE</codeph></choption>
+                                <chdesc>Defines the amount of disk space available for instances to be run.</chdesc>
+                            </chrow>
+                            <chrow>
+                                <choption><codeph>NC_CACHE_SIZE</codeph></choption>
+                                <chdesc>Defines how much disk space is needed for images to be cached.</chdesc>
+                            </chrow>
+                            <chrow>
+                                <choption><codeph>MAX_CORES</codeph></choption>
+                                <chdesc>Defines the number of cores that are available for VMs. </chdesc>
+                            </chrow>
+                        </choicetable>
+                    </step>
+                    <step>
+                        <cmd> In order for these changes to take effect, you must restart the NC.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+   <task id="network_changes_modes">
+                <title>Networking Changes (EDGE and Managed Modes)</title>
+                <shortdesc>You can modify the default by adding network IPs to your cloud or changing your network from managed to EDGE network. 
+                    Changing these values do not require turning down the whole system.
+                </shortdesc>
+       <task id="add_network_ips">
+           <title>Add Network IPs</title>
+           <shortdesc>To add network IPs, perform one of the following:</shortdesc>
+           <taskbody>
+                    <steps>
+                   <step>
+                       <cmd>In Edge network mode, adding or changing the IP involves creating a JSON file and uploading it the Cloud Controller (CLC). See <xref
+                                href="../install-guide/nw_edge.dita">Configure for Edge Mode</xref> for more details.</cmd>
+                            <stepresult>No restart needed, changes apply automatically.</stepresult>
+                        </step>
+                        <step>
+                            <cmd>In managed mode, navigate to <codeph>/etc/eucalyptus/</codeph> and locate the <codeph>eucalyptus.conf</codeph> file. </cmd>
+                            <substeps>
+                                <substep>
+                                    <cmd>Add more IPs by specifying them in the <codeph>VNET_PUBLICIPS</codeph> parameter.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Restart the CC and CLC in order to apply the changes.</cmd>
+                                </substep>
+                            </substeps>
+                        </step>
+                    </steps>
+           </taskbody>
+   </task>
+    <task id="change_modes">
+        <title>Change Modes</title>
+        <shortdesc>You can modify the default network from managed to Edge network. </shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>See <xref href="../install-guide/moving_to_edge.dita">
+                        Eucalyptus Migration to Edge Networking Mode</xref> for more details.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+      
+
+   </task>
+    <task id="change_reports_cloudwatch">
+        <title>Change Reporting/CloudWatch Properties</title>
+        <shortdesc>You can change the following reporting and CloudWatch properties: </shortdesc>
+        <taskbody>
+            <context>
+                <table>
+                    <tgroup cols="2">
+                        <thead>
+                            <row>
+                                <entry>Reporting Property</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><codeph>cloud.monitor.default_poll_interval_mins</codeph></entry>
+                                <entry>If set to 0 = no reporting. The more often you poll, the more hit on the performance.</entry>
+                            </row>
+                            <row>
+                                <entry><codeph>reporting.default_write_interval_mins</codeph></entry>
+                                <entry>How often polled data is written to the database.</entry>
+                            </row>
+                            <row>
+                                <entry><codeph>cloud.monitor.history_size</codeph></entry>
+                                <entry>How many data points per poll interval will be collected or how many samples per poll interval.</entry>
+                            </row>
+                            <row>
+                                <entry><codeph>cloudwatch.disable_cloudwatch_service</codeph></entry>
+                                <entry>Disables cloudwatch when set to true.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </context>
+        </taskbody>
+        
+    </task>
+
+<task id="capacity_changes">
+    <title>Change Capacity</title>
+    <shortdesc>Capacity changes refer to adding another cluster or more nodes.</shortdesc>
+    <taskbody>
+        <steps>
+            <step>
+                <cmd>To add another cluster, <xref href="../install-guide/installing_euca_noha.dita">
+                    install</xref>, <xref href="../install-guide/run_instance.dita"> start</xref>, and <xref href="../install-guide/registering_ccs.dita"> register</xref>.</cmd>
+            </step>
+            <step>
+                <cmd>To add more nodes, see <xref href="../install-guide/add_nodes.dita">Add a Node Controller</xref>.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>
+
+
+</task>
