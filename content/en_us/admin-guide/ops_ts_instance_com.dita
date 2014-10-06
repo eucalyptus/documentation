@@ -5,39 +5,58 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p>Use ping from client (not CLC). Can you ping it?:</p>
+			<p>Use ping from a client (not the CLC). Can you ping it?</p>
 		</context>
 		<steps-unordered>
 			<step>
-				<cmd>Yes: check open ports on security groups, retry connection (ssh, hhtp, etc) - did it work?</cmd>
+				<cmd>Yes:</cmd>
+				<info>Check the open ports on security groups and retry connection using SSH or HTTP. Can you
+					connect now?</info>
 				<substeps>
 					<substep>
-						<cmd>Yes.</cmd>
+						<cmd>Yes. Okay, then. You're work is done.</cmd>
 					</substep>
 					<substep>
-						<cmd>No: same procedure as if you can't ping it upfront.</cmd>
+						<cmd>No:</cmd>
+						<info>Try the same procedure as if you can't ping it up front.</info>
 					</substep>
 				</substeps>
-				
+
 			</step>
-			<step><cmd>If the instance is not there, log in as admin and run
-				<apiname>euca_describe_instance</apiname>. Is the instance there?</cmd>
+			<step>
+				<cmd>No:</cmd>
+				<info>Is your cloud running in Edge networking mode? </info>
 				<info>
 					<ul>
-						<li>If the instance is there, note your A2 and do the following. 
+						<li>Yes:
+							<p>Run <codeph>euca-describe-nodes</codeph>. Is your instance there? </p>
 							<ul>
-								<li>Run <apiname>euca_describe-az verbose</apiname>. </li>
-								<li>Note the CC IP</li>
-								<li>Go to the CC log and grep Instance ID.</li>
+								<li>Yes: 
+									<p>Ping the instance's public IP from the NC. Can you ping it? Check network between
+									client and NC (this indicates that the problem is not the Eucalyptus network).</p></li>
+								<li>No: 
+									<p>Check <filepath>eucanetd.log</filepath> and IP tables rules. Make sure the IP address has visible
+									public IPs and that the IP tables have expected ports opened.</p></li>
 							</ul>
 						</li>
-						<li>If the instance is not there, start over and run a new instance, recreate failure, and
-							start these steps over.</li>
+						<li>No, it is not in Edge networking mode: <ol>
+								<li>Run <codeph>euca-describe-instances</codeph></li>
+								<li>Note the AZ name.</li>
+							<li>Run <codeph>euca-describe-AZ verbose</codeph>.</li>
+								<li>Note the IP for the CC.</li>
+								<li>Ping the instance's private IP from the CC. <p>Are there error messages?</p>
+									<ul>
+										<li>Yes: <p>Check the network connection between the client and the CC.</p></li>
+										<li>No: <p>Check <filepath>eucanetd.log</filepath> and the IP tables rules. Make sure the IP address has visible
+											public IPs and that the IP tables have expected ports opened.</p></li>
+									</ul>
+								</li>
+							</ol>
+						</li>
 					</ul>
 				</info>
-				
+
 			</step>
 		</steps-unordered>
 	</taskbody>
 </task>
-

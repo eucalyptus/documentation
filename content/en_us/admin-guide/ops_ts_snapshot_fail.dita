@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="ops_ts_volume_creation">
+	<title>Problem: snapshot creation failed</title>
+	<shortdesc/>
+	<taskbody>
+		<context>
+			<p>On the SC, use <codeph>df</codeph> or <codeph>lvdisplay</codeph> to check the disk space in
+				<filepath>var/lib/eucalyptus/volumes</filepath>. Is there enough space?</p>
+		</context>
+		<steps-unordered>
+			<step>
+				<cmd>Yes:</cmd>
+				<info>Use <codeph>df</codeph> or <codeph>lvdisplay</codeph> to check the disk space in
+					<filepath>var/lib/eucalyptus/bukkits</filepath>. Is there enough space?</info>
+				<substeps>
+					<substep>
+						<cmd>Yes.</cmd>
+						<info><ul>
+							<li>Use <codeph>euca-describe-services</codeph> and note the IP addresses for the OSG and
+								SC.</li>
+							<li>SSH to SC and ping the OSG. 
+								<p>Are there error messages?</p>
+							<ul>
+								<li>Yes:
+									<p>Check <xref href="../troubleshooting-guide/ts_logs.dita">the SC and the OSG logs</xref>
+										for the snapshot ID.</p>
+								</li>
+								<li>No:
+									<p>Check the network connection between the SC and the OSG.</p>
+								</li>
+							</ul>
+							</li>
+						</ul> </info>
+					</substep>
+					<substep>
+						<cmd>No:</cmd>
+						<info>Delete volumes or add disk space.</info>
+					</substep>
+				</substeps>
+				
+			</step>
+			<step>
+				<cmd>No:</cmd>
+				<info>Delete volumes or add disk space.</info>
+			</step>
+		</steps-unordered>
+	</taskbody>
+</task>
