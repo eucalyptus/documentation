@@ -84,8 +84,16 @@
 			<p>For Cloud controller (CLC), Walrus, Storage controller (SC), and VMware Broker, log files
 				are:</p>
 			<ul>
-				<li><filepath>cloud-output.log</filepath></li>
-				<li><filepath>euca_imager.log</filepath></li>
+				<li><filepath>cloud-fault.log</filepath>: This file is reserved for issues with known error codes and known resolutions. </li>
+				<li><filepath>cloud-output.log</filepath>: This file contains all info-level logs for the Java
+					component itself. If there are multiple Java components on a single host (for example, CLC and
+					Walrus), the info-level logs for all of the components will go here.  </li>
+				<li><filepath>euca_imager.log</filepath>: This is unique to the VMware Broker, and should exist
+					only on a broker host. This output is created under two circumstances:
+					<ol >
+						<li>the euca_imager command is run automatically to import emi->vmdk when a user attempts to spin up a vm on the vmware broker, or</li>
+						<li> when the euca_imager is called manually to convert a legacy vmdk into emi format.  This log contains the output of all euca_imager commands.</li>
+					</ol></li>
 			</ul>
 			<p>These components also include specialized developer log files. These are not relevant to
 				troubleshooting a production system, and are not affected by any log level settings. These
