@@ -16,64 +16,7 @@
 		</metadata>
 	</prolog>
 	<conbody>
-		<section>
-			<title>Log File Levels</title>
-			<p>All messages that show up as <codeph>FAULT</codeph>, <codeph>FATAL</codeph>, or
-					<codeph>ERROR</codeph> require an action by the administrator. </p>
-			<dl>
-				<dlentry>
-					<dt>FAULT</dt>
-					<dd>Anything identified in a fault log has an identifiable cause and an identifiable
-						solution, but one that Eucalyputs cannot fix by itself. The administrator needs to act
-						immediately.</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>FATAL</dt>
-					<dd>Any condition that indicates that Eucalyptus has failed (for example, OOM).</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>ERROR</dt>
-					<dd>Any condition for which an operator must take immediate action to
-						identify and/or remedy.</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>WARN</dt>
-					<dd>An indication that the system could not perform a task, but does not necessarily
-						indicate that immediate action by the operator is required. For example, when a user
-						tries to allocate a bucket when their quota is exceeded, or when an action is being
-						retried unsuccessfully, with the final timeout possibly giving ERROR instead of
-						WARN.</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>INFO</dt>
-					<dd>This is the default recommended log level. Any log message that contains useful information to see
-						“what is happening” and generally indicates healthy activity. For example, 
-						anytime a user runs <codeph>euca-describe-instances</codeph> (that is, User A does Action B at
-						Time T with Correlation-id I, and it succeeded or failed--grep for Correlation-id I in various logs for
-						more info). This is useful for troubleshooting, but not necessarily for monitoring.</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>DEBUG</dt>
-					<dd>Detailed debug data is only available when the cloud is set to debug mode, and unlike
-						INFO, it does not seek to aggregate messages. Instead, it writes them out the second they’re
-						generated. For example, entering or leaving a particular function. These messages are generally incomprehensible to
-						administrators, but are useful to Eucalyptus engineers for debugging.</dd>
-				</dlentry>
-
-				<dlentry>
-					<dt>TRACE (backend) or EXTREME (frontend)</dt>
-					<dd>These are useful for engineers only in development. Unlike DEBUG,
-						installations running in TRACE or EXTREME mode can actually degrade the system as a
-						result of the monitoring activity, and could actually create failures. We recommend that you
-						don't </dd>
-				</dlentry>
-			</dl>
-		</section>
+		
 		<section>
 			<title>Log File Location and Content</title>
 			<p>By default, the Eucalyptus log files are stored in
@@ -250,6 +193,65 @@
 				<li><filepath>/var/log/messages</filepath></li>
 				<li><filepath>/var/log/libvirt/</filepath></li>
 			</ul>
+		</section>
+		
+		<section>
+			<title>Log File Levels</title>
+			<p>All messages that show up as <codeph>FAULT</codeph>, <codeph>FATAL</codeph>, or
+				<codeph>ERROR</codeph> require an action by the administrator. </p>
+			<dl>
+				<dlentry>
+					<dt>FAULT</dt>
+					<dd>Anything identified in a fault log has an identifiable cause and an identifiable
+						solution, but one that Eucalyputs cannot fix by itself. The administrator needs to act
+						immediately.</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>FATAL</dt>
+					<dd>Any condition that indicates that Eucalyptus has failed (for example, OOM).</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>ERROR</dt>
+					<dd>Any condition for which an operator must take immediate action to
+						identify and/or remedy.</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>WARN</dt>
+					<dd>An indication that the system could not perform a task, but does not necessarily
+						indicate that immediate action by the operator is required. For example, when a user
+						tries to allocate a bucket when their quota is exceeded, or when an action is being
+						retried unsuccessfully, with the final timeout possibly giving ERROR instead of
+						WARN.</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>INFO</dt>
+					<dd>This is the default recommended log level. Any log message that contains useful information to see
+						“what is happening” and generally indicates healthy activity. For example, 
+						anytime a user runs <codeph>euca-describe-instances</codeph> (that is, User A does Action B at
+						Time T with Correlation-id I, and it succeeded or failed--grep for Correlation-id I in various logs for
+						more info). This is useful for troubleshooting, but not necessarily for monitoring.</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>DEBUG</dt>
+					<dd>Detailed debug data is only available when the cloud is set to debug mode, and unlike
+						INFO, it does not seek to aggregate messages. Instead, it writes them out the second they’re
+						generated. For example, entering or leaving a particular function. These messages are generally incomprehensible to
+						administrators, but are useful to Eucalyptus engineers for debugging.</dd>
+				</dlentry>
+				
+				<dlentry>
+					<dt>TRACE (backend) or EXTREME (frontend)</dt>
+					<dd>These are useful for engineers only in development. Unlike DEBUG,
+						installations running in TRACE or EXTREME mode can actually degrade the system as a
+						result of the monitoring activity, and could actually create failures. We recommend that you
+						don't </dd>
+				</dlentry>
+			</dl>
 		</section>
 		<section>
 			<title>Log File Configuration</title>
