@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="ts_logs">
-	<title>Log Files</title>
+	<title>Eucalyptus Log Files</title>
 	<shortdesc>Usually when an issue arises in Eucalyptus, you can find information that points to the
 		nature of the problem either in the Eucalyptus log files or in the system log files. This topic
 		details log file message meanings, location, configuration, and fault log
@@ -16,10 +16,193 @@
 		</metadata>
 	</prolog>
 	<conbody>
+		
+		<section>
+			<title>Log File Location and Content</title>
+			<p>By default, the Eucalyptus log files are stored in
+					<filepath>/var/log/eucalyptus/</filepath> on each machine that hosts a Eucalyptus
+				component. If Eucalyptus is installed somewhere other than the filesystem root
+					(<filepath>/</filepath>), log files are stored in
+					<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </p>
+		</section>
+			<section>
+				<title>CLC, Walrus, SC, VMware Broker Log Files</title>
+				<p>For Cloud controller (CLC), Walrus, Storage controller (SC), and VMware Broker, log files
+				are:</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Log File</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filepath>cloud-fault.log</filepath></entry>
+							<entry>This file is reserved for issues with known error codes and known resolutions.</entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-output.log</filepath></entry>
+							<entry>This file contains all info-level logs for the Java
+								component itself. If there are multiple Java components on a single host (for example, CLC and
+								Walrus), the info-level logs for all of the components will go here. </entry>
+						</row>
+						<row>
+							<entry><filepath>euca_imager.log</filepath></entry>
+							<entry>This log contains the output of all euca_imager
+								commands. It is unique to the VMware Broker, and should exist
+								only on a broker host. This output is created under two circumstances:
+								<ol >
+									<li>When the euca_imager command is run automatically to import emi->vmdk when a user attempts to
+										spin up a VM on the VMware Broker</li>
+									<li>When the euca_imager is called manually to convert a legacy VMDK into EMI format.</li>
+								</ol></entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-debug.log</filepath></entry>
+							<entry>This file contains all messages generated from debug-level logging.</entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-error.log</filepath></entry>
+							<entry>This file contains is enabled by default alongside
+								info. Along with <filepath>cloud-output.log</filepath>, the
+								<filepath>cloud-error.log</filepath> is one of the first places you should look.</entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-exhaust.log</filepath></entry>
+							<entry>This file is full of errors and warnings.</entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-extreme.log</filepath></entry>
+							<entry>This is legitimately a setting for developers only, because production usage would fill up the hard drive with log files very quickly.</entry>
+						</row>
+						<row>
+							<entry><filepath>/var/log/messages</filepath></entry>
+							<entry>This file contains any general host problems. For
+								example: networking issues, disk space, hardware failures.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			</section>
+		<section>
+			<title>CC Log Files</title>
+			<p>For the Cluster controller (CC), the general types of errors to look for are errors with node
+				orchestration, communication issues between CC and NCs, and tunneling issues with multi-cluster
+				configurations (to span security groups across AZs). Log files are:</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Log File</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filepath>cc.log</filepath></entry>
+							<entry>This is the canonical place for CC error messages, and is the
+								common log for all info and warning messages as well. In the C code, we mostly follow syslog
+								practices. You can change the CC logging level on the fly with a restart. Log messages tend to be readable and informative.</entry>
+						</row>
+						<row>
+							<entry><filepath>cc-fault.log</filepath></entry>
+							<entry>This file contains issues with known error codes and known resolutions.</entry>
+						</row>
+						<row>
+							<entry><filepath>axis2c.log</filepath></entry>
+							<entry>This file is for the web services stack on the CC. Web
+								services calls get translated here. It is not too "user-friendly" for parsing, but you normally
+								do not need to go through it. Most issues appearing in this file have to do with credential
+								errors or OpenSSL issues.</entry>
+						</row>
+						<row>
+							<entry><filepath>httpd-cc_error_log</filepath></entry>
+							<entry>This file generally contains information about
+								events around the web services stack. For example: component start or stop, IP tables, or
+								networking errors.</entry>
+						</row>
+						<row>
+							<entry><filepath>/var/log/messages</filepath></entry>
+							<entry>This file contains DHCP bridge issues and general
+								network-related issues.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>NC Log Files</title>
+			<p>For the Node controller (NC) log files generally detail instance tasks, instance lifecycle,
+				and instance operations. NC log files are:</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Log File</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filepath>nc.log</filepath></entry>
+							<entry>This file is the common file for all info, error, and warning messages. It is a good starting place for all issues on an NC.</entry>
+						</row>
+						<row>
+							<entry><filepath>axis2c.log</filepath></entry>
+							<entry>This file is for the web services stack on the NC. Web
+								services calls get translated here. It is not too "user-friendly" for parsing, but you normally
+								do not need to go through it. Most issues appearing in this file have to do with credential
+								errors or OpenSSL issues.</entry>
+						</row>
+						<row>
+							<entry><filepath>httpd-nc_error_log</filepath></entry>
+							<entry>This file generally contains information about
+								events around the web services stack. For example: component start or stop, IP tables, or
+								networking errors.</entry>
+						</row>
+						<row>
+							<entry><filepath>nc-fault.log</filepath></entry>
+							<entry>This file contains issues that have known error codes and known resolutions. </entry>
+						</row>
+						<row>
+							<entry><filepath>euca_test_nc.log</filepath></entry>
+							<entry>When the NC starts up, it runs through a self-test. This file contains log message
+								from that process. It is useful to review if you have a fresh NC and you’re seeing issues.
+							</entry>
+						</row>
+						<row>
+							<entry><filepath>/var/log/messages</filepath></entry>
+							<entry>This file contains high-level KVM, libvirt, and general hypervisor issues. It also
+								contains iSCSI/EBS issues (usually connecting instances to storage), and networking issues
+								in certain Eucalyptus networking modes (most useful in Edge, Managed, and Managed-NoVLAN).
+							</entry>
+						</row>
+						<row>
+							<entry><filepath>/var/log/libvirt/*</filepath></entry>
+							<entry>Various low-level libvirt errors and  low-level QEMU and KVM errors.
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			
+		</section>
+		<section>
+			<title>System Log Files</title>
+			<p>You might also find helpful information about the nature of an issue in the system logs. In
+				particular, the following logs may be relevant:</p>
+			<ul>
+				<li><filepath>/var/log/messages</filepath></li>
+				<li><filepath>/var/log/libvirt/</filepath></li>
+			</ul>
+		</section>
+		
 		<section>
 			<title>Log File Levels</title>
 			<p>All messages that show up as <codeph>FAULT</codeph>, <codeph>FATAL</codeph>, or
-					<codeph>ERROR</codeph> require an action by the administrator. </p>
+				<codeph>ERROR</codeph> require an action by the administrator. </p>
 			<dl>
 				<dlentry>
 					<dt>FAULT</dt>
@@ -27,18 +210,18 @@
 						solution, but one that Eucalyputs cannot fix by itself. The administrator needs to act
 						immediately.</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>FATAL</dt>
 					<dd>Any condition that indicates that Eucalyptus has failed (for example, OOM).</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>ERROR</dt>
 					<dd>Any condition for which an operator must take immediate action to
 						identify and/or remedy.</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>WARN</dt>
 					<dd>An indication that the system could not perform a task, but does not necessarily
@@ -47,7 +230,7 @@
 						retried unsuccessfully, with the final timeout possibly giving ERROR instead of
 						WARN.</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>INFO</dt>
 					<dd>This is the default recommended log level. Any log message that contains useful information to see
@@ -56,7 +239,7 @@
 						Time T with Correlation-id I, and it succeeded or failed--grep for Correlation-id I in various logs for
 						more info). This is useful for troubleshooting, but not necessarily for monitoring.</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>DEBUG</dt>
 					<dd>Detailed debug data is only available when the cloud is set to debug mode, and unlike
@@ -64,7 +247,7 @@
 						generated. For example, entering or leaving a particular function. These messages are generally incomprehensible to
 						administrators, but are useful to Eucalyptus engineers for debugging.</dd>
 				</dlentry>
-
+				
 				<dlentry>
 					<dt>TRACE (backend) or EXTREME (frontend)</dt>
 					<dd>These are useful for engineers only in development. Unlike DEBUG,
@@ -73,51 +256,6 @@
 						don't </dd>
 				</dlentry>
 			</dl>
-		</section>
-		<section>
-			<title>Log File Location</title>
-			<p>By default, the Eucalyptus log files are stored in
-					<filepath>/var/log/eucalyptus/</filepath> on each machine that hosts a Eucalyptus
-				component. If Eucalyptus is installed somewhere other than the filesystem root
-					(<filepath>/</filepath>), log files are stored in
-					<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </p>
-			<p>For Cloud controller (CLC), Walrus, Storage controller (SC), and VMware Broker, log files
-				are:</p>
-			<ul>
-				<li><filepath>cloud-output.log</filepath></li>
-				<li><filepath>euca_imager.log</filepath></li>
-			</ul>
-			<p>These components also include specialized developer log files. These are not relevant to
-				troubleshooting a production system, and are not affected by any log level settings. These
-				logs include the following:</p>
-			<ul>
-				<li><filepath>cloud-debug.log</filepath></li>
-				<li><filepath>cloud-error.log</filepath></li>
-				<li><filepath>cloud-exhaust.log</filepath><!-- contains extra database logs --></li>
-				<li><filepath>cloud-extreme.log</filepath><!-- contains verbose logs  --></li>
-			</ul>
-			<p>For the Cluster controller (CC), log files are:</p>
-			<ul>
-				<li><filepath>cc.log</filepath></li>
-				<li><filepath>axis2c.log</filepath></li>
-				<li><filepath>httpd-cc_error_log</filepath></li>
-			</ul>
-			<p>For the Node controller (NC), log files are:</p>
-			<ul>
-				<li><filepath>nc.log</filepath></li>
-				<li><filepath>axis2c.log</filepath></li>
-				<li><filepath>httpd-nc_error_log</filepath></li>
-				<li><filepath>euca_test_nc.log</filepath></li>
-			</ul>
-		</section>
-		<section>
-			<title>System Logs</title>
-			<p>You might also find helpful information about the nature of an issue in the system logs. In
-				particular, the following logs may be relevant:</p>
-			<ul>
-				<li><filepath>/var/log/messages</filepath></li>
-				<li><filepath>/var/log/libvirt/</filepath></li>
-			</ul>
 		</section>
 		<section>
 			<title>Log File Configuration</title>
