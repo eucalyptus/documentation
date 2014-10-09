@@ -17,13 +17,14 @@
 				<info>
 					<codeblock>euca-bundle-image -i &lt;ramdisk_file> --ramdisk true -r x86_64
 euca-upload-bundle -b &lt;ramdisk_bucket> -m /tmp/&lt;ramdisk_file>.manifest.xml
-euca-register &lt;ramdisk_bucket>/&lt;ramdisk_file>.manifest.xml</codeblock>
+euca-register &lt;ramdisk_bucket>/&lt;ramdisk_file>.manifest.xml -n &lt;name_of_ramdisk></codeblock>
 				</info>
 			</step>
 		</steps>
 		<example>
 			<p>For example:</p>
-			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/initrd-2.6.27.21-0.1-xen --ramdisk true -r x86_64
+			<codeblock>euca-bundle-image -i euca-fedora-10-x86_64/xen-kernel/initrd-2.6.27.21-0.1-xen 
+--ramdisk true -r x86_64
 ...
 Generating manifest /tmp/initrd-2.6.27.21-0.1-xen.manifest.xml
 
@@ -31,9 +32,8 @@ euca-upload-bundle -b example_rd_bucket -m /tmp/initrd-2.6.27.21-0.1-xen.manifes
 ...
 Uploaded image as example_rd_bucket/initrd-2.6.27.21-0.1-xen.manifest.xm
 
-euca-register example_rd_bucket/initrd-2.6.27.21-0.1-xen.manifest.xml
-IMAGE	eri-XXXXXXXX
-    		</codeblock>
+euca-register example_rd_bucket/initrd-2.6.27.21-0.1-xen.manifest.xml -n mynewramdisk
+IMAGE	eri-XXXXXXXX </codeblock>
 			<p>Where the returned value <codeph>eri-XXXXXXXX</codeph> is the
 				unique ID of the registered ramdisk image.</p>
 		</example>
