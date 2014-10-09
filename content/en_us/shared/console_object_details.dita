@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="object_detail_ui_context">
+    <title>Object Details</title>
+    <shortdesc> This page allows you to perform a variety of operations associated with objects within buckets.</shortdesc>
+    <taskbody/>
+    <task id="object_detail_ui_object">
+        <title>Object summary</title>
+        <shortdesc>The Object section provides a summary of the object, including its identifiers and a link to view it.
+            The object <uicontrol>Name</uicontrol> is the only editable field but its extension cannot be changed. </shortdesc>
+        
+    </task>
+    <task id="object_detail_ui_context_menu">
+        <title>Actions menu</title>
+        <shortdesc>Clicking the <uicontrol>Actions</uicontrol> menu displays the options to download, copy, or delete the object.</shortdesc>
+        <taskbody/>
+        <task id="object_detail_general_download">
+            <title>Download object</title>
+            <taskbody>
+                <context>The <uicontrol>Download</uicontrol> option allows you to download the object to a specified location on your local file system. 
+                    A copy of the file remains on S3 until it is deleted from S3 itself.</context>
+            </taskbody>
+        </task>
+        <task id="object_detail_general_copy">
+            <title>Copy object</title>
+            <taskbody>
+                <context>The <uicontrol>Copy</uicontrol> option allows you to copy an object along with all of its attributes from one bucket to another.</context>
+                <result>If copying an object to the same bucket, change the object's metadata, storage class, website redirect location or encryption attributes first.</result>
+                
+            </taskbody>
+        </task>
+        <task id="object_detail_general_delete">
+            <title>Delete an object</title>
+            <taskbody>
+                <context>The <uicontrol>Delete</uicontrol> option allows you to delete the object.</context>
+            </taskbody>
+        </task>
+    </task>
+    <task id="object_detail_ui_edit_metadata">
+        <title>Edit object metadata</title>
+        <taskbody>
+            <context>Each object has a set of attributes. These attributes identify the object by
+                its key and contain metadata about its size, creation and modified dates, encoding
+                type, encryption, and other pieces of information that allow S3 to process it.
+                Metadata can be system-defined or user-defined. <p>For more information about object
+                    metadata, go to <xref format="html" scope="external"
+                        href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html">
+                        Object Key and Metadata</xref>.</p><p>To edit object metadata, you can
+                    delete existing metadata or add a metadata pair:</p></context>
+           <steps>
+                <step>
+                    <cmd>To add a metadata pair:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select a key from the <uicontrol>Key</uicontrol> drop-down list box
+                                or define your own key by typing it in the <uicontrol>Key</uicontrol> 
+                                search field and click <uicontrol>Add metadata</uicontrol> from the list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select a value for the selected key from the <uicontrol>Value</uicontrol> drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Click <uicontrol>Add Metadata Pair</uicontrol> to acknowledge
+                                the message and continue.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>To remove an existing metadata pair, click the <uicontrol>x</uicontrol> 
+                        next to the pair listed under the Metadata heading.</cmd>
+                </step>
+           </steps>
+        </taskbody>
+    </task>
+<task id="object_detail_ui_edit_sharing">
+    <title>Edit the sharing settings</title>
+    <taskbody>
+        <context>The sharing settings dictate whether a particular account has acccess your object.</context>
+        <steps>
+            <step>
+                <cmd>To edit the sharing settings, select from the following:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Select <uicontrol>Public</uicontrol> to allow everyone access to your
+                                object.</cmd>
+                        <info>Newly-created objects have a default sharing setting of Public. You
+                                can change an object's sharing setting to private. See the Example
+                                section of this help page.</info>
+                        <info><note type="important">Making an object (or file) public means anyone who has the URL 
+                            can access the object, even if they are not authenticated users.</note></info>
+                    </substep>
+                    <substep>
+                        <cmd>Select <uicontrol>Private</uicontrol> to allow only those
+                            specified to access your object.</cmd>
+                    <stepresult>The Share with others section displays only if <uicontrol>Private</uicontrol> 
+                        was chosen as the Sharing option for this object.</stepresult>
+                        </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Specify access control parameters by performing the following:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Select <uicontrol>Use canned ACL</uicontrol> to use a
+                            pre-defined Access Control List established by your
+                            organization. </cmd>
+                        
+                        <info>
+                            <note>For more information about ACL, go to <xref format="html"
+                                scope="external" href="http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html"> 
+                                Access Control List (ACL) Overview.</xref></note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>To change to another pre-defined ACL, select an ACL from the <uicontrol>Use canned ACL</uicontrol> drop-down list box.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Select <uicontrol>Manually define sharing</uicontrol> to grant only specific accounts certain 
+                            levels of access to your object.</cmd>
+                        <info>
+                            <note>In order to manually define sharing with other accounts, specify that account with an account ID 
+                                or an email address associated with a user in the account. To obtain an account ID, coordinate with the owners
+                                or administrators of those accounts. Otherwise, specifying an email address of a user in the account will 
+                                effectively grant access to everyone in that account.</note>
+                            <note>You can remove an existing account and permission pair by clicking on the
+                                <uicontrol>x</uicontrol> next to the pair listed under the
+                                <uicontrol>Manually define sharing</uicontrol> option.</note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Enter the 12-digit account ID or email address of a user in the account in the <uicontrol>Account</uicontrol> field. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Select the appropriate level of access for the account by
+                            selecting it from the <uicontrol>Permissions</uicontrol>
+                            drop-down list box.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>Click the <uicontrol>Add Account</uicontrol> or <uicontrol>Add another account</uicontrol> button
+                            (if one or more accounts were already present) to add it
+                            to the list of accounts with which your object is shared.</cmd>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>When done, click the <uicontrol>Save Changes</uicontrol> button to save
+                    your work, or click <uicontrol>Cancel</uicontrol> to abandon your
+                    changes.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>
+<task id="object_detail_ui_edit_example">
+    <title>Example</title>
+    <taskbody>
+        <context>In this example, change an object marked public to private: </context>
+        <steps>
+            <step>
+                <cmd>From the Sharing section, select the <uicontrol>Private</uicontrol> option.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>x</uicontrol> next to the <codeph>AllUsers: READ</codeph> account-permission pair listed under the
+                    <uicontrol>Manually define sharing</uicontrol> option to remove it.</cmd>
+            </step>
+            <step>
+                <cmd>Click the <uicontrol>Save Changes</uicontrol> button to save your changes.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+</task>
+</task>
