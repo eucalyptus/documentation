@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="ts_img_worker">
+ <title>Imaging Worker</title>
+ <shortdesc>This topic contains troubleshooting tips for the Imaging Worker.</shortdesc>
+ <conbody>
+ 	<p>Some requests that require the Imaging Worker might remain in pending for a long time. For
+ 		example: an import task or a paravirtual instance run. If request remains in pending, the Imaging
+ 		Worker instance might not able to run because of a lack of resources (for example, instance slots
+ 		or IP addresses).</p>
+ 		<p>You can check for this scenario by listing latest AutoScaling activities:</p>
+ 	
+ 	<codeblock>euscale-describe-scaling-activities -g asg-euca-internal-imaging-worker-01</codeblock>
+ 	
+ 	<p>Check for failures that indicate inadequate resources such as:</p>
+ 	
+ 	<codeblock>ACTIVITY        1950c4e5-0db9-4b80-ad3b-5c7c59d9c82e    2014-08-12T21:05:32.699Z        asg-euca-internal-imaging-worker-01    Failed   Not enough resources available: addresses; please stop or terminate unwanted instances or release unassociated elastic IPs and try again, or run with private addressing only</codeblock>
+ </conbody>
+</concept>
