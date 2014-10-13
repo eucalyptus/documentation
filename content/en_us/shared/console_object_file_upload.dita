@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="bucket_upload_file_ui_context">
+    <title>Upload file</title>
+    <shortdesc> This page allows you to upload a file from your local file system to a folder in one
+        of your buckets and specify sharing attributes and metadata for it.</shortdesc>
+            <task id="bucket_select_file_ui">
+                <title>Select file(s)</title>
+                <taskbody>
+                    <steps>
+                        <step>
+                            <cmd>Click the <uicontrol>Choose Files</uicontrol> button.</cmd>
+                            <stepresult>A window opens prompting you to select a file from your local file system. </stepresult>
+                        </step>
+                            <step>
+                                <cmd>Navigate to the location of the file you want to upload.</cmd>
+                            </step>
+                            <step>
+                                <cmd>Select the file to upload or to select multiple files, hold down the <uicontrol>[Ctrl]</uicontrol> key while selecting files.</cmd>
+                                <info>The file size limit is 5 TB.</info>
+                            </step>
+                            <step>
+                                <cmd>Click <uicontrol>Open</uicontrol> from the file chooser window.</cmd>
+                                <stepresult>The selected file(s) display under the <uicontrol>Choose Files</uicontrol> button. 
+                                    To remove selected file(s) or add more, start over by repeating all the above steps.</stepresult>
+                            </step>
+                        <step>
+                            <cmd> You can optionally specify advanced options by clicking the
+                                <uicontrol>Advanced</uicontrol> link and refer to the
+                                next section for further details. </cmd>
+                        </step>
+                    </steps>
+                </taskbody>
+            </task>
+                <task id="bucket_upload_file_ui_advanced">
+                    <title>Specify Advanced Options</title>
+                    <shortdesc>You can optionally specify sharing parameters or apply metadata to
+            the object. </shortdesc>
+                 
+    <task id="object_detail_ui_edit_sharing">
+        <title>Edit the sharing settings</title>
+        <taskbody>
+            <context>The sharing options for the selected object(s) have been automatically set to
+                    match their bucket. Adjust these options if necessary.</context>
+            <steps>
+                <step>
+                    <cmd>To edit the sharing settings, select from the following:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select <uicontrol>Public</uicontrol> to allow everyone access to your
+                                object.</cmd>
+                            <info><note type="important">Making an object (or file) public means anyone who has the URL 
+                                can access the object, even if they are not authenticated users.</note></info>
+                        </substep>
+                        <substep>
+                            <cmd>Select <uicontrol>Private</uicontrol> to allow only those
+                                specified to access your object.</cmd>
+                            <stepresult>The Share with others section displays only if <uicontrol>Private</uicontrol> 
+                                was chosen as the Sharing option for this object.</stepresult>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>Specify access control parameters by performing the following:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select <uicontrol>Use canned ACL</uicontrol> to use a
+                                pre-defined Access Control List established by your
+                                organization. </cmd>
+                            
+                            <info>
+                                <note>For more information about ACL, go to <xref format="html"
+                                    scope="external" href="http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html"> 
+                                    Access Control List (ACL) Overview.</xref></note>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>To change to another pre-defined ACL, select an ACL from the <uicontrol>Use canned ACL</uicontrol> drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select <uicontrol>Manually define sharing</uicontrol> to grant only specific accounts certain 
+                                levels of access to your object.</cmd>
+                            <info>
+                                <note>In order to manually define sharing with other accounts, specify that account with an account ID 
+                                    or an email address associated with a user in the account. To obtain an account ID, coordinate with the owners
+                                    or administrators of those accounts. Otherwise, specifying an email address of a user in the account will 
+                                    effectively grant access to everyone in that account.</note>
+                                <note>You can remove an existing account and permission pair by clicking on the
+                                    <uicontrol>x</uicontrol> next to the pair listed under the
+                                    <uicontrol>Manually define sharing</uicontrol> option.</note>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Enter the 12-digit account ID or email address of a user in the account in the <uicontrol>Account</uicontrol> field. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the appropriate level of access for the account by
+                                selecting it from the <uicontrol>Permissions</uicontrol>
+                                drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Click the <uicontrol>Add Account</uicontrol> or <uicontrol>Add another account</uicontrol> button
+                                (if one or more accounts were already present) to add it
+                                to the list of accounts with which your object is shared.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                
+            </steps>
+        </taskbody>
+    </task>
+        <task id="object_detail_ui_edit_metadata">
+            <title>Edit object metadata</title>
+            <taskbody>
+                <context>Each object has a set of attributes. These attributes identify the object by
+                    its key and contain metadata about its size, creation and modified dates, encoding
+                    type, encryption, and other pieces of information that allow S3 to process it.
+                    Metadata can be system-defined or user-defined. <p>For more information about object
+                        metadata, go to <xref format="html" scope="external"
+                            href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html">
+                            Object Key and Metadata</xref>.</p><p>To edit object metadata, you can
+                                delete existing metadata or add a metadata pair:</p></context>
+                <steps>
+                    <step>
+                        <cmd>To add a metadata pair:</cmd>
+                        <substeps>
+                            <substep>
+                                <cmd>Select a key from the <uicontrol>Key</uicontrol> drop-down list box
+                                    or define your own key by typing it in the <uicontrol>Key</uicontrol> 
+                                    search field and click <uicontrol>Add metadata</uicontrol> from the list box.</cmd>
+                            </substep>
+                            <substep>
+                                <cmd>Select a value for the selected key from the <uicontrol>Value</uicontrol> drop-down list box.</cmd>
+                            </substep>
+                            <substep>
+                                <cmd>Click <uicontrol>Add Metadata Pair</uicontrol> to acknowledge
+                                    the message and continue.</cmd>
+                            </substep>
+                        </substeps>
+                    </step>
+                    <step>
+                        <cmd>To remove an existing metadata pair, click the <uicontrol>x</uicontrol> 
+                            next to the pair listed under the Metadata heading.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+                </task>
+            <task id="upload_file_ui_finish">
+                <title>Begin the Upload</title>
+                <shortdesc/>
+                <taskbody>
+                    <steps>
+                        <step>
+                        <cmd>When done, click the <uicontrol>Upload File(s)</uicontrol> button to upload the select file(s), 
+                            or click <uicontrol>Cancel</uicontrol> to abandon the operation.</cmd>
+                        <stepresult>A confirmation dialog box opens if you proceed to upload.</stepresult>
+                    </step>
+                    
+                    <step>
+                        <cmd>Click <uicontrol>OK, Let's Do This Now!</uicontrol> to confirm and begin uploading the file(s).</cmd>
+                        <stepresult>A new window opens, displaying the status of the upload with a
+                        progress indicator.</stepresult>
+                    </step>
+                    <step>
+                        <cmd>Stay on the page to complete the upload process.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Otherwise, click <uicontrol>Cancel Upload</uicontrol> or navigate away from this page to cancel the uploading process.</cmd>
+                        <stepresult>Any files that do not upload completely during the cancel operation are cleaned up automatically. 
+                            Those that have already uploaded remain in the bucket.</stepresult>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+</task>
