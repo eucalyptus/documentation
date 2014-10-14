@@ -81,6 +81,54 @@ PROPERTY        imaging.imaging_worker_instance_type    m3.xlarge was m1.small</
 			</steps>
 		</taskbody>
 	</task>
+	<task id="manage_imaging_service_instance">
+		<title>Managing Imaging Worker Instance</title>
+		<shortdesc>Eucalyptus automatically starts Imaging Worker instances when there are tasks for
+			workers to perform. </shortdesc>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>The cloud administrator can list running Imaging Worker instances, if any, by running the
+						command:</cmd>
+					<info>
+						<codeblock># euca-describe-instances --filter tag-value=euca-internal-imaging-workers</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Imaging Worker instances are not terminated automatically when they no longer have tasks
+						to perform. Free up resources used by the Imaging Worker instances by
+						reducing the Auto Scaling group size as follows:</cmd>
+					<info><ul>
+						<li><codeph>Min=0</codeph></li>
+						<li><codeph>Desired=0</codeph></li>
+						<li><codeph>Max=</codeph>leave at <codeph>1</codeph></li>
+					</ul>
+					</info>
+					
+					<info>
+						<codeblock># euscale-update-auto-scaling-group asg-euca-internal-imaging-worker-01 --desired-capacity 0 --min-size 0</codeblock>
+					</info>
+					<info><note>When an Auto Scaling group is reduced in that manner, tasks that require the Imaging Worker
+							(new paravirtual EMI deployment, import of volumes and instances) will
+							not work.</note></info>
+				</step>
+				<step>
+					<cmd>To allow the Imaging Worker instances to be deployed again, increase the Auto Scaling
+						group (ASG) capacity:</cmd>
+					<info><ul>
+						<li><codeph>Min=1</codeph></li>
+						<li><codeph>Desired=1</codeph></li>
+						<li><codeph>Max=</codeph>leave at <codeph>1</codeph></li>
+					</ul>
+					</info>
+					<info>
+						<codeblock># euscale-update-auto-scaling-group asg-euca-internal-imaging-worker-01 --desired-capacity 1 --min-size 1</codeblock>
+					</info>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	
 	<task id="troubleshoot_imaging_worker">
 		<title>Troubleshooting Imaging Worker</title>
 		<shortdesc>If the Imaging Worker is configured correctly, users will be able to import data into
@@ -109,22 +157,6 @@ euca-terminate-instances $(euca-describe-instances --filter tag-value=euca-inter
 					<info>
 						<codeblock>euca-run-instance ...</codeblock>
 					</info>
-				</step>
-				<step>
-					<cmd>If the image is marked as 'failed', but the status of conversion operation is 'Pending conversion' (in the output of euca-describe-images), the
-						conversion can be retried using one of two methods:</cmd>
-					<choices>
-						<choice>Deregister the EMI, and register that same bucket/manifest path again. 
-							Running the new EMI will re-retry the conversion. 
-							The caveat is that the EMI changes.
-							</choice>
-						<choice>Modify the Eucalyptus DB entry (only cloud administrator can do this) and put the image back in the 
-							state in which running the image again will re-try the conversion. 
-							EMI does not change in this case. The DB command, to be executed on the CLC host:
-						<codeblock>psql -p 8777 -h /var/lib/eucalyptus/db/data eucalyptus_cloud -c "update metadata_images set metadata_state='pending_available', metadata_image_conversion_id='' where metadata_display_name='emi-XXXXXX';"</codeblock>
-						where emi-XXXXXX is the ID of the image in the 'failed' state.
-						</choice>
-					</choices>
 				</step>
 			</steps>
 		</taskbody>
