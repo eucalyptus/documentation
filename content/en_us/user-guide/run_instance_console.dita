@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="run_instance">
+	<title>Launch and Connect to an Instance with the User Console</title>
+	<shortdesc/>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>Instances <indexterm>Launching an Instance</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+		<context>
+			<p>To launch an instance:</p>
+		</context>
+		<steps>
+
+			<step>
+				<cmd>Click on the <uicontrol>Launch Instance</uicontrol> button on the main console
+					page:</cmd>
+
+				<info><image href="images/run_instance_console_1.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+
+
+			</step>
+
+			<step>
+				<cmd>Select an image from the list (for this example, we'll select a Centos 6
+					image), then click the <uicontrol>Next</uicontrol> button:</cmd>
+				<info><image href="images/run_instance_console_2.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+
+			</step>
+			<step>
+				<cmd>Select an instance type and availability zone from the
+						<uicontrol>Details</uicontrol> tab. For this example, select the defaults,
+					and then click the <uicontrol>Next</uicontrol> button:</cmd>
+				<info><image href="images/run_instance_console_3.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+
+			</step>
+			<step>
+				<cmd>On the <uicontrol>Security</uicontrol> tab, we'll create a key pair and a
+					security group to use with our new instance. A key pair will allow you to access
+					your instance, and a security group allows you to define what kinds of incoming
+					traffic your instance will allow.</cmd>
+				<info><image href="images/run_instance_console_4.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+
+				<substeps>
+
+					<substep>
+
+						<cmd>First, we will create a key pair. Click the <uicontrol>Create key
+								pair</uicontrol> link to bring up the <uicontrol>Create key
+								pair</uicontrol> dialog:</cmd>
+						<info><image href="images/run_instance_console_4a.jpg" scale="80"
+								alt="Eucalyptus Console Launch Instance"/>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Type the name of your new key pair into the <uicontrol>Name</uicontrol>
+							text box, and then click the <uicontrol>Create key pair</uicontrol>
+							button:</cmd>
+						<info><image href="images/run_instance_console_4b.jpg" scale="80"
+								alt="Eucalyptus Console Create Keypair"/>
+						</info>
+					</substep>
+					<substep>
+						<cmd>A dialog with the private half of your new key pair will display. You
+							will need to save this keypair in a safe place. Click on the
+								<uicontrol>Download key pair</uicontrol> button and save the key
+							pair file to a safe place.</cmd>
+						<info><image href="images/run_instance_console_4c.jpg" scale="80"
+								alt="Eucalyptus Console Create Keypair"/>
+						</info>
+
+					</substep>
+					<substep>
+						<cmd>The <uicontrol>Create key pair</uicontrol> dialog will close, and the
+								<uicontrol>Key name</uicontrol> text box will be populated with the
+							name of the key pair you just created:</cmd>
+						<info><image href="images/run_instance_console_4d.jpg" scale="80"
+								alt="Eucalyptus Console Create Keypair"/>
+						</info>
+					</substep>
+					<substep>
+
+						<cmd>Next, we will create a security group. Click the <uicontrol>Create
+								security group</uicontrol> link to bring up the <uicontrol>Create
+								security group</uicontrol> dialog:</cmd>
+						<info><image href="images/run_instance_console_4e.jpg" scale="80"
+								alt="Eucalyptus Console Launch Instance"/>
+						</info>
+					</substep>
+					<substep>
+
+						<cmd>On the Create security group dialog, type the name of your security
+							group into the <uicontrol>Name</uicontrol> text box.</cmd>
+
+					</substep>
+					<substep>
+
+						<cmd>Type a brief description of your security group into the
+								<uicontrol>Description</uicontrol> text box.</cmd>
+
+					</substep>
+
+					<substep>
+
+						<cmd>We'll need to SSH into our instance later, so in the
+								<uicontrol>Rules</uicontrol> section of the dialog, select the SSH
+							protocol from the <uicontrol>Protocol</uicontrol> drop-down list
+							box.</cmd>
+
+					</substep>
+					<substep>
+						<note importance="high">In this example, we allow any IP address to access
+							our new instance. For production use, please use appropriate caution
+							when specifying an IP range. For more information on CIDR notation, go
+							to <xref
+								href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation"
+								>CIDR notation</xref>.</note>
+
+						<cmd>You need to specify an IP address or a range of IP addresses that can
+							use SSH to access your instance. For this example, click the
+								<uicontrol>Open to all addresses</uicontrol> link. This will
+							populate the <uicontrol>IP Address</uicontrol> text box with 0.0.0.0/0,
+							which allows any IP address to access your instance via SSH.</cmd>
+						<info><image href="images/run_instance_console_4f.jpg" scale="80"
+								alt="Eucalyptus Console Create Security Group"/>
+						</info>
+
+
+					</substep>
+					<substep>
+						<cmd>Click the <uicontrol>Add rule</uicontrol> button. The <uicontrol>Create
+								security group</uicontrol> dialog should now look something like
+							this:</cmd>
+						<info><image href="images/run_instance_console_4g.jpg" scale="80"
+								alt="Eucalyptus Console Create Security Group"/>
+						</info>
+					</substep>
+					<substep>
+
+						<cmd>Click the <uicontrol>Create security group</uicontrol> button.</cmd>
+
+						<info>The <uicontrol>Create security group</uicontrol> dialog will close,
+							and the <uicontrol>Security group</uicontrol> text box will be populated
+							with the name of the security group you just created:</info>
+						<info><image href="images/run_instance_console_4h.jpg" scale="80"
+								alt="Eucalyptus Console Create Keypair"/>
+						</info>
+
+					</substep>
+				</substeps>
+			</step>
+			<step>
+				<cmd>You're now ready to launch your new instance. Click the <uicontrol>Launch
+						Instance</uicontrol> button.</cmd>
+				<info>The Launch Instance dialog will close, and the Instances screen will display.
+					The instance you just created will display at the top of the list with a status
+					of Pending:</info>
+				<info><image href="images/run_instance_console_4j.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+			</step>
+			<step>
+				<cmd>When the status of your new instance changes to Running, click the instance in
+					the list to bring up a page showing details of your instance. For example:</cmd>
+
+				<info><image href="images/run_instance_console_4k.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+			</step>
+			<step>
+				<cmd>Note the <uicontrol>Public IP address</uicontrol> and/or the <uicontrol>Public
+						hostname</uicontrol> fields. You will need this information to connect to
+					your new instance. For example:</cmd>
+
+				<info><image href="images/run_instance_console_4l.jpg" scale="80"
+						alt="Eucalyptus Console Launch Instance"/>
+				</info>
+			</step>
+			<step>
+				
+				<cmd>Using the public IP address or hostname of your new instance, you can now use SSH to log into the instance using the private key file you saved when you created a key pair. For example:</cmd>
+				<info>
+					<codeblock>ssh -i my-test-keypair.private root@10.111.57.109 </codeblock>
+				</info>
+			</step>
+
+
+		</steps>
+		<!--<postreq>For more information about <codeph>euca-authorize</codeph>, see the CLI Reference
+    		Guide.</postreq>-->
+	</taskbody>
+</task>
