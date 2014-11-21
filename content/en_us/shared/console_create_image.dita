@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="create_image_ui_help_context">
+    <title>Create an Image</title>
+    <shortdesc> This page allows you to create an image. All instances are made from images. For
+        more information on images, see <i>Image Overview</i> in the <i>Eucalyptus Image Management
+            Guide</i>. </shortdesc>
+    <taskbody/>
+    <task id="create_image_ui_help_steps_machine">
+        <title>Machine</title>
+        <shortdesc>Specify basic information about your image in this section.</shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd> Type the name of your new image in the <uicontrol>Name</uicontrol> text
+                        box. Refer to the rules for naming that appears below the text box.</cmd>
+                </step>
+                <step>
+                    <cmd> A reference to the image it was created from is pre-populated in the <uicontrol>Description</uicontrol>.
+                        text box for your convenience. However, you can change the description by typing in a different description
+                        for the image.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="create_image_ui_help_steps_storage">
+        <title>Storage</title>
+        <shortdesc>This section appears here for images associated with non-EBS backed instances and
+            allows you to specify where to store your image. For images associated with EBS-backed
+            instances, refer to the Advanced options for configuring storage
+            information.</shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd> Specify a bucket to store your image by selecting one from the
+                            <uicontrol>Bucket name</uicontrol> drop-down list box or entering a name
+                        to create a new bucket.</cmd>
+                </step>
+                <step>
+                    <cmd> A prefix of <codeph>image</codeph> is already assigned for the filename
+                        prefix of your image but you can change it by typing in a different prefix
+                        in the <uicontrol>Prefix</uicontrol> text box. </cmd>
+                </step>
+                <step>
+                    <cmd> Refer to the next section to add tags. Refer to the Advanced options for
+                        configuring additional settings. Otherwise, click the <uicontrol>Create
+                            Image</uicontrol> button to create your image.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+        <task id="tags" conref="console_add_edit_tags_in_place.dita#console_add_edit_tags_in_place">
+            <title>Tags</title>
+        </task>
+            
+    <task id="create_image_ui_advanced_steps">
+        <title>Specify Advanced Options</title>
+        <shortdesc>This panel is only available for images associated with EBS-backed instances.
+            These advanced options allow you to add user data, override the kernel and RAM disk IDs,
+            specify private networking, and add additional storage for your new image.</shortdesc>
+        <taskbody>
+           <steps>
+               <step>
+                   <cmd> Check the <uicontrol>No reboot</uicontrol> check box to keep the 
+                       instance from shutting down before the image is created.</cmd>
+                   <info> Not allowing the instance to shut down before the image is created 
+                       can impact the file integrity of the image.</info>
+               </step>
+                <step>
+                    <cmd>For EBS-backed instances, you can configure the root volume or additional
+                        storage for your instance in the Storage section:</cmd>
+                    <substeps id="create_image_ui_advanced_storage_steps">
+                        <substep>
+                            <cmd> Change the size of the root volume by entering the size of the
+                                attached storage in gigabytes into the <uicontrol>Size
+                                    (GB)</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the <uicontrol>Delete on terminate</uicontrol> check box if
+                                you want the attached storage deleted when the instance is
+                                terminated.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd> You can configure additional storage for your instance by
+                                selecting a volume type from the <uicontrol>Volume</uicontrol>
+                                drop-down list box. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Type the desired mapping for the storage into the
+                                    <uicontrol>Mapping</uicontrol> text box (for example:<codeph>
+                                    /dev/sdb</codeph>).</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>If you want to create the storage from an existing snapshot,
+                                specify it in the <uicontrol>Create from snapshot</uicontrol>
+                                drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd> Type the size of the attached storage in gigabytes into the
+                                    <uicontrol>Size (GB) </uicontrol>text box. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd> Select the <uicontrol>Delete on terminate</uicontrol> check box if
+                                you would like the attached storage to be deleted when the instance
+                                is terminated. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Click the <uicontrol>Add Device</uicontrol> button to add this
+                                storage.</cmd>
+                            <stepresult>Added storage displays as a row in the table under the
+                                Storage area. </stepresult>
+                        </substep>
+                        <substep>
+                            <cmd>You can delete existing storage by clicking the minus button on the
+                                right side of the storage list item.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd> Click the <uicontrol>Create Image</uicontrol> button to create your new
+                        image. </cmd>
+                </step>
+           </steps>
+            
+        </taskbody>
+    </task>
+    <task id="create_image_ui_help_steps_complete">
+        <title>Creation confirmation</title>
+        <shortdesc>A Warning page opens with information about image creation process. For images associated with non-EBS backed instances, a prompt for
+            your password is required to proceed. EBS-backed instances do not require a password.</shortdesc>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd> Enter your password in the <uicontrol>Your password</uicontrol> text box
+                        and be sure have completed all the steps outlined on the page before
+                        preoceeding. </cmd>
+                </step>
+                <step>
+                    <cmd> To proceed, click the <uicontrol>I Understand, Let's Do This!</uicontrol>
+                        button. Otherwise, click outside the page or click the
+                            <uicontrol>X</uicontrol> control from the top corner of the page to
+                        exit.</cmd>
+                    <stepresult> If you proceeded to create the image, another page opens, stating
+                        that the image is successfully created but it will take a few minutes, then
+                        the Image Detail window opens, showing the newly-created image with a status
+                        of <codeph>pending</codeph>.</stepresult>
+                </step>
+                <step>
+                    <cmd> Refer to the Help in the Image Detail page for instructions associated
+                        with that page.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+</task>

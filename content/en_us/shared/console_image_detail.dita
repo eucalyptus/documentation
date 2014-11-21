@@ -13,7 +13,7 @@
         <shortdesc> Clicking the <uicontrol>Actions</uicontrol> button brings up a menu of
             actions that you can perform on the selected image.</shortdesc>
         <taskbody>
-            <context>The following menu actions are availabe:</context>
+            <context>The following menu actions are available:</context>
         </taskbody>
         
 
@@ -29,6 +29,7 @@
                 </steps>
             </taskbody>
         </task>
+        
         <task id="image_detail_launch_config_steps">
             <title>Create launch configuration</title>
             <shortdesc/>
@@ -41,10 +42,116 @@
                             wizard. </cmd>
                         <info><note>For more information on Auto Scaling, please see <i>Using Auto
                                     Scaling</i> in the <i>Eucalyptus User Guide</i>.</note></info>
-
                     </step>
                 </steps>
             </taskbody>
         </task>
-    </task>
+            <task id="image_detail_cancel_creation_steps">
+                <title>Cancel image creation</title>
+                <shortdesc/>
+                <taskbody>
+                    <steps>
+                        <step>
+                    <cmd>This option is only available if the image is in a pending, waiting for 
+                shutdown, bundling, or storing state.</cmd>
+                    </step>
+                    </steps>
+                </taskbody>
+            </task>
+            <task id="image_detail_romove_from_cloud_steps">
+                <title>Remove from cloud</title>
+                    <shortdesc>The Remove from cloud option is used to clean up images that are no
+                        longer needed. Once removed, it will become de-registered but can be re-registered
+                        if its snapshot has not been deleted. This option is only available if the image is
+                        available. </shortdesc>
+                    <taskbody>
+                        <steps>
+                            <step>
+                                <cmd>Selecting this menu displays the <uicontrol>Remove image from cloud</uicontrol> confirmation window. </cmd>                            
+                            </step>
+                            <step>
+                                <cmd>To confirm, click <uicontrol>Yes, Remove Image from the Cloud</uicontrol>. </cmd>                            
+                            </step>
+                        </steps>
+                    </taskbody>
+            </task>
+            </task>
+<task id="image_detail_ui_sharing">
+                <title>Sharing</title>
+                <taskbody>
+                    <context>The sharing settings dictate whether your account or another account can
+                        acccess your image.</context>
+                    <steps>
+                        <step>
+                            <cmd>To edit the sharing settings, select from the following:</cmd>
+                            <substeps>
+                                <substep>
+                                    <cmd>Select <uicontrol>Public</uicontrol> to allow everyone
+                                access to your image.</cmd>
+                                    <info><note type="important">Making an image public means anyone who has the URL 
+                                        can access that image, even if they are not authenticated users.</note></info>
+                                </substep>
+                                <substep>
+                                    <cmd>Select <uicontrol>Private</uicontrol> to allow only those
+                                        specified to access your image.</cmd>
+                               
+                                    <stepresult>The Share with others section displays only if <uicontrol>Private</uicontrol> 
+                                        was chosen as the Sharing option for this image.</stepresult>
+                                </substep>
+                          
+                                <substep>
+                                    <cmd>In order to manually define sharing with other accounts, specify that account with an account ID 
+                                        or an email address associated with a user in the account in the provided text field.</cmd>
+                                    <info><note>To obtain an account ID, coordinate with the owners
+                                        or administrators of those accounts. Otherwise, specifying an email address of a user in the account will 
+                                        effectively grant access to everyone in that account. </note>
+                                        <note>You can remove an existing account by clicking on the
+                                            <uicontrol>x</uicontrol> next to the account listed under the Share with specific accounts heading.</note>
+                                    </info>
+                                </substep>
+                               
+                                <substep>
+                                    <cmd>Click the <uicontrol>Add Account</uicontrol> or <uicontrol>Add another account</uicontrol> button
+                                        (if one or more accounts were already present) to add it to the list of accounts with which your image is shared.</cmd>
+                                </substep>
+                            </substeps>
+                        </step>
+                        <step>
+                            <cmd>When done, click the <uicontrol>Save Changes</uicontrol> button to save
+                                your work, or click <uicontrol>Cancel</uicontrol> to abandon your
+                                changes.</cmd>
+                        </step>
+                    </steps>
+                </taskbody>
 </task>
+   
+        <task id="create_detail_ui_storage">
+            <title>Storage</title>
+            <shortdesc>This section is present for EBS-backed instances only. Information about each volume, 
+                including the root volume, is listed in rows beneath the Storage heading, along with any additional 
+                storage configured for this image:</shortdesc>
+            <taskbody>
+                <steps-unordered>
+                    <step>
+                        <cmd> VOLUME lists the volume type(s).</cmd>
+                    </step>
+                    <step>
+                        <cmd> MAPPING defines the instance to which the specified image is attached for this device. </cmd>
+                    </step>
+                    <step>
+                        <cmd> SNAPSHOT shows the snapshot from which the storage was created. </cmd>
+                    </step>
+                    <step>
+                        <cmd> SIZE (GB) describes the size of the attached storage in gigabytes. </cmd>
+                    </step>
+                    <step>
+                        <cmd> DELETE ON TERMINATE specifies whether the attached storage is deleted when the instance
+                            is terminated.</cmd>
+                    </step>
+                </steps-unordered>
+            </taskbody>
+</task>
+        <task id="tags" conref="console_add_edit_tags_in_place.dita#console_add_edit_tags_in_place">
+            <title>Tags</title>
+        </task>
+    </task>
