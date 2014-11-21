@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-describe-vpc-attribute">
+	<title>euca-describe-vpcs</title>
+	<shortdesc>Describes available VPCs.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>vpc compatible commands</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-describe-vpcs [--show-empty-fields] [-U URL]
+	[--region USER@REGION] [-I KEY_ID] [-S KEY]
+	[--security-token TOKEN] [--filter NAME=VALUE]
+	[--debug] [--debugger] [--version] [-h]
+	[VPC [VPC ...]]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						
+						<row>
+							<entry><codeph>VPC_ID [VPC_ID ...]</codeph></entry>
+							<entry>Limit results to one or more supplied VPC IDs.</entry>
+							<entry align="center">No</entry>
+						</row>
+						
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Available Filters</title>
+			
+			<p>You can add filters to your request so that the response includes information for
+				only certain VPCs. For example, you can use a filter to return only the
+				VPC that has a specific ID. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for a VPC only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify VPCs that have a specific
+					tag. Eucalyptus responds
+					with the information for a VPC only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-vpcs</apiname>:</p>
+			
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+					
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+						
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>cidr</codeph></entry>
+							<entry>CIDR address block</entry>
+						</row>
+						<row>
+							<entry><codeph>dhcp-options-id</codeph></entry>
+							<entry>DHCP option set ID</entry>
+						</row>
+						<row>
+							<entry><codeph>isDefault</codeph></entry>
+							<entry>The VPC is a default VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>state</codeph></entry>
+							<entry>The state of the VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>tag-key</codeph></entry>
+							<entry>key of a tag assigned to the VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>tag-value</codeph></entry>
+							<entry>value of a tag assigned to the VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>tag:KEY</codeph></entry>
+							<entry>specific tag key/value combination</entry>
+						</row>
+						<row>
+							<entry><codeph>vpc-id</codeph></entry>
+							<entry>the ID of the VPC</entry>
+						</row>
+						
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
+		<section>
+			<title>Example</title>
+			<p>The following example describes all VPCs for an account.</p>
+			<codeblock>euca-describe-vpcs</codeblock>
+			<p>This command will return output similar to the following:</p>
+			<codeblock>VPC	vpc-2a0af901	available	10.0.0.0/16	dopt-68a46350	default</codeblock>
+		</section>
+
+
+
+	</refbody>
+</reference>
