@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euca-create-vpc-peering-connection">
+	<title>euca-create-vpc</title>
+	<shortdesc>Creates a new VPC.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>vpc compatible commands</keyword>
+			</keywords>
+		</metadata>
+	</prolog>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>euca-create-vpc [--tenancy {default,dedicated}] [--show-empty-fields]
+	[-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
+	[--security-token TOKEN] [--debug] [--debugger]
+    [--version] [-h]
+    CIDR_block</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="60*"/>
+					<colspec colwidth="15*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+
+						</row>
+					</thead>
+					<tbody>
+						
+						<row>
+							<entry><codeph>--tenancy <i>default</i></codeph> | <i>dedicated</i></entry>
+							<entry>The type of instance tenancy to use.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><i>CIDR_block</i></entry>
+							<entry>The IP address range for the VPC to use, in CIDR notation.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+
+		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
+		<section>
+			<title>Output</title>
+			<ul>
+				<li>Output type identifier ("VPC")</li>
+				<li>VPC ID</li>
+				<li>Status</li>
+				<li>CIDR address range</li>
+				<li>DHCP option set ID</li>
+				<li>Indicates a default VPC</li>
+			</ul>
+		</section>
+		
+		
+		<section>
+			<title>Example</title>
+			<p>The following example creates a new VPC with the CIDR range 10.0.0.0/16</p>
+			<codeblock>euca-create-vpc 10.0.0.0/16</codeblock>
+			<p>This command will return output similar to the following:</p>
+			<codeblock>VPC	vpc-2a0af901	available	10.0.0.0/16	dopt-68a46350	default</codeblock>
+		</section>
+
+
+
+	</refbody>
+</reference>
