@@ -26,8 +26,14 @@
             <title>Copy object</title>
             <taskbody>
                 <context>The <uicontrol>Copy</uicontrol> option allows you to copy an object along with all of its attributes from one bucket to another.</context>
-                <result>If copying an object to the same bucket, change the object's metadata, storage class, website redirect location or encryption attributes first.</result>
+                <result>Copying an object to the same bucket is not allowed.</result>
                 
+            </taskbody>
+        </task>
+        <task id="object_detail_general_make_public">
+            <title>Make object public</title>
+            <taskbody>
+                <context>The <uicontrol>Make public</uicontrol> option allows anyone who has the URL to access and download the object, even if they are not authenticated users.</context>
             </taskbody>
         </task>
         <task id="object_detail_general_delete">
@@ -76,95 +82,33 @@
 <task id="object_detail_ui_edit_sharing">
     <title>Edit the sharing settings</title>
     <taskbody>
-        <context>The sharing settings dictate whether a particular account has acccess your object.</context>
+        <context>The sharing settings grant specific account(s) certain levels of acccess to your
+                object.</context>
         <steps>
             <step>
                 <cmd>To edit the sharing settings, select from the following:</cmd>
                 <substeps>
                     <substep>
-                        <cmd>Select <uicontrol>Public</uicontrol> to allow everyone access to your
-                                object.</cmd>
-                        <info>Newly-created objects have a default sharing setting of Public. You
-                                can change an object's sharing setting to private. See the Example
-                                section of this help page.</info>
-                        <info><note type="important">Making an object (or file) public means anyone who has the URL 
-                            can access the object, even if they are not authenticated users.</note></info>
+                        <cmd>Select the type of user from the <uicontrol>Grantee</uicontrol> drop-down text list 
+                            to grant access to your object.</cmd>
+                        <info>Newly-created objects have a default sharing setting of owner full control.</info>
                     </substep>
                     <substep>
-                        <cmd>Select <uicontrol>Private</uicontrol> to allow only those
-                            specified to access your object.</cmd>
-                    <stepresult>The Share with others section displays only if <uicontrol>Private</uicontrol> 
-                        was chosen as the Sharing option for this object.</stepresult>
-                        </substep>
-                </substeps>
-            </step>
-            <step>
-                <cmd>Specify access control parameters by performing the following:</cmd>
-                <substeps>
-                    <substep>
-                        <cmd>Select <uicontrol>Use canned ACL</uicontrol> to use a
-                            pre-defined Access Control List established by your
-                            organization. </cmd>
-                        
-                        <info>
-                            <note>For more information about ACL, go to <xref format="html"
-                                scope="external" href="http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html"> 
-                                Access Control List (ACL) Overview.</xref></note>
-                        </info>
+                        <cmd>Select the level of access from the <uicontrol>Permission</uicontrol> drop-down list box to apply to the
+                            specified users you granted access to your object.</cmd>
+                        <info>If you enter a user's email address, sharing will be extended to all users in their account.</info>
                     </substep>
                     <substep>
-                        <cmd>To change to another pre-defined ACL, select an ACL from the <uicontrol>Use canned ACL</uicontrol> drop-down list box.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Select <uicontrol>Manually define sharing</uicontrol> to grant only specific accounts certain 
-                            levels of access to your object.</cmd>
-                        <info>
-                            <note>In order to manually define sharing with other accounts, specify that account with an account ID 
-                                or an email address associated with a user in the account. To obtain an account ID, coordinate with the owners
-                                or administrators of those accounts. Otherwise, specifying an email address of a user in the account will 
-                                effectively grant access to everyone in that account.</note>
-                            <note>You can remove an existing account and permission pair by clicking on the
-                                <uicontrol>x</uicontrol> next to the pair listed under the
-                                <uicontrol>Manually define sharing</uicontrol> option.</note>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Enter the 12-digit account ID or email address of a user in the account in the <uicontrol>Account</uicontrol> field. </cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Select the appropriate level of access for the account by
-                            selecting it from the <uicontrol>Permissions</uicontrol>
-                            drop-down list box.</cmd>
-                    </substep>
-                    <substep>
-                        <cmd>Click the <uicontrol>Add Account</uicontrol> or <uicontrol>Add another account</uicontrol> button
-                            (if one or more accounts were already present) to add it
-                            to the list of accounts with which your object is shared.</cmd>
+                        <cmd>Click the <uicontrol>Add Grantee</uicontrol> button to add the grantee-permission pair.</cmd>
+                        <info>If a user is already granted, the header shows "Add another grantee". </info>
                     </substep>
                 </substeps>
             </step>
+           
             <step>
                 <cmd>When done, click the <uicontrol>Save Changes</uicontrol> button to save
                     your work, or click <uicontrol>Cancel</uicontrol> to abandon your
                     changes.</cmd>
-            </step>
-        </steps>
-    </taskbody>
-</task>
-<task id="object_detail_ui_edit_example">
-    <title>Example</title>
-    <taskbody>
-        <context>In this example, change an object marked public to private: </context>
-        <steps>
-            <step>
-                <cmd>From the Sharing section, select the <uicontrol>Private</uicontrol> option.</cmd>
-            </step>
-            <step>
-                <cmd>Click the <uicontrol>x</uicontrol> next to the <codeph>AllUsers: READ</codeph> account-permission pair listed under the
-                    <uicontrol>Manually define sharing</uicontrol> option to remove it.</cmd>
-            </step>
-            <step>
-                <cmd>Click the <uicontrol>Save Changes</uicontrol> button to save your changes.</cmd>
             </step>
         </steps>
     </taskbody>
