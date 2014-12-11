@@ -1,16 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="task_gqv_bm3_y4">
+<task id="vpc_examples_create_simple">
     <title>Creating a Simple VPC</title>
     <shortdesc/>
     <taskbody>
         <context>
-            <p>Context for the current task</p>
+            <p>This task describes using the command line tools to create a simple VPC with a public subnet.</p>
         </context>
         <steps>
             <step>
-                <cmd>Task step.</cmd>
+                <cmd>Create a VPC with a CIDR address range of /16 (this will allow for 65,535 IP addresses in your VPC).</cmd>
+                <info>
+                    <codeblock>euca-create-vpc 10.0.0.0/16</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>VPC	vpc-72ad7f86	available	10.0.0.0/16	dopt-4db27ac1	default</codeblock>
+                </info>
             </step>
+            
+            <step>
+                <cmd>Create a subnet for your VPC.</cmd>
+                <info>
+                    <codeblock>euca-create-subnet -c vpc-72ad7f86 -i 10.0.0.0/24</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>SUBNET	subnet-b1ad288b	available	vpc-72ad7f86	10.0.0.0/24	251	one	false	false</codeblock>
+                </info>
+            </step>
+            
+            <step>
+                <cmd>Create a security group for your new VPC. You'll need the identifier of the VPC you created. In this example, the identifier is <codeph>vpc-72ad7f86</codeph>.</cmd>
+                <info>
+                    <codeblock>euca-create-group mysecuritygroup -d "My test security group" -c vpc-72ad7f86</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>GROUP	sg-8c4bb9ef	mysecuritygroup	My test security group</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Add rules to your new security group to allow inbound traffic. In this example, we'll allow HTTP, HTTPS, and SSH:</cmd>
+                <info>
+                    <p>First, we'll add HTTP:</p>
+                    <codeblock>euca-authorize sg-8c4bb9ef -P tcp -p 80 -s 0.0.0.0/0</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>GROUP	sg-8c4bb9ef
+PERMISSION	sg-8c4bb9ef	ALLOWS	tcp	80	80	FROM	CIDR	0.0.0.0/0</codeblock>
+                </info>
+                <info>
+                    <p>Next we'll add SSH:</p>
+                    <codeblock>euca-authorize sg-8c4bb9ef -P tcp -p 22 -s 0.0.0.0/0</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>GROUP	sg-8c4bb9ef
+PERMISSION	sg-8c4bb9ef	ALLOWS	tcp	22	22	FROM	CIDR	0.0.0.0/0</codeblock>
+                </info>
+                <info>
+                    <p>And now we'll add HTTPS:</p>
+                    <codeblock>euca-authorize sg-8c4bb9ef -P tcp -p 443 -s 0.0.0.0/0</codeblock>
+                </info>
+                <info>
+                    <p>This command should return output similar to the following:</p>
+                    <codeblock>GROUP	sg-8c4bb9ef
+PERMISSION	sg-8c4bb9ef	ALLOWS	tcp	443	443	FROM	CIDR	0.0.0.0/0</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Create a keypair:</cmd>
+                <info><codeblock>euca-create-keypair mytestkeypair >mytestkeypair.private</codeblock></info>
+            </step>
+            <step>
+                <cmd>Launch an instance into your new VPC, specifying the ID of the subnet you created in step 2:</cmd>
+                <info>
+                    <codeblock>euca-run-instances emi-af192fec -k mytestkeypair -s subnet-b1ad288b</codeblock>
+                    <p>This command should produce output similar to the following:</p>
+                    <codeblock>RESERVATION	r-23a26364	085276049315	default
+INSTANCE	i-65c77b9e	emi-af192fec	10.0.0.176	10.0.0.176	pending	mytestkeypair	0		m1.small	2014-12-11T08:40:05.887	one				monitoring-disabled	10.0.0.176	10.0.0.176	vpc-72ad7f86	subnet-b1ad288b	instance-store					hvm			sg-d081962f				x86_64
+NETWORKINTERFACE	eni-79a17793	subnet-b1ad288b	vpc-72ad7f86	085276049315	in-use	10.0.0.176		true
+ATTACHMENT		0	attached	2014-12-11T08:40:05.899Z	true
+PRIVATEIPADDRESS	10.0.0.176		primary                    </codeblock>
+                </info>
+            </step>
+            
         </steps>
     </taskbody>
 </task>
