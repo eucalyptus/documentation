@@ -4,7 +4,7 @@
 <task id="configure_storage_controller" props="subscribe">
 	<title>Configure the Storage Controller</title>
 	<shortdesc>Eucalyptus offers SAN support for Eucalyptus block storage (EBS). Eucalyptus directs
-		the Storage Controller (SC) to manage any supported SAN devices. Eucalyptus
+		the Storage Controller (SC) to manage any supported SAN devices or third-party clients. Eucalyptus
 		automatically creates and tears down volumes, snapshots, and data connections from
 		guest instances. The administrator does not need to pre-allocate volumes or LUNs for
 		Eucalyptus.</shortdesc>
@@ -40,9 +40,9 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 			<p>This indicates that the SC is not yet configured. It can be configured by setting the
 					<codeph>[partition].storage.blockstoragemanager</codeph> property to either
 				'das' or 'overlay'.</p>
-			<p>If you have installed the Eucalyptus Enterprise packages for your SAN, you will also
+			<p>If you have installed the Eucalyptus Enterprise packages for your EBS adapter, you will also
 				see additional options in the output line above, and can set the block storage
-				manager to 'netapp','emc-vnx-flare31','emc-vnx', or 'equallogic' as appropriate.</p>
+				manager to 'netapp','emc-vnx-flare31','emc-vnx', 'equallogic', or 'ceph' as appropriate.</p>
 			<p>You can verify that the SC blockstoragemanager is unset using:
 				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
 			</p>
@@ -50,7 +50,8 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					<xref href="#enabling_overlay">Open-Source ISCSI Filesystem-backed</xref>, <xref
 					href="#enabling_san_dell">Dell Equallogic</xref>, <xref
 					href="#enabling_san_jbod">JBOD</xref>, <xref href="#enabling_san_netapp"
-					>Netapp</xref>, or <xref href="#enabling_san_emc_vnx">EMC VNX</xref>.</p>
+					>Netapp</xref>, <xref href="#enabling_san_emc_vnx">EMC VNX</xref>, or <xref
+						href="#enabling_san_ceph"/>.</p>
 		</context>
 	</taskbody>
 	<task id="enabling_overlay">
@@ -590,8 +591,33 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 	<task id="enabling_san_ceph">
 		<title>Enabling Ceph</title>
 		<taskbody>
-			<context></context>
+			<context>This task assumes you have an installed and working Ceph cluster.</context>
 			<steps>
+				<step>
+					<cmd>Install the Ceph client on each SC and NC in your cluster. For more information about
+						installing Ceph, see the Ceph <xref href="http://ceph.com/docs/master/install/"
+							scope="external" format="html">installation documentation</xref>. </cmd>
+					<info>
+						<codeblock></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Configure the SC to use Ceph for block storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=ceph</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	ceph was &lt;unset></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Verify that the propery value is now: 'ceph'</cmd>
+					<info>
+						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
+					</info>
+				</step>
+				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+					<cmd/>
+				</step>
 				<step>
 					<cmd></cmd>
 				</step>
