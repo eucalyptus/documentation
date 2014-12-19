@@ -3,7 +3,8 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-create-customer-gateway">
 	<title>euca-create-customer-gateway</title>
-	<shortdesc>TBD</shortdesc>
+	<shortdesc>Create a VPN customer gateway. You must also create a virtual private gateway using the
+		<codeph>euca-create-vpn-gateway</codeph> command.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,7 +15,7 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock/>
+			<codeblock>euca-create-customer-gateway -t ipsec.1 -i ADDRESS [-b ASN]                                    </codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -34,9 +35,19 @@
 					<tbody>
 						
 						<row>
-							<entry><codeph>--TBD <i>tbd</i></codeph></entry>
-							<entry>Description.</entry>
-							<entry align="center">No</entry>
+							<entry><codeph>-t <i>ipsec.1</i>, --type <i>ipsec.1</i></codeph></entry>
+							<entry>The type of VPN connection to use. Valid values: <codeph>ipsec.1</codeph></entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-i <i>address</i>, --ip <i>address</i></codeph></entry>
+							<entry>The new customer gateway's cloud-facing IP address.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>-b <i>ASN</i>, --bgp-asn <i>ASN</i></codeph></entry>
+							<entry>The BGP AS number for the gateway.</entry>
+							<entry align="center">Yes, if supported</entry>
 						</row>
 						
 					</tbody>
@@ -44,7 +55,8 @@
 			</table>
 		</section>
 
-		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
+		<section
+			conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
 		<section>
 			<title>Output</title>
 			<p/>
