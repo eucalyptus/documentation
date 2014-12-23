@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="console_configure_ssl_certs">
-    <title>Configure and Enable SSL for the User Console</title>
-    <shortdesc>You can use secure HTTP for your console. </shortdesc>
+<task id="console_configure_nginx">
+    <title>Configure the User Console on nginx</title>
+    <task id="console_configure_ssl_certs">
+        <title>Enable SSL for the User Console</title>
+    <shortdesc>You can use secure HTTP for your console to allow secure connections from a web server to a browser.</shortdesc>
     <taskbody>
         <context>
             <p>To run your console over Secure HTTP: </p>
@@ -12,28 +14,19 @@
             <step>
                 <cmd>Install nginx on your console server with the following command:</cmd>
                 <info>
-                    <codeph>yum install nginx</codeph>
+                    <codeblock>yum install nginx</codeblock>
                 </info>
             </step>
             <step>
                 <cmd> Overwrite the default <codeph>nginx.conf</codeph> file with the template
-<<<<<<< HEAD
                 	provided in <codeph>/usr/share/doc/eucaconsole-<ph
                 		conref="../shared/conrefs.dita#prod/version"/>/nginx.conf.</codeph>
                 </cmd>
-            	<info><codeph>cp /usr/share/doc/eucaconsole-<ph
-            		conref="../shared/conrefs.dita#prod/version"/>/nginx.conf /etc/nginx/nginx.conf</codeph></info>
-=======
-                    provided in <codeph>/usr/share/doc/eucaconsole-4.0.1/nginx.conf.</codeph>
-                </cmd>
-                <info><codeph>cp /usr/share/doc/eucaconsole-4.0.1/nginx.conf /etc/nginx/nginx.conf</codeph></info>
->>>>>>> github/master
-            </step>
+            	</step>
             <step>
                 <cmd>Uncomment the 'listen' directive and uncomment/modify the SSL certificate paths in
                     <codeph>/etc/nginx/nginx.conf</codeph> (search for "SSL configuration"). For example:</cmd>
                 <info>
-<<<<<<< HEAD
                     <codeblock># SSL configuration
 # SSL configuration
 ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -46,20 +39,9 @@ ssl_certificate_key &lt;path to euca console key file>;
 #ssl_certificate_key /etc/eucaconsole/console.key;
 
 # end of SSL configuration</codeblock>
-=======
-                    <codeblock>     # SSL configuration
-        listen 443 ssl;
-        # ssl_certificate /path/to/ssl/pem_file;
-        # EXAMPLE:
-        ssl_certificate /etc/eucaconsole/console.crt;
-        # ssl_certificate_key /path/to/ssl/certificate_key;
-        # EXAMPLE: 
-        ssl_certificate_key /etc/eucaconsole/console.key;
-        # end of SSL configuration
-</codeblock>
->>>>>>> github/master
+
                 </info>
-                <info>
+                  <info>
                     <note type="tip">For more information on generating self-signed SSL certificates, go to
                                 <xref
                                 href="http://www.akadia.com/services/ssh_test_certificate.html"
@@ -67,23 +49,107 @@ ssl_certificate_key &lt;path to euca console key file>;
                                 >http://www.akadia.com/services/ssh_test_certificate.html</xref>.
                         
                     </note>
+                     
                 </info>
             </step>
+            
             <step>
                 <cmd>Restart nginx using the following command:</cmd>
-                <info><codeph>service nginx restart</codeph></info>
+                <info><codeblock>service nginx restart</codeblock></info>
             </step>
 
             <step>
 
-                <cmd>Edit the <codeph>/etc/eucaconsole/console.ini</codeph> file, locate the <codeph>session.secure = false</codeph> parameter, change <codeph>false</codeph> to <codeph>true</codeph>, then add the <codeph>sslcert</codeph> and <codeph>sslkey</codeph>  lines immediately following, per this example:</cmd>
-                <info>
-                    <codeblock>session.secure = true
-sslcert=/etc/eucaconsole/eucalyptus.com.chained.crt
-sslkey=/etc/eucaconsole/eucalyptus.com.key</codeblock>
-                </info>
-
+                <cmd>Edit the <codeph>/etc/eucaconsole/console.ini</codeph> file:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Locate the <codeph>session.secure =</codeph> parameter 
+                            and change its value from <codeph>false</codeph> to <codeph>true</codeph>, per this example:</cmd>
+                        <info>
+                            <codeblock>session.secure = true</codeblock>
+                            <note>If HTTPS is used, meaning nginx is configured to use port 443, the <codeph>session.secure</codeph> 
+                                setting must equal <codeph>true</codeph>.</note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Locate the <codeph>[server:main]</codeph> section. If the host setting
+                            under <codeph>[server:main]</codeph>is set to <codeph>0.0.0.0</codeph>,
+                            connections are accepted from anywhere. If the UI proxy is used behind
+                            nginx on the same host, you can configure the proxy to listen on
+                            localhost only, by setting it to <codeph>127.0.0.1</codeph>, per this
+                            example:</cmd>
+                        <info>
+                            <codeblock>[server:main]
+use = egg:gunicorn#main
+host = 127.0.0.1
+port = 8888</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
             </step>
         </steps>
     </taskbody>
+</task>
+    <task id="console_run_port80">
+        
+            <title>Enable the Console to Run on Port 80</title>
+        <shortdesc>You can run the console on non-secure connections using HTTP. In order to configure 
+            the console without enabling secure connections, use port 80 instead. 
+            To accomplish this, nginx will have to be used as a proxy.</shortdesc>
+            <taskbody>
+                <context>
+                    <p>To run your console on port 80: </p>
+                </context>
+                <steps>
+                    <step>
+                        <cmd>Install nginx on your console server with the following command:</cmd>
+                        <info>
+                            <codeblock>yum install nginx</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Locate the default configuration file from <filepath>conf/nginx.conf</filepath>.</cmd>
+                    </step>
+                    <step>
+                        <cmd>Verify the <codeph>nginx.conf</codeph> file contains the following lines:</cmd>
+                                <info>
+                                    <codeblock>listen 80;
+server_name  localhost;</codeblock></info>
+                    </step>
+                    <step>
+                    <cmd>If the file does not specify port 80 on the 'listen' directive, change it to reflect the above.</cmd>
+                    </step>
+                        
+                    <step>
+                        <cmd>Restart nginx using the following command:</cmd>
+                        <info><codeblock>service nginx restart</codeblock></info>
+                    </step>
+                    
+                    <step>
+                        
+                        <cmd>Verify the <codeph>/etc/eucaconsole/console.ini</codeph> has the <codeph>session.secure =</codeph> parameter
+                        set to <codeph>false</codeph>, per this example:</cmd>
+                                <info>
+                                    <codeblock>session.secure = false</codeblock>
+                                    <note> If only port 80 is used (i.e. HTTPS isn't configured via port 443), the <codeph>session.secure</codeph> 
+                                        setting must equal <codeph>false</codeph>.</note>
+                                </info>
+                    </step>
+                    <step>
+                    <cmd>Locate the <codeph>[server:main]</codeph> section. If the host setting
+                                    under <codeph>[server:main]</codeph>is set to <codeph>0.0.0.0</codeph>,
+                                    connections are accepted from anywhere. If the UI proxy is used behind
+                                    nginx on the same host, you can configure the proxy to listen on
+                                    localhost only, by setting it to <codeph>127.0.0.1</codeph>, per this
+                                    example:</cmd>
+                                <info>
+                                    <codeblock>[server:main]
+use = egg:gunicorn#main
+host = 127.0.0.1
+port = 8888</codeblock>
+                                </info>
+                            </step>
+                </steps>
+            </taskbody>
+    </task>
 </task>
