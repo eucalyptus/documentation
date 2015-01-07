@@ -8,13 +8,297 @@
       file.</p>
     <p>For Centos and RHEL installations from packages, this file is located in
       <codeph>/etc/eucaconsole/console.ini</codeph>.</p>
+    <p>The configurable options in the <codeph>[app:main]</codeph> section of the console.ini file are:</p>
+    <note>The Default Values column denote the default value for a property that is not required, if applicable.</note>
+    <table>
+      <tgroup cols="4">
+        <thead>
+          <row>
+            <entry>Property</entry>
+            <entry>Description</entry>
+            <entry>Required</entry>
+            <entry>Default Value</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>clchost</entry>
+            <entry>The IP address or DNS name of your cloud front end. For S3 downloads to work, you
+              may set this to <codeph>localhost</codeph> only if <codeph>s3.host</codeph> is set to 
+              the IP or DNS name. Otherwise, the name for <codeph>clchost</codeph> needs to
+              be resolvable by clients, so an IP or DNS name is preferred.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+          <entry>clcport</entry>
+            <entry>The port of your cloud front end.</entry>
+          <entry>yes</entry>
+            <entry>8773</entry>
+          </row>
+          <row>
+            <entry>ec2.host</entry>
+            <entry>The IP address or DNS name of your ec2 service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>ec2.port</entry>
+            <entry>The port of your ec2 service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>autoscale.host</entry>
+            <entry>The IP address or DNS name of your autoscale service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>autoscale.port</entry>
+            <entry>The port of your autoscale service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>cloudwatch.host</entry>
+            <entry>The IP address or DNS name of your cloudwatch service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>cloudwatch.port</entry>
+            <entry>The port of your cloudwatch service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>elb.host</entry>
+            <entry>The IP address or DNS name of your elb service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>elb.port</entry>
+            <entry>The port of your elb service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>iam.host</entry>
+            <entry>The IP address or DNS name of your iam service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>iam.port</entry>
+            <entry>The port of your IAM service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>sts.host</entry>
+            <entry>The IP address or DNS name of your STS service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>sts.port</entry>
+            <entry>The port of your STS service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>s3.host</entry>
+            <entry>The IP address or DNS name of your S3 service endpoint, if different than clchost.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>s3.port</entry>
+            <entry>The port of your S3 service port, if different than clcport.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>help.url</entry>
+            <entry>A url that directs users who select 'help' 
+              on the account menu to a help page. You can customize 
+              for your installation if you do not want our help system.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>support.url</entry>
+            <entry>A URL given to users who have trouble logging in. 
+              It may be used to direct them to a cloud admin page or an e-mail address.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>aws.enabled</entry>
+            <entry>When set to <codeph>true</codeph>, the AWS tab displays on the login screen.</entry>
+            <entry>yes</entry>
+            <entry>true</entry>
+          </row>
+          <row>
+            <entry>aws.default.region</entry>
+            <entry>The name of the region to show by default when the user 
+              logs into AWS. Use any value from the <b>Region</b> column recognized by AWS: <xref
+                href="http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region"
+                scope="external" format="html"
+                >http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region</xref></entry>
+            <entry>yes</entry>
+            <entry>us-east-1</entry>
+          </row>
+          <row>
+            <entry>static.cache.duration</entry>
+            <entry>Sets the cache control value for static assets (in seconds).</entry>
+            <entry>no</entry>
+            <entry>43200 secs</entry>
+          </row>
+          <row>
+            <entry>browser.password.save</entry>
+            <entry>Set to <codeph>true</codeph> to enable browser password saving.</entry>
+            <entry>no</entry>
+            <entry>true</entry>
+          </row>
+          <row>
+            <entry>file.uploads.enabled</entry>
+            <entry>Defaults to <codeph>true</codeph> to enable file uploads for S3/Object Storage.</entry>
+            <entry>no</entry>
+            <entry>true</entry>
+          </row>
+          <row>
+            <entry>connection.ssl.validation</entry>
+            <entry>Set to <codeph>true</codeph> to enable validation of the SSL certificate 
+              supplied by the clchost (or other endpoint) to secure the connection to the service endpoint.</entry>
+            <entry>no</entry>
+            <entry>false</entry>
+          </row>
+          <row>
+            <entry>connection.ssl.certfile</entry>
+            <entry>If certificate validation is on, you may specify a different certificate file than the default.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>connection.debug</entry>
+            <entry>Set to <codeph>true</codeph> to enable very detailed information about communication between 
+              the console server and service endpoints. Logs will become cluttered, so do not leave this on under 
+              normal operation.</entry>
+            <entry>yes</entry>
+            <entry>false</entry>
+          </row>
+          <row>
+            <entry>connection.retries</entry>
+            <entry>Sets the number of retires used when issuing requests to service endpoints. 
+              Adjusting this higher may reduce UI responsiveness.</entry>
+            <entry>no</entry>
+            <entry>2</entry>
+          </row>
+          <row>
+            <entry>pyramid.default_locale_name</entry>
+            <entry>The default locale if none is specified by browser.</entry>
+            <entry>no</entry>
+            <entry>en</entry>
+          </row>
+          <row>
+            <entry>session.keyini</entry>
+            <entry>The location of a file that contains session encryption keys.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>session.secure</entry>
+            <entry>Set to <codeph>true</codeph> to send session cookies over a secure connection only. 
+              Needs to be set to <codeph>false</codeph> if SSL not configured.</entry>
+            <entry>no</entry>
+            <entry>false</entry>
+          </row>
+          <row>
+            <entry>session.timeout</entry>
+            <entry>Sets the idle session timeout.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>session.cookie_expires</entry>
+            <entry>Sets the absolute session timeout.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>cache.username</entry>
+            <entry>Sets a username to be used when SASL authentication 
+              is enabled for memcached. If not set, the memcached connection 
+              is unauthenticated.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>cache.password</entry>
+            <entry>Sets a password to be used when SASL authentication 
+              is enabled for memcached. If not set, the memcached connection 
+              is unauthenticated.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>The configurable options in the <codeph>[server:main]</codeph> section of the console.ini file are:</p>
+    <note>The Default Values column denote the default value for a property that is not required, if applicable.</note>
+    <table>
+      <tgroup cols="4">
+        <thead>
+          <row>
+            <entry>Property</entry>
+            <entry>Description</entry>
+            <entry>Required</entry>
+            <entry>Default Value</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>host</entry>
+            <entry>Set to <codeph>0.0.0.0</codeph> to allow connections from any host. 
+              Set to <codeph>127.0.0.1</codeph> to allow connections from localhost only, 
+              which is preferred if running nginx.</entry>
+            <entry>yes</entry>
+            <entry>0.0.0.0</entry>
+          </row>
+          <row>
+            <entry>port</entry>
+            <entry>The port on which the console can be reached.</entry>
+            <entry>yes</entry>
+            <entry>8888</entry>
+          </row>
+          <row>
+            <entry>workers</entry>
+            <entry>The number of worker processes used to service requests. 
+              A rule of thumb is double the number of cores plus one.</entry>
+            <entry>yes</entry>
+            <entry>--</entry>
+          </row>
+          <row>
+            <entry>tmp_upload_dir</entry>
+            <entry>Specifies a different directory to be used for file uploads, if set. 
+              It should have plenty of space to handle large file uploads. Defaults to the 
+              system's temp directory.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
     <note importance="high">
       <p> You should always start (or restart) the console when you make changes
         to the console configuration. </p>
       <p>You can start the console using the following command:</p>
-      <p><codeph>service eucaconsole start</codeph></p>
+      <p><codeblock>service eucaconsole start</codeblock></p>
       <p>You can restart the console using the following command:</p>
-      <p><codeph>service eucaconsole restart</codeph></p>
+      <p><codeblock>service eucaconsole restart</codeblock></p>
     </note>
   </body>
 </topic>
