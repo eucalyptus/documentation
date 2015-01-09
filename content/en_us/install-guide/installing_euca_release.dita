@@ -93,17 +93,18 @@ http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph
 					VMware. Clouds that use the VMware hypervisor do not have NCs. </note>
 				<cmd/>
 				<substeps>
+					
+					<substep>
+						<cmd>Install the Eucalyptus node controller software on each planned NC host: </cmd>
+						<info>
+							<codeblock>yum install eucalyptus-nc</codeblock>
+						</info>
+					</substep>
 					<substep>
 						<cmd>Remove the default libvirt network. This step allows the eucanetd dhcpd server to start.</cmd>
 						<info>
 							<codeblock>virsh net-destroy default
 virsh net-autostart default --disable</codeblock>
-						</info>
-					</substep>
-					<substep>
-						<cmd>Install the Eucalyptus node controller software on each planned NC host: </cmd>
-						<info>
-							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
 					</substep>
 					<substep>
