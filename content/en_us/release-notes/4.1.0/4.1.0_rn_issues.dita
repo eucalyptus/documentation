@@ -18,14 +18,22 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>TBD.(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/"
-								>TBD</xref>)</entry>
+						<entry>eucanetd can not start dhcpd due to udp port binding conflict from
+							dnsmasq .(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-10166"
+								>EUCA-10166</xref>)</entry>
 						<entry>
-							<p>TBD</p>
+							<p>In some instances the dhcpd process for the hypervisor's default
+								network is conflicting with eucanetd's ability to run dhcpd,
+								possibly due to a port conflict. This appears to be a recent change
+								in dhcpd which will not allow the two servers to bind to the same
+								UDP port.</p>
+							<p>Suggested workaround: the default network for the hypervisor should
+								be destroyed and/or the hypervisor's dnsmasq process killed. Please
+								see the attached bug for an example.</p>
 						</entry>
 					</row>
-					
+
 				</tbody>
 			</tgroup>
 		</table>
@@ -39,14 +47,16 @@
 					</row>
 				</thead>
 				<tbody>
-					
+
 					<row>
-						<entry>Instances with BDM don't start with direct ESXi connection (<xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-9724"
-							>EUCA-9724</xref>)</entry>
+						<entry>Instances with BDM don't start with direct ESXi connection (<xref
+								format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-9724"
+								>EUCA-9724</xref>)</entry>
 						<entry>
-							<p>The bfEBS instance with BDM does not work in direct ESXi connection 
-								configuration. The same command works correctly with connections via vCenter.</p>
+							<p>The bfEBS instance with BDM does not work in direct ESXi connection
+								configuration. The same command works correctly with connections via
+								vCenter.</p>
 						</entry>
 					</row>
 				</tbody>
