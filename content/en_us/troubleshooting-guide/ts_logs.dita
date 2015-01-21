@@ -15,20 +15,19 @@
 			</keywords>
 		</metadata>
 	</prolog>
+
+<concept id="log_file_location_content">
+	<title>Log File Location and Content</title>
+	<shortdesc>By default, the Eucalyptus log files are stored in
+		<filepath>/var/log/eucalyptus/</filepath> on each machine that hosts a Eucalyptus
+		component. If Eucalyptus is installed somewhere other than the filesystem root
+		(<filepath>/</filepath>), log files are stored in
+		<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </shortdesc>
 	<conbody>
-		
-		<section>
-			<title>Log File Location and Content</title>
-			<p>By default, the Eucalyptus log files are stored in
-					<filepath>/var/log/eucalyptus/</filepath> on each machine that hosts a Eucalyptus
-				component. If Eucalyptus is installed somewhere other than the filesystem root
-					(<filepath>/</filepath>), log files are stored in
-					<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </p>
-		</section>
 			<section>
-				<title>CLC, Walrus, SC, VMware Broker Log Files</title>
-				<p>For Cloud controller (CLC), Walrus, Storage controller (SC), and VMware Broker, log files
-				are:</p>
+				<title>CLC, Walrus, SC, UFS, VMware Broker Log Files</title>
+				<p>Cloud controller (CLC), Walrus, Storage controller (SC), User-Facing Services (UFS) and VMware Broker log files are as
+					follows:</p>
 			<table>
 				<tgroup cols="2">
 					<thead>
@@ -38,6 +37,12 @@
 						</row>
 					</thead>
 					<tbody>
+						<row>
+							<entry><filepath>cloud-cluster.log</filepath></entry>
+							<entry>This log contains information about your clusters as the CLC sees things: 
+								current status, current capacity, and any problems. These logs can help you detect 
+								if there is a capacity or communication issue associated with your clusters.</entry>
+						</row>
 						<row>
 							<entry><filepath>cloud-fault.log</filepath></entry>
 							<entry>This file is reserved for issues with known error codes and known resolutions.</entry>
@@ -78,6 +83,26 @@
 							<entry>This is legitimately a setting for developers only, because production usage would fill up the hard drive with log files very quickly.</entry>
 						</row>
 						<row>
+							<entry><filepath>startup.log</filepath></entry>
+							<entry>STDOUT and STDERR are redirected to this log file for system startup.
+								This file contains system JVM startup output including system bootstrap information, 
+								component bootstrap configuration, local service discovery, and network interfaces.</entry>
+						</row>
+						<row>
+							<entry><filepath>upgrade.log</filepath></entry>
+							<entry>This file records the output from upgrade process. Same as seen on the command line when upgrading.</entry>
+						</row>
+						<row>
+							<entry><filepath>cloud-requests.log</filepath></entry>
+							<entry>This file is only located on the UFS component and 
+								logs the system requests made to the different services: ec2, autoscaling, cloudformation, etc. </entry>
+						</row>
+						<row>
+							<entry><filepath>jetty-request-[date].log</filepath></entry>
+							<entry>This file is only located on the CLC component and tracks access information
+									(credentials) associated with users and their accounts.</entry>
+						</row>
+						<row>
 							<entry><filepath>/var/log/messages</filepath></entry>
 							<entry>This file contains any general host problems. For
 								example: networking issues, disk space, hardware failures.</entry>
@@ -89,8 +114,9 @@
 		<section>
 			<title>CC Log Files</title>
 			<p>For the Cluster controller (CC), the general types of errors to look for are errors with node
-				orchestration, communication issues between CC and NCs, and tunneling issues with multi-cluster
-				configurations (to span security groups across AZs). Log files are:</p>
+					orchestration, communication issues between CC and NCs, and tunneling issues
+					with multi-cluster configurations (to span security groups across AZs). Log
+					files are as follows:</p>
 			<table>
 				<tgroup cols="2">
 					<thead>
@@ -135,7 +161,7 @@
 		<section>
 			<title>NC Log Files</title>
 			<p>For the Node controller (NC) log files generally detail instance tasks, instance lifecycle,
-				and instance operations. NC log files are:</p>
+					and instance operations. NC log files are as follows:</p>
 			<table>
 				<tgroup cols="2">
 					<thead>
@@ -181,7 +207,7 @@
 						</row>
 						<row>
 							<entry><filepath>/var/log/libvirt/*</filepath></entry>
-							<entry>Various low-level libvirt errors and  low-level QEMU and KVM errors.
+							<entry>Various low-level libvirt errors and low-level QEMU and KVM errors.
 							</entry>
 						</row>
 					</tbody>
@@ -190,6 +216,34 @@
 			
 		</section>
 		<section>
+			<title>API Services Running As Instances</title>
+			<p>The following log files are relevant to cloud administrators who have access to instances
+					directly:</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Log File</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><filepath>worker.log</filepath></entry>
+							<entry>Logs on the Image Worker image are stored in <filepath>/var/log/eucalyptus-imaging-worker.</filepath></entry>
+						</row>
+						<row>
+							<entry><filepath>servo.log</filepath></entry>
+							<entry>Logs on a given Elastic Load Balancer (ELB) are stored in <filepath>/var/log/load-balancer-servo.</filepath></entry>
+						</row>						
+						
+					</tbody>
+				</tgroup>
+			</table>
+			
+		</section>
+		
+		<section>
 			<title>System Log Files</title>
 			<p>You might also find helpful information about the nature of an issue in the system logs. In
 				particular, the following logs may be relevant:</p>
@@ -197,8 +251,9 @@
 				<li><filepath>/var/log/messages</filepath></li>
 				<li><filepath>/var/log/libvirt/</filepath></li>
 			</ul>
-		</section>
 		
+			
+		</section>
 		<section>
 			<title>Log File Levels</title>
 			<p>All messages that show up as <codeph>FAULT</codeph>, <codeph>FATAL</codeph>, or
@@ -338,4 +393,5 @@
 					<codeph>en_US</codeph>.</p>
 		</section>
 	</conbody>
+</concept>
 </concept>
