@@ -59,14 +59,6 @@ http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph
 				</info>
 			</step>
 			<step>
-				<cmd>If you are using Walrus as your object storage backend configure the ELRepo repository on
-					each machine that will run Walrus. Otherwise, skip this step. </cmd>
-				<info>
-					<codeblock>yum install http://downloads.eucalyptus.com/software/eucalyptus/<ph conref="../shared/conrefs.dita#prod/version_short"/>/centos/6/x86_64/elrepo-release-6.noarch.rpm</codeblock>
-					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
-				</info>
-			</step>
-			<step>
 				<cmd>If you are installing on RHEL 6, you must enable the Optional repository in Red Hat
 					Network for each NC, as follows:</cmd>
 				<substeps>
@@ -89,14 +81,22 @@ http://subscription.eucalyptus.com/eucalyptus-enterprise-release-<ph
 			
 		
 			<step>
-				<note>Clouds that use the VMware hypervisor do not have NCs; if you plan to use VMware then
-					skip this step. </note>
+				<note>Skip this step if you plan to use
+					VMware. Clouds that use the VMware hypervisor do not have NCs. </note>
 				<cmd/>
 				<substeps>
+					
 					<substep>
 						<cmd>Install the Eucalyptus node controller software on each planned NC host: </cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
+						</info>
+					</substep>
+					<substep>
+						<cmd>Remove the default libvirt network. This step allows the eucanetd dhcpd server to start.</cmd>
+						<info>
+							<codeblock>virsh net-destroy default
+virsh net-autostart default --disable</codeblock>
 						</info>
 					</substep>
 					<substep>
