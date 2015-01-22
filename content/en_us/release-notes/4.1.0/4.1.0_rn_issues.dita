@@ -18,6 +18,29 @@
 				</thead>
 				<tbody>
 					<row>
+						<entry>Ensure unicode strings are used in str.format() calls to avoid HTTP
+							500 errors with non-Latin characters (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/GUI-1559"
+								>GUI-1559</xref>)</entry>
+						<entry>
+							<p>Non-latin characters in resource names can trigger HTTP 500 errors
+								on various pages. Affected resources include snapshots, key pairs,
+								security groups, scaling groups, and launch configurations".</p>
+							<p>Workaround: avoid using non-Latin characters in resource names.</p>
+						</entry>
+					</row>
+					<row>
+						<entry>Non-latin characters are not validated in keypair name and triggers
+							HTTP 500 (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/GUI-1524"
+								>GUI-1524</xref>)</entry>
+						<entry>
+							<p>Using non-Latin characters in some object names can trigger an HTTP
+								500 error.</p>
+							<p>Workaround: avoid using non-Latin characters in resource names.</p>
+						</entry>
+					</row>
+					<row>
 						<entry>euare-userlistcerts --as-account XXX does not print certificates for
 							this account (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-10401"
@@ -26,6 +49,7 @@
 							<p>Specifying the --as-account parameter with the euare-userlistcerts
 								command only outputs certificates for the user who runs the command
 								(euca-admin). </p>
+							<p>Workaround: use the -u option instead.</p>
 						</entry>
 					</row>
 					<row>
