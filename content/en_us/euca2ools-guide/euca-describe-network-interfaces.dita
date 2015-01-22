@@ -3,7 +3,7 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-describe-network-interfaces">
 	<title>euca-describe-network-interfaces</title>
-	<shortdesc>TBD</shortdesc>
+	<shortdesc>Show information about VPC network interfaces.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,7 +14,12 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock/>
+			<codeblock>euca-describe-network-interfaces [--show-empty-fields] [-U URL]
+	[--region USER@REGION] [-I KEY_ID]
+	[-S KEY] [--security-token TOKEN]
+	[--filter NAME=VALUE] [--debug]
+	[--debugger] [--version] [-h]
+	<i>[interface_ID [interface_ID ...]]</i></codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -34,10 +39,246 @@
 					<tbody>
 						
 						<row>
-							<entry><codeph>--TBD <i>tbd</i></codeph></entry>
-							<entry>Description.</entry>
+							<entry><codeph><i>[interface_ID [interface_ID ...]]</i></codeph></entry>
+							<entry>Limit results to the specified network interfaces.</entry>
 							<entry align="center">No</entry>
 						</row>
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Available Filters</title>
+			
+			<p>You can add filters to your request so that the response includes information for
+				only certain DHCP option sets. For example, you can use a filter to return only the
+				network interface that has a specific ID. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for a network interface only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify network interfaces that have a specific
+					tag. Eucalyptus responds
+					with the information for a network interface only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for <apiname>euca-describe-network-interface</apiname>:</p>
+			
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+					
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+						
+					</thead>
+					<tbody>
+						
+						<row>
+							<entry><codeph>addresses.private-ip-addresses</codeph></entry>
+							<entry>the interface's private IP addresses</entry>
+						</row>
+						
+						
+						<row>
+							<entry><codeph>addresses.primary</codeph></entry>
+							<entry>whether the private IP address is the network
+								interface's primary IP address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>addresses.association.public-ip</codeph></entry>
+							<entry>association ID for the network interface's
+								elastic IP address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>addresses.association.owner-id</codeph></entry>
+							<entry>owner ID of the addresses associated with the
+								network interface</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.association-id</codeph></entry>
+							<entry>association ID of the network interface's IP
+								address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.allocation-id</codeph></entry>
+							<entry>allocation ID of the network interface's
+								elastic IP address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.ip-owner-id</codeph></entry>
+							<entry>owner ID of the network interface's elastic IP
+								address</entry>
+						</row>
+						
+						
+						<row>
+							<entry><codeph>association.ip-owner-id</codeph></entry>
+							<entry>owner ID of the network interface's elastic IP
+								address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.public-ip</codeph></entry>
+							<entry>network interface's elastic IP address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>association.public-dns-name</codeph></entry>
+							<entry>network interface's public DNS name</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.attachment-id</codeph></entry>
+							<entry>ID of the network interface's attachment</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.instance-id</codeph></entry>
+							<entry>ID of the instance the network interface is
+								attached to</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.instance-owner-id</codeph></entry>
+							<entry>owner ID of the instance the network interface
+								is attached to</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.device-index</codeph></entry>
+							<entry>device index to which the network interface is
+								attached</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.status</codeph></entry>
+							<entry>attachment status (attaching, attached,
+								detaching, detached)</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>attachment.attach.time</codeph></entry>
+							<entry>time the network interface was attached</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>availability-zone</codeph></entry>
+							<entry>availability zone in which the network
+								interface resides</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>description</codeph></entry>
+							<entry>network interface's description</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>group-id</codeph></entry>
+							<entry>ID of a security group associated with the
+								network interface</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>group-name</codeph></entry>
+							<entry>name of a security group associated with the
+								network interface</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>mac-address</codeph></entry>
+							<entry>MAC (hardware) address</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>network-interface-id</codeph></entry>
+							<entry>ID of the network interface</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>owner-id</codeph></entry>
+							<entry>account ID of the network interface's owner</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>private-ip-address</codeph></entry>
+							<entry>the network interface's private address(es)</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>private-dns-name</codeph></entry>
+							<entry>the network interface's private DNS name</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>requester-id</codeph></entry>
+							<entry>ID of the entity that created the network
+								interface</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>requester-managed</codeph></entry>
+							<entry>whether the network interface is being managed
+								by one of the cloud's services</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>source-dest-check</codeph></entry>
+							<entry>whether the network interface's traffic is
+								subject to source/destination address checking</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>status</codeph></entry>
+							<entry>the interface's status (available, in-use)</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>subnet-id</codeph></entry>
+							<entry>ID of the subnet in which the network
+								interface resides</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>vpc-id</codeph></entry>
+							<entry>ID of the VPC in which the network interface
+								resides</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>tag-value</codeph></entry>
+							<entry>value of a tag assigned to the DHCP option set</entry>
+						</row>
+						<row>
+							<entry><codeph>tag:KEY</codeph></entry>
+							<entry>specific tag key/value combination</entry>
+						</row>
+						<row>
+							<entry><codeph>type</codeph></entry>
+							<entry>type of the DHCP option set</entry>
+						</row>
+						
 						
 					</tbody>
 				</tgroup>
@@ -46,8 +287,13 @@
 
 		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
 		<section>
-			<title>Output</title>
-			<p/>
+			<title>Example</title>
+			<p>The following example describes all network interfaces for an account.</p>
+			<codeblock>euca-describe-network-interfaces</codeblock>
+			<p>This command will return output similar to the following:</p>
+			<codeblock>NETWORKINTERFACE	eni-79a17793	subnet-b1ad288b	vpc-72ad7f86	085276049315	in-use	10.0.0.176		true
+ATTACHMENT		0	attached	2014-12-11T08:40:05.899Z	true
+PRIVATEIPADDRESS	10.0.0.176		primary</codeblock>
 		</section>
 
 
