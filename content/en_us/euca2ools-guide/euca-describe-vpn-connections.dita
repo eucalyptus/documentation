@@ -3,7 +3,7 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-describe-vpn-connections">
 	<title>euca-describe-vpn-connections</title>
-	<shortdesc>TBD</shortdesc>
+	<shortdesc>Show information about VPN connections.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,7 +14,8 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock/>
+			<codeblock>euca-describe-vpn-connections [--format <i>format</i>]
+	[--stylesheet <i>stylesheet</i>] <i>[vpn_connection_ID [vpn_connection_ID ...]]</i></codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -34,8 +35,32 @@
 					<tbody>
 						
 						<row>
-							<entry><codeph>--TBD <i>tbd</i></codeph></entry>
+							<entry><codeph><i>vpn_connection_ID [vpn_connection_ID ...]</i></codeph></entry>
 							<entry>Description.</entry>
+							<entry align="center">No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--format <i>format</i></codeph></entry>
+							<entry>Show connection information in the specified format. <p>Valid
+								values: <codeph>cisco-ios-isr</codeph>,
+								<codeph>juniper-junos-j</codeph>,
+								<codeph>juniper-screenos-6.1</codeph>,
+								<codeph>juniper-screenos-6.2</codeph>,
+								<codeph>generic</codeph>, <codeph>xml</codeph>, or
+								<codeph>none</codeph></p><p>Default value: <codeph>xml</codeph></p></entry>
+							<entry align="center">No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--stylesheet <i>stylesheet</i></codeph></entry>
+							<entry>Format the connection information using an XSL
+								stylesheet. If the value contains "{format}" it will
+								be replaced with the format chosen by the <codeph>--format</codeph>
+								option. If the value is an HTTP or HTTPS URL it will
+								be downloaded as needed. <p>Default: value of the <codeph>vpn-
+									stylesheet</codeph> region option. </p>
+							</entry>
 							<entry align="center">No</entry>
 						</row>
 						
@@ -43,12 +68,110 @@
 				</tgroup>
 			</table>
 		</section>
+		
+		<section>
+			<title>Available Filters</title>
+			
+			<p>You can add filters to your request so that the response includes information for
+				only certain VPC connections. For example, you can use a filter to return only the
+				VPC connection that has a specific ID. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for a VPC connection only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify VPC connections that have a specific
+					tag. Eucalyptus responds
+					with the information for a VPC connection only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-vpc-connections</apiname>:</p>
+			
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+					
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+						
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>bgp-asn</codeph></entry>
+							<entry>the BGP AS number advertised by the customer
+								gateway router</entry>
+						</row>
+						<row>
+							<entry><codeph>customer-gateway-configuration</codeph></entry>
+							<entry>connection information for the customer
+								gateway</entry>
+						</row>
+						<row>
+							<entry><codeph>customer-gateway-id</codeph></entry>
+							<entry>ID of the connected customer gateway</entry>
+						</row>
+						<row>
+							<entry><codeph>state</codeph></entry>
+							<entry>the VPN connection's state (available,
+								deleting, deleted, pending)</entry>
+						</row>
+						<row>
+							<entry><codeph>option.static-routes-only</codeph></entry>
+							<entry>whether the VPN connection is restricted to
+								static routes instead of using BGP</entry>
+						</row>
+						<row>
+							<entry><codeph>route.destination-cidr-block</codeph></entry>
+							<entry>the address block corresponding to the subnet
+								used in the data center behind the customer
+								gateway router</entry>
+						</row>
+
+						
+						
+						<!-- **************************************** -->
+						
+						<row>
+							<entry><codeph>tag-key</codeph></entry>
+							<entry>key of a tag assigned to the VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>tag-value</codeph></entry>
+							<entry>value of a tag assigned to the VPC</entry>
+						</row>
+						<row>
+							<entry><codeph>tag:KEY</codeph></entry>
+							<entry>specific tag key/value combination</entry>
+						</row>
+						<row>
+							<entry><codeph>vpc-connection-id</codeph></entry>
+							<entry>the VPN connection's ID</entry>
+						</row>
+						<row>
+							<entry><codeph>vpc-gateway-id</codeph></entry>
+							<entry>ID of the connected virtual private gateway</entry>
+						</row>
+						
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
 
 		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
-		<section>
-			<title>Output</title>
-			<p/>
-		</section>
+		
 
 
 
