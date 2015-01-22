@@ -3,7 +3,7 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-modify-network-interface-attribute">
 	<title>euca-modify-network-interface-attribute</title>
-	<shortdesc>TBD</shortdesc>
+	<shortdesc>Modify an attribute of a VPC network interface.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,7 +14,11 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock/>
+			<codeblock>euca-modify-network-interface-attribute 
+	(-d description | --source-dest-check (<i>true|false</i>)| --group-id <i>group_id</i> 
+ 	| -a <i>attachment</i>)
+	[--delete-on-termination (<i>true|false</i>)]
+	<i>interface_id</i></codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -32,23 +36,61 @@
 						</row>
 					</thead>
 					<tbody>
-						
+
 						<row>
-							<entry><codeph>--TBD <i>tbd</i></codeph></entry>
-							<entry>Description.</entry>
+							<entry><codeph>-d, --description <i>description</i></codeph></entry>
+							<entry>Set the interface's description.</entry>
+							<entry align="center">No</entry>
+						</row>
+
+						<row>
+							<entry><codeph>--source-dest-check <i>boolean</i></codeph></entry>
+							<entry>Set whether source/destination checking is enabled. <p>Valid
+									values: <codeph>true</codeph> or
+								<codeph>false</codeph></p></entry>
+							<entry align="center">No</entry>
+						</row>
+
+						<row>
+							<entry><codeph>--group_id <i>group</i>
+								[<i>group</i>...]</codeph></entry>
+							<entry>Set the security group(s) that the interface belongs to.</entry>
+							<entry align="center">No</entry>
+						</row>
+
+						<row>
+							<entry><codeph>-a, --attachment <i>attachment</i>
+								</codeph></entry>
+							<entry>ID of an attachment to modify. You must specify the
+									<codeph>--delete-on- termination</codeph> option when this
+								option is used.</entry>
 							<entry align="center">No</entry>
 						</row>
 						
+						<row>
+							<entry><codeph>--delete-on-termination <i>boolean</i>
+							</codeph></entry>
+							<entry>Set whether the interface's attachment will be deleted
+								when the instance terminates. You must specify the
+								<codeph>--attachment</codeph> option when this
+								option is used.</entry>
+							<entry align="center">No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph><i>interface_id</i>
+							</codeph></entry>
+							<entry>Identifier of the network interface.</entry>
+							<entry align="center">Yes</entry>
+						</row>
+
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
 
-		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
-		<section>
-			<title>Output</title>
-			<p/>
-		</section>
+		<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>
+
 
 
 
