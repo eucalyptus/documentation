@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="console_configure_memcached">
+    <title>Configure Memcached</title>
+    <shortdesc>Configuring memcached is required for the eucaconsole service to use memcached on a single host. 
+        The configuration provided instructs the memcached service to only accept connections from localhost. 
+        If you wish to run multiple eucaconsoles on separate hosts, you should set up a common memcached instance 
+        that accepts connections from those hosts.</shortdesc>
+        <taskbody>
+            <prereq>
+                <note>
+                    This procedure assumes that the Eucalyptus Management Console package is installed. 
+                    For instructions on installing the packages, please see the
+                    <xref href="../console_install_centos_rhel6.dita">Installing the Eucalyptus Management Console</xref> section.</note>
+                <note>If there is just one Console server, we recommend co-locating memcached on that server for optimum speed. 
+                    Since memcached isn't critical to the functioning of the Console, a single memcached instance would suffice.
+                    If memcached were to go down, replacing it with another instance is adequate.
+                </note>
+            </prereq>
+             
+            <steps>
+                <step>
+                    <cmd>Run the following command to install memcached:</cmd>
+                    <info>
+                        <codeblock>yum install -y memcached</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd> Copy Eucalyptus' default configuration file with the following command:</cmd>
+                    <info>
+                        <codeblock>cp /usr/share/doc/eucaconsole-4.1.0/memcached /etc</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Configure the service to start automatically using the following command:</cmd>
+                    <info>
+                        <codeblock>chkconfig memcached on</codeblock></info>
+                </step>
+                
+                <step>
+                    <cmd>Launch the service to start immediately using the following command:</cmd>
+                    <info><codeblock>service memcached start</codeblock></info>
+                </step>
+            </steps>
+        </taskbody>
+    <task id="console_flush_memcached">
+        
+        <title>Flush Memcached in the Console</title>
+        <shortdesc>Changing the clchost could cause the image cache to not properly refresh in the 
+            Launch Instance and Create Launch Configuration wizards, which prevents the launching 
+            of instancese and creating launch configurations. Clearing (flushing) memcached in the Console 
+            will refresh the cache to properly resume operations.
+        </shortdesc>
+        <taskbody>
+            <context>
+                <p>To flush memcache without restarting the server:</p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Telnet to the localhost on which the Console is running:</cmd>
+                    <info>
+                        <codeblock>telnet localhost</codeblock></info>
+                </step>
+                <step>
+                    <cmd>Run the flush command:</cmd>
+                    <info><codeblock>flush_all</codeblock></info>
+                </step>
+            </steps>
+            <result>
+                <note>Alternatively, if you change the console.ini file while installing the Console,
+                    you could restart memcached using the <codeph>service memcached restart</codeph> command instead.</note>
+                </result>
+        </taskbody>
+    </task>
+</task>
