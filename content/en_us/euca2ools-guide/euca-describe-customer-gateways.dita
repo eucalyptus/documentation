@@ -3,7 +3,7 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
 <reference id="euca-describe-customer-gateways">
 	<title>euca-describe-customer-gateways</title>
-	<shortdesc>TBD</shortdesc>
+	<shortdesc>Shows information about VPN customer gateways.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,7 +14,11 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock/>
+			<codeblock>euca-describe-customer-gateways [--show-empty-fields] [-U URL]
+	[--region USER@REGION] [-I KEY_ID] [-S KEY]
+	[--security-token TOKEN] [--filter NAME=VALUE]
+	[--debug] [--debugger] [--version] [-h]
+	[VPC [VPC ...]]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -28,29 +32,117 @@
 							<entry>Option</entry>
 							<entry>Description</entry>
 							<entry>Required</entry>
-
+							
 						</row>
 					</thead>
 					<tbody>
 						
 						<row>
-							<entry><codeph>--TBD <i>tbd</i></codeph></entry>
-							<entry>Description.</entry>
+							<entry><codeph>gateway_ID [gateway_ID ...]</codeph></entry>
+							<entry>Limit results to one or more supplied customer gateway IDs.</entry>
 							<entry align="center">No</entry>
+						</row>
+						
+						<row conref="../shared/shared_params.dita#shared_params/filter">
+							<entry/>
 						</row>
 						
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
-
+		<section>
+			<title>Available Filters</title>
+			
+			<p>You can add filters to your request so that the response includes information for
+				only certain customer gateways. For example, you can use a filter to return only the
+				customer gateway that has a specific ID. Some tips for using filters with this
+				command:</p>
+			<ul>
+				<li>You can use multiple values for a filter. Eucalyptus responds with information
+					for a customer gateway only if it matches at least one of the filter values that you
+					specified.</li>
+				
+				<li>You can use multiple filters. For example, you can specify customer gateways that have a specific
+					tag. Eucalyptus responds
+					with the information for a customer gateway only if it matches all the filters that
+					you specified. If there is no match, Eucalyptus returns an empty response.</li>
+				
+				<li>You can use wildcards in a filter value. Use an asterisk (*) to match zero or
+					more characters. Use a question mark (?) to match exactly one character. To
+					escape special characters, use a backslash (\) before the character. For
+					example, a value of \*eucalyptus\?\\ searches for the literal string
+					*eucalyptus?\.</li>
+			</ul>
+			<p>The following are the available filters for
+				<apiname>euca-describe-customer-gateways</apiname>:</p>
+			
+			<table>
+				<tgroup cols="2">
+					<colspec colwidth="25*"/>
+					<colspec colwidth="75*"/>
+					
+					<thead>
+						<row>
+							<entry>Filter</entry>
+							<entry>Description</entry>
+						</row>
+						
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>bgp-asn</codeph></entry>
+							<entry>BGP AS number in use</entry>
+						</row>
+						<row>
+							<entry><codeph>customer-gateway-id</codeph></entry>
+							<entry>customer gateway-id ID</entry>
+						</row>
+						<row>
+							<entry><codeph>ip-address</codeph></entry>
+							<entry>ID of the customer gateway's cloud-facing
+								interface</entry>
+						</row>
+						<row>
+							<entry><codeph>state</codeph></entry>
+							<entry>The state of the customer gateway</entry>
+						</row>
+						<row>
+							<entry><codeph>tag-key</codeph></entry>
+							<entry>key of a tag assigned to the customer gateway</entry>
+						</row>
+						<row>
+							<entry><codeph>tag-value</codeph></entry>
+							<entry>value of a tag assigned to the customer gateway</entry>
+						</row>
+						<row>
+							<entry><codeph>tag:KEY</codeph></entry>
+							<entry>specific tag key/value combination</entry>
+						</row>
+						<row>
+							<entry><codeph>type</codeph></entry>
+							<entry>type of the customer gateway</entry>
+						</row>
+						
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		
 		<!--<section conref="../shared/euwatch-common.dita#euwatch-common/euwatch_common_options"/>-->
 		<section>
-			<title>Output</title>
-			<p/>
+			<title>Example</title>
+			<p>The following example describes all customer gateways for an account.</p>
+			<codeblock>euca-describe-customer-gateways</codeblock>
+			<p>This command will return output similar to the following:</p>
+			<codeblock>CUSTOMERGATEWAY	cgw-a16d0fff
+ATTACHMENT	vpc-aa87a81b	available
+CUSTOMERGATEWAY	cgw-a5f11fff
+ATTACHMENT	vpc-72ad7f86	available</codeblock>
 		</section>
-
-
-
+		
+		
+		
 	</refbody>
 </reference>
