@@ -4,13 +4,13 @@
 <task id="configure_storage_controller" props="subscribe">
 	<title>Configure the Storage Controller</title>
 	<shortdesc>Eucalyptus offers SAN support for Eucalyptus block storage (EBS). Eucalyptus directs
-		the Storage Controller (SC) to manage any supported SAN devices or third-party clients. Eucalyptus
-		automatically creates and tears down volumes, snapshots, and data connections from
-		guest instances. The administrator does not need to pre-allocate volumes or LUNs for
+		the Storage Controller (SC) to manage any supported SAN devices or third-party clients.
+		Eucalyptus automatically creates and tears down volumes, snapshots, and data connections
+		from guest instances. The administrator does not need to pre-allocate volumes or LUNs for
 		Eucalyptus.</shortdesc>
 	<taskbody>
 		<context>
-			<p></p>
+			<p/>
 			<p>Eucalyptus currently offers several backend providers for the Storage Controller:</p>
 			<ul>
 				<li>Overlay</li>
@@ -20,15 +20,13 @@
 				<li>EMC-VNX</li>
 				<li>Ceph</li>
 			</ul>
-			
 			<p>You must configure the SC to use one of these options. The SC automatically goes to
-				the <codeph>BROKEN</codeph> state after being registered with the CLC and will remain in that state
-				until you explicitly configure the SC by telling it which backend
-				storage provider to use.</p>
+				the <codeph>BROKEN</codeph> state after being registered with the CLC and will
+				remain in that state until you explicitly configure the SC by telling it which
+				backend storage provider to use.</p>
 			<p>You can check the state of a storage controller by running
-				<codeph>euca-describe-services -E</codeph> and note the state and status
-				message of the SC(s). The output for an unconfigured SC will look
-				like:</p>
+					<codeph>euca-describe-services -E</codeph> and note the state and status message
+				of the SC(s). The output for an unconfigured SC will look like:</p>
 			<p>
 				<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
 SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
@@ -40,9 +38,10 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 			<p>This indicates that the SC is not yet configured. It can be configured by setting the
 					<codeph>[partition].storage.blockstoragemanager</codeph> property to either
 				'das' or 'overlay'.</p>
-			<p>If you have installed the Eucalyptus Enterprise packages for your EBS adapter, you will also
-				see additional options in the output line above, and can set the block storage
-				manager to 'netapp','emc-vnx-flare31','emc-vnx', 'equallogic', or 'ceph' as appropriate.</p>
+			<p>If you have installed the Eucalyptus Enterprise packages for your EBS adapter, you
+				will also see additional options in the output line above, and can set the block
+				storage manager to 'netapp','emc-vnx-flare31','emc-vnx', 'equallogic', or 'ceph' as
+				appropriate.</p>
 			<p>You can verify that the SC blockstoragemanager is unset using:
 				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
 			</p>
@@ -51,7 +50,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					href="#enabling_san_dell">Dell Equallogic</xref>, <xref
 					href="#enabling_san_jbod">JBOD</xref>, <xref href="#enabling_san_netapp"
 					>Netapp</xref>, <xref href="#enabling_san_emc_vnx">EMC VNX</xref>, or <xref
-						href="#enabling_san_ceph"/>.</p>
+					href="#enabling_san_ceph"/>.</p>
 		</context>
 	</taskbody>
 	<task id="enabling_overlay">
@@ -102,17 +101,17 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 					<cmd/>
 				</step>
 				<step>
-					<cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's hostname or IP
-						address, the username, password, and the name of the chap user:</cmd>
+					<cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's
+						hostname or IP address, the username, password, and the name of the chap
+						user:</cmd>
 					<info>
 						<codeblock>euca-modify-property -p [partition_name].storage.sanhost=[SAN_IP_address]
 euca-modify-property -p [partition_name].storage.sanuser=[SAN_admin_user_name]
 euca-modify-property -p [partition_name].storage.sanpassword=[SAN_admin_password]
 euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblock>
-						<p>If you have multiple management IP addresses for the SAN
-							adapter, provide a comma-delimited list of IP addresses
-							to the <codeph>[partition_name].storage.sanhost</codeph>
-							property.</p>
+						<p>If you have multiple management IP addresses for the SAN adapter, provide
+							a comma-delimited list of IP addresses to the
+								<codeph>[partition_name].storage.sanhost</codeph> property.</p>
 					</info>
 				</step>
 			</steps>
@@ -125,8 +124,9 @@ euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblo
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<note type="important">Direct Attached Storage still requires that <filepath>/var/lib/eucalyptus/volumes</filepath> has
-					enough space for locally cached snapshots.</note>
+				<note type="important">Direct Attached Storage still requires that
+						<filepath>/var/lib/eucalyptus/volumes</filepath> has enough space for
+					locally cached snapshots.</note>
 			</context>
 			<steps>
 				<step>
@@ -148,9 +148,9 @@ euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblo
 					<cmd/>
 				</step>
 				<step>
-					<cmd>On the CLC, set the DAS device name
-						property. The device name can be either a raw device (/dev/sdX, for
-						example), or the name of an existing Linux LVM volume group.</cmd>
+					<cmd>On the CLC, set the DAS device name property. The device name can be either
+						a raw device (/dev/sdX, for example), or the name of an existing Linux LVM
+						volume group.</cmd>
 					<info>
 						<codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
 					</info>
@@ -167,30 +167,28 @@ euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblo
 
 	<task id="enabling_san_netapp_overview">
 		<title>Enable NetApp SANs</title>
-		<shortdesc>Eucalyptus supports both NetApp Clustered ONTAP and traditional 7-mode SANs. NetApp
-			Vservers and 7-mode Filers are managed by Eucalyptus using NetApp Manageability Software
-			Development Kit (NMSDK) and Data ONTAP APIs. This section covers enabling both NetApp
-			Clustered ONTAP and traditional 7-mode SANs.</shortdesc>
+		<shortdesc>Eucalyptus supports both NetApp Clustered ONTAP and traditional 7-mode SANs.
+			NetApp Vservers and 7-mode Filers are managed by Eucalyptus using NetApp Manageability
+			Software Development Kit (NMSDK) and Data ONTAP APIs. This section covers enabling both
+			NetApp Clustered ONTAP and traditional 7-mode SANs.</shortdesc>
 		<task id="enabling_san_netapp">
 			<title>Enable NetApp 7-mode SANs</title>
 			<shortdesc/>
 			<taskbody>
 				<context>
 					<p/>
-					
 					<p>To configure NetApp 7-mode Filer and enable the SAN in Eucalyptus:</p>
 				</context>
 				<steps>
 					<step>
-						<cmd>Verify Data ONTAP version  for the 7-mode Filer is 7.3.3 or later.</cmd>
+						<cmd>Verify Data ONTAP version for the 7-mode Filer is 7.3.3 or later.</cmd>
 					</step>
 					<step>
 						<cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
 					</step>
 					<step>
 						<cmd>If SSL is marked inactive, enable with <codeph>secureadmin setup
-								ssl</codeph> and generate a new
-							certificate.</cmd>
+								ssl</codeph> and generate a new certificate.</cmd>
 					</step>
 					<step>
 						<cmd>Turn on SSL access with <codeph>options httpd.admin.ssl.enable
@@ -249,19 +247,17 @@ euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblo
 						<cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
 					</step>
 					<step>
-						<cmd>On the CLC, enable NetApp SAN
-							support in Eucalyptus by entering the Filer's
-							hostname or IP address, the username and password of
-							the administrator account, and CHAP username. </cmd>
+						<cmd>On the CLC, enable NetApp SAN support in Eucalyptus by entering the
+							Filer's hostname or IP address, the username and password of the
+							administrator account, and CHAP username. </cmd>
 						<info>
 							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
-								for disk operations. The CHAP username can be
-								any value, however it should be unique when
-								sharing a NetApp Filer across multiple
+								for disk operations. The CHAP username can be any value, however it
+								should be unique when sharing a NetApp Filer across multiple
 								Eucalyptus clusters. </note>
 							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. An SC
-								will not transition to ENABLED state until the
-								CHAP username is conﬁgured. </note>
+								will not transition to ENABLED state until the CHAP username is
+								conﬁgured. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Filer_IP_address>
 euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Filer_admin_username>
 euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Filer_admin_password>
@@ -276,11 +272,10 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd>If no aggregate is set, Eucalyptus will query the NetApp Filer for
-							all available aggregates and use the one that has
-							the highest capacity (free space) by default. To
-							make Eucalyptus use specific aggregate(s) configure
-							the following property: </cmd>
+						<cmd>If no aggregate is set, Eucalyptus will query the NetApp Filer for all
+							available aggregates and use the one that has the highest capacity (free
+							space) by default. To make Eucalyptus use specific aggregate(s)
+							configure the following property: </cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.aggregate=&lt;aggregate_1_name,aggregate_2_name,...></codeblock>
 						</info>
@@ -297,20 +292,21 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							<note>Filer IP address can be used as the data port IP. If this is not
 								set, Eucalyptus will automatically use the Filer IP
 								address/hostname.</note>
-							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode Filers. </note>
+							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode
+								Filers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
 						</info>
 					</step>
 					<step>
-						<cmd>Set the iSCSI data IP on the ENABLED CLC. This IP is used by the SC
-							to perform disk operations on the Filer. The SC
-							connects to the Filer in order to transfer snapshots
-							to Walrus during snapshot operations. </cmd>
+						<cmd>Set the iSCSI data IP on the ENABLED CLC. This IP is used by the SC to
+							perform disk operations on the Filer. The SC connects to the Filer in
+							order to transfer snapshots to Walrus during snapshot operations. </cmd>
 						<info>
 							<note>The Filer IP address can be used as the data port IP. If this is
-								not set, Eucalyptus will automatically use the
-								Filer IP address/hostname.</note>
-							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode Filers. </note>
+								not set, Eucalyptus will automatically use the Filer IP
+								address/hostname.</note>
+							<note>Eucalyptus does not support Multipath I/O for NetApp 7-mode
+								Filers. </note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
 					</step>
@@ -328,8 +324,9 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						Vserver. SC must be conﬁgured to operate against Vserver contained in the
 						NetApp Clustered ONTAP environment. </p>
 					<p>For more information on NetApp Clustered Data ONTAP, see <xref
-						href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
-						scope="external" format="pdf">Clustered Data ONTAP 8.1 and 8.1.1: An Introduction</xref>.</p>
+							href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
+							scope="external" format="pdf">Clustered Data ONTAP 8.1 and 8.1.1: An
+							Introduction</xref>.</p>
 					<p>To configure NetApp Vserver and enable the SAN in Eucalyptus:</p>
 				</context>
 				<steps>
@@ -363,10 +360,9 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 					</step>
 					<step>
 						<cmd>Verify the network connectivity between Eucalyptus components and the
-							Vserver. The SC must be able communicate with the
-							Vserver over both management and data LIFs. The NC
-							must be able to communicate with the Vserver using
-							the data LIFs. </cmd>
+							Vserver. The SC must be able communicate with the Vserver over both
+							management and data LIFs. The NC must be able to communicate with the
+							Vserver using the data LIFs. </cmd>
 					</step>
 					<step>
 						<cmd>Configure the SC to use the NetApp SAN for storage: </cmd>
@@ -381,8 +377,8 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						<info><codeblock>euca-describe-properties | grep blockstorage </codeblock></info>
 					</step>
 					<step>
-						<cmd>On the CLC, run the following command to verify that the SC is
-							listed; note that it may be in the BROKEN state: </cmd>
+						<cmd>On the CLC, run the following command to verify that the SC is listed;
+							note that it may be in the BROKEN state: </cmd>
 						<info>
 							<codeblock>euca_conf --list-scs</codeblock>
 						</info>
@@ -391,20 +387,17 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						<cmd>Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
 					</step>
 					<step>
-						<cmd>On the CLC, enable NetApp SAN
-							support in Eucalyptus by entering the Vserver's
-							hostname or IP address, the username and password of
-							the administrator account, CHAP username and Vserver
-							name. </cmd>
+						<cmd>On the CLC, enable NetApp SAN support in Eucalyptus by entering the
+							Vserver's hostname or IP address, the username and password of the
+							administrator account, CHAP username and Vserver name. </cmd>
 						<info>
 							<note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
-								for disk operations. The CHAP username can be
-								any value, however it should be unique when
-								sharing a NetApp Vserver across multiple
+								for disk operations. The CHAP username can be any value, however it
+								should be unique when sharing a NetApp Vserver across multiple
 								Eucalyptus clusters.</note>
 							<note>CHAP support for NetApp has been added in Eucalyptus 3.3. The SC
-								will not transition to ENABLED state until the
-								CHAP username is conﬁgured.</note>
+								will not transition to ENABLED state until the CHAP username is
+								conﬁgured.</note>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
 euca-modify-property -p &lt;partition>.storage.sanuser=&lt;Vserver_admin_username>
 euca-modify-property -p &lt;partition>.storage.sanpassword=&lt;Vserver_admin_password>
@@ -438,23 +431,22 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						</info>
 					</step>
 					<step>
-						<cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is used for NCs
-							performing disk operations on the Vserver. If you want to configure
-							multiple IPs, see see <xref href="configure_netapp_multipath.dita"
-								>Configure NetApp Multipathing</xref>.</cmd>
+						<cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
+							used for NCs performing disk operations on the Vserver. If you want to
+							configure multiple IPs, see see <xref
+								href="configure_netapp_multipath.dita">Configure NetApp
+								Multipathing</xref>.</cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
 						</info>
 					</step>
 					<step>
 						<cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
-							used by the SC for performing disk operations on the
-							Vserver. The SC connects to the data LIFs on the
-							Vserver in order to transfer snapshots to Walrus
-							during snapshot operations. If you want to configure
-							multiple IPs, see <xref
-								href="configure_netapp_multipath.dita">Configure
-								NetApp Multipathing</xref>.</cmd>
+							used by the SC for performing disk operations on the Vserver. The SC
+							connects to the data LIFs on the Vserver in order to transfer snapshots
+							to Walrus during snapshot operations. If you want to configure multiple
+							IPs, see <xref href="configure_netapp_multipath.dita">Configure NetApp
+								Multipathing</xref>.</cmd>
 						<info>
 							<codeblock>euca-modify-property -p &lt;partition>.storage.scpaths=&lt;ip></codeblock>
 						</info>
@@ -476,8 +468,9 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 					requires the Navisphere Secure CLI to be installed on the SCs. The Navisphere
 					CLI must be version 7.32.0.5.54 or later.</p>
 				<p>
-					<note type="important">You must create a Clone Private LUN (CPL) of at least 1GB on each SP.
-						For more information on creating private LUNs, see the VNX documentation.</note>
+					<note type="important">You must create a Clone Private LUN (CPL) of at least 1GB
+						on each SP. For more information on creating private LUNs, see the VNX
+						documentation.</note>
 				</p>
 			</context>
 			<steps>
@@ -591,13 +584,29 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 	<task id="enabling_san_ceph">
 		<title>Enabling Ceph</title>
 		<taskbody>
-			<context>This task assumes you have an installed and working Ceph cluster.</context>
+			<context>This task assumes the following: <ul>
+					<li>You have an installed and working Ceph cluster.</li>
+					<li>Ceph user credentials assigned to Eucalyptus SC and NCs are configured with
+						appropriate permissions (different user credentials can be used for the SCs
+						and NCs, below sections will explain how to configure them in
+						Eucalyptus).</li>
+				</ul>
+			</context>
 			<steps>
 				<step>
-					<cmd>Install the Ceph client on each SC and NC in your cluster. For more information about
-						installing Ceph, see the Ceph <xref href="http://ceph.com/docs/master/install/"
-							scope="external" format="html">installation documentation</xref>. </cmd>
-					
+					<cmd>Install the Ceph client on each SC and NC in your cluster. For more
+						information about installing Ceph, see the Ceph <xref
+							href="http://ceph.com/docs/master/install/" scope="external"
+							format="html">installation documentation</xref>. </cmd>
+
+				</step>
+				<step>
+					<cmd>Configure the Storage Controller to use Ceph for block storage.</cmd>
+					<info>
+						<codeblock>euca-modify-property -p &lt;cluster-name>.storage.blockstorageprovider=ceph-rbd</codeblock>
+						The output of the command should be similar to:
+						<codeblock>PROPERTY	PARTI00.storage.blockstorageprovider ceph-rbd was &lt;unset></codeblock>
+					</info>
 				</step>
 				<step>
 					<cmd>Configure the SC to use Ceph for block storage.</cmd>
@@ -613,11 +622,98 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 						<codeblock>euca-describe-properties | grep blockstorage</codeblock>
 					</info>
 				</step>
+				<step>
+					<cmd>The ceph-rbd provider will assume defaults for the following
+						properties</cmd>
+					<info>
+						<codeblock>euca-describe-properties -v | grep 'PARTI00.storage.ceph'
+ 
+PROPERTY        PARTI00.storage.cephconfigfile  /etc/ceph/ceph.conf
+DESCRIPTION     PARTI00.storage.cephconfigfile  Absolute path to Ceph configuration (ceph.conf) file. Default value is '/etc/ceph/ceph.conf'
+ 
+PROPERTY        PARTI00.storage.cephkeyringfile /etc/ceph/ceph.client.eucalyptus.keyring
+DESCRIPTION     PARTI00.storage.cephkeyringfile Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring) file. Default value is '/etc/ceph/ceph.client.eucalyptus.keyring'
+ 
+PROPERTY        PARTI00.storage.cephsnapshotpools       rbd
+DESCRIPTION     PARTI00.storage.cephsnapshotpools       Ceph storage pool(s) made available to Eucalyptus for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
+ 
+PROPERTY        PARTI00.storage.cephuser        eucalyptus
+DESCRIPTION     PARTI00.storage.cephuser        Ceph username employed by Eucalyptus operations. Default value is 'eucalyptus'
+ 
+PROPERTY        PARTI00.storage.cephvolumepools rbd
+DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made available to Eucalyptus for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>The following steps are optional if the default values work for your
+						cloud:</cmd>
+					<substeps>
+						<substep>
+							<cmd>To set the Ceph username (the default value for Eucalyptus is
+								'eucalyptus'): </cmd>
+							<info>
+								<codeblock>euca-modify-property -p &lt;cluster-name&gt;.storage.cephuser=qauser</codeblock>
+							</info>
+						</substep>
+						<substep>
+							<cmd>To set the absolute path to keyring file containing the key for the 'eucalyptus' user (the default value is '/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
+							<info>
+								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
+								<note>If cephuser was modified, ensure that cephkeyringfile is also updated with the location to the keyring for the specific cephuser:</note>
+							
+							</info>
+							
+						</substep>
+						<substep>
+							<cmd>To set the absolute path to ceph.conf file (default value is '/etc/ceph/ceph.conf'):</cmd>
+							<info>
+								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
+							</info>
+						</substep>
+						<substep>
+							<cmd>To change the comma-delimited list of Ceph pools assigned to Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
+							<info>
+								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephvolumepools=rbd,qavolumes</codeblock>
+							</info>
+						</substep>
+						<substep>
+							<cmd>To change the comma-delimited list of Ceph pools assigned to Eucalyptus for managing EBS snapshots (default value is 'rbd') :</cmd>
+							<info>
+								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephsnapshotpools=qasnapshots</codeblock>
+							</info>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>Before starting the Node Controller, do the following:</cmd>
+					<substeps>
+						<substep>
+							<cmd>Add/modify the following options in the $<codeph>EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph> file: </cmd>
+							<info>
+								<codeblock>CEPH_USER_NAME="&lt;ceph-username-for-use-by-this-NC>"
+CEPH_KEYRING_PATH="&lt;path-to-keyring-file-for-ceph-username>"
+CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
+							</info>
+							<info>
+								<p>If the above properties are not defined, the following defaults will be assumed</p>
+								<codeblock>CEPH_USER_NAME="eucalyptus"
+CEPH_KEYRING_PATH="/etc/ceph/ceph.client.eucalyptus.keyring"
+CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
+							</info>
+						</substep>
+						<substep>
+							<cmd>Restart the eucalyptus-nc service for the changes to become active.</cmd>
+						</substep>
+						<substep>
+							<cmd>Repeat the previous two steps for every NC in the specific Eucalyptus cluster.</cmd>
+						</substep>
+					</substeps>
+				</step>
 				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
 					<cmd/>
 				</step>
 				<step>
-					<cmd></cmd>
+					<cmd/>
 				</step>
 			</steps>
 		</taskbody>
