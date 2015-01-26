@@ -623,6 +623,11 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 					</info>
 				</step>
 				<step>
+					<cmd>Check the SC to be sure that it has transitioned out of the <codeph>BROKEN</codeph> state
+						and is in the <codeph>NOTREADY</codeph>, <codeph>DISABLED</codeph> or <codeph>ENABLED</codeph> state before configuring the
+						rest of the properties for the SC.</cmd>
+				</step>
+				<step>
 					<cmd>The ceph-rbd provider will assume defaults for the following
 						properties</cmd>
 					<info>
@@ -656,28 +661,35 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
 							</info>
 						</substep>
 						<substep>
-							<cmd>To set the absolute path to keyring file containing the key for the 'eucalyptus' user (the default value is '/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
+							<cmd>To set the absolute path to keyring file containing the key for the
+								'eucalyptus' user (the default value is
+								'/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
 							<info>
 								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
-								<note>If cephuser was modified, ensure that cephkeyringfile is also updated with the location to the keyring for the specific cephuser:</note>
-							
+								<note>If cephuser was modified, ensure that cephkeyringfile is also
+									updated with the location to the keyring for the specific
+									cephuser:</note>
 							</info>
-							
+
 						</substep>
 						<substep>
-							<cmd>To set the absolute path to ceph.conf file (default value is '/etc/ceph/ceph.conf'):</cmd>
+							<cmd>To set the absolute path to ceph.conf file (default value is
+								'/etc/ceph/ceph.conf'):</cmd>
 							<info>
 								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>To change the comma-delimited list of Ceph pools assigned to Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
+							<cmd>To change the comma-delimited list of Ceph pools assigned to
+								Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
 							<info>
 								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephvolumepools=rbd,qavolumes</codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>To change the comma-delimited list of Ceph pools assigned to Eucalyptus for managing EBS snapshots (default value is 'rbd') :</cmd>
+							<cmd>To change the comma-delimited list of Ceph pools assigned to
+								Eucalyptus for managing EBS snapshots (default value is 'rbd')
+								:</cmd>
 							<info>
 								<codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephsnapshotpools=qasnapshots</codeblock>
 							</info>
@@ -688,30 +700,34 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
 					<cmd>Before starting the Node Controller, do the following:</cmd>
 					<substeps>
 						<substep>
-							<cmd>Add/modify the following options in the $<codeph>EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph> file: </cmd>
+							<cmd>Add/modify the following options in the
+									$<codeph>EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph>
+								file: </cmd>
 							<info>
 								<codeblock>CEPH_USER_NAME="&lt;ceph-username-for-use-by-this-NC>"
 CEPH_KEYRING_PATH="&lt;path-to-keyring-file-for-ceph-username>"
 CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
 							</info>
 							<info>
-								<p>If the above properties are not defined, the following defaults will be assumed</p>
+								<p>If the above properties are not defined, the following defaults
+									will be assumed</p>
 								<codeblock>CEPH_USER_NAME="eucalyptus"
 CEPH_KEYRING_PATH="/etc/ceph/ceph.client.eucalyptus.keyring"
 CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
 							</info>
 						</substep>
-						<substep>
+						<!--<substep>
 							<cmd>Restart the eucalyptus-nc service for the changes to become active.</cmd>
-						</substep>
+						</substep>-->
 						<substep>
-							<cmd>Repeat the previous two steps for every NC in the specific Eucalyptus cluster.</cmd>
+							<cmd>Repeat the previous two steps for every NC in the specific
+								Eucalyptus cluster.</cmd>
 						</substep>
 					</substeps>
 				</step>
-				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
+				<!--<step conref="../shared/shared_task.dita#shared_task/verify_sc">
 					<cmd/>
-				</step>
+				</step>-->
 				<step>
 					<cmd/>
 				</step>
