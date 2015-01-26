@@ -18,7 +18,7 @@
 				<li>Equallogic</li>
 				<li>Netapp</li>
 				<li>EMC-VNX</li>
-				<li>Ceph</li>
+				<li>Ceph-RBD</li>
 			</ul>
 			<p>You must configure the SC to use one of these options. The SC automatically goes to
 				the <codeph>BROKEN</codeph> state after being registered with the CLC and will
@@ -38,9 +38,9 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 			<p>This indicates that the SC is not yet configured. It can be configured by setting the
 					<codeph>[partition].storage.blockstoragemanager</codeph> property to either
 				'das' or 'overlay'.</p>
-			<p>If you have installed the Eucalyptus Enterprise packages for your EBS adapter, you
-				will also see additional options in the output line above, and can set the block
-				storage manager to 'netapp','emc-vnx-flare31','emc-vnx', 'equallogic', or 'ceph' as
+			<p>If you have installed the Eucalyptus Enterprise packages for your EBS adapter, you will also
+				see additional options in the output line above, and can set the block storage
+				manager to 'netapp','emc-vnx-flare31','emc-vnx', 'equallogic', or 'ceph-rbd' as
 				appropriate.</p>
 			<p>You can verify that the SC blockstoragemanager is unset using:
 				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
@@ -582,7 +582,7 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 		</taskbody>
 	</task>
 	<task id="enabling_san_ceph">
-		<title>Enabling Ceph</title>
+		<title>Enabling Ceph-RBD</title>
 		<taskbody>
 			<context>This task assumes the following: <ul>
 					<li>You have an installed and working Ceph cluster.</li>
@@ -600,18 +600,10 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 							format="html">installation documentation</xref>. </cmd>
 
 				</step>
-				<step>
-					<cmd>Configure the Storage Controller to use Ceph for block storage.</cmd>
-					<info>
-						<codeblock>euca-modify-property -p &lt;cluster-name>.storage.blockstorageprovider=ceph-rbd</codeblock>
-						The output of the command should be similar to:
-						<codeblock>PROPERTY	PARTI00.storage.blockstorageprovider ceph-rbd was &lt;unset></codeblock>
-					</info>
-				</step>
+				
 				<step>
 					<cmd>Configure the SC to use Ceph for block storage.</cmd>
-					<info>
-						<codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=ceph-rbd</codeblock>
+					<info><codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=ceph-rbd</codeblock>
 						The output of the command should be similar to:
 						<codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
 					</info>
@@ -697,40 +689,32 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
 					</substeps>
 				</step>
 				<step>
-					<cmd>Before starting the Node Controller, do the following:</cmd>
+					<cmd>Every NC will assume the following defaults:</cmd>
+					<info>
+						
+						<codeblock>CEPH_USER_NAME="eucalyptus"
+CEPH_KEYRING_PATH="/etc/ceph/ceph.client.eucalyptus.keyring"
+CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
+					</info>
+					
 					<substeps>
 						<substep>
-							<cmd>Add/modify the following options in the
-									$<codeph>EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph>
+							<cmd>To override the above defaults, add/edit the following properties in the <codeph>$EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph> on the specific NC.
 								file: </cmd>
 							<info>
 								<codeblock>CEPH_USER_NAME="&lt;ceph-username-for-use-by-this-NC>"
 CEPH_KEYRING_PATH="&lt;path-to-keyring-file-for-ceph-username>"
 CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
 							</info>
-							<info>
-								<p>If the above properties are not defined, the following defaults
-									will be assumed</p>
-								<codeblock>CEPH_USER_NAME="eucalyptus"
-CEPH_KEYRING_PATH="/etc/ceph/ceph.client.eucalyptus.keyring"
-CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
-							</info>
+							
 						</substep>
-						<!--<substep>
-							<cmd>Restart the eucalyptus-nc service for the changes to become active.</cmd>
-						</substep>-->
+
 						<substep>
 							<cmd>Repeat the previous two steps for every NC in the specific
 								Eucalyptus cluster.</cmd>
 						</substep>
 					</substeps>
-				</step>
-				<!--<step conref="../shared/shared_task.dita#shared_task/verify_sc">
-					<cmd/>
-				</step>-->
-				<step>
-					<cmd/>
-				</step>
+				</step>	
 			</steps>
 		</taskbody>
 	</task>
