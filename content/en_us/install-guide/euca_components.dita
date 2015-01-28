@@ -4,8 +4,9 @@
 <concept id="euca_components">
 	<title>Eucalyptus Components</title>
 	<shortdesc>Eucalyptus is comprised of the following components: Cloud Controller (CLC),
-		User-Facing Services (UFS), Object Storage Gateway (OSG), Cluster Controller (CC), Storage Controller (SC), Node
-		Controller (NC) and an optional VMware Broker (Broker or VB).</shortdesc>
+		User-Facing Services (UFS), Object Storage Gateway (OSG), Cluster Controller (CC), Storage
+		Controller (SC), Node Controller (NC) and an optional VMware Broker (Broker or
+		VB).</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -21,57 +22,54 @@
 
 		<p>A detailed description of each Eucalyptus component follows.</p>
 		<section><title>Cloud Controller</title>
-			<p>In most deployments, the CLC and the UFS are on the same machine. This machine is the entry-point into the cloud for
-				administrators, developers, project managers, and end-users. The
-				CLC handles persistence and is the backend for the UFS.</p>
+			<p>In most deployments, the CLC and the UFS are on the same machine. This machine is the
+				entry-point into the cloud for administrators, developers, project managers, and
+				end-users. The CLC handles persistence and is the backend for the UFS.</p>
 		</section>
 		<section>
 			<title>User-Facing Services</title>
 			<p>The UFS serve as endpoints for the AWS-compatible services offered by Eucalyptus: EC2
-				(compute), AS (AutoScaling), CW (CloudWatch), ELB (LoadBalancing), IAM (Euare), and STS
-				(tokens).</p>
+				(compute), AS (AutoScaling), CW (CloudWatch), ELB (LoadBalancing), IAM (Euare), and
+				STS (tokens).</p>
 		</section>
 		<section><title>Object Storage Gateway</title>
-			<p>The OSG passes requests to object storage providers and talks to the persistence layer (DB) to
-			authenticate requests. You can use Walrus or Riak CS as the object storage provider. </p></section>
+			<p>The OSG passes requests to object storage providers and talks to the persistence
+				layer (DB) to authenticate requests. You can use Walrus or Riak CS as the object
+				storage provider. </p></section>
 		<section><title>Cluster Controller</title>
-			<p>The Cluster Controller (CC) generally executes on a machine that
-				has network connectivity to both the machines running the Node
-				Controllers (NCs) and to the machine running the CLC. CCs gather
-				information about a set of NCs and schedules virtual machine
-				(VM) execution on specific NCs. The CC also manages the virtual
-				machine networks in Managed and Managed (No VLAN) <xref href="planning_networking_modes.dita">networking modes</xref>. All NCs associated with a single CC must be in
-				the same subnet.</p></section>
+			<p>The Cluster Controller (CC) generally executes on a machine that has network
+				connectivity to both the machines running the Node Controllers (NCs) and to the
+				machine running the CLC. CCs gather information about a set of NCs and schedules
+				virtual machine (VM) execution on specific NCs. The CC also manages the virtual
+				machine networks in Managed and Managed (No VLAN) <xref
+					href="planning_networking_modes.dita">networking modes</xref>. All NCs
+				associated with a single CC must be in the same subnet.</p></section>
 		<section><title>Storage Controller</title>
-			<p>The Storage Controller (SC) provides functionality similar to the
-				Amazon Elastic Block Store (Amazon EBS). The SC can
-				interface with various storage systems. Elastic block storage
-				exports storage volumes that can be attached by a VM and mounted
-				or accessed as a raw block device. EBS volumes persist past VM
-				termination and are commonly used to store persistent data. An
-				EBS volume cannot be shared between VMs and can only be accessed
-				within the same availability zone in which the VM is running.
-				Users can create snapshots from EBS volumes. Snapshots are
-				stored in Walrus and made available across availability zones.
-				Eucalyptus with SAN support lets you use your enterprise-grade
-				SAN devices to host EBS storage within a Eucalyptus
-			cloud.</p></section>
+			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic
+				Block Store (Amazon EBS). The SC can interface with various storage systems. Elastic
+				block storage exports storage volumes that can be attached by a VM and mounted or
+				accessed as a raw block device. EBS volumes persist past VM termination and are
+				commonly used to store persistent data. An EBS volume cannot be shared between VMs
+				and can only be accessed within the same availability zone in which the VM is
+				running. Users can create snapshots from EBS volumes. Snapshots are stored in Walrus
+				and made available across availability zones. Eucalyptus with SAN support lets you
+				use your enterprise-grade SAN devices to host EBS storage within a Eucalyptus
+				cloud.</p></section>
 		<section><title>Node Controller</title>
-			<p>The Node Controller (NC) executes on any machine that hosts VM
-				instances. The NC controls VM activities, including the
-				execution, inspection, and termination of VM instances. It also
-				fetches and maintains a local cache of instance images, and it
-				queries and controls the system software (host OS and the
-				hypervisor) in response to queries and control requests from the
-				CC. The NC manages the virtual
-				machine networks in Edge <xref href="planning_networking_modes.dita">networking mode</xref>. The NC is also responsible for the management of the virtual
-				network endpoint.</p></section>
+			<p>The Node Controller (NC) executes on any machine that hosts VM instances. The NC
+				controls VM activities, including the execution, inspection, and termination of VM
+				instances. It also fetches and maintains a local cache of instance images, and it
+				queries and controls the system software (host OS and the hypervisor) in response to
+				queries and control requests from the CC. The NC manages the virtual machine
+				networks in Edge <xref href="planning_networking_modes.dita">networking mode</xref>.
+				The NC is also responsible for the management of the virtual network
+			endpoint.</p></section>
 		<section><title>VMware Broker</title>
-			<p>VMware Broker (Broker or VB) is an optional Eucalyptus component,
-				which is available if you are a Eucalyptus subscriber. VMware
-				Broker enables Eucalyptus to deploy virtual machines (VMs) on
-				VMware infrastructure elements. VMware Broker mediates all
-				interactions between the CC and VMware hypervisors (ESX/ESXi)
-				either directly or through VMware vCenter.</p></section>
+			<note importance="deprecated">Support for VMWare features in Eucalyptus has been deprecated and will be removed in a future release.</note>
+			<p>VMware Broker (Broker or VB) is an optional Eucalyptus component, which is available
+				if you are a Eucalyptus subscriber. VMware Broker enables Eucalyptus to deploy
+				virtual machines (VMs) on VMware infrastructure elements. VMware Broker mediates all
+				interactions between the CC and VMware hypervisors (ESX/ESXi) either directly or
+				through VMware vCenter.</p></section>
 	</conbody>
 </concept>
