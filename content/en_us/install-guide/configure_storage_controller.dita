@@ -595,32 +595,21 @@ euca-modify-property -p &lt;partition>.storage.chapuser=&lt;Chap_username></code
 
 
 			<steps>
-
-
-
-
-				<step>
-					<cmd>Install the Ceph-RBD client on each SC and NC in your cluster. For more
-						information about installing Ceph-RBD, see the Ceph <xref
-							href="http://ceph.com/docs/master/install/" scope="external"
-							format="html">installation documentation</xref>. </cmd>
-				</step>
-
 				<step>
 
-					<cmd>Node Controllers (NCs) are designed to communicate with Ceph via libvirt
-						and the Ceph-RBD driver for qemu. Node Controller interaction with Ceph-RBD requires a Ceph
-						client, and a hypervisor with Ceph-RBD support. The following instructions will
-						walk you through steps for installing and configuring these two
-						requirements. Repeat this process for every NC in the Eucalyptus
-						cluster.</cmd>
-					<info>Install a hypervisor with Ceph-RBD support:</info>
+					<cmd>Node Controllers (NCs) are designed to communicate with Ceph cluster via
+						libvirt. This interaction requires a hypervisor that supports Ceph-RBD. The
+						following instructions will walk you through steps for verifying and or
+						installing the hypervisor. Repeat this process for every NC in the
+						Eucalyptus cluster.</cmd>
+
 					<substeps>
 						<substep>
-							<cmd>Verify if <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> are already
-								installed.</cmd>
+							<cmd>Verify if <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph>
+								are already installed.</cmd>
 							<info><codeblock>yum list qemu-kvm qemu-img</codeblock>
-								<p>Proceed to the preparing the RHEV qemu packages step if they are not installed.</p></info>
+								<p>Proceed to the preparing the RHEV qemu packages step if they are
+									not installed.</p></info>
 						</substep>
 
 						<substep>
@@ -631,24 +620,26 @@ qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
 ...
 Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
 host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
-								<note>If 'rbd' is listed as one of the supported formats, no further action is required;
-									otherwise proceed to the next step.</note>
+								<note>If 'rbd' is listed as one of the supported formats, no further
+									action is required; otherwise proceed to the next step.</note>
 							</info>
 						</substep>
 						<substep>
-							<cmd>If the <codeph>eucalyptus-nc</codeph> service is running, terminate/stop all instances.
-								After all instances are terminated, stop the eucalyptus-nc
-								service.</cmd>
+							<cmd>If the <codeph>eucalyptus-nc</codeph> service is running,
+								terminate/stop all instances. After all instances are terminated,
+								stop the eucalyptus-nc service.</cmd>
 							<info>
 								<codeblock>service eucalyptus-nc stop</codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>Uninstall the <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> packages. </cmd>
+							<cmd>Uninstall the <codeph>qemu-kvm</codeph> and
+									<codeph>qemu-img</codeph> packages. </cmd>
 							<info>
-								<note>This will also uninstall <codeph>libvirt</codeph> if it was installed. Make a copy of
-									the current <codeph>/etc/libvirt/libvirtd.conf</codeph> file.
-									The yum uninstallation process will save the current copy to
+								<note>This will also uninstall <codeph>libvirt</codeph> if it was
+									installed. Make a copy of the current
+										<codeph>/etc/libvirt/libvirtd.conf</codeph> file. The yum
+									uninstallation process will save the current copy to
 										<codeph>/etc/libvirt/libvirtd.conf.rpmsave</codeph>.</note>
 								<codeblock>yum remove qemu-kvm qemu-img</codeblock>
 							</info>
@@ -661,7 +652,8 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
 										qemu packages is available, consult the RHEV package
 										procedure to install the qemu-kvm-rhev and qemu-img-rhev
 										packages. Blacklist the RHEV packages in the Eucalyptus repo
-										to ensure that packages from the RHEV repo are installed. </li>
+										to ensure that packages from the RHEV repo are installed.
+										Skip to step <b>g</b> after installing the RHEV packages. </li>
 
 									<li> If this NC is a RHEL system and RHEV subscription to qemu
 										packages is unavailable, eucalyptus built and maintained
@@ -677,7 +669,8 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>Install Eucalyptus-built RHEV packages: <codeph>qemu-kvm-rhev</codeph> and
+							<cmd>Install Eucalyptus-built RHEV packages:
+									<codeph>qemu-kvm-rhev</codeph> and
 									<codeph>qemu-img-rhev</codeph>. </cmd>
 							<info>
 								<codeblock>yum install qemu-kvm-rhev qemu-img-rhev</codeblock>
@@ -690,10 +683,11 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>If <codeph>libvirt</codeph> was uninstalled in step 3, copy the saved libvirtd.conf file
-									to<codeph>/etc/libvirt/libvirtd.conf</codeph>. Otherwise modify
+							<cmd>If libvirt was uninstalled in step <b>d</b>, copy the saved
+									<codeph>libvirtd.conf</codeph> file to
+									<codeph>/etc/libvirt/libvirtd.conf</codeph>. Otherwise modify
 								the <codeph>/etc/libvirt/libvirtd.conf</codeph> file as per your
-								requirements. .</cmd>
+								requirements.</cmd>
 							<info>
 								<codeblock>yum install libvirt</codeblock>
 							</info>
@@ -705,7 +699,8 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
 							</info>
 						</substep>
 						<substep>
-							<cmd>Verify <codeph>qemu</codeph> support for the <codeph>ceph-rbd</codeph> driver.</cmd>
+							<cmd>Verify <codeph>qemu</codeph> support for the
+									<codeph>ceph-rbd</codeph> driver.</cmd>
 							<info>
 								<codeblock>qemu-img --help
 qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
