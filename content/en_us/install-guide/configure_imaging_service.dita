@@ -65,8 +65,8 @@
 						maximum paravirtual image that the Imaging Worker will be able to convert is
 						the disk allocation of the Instance Type minus 2GBs.</cmd>
 					<info>
-						<codeblock># euca-modify-property -p imaging.imaging_worker_instance_type=m3.xlarge
-PROPERTY        imaging.imaging_worker_instance_type    m3.xlarge was m1.small</codeblock>
+						<codeblock># euca-modify-property -p services.imaging.worker.instance_type=m3.xlarge
+PROPERTY        services.imaging.worker.instance_type    m3.xlarge was m1.small</codeblock>
 					</info>
 				</step>
 				<step>
@@ -75,7 +75,7 @@ PROPERTY        imaging.imaging_worker_instance_type    m3.xlarge was m1.small</
 						command), so that you can perform troubleshooting inside the Imaging Worker
 						instance, if necessary:</cmd>
 					<info>
-						<codeblock># euca-modify-property -p imaging.imaging_worker_keyname=mykey</codeblock>
+						<codeblock># euca-modify-property -p services.imaging.worker.keyname=mykey</codeblock>
 					</info>
 				</step>
 			</steps>
@@ -146,7 +146,7 @@ PROPERTY        imaging.imaging_worker_instance_type    m3.xlarge was m1.small</
 						After changing the instance type, the Imaging Worker instance should
 						be restarted by terminating the old Imaging Worker instance:</cmd>
 					<info>
-						<codeblock>euca-modify-property -p imaging.imaging_worker_instance_type=m2.2xlarge
+						<codeblock>euca-modify-property -p services.imaging.worker.instance_type=m2.2xlarge
 euca-terminate-instances $(euca-describe-instances --filter tag-value=euca-internal-imaging-workers | grep INSTANCE | cut -f 2)</codeblock>
 					</info>
 				</step>
