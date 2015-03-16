@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="group_delete">
+	<title>Delete a Group</title>
+	<shortdesc>To delete a group perform the steps listed in this topic.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm> access tasks <indexterm>groups <indexterm>delete a
+							group</indexterm>
+					</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<taskbody>
+			<context>
+				<p>When you delete a group, you have to remove users from the
+					group and delete any policies from the group. You can do
+					this with one command, using the
+						<cmdname>euare-groupdel</cmdname> command with the
+						<codeph>-r</codeph> option. Or you can follow the
+					following steps to specify who and what you want to
+					delete.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Individually remove all users from the group.</cmd>
+					<info>
+						<codeblock>euare-groupremoveuser -g &lt;group_name> -u &lt;user_name></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Delete the policies attached to the group.</cmd>
+					<info>
+						<codeblock>euare-groupdelpolicy -g &lt;group_name> -p &lt;policy_name></codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Delete the group.</cmd>
+					<info>
+						<codeblock>euare-groupdel -g &lt;group_name></codeblock>
+					</info>
+				</step>
+			</steps>
+			<result>The group is now deleted.</result>
+			<!-- <postreq>For more information about Eucalyptus commands, see . . .</postreq> -->
+		</taskbody>
+
+</task>

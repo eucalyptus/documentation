@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="access_create_acct">
+
+	<title>Account Creation</title>
+	<shortdesc>This topic describes the process for creating an account.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<keyword>Eucalyptus account creation</keyword>
+				<keyword>create account Eucalyputs</keyword>
+				<indexterm>account <indexterm>create</indexterm></indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	<conbody>
+		<p>You can create accounts using the command line tool. Accounts
+				created are be available for accessing immediately.</p>
+
+		<p>To get the account registration status, run the following command:</p>
+
+		<codeblock>euare-usergetattributes --as-account account -u admin --show-extra</codeblock>
+		<p>Where the <codeph>--show-extra</codeph> option displays extra information of a user in the
+			following order:</p>
+		<ul>
+			<li>Enabled status</li>
+			<li>Registration status</li>
+			<li>Password expires</li>
+		</ul>
+
+		<p>The account registration status has the following values based on the status of registration
+			process: <codeph>REGISTERED</codeph>, <codeph>APPROVED</codeph>, or
+			<codeph>CONFIRMED</codeph>. An account that is not confirmed cannot be used or accessed. The
+			system administrator can manipulate the account registration status in by running the following
+			command:</p>
+
+		<codeblock>euare-usermod --as-account account -u admin --reg-status=status</codeblock>
+		<p>The command line manipulation of the registration status does not send the notification
+			emails.</p>
+	</conbody>
+
+	<!--<related-links>
+		<link></link>
+	</related-links>-->
+</concept>
