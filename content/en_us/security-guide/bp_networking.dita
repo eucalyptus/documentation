@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="bp_networking">
- <title>Networking Modes</title>
- <shortdesc>This topic describes the recommendations for networking modes.</shortdesc>
- <conbody>
- 	<p>We recommend that you use Edge or Managed networking mode, to ensure a secure deployment. They
- 		provide security groups, which are used to control inbound traffic to instances, as well as Layer-2 isolation between security groups.</p>
- 		
- 		<p>Layer-2 isolation protects traffic within a security group from potential eavesdropping and
- 			hijacking by instances that belong to other security groups. In Edge mode, Layer-2 isolation is
- 			also enforced between instances within the same security group. For more information about
- 			choosing a networking modes, see <xref href="../install-guide/planning_networking_modes.dita"/>
- 				or <xref href="../install-guide/planning_networking_modes_ha.dita"/> (for HA).</p>
- </conbody>
+	<title>Networking Modes</title>
+	<shortdesc>This topic describes the recommendations for networking modes.</shortdesc>
+	<conbody>
+		<p>We recommend that you use Edge or Managed networking mode, to ensure a secure deployment.
+			They provide security groups, which are used to control inbound traffic to instances, as
+			well as Layer-2 isolation between security groups.</p>
+		<p>Layer-2 isolation protects traffic within a security group from potential eavesdropping
+			and hijacking by instances that belong to other security groups. In Edge mode, Layer-2
+			isolation is also enforced between instances within the same security group. For more
+			information about choosing a networking modes, see <xref
+				href="../install-guide/planning_networking_modes.dita"/> or <xref
+				href="../install-guide/planning_networking_modes_ha.dita"/> (for HA).</p>
+		<p>Note that while Edge provides stronger Layer-2 isolation within a security group, it requires
+			NCs to be on the data path to all VMs running on it. It means that all user traffic to
+			VMs has to make it all the way to NCs before it can be blocked, if necessary. This is
+			different from the Managed mode, where all user traffic goes through the CC and can be
+			controlled in a centralized way. This needs to be taken into consideration when choosing
+			between two modes. If Edge mode is selected, we recommend that you have a local firewall
+			on each NC; this allows user traffic only to VMs, but not to the NC itself.</p>
+	</conbody>
 </concept>
