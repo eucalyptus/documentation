@@ -28,18 +28,50 @@
     </section>
     <section>
       <title>Credential Management</title>
-      <p>Only create users and credentials for the interfaces that you will
-        actually use. For example, if you're only going to use an account
-        through the Management Console, do not create credentials for the SOAP and
-        Query interfaces.</p>
-    	<p>Using <codeph>euca_conf --get-credentials</codeph> creates a new set of X.509 certificates on each request.  Use <codeph>euare-useraddkey</codeph> and <codeph>euare-usercreatecert</codeph> to get a specific set of credentials whenever possible.</p>
-    	<p>When rotating credentials, there is an option to deactivate, instead of removing, existing
-    		access/secret keys and X.509 certificates. Requests made using deactivated credentials will no
-    		longer be accepted, but the credentials will remain in the Eucalyptus database and can be
-    		restored if needed. You can deactive credentials using <codeph>euare-usermodkey</codeph> and <codeph>euare-usermodcert</codeph>.</p>
+      <p>Protection and careful management of user credentials (passwords, access keys, X.509
+        certificates, and key pairs) is critical to cloud security. When dealing with credentials,
+        we recommend:</p>
+      <ul>
+      <li>Limit the number of active credentials and do not create more credentials than
+          needed.</li>
+        <li>Using <codeph>euca_conf --get-credentials</codeph> creates a new set of X.509
+          certificates on each request; avoid unnecessary use of the command and use
+            <codeph>euare-useraddkey</codeph> and <codeph>euare-usercreatecert</codeph> or
+            <codeph>euare-useraddcert</codeph> instead to get a specific set of credentials.</li>
+      <li>Only create users and credentials for the interfaces that you will actually use. For
+        example, if a user is only going to use the Management Console, do not create credentials
+        access keys for that user.</li>
+      <li>Regularly check for active credentials using <codeph>euare-</codeph> commands and remove
+          unused credentials. Ideally, only one pair of active credentials should be available at
+          any time.</li>
+      <li>Rotate credentials regularly and delete old credentials as soon as possible. Credentials
+          can be created and deleted using <codeph>euare-</codeph> commands, such as
+            <codeph>euare-useraddkey</codeph> and <codeph>euare-userdelkey</codeph>.</li>
+      <li>When rotating credentials, there is an option to deactivate, instead of removing, existing
+          access/secret keys and X.509 certificates. Requests made using deactivated credentials
+          will not be accepted, but the credentials remain in the Eucalyptus database and can be
+          restored if needed. You can deactivate credentials using <codeph>euare-usermodkey</codeph>
+          and <codeph>euare-usermodcert</codeph>.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Privileged Roles</title>
+      <p>The <codeph>eucalyptus</codeph> account is a super privileged account in Eucalyptus. It has 
+        access to all cloud resources, cloud setup and management. The users within this account 
+        do not obey IAM policies and compromised credentials can result in a complete cloud 
+        compromisation that is not easy to contain. We recommend limiting the use of this account and 
+        associated users’ credentials as much as possible.</p>
+      <p>For all unprivileged operations, use regular accounts. If you require super privileged
+        access (for example, management of resources across accounts and cloud setup administration),
+        we recommend that you use one of the predefined privileged roles.</p>
+      <p>The Account, Infrastructure, and Resource Administrator <xref
+          href="../admin-guide/access_roles.dita">roles</xref> provide a more secure way to gain
+        super privileges in the cloud. Credentials returned by an assume-role operation are
+        short-lived (unlike regular user credentials). Privileges available to each role are limited
+        in scope and can be revoked easily by modifying the trust or access policy for the role.</p>
     </section>
   </conbody>
-	<!--<related-links>
-		<link><desc></desc></link>
-	</related-links>-->
+  <related-links>
+    <link href="../admin-guide/access_roles.dita"/>
+  </related-links>
 </concept>

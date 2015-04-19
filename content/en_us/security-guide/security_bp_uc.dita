@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="security_bp_uc">
- <title>Management Console</title>
- <shortdesc>This topic describes things you can do to secure the Eucalyptus Management Console.</shortdesc>
- <conbody>
-  <ul>
-  	<li>Always use SSL for communications and install CA-signed certificate.</li>
-  	<li>We do not recommend choosing "Remember my keys" option for "Login to AWS" because it will store AWS credentials in browser's local storage and increases the security risk of AWS credentials being compromised</li>
-  	<li>Change the default session timeouts if needed. For more information, see <xref href="../shared/console_config_session_timeouts_shared.dita"></xref>.</li>
-  	<li>If you don't use the Management Console, we recommend that you disable
-  		<codeph>GetAccessToken</codeph> (using <codeph>euca-modify-property</codeph>).</li>
-  	<li>We recommend that turn off password autocomplete in the Management Console's configuration
-  		(<codeph>browser.password.save = false</codeph>).</li>
-  </ul>
- </conbody>
+	<title>Management Console</title>
+	<shortdesc>This topic describes things you can do to secure the Eucalyptus Management
+		Console.</shortdesc>
+	<conbody>
+		<ul>
+			<li>Enable HTTPS for communications with the console and configure the console to use a
+				CA-signed certificate.</li>
+			<li>We do not recommend the "Remember my keys" option for "Login to AWS" because it
+				stores AWS credentials in your browser's local storage and increases the security
+				risk of AWS credentials being compromised.</li>
+			<li>Change the default session timeouts if needed. For more information, see <xref
+					href="../shared/console_config_session_timeouts_shared.dita"/>.</li>
+			<li>If you don't use the Management Console, we recommend that you disable
+					<codeph>GetAccessToken</codeph> (using <codeph>euca-modify-property</codeph>).
+				For more information, see <xref href="config_sts.dita"/>.</li>
+			<li>Turn off password autocomplete for the console by setting the
+					<codeph>browser.password.save</codeph> configuration option to false in the
+				console’s configuration file.</li>
+			<li>If memcached is configured to be used by the console, make sure it’s not exposed
+				publicly because there is no authentication mechanism enabled out of the box. If the
+				default Eucalyptus-provided configuration is used, it accepts connections only from
+				localhost.</li>
+		</ul>
+	</conbody>
+	<related-links>
+		<link href="../shared/console_config_session_timeouts_shared.dita"/>
+		<link href="config_sts.dita"/>
+	</related-links>
 </concept>
