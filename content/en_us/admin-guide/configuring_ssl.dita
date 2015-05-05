@@ -17,8 +17,8 @@
 				appropriate format:</p>
 			<codeblock>openssl pkcs12 -export -in [YOURCERT.crt] -inkey [YOURKEY.key] \
  -out tmp.p12 -name [key_alias]</codeblock>
-			<p>Note: this command will request an export password, which is used
-				in the following steps.</p>
+			<p><b>Note</b>: this command will request an export password, which is used in the following
+				steps.</p>
 			<p>Save a backup of the Eucalyptus keystore, at
 					<filepath>/var/lib/eucalyptus/keys/euca.p12</filepath>, and
 				then import your keystore into the Eucalyptus keystore as
@@ -42,15 +42,13 @@ bootstrap.webservices.ssl.server_password=[export_password]</codeblock>
 		</section>
 
 		<section>
-			<title>Optional: Configure the Cloud Controller and Walrus to
-				redirect requests on port 443 to port 8773</title>
-			<p>The Cloud Controller and Walrus listen for both SSL and non-SSL
-				connections on port 8773. If you have other tools that expect to
-				speak SSL on port 443, you should forward requests on that port
-				to port 8773. For example, the following iptables command can be
-				used:</p>
+			<title>Optional: Configure the Cloud Controller to redirect requests on port 443 to port
+				8773</title>
+			<p>The Cloud Controller listens for both SSL and non-SSL connections on port 8773. If you have
+				other tools that expect to speak SSL on port 443, you should forward requests on
+				that port to port 8773. For example, the following iptables command can be used:</p>
 			<codeblock>iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8773</codeblock>
 		</section>
-
+		
 	</conbody>
 </concept>
