@@ -68,26 +68,8 @@ ssh 192.168.51.$host 'yum -y update $( rpm -qa | grep euca )' ; done</codeblock>
      </note>
     </stepresult>
    </step>
-   <!--Commenting out for 3.4.2. If this is correct, just delete later on.
-   	<step>
-    <cmd>If you are a subscriber and use Equallogic SAN, run the following command on each machine hosting a CLC:</cmd>
-    <info>
-    	<note type="important">Skip this step if you are upgrading from <ph
-    		conref="../shared/conrefs.dita#prod/prev_version"/>.</note>
-    	<codeph>yum install eucalyptus-enterprise-storage-san-equallogic-libs</codeph></info>
-   </step>-->
    <step>
-    <note importance="high">The following step is necessary when performing an upgrade or live
-     migration on CentOS 6.6.Please note that downgrading these components on RHEL 6.6 may be
-     unsupported by your RHEL support contract; please contact RHEL support for more information. </note>
-    <cmd>Downgrade the <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph> packages by running the
-      following commands on the node controllers:
-    </cmd>
-    <info>
-       <codeblock>yum downgrade http://vault.centos.org/6.4/os/x86_64/Packages/qemu-kvm-0.12.1.2-2.355.el6.x86_64.rpm \
-  http://vault.centos.org/6.4/os/x86_64/Packages/qemu-img-0.12.1.2-2.355.el6.x86_64.rpm
-service libvirtd restart</codeblock>
-    </info>
+    <cmd>Install the <codeph>qemu-kvm-rhev</codeph> package. </cmd>
    </step>
   </steps>
  	<postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
