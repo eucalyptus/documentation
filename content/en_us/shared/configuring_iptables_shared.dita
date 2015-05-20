@@ -20,15 +20,15 @@
 			<p>This section provides basic guidance on setting up a firewall
 				around your Eucalyptus components. It is not intended to be
 				exhaustive.</p>
-			<p>On the Cloud Controller (CLC), Walrus, Storage Controller (SC), and VMware Broker (VB), allow for the following
+			<p>On the Cloud Controller (CLC), Walrus, and Storage Controller (SC), allow for the following
 				jGroups traffic:</p>
 			<ul>
-				<li>TCP connections between CLC, user-facing services (UFS), object storage gateway (OSG), Walrus SC, and VB on port 8779
-					(or the first available port in range 8779-8849)</li>
-				<li>UDP connections between CLC, UFS, OSG, Walrus, SC, and VB on port
-					7500</li>
-				<li>Multicast connections between CLC, UFS, OSG, Walrus, SC, and VB to IP
-					228.7.7.3 on UDP port 8773</li>
+				<li>TCP connections between CLC, user-facing services (UFS), object storage gateway (OSG),
+					Walrus, and SC on port 8779 (or the first available port in range
+					8779-8849)</li>
+				<li>UDP connections between CLC, UFS, OSG, Walrus, and SC on port 7500</li>
+				<li>Multicast connections between CLC, UFS, OSG, Walrus, and SC to IP 228.7.7.3 on UDP port
+					8773</li>
 
 			</ul>
 			<p>On the UFS, allow the following connections:</p>
@@ -39,7 +39,7 @@
 			<p>On the CLC, allow the following connections:</p>
 			<ul>
 				<li>TCP connections from UFS, CC and Eucalyptus instances (public IPs) on port 8773 (for metadata service)</li>
-				<li>TCP connections from UFS, OSG, Walrus, SC, and VB on port 8777</li>
+				<li>TCP connections from UFS, OSG, Walrus, and SC on port 8777</li>
 			</ul>
 			<p>On the CC, make sure that all firewall rules are
 				compatible with the dynamic changes performed by Eucalyptus,
@@ -51,7 +51,7 @@
 			<p>On OSG, allow the following connections:</p>
 			<ul>
 				<li>TCP connections from end-users and instances on port 8773</li>
-				<li>TCP connections from SC, NC, and VB on port 8773</li>
+				<li>TCP connections from SC and NC on port 8773</li>
 			</ul>
 			<p>On Walrus, allow the following connections:</p>
 			<ul>
@@ -59,18 +59,9 @@
 			</ul>
 			<p>On the SC, allow the following connections:</p>
 			<ul>
-				<li>TCP connections from CLC, NC, and VB on TCP port 8773</li>
+				<li>TCP connections from CLC and NC on TCP port 8773</li>
 				<li>TCP connections from NC on TCP port 3260, if tgt (iSCSI open
 					source target) is used for EBS storage</li>
-			</ul>
-			<p>On the VMware Broker, allow the following
-				connections:</p>
-			<ul>
-				<li>TCP connections from CC on port 8773</li>
-			</ul>
-			<p>On the VB, allow the following connections:</p>
-			<ul>
-				<li>TCP connections from CC on port 8773</li>
 			</ul>
 			<p>On the NC, allow the following connections:</p>
 			<ul>
