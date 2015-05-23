@@ -25,9 +25,9 @@
 		<filepath>$EUCALYPTUS/var/log/eucalyptus/</filepath>. </shortdesc>
 	<conbody>
 			<section>
-				<title>CLC, Walrus, SC, UFS, VMware Broker Log Files</title>
-				<p>Cloud controller (CLC), Walrus, Storage controller (SC), User-Facing Services (UFS) and VMware Broker log files are as
-					follows:</p>
+				<title>CLC, Walrus, SC, and UFS Log Files</title>
+				<p>Cloud controller (CLC), Walrus, Storage controller (SC), and User-Facing Services (UFS) log
+					files are as follows:</p>
 			<table>
 				<tgroup cols="2">
 					<thead>
@@ -52,17 +52,6 @@
 							<entry>This file contains all info-level logs for the Java
 								component itself. If there are multiple Java components on a single host (for example, CLC and
 								Walrus), the info-level logs for all of the components will go here. </entry>
-						</row>
-						<row>
-							<entry><filepath>euca_imager.log</filepath></entry>
-							<entry>This log contains the output of all euca_imager
-								commands. It is unique to the VMware Broker, and should exist
-								only on a broker host. This output is created under two circumstances:
-								<ol >
-									<li>When the euca_imager command is run automatically to import emi->vmdk when a user attempts to
-										spin up a VM on the VMware Broker</li>
-									<li>When the euca_imager is called manually to convert a legacy VMDK into EMI format.</li>
-								</ol></entry>
 						</row>
 						<row>
 							<entry><filepath>cloud-debug.log</filepath></entry>
@@ -383,9 +372,9 @@
 				the component name, fault ID, and any relevant parameters along with their values.</p>
 			<codeblock>euca-generate-fault -c component_name fault_id [param] [value]</codeblock>
 			<p>For example</p>
-			<codeblock>euca-generate-fault -c broker 1008 daemon ntpd</codeblock>
+			<codeblock>euca-generate-fault -c nc 1008 daemon ntpd</codeblock>
 			<p>The test fault should be logged in the appropriate component fault log (in this case,
-					<filepath>/var/log/eucalyptus/broker-fault.log</filepath></p>
+						<filepath>/var/log/eucalyptus/nc-fault.log</filepath></p>
 			<p>Eucalyptus uses customized messages where they are available, preferring a non-localized
 				custom message over a localized default message. Localized messages should be in a
 				per-locale directory under <filepath>/etc/eucalyptus/faults/</filepath>, with a directory
