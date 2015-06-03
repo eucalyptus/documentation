@@ -3,27 +3,29 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="prerequisites_ha">
 	<title><ph conref="../shared/conrefs.dita#prod/product_ha"/> Requirements</title>
-	<shortdesc><ph conref="../shared/conrefs.dita#prod/product_ha"/> requires the same requirements as n<ph conref="../shared/conrefs.dita#prod/product"/>.
-		However, the infrastructure <ph conref="../shared/conrefs.dita#prod/product_ha"/> will be deployed on must
-		meet some additional requirements, listed in this topic.</shortdesc>
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product_ha"/> requires the same requirements as
+			<ph conref="../shared/conrefs.dita#prod/product"/>. However, the infrastructure <ph
+			conref="../shared/conrefs.dita#prod/product_ha"/> will be deployed on must meet some
+		additional requirements, listed in this topic.</shortdesc>
 	<conbody>
 		<note conref="../shared/conrefs.dita#prod/tech_preview"/>
 		<section>
 			<title>Redundant Physical Servers for Eucalyptus Components</title>
-			<p>Each cloud component (CLC and OSG) and cluster component (CC,
-				SC, and VMware Broker) in an HA deployment has a redundant hot
-				backup. These redundant Eucalyptus components occur in pairs,
-				and each member of a pair must be mapped to a separated physical
-				server to ensure high availability. </p>
+			<p>Each cloud component (CLC and OSG) and cluster component (CC and SC) in an HA deployment has a
+				redundant hot backup. These redundant Eucalyptus components occur in pairs, and each
+				member of a pair must be mapped to a separated physical server to ensure high
+				availability. </p>
 			<note type="important">HA pairs must be able to connect to each
 				other.</note>
-			<p>If the HA deployment is to be able to tolerate the failure of
-				networking hardware, additional network interfaces are required
-				for the physical servers that host Eucalyptus components. The
-				physical servers hosting a CLC, Walrus, or CC and VMware Broker
-				must each have three network interface cards (NICs). Each
-				remaining physical server (except the NC components) requires
-				two NICs.</p>
+			<p>If the HA deployment is to be able to tolerate the failure of networking hardware, additional
+				network interfaces are required for the physical servers that host Eucalyptus
+				components. The physical servers hosting a CLC, Walrus, or CC must each have three
+				network interface cards (NICs). Each remaining physical server (except the NC
+				components) requires two NICs.</p>
+			<p>The following image shows a two-cluster deployment with the
+				component pairs at the cloud and cluster level. The NCs are not
+				redundant.</p>
+			<image href="../shared/images/euca-arch-ha-two-clusters.png"/>
 		</section>
 
 

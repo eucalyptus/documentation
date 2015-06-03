@@ -86,25 +86,19 @@
 			<p>To ensure availability in the face of any single failure, we
 				recommend the following deployment strategy:</p>
 			<ul>
-				<li><b>Host/Service Redundancy:</b> Each component which is
-					registered should have a complementary service registered on
-					a redundant host. For example, the cloud and walrus services
-					should be installed and registered on two hosts.
-					Additionally, for example, each partition should have two
-					cluster controllers and storage controllers (and VMware
-					Brokers, if VMware is being used) configured. Each such
-					complementary pair of services can suffer a single outage
-					before system availability is compromised.</li>
-				<li><b>Inter-component Network Redundancy:</b> Each host of a
-					component service should have redundant and disjoint network
-					connections to other internal component services and
-					supporting systems (for example, SANs, vSphere). The
-					recommended approach is to have two ethernet devices (each
-					connected to a disjoint layer-2 network) on each host and
-					bonding the devices. Such a configuration is also suggested
-					on node controllers. Then, the outage of a either layer-2
-					network or ethernet device on a host does not impact service
-					availability or access to cloud resources.</li>
+				<li><b>Host/Service Redundancy:</b> Each component which is registered should have a
+					complementary service registered on a redundant host. For example, the cloud and
+					walrus services should be installed and registered on two hosts. Additionally,
+					for example, each partition should have two cluster controllers and storage
+					controllers configured. Each such complementary pair of services can suffer a
+					single outage before system availability is compromised.</li>
+				<li><b>Inter-component Network Redundancy:</b> Each host of a component service should have
+					redundant and disjoint network connections to other internal component services
+					and supporting systems (for example, SANs). The recommended approach is to have
+					two ethernet devices (each connected to a disjoint layer-2 network) on each host
+					and bonding the devices. Such a configuration is also suggested on node
+					controllers. Then, the outage of a either layer-2 network or ethernet device on
+					a host does not impact service availability or access to cloud resources.</li>
 				<li><b>User-facing Network Redundancy:</b> The wide area (where
 					users are) network connection should be redundant and
 					disjoint. Each such path should have an independent
