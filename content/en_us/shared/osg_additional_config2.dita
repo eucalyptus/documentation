@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="topic_nlf_h5k_ym">
+  <title>OSG Advanced Configuration</title>
+  <body>
+    <p>The following properties are for tuning the behavior of the Object Storage service and
+      Gateways, the defaults are reasonable and changing is not necessary, but they are available
+      for unexpected situations.</p>
+    <table>
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>Property</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+        	<row>
+        	  <entry><codeph>objectstorage.bucket_creation_wait_interval_seconds</codeph></entry>
+        		<entry>Interval, in seconds, during which buckets in creating state are valid. After this interval, the operation is assumed failed.
+        		  <p>Valid values: <codeph>THIS</codeph> | <codeph>THAT</codeph></p>
+        		  <p>Default: <codeph>THIS</codeph></p>
+        		</entry>
+        	</row>
+        	<row>
+        	  <entry><codeph>objectstorage.bucket_naming_restrictions</codeph></entry>
+        		<entry>The S3 bucket naming restrictions to enforce. Use <codeph>dns_compliant</codeph>
+              for non-US region S3 names. Use <codeph>extended</codeph> for US-Standard Region
+              naming. For more information, see <xref
+                href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html"
+                scope="external" format="html">Bucket Restrictions and Limitations</xref> in the
+              Amazon S3 documentation. <p>Valid values: <codeph>dns-compliant</codeph> |
+                  <codeph>extended</codeph></p>
+              <p>Default: <codeph>extended</codeph></p>
+            </entry>
+        	</row>
+        	<row>
+            <entry><codeph>objectstorage.cleanuptaskintervalseconds</codeph>
+            </entry>
+            <entry>The interval, in seconds, at which background cleanup tasks are run. The
+              background cleanup tasks purge the backend of overwritten objects and clean up object
+              history. <p>Valid values: <codeph>THIS</codeph> | <codeph>THAT</codeph></p>
+              <p>Default: <codeph>60</codeph></p>
+            </entry>
+          </row>
+          <row>
+            <entry><codeph>objectstorage.dogetcopyputonfail</codeph>
+            </entry>
+            <entry>When this property is enabled, the OSG will attempt to perform a manual copy
+              (performing a GET operation on the source, followed by a PUT operation on destination)
+              whenever the copy operation fails against the upstream provider. Because manual copies
+              can be slow and memory-intensive, this capability is turned off by default. <p>Valid
+                values: <codeph>true</codeph> | <codeph>false</codeph></p>
+              <p>Default: <codeph>false</codeph></p>
+            </entry>
+          </row>
+          <row>
+            <entry><codeph>objectstorage.failedputtimeouthours</codeph>
+            </entry>
+            <entry>The time, in hours, after which to consider an un-committed object upload to be
+              failed. This allows cleansing of metadata for objects that were pending upload when an
+              OSG fails or is stopped in the middle of a user operation. This should be kept at
+              least as long as the longest reasonable time to upload a single large object, in order
+              to prevent unintentional cleanup of actually progressing uploads. The S3 maximum
+              single upload size is 5GB. <p>Valid values: <codeph>THIS</codeph> |
+                  <codeph>THAT</codeph></p>
+              <p>Default: <codeph>24</codeph></p>
+            </entry>
+          </row>
+        	<row>
+        	  <entry><codeph>objectstorage.max_buckets_per_account</codeph></entry>
+        		<entry>Maximum number of buckets per account
+        		  <p>Valid values: <codeph>THIS</codeph> | <codeph>THAT</codeph></p>
+        		  <p>Default: <codeph>THIS</codeph></p>
+        		</entry>
+        	</row>
+        	<row>
+        	  <entry><codeph>objectstorage.max_total_reporting_capacity_gb</codeph></entry>
+        		<entry>Total object storage capacity for objects, soley for reporting usage percentage.
+        			Not a size restriction. No enforcement of this value.
+        		  <p>Valid values: <codeph>THIS</codeph> | <codeph>THAT</codeph></p>
+        		  <p>Default: <codeph>THIS</codeph></p>
+        		</entry>
+        	</row>
+        	<row>
+            <entry><codeph>objectstorage.queue_size</codeph></entry>
+            <entry>The size, in chunks, of the internal buffers that queue data for transfer to the
+              backend on a per-request basis. A larger value will allow more buffering in the OSG
+              when the client is uploading quickly but the backend bandwidth is lower and cannot
+              consume data fast enough. Too large a value may result in OOM if the JVM does not have
+              sufficient heap space to handle the concurrent requests * queue_size.<p>Valid values:
+                  <codeph>THIS</codeph> | <codeph>THAT</codeph></p>
+              <p>Default: <codeph>100</codeph></p>
+            </entry>
+          </row>
+        	<row>
+        	  <entry><codeph>objectstorage.s3provider.s3usebackenddns</codeph></entry>
+        		<entry>Use DNS virtual-hosted-style bucket names for communication to service backend.
+                <p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p>
+              <p>Default: <codeph>false</codeph></p>
+            </entry>
+        	</row>
+          <row>
+            <entry><codeph>objectstorage.s3provider.s3usehttps</codeph></entry>
+            <entry>Whether or not to use https for the connections to the backend provider. If you
+              configure this, be sure you can use the backend properly with HTTPS (certs, etc.) or
+              the OSG will fail to connect. For RiakCS, you must configure certificates and
+              identities to support HTTPS, it is not enabled in a default RiakCS
+                installation.<p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p>
+              <p>Default: <codeph>false</codeph></p>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>
