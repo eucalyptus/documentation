@@ -98,6 +98,7 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
 				<step conref="../shared/shared_task.dita#shared_task/verify_sc">
 					<cmd/>
 				</step>
+				
 				<step>
 					<cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's
 						hostname or IP address, the username, password, and the name of the chap
@@ -110,6 +111,12 @@ euca-modify-property -p &lt;partition>.storage.chapuser=[chap_username]</codeblo
 						<p>If you have multiple management IP addresses for the SAN adapter, provide
 							a comma-delimited list of IP addresses to the
 								<codeph>[partition_name].storage.sanhost</codeph> property.</p>
+					</info>
+				</step>
+				<step>
+					<cmd>Set the <codeph>&lt;partition>.storage.poolname</codeph> property to the name of a storage pool on the Equallogic SAN to be used by Eucalyptus. For example:</cmd>
+					<info>
+						<codeblock>euca-modify-property -p [partition_name].storage.poolname=<i>equallogic-storage-pool</i></codeblock>
 					</info>
 				</step>
 			</steps>

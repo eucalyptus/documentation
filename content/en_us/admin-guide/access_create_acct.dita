@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="access_create_acct">
-
+	
 	<title>Account Creation</title>
 	<shortdesc>This topic describes the process for creating an account.</shortdesc>
 	<prolog>
@@ -17,55 +17,31 @@
 	<conbody>
 		<p>You can create accounts using the command line tool. You must be a cloud administrator 
 			to use this command. Accounts created are available for immediate access.</p>
-		<!-- Unable to embed reference content from Euca2ools-Guide/euare-accountcreate.dita but should do so for reuse if possible. -->
-		<section>
-			<title>Syntax</title>
-			<codeblock>euare-accountcreate -a <varname>account_name</varname></codeblock>
-		</section>
-		<section>
-			<title>Options</title>
-			<table>
-				<tgroup cols="3">
-					<colspec colwidth="25*"/>
-					<colspec colwidth="65*"/>
-					<colspec colwidth="15*"/>
-					<thead>
-						<row>
-							<entry>Option</entry>
-							<entry>Description</entry>
-							<entry>Required</entry>
-						</row>
-					</thead>
-					
-					<tbody>
-						<row>
-							<entry><codeph>-a, --account-name
-								<i>account_name</i></codeph></entry>
-							<entry>The name of the new account</entry>
-							<entry align="center">Yes</entry>
-						</row>
-					</tbody>
-				</tgroup>
-			</table>
-		</section>
-		<section
-			conref="../shared/euare-common.dita#euare-common/euare_common_options"/>
 		
-		<section>
-			<title>Output</title>
-			<p>Eucalyptus returns the account name and the generated account
-				ID.</p>
-		</section>
+		<p>To create an account, run the following command:</p>
+		<codeblock>euare-accountcreate -a <varname>account_name</varname></codeblock>
 		
-		<section>
-			<title>Example</title>
-			<codeblock>euare-accountcreate -a myacct
-myacct  612184482095</codeblock>
-		</section>
+		<p>To get the account registration status, run the following command:</p>
 		
+		<codeblock>euare-usergetattributes --as-account <varname>account_name</varname> -u admin --show-extra</codeblock>
+		<p>Where the <codeph>--show-extra</codeph> option displays extra information of a user in the
+			following order:</p>
+		<ul>
+			<li>Enabled status</li>
+			<li>Registration status</li>
+			<li>Password expires</li>
+		</ul>
+		
+		<p>The account registration status has the following values based on the status of registration
+			process: <codeph>REGISTERED</codeph>, <codeph>APPROVED</codeph>, or
+			<codeph>CONFIRMED</codeph>. An account that is not confirmed cannot be used or accessed. The
+			system administrator can manipulate the account registration status in by running the following
+			command:</p>
+		
+		<codeblock>euare-usermod --as-account <varname>account_name</varname> -u admin --reg-status=status</codeblock>
+		<p>The command line manipulation of the registration status does not send the notification
+			emails.</p>
 	</conbody>
-	<!-- Embed reference content to Euca2tools-guide/euare-accountcreate.dita to optimize reuse if possible -->
-	
 	
 	<!--<related-links>
 		<link></link>
