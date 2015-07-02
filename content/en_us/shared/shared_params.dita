@@ -121,25 +121,33 @@
 							<entry align="center">No</entry>
 						</row>
 						<row id="user">
-							<entry><codeph>-u,--user</codeph></entry>
-							<entry>12-digit user ID of the person who is
-								bundling the image. </entry>
+							<entry><codeph>-u <i>account</i>,--user <i>account</i></codeph></entry>
+							<entry>12-digit account ID of the person who is bundling the image. </entry>
 							<entry align="center">No</entry>
 						</row>
 						<row id="cert">
-							<entry><codeph>-c,--cert</codeph></entry>
-							<entry>Path to the user's PEM-encoded certificate.</entry>
+							<entry><codeph>-c <i>file</i>, --cert <i>file</i></codeph></entry>
+							<entry>File containing your X.509 certificate.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row id="ec2cert">
+							<entry><codeph>--ec2cert <i>file</i></codeph></entry>
+							<entry>File containing your cloud's X.509 certificate.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row id="private_key">
-							<entry><codeph>-k,--privatekey </codeph></entry>
-							<entry>Path to user's PEM-encoded private key.</entry>
+							<entry><codeph>-k <i>file</i>, --privatekey <i>file</i></codeph></entry>
+							<entry>File containing your private key to sign the bundle's manifest
+								with. This private key will also be required to unbundle the image
+								in the future.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row id="prefix">
-							<entry><codeph>-p,--prefix</codeph></entry>
-							<entry>The prefix for the bundle image files. </entry>
-							<entry align="center">No</entry>
+							<entry><codeph>-p <i>prefix</i>, --prefix <i>prefix</i></codeph></entry>
+							<entry>The file name prefix to give the bundle image files. Required when
+								bundling <codeph>stdin</codeph>; otherwise defaults to the image's
+								file name.</entry>
+							<entry align="center">Conditional</entry>
 						</row>
 						<row id="kernel">
 							<entry><codeph>--kernel</codeph></entry>
@@ -164,9 +172,8 @@
 							<entry align="center">No</entry>
 						</row>
 						<row id="product_codes">
-							<entry><codeph>--product-codes</codeph></entry>
-							<entry>Product codes to be associated with the
-								image.</entry>
+							<entry><codeph>-\-productcodes</codeph><varname>code1</varname> [<varname>, code2, ...</varname>]</entry>
+							<entry>Comma-delimited list of product codes.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row id="block_device_mapping">
@@ -182,31 +189,32 @@
 							<entry align="center">No</entry>
 						</row>
 						<row id="destination">
-							<entry><codeph>-d,--destination </codeph></entry>
-							<entry>Directory to store the bundled image in. We
-								recommend that you include this option where
-								allowed. <draft-comment>Scot's notes: "on your
+							<entry><codeph>-d <i>directory</i>, --destination
+								<i>directory</i></codeph></entry>
+							<entry>Directory where the bundle image files go. Eucalyptus
+								recommends that you include this option where
+								allowed. This is the directory specified by 
+								TMPDIR, TEMP, or TMP environment variables.
+								<draft-comment>Scot's notes: "on your
 									machine where you're running the command
 									from where you want it to
 									go."</draft-comment>
-								<p>Default: <filepath>/tmp</filepath></p>
+								<p>Default: <filepath>/var/tmp</filepath></p>
 							</entry>
-							<entry align="center">No</entry>
-						</row>
-
-						<row id="ec2cert">
-							<entry><codeph>--ec2cert</codeph></entry>
-							<entry>Path to the cloud's X.509 certificate. </entry>
 							<entry align="center">No</entry>
 						</row>
 						<row id="arch">
-							<entry><codeph>-r,--arch</codeph></entry>
+							<entry><codeph>-r <i>architecture</i>, --arch
+								<i>architecture</i></codeph></entry>
 							<entry>Target architecture for the image.
-									<p>Default: <codeph>x86_64</codeph></p>
+								<p>Default: <codeph>x86_64</codeph></p>
 								<p>Valid values: <codeph>i386</codeph> |
-										<codeph>x86_64</codeph></p>
+									<codeph>x86_64</codeph> |
+									<codeph>armhf</codeph> |
+									<codeph>ppc</codeph> |
+									<codeph>ppc64</codeph></p>
 							</entry>
-							<entry align="center">No</entry>
+							<entry align="center">Yes</entry>
 						</row>
 						<row id="batch">
 							<entry><codeph>--batch</codeph></entry>
@@ -236,10 +244,17 @@
 							<entry align="center">No</entry>
 						</row>
 						<row id="size">
-							<entry><codeph>-s,--size
-								<i>size_in_mb</i></codeph></entry>
-							<entry>Size of the image in MB</entry>
+							<entry><codeph>-s,--size <i>size_in_mib</i></codeph></entry>
+							<entry>Size of the image in MiB. <p>Default: 10240 MiB </p><draft-comment>Keri: This size
+									used by euca-bundle-vol.</draft-comment></entry>
 							<entry align="center">No</entry>
+						</row>
+						<row id="isize">
+							<entry><codeph>--image-size <i>size</i></codeph></entry>
+							<entry>The size of the image. Required when reading from <codeph>stdin</codeph>.
+									<draft-comment>Keri: This size used by euca-bundle-image and
+									euca-install-image.</draft-comment></entry>
+							<entry align="center">Conditional</entry>
 						</row>
 						<row id="all">
 							<entry><codeph>-a,--all</codeph></entry>
