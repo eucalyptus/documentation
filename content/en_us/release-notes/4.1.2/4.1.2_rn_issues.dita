@@ -17,9 +17,35 @@
 					</row>
 				</thead>
 				<tbody>
-
 					<row>
+						<entry>Failed EMIs from CreateImage might leave behind orphaned snapshots (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11184"
+							>EUCA-11184</xref>)</entry>
+						<entry>
+							<p>If this occurs, you will notice that snapshots associated with CreateImage 
+								have the associated EMI ID and instance ID. For example:</p>
+							<codeblock># euca-describe-snapshots
+SNAPSHOT	snap-a85a8154	vol-43e8e61f	failed	2015-07-23T04:21:41.142Z	0%	256644401136	15	Created by CreateImage(i-1064c23e) for emi-e705de5e from vol-43e8e61f
+SNAPSHOT	snap-5cadb854	vol-9937c674	completed	2015-07-23T04:13:01.136Z	100%	256644401136	15	Created by CreateImage(i-f393924f) for emi-8410c500 from vol-9937c674</codeblock>
+							<p>Workaround:  The cloud administrator and/or cloud user (with proper IAM access to the account's snapshots) can simply delete the snapshots.</p>
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
 
+		<p><b>Known issues from previous releases:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
 						<entry>Unable to launch EBS instance or delete volume when launched in
 							different zone than created. (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-10697"
@@ -28,23 +54,21 @@
 							<p>See linked bug for more information.</p>
 						</entry>
 					</row>
-
+					
 					<row>
-
 						<entry>Older imaging worker fails to convert paravirt on 4.1.1 (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-10787"
-								>EUCA-10787</xref>)</entry>
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-10787"
+							>EUCA-10787</xref>)</entry>
 						<entry>
 							<p>After upgrading from 4.0.2 to 4.1.1 without updating the image
 								worker. Paravirt image conversion fails.</p>
 							<p>Workaround: See linked bug for more information.</p>
 						</entry>
 					</row>
-
 				</tbody>
 			</tgroup>
 		</table>
-
+		
 	</conbody>
 </concept>
