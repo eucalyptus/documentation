@@ -23,11 +23,18 @@
 							href="https://eucalyptus.atlassian.net/browse/EUCA-11184"
 							>EUCA-11184</xref>)</entry>
 						<entry>
-							<p>If this occurs, <codeph>euca-describe-snapshots</codeph> displays a snapshot ID with the
-								snapshot state of <codeph>failed</codeph> as well as the associated
-								EMI ID and instance ID.</p>
+							<ol>
+								<li>Use <codeph>euca-describe-images</codeph> to see if the EMI associated with CreateImage
+									has a <codeph>failed</codeph> status.<p>If any failed,
+									then:</p></li>
+								<li>Use <codeph>euca-describe-snapshots</codeph> to find any snapshot IDs associated with
+									the failed CreateImage EMI ID.<p>The snapshot description
+										includes the EMI ID and Instance ID. Note that the snapshot
+										state can be <codeph>failed</codeph> or
+											<codeph>completed</codeph>.</p></li>
+							</ol>
 							<p>Workaround: The cloud administrator and/or cloud user (with proper IAM access to the
-								account's snapshots) can simply delete the orphaned snapshot.</p>
+								account's snapshots) can simply delete any orphaned snapshots.</p>
 						</entry>
 					</row>
 				</tbody>
