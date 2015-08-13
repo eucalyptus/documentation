@@ -24,12 +24,36 @@
                        </substep>
                        <substep>
                            <cmd>Select <uicontrol>Upload template</uicontrol> to browse and apply a template from your local hard drive.</cmd>
-                           <info><note>Acceptable file formats are JSON files.</note></info>
+                           <info><note>Acceptable file formats are JSON files (max size: 460,800 bytes).  
+                               For more information, go to <xref href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" 
+                                   scope="external" format="html">Template Anatomy</xref> in the <i>AWS CloudFormation User Guide</i>.</note></info>
                        </substep>
                        <substep>
                            <cmd>Select <uicontrol>Use template from URL</uicontrol> to choose a template from a web address.</cmd>
-                           <info><note>The URL must point to a template (max size: 460,800 bytes) in an Amazon S3 bucket that you have read 
+                           <info><note>The URL must point to a template (max size: 460,800 bytes) anywhere publically available that you have read 
                                permissions to, located in the same region as the stack. The maximum length of the URL itself is 1024 characters long.</note></info>
+                           <stepresult>A Warning dialog opens if you are trying to use a template that was not originally designed for this cloud (for example, 
+                               using an AWS template on a Eucalyptus cloud).</stepresult>
+                           </substep>
+                       <substep>
+                           <cmd>Based on the information provided on the Warning dialog, you can either:</cmd>
+                       <itemgroup><ul>
+                           <li>Expand <uicontrol>Details</uicontrol> to convert unsupported parameters</li>
+                           <li>Click the <uicontrol>I Understand, Use This Template</uicontrol> button and all the unsupported 
+                               parameters will convert automatically</li>
+                           <li>Click <uicontrol>Go back, I want to select a different template</uicontrol> to discard the current 
+                               template selection and repeat the above steps to choose another template.</li>
+                       </ul></itemgroup>
+                           <stepresult>If you are trying to use an AWS template that contains services and resources that 
+                               Eucalyptus does not yet support, a Warning dialog box opens.</stepresult>
+                       </substep>
+                       <substep>
+                           <cmd>Click to expand <uicontrol>Details</uicontrol> to view the unsupported items.</cmd>
+                           <stepresult>Any remaining unsupported items will be automatically removed.</stepresult>
+                       </substep>
+                       <substep>
+                           <cmd>Once the chosen template is free of incompatible items, click <uicontrol>I Understand, Use This Template</uicontrol> 
+                           to proceed.</cmd>
                        </substep>
                    </substeps>
                 </step>
@@ -58,6 +82,7 @@
                         create the resource it needs to procced.</note></info>
                     <info><note>Some parameters allow you to enter values in the provided text box while other parameters, 
                         you must select a valid value from the provided drop-down list box.</note></info>
+                    <info><note>If there is a single resource available in the drop-down list box for a parameter, that value will be pre-selected.</note></info>
                    
                     <stepresult> The entries for each parameter populate in the <b>Summary</b> panel on the right side of the screen.</stepresult>
                 </step>
