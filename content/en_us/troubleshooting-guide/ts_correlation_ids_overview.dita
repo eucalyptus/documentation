@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_correlation_id">
+ <title>Correlation IDs</title>
+ <shortdesc>Eucalyptus 4.1 introduces <i>correlation IDs</i>, which are unique identifiers that
+  allow a cloud administrator to track requests across Eucalyptus components.</shortdesc>
+ <conbody>
+
+  <p>One of the most difficult problems that many Eucalyptus administrators face is troubleshooting
+   user requests across the distributed components that make up a Eucalyptus cloud. </p>
+  <p>For example, when a cloud user tries to run an EBS-backed instance, this is the rough sequence
+   of what's happening in the Eucalyptus cloud:</p>
+  <ul>
+   <li>The front end receives a <codeph>RunInstances</codeph> request, and checks the available back
+    end resources (CPU, IP, Storage, etc) and the requested VM size.</li>
+   <li>The front end commits the resource allocation and sends a <codeph>CreateVolume</codeph>
+    request to the Storage Controller.</li>
+   <li>When the volume containing the VM image is ready, the front end sends a
+     <codeph>PrepareNetwork</codeph> request to the Cluster Controller, which then allocates an IP
+    address in its managed network pool</li>
+   <li>The <codeph>RunInstances</codeph> request is then passed to the Node Controller, which
+    allocates a storage resource on its local disk, creates a iSCSI connection to the volume, and
+    spins up the VM instance. </li>
+  </ul>
+  <p>There are many possible failure points in this sequence. For example, what happens when the
+   Storage Controller rejects "CreateVolume" request because it could not find an available space in
+   the SAN device? The admission control in step 1) can't rule out this because the front-end can't
+   guarantee 100% time that its "view" of the backend resources matches with the latest status of
+   the resources. While the so-called "Eventual consistency" makes the Eucalyptus highly scalable,
+   it revenges its users with the frequent distributed failures that is difficult to troubleshoot.
+   It is frustrating to Cloud Users who sees their pending VM goes to terminated without any clue.
+   It is even more frustrating to the Cloud Admins who receives the complaints from its users but
+   can't easily locate the source of the problem after parsing tens of distributed log files. Are
+   you familiar with this situation? </p>
+  <p><b>Correlating distributed actions to a user's request ID</b></p>
+  <p> In AWS (and EUCA), every response from EC2 (and other AWS services) include a requestID
+   element (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-query-api.html). This is a
+   unique ID to present to AWS to troubleshoot the request. In Eucalyptus, requestID element is also
+   included in every message between components. In 4.1., we changed the format of the requestID
+   between internal components to include the requestID that the user receives. The example below
+   illustrates the example messages exchanged between various parties:</p>
+  <p><codeblock><![CDATA[USER <-– RunInstances (0a26cd99-1db3-47da-8fce-e517d0c3c95a) –->    EUCA_FRONT_END  
+EUCA_FRONT_END  <-- CreateVolume (0a26cd99-1db3-47da-8fce-e517d0c3c95a::c9c52f75-c853-4af5-8c26-5141fb4c3c48) --> STORAGE_CONTROLLER 
+                <-- PrepareNetwork (0a26cd99-1db3-47da-8fce-e517d0c3c95a::aff235b2-8599-46b1-9d45-2e3005e00067) --> CLUSTER_CONTROLLER      
+                <-- RunVmInstances (0a26cd99-1db3-47da-8fce-e517d0c3c95a::144c6edf-c89f-4a6f-b371-5339049d5847) --> NODE_CONTROLLER  
+NODE_CONTROLLER <-- AttachVolume ( 0a26cd99-1db3-47da-8fce-e517d0c3c95a::bb29896d-f840-432c-8e0a-51bdd22cbe83) --> STORAGE_CONTROLLER]]></codeblock></p>
+  <p>Because every message now contains a request ID that the Cloud User receives in the response,
+   we can correlate the distributed component's actions to what Cloud User has requested initially.
+   In the messages above, if the Node Controller fails to attach the EBS volume, the error message
+   logged in Node Controller can have the originating request ID. </p>
+  <p><b>Including request IDs in the distributed logs</b></p>
+  <p> Each component of Eucalyptus writes logs that is (hopefully) helpful debugging a problem. In
+   4.1., we introduce a new set of log files that contain the messages (only) associated with the
+   user's requests. If the message arrived at the component triggers actions and write logs, the
+   requestID from the message is logged in the same line with the debug message. For example, the
+   following is the logs on NC: </p>
+  <p>
+   <codeblock>2014-12-10 14:12:04  INFO 000012097 doRunInstance            | [<b>0a26cd99-1db3</b>] [i-9290fc99] running instance cores=1 disk=5 memory=256 vlan=-1 net=-1 priMAC=d0:0d:92:90:fc:99 privIp=10.111.78.24 plat=linux kernel=(null) ramdisk=(null)
+2014-12-10 14:12:04 DEBUG 000012097 vbr_legacy               | [<b>0a26cd99-1db3</b>] [i-9290fc99] VBR[0] type=ephemeral id=none dev=sdb size=3221225472 format=ext3 none
+2014-12-10 14:12:04 DEBUG 000012097 change_state             | [<b>0a26cd99-1db3</b>] [i-9290fc99] state change for instance: Unknown -> Staging (Pending)
+2014-12-10 14:12:04 DEBUG 000018029 startup_thread           | [<b>0a26cd99-1db3</b>] [i-9290fc99] spawning startup thread</codeblock>
+  </p>
+  <p> The characters in bold face are the correlation ID - the first 13 digits of the original
+   request ID. This correlation ID is written into the log files used by the Eucalyptus cloud
+   components. The cloud administrator can use this unique identifier to search the logs and track
+   down any errors that happen across the distributed cloud components. </p>
+  <p><b>Using LogTracker to gather and parse the distributed logs</b></p>
+  <p> Although having the request ID in the log files is useful when debugging a user's problems, it
+   still requires a quite effort to mine distribute logs to locate the source of the problem. To
+   help alleviate this problem, we've introduced new tools to gather distributed Eucalyptus logs and
+   search for messages with a request ID. </p>
+  <p>The LogTracker tools are hosted at https://github.com/eucalyptus/logtrackers.</p>
+  <p>TBD - IN PROGRESS</p>
+ </conbody>
+</concept>
