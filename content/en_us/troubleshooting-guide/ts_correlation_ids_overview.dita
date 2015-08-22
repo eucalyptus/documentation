@@ -70,6 +70,60 @@ NODE_CONTROLLER <-- AttachVolume ( 0a26cd99-1db3-47da-8fce-e517d0c3c95a::bb29896
    help alleviate this problem, we've introduced new tools to gather distributed Eucalyptus logs and
    search for messages with a request ID. </p>
   <p>The LogTracker tools are hosted at https://github.com/eucalyptus/logtrackers.</p>
-  <p>TBD - IN PROGRESS</p>
+  <p>In the following example, user with the account name "Bob" has tried but failed to run an
+   instance. Using the logtracker tools, the administrator can track down Bob's request.</p>
+  <p>First, use the <codeph>euca-req-history</codeph> command to find the request ID for Bob's
+    <codeph>RunInstance</codeph> command:</p>
+  <codeblock>[root@c-27 ~]# euca-req-history bob -n RunInstance
+DATE                      SERVICE    REQUEST       ID
+------------------------  ---------  ------------  --------
+Thu Dec 11 16:48:14 2014  compute    RunInstances  7e85d33a
+Wed Dec 10 16:00:52 2014  compute    RunInstances  820b3e4f
+Wed Dec 10 14:50:22 2014  compute    RunInstances  8a2902f2
+Wed Dec 10 14:42:18 2014  compute    RunInstances  9780ef9c
+Wed Dec 10 14:11:59 2014  compute    RunInstances  078c410a
+Wed Dec 10 12:30:18 2014  compute    RunInstances  e1eb66af
+Wed Dec 10 12:25:26 2014  compute    RunInstances  46ae6377
+Wed Dec 10 12:24:14 2014  compute    RunInstances  4395f064</codeblock>
+
+  <p>The <codeph>euca-req-history</codeph> tool searches for the requests in the
+    <codeph>cloud-requests.log</codeph> log file. In this example, we pass in the name of the
+   account ("bob"), and the name of the specific request (<codeph>RunInstance</codeph>) and see that
+   the most recent request ID is <b>7e85d33a</b>.</p>
+  <p>The LogTracker tools include the <codeph>euca-req-track</codeph> command, which uses
+    <codeph>ssh</codeph> to aggregate logs from the distributed Eucalyptus components and sorts them
+   according to order of execution. </p>
+  <note>You must have ssh access to the machines running the Eucalyptus components for
+    <codeph>euca-req-track</codeph> to function properly.</note>
+  <p>We can now use this ID with the <codeph>euca-req-track</codeph> command to search across all of
+   the Eucalyptus component logs for error entries matching that ID:</p>
+  <codeblock>[root@c-27 ~]# euca-req-track 7e85d33a --ssh
+info: Make sure Eucalyptus logs are in /opt/eucalyptus/var/log/eucalyptus/ of euca hosts
+info: log files are copied to /tmp/tmpAnnGIA/
+=======  ==============  ============  ==================  =======  ========================  
+ORDER    DATE            HOST          SERVICE             LEVEL    LOCATION                  LOG
+=======  ==============  ============  ==================  =======  ========================  
+      0  12-11 16:48:14  10.111.1.62   EC2/AS/ELB/OSG/IAM  DEBUG    ComputeService            RunInstancesType:7e85d33a-c9b3-470b-9749-615de2b98ae1:return=true:epoch=null:sta
+      0                                                                                       tus=null
+      0  12-11 16:48:15  10.111.1.62   EC2/AS/ELB/OSG/IAM  DEBUG    ComputeService            RunInstancesResponseType:7e85d33a-c9b3-470b-9749-615de2b98ae1:return=true:epoch=
+      0                                                                                       null:status=null
+      1  12-11 16:48:15  10.111.1.62   EC2/AS/ELB/OSG/IAM  INFO     AdmissionControl          Found authorized clusters: [CC_71]
+ ......
+......
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    InitWSSEC                 could not initialize policy file /opt/eucalyptus/usr/share/eucalyptus/policies/s
+      3                                                                                       c-client-policy.xml
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    scClientCall              Error initializing WSSEC state for SC Client
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    scExportVolumeStub        operation on 10.111.1.71 could not be invoked (check SC host, port, and credenti
+      3                                                                                       als)
+      3  12-11 16:48:26  10.111.1.118  NC                  DEBUG    scClientCall              done scOps=ExportVolume clientrc=0 opFail=1
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    connect_ebs_volume        Failed to get connection information for volume vol-28d85101 from storage contro
+      3                                                                                       ller at: http://10.111.1.71:8773/services/Storage
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    iqn_creator               [i-a42445ab] failed to attach volume during VBR construction for vda
+      3  12-11 16:48:26  10.111.1.118  NC                  ERROR    art_implement_tree        [i-a42445ab] failed to create artifact iscsi-vol (error=1, may retry) on try 1
+=======  ==============  ============  ==================  =======  ========================  
+</codeblock>
+  <p>In this case, Bob's RunInstances command is not successful because there's a missing policy
+   file on the NC. </p>
  </conbody>
+
 </concept>
