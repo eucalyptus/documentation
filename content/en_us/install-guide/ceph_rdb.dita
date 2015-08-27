@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_ceph_rdb" props="subscribe">
+    <title>Configure the SC to use Ceph-RDB</title>
+    <shortdesc>In this configuration the SC ... ??? QUESTION what intro text for Ceph-RDB
+        ???</shortdesc>
+    <taskbody>
+        <prereq>This task assumes the following: <ul>
+            <li>You have an installed and working Ceph cluster.</li>
+            <li>Ceph user credentials assigned to Eucalyptus SC and NCs are configured with
+                appropriate permissions (different user credentials can be used for the SCs
+                and NCs, below sections will explain how to configure them in
+                Eucalyptus).</li>
+        </ul>
+        </prereq>
+        
+        <steps>
+            <step>
+                
+                <cmd>Node Controllers (NCs) are designed to communicate with Ceph cluster via
+                    libvirt. This interaction requires a hypervisor that supports Ceph-RBD. The
+                    following instructions will walk you through steps for verifying and or
+                    installing the hypervisor. Repeat this process for every NC in the
+                    Eucalyptus cluster.</cmd>
+                
+                <substeps>
+                    <substep>
+                        <cmd>Verify if <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph>
+                            are already installed.</cmd>
+                        <info><codeblock>yum list qemu-kvm qemu-img</codeblock>
+                            <p>Proceed to the preparing the RHEV qemu packages step if they are
+                                not installed.</p></info>
+                    </substep>
+                    
+                    <substep>
+                        <cmd>Verify qemu support for the <codeph>ceph-rbd</codeph> driver.</cmd>
+                        <info>
+                            <codeblock>qemu-img --help
+qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
+...
+Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
+host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
+                            <note>If 'rbd' is listed as one of the supported formats, no further
+                                action is required; otherwise proceed to the next step.</note>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>If the <codeph>eucalyptus-nc</codeph> service is running,
+                            terminate/stop all instances. After all instances are terminated,
+                            stop the eucalyptus-nc service.</cmd>
+                        <info>
+                            <codeblock>service eucalyptus-nc stop</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Uninstall the <codeph>qemu-kvm</codeph> and
+                            <codeph>qemu-img</codeph> packages. </cmd>
+                        <info>
+                            <note>This will also uninstall <codeph>libvirt</codeph> if it was
+                                installed. Make a copy of the current
+                                <codeph>/etc/libvirt/libvirtd.conf</codeph> file. The yum
+                                uninstallation process will save the current copy to
+                                <codeph>/etc/libvirt/libvirtd.conf.rpmsave</codeph>.</note>
+                            <codeblock>yum remove qemu-kvm qemu-img</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Prepare the RHEV qemu packages:</cmd>
+                        <info>
+                            <ul>
+                                <li>If this NC is a RHEL system and the RHEV subscription to
+                                    qemu packages is available, consult the RHEV package
+                                    procedure to install the qemu-kvm-rhev and qemu-img-rhev
+                                    packages. Blacklist the RHEV packages in the Eucalyptus repo
+                                    to ensure that packages from the RHEV repo are installed.
+                                    Skip to step <b>g</b> after installing the RHEV packages. </li>
+                                
+                                <li> If this NC is a RHEL system and RHEV subscription to qemu
+                                    packages is unavailable, eucalyptus built and maintained
+                                    qemu-rhev packages may be used. These packages are available
+                                    in the same yum repository as other eucalyptus packages.
+                                    Note that using eucalyptus built RHEV packages voids the
+                                    original RHEL support for the qemu packages.</li>
+                                <li> If this NC is a non-RHEL (CentOS) system, Eucalyptus-built and maintained qemu-rhev
+                                    packages may be used. These packages are available in the
+                                    same yum repository as other eucalyptus packages. </li>
+                            </ul>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Install Eucalyptus-built RHEV packages:
+                            <codeph>qemu-kvm-rhev</codeph> and
+                            <codeph>qemu-img-rhev</codeph>. </cmd>
+                        <info>
+                            <codeblock>yum install qemu-kvm-rhev qemu-img-rhev</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Install <codeph>libvirt</codeph>.</cmd>
+                        <info>
+                            <codeblock>yum install libvirt</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>If libvirt was uninstalled in step <b>d</b>, copy the saved
+                            <codeph>libvirtd.conf</codeph> file to
+                            <codeph>/etc/libvirt/libvirtd.conf</codeph>. Otherwise modify
+                            the <codeph>/etc/libvirt/libvirtd.conf</codeph> file as per your
+                            requirements.</cmd>
+                        <info>
+                            <codeblock>yum install libvirt</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Start the <codeph>libvirtd</codeph> service.</cmd>
+                        <info>
+                            <codeblock>service libvirtd start</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify <codeph>qemu</codeph> support for the
+                            <codeph>ceph-rbd</codeph> driver.</cmd>
+                        <info>
+                            <codeblock>qemu-img --help
+qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
+...
+Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
+host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Make sure the eucalyptus-nc service is started.</cmd>
+                        <info>
+                            <codeblock>service eucalyptus-nc start</codeblock>
+                        </info>
+                    </substep>
+                    
+                    
+                    
+                </substeps>
+            </step>
+            
+            
+            <step>
+                <cmd>Configure the SC to use Ceph-RBD for block storage.</cmd>
+                <info><codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=ceph-rbd</codeblock>
+                    The output of the command should be similar to:
+                    <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify that the property value is now <codeph>ceph-rbd</codeph>:</cmd>
+                <info>
+                    <codeblock>euca-describe-properties | grep blockstorage</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Check the SC to be sure that it has transitioned out of the
+                    <codeph>BROKEN</codeph> state and is in the <codeph>NOTREADY</codeph>,
+                    <codeph>DISABLED</codeph> or <codeph>ENABLED</codeph> state before
+                    configuring the rest of the properties for the SC.</cmd>
+            </step>
+            <step>
+                <cmd>The ceph-rbd provider will assume defaults for the following
+                    properties</cmd>
+                <info>
+                    <codeblock>euca-describe-properties -v | grep 'PARTI00.storage.ceph'
+ 
+PROPERTY        PARTI00.storage.cephconfigfile  /etc/ceph/ceph.conf
+DESCRIPTION     PARTI00.storage.cephconfigfile  Absolute path to Ceph configuration (ceph.conf) file. Default value is '/etc/ceph/ceph.conf'
+ 
+PROPERTY        PARTI00.storage.cephkeyringfile /etc/ceph/ceph.client.eucalyptus.keyring
+DESCRIPTION     PARTI00.storage.cephkeyringfile Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring) file. Default value is '/etc/ceph/ceph.client.eucalyptus.keyring'
+ 
+PROPERTY        PARTI00.storage.cephsnapshotpools       rbd
+DESCRIPTION     PARTI00.storage.cephsnapshotpools       Ceph storage pool(s) made available to Eucalyptus for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
+ 
+PROPERTY        PARTI00.storage.cephuser        eucalyptus
+DESCRIPTION     PARTI00.storage.cephuser        Ceph username employed by Eucalyptus operations. Default value is 'eucalyptus'
+ 
+PROPERTY        PARTI00.storage.cephvolumepools rbd
+DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made available to Eucalyptus for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>The following steps are optional if the default values work for your
+                    cloud:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>To set the Ceph username (the default value for Eucalyptus is
+                            'eucalyptus'): </cmd>
+                        <info>
+                            <codeblock>euca-modify-property -p &lt;cluster-name&gt;.storage.cephuser=qauser</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>To set the absolute path to keyring file containing the key for the
+                            'eucalyptus' user (the default value is
+                            '/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
+                        <info>
+                            <codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
+                            <note>If cephuser was modified, ensure that cephkeyringfile is also
+                                updated with the location to the keyring for the specific
+                                cephuser:</note>
+                        </info>
+                        
+                    </substep>
+                    <substep>
+                        <cmd>To set the absolute path to ceph.conf file (default value is
+                            '/etc/ceph/ceph.conf'):</cmd>
+                        <info>
+                            <codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>To change the comma-delimited list of Ceph pools assigned to
+                            Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
+                        <info>
+                            <codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephvolumepools=rbd,qavolumes</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>To change the comma-delimited list of Ceph pools assigned to
+                            Eucalyptus for managing EBS snapshots (default value is 'rbd')
+                            :</cmd>
+                        <info>
+                            <codeblock>euca-modify-property -p &lt;cluster-name>.storage.cephsnapshotpools=qasnapshots</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Every NC will assume the following defaults:</cmd>
+                <info>
+                    <codeblock>CEPH_USER_NAME="eucalyptus"
+CEPH_KEYRING_PATH="/etc/ceph/ceph.client.eucalyptus.keyring"
+CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
+                </info>
+                
+                <substeps>
+                    <substep>
+                        <cmd>To override the above defaults, add/edit the following properties
+                            in the <codeph>$EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph>
+                            on the specific NC. file: </cmd>
+                        <info>
+                            <codeblock>CEPH_USER_NAME="&lt;ceph-username-for-use-by-this-NC>"
+CEPH_KEYRING_PATH="&lt;path-to-keyring-file-for-ceph-username>"
+CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
+                        </info>
+                        
+                    </substep>
+                    
+                    <substep>
+                        <cmd>Repeat the previous two steps for every NC in the specific
+                            Eucalyptus cluster.</cmd>
+                    </substep>
+                </substeps>
+            </step>
+        </steps>
+        <result>Your Ceph backend is now ready to use with Eucalyptus.</result>
+    </taskbody>
+</task>

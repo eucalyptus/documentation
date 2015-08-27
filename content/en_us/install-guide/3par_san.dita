@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_3par_san" props="subscribe">
+    <title>Configure the SC to use 3PAR SAN</title>
+    <shortdesc>In this configuration the SC ... UPDATE THIS TOPIC WITH WIKI CONTENT !!!</shortdesc>
+    <taskbody>
+        <prereq>This task assumes the following: <ul>
+            <li>Another prereq.</li>
+            <li>Another prereq.</li>                
+        </ul>
+        </prereq>        
+        
+        <steps>
+            <step>
+                <cmd>Configure the SC to use the OverlayManager for storage.</cmd>
+                <info>
+                    <codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
+                    The output of the command should be similar to:
+                    <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify that the property value is now: 'overlay'</cmd>
+                <info>
+                    <codeblock>euca-describe-properties | grep blockstorage</codeblock>
+                </info>
+            </step>
+        </steps>
+        <result>Your 3PAR SAN backend is now ready to use with Eucalyptus.</result>
+    </taskbody>
+</task>
