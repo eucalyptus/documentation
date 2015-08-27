@@ -14,14 +14,12 @@
 	</prolog>
 	<taskbody>
 		<context id="create_keypairs_context">
-			<p>Eucalyptus uses cryptographic key pairs to verify access to
-				instances. Before you can run an instance, you must create a key
-				pair. Creating a key pair generates two keys: a public key
-				(saved within Eucalyptus) and a corresponding private key
-				(output to the user as a character string). To enable this
-				private key you must save it to a file and set appropriate
-				access permissions (using the chmod command), as shown in the
-				example below.</p>
+			<p>Eucalyptus uses cryptographic key pairs to verify access to instances. Key pairs are used if you want 
+				to connect to your instance using SSH. Creating a key pair generates two keys: a public key (saved
+				within Eucalyptus) and a corresponding private key (output to the user as a
+				character string). To enable this private key you must save it to a file and set
+				appropriate access permissions (using the chmod command), as shown in the example
+				below.</p>
 			
 		</context>
 
@@ -33,28 +31,23 @@
 			<context/>
 			<steps id="create_keypairs_console_steps">
 				<step>
-					<cmd>From the main dashboard screen, click the <uicontrol>Key Pairs</uicontrol> icon, or select
-						the <uicontrol>Network and Security</uicontrol> menu at the top of the
-						dashboard. The <uicontrol>Manage Keypairs</uicontrol> screen will
-						appear.</cmd>
+					<cmd>From the main dashboard screen, click the <uicontrol>Key Pairs</uicontrol> icon. </cmd>
+					<stepresult>The <uicontrol>Key Pairs</uicontrol> page opens.</stepresult>
 				</step>
 				<step>
-					<cmd>On the <uicontrol>Key Pairs</uicontrol> screen, click the <uicontrol>Create New Key
-							Pair</uicontrol> link. The <uicontrol>Create new key pair</uicontrol>
-						page will appear.</cmd>
+					<cmd>Click the <uicontrol>Create Key Pair</uicontrol> button. </cmd>
+					<stepresult>The <uicontrol>Create new key pair</uicontrol> window opens.</stepresult>
 				</step>
 				<step>
-					<cmd>Type a name for the new key pair into the
-							<uicontrol>Name</uicontrol> text box.</cmd>
+					<cmd>Type a name for the new key pair into the <uicontrol>Name</uicontrol> text box.</cmd>
+					<info>The name may contain up to 255 alphanumeric and special characters.</info>
 				</step>
 
 				<step>
-					<cmd> Click the <uicontrol>Create and Download</uicontrol>
-						button. The private half of the key pair is saved to the
-						default download location for your browser. </cmd>
+					<cmd> Click the <uicontrol>Create and Download</uicontrol> button. The private half of the key pair 
+						(.pem file) is saved to the default download location for your browser. </cmd>
 					<info>
-						<note importance="high">Keep your private key file in a
-							safe place. If you lose it, you will be unable to
+						<note importance="high">Keep your private key file in a safe place. If you lose it, you will be unable to
 							access instances created with the key pair.</note>
 					</info>
 				</step>
@@ -79,21 +72,15 @@
 				<step>
 					<cmd>Enter the following command:</cmd>
 					<info>
-						<codeblock>euca-create-keypair &lt;keypair_name> > &lt;keypair_name>.private</codeblock>
+						<codeblock>euca-create-keypair &lt;keypair_name> -f &lt;keypair_name>.private</codeblock>
 						<p>where <codeph>&lt;keypair_name></codeph> is a unique
 							name for your keypair. For example:</p>
-						<codeblock>euca-create-keypair alice-keypair > alice-keypair.private </codeblock>
+						<codeblock>euca-create-keypair alice-keypair -f alice-keypair.private </codeblock>
 					</info>
 					<stepresult>The private key is saved to a file in your
 						local directory.</stepresult>
 				</step>
-				<step>
-					<cmd>Change file permissions to enable access to the private
-						key file in the local directory:</cmd>
-					<info>
-						<codeblock>chmod 0600 &lt;keypair_name>.private</codeblock>
-					</info>
-				</step>
+				
 				<step>
 					<cmd>Query the system to view the public key:</cmd>
 					<info>
