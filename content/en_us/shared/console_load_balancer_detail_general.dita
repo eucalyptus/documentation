@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="load_balancer_details_general">
+    <title>Load Balancer Details - General</title>
+    <shortdesc> This tab allows you to view details about the load balancer and edit or add listeners, if necessary.</shortdesc>
+    <task id="load_balancer_delete" conref="console_load_balancer_detail_actions_menu.dita#console_load_balancer_detail_actions_menu">
+        <title>Actions menu</title>
+    </task>
+
+    <task id="load_balancer_details_general_lb">
+        <title>Load balancer</title>
+        <shortdesc>This section shows the name, the creation time and the security group associated with the load balancer. 
+            The only value you may change is the amount of time a connection to an instance can be idle before timing out.
+            To change the idle timeout, type a new value in the <uicontrol>Idle timeout (secs)</uicontrol> control 
+            or use the up and down arrows to adjust the values incrementally.
+        </shortdesc>
+        <taskbody/>
+    </task>
+            
+<task id="load_balancer_details_general_listeners">
+            <title>Listeners</title>
+            <shortdesc>This section shows what listeners are currently assigned to the load balancer, but you may add more or 
+                edit one by deleting it and adding a new listener. A listener is the definition of protocols (client-side and instance-side) and
+                ports that the load balancer uses to monitor and route incoming traffic
+                to the load balancer's registered instances. A default listener is
+                pre-defined with an HTTP protocol port 80 on the client and the instance
+                side. You may delete a listener but you must define at least one listener to properly 
+                configure a load balancer.
+            </shortdesc>
+            <taskbody>
+                <steps>
+        
+                <step>
+                    <cmd>To delete a listener, click the <uicontrol>Remove listener</uicontrol> icon 
+                        (a minus sign in a circle) next to the one you want to remove.</cmd>
+                </step>
+                    <step>
+                    <cmd>To add a listener, scroll past the table (if a listener is already defined) and select an 
+                        option from the <uicontrol>Protocol</uicontrol> drop-down list box for the CLIENT SIDE. </cmd>
+                        <stepresult>The client-side port may be populated with a common default port for a chosen protocol 
+                            but you can change the port, if neccessary.</stepresult>
+                    </step>
+                    <step>
+                            <cmd>If not already populated, or you want to change the client-side port, enter the port number in the
+                                <uicontrol>Port</uicontrol> text box.</cmd>
+                            <info>Ports assigned for the client-side must be either 25, 80, 443, 465, 587 or from 1024 to 65535 and 
+                                may not already be in use.</info>
+                        </step>
+                        <step>
+                            <cmd>On the INSTANCE SIDE, select the protocol from the <uicontrol>Protocol</uicontrol> drop-down list box.</cmd>
+                        </step>
+                        <step>
+                            <cmd>If not already auto-populated, enter the number of the instance-side port into the
+                                <uicontrol>Port</uicontrol> text box.
+                            </cmd>
+                        </step>
+                    </steps>
+
+        </taskbody>
+        <task id="load_balancer_details_general_security">
+            <title>Security Policy</title>
+            <shortdesc>The ability to apply a security policy is only available if HTTPS or SSL is specified as the protocol.</shortdesc>
+            <taskbody>
+                <steps>
+                    <step>
+                        <cmd>The latest existing security policy is displayed by default next to Policy in the Security area 
+                            but you may change it by clicking <uicontrol>Change</uicontrol>.</cmd>
+                        <stepresult>The Select security policy window opens.</stepresult>
+                    </step>
+                    <step>
+                        <cmd>Select from the available security options:</cmd>
+                        <choices>
+                            <choice><uicontrol>Choose a predefined security policy</uicontrol>
+                                and select a policy from the <uicontrol>Policy
+                                    name</uicontrol> drop-down list box.</choice>
+                        </choices>
+                        <info><note>For more information on pre-defined security policies, go to AWS
+                            <xref
+                                href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/elb-security-policy-table.html"
+                                scope="external" format="html">Predefined SSL Security Policies for Elastic Load Balancing</xref>
+                        </note> OR </info>
+                        <choices>
+                            <choice><uicontrol>Create a custom security policy</uicontrol>. Choosing this option opens the <uicontrol>SSL
+                                PROTOCOLS</uicontrol> and the <uicontrol>SSL CIPHERS</uicontrol>
+                                drop-down list box with values pre-populated.
+                            </choice>
+                        </choices>
+                        <substeps>
+                            <substep>
+                                <cmd>To delete any of the pre-populated values, click the
+                                    <uicontrol>x</uicontrol> next to the value(s) you do not
+                                    want.</cmd>
+                            </substep>
+                            <substep>
+                                <cmd>To add or select another protocol, click in the
+                                    <uicontrol>SSL PROTOCOLS</uicontrol> field and select
+                                    one from the drop-down list box.</cmd>
+                            </substep>
+                            <substep>
+                                <cmd>To add or select another encryption algorithm, click in the
+                                    <uicontrol>SSL CIPHERS</uicontrol> field and select one
+                                    from the drop-down list box. </cmd>
+                                <info><note>You must specify at least
+                                    one protocol and one encryption algorithm.</note></info>
+                            </substep>
+                            <substep>
+                                <cmd>In the SSL OPTIONS, click to select <uicontrol>Server order preference</uicontrol> if you want it 
+                                    for SSL negotiation.</cmd>
+                            </substep>
+                            <substep>
+                                <cmd>Click the <uicontrol>Use This Policy</uicontrol> button to select
+                                    the defined security policy.</cmd>
+                                <stepresult>The Select security policy window closes and the specified policy is displayed next to the Policy field. </stepresult>
+                            </substep>
+                        </substeps>
+                    </step>
+                </steps>
+            </taskbody>
+            
+            <task id="Certificate">
+                <title>Certificate</title>
+                <shortdesc>The ability to apply a security certificate is only available if HTTPS or SSL is specified as the protocol.</shortdesc>
+                <taskbody>
+                    <steps>
+                        <step>
+                            <note>Skip this step if you want to continue using a certificate that is already installed on your load balancer.</note>
+                            <cmd>To select a certificate, if available, click <uicontrol>Select</uicontrol> next to Certificates.</cmd>
+                        </step>
+                        <step>
+                            <cmd>If a certificate is already assigned and you want to change it, click <uicontrol>Change</uicontrol> instead.</cmd>
+                            <stepresult>Choosing this option opens the Select certificate(s) window.
+                                <note>Tabs display for SSL and Backend only if the instance side uses HTTPS or SSL protocol.</note></stepresult>
+                        </step>
+                        <step>
+                            
+                            <cmd>Select from the available options for assigning a certificate to your load balancer:</cmd>
+                            <choices>
+                                <choice><uicontrol>Choose an existing SSL certificate </uicontrol>from the <uicontrol>Certificate Name</uicontrol> 
+                                    drop down list, if available.
+                                    <note>If one is not available, upload a new certificate.</note>
+                                </choice>
+                                <choice><uicontrol>Upload a new SSL certificate</uicontrol>. Choosing this option opens a form to upload a new certificate:</choice>
+                            </choices>
+                            <substeps>
+                                <substep>
+                                    <cmd>Type the name of the new certificate in the <uicontrol>Certificate name</uicontrol> text field.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Paste the contents of your public key certificate file in the <uicontrol>Public key certificate</uicontrol> text field. 
+                                        Refer to the bubble help <uicontrol>(?)</uicontrol> for additional details.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Paste the contents of your private key certificate file in the <uicontrol>Private key</uicontrol> text field. 
+                                        Refer to the bubble help <uicontrol>(?)</uicontrol> for additional details.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Enter the contents of your certificate chain file in the <uicontrol>Certificate chain</uicontrol> text field.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>To specify certificates for the backend, click the <uicontrol>Back end</uicontrol> tab. Otherwise, click the 
+                                        <uicontrol>Use This Certificate</uicontrol> button.</cmd>
+                                    <stepresult>Choosing to specify the backend certificate(s) opens another form that may already be populated with pre-loaded certificates.
+                                        <note>Backend certificates are used to ensure added security measures between your load balancers and its communication with your server. 
+                                            Backend certificates are optional, but you may add multiple certificates on this form.</note></stepresult>
+                                </substep>
+                                <substep>
+                                    <cmd>To delete any of the pre-populated certificates, click the <uicontrol>x</uicontrol> next to the 
+                                        cetificate(s) you do not want.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>To add or select another certificate, click <uicontrol>Add a certificate</uicontrol> or 
+                                        <uicontrol>Add another certificate</uicontrol>, respectively.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Type the name of the new certificate in the <uicontrol>Certificate name</uicontrol> text field.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Paste the contents of your certificate file in the <uicontrol>Body (pem encoded)</uicontrol> text field.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Click the <uicontrol>Add Certificate</uicontrol> button to add it.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>Click the <uicontrol>Use These Certificates</uicontrol> button to apply the certificates to your load balancer.</cmd>
+                                    <stepresult>The Select certificate(s) window closes and the specified certificate(s) is displayed next to the Certificates field. </stepresult>
+                                </substep>
+                                <substep>
+                                    <cmd>After listeners have been declared, click the <uicontrol>Add Listener</uicontrol> button to continue.</cmd>
+                                </substep>
+                                <substep>
+                                    <cmd>To add more listeners, repeat the above steps.</cmd>
+                                </substep>
+                            </substeps>
+                        </step>
+                    </steps>
+                </taskbody>
+            </task>
+            <task id="tags" conref="console_add_edit_tags_in_place.dita#console_add_edit_tags_in_place">
+                <title>Tags</title>
+            </task>
+        </task>
+    </task>
+    <task id="load_balancer_details_general_access_logs">
+        <title>Access logs</title>
+        <shortdesc>This section displays the logs defined in the Create Load Balancer Wizard.</shortdesc>
+    <taskbody>
+        <steps>
+            <step>
+                <cmd>Click <uicontrol>View latest log</uicontrol> to open a separate window that contains the 
+                     logs associated with your load balancer.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>View my bucket</uicontrol> to open an S3 bucket to view its contents.</cmd>
+            </step>
+        </steps>
+    </taskbody>
+    </task>
+        <task id="load_balancer_details_general_network_security">
+            <title>Network &amp; security</title>
+            <shortdesc>This section is only visible for load balancers in a VPC environment. The VPC network name and 
+                ID associated with the load balancer is not editable you may edit the security groups, if necessary.</shortdesc>
+            <taskbody>
+                <steps>
+                    <step>
+                        <cmd>To delete any of the security groups, click the <uicontrol>x</uicontrol> next to the one(s) 
+                            you do not want.</cmd>
+                    </step>
+                    <step>
+                        <cmd>To add a security group, type the first letters of the secuirty group name and choose 
+                            the security group you want to add.</cmd>
+                    </step>
+                </steps>
+            </taskbody>
+        </task>
+        <task id="load_balancer_details_general_save">
+            <title>Save your changes</title>
+   <taskbody>
+       <steps>
+           <step>
+               <cmd>Click <uicontrol>Save Changes</uicontrol> to save your changes or <uicontrol>Cancel</uicontrol> to abandon your changes.</cmd>
+               <stepresult>The message, <systemoutput>Successfully updated load balancer <varname>[name]</varname></systemoutput> 
+                   indicates changes saved successfully.</stepresult>
+           </step>
+       </steps>
+   </taskbody>
+        </task>
+    </task>
