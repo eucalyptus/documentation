@@ -5,23 +5,47 @@
     <title>Configure the SC to use 3PAR SAN</title>
     <shortdesc>In this configuration the SC ... UPDATE THIS TOPIC WITH WIKI CONTENT !!!</shortdesc>
     <taskbody>
-        <prereq>This task assumes the following: <ul>
-            <li>Another prereq.</li>
-            <li>Another prereq.</li>                
+        <prereq>This task assumes the following: 
+            <ul>
+                <li>A 3PAR device is available to Eucalyptus cloud. (It is not a guide for choosing
+                    the right 3PAR device for your application or how to procure and setup up the
+                    device.)</li>
+                <li>
+                    <p>Network access is available from the:</p>
+                    <ul>
+                        <li>SC to 3PAR management and data ports.</li>
+                        <li>NC to 3PAR data ports.</li>
+                    </ul>
+                </li>
+                <li>
+                    <p>You have verified this 3PAR device checklist:</p>
+                    <ul>
+                        <li>Network access for management and data operations is set up. </li>
+                        <li>WS API service is turned on. (WS API version supported by Eucalyptus is ??? TBD
+                            ???).</li>
+                        <li>Common Provisioning Groups (CPG) is created and configured. Recommend one CPG
+                            for user data and another for snapshot data. </li>
+                        <li>A user exists with "edit" role in the "all" domain. </li>
+                        <li>(Optional) Eucalyptus can operate within the scope of a 3PAR virtual domain.
+                            This virtual domain should have the necessary CPGs assigned to it. A user with
+                            "edit" role in the specific domain as well as "edit" role in the "all" domain
+                            must be configured.</li>
+                    </ul>
+                </li>
         </ul>
         </prereq>        
         
         <steps>
             <step>
-                <cmd>Configure the SC to use the OverlayManager for storage.</cmd>
+                <cmd>Configure the SC to use the 3PAR for storage.</cmd>
                 <info>
-                    <codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
+                    <codeblock>euca-modify-property -p &lt;cluster-name>.storage.blockstoragemanager=threepar</codeblock>
                     The output of the command should be similar to:
-                    <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
+                    <codeblock>PROPERTY	one.storage.blockstoragemanager	threepar was &lt;unset></codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Verify that the property value is now: 'overlay'</cmd>
+                <cmd>Verify that the property value is now: 'threepar'</cmd>
                 <info>
                     <codeblock>euca-describe-properties | grep blockstorage</codeblock>
                 </info>
