@@ -2,21 +2,22 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="cf_tools">
 	<title>CloudFormation Run Options</title>
-	<shortdesc>You can run CloudFormation using Euca2ools, the AWS SDK for Java, the AWS command line
-		interface, and Boto.</shortdesc>
+	<shortdesc>You can run CloudFormation using Euca2ools, the AWS SDK for Java, the AWS command
+		line interface, and Boto.</shortdesc>
 	<conbody>
 		<section>
 			<title>Euca2ools</title>
 			<p>For information about Euca2ools CloudFormation commands, see <xref
-				href="../euca2ools-guide/euform.dita"/>.</p>
+					href="../euca2ools-guide/euform.dita"/>.</p>
 		</section>
-		
+
 		<section>
 			<title>AWS SDK for Java</title>
-			<p>The AWS SDK has data types and command structures that are generally a one-to-one match to
-				what is defined in the AWS API documentation. For more information about the SDK API, go to the 
-				<xref href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html" scope="external"
-					format="html">AWS SDK for Java API Reference</xref>.</p>
+			<p>The AWS SDK has data types and command structures that are generally a one-to-one
+				match to what is defined in the AWS API documentation. For more information about
+				the SDK API, go to the <xref
+					href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html"
+					scope="external" format="html">AWS SDK for Java API Reference</xref>.</p>
 			<p>The following is an example of a describe stacks call.</p>
 			<codeblock>import com.amazonaws.services.cloudformation.AmazonCloudFormationClient;
 import com.amazonaws.services.cloudformation.model.DescribeStacksRequest;
@@ -89,20 +90,21 @@ public class DescribeStacksTest  {
  }
 }
 </codeblock>
-			<p>Eucalyptus returns all of the fields, and the stack name is passed in to the call.</p>
+			<p>Eucalyptus returns all of the fields, and the stack name is passed in to the
+				call.</p>
 			<p>For more information about the AWS SDK for Java, go to <xref
-				format="html" scope="external" href="http://aws.amazon.com/sdkforjava/">http://aws.amazon.com/sdkforjava/</xref>.</p>
+					format="html" href="http://aws.amazon.com/sdkforjava/"
+					>http://aws.amazon.com/sdkforjava/</xref>.</p>
 		</section>
-		
+
 		<section>
 			<title>AWS Command Line Interface</title>
-			<p>You can use the AWS command line interface (CLI) with Eucalyptus CloudFormation. For example,
-				the following command describes a stack:</p>
+			<p>You can use the AWS command line interface (CLI) with Eucalyptus CloudFormation. For
+				example, the following command describes a stack:</p>
 			<codeblock>aws --endpoint http://10.111.1.134:8773/services/CloudFormation cloudformation describe-stacks</codeblock>
-			<p>Credential information is either also passed using flags or stored in a file referenced by the
-				<codeph>AWS_CONFIG_FILE</codeph> environment variable. Results from the previous command are in
-				JSON:</p>
-			
+			<p>Credential information is either also passed using flags or stored in a file
+				referenced by the <codeph>AWS_CONFIG_FILE</codeph> environment variable. Results
+				from the previous command are in JSON:</p>
 			<codeblock>{
 	"Stacks": [
     	{
@@ -128,13 +130,14 @@ public class DescribeStacksTest  {
 }
 </codeblock>
 			<p>For more information about the AWS CLI, go to <xref
-				format="html" scope="external" href="http://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html">http://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html</xref>.</p>
+					format="html" href="http://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html"
+					>http://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html</xref>.</p>
 		</section>
-		
+
 		<section>
 			<title>Boto</title>
-			<p>Boto is a Python API that calls the AWS web service API, and is well documented. The following
-				snippet accesses the base CloudFormation "cf" object:</p>
+			<p>Boto is a Python API that calls the AWS web service API, and is well documented. The
+				following snippet accesses the base CloudFormation "cf" object:</p>
 			<codeblock>import boto
 from boto.regioninfo import RegionInfo
 region = RegionInfo()
@@ -143,7 +146,7 @@ region.name = "eucalyptus"
 cfn = boto.connect_cloudformation(region=region, port=8773, path="/services/CloudFormation", is_secure=False)
 </codeblock>
 			<p>For more information about Boto, go to <xref href="https://github.com/boto/boto"
-				scope="external" format="html">https://github.com/boto/boto</xref>.</p>
+					scope="external" format="html">https://github.com/boto/boto</xref>.</p>
 		</section>
 	</conbody>
 </concept>
