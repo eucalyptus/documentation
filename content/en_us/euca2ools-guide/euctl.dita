@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euctl">
+	<title>euctl</title>
+	<abstract>
+		<shortdesc>The euctl utility retrieves cloud state and allows cloud administrators to set
+			cloud state. The state to be retrieved or set is described using a Management
+			Information Base (MIB) style name, described as a dotted set of components. See usage
+			notes and examples below.</shortdesc>
+		<note>The <codeph>euctl</codeph> command is intended to replace the deprecated
+				<codeph>euca-describe-properties</codeph> and <codeph>euca-modify-property</codeph>
+			commands.</note></abstract>
+
+
+	<refbody>
+
+		<section>
+			<title>Syntax</title>
+			<codeblock>euctl [-A] [-r] [-d] [-n] [-q] [--edit | --dump] [--format {json,yaml}]
+             [-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
+             [--security-token TOKEN] [--debug] [--debugger] [--version] [-h]
+             [NAME[=VALUE|=@FILE] [NAME[=VALUE|=@FILE] ...]]</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+
+					<tbody>
+						<row>
+							<entry><codeph>NAME[<i>=VALUE</i>|<i>=@FILE</i>]</codeph>
+								<varname>name</varname>=<varname>value</varname></entry>
+							<entry>Output the specified variable, and where a value is given,
+								attempt to set it to the specified value.</entry>
+							<entry>Positional</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>-A, --all-types</codeph>
+								<varname>name</varname>=<varname>value</varname></entry>
+							<entry>List all the known variable names, including structures. Those
+								with string or integer values will be output as usual; for the
+								structured values, the methods of retrieving them are given.</entry>
+							<entry>No</entry>
+
+						</row>
+						<row>
+							<entry><codeph>-r, --reset</codeph>
+							</entry>
+							<entry>Resets the named property to the default value.</entry>
+
+							<entry>No</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>-d</codeph>
+							</entry>
+							<entry>Show variables' default values instead of their current
+								values.</entry>
+
+							<entry>No</entry>
+
+						</row>
+						<row>
+							<entry><codeph>-n</codeph>
+							</entry>
+							<entry>Suppress output of the variable name. This is useful for setting
+								shell variables.</entry>
+
+							<entry>No</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>-q</codeph>
+							</entry>
+							<entry>Suppress all output when setting a variable. This option
+								overrides the behavior of the <codeph>-n</codeph> parameter.</entry>
+
+							<entry>No</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>--edit</codeph>
+							</entry>
+							<entry>Edit a structured variable interactively. Only one variable may
+								be edited per invocation. When looking for an editor, the program
+								will first try the environment variable VISUAL, then the environment
+								variable EDITOR, and finally the default editor, vi.</entry>
+
+							<entry>No</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>--dump</codeph>
+							</entry>
+							<entry>Output the value of a structured variable in its
+								entirety.</entry>
+
+							<entry>No</entry>
+
+						</row>
+
+						<row>
+							<entry><codeph>--format <i>format</i></codeph>
+							</entry>
+							<entry>Try to use the specified format when displaying a structured
+								variable. <p>Valid values: <codeph>json</codeph> |
+										<codeph>yaml</codeph></p><p>Default value:
+										<codeph>json</codeph></p></entry>
+
+							<entry>No</entry>
+
+						</row>
+
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+
+		<section>
+			<title>Examples</title>
+			<p>When retrieving a variable, a subset of the MIB name may be specified to retrieve a
+				list of variables in that subset. For example, to list all the dns variables: </p>
+			<codeph>euctl dns</codeph>
+			<p> </p><p>When setting a variable, the MIB name should be followed by an equal sign and
+				the new value:</p>
+			<codeph>euctl dns.enabled=true</codeph><p/><p>To reset a varable to its default
+				value, specify the -r option:</p>
+			<codeph>euctl -r dns.enabled</codeph>
+			<p/><p>The information available from euctl consists of integers, strings, and
+				structures. The structured information can only be retrieved by specialized programs
+				and, in some cases, this program's <codeph>--edit</codeph> and
+					<codeph>--dump</codeph> options.</p>
+		</section>
+	</refbody>
+</reference>
