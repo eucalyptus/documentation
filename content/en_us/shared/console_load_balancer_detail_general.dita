@@ -10,9 +10,10 @@
 
     <task id="load_balancer_details_general_lb">
         <title>Load balancer</title>
-        <shortdesc>This section shows the name, the creation time and the security group associated with the load balancer. 
-            The only value you may change is the amount of time a connection to an instance can be idle before timing out.
-            To change the idle timeout, type a new value in the <uicontrol>Idle timeout (secs)</uicontrol> control 
+        <shortdesc>This section shows the name, the creation time and the source security group associated with the load balancer. 
+            A special source security group is used to ensure back-end instances only receive traffic from your load balancer and is 
+            a non-editable entity. The only value you may change is the amount of time a connection to an instance can be idle before 
+            timing out. To change the idle timeout, type a new value in the <uicontrol>Idle timeout (secs)</uicontrol> control 
             or use the up and down arrows to adjust the values incrementally.
         </shortdesc>
         <taskbody/>
@@ -21,12 +22,11 @@
 <task id="load_balancer_details_general_listeners">
             <title>Listeners</title>
             <shortdesc>This section shows what listeners are currently assigned to the load balancer, but you may add more or 
-                edit one by deleting it and adding a new listener. A listener is the definition of protocols (client-side and instance-side) and
-                ports that the load balancer uses to monitor and route incoming traffic
-                to the load balancer's registered instances. A default listener is
-                pre-defined with an HTTP protocol port 80 on the client and the instance
-                side. You may delete a listener but you must define at least one listener to properly 
-                configure a load balancer.
+                edit one by deleting it and adding a new listener. A listener checks the connection requests from the client 
+                to the load balancer (client-side) and ports that the load balancer uses to monitor and route incoming traffic
+                to the load balancer's registered instances (instance-side). A default listener is pre-defined with an HTTP 
+                protocol port 80 on the client and the instance side. You cannot edit the protocol or port associated with the listener. 
+                However, you may delete a listener and re-add a new one with a different protocol or port.
             </shortdesc>
             <taskbody>
                 <steps>
@@ -34,24 +34,24 @@
                 <step>
                     <cmd>To delete a listener, click the <uicontrol>Remove listener</uicontrol> icon 
                         (a minus sign in a circle) next to the one you want to remove.</cmd>
+                    <info><note>You may delete a listener but you must define at least 
+                        one listener to properly configure a load balancer.</note></info>
                 </step>
                     <step>
                     <cmd>To add a listener, scroll past the table (if a listener is already defined) and select an 
                         option from the <uicontrol>Protocol</uicontrol> drop-down list box for the CLIENT SIDE. </cmd>
                         <stepresult>The client-side port may be populated with a common default port for a chosen protocol 
-                            but you can change the port, if neccessary.</stepresult>
+                            but you can change the port, if neccessary.
+                            <note>Ports assigned for the client-side must be either 25, 80, 443, 465, 587 or from 1024 to 65535 and 
+                                may not already be in use.</note>
+                        </stepresult>
                     </step>
-                    <step>
-                            <cmd>If not already populated, or you want to change the client-side port, enter the port number in the
-                                <uicontrol>Port</uicontrol> text box.</cmd>
-                            <info>Ports assigned for the client-side must be either 25, 80, 443, 465, 587 or from 1024 to 65535 and 
-                                may not already be in use.</info>
-                        </step>
+                   
                         <step>
                             <cmd>On the INSTANCE SIDE, select the protocol from the <uicontrol>Protocol</uicontrol> drop-down list box.</cmd>
                         </step>
                         <step>
-                            <cmd>If not already auto-populated, enter the number of the instance-side port into the
+                            <cmd>If not already auto-populated, or to change it, enter the number of the instance-side port into the
                                 <uicontrol>Port</uicontrol> text box.
                             </cmd>
                         </step>
@@ -120,7 +120,7 @@
             
             <task id="Certificate">
                 <title>Certificate</title>
-                <shortdesc>The ability to apply a security certificate is only available if HTTPS or SSL is specified as the protocol.</shortdesc>
+                <shortdesc>The ability to apply an SSL certificate is only available if HTTPS or SSL is specified as the protocol.</shortdesc>
                 <taskbody>
                     <steps>
                         <step>
@@ -160,9 +160,11 @@
                                 <substep>
                                     <cmd>To specify certificates for the backend, click the <uicontrol>Back end</uicontrol> tab. Otherwise, click the 
                                         <uicontrol>Use This Certificate</uicontrol> button.</cmd>
+                                    <info><note>Back-end certificates are optional, and you may add multiple certificates on this form. Back-end certificates 
+                                        are an advanced means to ensure added security measures between your load balancer(s) and its communication with your server. 
+                                        Back-end certificates can only be applied if a secure protocol is assigned to the instance side of the listener.</note></info>
                                     <stepresult>Choosing to specify the backend certificate(s) opens another form that may already be populated with pre-loaded certificates.
-                                        <note>Backend certificates are used to ensure added security measures between your load balancers and its communication with your server. 
-                                            Backend certificates are optional, but you may add multiple certificates on this form.</note></stepresult>
+                                       </stepresult>
                                 </substep>
                                 <substep>
                                     <cmd>To delete any of the pre-populated certificates, click the <uicontrol>x</uicontrol> next to the 
@@ -203,12 +205,41 @@
     </task>
     <task id="load_balancer_details_general_access_logs">
         <title>Access logs</title>
-        <shortdesc>This section displays the logs defined in the Create Load Balancer Wizard.</shortdesc>
+        <shortdesc>This section allows you to enable and disable logs, view or change the location for where the logs are stored, 
+            and other collection information defined in the Access Logs section of the Create Load Balancer Wizard.</shortdesc>
     <taskbody>
         <steps>
             <step>
-                <cmd>Click <uicontrol>View latest log</uicontrol> to open a separate window that contains the 
-                     logs associated with your load balancer.</cmd>
+                <cmd>Click to select <uicontrol>Enable logging</uicontrol> to turn on the logging feature.</cmd>
+            <info>If left unchecked, the logging feature is disabled and you do not have the ability to specify any information 
+                about your log outputs.</info>
+            <stepresult>Checking the box opens a logging permissions window and displays additional fields below. 
+                The Enable Bucket Access for Logging window prompts for user confirmation to proceed.</stepresult>
+            </step>
+            <step>
+            <cmd>Click <uicontrol>I Understand, Enable Access Logging</uicontrol> to continue.</cmd>
+            </step>
+            <step>
+                <cmd>Specify or change the bucket to store your logs by selecting one from the <uicontrol>Bucket name</uicontrol> 
+                    drop-down list or click <uicontrol>Create bucket</uicontrol> to create a new bucket for storing the logs.</cmd>
+                <stepresult>If creating a new bucket, the Create bucket window opens and prompts for a name. 
+                    <note>Upon clicking <uicontrol>Create Bucket</uicontrol>, the system validates the name of the new
+                        bucket to ensure it is unique and not already in use. It is very important that each bucket has a 
+                        unique name across the cloud.</note></stepresult>
+            </step>
+            <step>
+                <cmd>You may optionally enter or change the path in the <uicontrol>Prefix</uicontrol> text field to specify the 
+                    path within the bucket to store your log files.</cmd>
+                <info>If the path is not specified, the location defaults to the bucket's root level.</info>
+                <stepresult>The recommended default interval for capturing logs is pre-populated but you may change it, if necessary.</stepresult>
+            </step>
+            
+            <step>
+                <cmd>To change the interval, select another one from the <uicontrol>Collection interval</uicontrol> drop-down list.</cmd>
+            </step>
+            <step>
+                <cmd>Click <uicontrol>View latest log</uicontrol> to open a separate window that contains the logs associated 
+                    with your load balancer.</cmd>
             </step>
             <step>
                 <cmd>Click <uicontrol>View my bucket</uicontrol> to open an S3 bucket to view its contents.</cmd>
