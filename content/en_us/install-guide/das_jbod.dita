@@ -2,32 +2,34 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_das_jbod">
-    <title>Configure the SC to use Direct Attached Storage (JBOD)</title>
-    <shortdesc>In this configuration the SC ... ??? QUESTION what intro text for DAS-JBOD ???</shortdesc>
+    <title>Use Direct Attached Storage (JBOD)</title>
+    <shortdesc>This topic describes how to configure the DAS-JBOD block storage backend on the
+        Storage Controller (SC).</shortdesc>
     <taskbody>
         <prereq>This task assumes the following: <ul>
+                <li>Successful completion of all the install sections prior to this section.</li>
+                <li>The SC must be installed, registered, and running.</li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
                 <li>Direct Attached Storage requires that
-                    <filepath>/var/lib/eucalyptus/volumes</filepath> have enough space for
-                    locally cached snapshots.</li>
-                <li>Another prereq.</li>                
-            </ul>
+                        <filepath>/var/lib/eucalyptus/volumes</filepath> have enough space for
+                    locally cached snapshots.</li></ul>
         </prereq>
-        
-        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context><b>To configure DAS-JBOD block storage on the SC</b></context>
         <steps>
             <step>
                 <cmd>Configure the SC to use the Direct Attached Storage DASManager for
                     storage.</cmd>
                 <info>
-                    <codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=das</codeblock>
-                    The output of the command should be similar to:
+                    <codeblock>euctl &lt;partition>.storage.blockstoragemanager=das</codeblock> The
+                    output of the command should be similar to:
                     <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	das was &lt;unset></codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now: 'das'</cmd>
                 <info>
-                    <codeblock>euca-describe-properties | grep blockstorage</codeblock>
+                    <codeblock>euctl | grep blockstorage</codeblock>
                 </info>
             </step>
             <step conref="../shared/shared_task.dita#shared_task/verify_sc">
@@ -38,11 +40,11 @@
                     a raw device (/dev/sdX, for example), or the name of an existing Linux LVM
                     volume group.</cmd>
                 <info>
-                    <codeblock>euca-modify-property -p &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
+                    <codeblock>euctl &lt;cluster name&gt;.storage.dasdevice=&lt;device name&gt;</codeblock>
                 </info>
                 <stepxmp>
                     <p>For example:</p>
-                    <codeblock>euca-modify-property -p cluster0.storage.dasdevice=/dev/sdb</codeblock>
+                    <codeblock>euctl cluster0.storage.dasdevice=/dev/sdb</codeblock>
                 </stepxmp>
             </step>
         </steps>

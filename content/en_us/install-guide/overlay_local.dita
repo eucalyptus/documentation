@@ -3,21 +3,23 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_overlay_local">
     <title>Use the overlay local filesystem</title>
-    <shortdesc>In this configuration the SC itself hosts the volume and snapshots for EBS and
-        stores them as files on the local filesystem. It uses standard Linux iSCSI tools to serve
-        the volumes to instances running on NCs.</shortdesc>
+    <shortdesc>This topic describes how to configure the local filesystem as the block storage
+        backend on the Storage Controller (SC).</shortdesc>
     <taskbody>
         <prereq><b>Prerequisites</b><ul>
-                <li>A prereq.</li>
-                <li>Another prereq.</li>
-            </ul>
-        </prereq>        
-        <context><b>To configure the storage controller (SC)</b></context>
+                <li>Successful completion of all the install sections prior to this section.</li>
+                <li>The SC must be installed, registered, and running.</li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            </ul></prereq>        
+        <context><p>In this configuration the SC itself hosts the volume and snapshots for EBS and
+                stores them as files on the local filesystem. It uses standard Linux iSCSI tools to
+                serve the volumes to instances running on NCs.</p><b>To configure overlay block
+                storage on the SC</b></context>
         <steps>
             <step>
                 <cmd>Configure the SC to use the OverlayManager for storage.</cmd>
                 <info>
-                    <codeblock>euca-modify-property -p &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
+                    <codeblock>euctl &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
                     The output of the command should be similar to:
                     <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
                 </info>
@@ -25,18 +27,12 @@
             <step>
                 <cmd>Verify that the property value is now: 'overlay'</cmd>
                 <info>
-                    <codeblock>euca-describe-properties | grep blockstorage</codeblock>
+                    <codeblock>euctl | grep blockstorage</codeblock>
                 </info>
             </step>
         </steps>
         <result>
             <p>Your local filesystem (overlay) backend is now ready to use with Eucalyptus.</p>
-            <p>Continue to the next section.</p>
-        </result>    
-            <postreq><b>Postrequisites</b><ul>
-                <li>A postereq.</li>
-                <li>Another postreq.</li>
-            </ul>
-        </postreq>        
+        </result>        
     </taskbody>
 </task>

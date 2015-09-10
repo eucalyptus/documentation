@@ -2,11 +2,17 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_3par_san" props="subscribe">
-    <title>Configure the SC to use 3PAR SAN</title>
-    <shortdesc>In this configuration the SC ... UPDATE THIS TOPIC WITH WIKI CONTENT !!!</shortdesc>
+    <title>Use an HP 3PAR SAN</title>
+    <shortdesc>This topic describes how to configure the HP 3PAR SAN block storage backend on the
+        Storage Controller (SC).</shortdesc>
     <taskbody>
         <prereq>This task assumes the following: 
             <ul>
+                <li>Successful completion of all the install sections prior to this section.</li>
+                <li>The SC must be installed, registered, and running.</li>
+                <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+                    backend.</li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
                 <li>A 3PAR device is available to Eucalyptus cloud. (It is not a guide for choosing
                     the right 3PAR device for your application or how to procure and setup up the
                     device.)</li>
@@ -34,12 +40,13 @@
                 </li>
         </ul>
         </prereq>        
-        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context><b>To configure HP 3PAR SAN block storage on the SC</b></context>
         <steps>
             <step>
                 <cmd>Configure the SC to use the 3PAR for storage.</cmd>
                 <info>
-                    <codeblock>euca-modify-property -p &lt;cluster-name>.storage.blockstoragemanager=threepar</codeblock>
+                    <codeblock>euctl &lt;cluster-name>.storage.blockstoragemanager=threepar</codeblock>
                     The output of the command should be similar to:
                     <codeblock>PROPERTY	one.storage.blockstoragemanager	threepar was &lt;unset></codeblock>
                 </info>
@@ -47,8 +54,71 @@
             <step>
                 <cmd>Verify that the property value is now: 'threepar'</cmd>
                 <info>
-                    <codeblock>euca-describe-properties | grep blockstorage</codeblock>
+                    <codeblock>euctl | grep blockstorage</codeblock>
                 </info>
+            </step>
+            <step conref="../shared/shared_task.dita#shared_task/verify_sc">
+                <cmd/>
+            </step>
+            <step>
+                <cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's hostname or
+                    IP address, the username, password, and the paths:</cmd>
+                <info>
+                    <codeblock>euctl [partition_name].storage.sanhost=[3PAR_IP_address]
+euctl [partition_name].storage.sanuser=[3PAR_admin_user_name]
+euctl [partition_name].storage.sanpassword=[3PAR_admin_password]
+euctl &lt;partition>.storage.scpaths=[3PAR_iSCSI_IP]
+euctl &lt;partition>.storage.ncpaths=[3PAR_iSCSI_IP]</codeblock>
+                    <p>If you have multiple management IP addresses for the SAN adapter, provide
+                        a comma-delimited list of IP addresses to the
+                        <codeph>[partition_name].storage.sanhost</codeph> property.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Assign any string to the <codeph>chap_username</codeph> property.</cmd>
+                <info>
+                    <codeblock>euctl &lt;partition>.storage.chapuser=[chap_username]</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Assign the 3PAR CPG that should be used for creating virtual volumes to the <codeph>threeparusercpg</codeph> property.</cmd>
+                <info>
+                    <codeblock>euctl &lt;partition>.storage.threeparusercpg=[3PAR_user_cpg]</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Assign the 3PAR CPG that should be used for creating virtual volume snapshot space to the <codeph>threeparcopycpg</codeph> property.</cmd>
+                <info>
+                    <codeblock>euctl &lt;partition>.storage.threeparcopycpg=[3PAR_copy_cpg]</codeblock>
+                </info>
+            </step>
+                <step>
+                    <cmd>(Optional) These properties are available for advanced configuration.</cmd>
+                    <info>
+                        <codeblock>euctl -v | grep 'one.storage.threepar'
+PROPERTY        one.storage.threepardomain     {}
+DESCRIPTION     one.storage.threepardomain     Name of the virtual domain containing threeparusercpg and threeparcopycpg. If threeparusercpg and threeparcopycpg don't belong to a specific virtual domain leave this property unset
+
+PROPERTY        one.storage.threeparmultihostaccess     false
+DESCRIPTION     one.storage.threeparmultihostaccess     Configure multi host access to virtual volume. Value must be true to enable multi host access. Default value is false
+
+PROPERTY        one.storage.threeparoptimizesnaptovol     true
+DESCRIPTION     one.storage.threeparoptimizesnaptovol     If set to true, snapshot to volume creation path is optimized. If set to false, volume to snapshot path is optimized. Default value is true
+
+PROPERTY        one.storage.threeparpersona     2
+DESCRIPTION     one.storage.threeparpersona     Persona (integer value) to be used when exporting a VLUN to host. Default value is 2 and represents a Linux initiator
+
+PROPERTY        one.storage.threeparphysicalcopytimeout     120
+DESCRIPTION     one.storage.threeparphysicalcopytimeout     Time duration in minutes to wait for physical copy operation to complete. Default value is 120
+
+PROPERTY        one.storage.threeparusetpvv     true
+DESCRIPTION     one.storage.threeparusetpvv     Configure virtual volumes to be either thinly (TPVV) or fully provisioned (FPVV). Value must be true for TPVV and false for FPVV. Default value is true
+
+PROPERTY        one.storage.threeparvluncachesize     10000
+DESCRIPTION     one.storage.threeparvluncachesize     Maximum number of VLUNs that can be cahced by the provider. Default value is 10000</codeblock>
+                        <p>For more information about the <codeph>threeparoptimizesnaptovol</codeph> property, and how to configure it, see XREF.</p>
+                    </info>
+              
             </step>
         </steps>
         <result>Your 3PAR SAN backend is now ready to use with Eucalyptus.</result>
