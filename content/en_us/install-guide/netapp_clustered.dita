@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+
+<task id="enable_netapp_clustered_san" props="subscribe">
+        <title>Enable NetApp Clustered Data ONTAP</title>
+        <shortdesc>This topic describes how to configure the NetApp Clustered Data ONTAP SAN block
+        storage backend on the Storage Controller (SC).</shortdesc>
+        <taskbody>
+             <prereq>This task assumes the following: <ul>
+                <li>Successful completion of all the install sections prior to this section.</li>
+                <li>The SC must be installed, registered, and running.</li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+                <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+                    backend.</li>
+                    <li>Eucalyptus integrates with NetApp Clustered Data ONTAP SAN by operating
+                        against a Vserver. SC must be conﬁgured to operate against Vserver contained
+                        in the NetApp Clustered Data ONTAP environment.</li>
+                    <li>Another prereq.</li>
+                </ul><p>For more information on NetApp Clustered Data ONTAP, see <xref
+                        href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
+                        scope="external" format="pdf">Clustered Data ONTAP 8.1 and 8.1.1: An
+                        Introduction</xref>.</p>
+            </prereq>  
+            <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+            <context><b>To configure NetApp Clustered Data ONTAP block storage on the SC</b></context>
+
+            <steps>
+                <step>
+                    <cmd>Verify Clustered Data ONTAP version for the SAN is 8.1.1 or
+                        later.</cmd>
+                </step>
+                <step>
+                    <cmd> Verify that FlexClone and iSCSI licenses are installed on the SAN.
+                    </cmd>
+                </step>
+                <step>
+                    <cmd> Verify that a Vserver with iSCSI data protocol is available for use by
+                        Eucalyptus. </cmd>
+                </step>
+                <step>
+                    <cmd>Verify that Vserver administration is delegated to a user with administrative privileges
+                        for that Vserver. If not, create a new Vserver administrator account for
+                        use by Eucalyptus. </cmd>
+                </step>
+                <step>
+                    <cmd> Verify that a management (only) Logical Interface (LIF) is configured
+                        for the Vserver and an IP address or hostname is assigned to it. </cmd>
+                </step>
+                <step>
+                    <cmd> Verify that data LIFs are configured on the Vserver. </cmd>
+                </step>
+                <step>
+                    <cmd> Verify that one or more aggregates with sufficient spare capacity
+                        exists. </cmd>
+                </step>
+                <step>
+                    <cmd>Verify the network connectivity between Eucalyptus components and the
+                        Vserver. The SC must be able communicate with the Vserver over both
+                        management and data LIFs. The NC must be able to communicate with the
+                        Vserver using the data LIFs. </cmd>
+                </step>
+                <step>
+                    <cmd>Configure the SC to use the NetApp SAN for storage: </cmd>
+                    <info>
+                        <codeblock>euctl &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
+                        <p>The output of the command should be similar to:</p>
+                        <codeblock>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was &lt;unset></codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Verify that the property value is now: 'netapp' </cmd>
+                    <info><codeblock>euctl | grep blockstorage </codeblock></info>
+                </step>
+                <step conref="../shared/shared_task.dita#shared_task/verify_sc">
+                    <cmd/>
+                </step>
+                <step>
+                    <cmd>Wait for the SC to transition to NOTREADY or DISABLED states. </cmd>
+                </step>
+                <step>
+                    <cmd>On the CLC, enable NetApp SAN support in Eucalyptus by entering the
+                        Vserver's hostname or IP address, the username and password of the
+                        administrator account, CHAP username and Vserver name. </cmd>
+                    <info>
+                        <note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
+                            for disk operations. The CHAP username can be any value, however it
+                            should be unique when sharing a NetApp Vserver across multiple
+                            Eucalyptus clusters.</note>
+                        <note>CHAP support for NetApp has been added in Eucalyptus 3.3. The SC
+                            will not transition to ENABLED state until the CHAP username is
+                            conﬁgured.</note>
+                        <codeblock>euctl &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
+euctl &lt;partition>.storage.sanuser=&lt;Vserver_admin_username>
+euctl &lt;partition>.storage.sanpassword=&lt;Vserver_admin_password>
+euctl &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
+                        <note> The following command may fail if tried immediately after
+                            conﬁguring the block storage manager. Retry the command a few times,
+                            pausing for a few seconds after each retry: </note>
+                        <codeblock>euctl &lt;partition>.storage.vservername=&lt;Vserver_name></codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd> Wait for the SC to transition to ENABLED state. </cmd>
+                    <info>
+                        <note>The SC must be in the ENABLED state before configuring the
+                            following properties.</note>
+                    </info>
+                </step>
+                <step>
+                    <cmd> If no aggregate is set, Eucalyptus will query the NetApp Vserver for
+                        all available aggregates and use the one that has the highest capacity
+                        (free space) by default. To make Eucalyptus use specific aggregate(s)
+                        configure the following property: </cmd>
+                    <info>
+                        <codeblock>euctl &lt;partition>.storage.aggregate=&lt;aggregate_1_name,
+								aggregate_2_name,...></codeblock>
+                    </info>
+                    <info>
+                        <p>If you want Eucalyptus to use the smallest aggregate first configure
+                            the following property: </p>
+                        <codeblock>euctl &lt;partition>.storage.uselargestaggregate=false</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
+                        used for NCs performing disk operations on the Vserver.</cmd>
+                    <info>
+                        <codeblock>euctl &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
+                        used by the SC for performing disk operations on the Vserver. The SC
+                        connects to the data LIFs on the Vserver in order to transfer snapshots
+                        to Walrus during snapshot operations.</cmd>
+                    <info>
+                        <codeblock>euctl &lt;partition>.storage.scpaths=&lt;ip></codeblock>
+                    </info>
+                </step>
+            </steps>
+            <result>Your NetApp Clustered Data ONTAP SAN backend is now ready to use with
+                Eucalyptus.</result>
+        </taskbody>
+    </task>
