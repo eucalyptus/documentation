@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_template">
+    <!--    This concept template to be used for conceptual or overview information. -->    
+    <title>About Operation Mode Optimization</title>
+    <shortdesc>This section describes the operation modes available for 3PAR SAN backends for
+        Eucalyptus cloud.</shortdesc>
+    <conbody>
+        <p>The Eucalyptus 3PAR backend provider implements a mapping between EBS and 3PAR concepts.
+            Operation mode optimization allows you to make storage operations more efficient in your
+            cloud. Predominant use cases are described below.</p>
+        <note type="important">Operation modes are mutually exclusive and cannot be combined. Choose the  
+            strategy that is best for your 3PAR storage operations. The setting is at the SC level.</note>
+        <section>
+            <term>Snapshot to volume optimization</term>
+            <p>The default use case assumes that you snapshot rarely, create volumes from snapshots
+                (without growing volumes) often, and you run EBS-backed instances often.</p>
+            <p>Supporting this use case, the default <codeph>threeparoptimizesnaptovol</codeph>
+                setting is <codeph>true</codeph>.</p>
+            <p>Summary of operations: <ul>
+                    <li>EBS volumes and snapshots map to 3PAR virtual volumes</li>
+                    <li>EBS snapshot from EBS volume translates to 3PAR <i>physical</i> copy
+                        operation</li>
+                    <li>EBS volume from EBS snapshot translates to:<ul>
+                            <li>3PAR virtual copy operation when both EBS volume and snapshot are of
+                                same size</li>
+                            <li>3PAR physical copy operation when EBS volume is greater in size than
+                                EBS snapshot</li>
+                        </ul></li>
+                </ul></p>
+            <image href="images/3par_snaptovol_opt.png" id="image_snaptovol" height="550"/>
+
+        </section>
+        <section>
+            <term>Volume to snapshot optimization</term>
+            <p>This use case assumes that you snapshot often, but create volumes from snapshots
+                rarely.</p>
+            <p>If this use case is the best strategy for your storage operations, set
+                <codeph>threeparoptimizesnaptovol</codeph> to <codeph>false</codeph>.</p>
+            <p>Summary of operations: <ul>
+                    <li>EBS volumes and snapshots map to 3PAR virtual volumes</li>
+                    <li>EBS snapshot from EBS volume translates to 3PAR <i>virtual</i> copy
+                        operation</li>
+                    <li>EBS volume from EBS snapshot translates to 3PAR physical copy operation</li>
+                </ul></p>
+            <image href="images/3par_voltosnap_opt.png" id="image_voltosnap" height="550"/>
+
+        </section>
+    </conbody>
+</concept>
