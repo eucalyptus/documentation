@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="concept_template">
+ <!--    This concept template to be used for conceptual or overview information. -->    
+    <title>About the BROKEN State</title>
+    <shortdesc>This topic describes the initial state of the Storage Controller (SC) after you have
+        registered it with the Cloud Controller (CLC).</shortdesc>
+    <conbody>
+        <p>The SC automatically
+            goes to the <codeph>BROKEN</codeph> state after being registered with the CLC; it
+            will remain in that state until you explicitly configure the SC by telling it which
+            backend storage provider to use.</p>
+        <p>You can check the state of a storage controller by running
+                <codeph>empyrean-describe-services -E</codeph> and note the state and status message
+            of the SC(s). The output for an unconfigured SC looks something like this:</p>
+        <p>
+            <codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	ERROR
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	Sun Nov 18 22:11:13 PST 2012
+SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset). Legal values are: das,overlay,ceph</codeblock></p>
+        <p>Note the error above: <codeph>SC blockstoragemanager not configured. Found empty or unset
+            manager(unset). Legal values are: das,overlay,ceph</codeph>.</p>
+        <p>This indicates that the SC is not yet configured. It can be configured by setting the
+            <codeph>[partition].storage.blockstoragemanager</codeph> property to  'das',
+            'overlay', or 'ceph'.</p>
+        <p>If you have installed the (paid) Eucalyptus Enterprise packages for your EBS adapter, you will
+            also see additional options in the output line above, and can set the block storage
+            manager to 'netapp', 'equallogic', or '3PAR' as appropriate.</p>
+        <p>You can verify that the SC block storage manager is unset using:
+            <codeblock>euctl | grep blockstorage</codeblock>
+        </p>
+    </conbody>
+</concept>

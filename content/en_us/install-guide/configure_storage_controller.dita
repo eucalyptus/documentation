@@ -3,8 +3,9 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_storage_controller" props="subscribe">
 <!--	The props="subscribe" attribute seems to be used to note that a subscription is required (in some cases). -->	
-	<title>Configure the Storage Controller UPDATED</title>
-	<shortdesc>This topic describes how to configure the storage controller for the backend of your choice.</shortdesc>
+	<title>Configure the Storage Controller </title>
+	<shortdesc>This topic describes how to configure block storage on the Storage Controller (SC) 
+		for the backend of your choice.</shortdesc>
 	<taskbody>
 		<context>
 			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic Block
@@ -12,54 +13,21 @@
 				(EBS) exports storage volumes that can be attached by a VM and mounted or accessed as a raw block
 				device. EBS volumes persist past VM termination and are commonly used to store persistent
 				data.</p>
-			<p>??? QUESTION: Can you please help me title these consistently, using the correct / consistent
-				name ...???</p>
 			<p>Eucalyptus provides the following open source (free) backend providers for the SC:</p>
 			<ul>
-				<li>Overlay - using the local file system</li>
-				<li>Direct Attached Storage - DAS-JBOD (just a bunch of disks)</li>
-				<li>Ceph-RBD - leverages RADOS block device</li>
+				<li><b>Overlay</b> - using the local file system</li>
+				<li><b>Direct Attached Storage</b> - DAS-JBOD (just a bunch of disks)</li>
+				<li><b>Ceph-RBD</b> - leverages RADOS block device</li>
 			</ul>
-			<p>Eucalyptus also offers the following subscription-based (paid) SAN backend providers for the SC:</p>
+			<p>Eucalyptus also offers the following subscription-based (paid) storage area network
+				(SAN) backend providers for the SC:</p>
 			<ul>
-				<li>Dell EqualLogic</li>
-				<li>NetApp - 7-mode Data ONTAP Devices as well as Clustered-Data ONTAP</li>
-				<li>3PAR - HP and other 3PAR, too ??? QUESTION ???</li>
+				<li><b>HP 3PAR</b> - SAN storage devices</li>
+				<li><b>NetApp Data ONTAP</b> - 7-mode as well as Clustered Data ONTAP storage</li>
+				<li><b>Dell EqualLogic</b> - storage arrays</li>
 			</ul>
-			<p>INTRODUCTORY MATERIAL FOR THE FOLLOWING SUB-TASKS ...???</p>
-			<p>You must configure the SC to use one of the backend provider options. The SC automatically
-				goes to the <codeph>BROKEN</codeph> state after being registered with the CLC; it
-				will remain in that state until you explicitly configure the SC by telling it which
-				backend storage provider to use.</p>
-			<p>You can check the state of a storage controller by running <codeph>euca-describe-services
-					-E</codeph> and note the state and status message of the SC(s). The output for
-				an unconfigured SC  looks something like this:</p>
-			<p>
-				<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	arn:euca:eucalyptus:PARTI00:storage:SC71/
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	ERROR
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	Sun Nov 18 22:11:13 PST 2012
-SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not configured. Found empty or unset manager(unset). Legal values are: das,overlay,ceph</codeblock></p>
-			<p>Note the error above: <codeph>SC blockstoragemanager not configured. Found empty or unset
-					manager(unset). Legal values are: das,overlay,ceph</codeph>.</p>
-			<p>This indicates that the SC is not yet configured. It can be configured by setting the
-					<codeph>[partition].storage.blockstoragemanager</codeph> property to  'das',
-				'overlay', or 'ceph'.</p>
-			<p>If you have installed the (paid) Eucalyptus Enterprise packages for your EBS adapter, you will
-				also see additional options in the output line above, and can set the block storage
-				manager to 'netapp', 'equallogic', or '3PAR' as appropriate.</p>
-			<p>You can verify that the SC blockstorage manager is unset using:
-				<codeblock>euca-describe-properties | grep blockstorage</codeblock>
-			</p>
-			<p>THE FOLLOWING CROSS-REFERENCES NEED TO BE MERGED INTO THE BULLET LISTS ABOVE ... 
-				(AND THE NAMES NEED TO MATCH THE SECTIONS BELOW!)</p>
-			<p>To configure SAN support, follow the steps for your desired backend storage device:
-					<xref href="#enabling_overlay">Open-Source ISCSI Filesystem-backed</xref>, <xref
-					href="#enabling_san_dell">Dell Equallogic</xref>, <xref
-					href="#enabling_san_jbod">JBOD</xref>, <xref href="#enabling_san_netapp"
-					>Netapp</xref>, or <xref
-					href="#enabling_san_ceph"/>.</p>
-			<p>SPLIT OUT ALL TASKS BELOW INTO THEIR OWN TOPIC AND UPDATE PREREQS IN THE TASK DITA!!!</p>
+			<p>You must configure the SC to use one of the backend provider options.</p>
+			
 		</context>
 	</taskbody>
 </task>
