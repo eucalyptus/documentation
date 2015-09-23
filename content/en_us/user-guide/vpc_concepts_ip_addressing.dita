@@ -5,15 +5,34 @@
  <shortdesc/>
  <conbody>
   <p>A virtual private cloud (VPC) is a virtual network that is logically isolated from other
-   virtual networks in your Eucalyptus cloud. When you create a VPC, you can specify the range of IP
-   addresses for your VPC using Classless Inter-Domain Routing (CIDR) notation. </p>
+   virtual networks in your Eucalyptus cloud. </p>
   <note>For more information about CIDR notation, see Classless Inter-Domain Routing on Wikipedia. </note>
+  <p><b>Private IP Addresses</b></p>
+  <p>When you create a VPC, you can specify the range of IP addresses for your VPC using Classless
+   Inter-Domain Routing (CIDR) notation. When you launch an instance in your VPC, you can assign a
+   private IP address to the instance from this IP address range. If you don't explicitly assign a
+   private IP address, one is assigned to the instance for you.</p>
+  <p><b>Public IP Addresses</b></p>
+  <p>By default, instances launched into the default subnet in your VPC receive a public IP address.
+   This public IP address is assigned from a pool of public IP addresses, and is not associated with
+   your account. This public IP address can't be manually added or removed from the VPC instance.
+   The public IP address is mapped to the instance's private IP address using Network Address
+   Translation (NAT).</p>
+
+  <p>You can control whether or not your VPC instances get a public IP address by either disabling
+   the public IP address attribute of the subnet, or by overrding the subnet's behavior when
+   launching an instance into the VPC. For more information, see ((( LINK HERE )))</p>
+
+  <p>If you want a persistent IP address for your VPC instance, you can use the
+    <codeph>euca-allocate-address</codeph> to create an elastic IP address, and then use
+    <codeph>euca-associate-address</codeph> to assign this address. </p>
+  <p><b>Subnets</b></p>
   <p>Once you've created a VPC, you can create one or more subnets inside the VPC. A subnet is
    simply a logical subdivision of a network of IP addresses. Subnets can be used to enable tighter
    security, allow separate administration of the network by organization, and enable more efficient
-   network traffic by containing traffic between nodes in a subnet and using route tables for traffic
-   that needs to move between subnets.</p>
-  <note>For more information about subnets, see the <xref format="html"
-    scope="external" href="http://en.wikipedia.org/wiki/Subnetwork">Subnetwork article</xref> on Wikipedia. </note>
+   network traffic by containing traffic between nodes in a subnet and using route tables for
+   traffic that needs to move between subnets.</p>
+  <note>For more information about subnets, see the <xref format="html" scope="external"
+    href="http://en.wikipedia.org/wiki/Subnetwork">Subnetwork article</xref> on Wikipedia. </note>
  </conbody>
 </concept>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="elb_examples_ssl_negotiation">
+    <title>Updating the SSL Negotiation Configuration</title>
+    <shortdesc/>
+    <taskbody>
+        <context>Eucalyptus Elastic Load Balancing (ELB) uses SSL negotiation configurations to
+            determine how SSL connections to your load balancer behave. This topic shows how to
+            update an existing load balancer with an SSL negotiation configuration. <p/></context>
+        <steps>
+            <step>
+                <cmd>Get a list of predefined security policies using the
+                    <codeph>eulb-describe-lb-policies</codeph> command:</cmd>
+                <info><codeph>eulb-describe-lb-policies</codeph></info>
+                <info>This produces output similar to the following:</info>
+                <info><codeblock>POLICY	ELBSample-AppCookieStickinessPolicy	AppCookieStickinessPolicyType
+POLICY	ELBSample-LBCookieStickinessPolicy	LBCookieStickinessPolicyType
+POLICY	ELBSecurityPolicy-2014-10	SSLNegotiationPolicyType
+POLICY	ELBSecurityPolicy-2015-02	SSLNegotiationPolicyType
+POLICY	ELBSecurityPolicy-2011-08	SSLNegotiationPolicyType
+POLICY	ELBSecurityPolicy-2015-05	SSLNegotiationPolicyType
+POLICY	ELBSecurityPolicy-2014-01	SSLNegotiationPolicyType</codeblock></info>
+            </step>
+            <step>
+                <cmd>Use the <codeph>eulb-create-lb-policy</codeph> command to update the SSL negotiation configuration to use one of the predefined security policies. For example:</cmd>
+                <info><codeph>eulb-create-lb-policy --load-balancer-name myloadbalancer
+                        --policy-name ELBSample-AppCookieStickinessPolicy --policy-type-name
+                        SSLNegotiationPolicyType --policy-attributes
+                        AttributeName=Reference-Security-Policy,AttributeValue=mypredefinedsslpolicy</codeph></info>
+            </step>
+            <step>
+                <cmd>Use the <codeph>eulb-describe-lbs</codeph> command to verify the update. For example:</cmd>
+                <info><codeph>eulb-describe-lbs myloadbalancer</codeph></info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
