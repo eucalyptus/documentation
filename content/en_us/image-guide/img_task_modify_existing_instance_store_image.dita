@@ -6,29 +6,29 @@
     <taskbody>
         <context>
             <p>This example shows how to create a new instance store Eucalyptus image based on an
-                existing instance store Eucalyptus instance. This topic
-                describes how to create a new image by modifying an existing instance-store 
-                instance.</p>
+                existing instance store Eucalyptus instance. This topic describes how to create a
+                new image by modifying an existing instance-store instance.</p>
         </context>
         <steps>
 
             <step>
-                <cmd>Log on to an existing Eucalyptus isntance-store instance and customize the
-                    instance. See <xref keyref="prepare_img"/> for instructions.</cmd>
+                <cmd>Log on to an existing Eucalyptus instance-store instance and customize the
+                    instance. See <xref keyref="prepare_img"/> for instructions on the required
+                    changes the instance needs before re-bundling. </cmd>
             </step>
 
             <step>
                 <cmd>Create a new image based on the image you just modified by using the
-                        <codeph>euca-bundle-instance</codeph> command, specifying a name, a description, and the
-                    instance ID of the Eucalyptus instance you customized in the previous step. For
-                    example:</cmd>
+                        <codeph>euca-bundle-instance</codeph> command, specifying a name, a
+                    description, and the instance ID of the Eucalyptus instance you customized in
+                    the previous step. For example:</cmd>
                 <info>
                     <codeblock>euca-bundle-instance -b mybundle -p mycentos6 -o $EC2_ACCESS_KEY -w $EC2_SECRET_KEY i-96154365
 BUNDLE     bun-96154365     i-96154365     mybundle     mycentos     62013-11-05T21:37:23.469Z2013-11-05T21:37:23.469Z     pending     0</codeblock>
                     <p> This command will the bundle task ID and exit immediately. In the
                         background, Eucalyptus will begin the bundling process. Depending on the
-                        size of the instance, it can take several minutes for the bundling task
-                        to complete.</p>
+                        size of the instance, it can take several minutes for the bundling task to
+                        complete.</p>
                     <p>You can monitor the status of the bundle task using the
                             <codeph>euca-describe-bundle-tasks</codeph> command, supplying the ID of
                         the image returned from the <codeph>eucalyptus-bundle-instance</codeph>
@@ -39,8 +39,10 @@ BUNDLE     bun-96154365     i-96154365     mybundle     mycentos6     2013-11-05
                 </info>
             </step>
             <step>
-                <cmd>Once the bundle task is complete, you can register thebundle as an instance-store image using the euca-register command, specifying the path to the bundle manifest 
-                in the format <codeph>[bucket]/[prefix].manifest.xml</codeph>. For example:</cmd>
+                <cmd>Once the bundle task is complete, you can register thebundle as an
+                    instance-store image using the euca-register command, specifying the path to the
+                    bundle manifest in the format <codeph>[bucket]/[prefix].manifest.xml</codeph>.
+                    For example:</cmd>
                 <info><codeph>euca-register --virtualization-type=hvm
                         mybundle/mycentos6.manifest.xml.</codeph></info>
             </step>
