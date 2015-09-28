@@ -13,7 +13,7 @@
 
             <step>
                 <cmd>Log on to an existing Eucalyptus instance-store instance and customize the
-                    instance. See <xref keyref="prepare_img"/> for instructions on the required
+                    instance. See Prepare a Linux Image for Eucalyptus <xref keyref="prepare_img"/> for instructions on required
                     changes the instance needs before re-bundling. </cmd>
             </step>
 
@@ -41,10 +41,13 @@ BUNDLE     bun-96154365     i-96154365     mybundle     mycentos6     2013-11-05
             <step>
                 <cmd>Once the bundle task is complete, you can register thebundle as an
                     instance-store image using the euca-register command, specifying the path to the
-                    bundle manifest in the format <codeph>[bucket]/[prefix].manifest.xml</codeph>.
-                    For example:</cmd>
+                    bundle manifest in the format <codeph>[bucket]/[prefix].manifest.xml</codeph>. </cmd>
+                <info><note>You should always explicitly declare the instance type of a bundle created with
+                            <codeph>euca-bundle-instance</codeph> as an HVM type using
+                        --virtualization-type parameter. For example: </note></info>
                 <info><codeph>euca-register --virtualization-type=hvm
                         mybundle/mycentos6.manifest.xml.</codeph></info>
+                
             </step>
         </steps>
         <result>Your new image is now ready for use in your Eucalyptus cloud.</result>
