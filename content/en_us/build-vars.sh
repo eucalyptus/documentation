@@ -37,6 +37,10 @@ echo "PRODUCT_VERSION="$DOC_VERSION_NUMBER>.inject_properties
 export EUCA2OOLS_VERSION_NUMBER=$(sed -n '/e2ools_version_short">/ s/[^<]*<p><ph[^>]*>\([^<]*\).*/\1/p' ./shared/conrefs.dita)
 echo "  EUCA2OOLS VERSION NUMBER: " $EUCA2OOLS_VERSION_NUMBER
 
+echo "DEBUG"
+ls -al
+
+
 echo "*** Adding project-specific version of ant to path ***"
 export PATH="$DITA_DIR"/tools/ant/bin:"$PATH"
 
