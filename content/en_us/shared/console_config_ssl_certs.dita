@@ -2,111 +2,105 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_configure_nginx">
-    <title>Configure the Management Console on nginx</title>
+    <title>Run the Management Console on nginx</title>
+    <shortdesc>Nginx is a web server that manages SSL connections, and acts as a reverse proxy server, which redirects http protocol to https protocol. </shortdesc>
     <task id="console_configure_ssl_certs">
-        <title>Enable SSL for the Management Console</title>
-    <shortdesc>You can use secure HTTP for your console to allow secure connections from a web server to a browser.</shortdesc>
+        <title>Enable nginx to Start with eucaconsole</title>
+    <shortdesc>When you install the Management Console, nginx is installed automatically. By default, the console is configured to use 
+        secure HTTP to allow secure connections from a web server to a browser. </shortdesc>
     <taskbody>
         <context>
-            <p>To run your console over Secure HTTP: </p>
-        </context>
-        <steps>
-            <step>
-                <cmd>Install nginx on your console server with the following command:</cmd>
-                <info>
-                    <codeblock>yum install nginx</codeblock>
-                </info>
-            </step>
-            <step>
-                <cmd> Overwrite the default <codeph>nginx.conf</codeph> file with the template
-                	provided in <codeph>/usr/share/doc/eucaconsole-<ph
-                		conref="../shared/conrefs.dita#prod/version"/>/nginx.conf</codeph>.
-                </cmd>
-            	</step>
-            <step>
-                <cmd>Uncomment the 'listen' directive and uncomment/modify the SSL certificate paths in
-                    <codeph>/etc/nginx/nginx.conf</codeph> (search for "SSL configuration"). For example:</cmd>
-                <info>
-                    <codeblock># SSL configuration
-# SSL configuration
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-listen 443 ssl;
-ssl_certificate &lt;path to euca console cert file>;
-#EXAMPLE: 
-#ssl_certificate /etc/eucaconsole/console.crt;
-ssl_certificate_key &lt;path to euca console key file>;
-#EXAMPLE: 
-#ssl_certificate_key /etc/eucaconsole/console.key;
-
-# end of SSL configuration</codeblock>
-
-                </info>
-                  <info>
-                    <note type="tip">For more information on generating self-signed SSL certificates, go to
-                                <xref
-                                href="http://www.akadia.com/services/ssh_test_certificate.html"
-                                scope="external" format="html"
-                                >http://www.akadia.com/services/ssh_test_certificate.html</xref>.
-                        
-                    </note>
-                     
-                </info>
-            </step>
+            <ul>
+                <li>No procedure is required to enable nginx to start with eucaconsole, as it is part of the standard console installation and 
+                    execution process.</li>
+                <li>You may disable nginx, see <xref href="#console_config_ssl_certs/console_disable_nginx" type="section"/>.</li>
+                <li>If you edit any of the parameters in the nginx.conf file, you must first stop the eucaconsole service and restart it for the changes to take effect:
+                <codeblock>service eucaconsole stop 
+service eucaconsole restart</codeblock></li>
+            </ul>
             
-            <step>
-                <cmd>Restart nginx using the following command:</cmd>
-                <info><codeblock>service nginx restart</codeblock></info>
-            </step>
-
-            <step>
-
-                <cmd>Edit the <codeph>/etc/eucaconsole/console.ini</codeph> file:</cmd>
-                <substeps>
-                    <substep>
-                        <cmd>Locate the <codeph>session.secure =</codeph> parameter 
-                            and change its value from <codeph>false</codeph> to <codeph>true</codeph>, per this example:</cmd>
-                        <info>
-                            <codeblock>session.secure = true</codeblock>
-                            <note>If HTTPS is used, meaning nginx is configured to use port 443, the <codeph>session.secure</codeph> 
-                                setting must equal <codeph>true</codeph>.</note>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Locate the <codeph>[server:main]</codeph> section. If the host setting
-                            under <codeph>[server:main]</codeph>is set to <codeph>0.0.0.0</codeph>,
-                            connections are accepted from anywhere. If the UI proxy is used behind
-                            nginx on the same host, you can configure the proxy to listen on
-                            localhost only, by setting it to <codeph>127.0.0.1</codeph>, per this
-                            example:</cmd>
-                        <info>
-                            <codeblock>[server:main]
-use = egg:gunicorn#main
-host = 127.0.0.1
-port = 8888</codeblock>
-                        </info>
-                    </substep>
-                </substeps>
-            </step>
-        </steps>
+        </context>
+      
     </taskbody>
 </task>
+    
+    <task id="console_use_own_certs">
+        
+        <title>Use Your Own Certificates</title>
+        <shortdesc>The Management Console generates self-signed certificates by default but can use your own certifcates to run the console instead.</shortdesc>
+        <taskbody>
+            <context>
+                <p>This procedure involves copying over your certificate files: </p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Stop eucaconsole and nginix, using the single command:</cmd>
+                    <info>
+                        <codeblock>service eucaconsole stop</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Edit the file <codeph>/etc/sysconfig/eucaconsole</codeph> to add:</cmd>
+                    <info>
+                        <codeblock>GENERATE_CERT=NO</codeblock></info>
+                </step>
+                <step>
+                    <cmd>Copy your certificates file from <codeph>cert/key</codeph> to 
+                        <codeph>/etc/eucaconsole/console.key</codeph> and <codeph>/etc/eucaconsole/console.crt</codeph>.</cmd>
+                    <info><note>The path shown above are the default locations for the certificate files. 
+                        You may place them in another location if you prefer, but you must edit the
+                                <codeph>ssl_certificate</codeph> and the
+                                <codeph>ssl_certificate_key</codeph> in
+                                <codeph>/etc/nginx/nginx.conf</codeph> to point to the correct
+                            location.</note></info>
+                </step>
+                <step>
+                    <cmd>Start the eucaconsole service:</cmd>
+                    <info><codeblock>service eucaconsole start</codeblock></info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    
+    <task id="console_disable_nginx">
+        
+        <title>Disable nginx from Starting with eucaconsole</title>
+        <shortdesc>You can run the console without running nginx if you prefer.</shortdesc>
+        <taskbody>
+            <context>
+                <p>To disable nginx, perform the following: </p>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Make sure to stop the eucaconsole service:</cmd>
+                    <info>
+                        <codeblock>service eucaconsole stop</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Edit the file <codeph>/etc/sysconfig/eucaconsole</codeph> to change:</cmd>
+                    <info>
+                        <codeblock>NGINX_FLAGS=NO</codeblock></info>
+                </step>
+                
+                <step>
+                    <cmd>Start the eucaconsole service:</cmd>
+                    <info><codeblock>service eucaconsole start</codeblock></info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
     <task id="console_run_port80">
         
             <title>Enable the Console to Run on Port 80</title>
         <shortdesc>You can run the console on non-secure connections using HTTP. In order to configure 
             the console without enabling secure connections, use port 80 instead. 
-            To accomplish this, nginx will have to be used as a proxy.</shortdesc>
+            To accomplish this, nginx act as a proxy.</shortdesc>
             <taskbody>
                 <context>
                     <p>To run your console on port 80: </p>
                 </context>
                 <steps>
-                    <step>
-                        <cmd>Install nginx on your console server with the following command:</cmd>
-                        <info>
-                            <codeblock>yum install nginx</codeblock>
-                        </info>
-                    </step>
                     <step>
                         <cmd>Locate the default configuration file from <filepath>conf/nginx.conf</filepath>.</cmd>
                     </step>
@@ -121,8 +115,9 @@ server_name  localhost;</codeblock></info>
                     </step>
                         
                     <step>
-                        <cmd>Restart nginx using the following command:</cmd>
-                        <info><codeblock>service nginx restart</codeblock></info>
+                        <cmd>Restart the eucaconsole service using the following command:</cmd>
+                        <info><codeblock>service eucaconsole restart</codeblock></info>
+                        <info><note><b>This command restarts nginx automatically. There is no need to run nginx manually.</b></note></info>
                     </step>
                     
                     <step>
