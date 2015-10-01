@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="groups">
+	<title>groups</title>
+	<shortdesc>Thi <codeph>groups</codeph> element specifies how to map LDAP/AD groups to Eucalyptus
+		groups. It contains the elements listed in the following table. The meanings are similar to
+		those in accounting-groups element.</shortdesc>
+	<refbody>
+
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Element</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>base-dn</entry>
+						<entry>The base DN for searching groups.</entry>
+					</row>
+					<row>
+						<entry>id-attribute</entry>
+						<entry>The ID attribute name of the LDAP group.</entry>
+					</row>
+					<row>
+						<entry>member-attribute</entry>
+						<entry>The name of the attribute for group members. Usually, it is member in modern LDAP
+							implementation, which lists full user DN.</entry>
+					</row>
+					<row>
+						<entry>selection</entry>
+						<entry>The specific LDAP/AD groups you want to map to. This contains the following
+							elements: <ul>
+								<li><varname>filter</varname>: The LDAP/AD searching filter used for the LDAP/AD
+									search to get the relevant LDAP/AD entities, e.g. the users to be synchronized.
+									(Example: objectClass=groupOfNames). This element works the same as the filter
+									option that is found in ldapsearch, therefore when doing more advanced searching
+									using compound filters, use boolean operators - AND (&amp;), OR (|), and/or NOT
+									(!). (Example: <codeph>(&amp;(ou=Sales)(objectClass=groupOfNames))</codeph></li>
+								<li><varname>select</varname>: The LDAP/AD searching filter used for the LDAP/AD
+									search to get the relevant LDAP/AD entities, e.g. the users to be synchronized.
+									(Example: objectClass=groupOfNames)</li>
+								<li><varname>not-select:</varname> Explicitly gives the full DN of entities NOT to
+									be synchronized, in case this can not be specified by the search filter. (Example:
+									cn=groupToIgnore,ou=Groups,dc=foo,dc=com)</li>
+							</ul>
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+	</refbody>
+</reference>
