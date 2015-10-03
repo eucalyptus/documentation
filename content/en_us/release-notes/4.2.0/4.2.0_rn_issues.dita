@@ -60,6 +60,26 @@
 							<p>Workaround: See linked bug for more information.</p>
 						</entry>
 					</row>
+					<row>
+						<entry>Failed EMIs from CreateImage might leave behind orphaned snapshots (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11184"
+							>EUCA-11184</xref>)</entry>
+						<entry>
+							<ol>
+								<li>Use <codeph>euca-describe-images</codeph> to see if the EMI associated with CreateImage
+									has a <codeph>failed</codeph> status.<p>If any failed,
+										then:</p></li>
+								<li>Use <codeph>euca-describe-snapshots</codeph> to find any snapshot IDs associated with
+									the failed CreateImage EMI ID.<p>The snapshot description
+										includes the EMI ID and Instance ID. Note that the snapshot
+										state can be <codeph>failed</codeph> or
+										<codeph>completed</codeph>.</p></li>
+							</ol>
+							<p>Workaround: The cloud administrator and/or cloud user (with proper IAM access to the
+								account's snapshots) can simply delete any orphaned snapshots.</p>
+						</entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
