@@ -4,27 +4,23 @@
 <task id="configure_3par_san" props="subscribe">
     <title>Use an HP 3PAR SAN</title>
     <shortdesc>This topic describes how to configure the HP 3PAR SAN as the block storage backend
-        provider on the Storage Controller (SC).</shortdesc>
+        provider for the Storage Controller (SC).</shortdesc>
     <taskbody>
-        <prereq>This task assumes the following: 
-            <ul>
+        <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
                 <li>You must have a paid subscription to Eucalyptus in order to use a SAN
                     backend.</li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
-                <li>A 3PAR device is available to Eucalyptus cloud. (It is not a guide for choosing
-                    the right 3PAR device for your application or how to procure and setup up the
-                    device.)</li>
+                <li>You must have a functioning 3PAR device available to Eucalyptus cloud.</li>
                 <li>
-                    <p>Network access is available from the:</p>
+                    <p>Network access must be available from the:</p>
                     <ul>
                         <li>SC to 3PAR management and data ports.</li>
                         <li>NC to 3PAR data ports.</li>
                     </ul>
                 </li>
                 <li>
-                    <p>You have verified this 3PAR device checklist:</p>
+                    <p>Verify this 3PAR device checklist:</p>
                     <ul>
                         <li>Network access for management and data operations is set up. </li>
                         <li>WS API service is turned on. (WS API version supported by Eucalyptus is ??? TBD
@@ -38,23 +34,24 @@
                             must be configured.</li>
                     </ul>
                 </li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
         </ul>
         </prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-        <context><b>To configure HP 3PAR SAN block storage on the SC</b></context>
+        <context><b>To configure HP 3PAR SAN block storage for the SC</b></context>
         <steps>
             <step>
                 <cmd>Configure the SC to use the 3PAR for storage.</cmd>
                 <info>
-                    <codeblock>euctl &lt;cluster-name>.storage.blockstoragemanager=threepar</codeblock>
-                    The output of the command should be similar to:
+                    <codeblock>euctl [zone].storage.blockstoragemanager=threepar</codeblock> The
+                    output of the command should be similar to:
                     <codeblock>PROPERTY	one.storage.blockstoragemanager	threepar was &lt;unset></codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now: 'threepar'</cmd>
                 <info>
-                    <codeblock>euctl | grep blockstorage</codeblock>
+                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
                 </info>
             </step>
             <step conref="../shared/shared_task.dita#shared_task/verify_sc">
@@ -64,38 +61,38 @@
                 <cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's hostname or
                     IP address, the username, password, and the paths:</cmd>
                 <info>
-                    <codeblock>euctl [partition_name].storage.sanhost=[3PAR_IP_address]
-euctl [partition_name].storage.sanuser=[3PAR_admin_user_name]
-euctl [partition_name].storage.sanpassword=[3PAR_admin_password]
-euctl &lt;partition>.storage.scpaths=[3PAR_iSCSI_IP]
-euctl &lt;partition>.storage.ncpaths=[3PAR_iSCSI_IP]</codeblock>
-                    <p>If you have multiple management IP addresses for the SAN adapter, provide
-                        a comma-delimited list of IP addresses to the
-                        <codeph>[partition_name].storage.sanhost</codeph> property.</p>
+                    <codeblock>euctl [zone].storage.sanhost=[3PAR_IP_address]
+euctl [zone].storage.sanuser=[3PAR_admin_user_name]
+euctl [zone].storage.sanpassword=[3PAR_admin_password]
+euctl [zone].storage.scpaths=[3PAR_iSCSI_IP]
+euctl [zone].storage.ncpaths=[3PAR_iSCSI_IP]</codeblock>
+                    <p>If you have multiple management IP addresses for the SAN adapter, provide a
+                        comma-delimited list of IP addresses to the
+                            <codeph>[zone].storage.sanhost</codeph> property.</p>
                 </info>
             </step>
             <step>
                 <cmd>Assign any string to the <codeph>chap_username</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl &lt;partition>.storage.chapuser=[chap_username]</codeblock>
+                    <codeblock>euctl [zone].storage.chapuser=[chap_username]</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Assign the 3PAR CPG that should be used for creating virtual volumes to the <codeph>threeparusercpg</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl &lt;partition>.storage.threeparusercpg=[3PAR_user_cpg]</codeblock>
+                    <codeblock>euctl [zone].storage.threeparusercpg=[3PAR_user_cpg]</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Assign the 3PAR CPG that should be used for creating virtual volume snapshot space to the <codeph>threeparcopycpg</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl &lt;partition>.storage.threeparcopycpg=[3PAR_copy_cpg]</codeblock>
+                    <codeblock>euctl [zone].storage.threeparcopycpg=[3PAR_copy_cpg]</codeblock>
                 </info>
             </step>
                 <step>
                     <cmd>(Optional) These properties are available for advanced configuration.</cmd>
                     <info>
-                        <codeblock>euctl -v | grep 'one.storage.threepar'
+                        <codeblock>euctl [zone].storage.threepar
 PROPERTY        one.storage.threepardomain     {}
 DESCRIPTION     one.storage.threepardomain     Name of the virtual domain containing threeparusercpg and threeparcopycpg. If threeparusercpg and threeparcopycpg don't belong to a specific virtual domain leave this property unset
 

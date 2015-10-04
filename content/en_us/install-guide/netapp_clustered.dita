@@ -5,29 +5,30 @@
 <task id="enable_netapp_clustered_san" props="subscribe">
         <title>Enable NetApp Clustered Data ONTAP</title>
         <shortdesc>This topic describes how to configure the NetApp Clustered Data ONTAP SAN block
-        storage backend on the Storage Controller (SC).</shortdesc>
+        storage backend for the Storage Controller (SC).</shortdesc>
         <taskbody>
-             <prereq>This task assumes the following: <ul>
-                <li>Successful completion of all the install sections prior to this section.</li>
-                <li>The SC must be installed, registered, and running.</li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
-                <li>You must have a paid subscription to Eucalyptus in order to use a SAN
-                    backend.</li>
+            <prereq><b>Prerequisites</b><ul>
+                    <li>Successful completion of all the install sections prior to this section.</li>
+                    <li>The SC must be installed, registered, and running.</li>
+                    <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+                     backend.</li>
+                    <li>You must have a functioning NetApp Clustered Data ONTAP device available to Eucalyptus cloud.</li>
                     <li>Eucalyptus integrates with NetApp Clustered Data ONTAP SAN by operating
                         against a Vserver. SC must be conﬁgured to operate against Vserver contained
                         in the NetApp Clustered Data ONTAP environment.</li>
-                </ul><p>For more information on NetApp Clustered Data ONTAP, see <xref
+                    <li>You must execute the steps below as a Eucalyptus administrator.</li>
+                </ul>
+                 <p>For more information on NetApp Clustered Data ONTAP, see <xref
                         href="http://www.netapp.com/us/system/pdf-reader.aspx?m=tr-3982.pdf&amp;cc=us"
                         scope="external" format="pdf">NetApp Clustered Data ONTAP: An
                         Introduction</xref>.</p>
             </prereq>  
             <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-            <context><b>To configure NetApp Clustered Data ONTAP block storage on the SC</b></context>
+            <context><b>To configure NetApp Clustered Data ONTAP block storage for the SC</b></context>
 
             <steps>
                 <step>
-                    <cmd>Verify Clustered Data ONTAP version for the SAN is 8.1.1 or
-                        later.</cmd>
+                    <cmd>Verify Clustered Data ONTAP version for the SAN is 8.1.2 or later.</cmd>
                 </step>
                 <step>
                     <cmd> Verify that FlexClone and iSCSI licenses are installed on the SAN.
@@ -62,14 +63,14 @@
                 <step>
                     <cmd>Configure the SC to use the NetApp SAN for storage: </cmd>
                     <info>
-                        <codeblock>euctl &lt;partition>.storage.blockstoragemanager=netapp</codeblock>
+                        <codeblock>euctl [zone].storage.blockstoragemanager=netapp</codeblock>
                         <p>The output of the command should be similar to:</p>
-                        <codeblock>PROPERTY &lt;partition>.storage.blockstoragemanager netapp was &lt;unset></codeblock>
+                        <codeblock>PROPERTY [zone].storage.blockstoragemanager netapp was &lt;unset></codeblock>
                     </info>
                 </step>
                 <step>
                     <cmd>Verify that the property value is now: 'netapp' </cmd>
-                    <info><codeblock>euctl | grep blockstorage </codeblock></info>
+                    <info><codeblock>euctl [zone].storage.blockstoragemanager </codeblock></info>
                 </step>
                 <step conref="../shared/shared_task.dita#shared_task/verify_sc">
                     <cmd/>
@@ -89,14 +90,14 @@
                         <note>CHAP support for NetApp has been added in Eucalyptus 3.3. The SC
                             will not transition to ENABLED state until the CHAP username is
                             conﬁgured.</note>
-                        <codeblock>euctl &lt;partition>.storage.sanhost=&lt;Vserver_IP_address>
-euctl &lt;partition>.storage.sanuser=&lt;Vserver_admin_username>
-euctl &lt;partition>.storage.sanpassword=&lt;Vserver_admin_password>
-euctl &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
+                        <codeblock>euctl [zone].storage.sanhost=&lt;Vserver_IP_address>
+euctl [zone].storage.sanuser=&lt;Vserver_admin_username>
+euctl [zone].storage.sanpassword=&lt;Vserver_admin_password>
+euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                         <note> The following command may fail if tried immediately after
                             conﬁguring the block storage manager. Retry the command a few times,
                             pausing for a few seconds after each retry: </note>
-                        <codeblock>euctl &lt;partition>.storage.vservername=&lt;Vserver_name></codeblock>
+                        <codeblock>euctl [zone].storage.vservername=&lt;Vserver_name></codeblock>
                     </info>
                 </step>
                 <step>
@@ -112,20 +113,19 @@ euctl &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
                         (free space) by default. To make Eucalyptus use specific aggregate(s)
                         configure the following property: </cmd>
                     <info>
-                        <codeblock>euctl &lt;partition>.storage.aggregate=&lt;aggregate_1_name,
-								aggregate_2_name,...></codeblock>
+                        <codeblock>euctl [zone].storage.aggregate=&lt;aggregate_1_name, aggregate_2_name,...></codeblock>
                     </info>
                     <info>
                         <p>If you want Eucalyptus to use the smallest aggregate first configure
                             the following property: </p>
-                        <codeblock>euctl &lt;partition>.storage.uselargestaggregate=false</codeblock>
+                        <codeblock>euctl [zone].storage.uselargestaggregate=false</codeblock>
                     </info>
                 </step>
                 <step>
                     <cmd>Set an IP address for the iSCSI data LIF on the ENABLED CLC. This is
                         used for NCs performing disk operations on the Vserver.</cmd>
                     <info>
-                        <codeblock>euctl &lt;partition>.storage.ncpaths=&lt;ip></codeblock>
+                        <codeblock>euctl [zone].storage.ncpaths=&lt;ip></codeblock>
                     </info>
                 </step>
                 <step>
@@ -134,7 +134,7 @@ euctl &lt;partition>.storage.chapuser=&lt;Chap_username></codeblock>
                         connects to the data LIFs on the Vserver in order to transfer snapshots
                         to Walrus during snapshot operations.</cmd>
                     <info>
-                        <codeblock>euctl &lt;partition>.storage.scpaths=&lt;ip></codeblock>
+                        <codeblock>euctl [zone].storage.scpaths=&lt;ip></codeblock>
                     </info>
                 </step>
             </steps>

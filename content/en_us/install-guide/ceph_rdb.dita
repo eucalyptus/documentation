@@ -4,29 +4,31 @@
 <task id="configure_ceph_rdb">
     <title>Use Ceph-RDB</title>
     <shortdesc>This topic describes how to configure the Ceph-RDB as the block storage backend
-        provider on the Storage Controller (SC).</shortdesc>
+        provider for the Storage Controller (SC).</shortdesc>
     <taskbody>
-        <prereq>This task assumes the following: <ul>
+        <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
-                <li>The SC must be installed, registered, and running.</li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
-            <li>You have an installed and working Ceph cluster.</li>
-            <li>Ceph user credentials assigned to Eucalyptus SC and NCs are configured with
+                <li>The SC must be installed, registered, and running.</li> 
+            <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+                backend.</li>
+            <li>You must have a functioning Ceph cluster.</li>
+            <li>Ceph user credentials assigned to Eucalyptus SC and NCs must be configured with
                 appropriate permissions (different user credentials can be used for the SCs
-                and NCs, below sections will explain how to configure them in
+                and NCs; below sections will explain how to configure them in
                 Eucalyptus).</li>
+            <li>You must execute the steps below as a Eucalyptus administrator.</li>
         </ul>
         </prereq>
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-        <context><b>To configure Ceph-RDB block storage on the SC</b></context>
+        <context><b>To configure Ceph-RDB block storage for the SC</b></context>
         <steps>
             <step>
                 
-                <cmd>Node Controllers (NCs) are designed to communicate with Ceph cluster via
+                <cmd>Node Controllers (NCs) are designed to communicate with a Ceph cluster via
                     libvirt. This interaction requires a hypervisor that supports Ceph-RBD. The
                     following instructions will walk you through steps for verifying and or
-                    installing the hypervisor. Repeat this process for every NC in the
-                    Eucalyptus cluster.</cmd>
+                    installing the hypervisor. Repeat this process for every NC in the Eucalyptus
+                    cluster.</cmd>
                 
                 <substeps>
                     <substep>
@@ -80,13 +82,13 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
                                     to ensure that packages from the RHEV repo are installed.
                                     Skip to step <b>g</b> after installing the RHEV packages. </li>
                                 
-                                <li> If this NC is a RHEL system and RHEV subscription to qemu
+                                <li>If this NC is a RHEL system and RHEV subscription to qemu
                                     packages is unavailable, eucalyptus built and maintained
                                     qemu-rhev packages may be used. These packages are available
                                     in the same yum repository as other eucalyptus packages.
                                     Note that using eucalyptus built RHEV packages voids the
                                     original RHEL support for the qemu packages.</li>
-                                <li> If this NC is a non-RHEL (CentOS) system, Eucalyptus-built and maintained qemu-rhev
+                                <li>If this NC is a non-RHEL (CentOS) system, Eucalyptus-built and maintained qemu-rhev
                                     packages may be used. These packages are available in the
                                     same yum repository as other eucalyptus packages. </li>
                             </ul>
@@ -148,15 +150,15 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
             
             <step>
                 <cmd>Configure the SC to use Ceph-RBD for block storage.</cmd>
-                <info><codeblock>euctl &lt;partition>.storage.blockstoragemanager=ceph-rbd</codeblock>
-                    The output of the command should be similar to:
-                    <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
+                <info><codeblock>euctl [zone].storage.blockstoragemanager=ceph-rbd</codeblock> The
+                    output of the command should be similar to:
+                    <codeblock>PROPERTY	one.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now <codeph>ceph-rbd</codeph>:</cmd>
                 <info>
-                    <codeblock>euctl | grep blockstorage</codeblock>
+                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
                 </info>
             </step>
             <step>
@@ -169,33 +171,33 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
                 <cmd>The ceph-rbd provider will assume defaults for the following
                     properties</cmd>
                 <info>
-                    <codeblock>euctl -v | grep 'PARTI00.storage.ceph'
+                    <codeblock>euctl [zone].storage.ceph
  
-PROPERTY        PARTI00.storage.cephconfigfile  /etc/ceph/ceph.conf
-DESCRIPTION     PARTI00.storage.cephconfigfile  Absolute path to Ceph configuration (ceph.conf) file. Default value is '/etc/ceph/ceph.conf'
+PROPERTY        one.storage.cephconfigfile  /etc/ceph/ceph.conf
+DESCRIPTION     one.storage.cephconfigfile  Absolute path to Ceph configuration (ceph.conf) file. Default value is '/etc/ceph/ceph.conf'
  
-PROPERTY        PARTI00.storage.cephkeyringfile /etc/ceph/ceph.client.eucalyptus.keyring
-DESCRIPTION     PARTI00.storage.cephkeyringfile Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring) file. Default value is '/etc/ceph/ceph.client.eucalyptus.keyring'
+PROPERTY        one.storage.cephkeyringfile /etc/ceph/ceph.client.eucalyptus.keyring
+DESCRIPTION     one.storage.cephkeyringfile Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring) file. Default value is '/etc/ceph/ceph.client.eucalyptus.keyring'
  
-PROPERTY        PARTI00.storage.cephsnapshotpools       rbd
-DESCRIPTION     PARTI00.storage.cephsnapshotpools       Ceph storage pool(s) made available to Eucalyptus for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
+PROPERTY        one.storage.cephsnapshotpools       rbd
+DESCRIPTION     one.storage.cephsnapshotpools       Ceph storage pool(s) made available to Eucalyptus for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
  
-PROPERTY        PARTI00.storage.cephuser        eucalyptus
-DESCRIPTION     PARTI00.storage.cephuser        Ceph username employed by Eucalyptus operations. Default value is 'eucalyptus'
+PROPERTY        one.storage.cephuser        eucalyptus
+DESCRIPTION     one.storage.cephuser        Ceph username employed by Eucalyptus operations. Default value is 'eucalyptus'
  
-PROPERTY        PARTI00.storage.cephvolumepools rbd
-DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made available to Eucalyptus for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
+PROPERTY        one.storage.cephvolumepools rbd
+DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available to Eucalyptus for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>The following steps are optional if the default values work for your
+                <cmd>The following steps are optional if the default values do not work for your
                     cloud:</cmd>
                 <substeps>
                     <substep>
                         <cmd>To set the Ceph username (the default value for Eucalyptus is
                             'eucalyptus'): </cmd>
                         <info>
-                            <codeblock>euctl &lt;cluster-name&gt;.storage.cephuser=qauser</codeblock>
+                            <codeblock>euctl [zone].storage.cephuser=qauser</codeblock>
                         </info>
                     </substep>
                     <substep>
@@ -203,7 +205,7 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
                             'eucalyptus' user (the default value is
                             '/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
                         <info>
-                            <codeblock>euctl &lt;cluster-name>.storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
+                            <codeblock>euctl [zone].storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
                             <note>If cephuser was modified, ensure that cephkeyringfile is also
                                 updated with the location to the keyring for the specific
                                 cephuser:</note>
@@ -214,14 +216,14 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
                         <cmd>To set the absolute path to ceph.conf file (default value is
                             '/etc/ceph/ceph.conf'):</cmd>
                         <info>
-                            <codeblock>euctl &lt;cluster-name>.storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
+                            <codeblock>euctl [zone].storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>To change the comma-delimited list of Ceph pools assigned to
                             Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
                         <info>
-                            <codeblock>euctl &lt;cluster-name>.storage.cephvolumepools=rbd,qavolumes</codeblock>
+                            <codeblock>euctl [zone].storage.cephvolumepools=rbd,qavolumes</codeblock>
                         </info>
                     </substep>
                     <substep>
@@ -229,7 +231,7 @@ DESCRIPTION     PARTI00.storage.cephvolumepools Ceph storage pool(s) made availa
                             Eucalyptus for managing EBS snapshots (default value is 'rbd')
                             :</cmd>
                         <info>
-                            <codeblock>euctl &lt;cluster-name>.storage.cephsnapshotpools=qasnapshots</codeblock>
+                            <codeblock>euctl [zone].storage.cephsnapshotpools=qasnapshots</codeblock>
                         </info>
                     </substep>
                 </substeps>

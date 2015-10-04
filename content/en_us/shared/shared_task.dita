@@ -4,6 +4,7 @@
 <task id="shared_task">
 	<title>Shared Task</title>
 	<shortdesc/>
+<!--	These probably belong in conrefs file.-->
 	<taskbody>
 		<context>
 			<p>Shared task steps for Eucalyptus documentation</p>
@@ -21,17 +22,18 @@
 					is listed; note that it may be in the
 						<codeph>BROKEN</codeph> state:</cmd>
 				<info>
-					<codeblock>euca_conf --list-scs</codeblock>
+					<codeblock>euserv-describe-services --filter service-type=storage</codeblock>
 				</info>
 			</step>
-			<step id="enable_san">
+<!--			The following steps are not currently used - perhaps again, in the future.
+-->			<step id="enable_san">
 				<cmd>On the CLC, enable SAN
 					support in Eucalyptus by entering your SAN's hostname or IP
 					address, the username, and password:</cmd>
 				<info>
-					<codeblock>euca-modify-property -p [partition_name].storage.sanhost=[SAN_IP_address]
-euca-modify-property -p [partition_name].storage.sanuser=[SAN_admin_user_name]
-euca-modify-property -p [partition_name].storage.sanpassword=[SAN_admin_password]</codeblock>
+					<codeblock>euctl [zone].storage.sanhost=[SAN_IP_address]
+euctl [zone].storage.sanuser=[SAN_admin_user_name]
+euctl [zone].storage.sanpassword=[SAN_admin_password]</codeblock>
 					<p>If you have multiple management IP addresses for the SAN
 						adapter, provide a comma-delimited list of IP addresses
 						to the <codeph>[partition_name].storage.sanhost</codeph>
@@ -43,9 +45,9 @@ euca-modify-property -p [partition_name].storage.sanpassword=[SAN_admin_password
 					support in Eucalyptus by entering your SAN's hostname or IP
 					address, the username, and password:</cmd>
 				<info>
-					<codeblock>euca-modify-property -p [partition_name].storage.sanhost=[SAN_IP_address]
-euca-modify-property -p [partition_name].storage.sanuser=[SAN_admin_user_name]
-euca-modify-property -p [partition_name].storage.sanpassword=[SAN_admin_password]</codeblock>
+					<codeblock>euctl [zone].storage.sanhost=[SAN_IP_address]
+euctl [zone].storage.sanuser=[SAN_admin_user_name]
+euctl [zone].storage.sanpassword=[SAN_admin_password]</codeblock>
 					<p>If you have multiple management IP addresses for the SAN
 						adapter, provide a comma-delimited list of IP addresses
 						to the <codeph>[partition_name].storage.sanhost</codeph>

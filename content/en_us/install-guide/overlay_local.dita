@@ -4,30 +4,33 @@
 <task id="configure_overlay_local">
     <title>Use the Overlay Local Filesystem</title>
     <shortdesc>This topic describes how to configure the local filesystem as the block storage
-        backend provider on the Storage Controller (SC).</shortdesc>
+        backend provider for the Storage Controller (SC).</shortdesc>
     <taskbody>
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
+                <li>The local filesystem 
+                <filepath>/var/lib/eucalyptus/volumes</filepath> must have enough space for
+                locally cached snapshots. ??? REVIEWER IS THERE A REQUIREMENT LIKE THIS FOR LOCAL ???</li>
                 <li>You must execute the steps below as a Eucalyptus administrator.</li>
             </ul></prereq>        
         <context><p>In this configuration the SC itself hosts the volume and snapshots for EBS and
                 stores them as files on the local filesystem. It uses standard Linux iSCSI tools to
                 serve the volumes to instances running on NCs.</p><b>To configure overlay block
-                storage on the SC</b></context>
+                storage for the SC</b></context>
         <steps>
             <step>
                 <cmd>Configure the SC to use the OverlayManager for storage.</cmd>
                 <info>
-                    <codeblock>euctl &lt;partition>.storage.blockstoragemanager=overlay</codeblock>
-                    The output of the command should be similar to:
-                    <codeblock>PROPERTY	PARTI00.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
+                    <codeblock>euctl [zone].storage.blockstoragemanager=overlay </codeblock> The
+                    output of the command should be similar to:
+                    <codeblock>PROPERTY	one.storage.blockstoragemanager	overlay was &lt;unset></codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now: 'overlay'</cmd>
                 <info>
-                    <codeblock>euctl | grep blockstorage</codeblock>
+                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
                 </info>
             </step>
         </steps>
