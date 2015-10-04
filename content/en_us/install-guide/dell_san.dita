@@ -9,9 +9,10 @@
         <prereq>This task assumes the following: <ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
+                <li>You must have a paid subscription to Eucalyptus in order to use a SAN backend.</li>
+                <li>You must have a functioning EqualLogic device available to Eucalyptus cloud.</li>
                 <li>You must execute the steps below as a Eucalyptus administrator.</li>
-                <li>You must have a paid subscription to Eucalyptus in order to use a SAN
-                    backend.</li></ul>
+                </ul>
         </prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
         <context><b>To configure Dell EqualLogic block storage on the SC</b></context>   
@@ -20,15 +21,15 @@
                 <step>
                     <cmd>Configure the SC to use the EquallogicManager for storage.</cmd>
                     <info>
-                    <codeblock>euctl &lt;partition>.storage.blockstoragemanager=equallogic</codeblock>
-                    The output of the command should be similar to:
+                    <codeblock>euctl [zone].storage.blockstoragemanager=equallogic</codeblock> The
+                    output of the command should be similar to:
                     <codeblock>PROPERTY	one.storage.blockstoragemanager	equallogic was &lt;unset></codeblock>
                 </info>
                 </step>
                 <step>
                     <cmd>Verify that the property value is now: 'equallogic'</cmd>
                     <info>
-                        <codeblock>euctl | grep blockstorage</codeblock>
+                        <codeblock>euctl [zone].storage.blockstoragemanage</codeblock>
                     </info>
                 </step>
                 <step conref="../shared/shared_task.dita#shared_task/verify_sc">
@@ -39,10 +40,10 @@
                         hostname or IP address, the username, password, and the name of the chap
                         user:</cmd>
                     <info>
-                        <codeblock>euctl [partition_name].storage.sanhost=[SAN_IP_address]
-euctl [partition_name].storage.sanuser=[SAN_admin_user_name]
-euctl [partition_name].storage.sanpassword=[SAN_admin_password]
-euctl &lt;partition>.storage.chapuser=[chap_username]</codeblock>
+                        <codeblock>euctl [zone].storage.sanhost=[SAN_IP_address]
+euctl [zone].storage.sanuser=[SAN_admin_user_name]
+euctl [zone].storage.sanpassword=[SAN_admin_password]
+euctl [zone].storage.chapuser=[chap_username]</codeblock>
                         <p>If you have multiple management IP addresses for the SAN adapter, provide
                             a comma-delimited list of IP addresses to the
                             <codeph>[partition_name].storage.sanhost</codeph> property.</p>
