@@ -13,7 +13,6 @@
             <ul>
                 <li>No procedure is required to enable nginx to start with eucaconsole, as it is part of the standard console installation and 
                     execution process.</li>
-                <li>You may disable nginx, see <xref href="console_config_ssl_certs.dita#console_disable_nginx"/>.</li>
                 <li>If you edit any of the parameters in the nginx.conf file, you must first stop the eucaconsole service and restart it for the changes to take effect:
                 <codeblock>service eucaconsole stop 
 service eucaconsole restart</codeblock></li>
@@ -78,6 +77,17 @@ service eucaconsole restart</codeblock></li>
                         <cmd>Locate the default configuration file from <filepath>conf/nginx.conf</filepath>.</cmd>
                     </step>
                     <step>
+                        <cmd>Locate and remove the <i><b>entire</b></i> server section containing the
+                            <codeph>https rewrite</codeph> rule:</cmd>
+                        <info>
+                            <codeblock>server {
+    listen 80 default;
+    server_name ~^(?&lt;domain&gt;.+)$;
+    rewrite     ^ https://$domain$request_uri? permanent;
+}</codeblock>
+                        </info>
+                    </step>
+                    <step>
                         <cmd>Verify the <codeph>nginx.conf</codeph> file contains the following lines:</cmd>
                                 <info>
                                     <codeblock>listen 80;
@@ -104,19 +114,19 @@ server_name  localhost;</codeblock></info>
                                 </info>
                     </step>
                     <step>
-                    <cmd>Locate the <codeph>[server:main]</codeph> section. If the host setting
-                                    under <codeph>[server:main]</codeph>is set to <codeph>0.0.0.0</codeph>,
-                                    connections are accepted from anywhere. If the UI proxy is used behind
-                                    nginx on the same host, you can configure the proxy to listen on
-                                    localhost only, by setting it to <codeph>127.0.0.1</codeph>, per this
-                                    example:</cmd>
+                    <cmd>The UI proxy is used behind nginx on the same host and therefore, the
+                        default host setting is configured to listen on localhost only. Verify the
+                        host setting under the <codeph>[server:main]</codeph> section is set to
+                            <codeph>127.0.0.1</codeph>, for localhost, per this example:</cmd>
                                 <info>
                                     <codeblock>[server:main]
 use = egg:gunicorn#main
 host = 127.0.0.1
 port = 8888</codeblock>
                                 </info>
-                            </step>
+                        <info><note>If you prefer to accept connections from anywhere, you can configure the proxy by setting it to 0.0.0.0.</note></info>
+                        
+                        </step>
                 </steps>
             </taskbody>
     </task>
