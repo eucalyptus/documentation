@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_template">
+    <!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Use Walrus</title>
+    <shortdesc>This topic describes how to configure Walrus as the object storage backend provider
+        for the Object Storage Gateway (OSG).</shortdesc>
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b><ul>
+                <li>Successful completion of all the install sections prior to this section.</li>
+                <li>The OSG must be installed, registered, and running.</li>
+                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            </ul></prereq>        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context><b>To configure Walrus object storage for the OSG</b></context>
+        <steps>
+            <step>
+                <cmd>Enter <codeph>walrus</codeph> as the storage provider using the
+                        <codeph>euctl</codeph> command.</cmd>
+                <info>
+                    <codeph>euctl objectstorage.providerclient=walrus</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Check that the OSG is enabled.</cmd>
+                <info>
+                    <codeblock>euserv-describe-services</codeblock>
+                    <p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
+                        check the cloud-*.log files in the
+                        <codeph>/var/log/eucalyptus</codeph> directory. A
+                        <codeph>DISABLED</codeph> state generally indicates that there is a
+                        problem with your network or credentials.</p>
+                </info>
+            </step>
+        </steps>
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The Walrus backend and OSG are now ready for production.</p>
+        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>
