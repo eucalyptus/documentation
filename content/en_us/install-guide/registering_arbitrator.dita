@@ -2,8 +2,11 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_arbitrator">
-	<title>Register Arbitrators</title>
-	<shortdesc/>
+	<title>Register Arbitrator Services</title>
+	<!--        REVIEWER QUESTION: This topic is written as if it is only for HA, yet it is in the non-HA section of the Install Guide. Arbitrators are valid in non-HA, correct? 
+If so, keep the topic, however it requires configuring on the CLC or Walrus or CC host. Can that happen when only CLC is installed? -->        
+	<shortdesc>This topic describes how to register Arbitrator Services (AS) with the UFS-related
+		hosts.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,43 +17,46 @@
 	</prolog>
 
 	<taskbody>
-		<context>
-			<note conref="../shared/conrefs.dita#prod/tech_preview"/>
-			
-			<p>Eucalyptus uses a periodic ICMP echo test to an Arbitrator. This
-				test approximates an end user's ability to access the system. If
-				Eucalyptus determines that it cannot reach the host associated
-				with a registered Arbitrator, all Eucalyptus services operating
-				on that host attempt to failover to the alternate hosts running
-				those services. </p>
-			<note type="restriction">In HA, you can register each Arbitrator
-				service on the primary and secondary CLC and Walrus. If you are
-				using either Managed or Managed (No VLAN) mode, you can also
-				register Arbitrator services on both the primary CC and the
-				secondary CC.</note>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b><ul>
+			<li>You should know which physical hosts will house UFS-related services.</li>
+			<li>The Cloud Controller must be properly installed and started.</li>
+			<li>The Cluster Controller must be properly installed and started, if it's one of the UFS-related hosts.</li>
+			<li>The Walrus Backend must be properly installed and started, if it's one of the UFS-related
+					hosts.</li>
+		</ul>
+		</prereq>        
+		
+		<context>			
+			<p>Arbitrator are optional services associated with physical hosts that run UFS-related services: </p>
+			<ul id="ufs_host_options">
+				<li>CLC</li>
+				<li>Walrus</li>
+				<li>CC</li>
+			</ul>
+			<p>Arbitrator services are registered with the host, not the services. Once an
+				Arbitrator is registered on a host, it is available to the UFS-related services on
+				that host.</p>
+			<p>Eucalyptus uses a periodic ICMP echo test to an Arbitrator. This test approximates an
+				end user's ability to access the system. If Eucalyptus determines that it cannot
+				reach the host associated with a registered Arbitrator, all Eucalyptus services
+				operating on that host attempt to failover to the alternate hosts running those
+				services. </p>
 			<p>We recommend that you register more than one Arbitrator for each
 				Eucalyptus component. This will allow for normal outages and
 				maintenance. There is no limit on the number of Arbitrators on a
 				CLC and a Walrus. You can only register up to three on a CC. </p>
-			<p>Register an Arbitrator service on each host that has a cloud
-				component (CLC or Walrus) installed. An Arbitrator is a
-				host-wide component: when an Arbitrator is registered on a host,
-				it is registered with all cloud components enabled on that host.
-				A separate arbitrator has to be registered per each network
-				entity that needs to be monitored from the host.</p>
-			<!--	<draft-comment>I'd like to reword this previous paragraph. We strongly recommend that in
-        		HA, each component on its own host.</draft-comment>-->
-			<p>To register an Arbitrator:</p>
+			
+			<p><b>To register the Arbitrator service on the hosts</b></p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Log in to the primary CLC.</cmd>
-			</step>
-			<step>
-				<cmd>Enter the following command to register an
-					arbitrator:</cmd>
+				<cmd>On the CLC host machine, enter the following command:</cmd>
 				<info>
-					<codeblock>/usr/sbin/euca_conf --register-arbitrator --partition [ID]
+					<!--<codeblock>euserv-register-service -U [URL] -t arbitrator -h [target_IP] -z [ZONE] [SVCINSTANCE]</codeblock>
+					... is supposed to replace euca_conf BUT not sure about ID as described below.
+AND are we keeping arbitrator or not?-->
+					<codeblock>euca_conf --register-arbitrator --partition [ID]
  --component [ID] --host [target_IP]></codeblock>
 					<p>where:</p>
 					<ul>
@@ -69,25 +75,22 @@
 
 			</step>
 			<step>
-				<cmd>Repeat for the secondary CLC and for both Walrus
-					servers.</cmd>
+				<cmd>Repeat for the Walrus host machine, if any.</cmd>
 			</step>
 			<step>
 				<cmd>Define the gateway for each Arbitrator:</cmd>
 				<info>
-					<codeblock>/usr/sbin/euca-modify-property -p &lt;ID>.arbitrator.gatewayhost=&lt;gateway></codeblock>
+					<codeblock>euctl [ID].arbitrator.gatewayhost=[gateway]</codeblock>
 					<p>where:</p>
 					<ul>
-						<li><codeph>&lt;ID></codeph> is the globally unique ID
-							of the registered Arbitrator.</li>
-						<li><codeph>&lt;gateway></codeph> is an external
-							hostname or IP address used to approximate
+						<li><codeph>[ID]</codeph> is the globally unique ID of the registered Arbitrator.</li>
+						<li><codeph>[gateway]</codeph> is an external hostname or IP address used to approximate
 							connectivity to the end user.</li>
 					</ul>
 				</info>
 				<stepxmp>
 					<p>For example:</p>
-					<codeblock>euca-modify-property -p EXAMPLE_ARB.arbitrator.gatewayhost=192.168.1.1</codeblock>
+					<codeblock>euctl EXAMPLE_ARB.arbitrator.gatewayhost=192.168.1.1</codeblock>
 				</stepxmp>
 			</step>
 			<step>
@@ -115,6 +118,13 @@
 			<step>
 				<cmd>Repeat on the secondary CC.</cmd>
 			</step>
+			<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
+			<step>
+				<cmd>Verify that the Arbitrator service is registered with the following command:</cmd>
+				<info>
+					<codeblock>euserv-describe-services --by-type arbitrator</codeblock>
+				</info>
+			</step>			
 		</steps>
 		<example>
 			<p>In the following example, the primary CLC is on &lt;CLC_host_p>,
@@ -132,5 +142,18 @@
 /usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_s> --component ARB06 --partition ARB06
 /usr/sbin/euca_conf --register-arbitrator --host &lt;Walrus_host_s> --component ARB07 --partition ARB07</codeblock>
 		</example>
+		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. 
+		<result>
+			<p>The registered Arbitrator service is now ready for your cloud.</p>
+			<p>(Optional) Where to go next.</p>
+		</result>-->
+		
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		     
 	</taskbody>
 </task>

@@ -2,8 +2,9 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_walruses">
-    <title>Register Walrus</title>
-    <shortdesc/>
+    <title>Register the Walrus Backend</title>
+    <shortdesc>This topic describes how to register the Walrus Backend service (WS) with the Cloud
+        Controller (CLC).</shortdesc>
     <prolog>
         <metadata>
             <keywords>
@@ -14,25 +15,59 @@
     </prolog>
 
     <taskbody>
-        <context>
-        	<note type="important">Skip this step if you are not using Walrus as your object storage
-        		backend.</note>
-            <p>To register Walrus:</p>
-        </context>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b><ul>
+            <li>You must be using the Walrus Backend service as your object storage provider.</li>
+            <li>The Cloud Controller must be properly installed and started.</li>
+        </ul>
+        </prereq>        
+        
+        <context><b>To register the Walrus Backend service with the Eucalyptus cloud</b></context>
+
         <steps>
             <step>
-                <cmd>On the CLC server, enter the following command:</cmd>
+                <cmd>On the CLC host machine, enter the following command:</cmd>
                 <info>
-                    <codeblock>/usr/sbin/euca_conf --register-walrusbackend --partition walrus --host [walrus_IP_address] --component [walrus_name]</codeblock>
-                    <p>The <codeph>partition</codeph> name for Walrus has to be
-                            <codeph>walrus</codeph>. Like the CLC, the component
-                        name is a unique name for this particular component: we
-                        recommend a format such as
-                            <codeph>walrus-[hostname]</codeph>.</p>
+                    <codeblock>euserv-register-service -t walrusbackend -h [IP] -U [URL] [SVCINSTANCE]</codeblock>
+                    <p>where:</p>
+                    <ul>
+                        <li><codeph>IP</codeph> is the IP of the Walrus Backend you are registering with this CLC.</li>
+                        <li><codeph>URL</codeph> bootstrap service endpoint URL
+                            is temporarily required. REVIEWER VERIFY ???</li>
+                        <li><codeph>SVCINSTANCE</codeph> must be a unique name for the Walrus Backend
+                            service. We recommend that you use a short-hand name of the hostname or
+                            IP address of the machine, for example:
+                                <codeph>walrus-[hostname]</codeph> or <codeph>walrus-[IP
+                                address]</codeph>.</li>
+                    </ul>
                 </info>
+                <stepxmp>
+                    <p>For example:</p>
+                    <codeblock>euserv-register-service -t walrusbackend -h 10.111.5.182 -U http://127.0.0.1:8773/services/Empyrean walrus-10.111.5.182</codeblock>
+                </stepxmp>
             </step>
-
+            <!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
+            <step>
+                <cmd>Verify that the Walrus Backend service is registered with the following command:</cmd>
+                <info>
+                    <codeblock>euserv-describe-services --by-type walrusbackend</codeblock>
+                </info>
+            </step>			
         </steps>
+        
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The registered Walrus Backend service is now ready for your cloud.</p>
+            <!--<p>(Optional) Where to go next.</p>-->
+        </result>
+        
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		        
         
     </taskbody>
 </task>

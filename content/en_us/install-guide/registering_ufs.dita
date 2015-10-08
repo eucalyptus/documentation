@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="registering_services">
+	<title>Register User-Facing Services</title>
+	<shortdesc>This topic describes how to register the User-Facing Services (UFS) with the Cloud Controller (CLC).</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>user-facing services <indexterm>registering</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+
+	<taskbody>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b><ul>
+			<li>The Cloud Controller must be properly installed and started.</li>
+			<li>The User-Facing Services must be properly installed and started.</li>
+		</ul>
+		</prereq>        
+
+		<context><b>To register the User-Facing Services with the Eucalyptus cloud</b></context>
+		
+		<steps>
+			<step>
+				<cmd>On the CLC host machine, enter the following command:</cmd>
+				<info>
+					<codeblock>euserv-register-service -t user-api -h [IP] -U [URL] [SVCINSTANCE]</codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>IP</codeph> is the IP of the UFS you are registering.</li>
+						<li><codeph>URL</codeph> bootstrap service endpoint URL
+							is temporarily required. REVIEWER VERIFY ???</li>
+						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the User-Facing service.</li>
+					</ul>
+				</info>
+				<stepxmp>
+						<p>For example:</p>
+					<codeblock>euserv-register-service -t user-api -h 10.111.5.183 -U http://127.0.0.1:8773/services/Empyrean user-api-1</codeblock>
+				</stepxmp>
+			</step>
+			<step>
+				<cmd>Repeat for each UFS host, replacing the UFS IP address and UFS name.</cmd>
+			</step>
+			<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
+			<step>
+				<cmd>Verify that the User-Facing service is registered with the following command:</cmd>
+				<info>
+					<codeblock>euserv-describe-services --by-type user-api</codeblock>
+				</info>
+			</step>			
+		</steps>
+		
+		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+		<result>
+			<p>The registered User-Facing service is now ready for your cloud.</p>
+			<!--<p>(Optional) Where to go next.</p>-->
+		</result>
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		
+		
+	</taskbody>
+</task>
