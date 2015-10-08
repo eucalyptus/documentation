@@ -2,8 +2,9 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_scs">
-	<title>Register the SC</title>
-	<shortdesc/>
+	<title>Register the Storage Controller</title>
+	<shortdesc>This topic describes how to register a Storage Controller (SC) with the Cloud Controller
+		(CLC).</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -14,46 +15,74 @@
 	</prolog>
 
 	<taskbody>
-		<context>
-			<!--<p>Each partition (zone00 in the examples that follow) must have a pair of CCs and a pair
-        	of SCs.</p>
-        	<ul>
-        		<li>&lt;SC #1 IPAddress> is the IP address of the physical server hosting one SC component.</li>
-        		<li>&lt;SC #2 IPAddress> is the IP address of the physical server hosting the other.</li>
-        	</ul>-->
-			<p>To register the SC:</p>
-		</context>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b><ul>
+			<li>The Cloud Controller must be properly installed and started.</li>
+			<li>The Storage Controller service must be properly installed and started.</li>
+		</ul>
+		</prereq>        
+		
+		<context><b>To register the Storage Controller service with the Eucalyptus cloud</b></context>
+		
 		<steps>
 			<step>
-				<cmd>On the CLC, enter the following command:</cmd>
-				<info><note importance="recommended"> We recommend that you use IP addresses instead
-						of DNS names when registering Eucalyptus components. </note></info>
+				<cmd>On the CLC host machine, enter the following command:</cmd>
 				<info>
-					<codeblock>/usr/sbin/euca_conf --register-sc --partition [partition_name] --host [SC_IP_address] 
-	--component [SC_name]</codeblock>
-					<p> An SC must have the same <codeph>partition</codeph> name as the CC in the
-						same cluster. Like the other components, the <codeph>component</codeph> is a
-						unique name for this particular component: we recommend a format such as
-							<codeph>sc-[hostname]</codeph>.</p>
-					<note type="warning">Newly registered SCs will be in the BROKEN state until they
-						are explicitly configured to use a backend storage provider. The output of
-						the registration for the first SC registered in a partition will look like:
-						<codeblock>SERVICE	storage        	PARTI00        	SC71           	BROKEN    	37  	http://192.168.51.71:8773/services/Storage	arn:euca:eucalyptus:PARTI00:storage:SC71/
-Registered the first storage controller in partition 'PARTI00'.  You must choose a storage back end with ``euca-modify-property -p PARTI00.storage.blockstoragemanager=$BACKEND''</codeblock>
-						This is completely normal and simply indicates that further action must be
-						taken to configure the SC before it will become fully functional. For
-						information about configuring the SC, see <xref
-							href="configure_storage_controller.dita">Configure the Runtime
-							Environment->Configure the Storage Controller</xref>
-					</note>
-				</info>
+					<codeblock>euserv-register-service -t storage -h [IP] -U [URL] -z [ZONE] [SVCINSTANCE]</codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>IP</codeph> is the IP of the SC you are registering with this CLC.</li>
+						<li><codeph>URL</codeph> bootstrap service endpoint URL
+							is temporarily required. REVIEWER VERIFY ???</li>
+						<li><codeph>ZONE</codeph> name should be a descriptive name for the
+							availability zone controlled by the CC. For example:
+							<codeph>zone-1</codeph>. An SC must have the same <codeph>ZONE</codeph> name 
+							as the CC in the same zone.</li>
+						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the SC service. We recommend that
+							you use a short-hand name of the hostname or IP address of the machine,
+							for example: <codeph>sc-[hostname]</codeph> or <codeph>sc-[IP
+								address]</codeph>.</li>
+					</ul>
+					<note>We recommend that you use IP addresses instead of DNS names when registering Eucalyptus services.</note>
+					<note type="important">The SC automatically goes to the <codeph>BROKEN</codeph> state after
+						being registered with the CLC; it will remain in that state until you
+						explicitly configure the SC by configuring the backend storage provider. For more information, 
+						see <xref href="../install-guide/config_storage_broken_state.dita#broken_state"
+								>About the BROKEN state</xref>.</note>
+<!--STATEs probably deserve their own section, then xref to it.
+-->				</info>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>euserv-register-service -t storage -h 10.111.5.182 -U http://127.0.0.1:8773/services/Empyrean -z zone-1 sc-10.111.5.182</codeblock>
+				</stepxmp>
 			</step>
 			<step>
-				<cmd>Repeat for each cluster, replacing the SC name, partition name, SC IP address,
-					and SC name.</cmd>
+				<cmd>Repeat for each REVIEWER ??? Cluster Controller, ??? replacing the SC IP address, zone
+					name, and SC name.</cmd>
 			</step>
-
+			
+			<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
+			<step>
+				<cmd>Verify that the Storage Controller service is registered with the following command:</cmd>
+				<info>
+					<codeblock>euserv-describe-services --by-type storage</codeblock>
+				</info>
+			</step>			
 		</steps>
+		
+		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+		<result>
+			<p>The registered Storage Controller service is now ready for your cloud.</p>
+			<!--<p>(Optional) Where to go next.</p>-->
+		</result>
+		
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		     
 		
 	</taskbody>
 </task>

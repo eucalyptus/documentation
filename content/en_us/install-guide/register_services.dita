@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="register_components">
+    <!--    This concept template to be used for conceptual or overview information. -->    
+    <title>Register Eucalyptus Services</title>
+
+    <shortdesc>This section describes how to register Eucalyptus services.</shortdesc>
+        
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>services <indexterm>registering</indexterm>
+                </indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    
+    <conbody>
+        <p>Eucalyptus implements a secure protocol for registering separate services so that the
+            overall system cannot be tricked into including a service run by an unauthorized
+            administrator or user.</p>
+        <p>You need only register services once. Most registration commands run on the CLC server.
+            <!--In a later section, you will <xref href="register_nodes.dita#register_nodes"> register
+                nodes (NCs) with the Cluster Controllers (CCs)</xref>.--></p>
+        <p>Note that each registration command will attempt an SSH as root to the remote physical
+            host where the registering service is assumed to be running. The registration command
+            also contacts the service so it must be running at the time the command is issued. If a
+            password is required to allow SSH access, the command will prompt the user for it.</p>
+       <p>REVIEWER QUESTION: Verify that we can register all these services now (with only CLC
+            installed) considering the above comment???</p>
+        <p>Registration commands need the following information:</p>
+        <ul>
+            <li>The <b>Type</b> (<codeph>-t</codeph> required) of service you are registering. For
+                example: <codeph>cluster</codeph>.</li>
+            <li>The <b>Host</b> (<codeph>-h</codeph> required) of the service being registered. The
+                host must be specified by IP address to function correctly. <note importance="high"
+                    >You must specify public IP addresses.</note>
+                <note importance="high">We recommend that you use IP addresses rather than host
+                    names when registering Eucalyptus services. If you do use host names, the
+                    underlying IP address must not be a site-local, any-cast, loopback, link-local,
+                    or multicast address.</note>
+                <note>If you do register a Eucalyptus service with a host name, to avoid
+                    connectivity issues, do not change the host name's underlying IP address.</note>
+            </li>
+            <li>The <b>URL</b> (<codeph>-U</codeph>) bootstrap service endpoint URL
+                is temporarily required. REVIEWER VERIFY ???</li>
+            <li>The <b>Zone</b> (<codeph>-z</codeph>) the service belongs to. This is equivalent to the availability zone in AWS.</li>           
+            <li>The <b>Service Instance</b> (<codeph>[SVCINSTANCE]</codeph> required) name you
+                assign to the service, up to 256 characters. This is the name used to identify the
+                service in a human-friendly way. This name is also used when reporting system state
+                changes which require administrator attention. This name must be globally-unique
+                with respect to other service registrations. To ensure this uniqueness, we recommend
+                using a combination of the service type (CLC, SC, CC, etc.) and system IP address
+                (or host name) when you choose your service instance names. For example:
+                    <codeph>clc-192.168.0.15</codeph> or <codeph>clc-eucahost15</codeph>.
+                    <note>SVCINSTANCE is the last argument in the command.</note></li>
+        </ul>
+       
+        
+
+    </conbody>
+</concept>

@@ -2,8 +2,8 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="registering_ccs">
-	<title>Register the CC</title>
-	<shortdesc/>
+	<title>Register the Cluster Controller</title>
+	<shortdesc>This topic describes how to register a Cluster Controller (CC) with the Cloud Controller (CLC).</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -15,35 +15,65 @@
 	</prolog>
 
 	<taskbody>
-		<context>
-			<p>To register the CC:</p>
-		</context>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b><ul>
+			<li>The Cloud Controller must be properly installed and started.</li>
+			<li>The Cluster Controller must be properly installed and started.</li>
+		</ul>
+		</prereq>        
+		
+		<context><b>To register the Cluster Controller service with the Eucalyptus cloud</b></context>
+		
 		<steps>
 			<step>
-				<cmd>On the CLC, enter the following command:</cmd>
+				<cmd>On the CLC host machine, enter the following command:</cmd>
 				<info>
-					<codeblock>/usr/sbin/euca_conf --register-cluster --partition [partition_name]
- --host [CC_IP_address] --component [cc_name]</codeblock>
-					<p> We recommend that you set the <codeph>partition</codeph>
-						name to a descriptive name for the availability zone
-						controlled by the CC. For example:
-							<codeph>cluster01</codeph>. </p>
-					<p> The <codeph>component</codeph> must be a unique name. We
-						recommend that you use a short-hand name of the hostname
-						or IP address of the machine, like
-							<codeph>cc-[hostname]</codeph> or <codeph>cc-[IP
-							address]</codeph>. </p>
+					<codeblock>euserv-register-service -t cluster -h [IP] -U [URL] -z [ZONE] [SVCINSTANCE]</codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>IP</codeph> is the IP of the CC you are registering with this CLC.</li>
+						<li><codeph>URL</codeph> bootstrap service endpoint URL
+							is temporarily required. REVIEWER VERIFY ???</li>
+						<li><codeph>ZONE</codeph> name should be a descriptive name for the
+							availability zone controlled by the CC. For example:
+							<codeph>zone-1</codeph>.</li>
+						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the CC service. We recommend that
+							you use a short-hand name of the hostname or IP address of the machine,
+							for example: <codeph>cc-[hostname]</codeph> or <codeph>cc-[IP
+								address]</codeph>.</li>
+					</ul>
 				</info>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>euserv-register-service -t cluster -h 10.111.5.182 -U http://127.0.0.1:8773/services/Empyrean -z zone-1 cc-10.111.5.182</codeblock>
+				</stepxmp>			
 			</step>
 			<step>
-				<cmd>Repeat for each cluster, replacing the CC name, partition
-					name, CC IP address, and CC name.</cmd>
-				<!--<info>
-        			<codeblock>/usr/sbin/euca_conf -\-register-cluster -\-partition=zone00 
-	-\-host=&lt;CC_#2_IP_address> -\-component=cc01</codeblock>
-        		</info>-->
+				<cmd>Repeat for each Cluster Controller, replacing the CC IP address, zone name, and CC
+					name.</cmd>
 			</step>
+			<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
+			<step>
+				<cmd>Verify that the Cluster Controller service is registered with the following command:</cmd>
+				<info>
+					<codeblock>euserv-describe-services --by-type cluster</codeblock>
+				</info>
+			</step>			
 		</steps>
+		
+		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+		<result>
+			<p>The registered Cluster Controller service is now ready for your cloud.</p>
+			<!--<p>(Optional) Where to go next.</p>-->
+        </result>
+
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		        
 		
 	</taskbody>
 </task>
