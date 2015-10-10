@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="console_deploy_elb_overview">
+ <title>Management Console Scaling Overview</title>
+ <shortdesc>Cloud administrators can deploy the Eucalyptus Management Console in a cloud-compatible
+  VM so that a console can scale to meet the demands of users and customers. Just as imaging, ELB,
+  and workers are done currently, delivering the console inside an image provides the ability to
+  eliminate work performed within the console itself.</shortdesc>
+ <conbody>
+  <p>Deploying the console this way achieves several things, which are important:
+   <ul>
+    <li>consistent with delivery of other services</li>
+    <li>no configuration of the console required, as all configuration can be automated with launching an instance</li>
+    <li>no artificial restriction on console dependencies</li>
+    <li>console having an identity in the system — through a console account and IAM instance profile-based credentials — to call <i>euca:service</i> operations</li>
+   </ul>
+  </p>
+  <p>The following are limitations that exist today. Deploying the console behing an ELB makes possible the following, which are not possible otherwise:</p>
+  <ul>
+   <li>horizontal scalability</li>
+   <li>isolated network environment with system-enforced network restrictions</li>
+   <li>self-configuration when the system changes (due to UFS)</li>
+   <li>domain naming support for a fixed console endpoint (e.g., console.eucalyptus.subdomain.com)</li>
+   <li>load balancing requests with ELB</li>
+   <li>auto scaling based on console-controlled triggers</li>
+   <li>possibility of non-trivial topologies for the console (e.g., with a shared service of some kind)</li>
+  </ul>
+  <p/>
+ </conbody>
+</concept>
