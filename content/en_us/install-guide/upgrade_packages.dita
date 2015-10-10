@@ -2,26 +2,23 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_packages">
- <title>Upgrade Eucalyptus Packages</title>
- <shortdesc/>
+ <title>Upgrade Eucalyptus Package Repositories</title>
+ <shortdesc>This topic describes the steps to upgrade the Eucalyptus package
+  repositories.</shortdesc>
  <taskbody id="upgrade_packages_task">
-  <context>
-   <p>Before upgrading Eucalyptus packages, we suggest fully updating your
-    systems using <codeph>yum update</codeph> where possible.</p>
-   <note importance="high">When using Walrus in a high availability (HA)
-    configuration, <xref href="http://linux.die.net/man/8/mount" format="html"
-     >mount(8)</xref> is now used for mounting and unmounting the DRBD device,
-    instead of <xref href="http://linux.die.net/man/2/mount" format="html"
-     >mount(2)</xref>. If Walrus HA is configured, add an entry to the
-     <filepath>/etc/fstab</filepath> to mount the DRBD device to
-     <filepath>/var/lib/eucalyptus/bukkits</filepath> on both primary and
-    secondary Walrus. For example, if the DRBD device in the Eucalyptus DRBD
-    resource file is defined as <filepath>/dev/drbd1</filepath> and the
-    filesystem format is ext3, add the following line to
-     <filepath>/etc/fstab</filepath>:
-    <codeblock>/dev/drbd1 /var/lib/eucalyptus/bukkits ext3 noauto,owner 0 0</codeblock>.</note>
-   <p>To upgrade Eucalyptus packages:</p>
-  </context>
+  <!--    If there are no prereqs, state "None." -->        
+  <prereq><b>Prerequisites</b><ul>
+   <li>Before upgrading Eucalyptus packages, we suggest fully updating your
+    systems using <codeph>yum update</codeph> where possible.</li>
+   <li>The configuration should be validated against the Compatibility Matrix for this
+    release.
+    <!--ADD THE LINK TO release notes: shared/intro_compatibility_matrix_4.2.html --></li>
+   <li>The prerequisite hardware and software should be in place and available for
+    Eucalyptus.</li>
+  </ul>
+  </prereq>        
+  <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+  <context><b>To upgrade Eucalyptus package repos</b></context>
   <steps>
   	<step>
   		<cmd>Enter the following command on each machine running a Eucalyptus component: </cmd>
