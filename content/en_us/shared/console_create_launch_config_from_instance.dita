@@ -42,8 +42,8 @@
         <taskbody>
             <steps>
                 <step>
-                    <cmd>If using this launch configuration with a scaling group using a VPC network, select an IP assignment 
-                        from the <uicontrol>VPC IP assignment</uicontrol>drop-down list box.</cmd>
+                    <cmd>If using this launch configuration with a scaling group using a VPC network, 
+                        select how the VPC IP assignment is to be applied by selecting an option from the drop-down list box.</cmd>
                 </step>
                 <step>
                     <cmd> The security group is automatically chosen based on the instance from which you created 
@@ -56,7 +56,7 @@
                     <info>
                         <note> If you select a role, make sure that the correct permissions are
                             defined for that role so that the appropriate level of access is applied
-                            to your instance. </note>
+                            to your launch configuration. </note>
                     </info>
                 </step>
                 <step>
@@ -77,9 +77,9 @@
         </taskbody>
     <task id="create_launch_configuration_from_instance_ui_advanced_steps">
         <title>Specify Advanced Options</title>
-        <shortdesc>OPTIONAL: This panel allows you to specify advanced options for the new configuration
-            in your auto scaling group. You can add user data, override the kernel and RAM disk IDs,
-            and enable monitoring.</shortdesc>
+        <shortdesc>This panel allows you to optionally specify advanced options for the new launch
+            configuration. You can override the kernel and RAM disk IDs, enable monitoring, and adding 
+            additional storage, if applicable.</shortdesc>
         <taskbody>
             <steps>
                 
@@ -94,14 +94,56 @@
                 <step>
                     <cmd>Click the <uicontrol>Enable monitoring</uicontrol> check box to specify
                         that detailed CloudWatch metric gathering should be enabled for your new
-                        instance(s).</cmd>
+                        launch configuration(s).</cmd>
                 </step>
                 <step>
-                    <cmd>You can create a new scaling group based on this new launch configuration
-                        by selecting the <uicontrol>Create scaling group using this launch
-                            configuration</uicontrol> check box. This will cause the
-                            <uicontrol>Create scaling group dialog</uicontrol> to appear once you've
-                        finished creating your new launch configuration. </cmd>
+                    <cmd>For EBS-backed instances, you can configure the root volume or additional
+                        storage for your instance in the Storage section:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd> Change the size of the root volume by entering the size of the attached 
+                                storage in gigabytes into the <uicontrol>Size (GB)</uicontrol> text box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the <uicontrol>Delete on terminate</uicontrol> check box if
+                                you want the attached storage deleted when the instance is
+                                terminated.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd> You can configure additional storage for your instance by
+                                selecting a volume type from the <uicontrol>Volume</uicontrol>
+                                drop-down list box. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Type the desired mapping for the storage into the
+                                <uicontrol>Mapping</uicontrol> text box (for example:<codeph>
+                                    /dev/sdb</codeph>).</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>If you want to create the storage from an existing snapshot,
+                                specify it in the <uicontrol>Create from snapshot</uicontrol>
+                                drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd> Type the size of the attached storage in gigabytes into the
+                                <uicontrol>Size (GB) </uicontrol>text box. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd> Select the <uicontrol>Delete on terminate</uicontrol> check box if
+                                you would like the attached storage to be deleted when the instance
+                                is terminated. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Click the <uicontrol>Add Device</uicontrol> button to add this
+                                storage.</cmd>
+                            <stepresult>Added storage displays as a row in the table under the
+                                Storage area. </stepresult>
+                        </substep>
+                        <substep>
+                            <cmd>You can delete existing storage by clicking the minus button on the
+                                right side of the storage list item.</cmd>
+                        </substep>
+                    </substeps>
                 </step>
                 <step>
                     <cmd> Click the <uicontrol>Create Launch Configuration</uicontrol> button or click 

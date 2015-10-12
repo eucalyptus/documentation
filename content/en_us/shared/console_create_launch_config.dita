@@ -29,10 +29,9 @@
             </steps>
         </taskbody>
     </task>
-    <task id="create_launch_configuration__ui_type_steps">
+    <task id="create_launch_configuration_ui_type_steps">
         <title>Details</title>
-        <shortdesc>This panel allows you to specify the instance size for new instance in your auto
-            scaling group.</shortdesc>
+        <shortdesc>This panel allows you to specify the name, instance size, and user data associated with the launch configuration.</shortdesc>
         <taskbody>
             <steps>
                 
@@ -43,14 +42,16 @@
                 <step>
                     <cmd> Select an instance size/type from the <uicontrol>Instance type</uicontrol>
                         drop-down list.</cmd>
-                    <info>
-                        <note> Information about the instance size is displayed when you click the
-                            instance size link. </note>
-                    </info>
                 </step>
+                    <step>
+                        <cmd> Specify custom user data by typing it into the <uicontrol>User
+                            data</uicontrol> text box or by attaching a file by clicking the
+                            <uicontrol>Choose file</uicontrol> button.</cmd>
+                    </step>
+              
                 <step>
                     <cmd> Click the <uicontrol>Next</uicontrol> button to proceed to the
-                            <uicontrol>Security</uicontrol> panel. </cmd>
+                            <uicontrol>Security</uicontrol> tab. </cmd>
                 </step>
             </steps>
         </taskbody>
@@ -58,9 +59,9 @@
     <task id="create_launch_configuration_ui_security_steps">
         <title>Specify Security</title>
         <shortdesc>This panel allows you to specify the VPC network settings, key pair and a security group that will be
-            used by the new instances in your auto scaling group. NOTE: if you create a key pair or
+            used by the new launch configuration. NOTE: if you create a key pair or
             security group in this section, they will automatically be selected for use in your new
-            instances. </shortdesc>
+            launch configuration. </shortdesc>
 
         <taskbody>
             <steps>
@@ -83,12 +84,12 @@
                     <info>
                         <note> If you select the default security group, make sure that you've added
                             rules to the default security group so that you can access your
-                            instances. </note>
+                            launch configurations. </note>
                         <note> You can also create a new security group by clicking the
                             <uicontrol>Create a security group</uicontrol> link. This opens the Create Security Group dialog box.</note>
                     </info>
-                    <stepresult> If one of the existing security groups is chosen, the rules associated with
-                        the security group display, along information about the VPC network in which it resides, if any.</stepresult>
+                    <stepresult> If one of the existing security groups is chosen, You may view the rules for the specified 
+                        security group by clicking the <uicontrol>+ Rules</uicontrol> control to expand it.</stepresult>
                 </step>
                 <step>
                     <cmd> You can optionally specify an IAM role using the <uicontrol>Role</uicontrol>
@@ -96,7 +97,7 @@
                     <info>
                         <note> If you select a role, make sure that the correct permissions are
                             defined for that role so that the appropriate level of access is applied
-                            to your instance. </note>
+                            to your launch configurations. </note>
                     </info>
                 </step>
                 <step>
@@ -120,64 +121,68 @@
     </task>
     <task id="create_launch_configuration_ui_advanced_steps">
         <title>Specify Advanced Options</title>
-        <shortdesc>This panel allows you to specify advanced options for the new instance in your
-            auto scaling group. You can add user data, override the kernel and RAM disk IDs, specify
-            private networking, and add additional storage.</shortdesc>
+        <shortdesc>This panel allows you to specify advanced options for your new instance. 
+            You can override the kernel and RAM disk IDs, enable monitoring, and add additional storage, 
+            if applicable.</shortdesc>
         <taskbody>
             <steps>
-                <step>
-                    <cmd> Specify custom user data by typing it into the <uicontrol>User
-                            data</uicontrol> text box or by attaching a file by clicking the
-                            <uicontrol>Choose file</uicontrol> button.</cmd>
-                </step>
+             
                 <step>
                     <cmd> You can override the kernel ID in the selected image with the
                             <uicontrol>Kernel ID</uicontrol> drop-down list box. </cmd>
                 </step>
                 <step>
                     <cmd> You can override the RAM disk ID in the selected image with the
-                            <uicontrol>RAM disk ID</uicontrol> drop-down list box. </cmd>
+                            <uicontrol>RAM disk ID (RAMFS)</uicontrol> drop-down list box. </cmd>
                 </step>
-                
+                <step>
+                    <cmd> Click the <uicontrol>Enable monitoring</uicontrol> check box to specify that
+                        detailed CloudWatch metric gathering should be enabled for your new
+                        launch configuration(s).</cmd>
+                </step>
                 <step>
                     <cmd>You can configure additional storage for your instance in the Storage
                         section:</cmd>
-                    <substeps id="create_launch_config_ui_advanced_storage_steps">
-                        <substep>
-                            <cmd> Select a volume type using the <uicontrol>Volume</uicontrol>
-                                drop-down list box. </cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Type the desired mapping for the storage into the
-                                <uicontrol>Mapping</uicontrol> text box (for example:<codeph>
-                                    /dev/sdb</codeph>).</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>If you want to create the storage from an existing snapshot,
-                                specify it in the <uicontrol>Create from snapshot</uicontrol>
-                                drop-down list box.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd> Type the size of the attached storage in gigabytes into the
-                                <uicontrol>Size (GB) </uicontrol>text box. </cmd>
-                            <info>The attached storage will be deleted when the instance is terminated, 
-                                as indicated next to the <uicontrol>Delete on termination</uicontrol> field.</info>
-                        </substep>
-                        <substep>
-                            <cmd>Click the <uicontrol>Add device</uicontrol> button to add this storage.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>You can delete storage you've already added by clicking the minus button on the right side of the storage list item.</cmd>
-                        </substep>
+                    <substeps>
+                    <substep>
+                        <cmd> Select a volume type using the <uicontrol>Volume</uicontrol>
+                            drop-down list box. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Type the desired mapping for the storage into the
+                            <uicontrol>Mapping</uicontrol> text box (for example:<codeph>
+                                /dev/sdb</codeph>).</cmd>
+                    </substep>
+                    <substep>
+                        <cmd> If you want to create the storage from an existing snapshot,
+                            specify it in the <uicontrol>Create from snapshot</uicontrol>
+                            drop-down list box.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Type the size of the attached storage in gigabytes into the
+                            <uicontrol>Size (GB) </uicontrol>text box. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Select the <uicontrol>DELETE ON TERMINATE</uicontrol> check box
+                            if you would like the attached storage to be deleted when the
+                            instance is terminated. </cmd>
+                    </substep>
+                    <substep>
+                        <cmd> Click the <uicontrol>Add device</uicontrol> button to add this storage.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>You can delete storage you've already added by clicking the minus button on the right side of the storage list item.</cmd>
+                    </substep>
                     </substeps>
                 </step>
-
                 <step>
-                    <cmd> Click the <uicontrol>Create launch configuration</uicontrol> button.
-                    </cmd>
+                
+                <cmd> Click the <uicontrol>Create Launch Configuration</uicontrol> button 
+                    or click <uicontrol>Cancel</uicontrol> to abandon your changes.
+                </cmd>
                 </step>
             </steps>
-            <result>For more information on Auto Scaling, see the <i>Eucalyptus User Guide</i>.</result>
+           
         </taskbody>
     </task>
 </task>
