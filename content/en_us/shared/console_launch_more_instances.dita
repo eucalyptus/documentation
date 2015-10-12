@@ -4,34 +4,65 @@
 <task id="launch_instances_ui_context">
     <title>Launch More Instances Like This</title>
     <shortdesc> This page allows you create one or more new instances that have the same
-        characteristics as an instance already created.</shortdesc>
-    <taskbody/>
-    <task id="launch_instances_ui_image_steps">
-        <title>Specify the Number of Instances</title>
-        <shortdesc>This panel allows you to specify the number of new instances to
-            launch.</shortdesc>
+        characteristics as an existing instance.</shortdesc>
+    
         <taskbody>
             <steps>
 
                 <step>
 
-                    <cmd> Enter the number of instances to launch into the provided text box. </cmd>
+                    <cmd> Specify the number of new instances to launch in the provided text box. </cmd>
                 </step>
                 <step>
                     <cmd>You can optionally type the name(s) of your new instances in the
-                            <uicontrol>Names</uicontrol> text box.</cmd>
+                            <uicontrol>Name(s)</uicontrol> text box.</cmd>
+                    <info>The read-only information associated with your new instances are pre-populated 
+                        based on the instance from which you selected to launch more instances.</info>
+                </step>
+                <step>
+                    <cmd> To specify custom user data using a manual entry:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select <uicontrol>Enter text</uicontrol> from the <uicontrol>User data</uicontrol> options.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Enter the user data into the provided text box.</cmd>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd> To specify user data with a file:</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Select <uicontrol>Upload file</uicontrol> to attach a user data file.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Click the <uicontrol>Choose File</uicontrol> button.</cmd>
+                            <stepresult>A window opens prompting you to select a file from your local file system. </stepresult>
+                        </substep>
+                        <substep>
+                            <cmd>Navigate to the location of the file you want to upload. </cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the file to upload and click <uicontrol>Open</uicontrol> from the file chooser window.</cmd>
+                            <stepresult>The name of the selected file displays next to the <uicontrol>Choose File</uicontrol> button.
+                            </stepresult>
+                        </substep>
+                    </substeps>
+                    
                 </step>
                 <step>
                     <cmd> You can optionally specify advanced options by clicking the
-                            <uicontrol>Select advanced options</uicontrol> link. </cmd>
+                            <uicontrol>+</uicontrol> control next to Advanced to expand it 
+                        and refer to the next section for further details. </cmd>
                 </step>
+                
                 <step>
-                    <cmd> Click the <uicontrol>Launch Instance</uicontrol> button to launch your new
-                        instances. </cmd>
+                    <cmd> Otherwise, click the <uicontrol>Launch Instance</uicontrol> button to launch your new
+                        instances or click <uicontrol>Cancel</uicontrol> to abandon your changes. </cmd>
                 </step>
             </steps>
         </taskbody>
-    </task>
 <!--  
     <task id="launch_instances_ui_tags_steps">
         <title>Add Tags</title>
@@ -83,63 +114,23 @@
     <task id="launch_instances_ui_advanced_steps">
         <title>Specify Advanced Options</title>
         <shortdesc>This panel allows you to specify advanced options for your new instance(s). You
-            can add user data, override the kernel and RAM disk IDs, specify private networking, and
-            add additional storage.</shortdesc>
+            can override the kernel and RAM disk IDs, enable monitoring, and add additional storage, if applicable.</shortdesc>
         <taskbody>
             <steps>
                 <step>
-                    <cmd> To specify custom user data using a manual entry:</cmd>
-                    <substeps>
-                        <substep>
-                            <cmd>Select <uicontrol>Enter text</uicontrol> from the <uicontrol>User data</uicontrol> options.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Enter the user data into the provided text box.</cmd>
-                        </substep>
-                    </substeps>
-                </step>
-                <step>
-                    <cmd> To specify user data with a file:</cmd>
-                    <substeps>
-                        <substep>
-                            <cmd>Select <uicontrol>Upload file</uicontrol> to attach a user data file.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Click the <uicontrol>Choose File</uicontrol> button.</cmd>
-                            <stepresult>A window opens prompting you to select a file from your local file system. </stepresult>
-                        </substep>
-                        <substep>
-                            <cmd>Navigate to the location of the file you want to upload. </cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Select the file to upload and click <uicontrol>Open</uicontrol> from the file chooser window.</cmd>
-                            <stepresult>The name of the selected file displays next to the <uicontrol>Choose File</uicontrol> button.
-                            </stepresult>
-                        </substep>
-                    </substeps>
-                   
-                </step>
-                <step>
                     <cmd>You can override the kernel ID in the selected image with the
-                            <uicontrol>Kernel ID</uicontrol> drop-down list box. </cmd>
+                        <uicontrol>Kernel ID</uicontrol> drop-down list box. </cmd>
                 </step>
                 <step>
                     <cmd> You can override the RAM disk ID in the selected image with the
-                            <uicontrol>RAM disk ID (RAMFS)</uicontrol> drop-down list box. </cmd>
+                        <uicontrol>RAM disk ID (RAMFS)</uicontrol> drop-down list box. </cmd>
                 </step>
                 <step>
                     <cmd>Click the <uicontrol>Enable monitoring</uicontrol> check box to specify
                         that detailed CloudWatch metric gathering should be enabled for your new
                         instance(s).</cmd>
                 </step>
-                <step>
-                    <cmd>Click the <uicontrol>Use private addressing only</uicontrol> check box to
-                        specify that your new instance should use private addressing only. Private
-                        addresses cannot connect directly to the Internet and must go through a NAT
-                        (Network Address Translation) device or an elastic IP address mapped to the
-                        instance. </cmd>
-                </step>
-                <step>
+               <step>
                     <cmd>For EBS-backed instances, you can configure the root volume or additional
                         storage for your instance in the Storage section:</cmd>
                     <substeps id="launch_instances_ui_advanced_storage_steps">
@@ -189,7 +180,8 @@
                     </substeps>
                 </step>
                 <step>
-                    <cmd> Click the <uicontrol>Launch Instance</uicontrol> button to launch your new instance(s). </cmd>
+                    <cmd> Click the <uicontrol>Launch Instance</uicontrol> button to launch your new instance(s) 
+                        or <uicontrol>Cancel</uicontrol> abandon your changes. </cmd>
                 </step>
             </steps>
         </taskbody>

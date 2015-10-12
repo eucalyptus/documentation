@@ -38,25 +38,22 @@
     </task>
     <task id="launch_instances_ui_details_steps">
         <title>Details</title>
-        <shortdesc>This panel allows you to specify the names, tags, instance size, number of
-            instances, and the availability zone of your new instance(s).</shortdesc>
+        <shortdesc>This panel allows you to specify details of your instance(s), such as the instance type, 
+            availability zone of your new instance(s), if applicable; tags, and user data.</shortdesc>
         <taskbody>
             <steps>
                 <step>
                     <cmd> Enter the number of new instances to create in the <uicontrol>Number of
                             instances</uicontrol> text box. </cmd>
+                    <info><note>You may not launch more than 10 instances in a single security group.</note></info>
                 </step>
                 <step>
                     <cmd> You can optionally enter one or more names for your new instance(s) in the
-                            <uicontrol>Instance name(s)</uicontrol> text box(es). </cmd>
+                            <uicontrol>Name(s)</uicontrol> text box(es). </cmd>
                 </step>
                 <step>
-                    <cmd> Select an instance size from the <uicontrol>Instance size</uicontrol>
+                    <cmd> Select an instance type from the <uicontrol>Instance type</uicontrol>
                         drop-down list box.</cmd>
-                    <info>
-                        <note> Information about the instance size is displayed when you click the
-                            instance size link. </note>
-                    </info>
                 </step>
                 
                 <step>
@@ -95,11 +92,18 @@
                         </substep>
                     </substeps>
                 </step>
+                
+                <step>
+                    <cmd> Specify custom user data by typing it into the <uicontrol>User
+                        data</uicontrol> text box or by attaching a file by selecting Upload
+                        file then clicking the <uicontrol>Choose File...</uicontrol> button to
+                        browse for the file.</cmd>
+                </step>
 
                 
                 <step>
                     <cmd> Click the <uicontrol>Next</uicontrol> button to proceed
-                        to the <uicontrol>Security</uicontrol> panel. </cmd>
+                        to the <uicontrol>Security</uicontrol> tab. </cmd>
                 </step>
                 
                 
@@ -137,17 +141,27 @@
 
                 </step>
                 <step>
-                    <cmd> Select a security group using the <uicontrol>Security group</uicontrol>
-                        drop-down list box. </cmd>
-                    <info>
-                        <note> If you select the default security group, make sure that you've added
+                    <cmd> You may keep the security group already specified in the <uicontrol>Security group</uicontrol>
+                        field, add another one, or specify a different one.</cmd>
+                    <info><ul>
+                        <li>To specify a different security group, remove the one there by clicking on the <uicontrol>x</uicontrol> 
+                            next to the security group's name and add a new one by clicking in the <uicontrol>Security 
+                                Group</uicontrol> field and choose one from the list of previously-defined security groups.
+                            <note>You can narrow down the list of security groups by typing text directly into the
+                                text box.</note> </li>
+                        <li> If you select the default security group, make sure that you've added
                             rules to the default security group so that you can access your
-                            instances. </note>
-                        <note> You can also create a new security group by clicking the
-                                <uicontrol>Create a security group</uicontrol> link. This opens the Create Security Group dialog box.</note>
+                            instances. </li>
+                    </ul>
                     </info>
-                    <stepresult> If one of the existing security groups is chosen, the rules associated with
-                    the security group display.</stepresult>
+                </step>
+                <step>
+                    <cmd>You can also create a new security group by clicking the <uicontrol>Create security group</uicontrol> link. 
+                        This opens the Create Security Group dialog box.</cmd>
+              <info> 
+                    <note> You may view the rules for the specified security group(s) by clicking 
+                        the <uicontrol>+ Rules</uicontrol> control next to each security group to expand it.</note>
+                    </info>
                 </step>
                 <step>
                     <cmd> You can optionally specify an IAM role using the <uicontrol>Role</uicontrol>
@@ -165,24 +179,19 @@
                 </step>
 
                 <step>
-                    <cmd> Click the <uicontrol>Launch instance(s)</uicontrol> button. </cmd>
+                    <cmd> Otherwise, click the <uicontrol>Launch instance(s)</uicontrol> button. </cmd>
                 </step>
             </steps>
         </taskbody>
     </task>
     <task id="launch_instances_ui_advanced_steps">
         <title>Specify Advanced Options</title>
-        <shortdesc>This panel allows you to specify advanced options for your new instance(s). You
-            can add user data, override the kernel and RAM disk IDs, specify private networking, and
-            add additional storage.</shortdesc>
+        <shortdesc>This panel allows you to specify advanced options for your new instance. 
+            You can override the kernel and RAM disk IDs, enable monitoring, and add additional storage, 
+            if applicable.</shortdesc>
         <taskbody>
             <steps>
-                <step>
-                    <cmd> Specify custom user data by typing it into the <uicontrol>User
-                            data</uicontrol> text box or by attaching a file by selecting Upload
-                        file then clicking the <uicontrol>Choose File...</uicontrol> button to
-                        browse for the file.</cmd>
-                </step>
+                
                 <step>
                     <cmd> You can override the kernel ID in the selected image with the
                             <uicontrol>Kernel ID</uicontrol> drop-down list box. </cmd>
@@ -196,12 +205,7 @@
                         detailed CloudWatch metric gathering should be enabled for your new
                         instance(s).</cmd>
                 </step>
-                <step>
-                    <cmd> Click the <uicontrol>Use private addressing only</uicontrol> check box to specify that your
-                        new instance should use private addressing only. Private addresses cannot
-                        connect directly to the Internet and must go through a NAT (Network Address
-                        Translation) device or an elastic IP address mapped to the instance. </cmd>
-                </step>
+                
                 <step>
                     <cmd> The Storage section will only display if you have an EBS-backed image. If
                         this is the case, you can configure additional storage for your
@@ -226,7 +230,7 @@
                                 <uicontrol>Size (GB) </uicontrol>text box. </cmd>
                         </substep>
                         <substep>
-                            <cmd> Select the <uicontrol>Delete on termination</uicontrol> check box
+                            <cmd> Select the <uicontrol>DELETE ON TERMINATE</uicontrol> check box
                                 if you would like the attached storage to be deleted when the
                                 instance is terminated. </cmd>
                         </substep>
@@ -240,7 +244,7 @@
                 </step>
                 <step>
                     <cmd> Click the <uicontrol>Launch Instance</uicontrol> button to launch your
-                        new instance(s). </cmd>
+                        new instance(s) or click <uicontrol>Cancel</uicontrol> to abandon your changes. </cmd>
                 </step>
             </steps>
         </taskbody>
