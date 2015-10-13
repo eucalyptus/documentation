@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_ifn_vsv_qt">
+    <title>Enabling Cross-Zone Load Balancing</title>
+    <shortdesc>When an ELB has instances in multiple available zones, enabling cross-zone load
+        balancing will distribute traffics to instances across availability zones. If disabled, the
+        load balancer in a zone will distribute traffics to instances within the zone. For example,
+        if a Zone A has 10 instances, and a Zone B has 1 instance, and the client happens to use the
+        load balancer of Zone B (via round-robin DNS), cross-zone load balancing will ensure that
+        the clients will use all 11 instances, not just the one instance in Zone B.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To enable cross-zone load balancing:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd> By default, cross-zone load balancing is not enabled for a new load balancer.
+                    To enable, modify the load balancer attribute using the
+                    eulb-modify-lb-attributes command. For example:</cmd>
+                <info>
+                    <codeph>eulb-modify-lb-attributes CrossZoneLoadBalancing.Enabled=true myloadbalancer</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Make sure the attribute is enabled. For example:</cmd>
+                <info><codeblock>eulb-describe-lb-attributes myloadbalancer
+AccessLog.Enabled false
+ConnectionDraining.Enabled  false
+ConnectionSettings.IdleTimeout 60
+CrossZoneLoadBalancing.Enabled true                </codeblock></info>
+            </step>
+        </steps>
+    </taskbody>
+</task>
