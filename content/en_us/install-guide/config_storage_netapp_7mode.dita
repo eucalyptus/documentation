@@ -3,9 +3,9 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 
 <task id="enable_netapp_7mode_san" props="subscribe">
-        <title>Enable NetApp Data ONTAP 7-mode</title>
-        <shortdesc>This topic describes how to configure the NetApp Data ONTAP 7-mode SAN block
-        storage backend for the Storage Controller (SC).</shortdesc>
+        <title>Enable NetApp 7-mode</title>
+        <shortdesc>This topic describes how to configure the NetApp 7-mode SAN block storage backend
+        for the Storage Controller (SC).</shortdesc>
         <taskbody>
             <prereq><b>Prerequisites</b><ul>
                     <li>Successful completion of all the install sections prior to this
@@ -13,62 +13,25 @@
                     <li>The SC must be installed, registered, and running.</li>
                     <li>You must have a paid subscription to Eucalyptus in order to use a SAN
                         backend.</li>
-                    <li>You must have a functioning NetApp Data ONTAP 7-mode device available to Eucalyptus cloud.</li>
+                    <li>You must have a functioning NetApp 7-mode device available to Eucalyptus
+                        cloud.</li>
+                    <li>A supported version of the Data ONTAP operating system must be installed on
+                        the SAN. 
+                        <p conref="../shared/conrefs.dita#prod/compat_matrix"/></li>
+                    <li>FlexClone and iSCSI licenses must be enabled on the SAN.</li>
+                    <li>One or more aggregates with sufficient space should be available and iSCSI
+                    service should be started.</li>
+                    <li>Administrator account credentials for NetApp Filer must be available to be
+                        configured in Eucalyptus.</li>
                     <li>You must execute the steps below as a Eucalyptus administrator.</li>
             </ul>
             </prereq>   
             <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-            <context><b>To configure NetApp Data ONTAP 7-mode block storage for the SC</b></context>
+            <context><b>To configure NetApp 7-mode SAN for the zone, run the following commands on the CLC</b></context>
            
             <steps>
                 <step>
-                    <cmd>Verify Data ONTAP version for the 7-mode Filer is 8.1.2 or later.</cmd>
-                </step>
-                <step>
-                    <cmd>Verify SSL access by typing <codeph>secureadmin status</codeph></cmd>
-                </step>
-                <step>
-                    <cmd>If SSL is marked inactive, enable with <codeph>secureadmin setup
-                        ssl</codeph> and generate a new certificate.</cmd>
-                </step>
-                <step>
-                    <cmd>Turn on SSL access with <codeph>options httpd.admin.ssl.enable
-                        on</codeph></cmd>
-                </step>
-                <step>
-                    <cmd>Enable the iSCSI service on the NetApp device with <codeph>option
-                        iscsi.enable on</codeph> or <codeph>option
-                            licensed_feature.iscsi.enable on</codeph> if you have an embedded
-                        license on your array.</cmd>
-                </step>
-                <step>
-                    <cmd>Turn on the iSCSI service with <codeph>iscsi start</codeph></cmd>
-                </step>
-                <step>
-                    <cmd>Enable the iSCSI service on the NetApp device with <codeph>enable iscsi
-                        service</codeph></cmd>
-                </step>
-                <step>
-                    <cmd>Verify that an aggregate with sufficient spare capacity exists.</cmd>
-                    <choices>
-                        <choice>If you have SSH access to the NetApp Filer, enter <codeph>aggr
-                            show_space</codeph>.</choice>
-                        <choice>If an aggregate with spare capacity does not exist, create one
-                            using the <codeph>aggr create</codeph> command.</choice>
-                    </choices>
-                </step>
-                <step>
-                    <cmd>Verify that you have a license for FlexClone installed. At the shell
-                        prompt, enter <codeph>license</codeph> to see the list of all installed
-                        licenses.</cmd>
-                </step>
-                <step>
-                    <cmd>Verify that administrator account credentials for NetApp Filer are
-                        available to be configured in Eucalyptus. If not, create a new
-                        administrator account for use by Eucalyptus </cmd>
-                </step>
-                <step>
-                    <cmd>Configure the SC to use the NetappManager for storage.</cmd>
+                    <cmd>Configure the SC to use the Netapp for EBS.</cmd>
                     <info>
                     <codeblock>euctl [zone].storage.blockstoragemanager=netapp</codeblock> The
                     output of the command should be similar to:
@@ -81,7 +44,7 @@
                         <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
                     </info>
                 </step>
-                <step conref="../shared/shared_task.dita#shared_task/verify_sc">
+                <step conref="../shared/conrefs.dita#shared_task/verify_sc">
                     <cmd/>
                 </step>
                 <step>
@@ -96,9 +59,8 @@
                             for disk operations. The CHAP username can be any value, however it
                             should be unique when sharing a NetApp Filer across multiple
                             Eucalyptus clusters. </note>
-                        <note>CHAP support for NetApp has been added in Eucalyptus 3.3. An SC
-                            will not transition to ENABLED state until the CHAP username is
-                            conﬁgured. </note>
+                        <note>CHAP support for NetApp was added in Eucalyptus 3.3. An SC will not
+                        transition to ENABLED state until the CHAP username is conﬁgured. </note>
                         <codeblock>euctl [zone].storage.sanhost=&lt;Filer_IP_address>
 euctl [zone].storage.sanuser=&lt;Filer_admin_username>
 euctl [zone].storage.sanpassword=&lt;Filer_admin_password>
@@ -140,8 +102,8 @@ euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                 </step>
                 <step>
                     <cmd>Set the iSCSI data IP on the ENABLED CLC. This IP is used by the SC to
-                        perform disk operations on the Filer. The SC connects to the Filer in
-                        order to transfer snapshots to Walrus during snapshot operations. </cmd>
+                    perform disk operations on the Filer. The SC connects to the Filer in order to
+                    transfer snapshots to objectstorage during snapshot operations. </cmd>
                     <info>
                         <note>The Filer IP address can be used as the data port IP. If this is
                             not set, Eucalyptus will automatically use the Filer IP
@@ -152,8 +114,7 @@ euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                     </info>
                 </step>
             </steps>
-            <result>Your NetApp Data ONTAP 7-mode SAN backend is now ready to use with
-            Eucalyptus.</result>
+            <result>Your NetApp 7-mode SAN backend is now ready to use with Eucalyptus.</result>
         </taskbody>
     </task>
  
