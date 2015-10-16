@@ -4,19 +4,13 @@
 <task id="shared_task">
 	<title>Shared Task</title>
 	<shortdesc/>
-<!--	These probably belong in conrefs file.-->
+<!--	Moving this task to conrefs.dita.-->
 	<taskbody>
 		<context>
 			<p>Shared task steps for Eucalyptus documentation</p>
 		</context>
 		<steps>
-			<step id="copy_conf">
-				<note type="restriction">If you are not using HA, you can skip
-					this task.</note>
-				<cmd>Copy the
-						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
-					file to the secondary SC machine.</cmd>
-			</step>
+
 			<step id="verify_sc">
 				<cmd>Verify that the SC is listed; note that it may be in the <codeph>BROKEN</codeph>
 					state:</cmd>
@@ -24,8 +18,18 @@
 					<codeblock>euserv-describe-services --filter service-type=storage</codeblock>
 				</info>
 			</step>
+			
 <!--			The following steps are not currently used - perhaps again, in the future.
--->			<step id="enable_san">
+-->						
+			<step id="copy_conf">
+				<note type="restriction">If you are not using HA, you can skip
+					this task.</note>
+				<cmd>Copy the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+					file to the secondary SC machine.</cmd>
+			</step>
+			
+			<step id="enable_san">
 				<cmd>On the CLC, enable SAN
 					support in Eucalyptus by entering your SAN's hostname or IP
 					address, the username, and password:</cmd>
@@ -39,6 +43,7 @@ euctl [zone].storage.sanpassword=[SAN_admin_password]</codeblock>
 						property.</p>
 				</info>
 			</step>
+			
 			<step id="enable_san_ha">
 				<cmd>On the primary CLC, enable SAN
 					support in Eucalyptus by entering your SAN's hostname or IP
