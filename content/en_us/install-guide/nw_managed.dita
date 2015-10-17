@@ -3,41 +3,212 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_managed">
 	<title>Configure for Managed Mode</title>
-	<shortdesc/>
-	<prolog>
-		<metadata>
-			<keywords>
-				<indexterm>networking <indexterm>configuration
-							<indexterm>managed</indexterm>
-					</indexterm>
-				</indexterm>
-			</keywords>
-		</metadata>
-	</prolog>
-
+	<shortdesc>To configure Eucalyptus for Managed mode, you must edit <codeph>eucalyptus.conf</codeph> on
+		the Cluster Controller (CC) and Node Controller (NC) hosts. You must also create a JSON file and
+		upload it the Cloud Controller (CLC).</shortdesc>
 	<taskbody>
-		<context conref="../shared/nw_managed_shared.dita#nw_managed_shared/nw_managed_oview_shared">
-			
+		<context>
 		</context>
 	</taskbody>
-	
-	<related-links>
-		<link href="../install-guide/configuring_security_groups.dita"/>
-	</related-links>
-	
-	<task id="nw_managed_clc"
-		conref="../shared/nw_managed_shared.dita#nw_managed_shared/nw_managed_clc_shared">
-		<title>Configure the CLC</title>
-		<taskbody/>
-	</task>
-	<task id="nw_managed_cc" 
-		conref="../shared/nw_managed_shared.dita#nw_managed_shared/nw_managed_cc_shared">
+	<task id="nw_edge_cc_shared">
 		<title>Configure the CC</title>
-		<taskbody/>
+		<taskbody>
+			<context> </context>
+			<steps>
+				<step>
+					<cmd>Log in to the CC and open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
+				</step>
+				<step>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following:</cmd>
+					<info>
+						<codeblock>VNET_MODE="MANAGED"</codeblock>
+					</info>
+				</step>
+				
+				<step>
+					<cmd>Save the file. </cmd>
+					
+				</step>
+				<step>
+					<cmd>Repeat on each CC in your cloud.</cmd>
+					
+				</step>
+				
+			</steps>
+		</taskbody>
 	</task>
-	<task id="nw_managed_nc"
-		conref="../shared/nw_managed_shared.dita#nw_managed_shared/nw_managed_nc_shared">
+	<task id="nw_edge_nc_shared">
 		<title>Configure the NC</title>
-		<taskbody/>
+		<taskbody>
+			<steps>
+				<step>
+					<cmd>Log into an NC machine and open the
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>
+						file.</cmd>
+				</step>
+				<step>
+					<cmd>Go to the <b>Network Configuration</b> section,
+						uncomment and set the following parameters:</cmd>
+					<info>
+						<codeblock>VNET_MODE
+VNET_PRIVINTERFACE
+VNET_PUBINTERFACE"
+VNET_BRIDGE
+VNET_DHCPDAEMON</codeblock>
+						<p>For example:</p>
+						<codeblock>VNET_MODE="MANAGED"
+VNET_PRIVINTERFACE="br0"
+VNET_PUBINTERFACE="br0"
+VNET_BRIDGE="br0"
+VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>Save the file.</cmd>
+				</step>
+				<step>
+					<cmd>Repeat on each NC.</cmd>
+				</step>
+			</steps>
+		</taskbody>
+	</task>
+	<task id="nw_edge_json_shared">
+		<title>Create the JSON File</title>
+		<taskbody>
+			<context>
+				<p>To configure the rest of the Managed mode parameters, you must create a JSON configuration file.
+					Later in the installation process you will upload this file to the CLC.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Create the JSON file.</cmd>
+					<substeps>
+						<substep>
+							<cmd>Open a text editor. </cmd>
+						</substep>
+						<substep>
+							<cmd>Create a file similar to the following structure. Substitute comments for your system
+								settings. See examples at the end of this topic.</cmd>
+							<info>
+								<codeblock>{
+  "InstanceDnsServers": [
+    “10.1.1.254"
+  ],
+  "Clusters": [
+    {
+      "MacPrefix": "d0:0d",
+      "Name": “&lt;clustername>"
+    }
+  ],
+  "PublicIps": [
+    "10.111.101.31",
+    "10.111.101.40",
+    "10.111.101.42",
+    "10.111.101.43", 
+    "10.111.101.132",
+    "10.111.101.133",
+    "10.111.101.134",
+    "10.111.101.135"
+  ],
+  "Mode": "MANAGED",
+  "ManagedSubnet": {
+    "Subnet": "172.16.0.0",
+    "Netmask": "255.255.0.0",
+    "MinVlan": "512",
+    "MaxVlan": "639"
+  }
+}
+</codeblock>
+							</info>
+						</substep>
+					</substeps>
+				</step>
+				<step>
+					<cmd>Save the file.</cmd>
+				</step>
+			</steps>
+			<example>
+				<p>The following example is for a setup with one cluster (AZ), called PARTI00, with a flat network
+					topology.</p>
+				<codeblock>{
+    "InstanceDnsDomain": "eucalyptus.internal",
+    "InstanceDnsServers": ["10.1.1.254"],
+    "MacPrefix": "d0:0d",
+    "PublicIps": [
+        "10.111.101.84",
+        "10.111.101.91",
+        "10.111.101.92",
+        "10.111.101.93"
+    ],
+    "Subnets": [
+    ],
+    "Clusters": [
+        {
+            "Name": "PARTI00",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.94",
+                "10.111.101.95"
+            ]
+        },
+    ]
+}</codeblock>
+				<p>For a multi-cluster deployment, add an additional
+					cluster to your configuration for each cluster you have. The following example has an
+					two clusters, PARTI00 and PARTI01. </p>
+				<codeblock>{
+    "InstanceDnsDomain": "eucalyptus.internal",
+    "InstanceDnsServers": ["10.1.1.254"],
+    "PublicIps": [
+        "10.111.101.84",
+        "10.111.101.91",
+        "10.111.101.92",
+        "10.111.101.93"
+    ],
+    "Subnets": [
+    ],
+    "Clusters": [
+        {
+            "Name": "PARTI00",
+            "MacPrefix": "d0:0d",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.94",
+                "10.111.101.95"
+            ]
+        },
+        {
+            "Name": "PARTI01",
+            "MacPrefix": "d0:0d",
+            "Subnet": {
+                "Name": "10.111.0.0",
+                "Subnet": "10.111.0.0",
+                "Netmask": "255.255.0.0",
+                "Gateway": "10.111.0.1"
+            },
+            "PrivateIps": [
+                "10.111.101.96",
+                "10.111.101.97"
+            ]
+        }
+    ]
+}</codeblock>
+				<p>For more information about multi-cluster configuration, see <xref
+					href="../install-guide/configuring_multi_cluster.dita"/>.</p>
+			</example>
+		</taskbody>
 	</task>
 </task>
