@@ -9,148 +9,41 @@
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li> 
-            <li>You must have a paid subscription to Eucalyptus in order to use a SAN
-                backend.</li>
-            <li>You must have a functioning Ceph cluster.</li>
-            <li>Ceph user credentials assigned to Eucalyptus SC and NCs must be configured with
-                appropriate permissions (different user credentials can be used for the SCs
-                and NCs; below sections will explain how to configure them in
-                Eucalyptus).</li>
             <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must have a functioning Ceph cluster.</li>
+            <li>Ceph user credentials with the following privileges are available to 
+                Eucalyptus SCs and NCs (different user credentials can be used for the SCs and NCs).
+            <ul>
+                <li>Ceph user privileges for credentials assigned to SCs
+                <ul>
+                    <li>Read, write, execute (rwx) access to the pools used for storing EBS volumes and snapshots</li>
+                    <li>Execute (x) access to all pools (Ceph users must have execute permissions to use Ceph’s 
+                        administrative commands such as unprotecting snapshots)</li>
+                    <li>Read (r) access to all monitors</li>
+                </ul> 
+                </li>
+                <li>Ceph user privileges for credentials assigned to NCs
+                    <ul>
+                        <li>Read, write, execute (rwx) access to the pools used for storing EBS volumes only</li>
+                        <li>Read (r) access to all monitors</li>
+                    </ul>
+                </li>
+            </ul>
+            </li>
+            <li>Hypervisor support for Ceph-RBD on NCs. Node Controllers (NCs) are designed to
+                    communicate with the Ceph cluster via libvirt. This interaction requires a
+                    hypervisor that supports Ceph-RBD. See <xref
+                        href="config_storage_ceph_rbd_hyperviser.dita#configure_ceph_rbd_hypervisor"
+                        >Configure Hypervisor Support for Ceph-RBD</xref> to satisfy this prerequisite.</li>
         </ul>
         </prereq>
-        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-        <context><b>To configure Ceph-RBD block storage for the SC</b></context>
-        <steps>
+       
+            <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context><b>To configure Ceph-RBD block storage for the zone, run the following commands on the CLC</b></context>
+        
+        <steps>            
             <step>
-                
-                <cmd>Node Controllers (NCs) are designed to communicate with a Ceph cluster via
-                    libvirt. This interaction requires a hypervisor that supports Ceph-RBD. The
-                    following instructions will walk you through steps for verifying and or
-                    installing the hypervisor. Repeat this process for every NC in the Eucalyptus
-                    cluster.</cmd>
-                
-                <substeps>
-                    <substep>
-                        <cmd>Verify if <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph>
-                            are already installed.</cmd>
-                        <info><codeblock>yum list qemu-kvm qemu-img</codeblock>
-                            <p>Proceed to the preparing the RHEV qemu packages step if they are
-                                not installed.</p></info>
-                    </substep>
-                    
-                    <substep>
-                        <cmd>Verify qemu support for the <codeph>ceph-rbd</codeph> driver.</cmd>
-                        <info>
-                            <codeblock>qemu-img --help
-qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
-...
-Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
-host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
-                            <note>If 'rbd' is listed as one of the supported formats, no further
-                                action is required; otherwise proceed to the next step.</note>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>If the <codeph>eucalyptus-nc</codeph> service is running,
-                            terminate/stop all instances. After all instances are terminated,
-                            stop the eucalyptus-nc service.</cmd>
-                        <info>
-                            <codeblock>service eucalyptus-nc stop</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Uninstall the <codeph>qemu-kvm</codeph> and
-                            <codeph>qemu-img</codeph> packages. </cmd>
-                        <info>
-                            <note>This will also uninstall <codeph>libvirt</codeph> if it was
-                                installed. Make a copy of the current
-                                <codeph>/etc/libvirt/libvirtd.conf</codeph> file. The yum
-                                uninstallation process will save the current copy to
-                                <codeph>/etc/libvirt/libvirtd.conf.rpmsave</codeph>.</note>
-                            <codeblock>yum remove qemu-kvm qemu-img</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Prepare the RHEV qemu packages:</cmd>
-                        <info>
-                            <ul>
-                                <li>If this NC is a RHEL system and the RHEV subscription to
-                                    qemu packages is available, consult the RHEV package
-                                    procedure to install the qemu-kvm-rhev and qemu-img-rhev
-                                    packages. Blacklist the RHEV packages in the Eucalyptus repo
-                                    to ensure that packages from the RHEV repo are installed.
-                                    Skip to step <b>g</b> after installing the RHEV packages. </li>
-                                
-                                <li>If this NC is a RHEL system and RHEV subscription to qemu
-                                    packages is unavailable, eucalyptus built and maintained
-                                    qemu-rhev packages may be used. These packages are available
-                                    in the same yum repository as other eucalyptus packages.
-                                    Note that using eucalyptus built RHEV packages voids the
-                                    original RHEL support for the qemu packages.</li>
-                                <li>If this NC is a non-RHEL (CentOS) system, Eucalyptus-built and maintained qemu-rhev
-                                    packages may be used. These packages are available in the
-                                    same yum repository as other eucalyptus packages. </li>
-                            </ul>
-                        </info>
-                    </substep>
-                    <substep>
-                        <!--Need to add the path to these packages!-->
-                        <cmd>Install Eucalyptus-built RHEV packages:
-                            <codeph>qemu-kvm-rhev</codeph> and
-                            <codeph>qemu-img-rhev</codeph>. </cmd>
-                        <info>
-                            <codeblock>yum install qemu-kvm-rhev qemu-img-rhev</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Install <codeph>libvirt</codeph>.</cmd>
-                        <info>
-                            <codeblock>yum install libvirt</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>If libvirt was uninstalled in step <b>d</b>, copy the saved
-                            <codeph>libvirtd.conf</codeph> file to
-                            <codeph>/etc/libvirt/libvirtd.conf</codeph>. Otherwise modify
-                            the <codeph>/etc/libvirt/libvirtd.conf</codeph> file as per your
-                            requirements.</cmd>
-                        <info>
-                            <codeblock>yum install libvirt</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Start the <codeph>libvirtd</codeph> service.</cmd>
-                        <info>
-                            <codeblock>service libvirtd start</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Verify <codeph>qemu</codeph> support for the
-                            <codeph>ceph-rbd</codeph> driver.</cmd>
-                        <info>
-                            <codeblock>qemu-img --help
-qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
-...
-Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
-host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
-                        </info>
-                    </substep>
-                    <substep>
-                        <cmd>Make sure the eucalyptus-nc service is started.</cmd>
-                        <info>
-                            <codeblock>service eucalyptus-nc start</codeblock>
-                        </info>
-                    </substep>
-                    
-                    
-                    
-                </substeps>
-            </step>
-            
-            
-            <step>
-                <cmd>Configure the SC to use Ceph-RBD for block storage.</cmd>
+                <cmd>Configure the SC to use Ceph-RBD for EBS.</cmd>
                 <info><codeblock>euctl [zone].storage.blockstoragemanager=ceph-rbd</codeblock> The
                     output of the command should be similar to:
                     <codeblock>PROPERTY	one.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
@@ -169,7 +62,8 @@ host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
                     configuring the rest of the properties for the SC.</cmd>
             </step>
             <step>
-                <cmd>The ceph-rbd provider will assume defaults for the following properties:</cmd>
+                <cmd>The ceph-rbd provider will assume defaults for the following properties for the
+                    SC:</cmd>
                 <info>
                     <codeblock>euctl [zone].storage.ceph
  
@@ -258,8 +152,7 @@ CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
                     </substep>
                     
                     <substep>
-                        <cmd>Repeat the previous two steps for every NC in the specific
-                            Eucalyptus cluster.</cmd>
+                        <cmd>Repeat this step for every NC in the specific Eucalyptus cluster.</cmd>
                     </substep>
                 </substeps>
             </step>

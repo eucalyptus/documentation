@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="task_dcd_stv_qt">
+    <title>Accessing Load Balancer Logs</title>
+    <shortdesc>To help analyze an application’s performances or troubleshoot problems, you can
+        capture detailed information for all requests coming through your load balancers. When
+        enabled, such access logs will be captured and stored in the S3 bucket.</shortdesc>
+    <taskbody>
+        <context>
+            <p>To access ELB logs:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Before enabling the access logs, update the access control of your S3
+                    (Eucalyptus object-storage-gateway) bucket so that Eucalyptus’ load balancer has
+                    write permissions. The access control list requires the canonical ID of the
+                    grantee. To obtain the canonical ID of the load balancing service:</cmd>
+                <info>
+                    <codeblock>euca-describe-services -T loadbalancing
+warning: euca-describe-services is deprecated; use ``euserv-describe-services'' instead
+SERVICE loadbalancing     API_10.111.1.39
+API_10.111.1.39.loadbalancing
+ENABLED 1042
+http://10.111.1.39:8773/services/LoadBalancing
+arn:euca:bootstrap:API_10.111.1.39:loadbalancing:API_10.111.1.39.loadbalancing/
+SERVICEACCOUNT
+(eucalyptus)loadbalancing           
+000936883517 <b>59633f572415171541e0f3e403d52a4a1d27337613d203d3829e4961b2d2f3e5</b></codeblock>
+                </info>
+                <info>
+                    <p>
+                        <note>Save the number at the end of the output for the next step.</note>
+                    </p>
+                </info>
+            </step>
+            <step>
+                <cmd>Use any S3 client tools to update the bucket’s ACL. For example:</cmd>
+                <info>
+                    <codeblock>s3cmd -c ./s3.config mb s3://webserverlog
+s3cmd -c ./s3.config --acl-grant=write:59633f572415171541e0f3e403d52a4a1d27337613d203d3829e4961b2d2f3e5 setacl s3://webserverlog</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Modify your load balancer’s attributes to enable the access logs. For example:</cmd>
+                <info>
+                    <codeblock>eulb-modify-lb-attributes myloadbalancer AccessLog.Enabled=true AccessLog.S3BucketName=webserverlog AccessLog.EmitInterval=5 AccessLog.S3BucketPrefix=myprefix</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Check that the attribute has been updated correctly by using the
+                        <codeph>eulb-describe-lb-attributes</codeph> command:</cmd>
+                <info><codeblock>eulb-describe-lb-attributes myloadbalancer
+AccessLog.EmitInterval  5
+AccessLog.Enabled true
+AccessLog.S3BucketName  webserverlog
+AccessLog.S3BucketPrefix  myprefix
+ConnectionDraining.Enabled  false
+ConnectionSettings.IdleTimeout 60
+CrossZoneLoadBalancing.Enabled true      </codeblock></info>
+            </step>
+        </steps>
+    </taskbody>
+</task>

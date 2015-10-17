@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="install_midonet_prereqs">
+ <title>Prerequisites</title>
+ <shortdesc/>
+ <conbody>
+  <p>This topic discusses the prerequisites for installing Midokura.</p>
+  <section>
+   <title>Repository Access</title>
+   <p>In order to use Midonet with Eucalyptus you will need access to the Midokura repositories. You
+    will receive a username and password.</p>
+   <p>Create /etc/yum.repos.d/midokura.repo on all machines that will run Midonet components
+    including Zookeeper. For example:</p>
+   <codeblock>[midokura]
+name=Midokura Repository
+baseurl=http://USERNAME:PASSWORD@yum.midokura.com/repo/v1.9/stable/RHEL/6/
+ 
+gpgkey=http://USERNAME:PASSWORD@yum.midokura.com/repo/RPM-GPG-KEY-midokura
+gpgcheck=1
+enabled=1
+ 
+[midokura-extras]
+name=Midokura Extras Repository
+baseurl=http://repo.midonet.org/misc/RHEL/6/misc/
+gpgkey=http://USERNAME:PASSWORD@yum.midokura.com/repo/RPM-GPG-KEY-midokura
+gpgcheck=1
+enabled=1</codeblock>
+  </section>
+  <section>
+   <title>Zookeeper</title>
+   <p>Zookeeper is where Midonet stores most of its running state. This service needs to be up and
+    running before any other installation takes place. </p>
+   <note>For advanced zookeeper installation (clustered for reliability), please refer to the <xref
+     href="http://docs.midokura.com/docs/latest/quick-start-guide/rhel-7_kilo-rdo/content/_nsdb_nodes.html"
+     format="html" scope="external">Midonet NSDB Installation Guide</xref>. </note>
+   <p>For a simple single-server installation, install the zookeeper package on any server that is
+    IP accessible from all midolman agents (for example: on the Cloud Controller server itself),
+    start the service and ensure that the service is enabled. For example: </p>
+   <codeblock>yum install zookeeper
+service zookeeper start
+chkconfig zookeeper on</codeblock>
+  </section>
+  <section>
+   <title>Cassandra</title>
+   <p>Cassandra is used to track flows in Midonet. This service needs to be up and running before
+    any other installation takes place. For a simple single-server installation, install Cassandra
+    on any server that is IP accessible from all midolman agents (for example: on the Cloud
+    Controller server itself), start the service and ensure that the service is enabled. </p>
+   <p>To install Cassandra, please refer to the documentation for Cassandra <xref
+     href="http://docs.datastax.com/en/cassandra/2.1/cassandra/install/installRHEL_t.html"
+     format="html" scope="external">installation</xref> and <xref
+     href="http://docs.datastax.com/en/cassandra/2.1/cassandra/initialize/initializeSingleDS.html"
+     format="html" scope="external">configuration</xref>.</p>
+   <note>For advanced Midonet-specific installation of Cassandra, please refer to the  <xref
+     href="http://docs.midokura.com/docs/latest/quick-start-guide/rhel-7_kilo-rdo/content/_nsdb_nodes.html"
+     format="html" scope="external">Midonet NSDB Installation Guide</xref>. </note>
+  </section>
+ </conbody>
+</concept>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_ceph_rbd_hypervisor">
+    <title>Configure Hypervisor Support for Ceph-RBD</title>
+    <shortdesc>This topic describes how to configure the hypervisor for Ceph-RBD support.</shortdesc>
+    <taskbody>
+   
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>The following instructions will walk you through steps for verifying and or
+            installing the required hypervisor for Ceph-RBD support.<p><b>Repeat this process for
+                    every NC in the Eucalyptus zone</b></p></context>
+        <steps>
+            <step>
+                        <cmd>Verify if <codeph>qemu-kvm</codeph> and <codeph>qemu-img</codeph>
+                            are already installed.</cmd>
+                        <info><codeblock>yum list qemu-kvm qemu-img</codeblock>
+                            <p>Proceed to the preparing the RHEV qemu packages step if they are
+                                not installed.</p></info>
+            </step>        
+                    
+                    <step>
+                        <cmd>Verify qemu support for the <codeph>ceph-rbd</codeph> driver.</cmd>
+                        <info>
+                            <codeblock>qemu-img --help
+qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
+...
+Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
+host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
+                            <note>If 'rbd' is listed as one of the supported formats, no further
+                                action is required; otherwise proceed to the next step.</note>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>If the <codeph>eucalyptus-nc</codeph> service is running,
+                            terminate/stop all instances. After all instances are terminated,
+                            stop the eucalyptus-nc service.</cmd>
+                        <info>
+                            <codeblock>service eucalyptus-nc stop</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Uninstall the <codeph>qemu-kvm</codeph> and
+                            <codeph>qemu-img</codeph> packages. </cmd>
+                        <info>
+                            <note>This will also uninstall <codeph>libvirt</codeph> if it was
+                                installed. Make a copy of the current
+                                <codeph>/etc/libvirt/libvirtd.conf</codeph> file. The yum
+                                uninstallation process will save the current copy to
+                                <codeph>/etc/libvirt/libvirtd.conf.rpmsave</codeph>.</note>
+                            <codeblock>yum remove qemu-kvm qemu-img</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Prepare the RHEV qemu packages:</cmd>
+                        <info>
+                            <ul>
+                                <li>If this NC is a RHEL system and the RHEV subscription to
+                                    qemu packages is available, consult the RHEV package
+                                    procedure to install the qemu-kvm-rhev and qemu-img-rhev
+                                    packages. Blacklist the RHEV packages in the Eucalyptus repo
+                                    to ensure that packages from the RHEV repo are installed.
+                                    Skip to step <b>g</b> after installing the RHEV packages. </li>
+                                
+                                <li>If this NC is a RHEL system and RHEV subscription to qemu
+                                    packages is unavailable, eucalyptus built and maintained
+                                    qemu-rhev packages may be used. These packages are available
+                                    in the same yum repository as other eucalyptus packages.
+                                    Note that using eucalyptus built RHEV packages voids the
+                                    original RHEL support for the qemu packages.</li>
+                                <li>If this NC is a non-RHEL (CentOS) system, Eucalyptus-built and maintained qemu-rhev
+                                    packages may be used. These packages are available in the
+                                    same yum repository as other eucalyptus packages. </li>
+                            </ul>
+                        </info>
+                    </step>
+                    <step>
+                        <!--Need to add the path to these packages!-->
+                        <cmd>Install Eucalyptus-built RHEV packages: <codeph>qemu-kvm-rhev</codeph>
+                    and <codeph>qemu-img-rhev</codeph>, which can be found in the same repo as your
+                    other install packages.</cmd>
+                        <info>
+                            <codeblock>yum install qemu-kvm-rhev qemu-img-rhev</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Install <codeph>libvirt</codeph>.</cmd>
+                        <info>
+                            <codeblock>yum install libvirt</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>If libvirt was uninstalled in step <b>d</b>, copy the saved
+                            <codeph>libvirtd.conf</codeph> file to
+                            <codeph>/etc/libvirt/libvirtd.conf</codeph>. Otherwise modify
+                            the <codeph>/etc/libvirt/libvirtd.conf</codeph> file as per your
+                            requirements.</cmd>
+                        <info>
+                            <codeblock>yum install libvirt</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Start the <codeph>libvirtd</codeph> service.</cmd>
+                        <info>
+                            <codeblock>service libvirtd start</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Verify <codeph>qemu</codeph> support for the
+                            <codeph>ceph-rbd</codeph> driver.</cmd>
+                        <info>
+                            <codeblock>qemu-img --help
+qemu-img version 0.12.1, Copyright (c) 2004-2008 Fabrice Bellard
+...
+Supported formats: raw cow qcow vdi vmdk cloop dmg bochs vpc vvfat qcow2 qed vhdx parallels nbd blkdebug host_cdrom 
+host_floppy host_device file gluster gluster gluster gluster rbd</codeblock>
+                        </info>
+                    </step>
+                    <step>
+                        <cmd>Make sure the eucalyptus-nc service is started.</cmd>
+                        <info>
+                            <codeblock>service eucalyptus-nc start</codeblock>
+                        </info>
+                    </step>
+
+        </steps>
+
+        <result>Your hypervisor is ready for Eucalyptus Ceph-RBD support.</result>
+        <postreq>You are now ready to <xref href="config_storage_ceph_rbd.dita#configure_ceph_rbd"
+                >configure Ceph-RBD</xref> for Eucalyptus.</postreq>
+    </taskbody>
+</task>

@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="task_vfs_3yq_kt">
+<task id="vpc_examples_dhcp_option">
     <title>Working with DHCP Option Sets</title>
-    <shortdesc/>
-    <taskbody>
-        <context>This tasks describes how to work with DHCP option sets.<p/></context>
-        <steps>
-            <step>
-                <cmd>TBD</cmd>
-            </step>
-        </steps>
-    </taskbody>
+    <shortdesc>Dynamic Host Configuration Protocol (DHCP) option sets are used to specify host
+        configurations for instances in your VPC, including the default domain name and DNS server
+        for your instances. This topic discusses DHCP option set operations.</shortdesc>
+    <taskbody/>
+    <task id="vpc_examples_dhcp_option_create">
+        <title>Create a DHCP Option Set</title>
+        <shortdesc/>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Use the <codeph>euca-create-dhcp-options</codeph> command to create a DHCP
+                        option set. For example:</cmd>
+                    <info>
+                        <codeblock>euca-create-dhcp-options domain-name=mydomain.com, ntp-servers=0.north-america.pool.ntp.org, 1.north-america.pool.ntp.org, 
+    2.north-america.pool.ntp.org, 3.north-america.pool.ntp.org</codeblock>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="vpc_examples_dhcp_option_associate">
+        <title>Associate a DHCP Option Set with a VPC</title>
+        <shortdesc/>
+
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Use the <codeph>euca-associate-dhcp-options</codeph> command to associate
+                        the DHCP option set with your VPC. For example:</cmd>
+                    <info>
+                        <codeblock>euca-associate-dhcp-options -c vpc-123456789 dopt-4db27ac1</codeblock>
+                    </info>
+                    <info>
+                        <note>You can associate the default DHCP option set with a vpc by specifying "default" as the name of the DHCP option set.</note>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+    <task id="vpc_examples_dhcp_option_modify">
+        <title>Describe DHCP Option Sets</title>
+        <shortdesc/>
+
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Use the </cmd>
+                    <info>
+                        <codeblock>euca-describe-dhcp-options</codeblock>
+                        <p>This command returns output similar to the following:</p>
+                        <codeblock>DHCPOPTIONS	dopt-4db27ac1
+OPTION	domain-name-servers	AmazonProvidedDNS
+OPTION	domain-name	example.internal</codeblock>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+
+    <task id="vpc_examples_dhcp_option_delete">
+        <title>Delete a DHCP Option Set</title>
+        <shortdesc>You can delete a DHCP option set, but only if it's not currently associated with
+            a VPC. You can disassociate a DHCP option set from a VPC by assigning the default DHCP
+            option set or a new DHCP option set using the
+                <codeph>euca-associate-dhcp-options</codeph> command. </shortdesc>
+
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Use the <codeph>euca-delete-dhcp-options</codeph> command to delete a DHCP
+                        option set. For example:</cmd>
+                    <info>
+                        <codeblock>euca-delete-dhcp-options dopt-4db27ac1</codeblock>
+                    </info>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
+
 </task>

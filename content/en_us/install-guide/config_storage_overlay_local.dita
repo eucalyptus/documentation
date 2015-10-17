@@ -9,18 +9,17 @@
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
-                <li>The local filesystem 
-                <filepath>/var/lib/eucalyptus/volumes</filepath> must have enough space for
-                locally cached snapshots. ??? REVIEWER IS THERE A REQUIREMENT LIKE THIS FOR LOCAL ???</li>
+                <li>The local filesystem <filepath>/var/lib/eucalyptus/volumes</filepath> must have
+                    enough space to hold volumes and snapshots created in the cloud.</li>
                 <li>You must execute the steps below as a Eucalyptus administrator.</li>
             </ul></prereq>        
         <context><p>In this configuration the SC itself hosts the volume and snapshots for EBS and
                 stores them as files on the local filesystem. It uses standard Linux iSCSI tools to
                 serve the volumes to instances running on NCs.</p><b>To configure overlay block
-                storage for the SC</b></context>
+                    storage for the zone, run the following commands on the CLC</b></context>
         <steps>
             <step>
-                <cmd>Configure the SC to use the OverlayManager for storage.</cmd>
+                <cmd>Configure the SC to use the local filesystem for EBS.</cmd>
                 <info>
                     <codeblock>euctl [zone].storage.blockstoragemanager=overlay </codeblock> The
                     output of the command should be similar to:
@@ -32,6 +31,9 @@
                 <info>
                     <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
                 </info>
+            </step>
+            <step conref="../shared/conrefs.dita#shared_task/verify_sc">
+                <cmd/>
             </step>
         </steps>
         <result>
