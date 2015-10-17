@@ -10,6 +10,8 @@
 		<p><b>New known issues for this release:</b></p>
 		<table>
 			<tgroup cols="2">
+				<colspec colnum="1" colname="c1" colwidth="1*"/>
+				<colspec colnum="2" colname="c2" colwidth="4.13*"/>
 				<thead>
 					<row>
 						<entry>Issue</entry>
@@ -18,26 +20,110 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>TBD (<xref
+						<entry>Internal loadbalancer is not functional (<xref
 							format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-99999"
-							>EUCA-99999</xref>)</entry>
-						<entry>TBD <p>Workaround: TBD.</p>
-						</entry>
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11324"
+							>EUCA-11324</xref>)</entry>
+						<entry>In VPC, an internal load balancer has ELB instances that is in a private subnet without
+							a public IP. That instance cannot reach ELB service to retrieve
+							information on the ELB, update its status, etc., without configuring a
+							NAT instance in the VPC. <p>Workaround: None at this time.</p></entry>
+					</row>
+					
+					<row>
+						<entry>Non-default security group for ELB/VPC blocks ports for ELBs (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11374"
+							>EUCA-11374</xref>)</entry>
+						<entry>In VPC, all egress ports for non-default security groups are blocked. When the
+							non-default security group is used with the ELB, the ELB will not be
+							functional until the required ports are opened. <p>Workaround: Use
+								Euca2ools to run the following commands to authorize each of the
+								egress ports (TCP:8773 (Web service), UDP:53 (DNS), and UDP:123) for
+								the non-default security group:
+								<codeblock>euca-authorize --egress -P tcp -p 8773 -s 0.0.0.0/0 sg-f3a511c4
+euca-authorize --egress -P udp -p 53 -s 0.0.0.0/0 sg-f3a511c4
+euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></entry>
+					</row>
+					
+					<row>
+						<entry>Failure to multi-delete objects by non-bucket-owning accounts (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11513"
+							>EUCA-11513</xref>)</entry>
+						<entry>Workaround: You may be able to complete this operation by means of another S3 tool, 
+							like Cloudberry Explorer, S3-curl, or S3Organizer, for example.</entry>
+					</row>
+					
+					<row>
+						<entry>clcadmin-assume-system-credentials produces unusable output when eucalyptus/admin has more than one active access key (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11516"
+							>EUCA-11516</xref>)</entry>
+						<entry>The <codeph>clcadmin-assume-system-credentials</codeph> command doesn't handle database
+							queries that return more than one result properly. <p>Workaround: <ol>
+									<li>Re-run the command a second time <i>outside</i> of
+											<codeph>eval</codeph> after running it for the first
+										time inside of <codeph>eval</codeph>. <note>Notice the
+												<codeph>AWS_SECRET_ACCESS_KEY</codeph> is followed
+											by two words instead of the usual one.</note></li>
+									<li>Copy that line, delete the second word, and then paste what
+										remains of that line in the shell.</li>
+								</ol></p></entry>
+					</row>
+					
+					<row>
+						<entry>Large number of volumes breaks volumes landing page (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/GUI-1925"
+								>GUI-1925</xref>)</entry>
+						<entry>Workaround: There is a limit of
+							5,000 volumes and 10,000 snapshots per account. The filter list
+							limit is 200 items, which is the maximum number of filter values
+							specified in a single cell.</entry>
 					</row>
 					<row>
-						<entry>TBD (<xref
+						<entry>Creating an account with 'admin' user entered prevents download of credentials (<xref
 							format="html"
-							href="https://eucalyptus.atlassian.net/browse/GUI-1925"
-							>GUI-1925</xref>)</entry>
-						<entry>Large number of volumes breaks volumes landing page. <p>Workaround: There is a limit of
-								5,000 volumes and 10,000 snapshots per account. The filter list
-								limit is 200 items, which is the maximum number of filter values
-								specified in a single cell. <note>We should avoid passing the
-									filtered list of volume IDs to the conn.get_all_snapshots() call
-									if there are more than 1,000 volumes on the landing
-								page.</note></p></entry>
+							href="https://eucalyptus.atlassian.net/browse/GUI-2168"
+							>GUI-2168</xref>)</entry>
+						<entry>Workaround: Do not create an Administrator account as it is created by default.</entry>
 					</row>
+					<row>
+						<entry>Eucaconsole does not always load the latest IE mode (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2171"
+							>GUI-2171</xref>)</entry>
+						<entry>In some cases, where console users are running Internet Explorer 11 in an intranet
+							setting, IE will force the console into IE7 Compatibility mode. This
+							affects the page layout, making the console more difficult to use.
+								<p>Workaround #1 - Disable the automatic configuration script in
+								IE11: <ol>
+									<li>Go to <menucascade>
+											<uicontrol>Internet Options</uicontrol>
+										</menucascade> > <menucascade>
+											<uicontrol>Connections</uicontrol>
+										</menucascade> > <menucascade>
+											<uicontrol>LAN settings</uicontrol>
+										</menucascade>.</li>
+									<li>De-select the checkbox for <uicontrol>Use automatic
+											configuration script</uicontrol> to disable it.</li>
+									<li>Exit and restart IE.</li>
+									<li>Log back into the Console.</li>
+								</ol></p><p>Workaround #2 - The console administrator may add a line
+								to the nginx.conf file under the SSL configured server:
+								<codeblock>server {
+	listen 443 ssl;
+	server_name ~^(?&lt;domain&gt;.+)$;
+									
+	# SSL configuration
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	ssl_certificate /Users/ashamblin/keys/server.crt;
+	ssl_certificate_key /Users/ashamblin/keys/server.key;
+	<b>add_header "X-UA-Compatible" "IE=Edge";</b>
+	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+	# end of SSL configuration. </codeblock></p></entry>
+					</row>
+					
 				</tbody>
 			</tgroup>
 		</table>
