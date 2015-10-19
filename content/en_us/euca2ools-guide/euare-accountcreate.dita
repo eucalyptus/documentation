@@ -16,7 +16,11 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>euare-accountcreate -a <b>account_name</b></codeblock>
+			<codeblock>euare-accountcreate [-k] [-w] [-d DOMAIN] [-l] [--show-empty-fields]
+                           [-U URL] [--region USER@REGION] [-I KEY_ID]
+                           [-S KEY] [--security-token TOKEN] [--debug]
+                           [--debugger] [--version] [-h]
+                           [ACCOUNT]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
@@ -35,12 +39,36 @@
 
 					<tbody>
 						<row>
-							<entry><codeph>-a, --account-name <i>account_name</i></codeph></entry>
-							<entry>The name of the new account.<p><note>Account names are required for Eucalyptus versions 4.1.0 and earlier. To add a name to an
-										account that lacks one, use the <xref
-											href="euare-accountaliascreate.dita"
-											>euare-accountaliascreate</xref> command.</note></p></entry>
-							<entry align="center">Conditional</entry>
+							<entry><codeph>ACCOUNT</codeph></entry>
+							<entry>Also add an alias (name) to the new account (required
+								on eucalyptus versions older than version 4.2)</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-k, --create-access-key</codeph></entry>
+							<entry>Also create an access key for the new account's
+								administrator and show it</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-w, --write-config</codeph></entry>
+							<entry>Output access keys and region information in the form
+								of a euca2ools.ini configuration file instead of by
+								themselves (implies -k)</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-d, --domain</codeph> <i>DOMAIN</i></entry>
+							<entry>DNS domain to use for region information in
+								configuration file output (default: based on IAM URL)</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-l, --set-default-user</codeph></entry>
+							<entry>Set this user as the default user for the region in
+								the euca2ools.ini configuration file output. This
+								option is only useful when used with the <codeph>-w</codeph> parameter.</entry>
+							<entry align="center">No</entry>
 						</row>
 					</tbody>
 				</tgroup>
@@ -55,8 +83,8 @@
 
 		<section>
 			<title>Example</title>
-			<codeblock>euare-accountcreate -a myacct
-myacct  612184482095</codeblock>
+			<p>The following example creates an account named 'bob' and emails the credentials.</p>
+			<codeblock>euare-accountcreate bob -wld mycloud.example.com | mail -s "Your credentials" bob@example.com</codeblock>
 		</section>
 	</refbody>
 
