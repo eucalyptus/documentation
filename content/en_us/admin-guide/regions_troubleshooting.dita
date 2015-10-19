@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="regions_troubleshooting">
+ <title>Troubleshooting</title>
+ <conbody><p>This section is presented in a Q&amp;A format to provide a quick reference to the most frequently
+   asked questions. <ol>
+    <li><b>Q.</b> Can Cloud Administrators federate existing clouds (i.e. clouds that already have
+     non-system Eucalyptus accounts)? <p><b>A.</b> No, this is currently not supported. If a cloud
+       administrator wants to federate an Eucalyptus clouds, this must be done prior to any
+       non-system Eucalyptus account/user/group creation.</p></li>
+    <li><b>Q.</b> Is Eucalyptus DNS required for federating Eucalyptus clouds? <p><b>A.</b> No,
+      however its highly recommended to enable it.</p></li>
+    <li><b>Q.</b> Are <xref
+      href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html"
+      scope="external" format="html">Amazon Resource Names</xref> supported for more granular IAM
+     access policies per region? <p><b>A.</b> As of 4.2, no. IAM policies apply globally (for all
+      regions). In order to get more granular IAM access, use availability zone restrictions under
+      each region. For more information, see <xref
+       href="https://github.com/eucalyptus/architecture/wiki/iam-3.4-cluster-policies#Restrict_Image_to_Availability_Zone"
+       scope="external" format="html">Restrict Image to Availability Zone</xref>.</p></li>
+    <li><b>Q.</b> What services/resources span globally? Which span regionally? <p><b>A.</b>
+      Currently, only Eucalyptus IAM and STS are global services/resources. All other
+      services/resources are region-based (i.e. Eucalyptus cloud-specific). The only resource that
+      can be either global or regional are keypairs. This is because users can import the same
+      keypair to each region, therefore, the keypair is globally accessible. For additional
+      information, please refer to the AWS EC2 Documentation regarding <xref
+       href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resources.html" scope="external"
+       format="html">Resource Locations</xref>.</p></li>
+    <li><b>Q.</b> Are Eucalyptus system accounts global in a federated setup? <p><b>A.</b> No. Any
+      Eucalyptus system account is limited to that region. Examples of Eucalyptus system accounts
+      are as follows: <ul>
+       <li>eucalyptus</li>
+       <li>(eucalyptus)blockstorage</li>
+       <li>(eucalyptus)aws-exec-read</li>
+       <li>(eucalyptus)cloudformation</li>
+      </ul></p></li>
+    <li>
+     <b>Q.</b> Is <xref
+      href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopySnapshot.html"
+      scope="external" format="html">CopySnapshot</xref> and <xref
+      href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html"
+      scope="external" format="html">CopyImage</xref> supported? <p><b>A.</b> No. There have been no
+      improvements associated with Object Storage Gateway (OSG) regarding cross-regional behavior
+      similar to AWS.</p></li>
+    <li><b>Q.</b> If a user uploads an object to an Object Storage Gateway in one region, will
+     copies show up in other regions (similar to the behavior on AWS)? <p><b>A.</b> No, this is
+      currently unsupported.</p></li>
+    <li><b>Q.</b> Is LDAP/AD integration supported once Eucalyptus clouds have been federated?
+       <p><b>A.</b> No, this feature is not supported.</p></li>
+    <li><b>Q.</b> Do federated Eucalyptus clouds follow the same <xref
+      href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html"
+      scope="external" format="html">limitations as AWS IAM</xref> globally? <p><b>A.</b> No,
+      Eucalyptus IAM limitations are regionally scoped. </p></li>
+   </ol></p>
+ </conbody>
+</concept>

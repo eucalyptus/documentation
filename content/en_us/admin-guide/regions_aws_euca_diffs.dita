@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="regions_aws_euca_diffs">
+ <title>Federation Differences Between AWS and Eucalyptus</title>
+ <conbody><p>This section outlines the differences between AWS and Eucalyptus with respect to federation in the following platforms:
+ <ul>
+  <li>Euca2ools vs. AWS EC2 API Tools</li>
+  <li>Eucalyptus OSG vs. AWS S3</li>
+  <li>Eucalyptus Resource-Level vs. AWS Resource-Level Permissions</li>
+  <li>Global Cloud Administration (Local vs. Federated)</li>
+ </ul>
+ </p></conbody>
+ <concept id="regions_aws_euca_tools">
+  <title>Euca2ools vs. AWS EC2 API Tools</title>
+  <conbody><p>Euca2ools uses the <codeph>--region</codeph> option to read information from a configuration file. 
+   For a user to be able to access resources from different regions using Euca2ools, the <codeph>-U URL</codeph>, 
+   <codeph>--url URL</codeph> option has to be used. This behavior is different when compared to AWS API tools. 
+   With the AWS API tools, the <codeph>--region</codeph> option is used to access resources in different regions. 
+   Examples are as follows:</p>
+   <p><b>Euca2ools</b>
+   <codeblock># euca-describe-regions
+REGION region-1 http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
+REGION region-2 http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/
+(Using --region to access resources from different regions; Notice that the returning value is the same)
+# euca-describe-availability-zones --region region-1
+AVAILABILITYZONE region2-az-one available
+# euca-describe-availability-zones --region region-2
+AVAILABILITYZONE region2-az-one available
+(Using -U URL, --url URL to access resources from different regions; Notice the difference in outputs)
+# euca-describe-availability-zones -U http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
+AVAILABILITYZONE region1-az-one available
+# euca-describe-availability-zones -U http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/
+AVAILABILITYZONE region2-az-one available</codeblock></p>
+   <p><b>AWS EC2 API Tools</b>
+   <codeblock>$ ec2-describe-regions
+REGION eu-central-1 ec2.eu-central-1.amazonaws.com
+REGION sa-east-1 ec2.sa-east-1.amazonaws.com
+REGION ap-northeast-1 ec2.ap-northeast-1.amazonaws.com
+REGION eu-west-1 ec2.eu-west-1.amazonaws.com
+REGION us-east-1 ec2.us-east-1.amazonaws.com
+REGION us-west-1 ec2.us-west-1.amazonaws.com
+REGION us-west-2 ec2.us-west-2.amazonaws.com
+REGION ap-southeast-2 ec2.ap-southeast-2.amazonaws.com
+REGION ap-southeast-1 ec2.ap-southeast-1.amazonaws.com
+$ ec2-describe-availability-zones --region us-east-1
+AVAILABILITYZONE us-east-1a available us-east-1
+AVAILABILITYZONE us-east-1b available us-east-1
+AVAILABILITYZONE us-east-1c available us-east-1
+AVAILABILITYZONE us-east-1d available us-east-1
+AVAILABILITYZONE us-east-1e available us-east-1
+$ ec2-describe-availability-zones --region us-west-1
+AVAILABILITYZONE us-west-1a available us-west-1
+AVAILABILITYZONE us-west-1c available us-west-1
+$ ec2-describe-availability-zones --region us-west-2
+AVAILABILITYZONE us-west-2a available us-west-2
+AVAILABILITYZONE us-west-2b available us-west-2
+AVAILABILITYZONE us-west-2c available us-west-2</codeblock>
+   </p>
+  </conbody>
+ </concept>
+ <concept id="regions_aws_euca_osg">
+  <title>Eucalyptus OSG vs. AWS S3</title>
+  <conbody><p>Eucalyptus OSG for each region is a separate entity (i.e. if you want to have the same bucket across all regions, 
+   you need to create that bucket across each region). With AWS S3, once you create a bucket in one region, it is replicated to 
+   all regions. This is the same for objects as well.</p>
+  <p><b>ARN Resources</b></p>
+   <p>This behavior is extremely important when dealing with IAM access policies regarding S3 (OSG) resources. 
+    When defining a resource using an ARN:
+   <codeblock>arn:partition:service:region:namespace:relative-id</codeblock></p>
+   <p>Per <xref href="http://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html"
+    scope="external" format="html">AWS S3 documentation</xref>, when specifying a resource in a policy, you don't specify region 
+    and namespace in the ARN. The S3 (OSG) ARN resource will look like the following:
+   <codeblock>arn:aws:s3:::bucket_name
+arn:aws:s3:::bucket_name/key_name</codeblock></p>
+   <p>If a user tries to specify a region and/or namespace in an ARN associated with an S3 (OSG) resource on Eucalyptus, 
+    the following error will be displayed:
+   <codeblock>error (MalformedPolicyDocument): Error in uploaded policy: net.sf.json.JSONException: 'arn:aws:s3:region-1::*' is not a valid ARN</codeblock></p>
+   <p>The only valid ARNs for S3 (OSG) resources on Eucalyptus are as follows:
+   <codeblock>"Resource": "arn:aws:s3:::*"
+"Resource": "arn:aws:s3:::*/*</codeblock></p>
+  </conbody>
+ </concept>
+ 
+ <concept id="regions_aws_euca_resrce_perms">
+  <title>Eucalyptus vs. AWS Resource-Level Permissions</title>
+  <conbody><p>There are some services that AWS supports resource-level permissions to be used in AWS IAM access policies.  
+   A list of them can be found in the <xref href="http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html"
+    scope="external" format="html">AWS IAM Guide - AWS Services that work with IAM</xref>. Two services that do not support resource-level 
+   permissions on AWS are the following:
+  <ul>
+   <li><xref href="http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/IAM.html#AutoScaling_ARN_Format"
+    scope="external" format="html">Auto Scaling</xref></li>
+   <li><xref href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/UsingIAM.html#CloudWatch_ARN_Format"
+    scope="external" format="html">CloudWatch</xref></li>
+  </ul>
+  </p>
+   <p>On Eucalyptus, these services <b><u>do support</u></b> resource-level permissions, as well as the implemented services 
+    that support resource-level permissions in AWS. Below are example IAM policies for each service:</p>
+   <p><b>Auto Scaling</b></p>
+   <p>Eucalyptus IAM policy to allow all Autoscaling actions against any AutoScaling group under a given account:
+    <codeblock>{
+ "Version":"2012-10-17",
+ "Statement": [
+ {
+ "Effect": "Allow",
+ "Action": "autoscaling:*",
+ "Resource": "arn:aws:autoscaling:::autoScalingGroup:*"
+ }
+ ]
+}</codeblock></p>
+   <p><b>CloudWatch</b></p>
+   <p>Eucalyptus IAM policy to allow all CloudWatch actions against any CloudWatch alarm under a given account:
+   <codeblock>{
+ "Version":"2012-10-17",
+ "Statement": [
+ {
+ "Effect": "Allow",
+ "Action": "cloudwatch:*",
+ "Resource": "arn:aws:cloudwatch:::alarm:*"
+ }
+ ]
+}</codeblock>
+    <note>AWS services that do support resource-level permissions have different behaviors depending upon the service API call 
+     (for example, AWS ELB doesn't support any Describe* service API calls if a resource-level permission is defined). 
+     This wasn't done as part of a security feature, and may just mean that AWS has not yet implemented support for that API call. 
+     Eucalyptus supports resource-level permissions for all API service calls. This means that the more restrictive AWS IAM access 
+     policy for the service that is supported on Eucalyptus should work seamlessly.</note>
+   </p>
+  </conbody>
+ </concept>
+ <concept id="regions_aws_euca_global_cloud_admin">
+  <title>Global Cloud Administration (Local vs. Federated)</title>
+  <conbody><p>On AWS, there isn't a concept of a global cloud administrator (on AWS public cloud, AWS is the
+    'global cloud administrator'). Eucalyptus has the concept of a global cloud administrator. This
+    is represented by the 'eucalyptus' account. This account, along with other Eucalyptus system
+    accounts, are default on each Eucalyptus cloud. Currently, these Eucalyptus system accounts
+    cannot be 'synced' when setting up a federated cloud environment. In order to have the concept
+    of a 'global cloud administrator', one must leverage cross-account roles. Regarding the
+    Eucalyptus IAM policy associated with the global cloud administrator, you can leverage an
+    existing policy that is used by the ResourceAdministrator privileged persona (i.e. role), which
+    is present on each cloud. Below are the high-level steps: <ol>
+     <li>Create a non-Eucalyptus account (i.e. global cloud account)</li>
+     <li>Under each 'eucalyptus' account on each cloud (i.e. region), do the following: <ol>
+       <li>Assume Eucalyptus system credentials:
+        <codeblock># eval `clcadmin-assume-system-credentials`</codeblock></li>
+       <li>Grant user access to ResourceAdministrator role (e.g. admin user of
+        development-operations account):
+        <codeblock># clcadmin-grant-admin-access -a development-operations -u admin ResourceAdministrator</codeblock></li>
+      </ol></li>
+     <li>Using the credentials of the user that has been granted access to the ResourceAdministrator
+      role, there are a couple of ways to access the ResourceAdministrator role ― through Euca2ools
+      or programmatically.</li>
+    </ol></p>
+  <p><b>Using Euca2ools</b></p>
+   <p>Use <codeph>euare-assumerole</codeph> to assume the role of the ResourceAdministrator of that
+    region (i.e. cloud). <note>The ARN associated with the ResourceAdministrator will be the same
+     for each cloud (e.g. eucalyptus:role/eucalyptus/ResourceAdministrator). To use the role for
+     different regions (i.e. clouds), leverage the endpoints for that region. For
+    example:</note><codeblock># euare-assumerole  eucalyptus:role/eucalyptus/ResourceAdministrator --region devops-admin@asap-rocky-2013
+# euare-assumerole  eucalyptus:role/eucalyptus/ResourceAdministrator --region devops-admin@asap-rocky-2015</codeblock></p>
+   <p><b>Programmatically</b></p>
+   <p>Once this is in place, the user can leverage python boto to do the following: <ul>
+     <li>Leverage boto configuration file that contains global admin credentials and defines the
+      multiple endpoints associated with each region in Eucalyptus. For example:
+      <codeblock># cat .boto
+[Credentials]
+aws_access_key_id = AKIABMYJ35W7GPDOZ2YJ
+aws_secret_access_key = 5clOBWeAIwUia4PNVip1CX157nT2ymnjlu12Wn5l
+[Boto]
+is_secure = False
+endpoints_path = /root/boto-federated-endpoints.json
+# cat boto-federated-endpoints.json
+{
+ "autoscaling": {
+ "asap-rocky-2013": "autoscaling.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "autoscaling.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "cloudformation": {
+ "asap-rocky-2013": "cloudformation.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "cloudformation.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "cloudwatch": {
+ "asap-rocky-2013": "cloudwatch.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "cloudwatch.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "ec2": {
+ "asap-rocky-2013": "compute.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "compute.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "elasticloadbalancing": {
+ "asap-rocky-2013": "loadbalancing.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "loadbalancing.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "iam": {
+ "asap-rocky-2013": "euare.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "euare.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "s3": {
+ "asap-rocky-2013": "objectstorage.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "objectstorage.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "sts": {
+ "asap-rocky-2013": "tokens.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "tokens.a-41.autoqa.qa1.eucalyptus-systems.com"
+ },
+ "swf": {
+ "asap-rocky-2013": "simpleworkflow.c-40.autoqa.qa1.eucalyptus-systems.com",
+ "asap-rocky-2015": "simpleworkflow.a-41.autoqa.qa1.eucalyptus-systems.com"
+ }
+}</codeblock></li>
+     <li>Leverage <xref href="http://boto.readthedocs.org/en/latest/ref/sts.html" scope="external"
+       format="html">python boto STS</xref> for a given region to acquire Access Key ID, Secret Key,
+      and Security Token that can be used with any AWS service API implemented by Eucalyptus. Make
+      sure that the given service endpoint URL matches the region that provided the STS credentials.
+      For example:
+      <codeblock>In [1]: import boto.sts
+In [2]: sts_connection = boto.sts.connect_to_region('asap-rocky-2013', port=8773)
+In [3]: assumedRoleObject = sts_connection.assume_role(role_arn="arn:aws:iam::000560243913:role/FederatedCloudAdministrator", role_session_name="FederatedDescribeELBPolicyTypes")
+In [4]: assumedRoleObject.credentials.access_key
+Out[4]: u'AKIACY7V4ZGDNKCEXLQK'
+In [5]: assumedRoleObject.credentials.secret_key
+Out[5]: u'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'
+In [6]: assumedRoleObject.credentials.session_token
+Out[6]: u'ZXVjYQABHk7WVPi6w8keQpDWM4dlKFDFro3HRZ35asSDoHmWCEqTFNWLk/4xX2AgvmMQ1A6TvGtsRtj4ozQ34IKCtfofE2BNOdijk0oi6xrmvFs8HV3gxbCz3AA/uw8Scgk3NgB0FCsIFLyrcEYMvtdSZOdmh1m0EV5ld8HNonph1yfjZlQIRIO8mxVeDxzOa+9EfJWzD30Do/X5UbBl2PvlceK+dwwZPFgt25NwRCZnxPRndYrCJ2LPSkv0YQ=='
+# eulb-describe-lb-policy-types -I AKIACY7V4ZGDNKCEXLQK -S 3VWnfDyBrCqtUAAiZqfvQjACLpdRrReHSkX6gLFu --security-token ZXVjYQABHk7WVPi6w8keQpDWM4dlKFDFro3HRZ35asSDoHmWCEqTFNWLk/4xX2AgvmMQ1A6TvGtsRtj4ozQ34IKCtfofE2BNOdijk0oi6xrmvFs8HV3gxbCz3AA/uw8Scgk3NgB0FCsIFLyrcEYMvtdSZOdmh1m0EV5ld8HNonph1yfjZlQIRIO8mxVeDxzOa+9EfJWzD30Do/X5UbBl2PvlceK+dwwZPFgt25NwRCZnxPRndYrCJ2LPSkv0YQ== -U http://loadbalancing.c-40.autoqa.qa1.eucalyptus-systems.com:8773/
+POLICY_TYPE SSLNegotiationPolicyType Listener policy that defines the ciphers and protocols that will be accepted by the load balancer. This policy can be associated only with HTTPS/SSL listeners.
+POLICY_TYPE LBCookieStickinessPolicyType Stickiness policy with session lifetimes controlled by the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners.
+POLICY_TYPE BackendServerAuthenticationPolicyType Policy that controls authentication to back-end server(s) and contains one or more policies, such as an instance of a PublicKeyPolicyType. This policy can be associated only with back-end servers that are using HTTPS/SSL.
+POLICY_TYPE ProxyProtocolPolicyType Policy that controls whether to include the IP address and port of the originating request for TCP messages. This policy operates on TCP/SSL listeners only
+POLICY_TYPE AppCookieStickinessPolicyType Stickiness policy with session lifetimes controlled by the lifetime of the application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners.
+POLICY_TYPE PublicKeyPolicyType Policy containing a list of public keys to accept when authenticating the back-end server(s). This policy cannot be applied directly to back-end servers or listeners but must be part of a BackendServerAuthenticationPolicyType.</codeblock></li>
+    </ul></p>
+  
+  </conbody>
+ </concept>
+ </concept>

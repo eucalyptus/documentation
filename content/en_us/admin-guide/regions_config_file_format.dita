@@ -5,123 +5,117 @@
  <title>Region Configuration File Format</title>
  <shortdesc>This section describes the necessary configuration properties that need to be addressed.</shortdesc>
  <conbody>
-  <p>For federation to be successfully configured, each cloud (i.e. region) that will be part of the federated cloud 
-   needs to have the following properties set (at a minimum):
-   <table>
-     <tgroup cols="2">
-      <thead>
-       <row>
-        <entry>Property Name</entry>
-        <entry>Description</entry>
-       </row>
-      </thead>
-      <tbody>
-       <row>
-        <entry><codeph>region.region_name</codeph></entry>
-        <entry>This cloud property identifies the local region. This is required and should be valid for use in a DNS name.</entry>
-       </row>
-       <row>
-        <entry><codeph>region.region_configuration</codeph></entry>
-        <entry>This property is a JSON document that will be the same for all federated regions.</entry>
-       </row>
+  <p>For federation to be successfully configured, each cloud (i.e. region) that will be part of the
+   federated cloud needs to have the following properties set (at a minimum): <table>
+    <tgroup cols="2">
+     <thead>
+      <row>
+       <entry>Property Name</entry>
+       <entry>Description</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry><codeph>region.region_name</codeph></entry>
+       <entry>This cloud property identifies the local region. This is required and should be valid
+        for use in a DNS name.</entry>
+      </row>
+      <row>
+       <entry><codeph>region.region_configuration</codeph></entry>
+       <entry>This property is a JSON document that will be the same for all federated
+        regions.</entry>
+      </row>
      </tbody>
     </tgroup>
-   </table>
-  </p>
+   </table></p>
  </conbody>
  <concept id="region_config_file_elements">
   <title>Elements</title>
  <conbody>
- <p>Below are the elements that should be contained in a region configuration file. 
-   The elements are listed in a general order as they should appear in the configuration file.  
-   However, order does not matter, for example, the <codeph>Name</codeph> element can come after 
-   the <codeph>CertificateFingerprintDigest</codeph> element.
-   <ul>
-    <li>Regions</li>
-    <li>Name</li>
-    <li>CertificateFingerprintDigest</li>
-    <li>CertificateFingerprint</li>
-    <li>IdentifierPartitions</li>
-    <li>Services</li>
-    <li>Type</li>
-    <li>Endpoints</li>
-   </ul>
-  </p>
+ <p>Below are the elements that should be contained in a region configuration file. The elements are
+    listed in a general order as they should appear in the configuration file. However, order does
+    not matter, for example, the <codeph>Name</codeph> element can come after the
+     <codeph>CertificateFingerprintDigest</codeph> element. <ul>
+     <li>Regions</li>
+     <li>Name</li>
+     <li>CertificateFingerprintDigest</li>
+     <li>CertificateFingerprint</li>
+     <li>IdentifierPartitions</li>
+     <li>Services</li>
+     <li>Type</li>
+     <li>Endpoints</li>
+    </ul></p>
  </conbody>
 <concept id="region_config_file_elements_regions">
  <title>Regions</title>
  <conbody>
-  <p>The <codeph>Regions</codeph> element is required and is the main element for the configuration file. 
-   It can include multiple elements (see the subsequent sections in this section). The <codeph>Regions</codeph> 
-   element contains an array of individual regions. Each individual region is a JSON block enclosed in braces <codeph>{ }</codeph>.
-  <codeblock>"Regions":[{...},{...},{...}]</codeblock>
-  </p>
+  <p>The <codeph>Regions</codeph> element is required and is the main element for the configuration
+     file. It can include multiple elements (see the subsequent sections in this section). The
+      <codeph>Regions</codeph> element contains an array of individual regions. Each individual
+     region is a JSON block enclosed in braces <codeph>{ }</codeph>.
+     <codeblock>"Regions":[{...},{...},{...}]</codeblock></p>
  </conbody>
 </concept>
  <concept id="region_config_file_elements_name">
   <title>Name</title>
   <conbody>
-   <p>The <codeph>Name</codeph> element is required and identifies the local region. 
-    This value should be unique across all regions and should match the cloud property 
-    <codeph>region.region_name</codeph> on the local region. The value of the <codeph>Name</codeph> 
-    element should follow the <i>label</i> format described in the 'Conventions' section mentioned in <xref
-     href="https://www.ietf.org/rfc/rfc1035.txt"
-     scope="external" format="html">RFC 1035 - Domain Names - Implementation and Specification.</xref>. 
-    The conventions are as follows:
-    <ul>
-     <li><codeblock>&lt;label&gt; ::= &lt;letter&gt; [ [ &lt;ldh-str&gt; ] &lt;let-dig&gt; ]</codeblock></li>
-     <li>The labels must follow the rules for ARPANET host names. Per <xref
-      href="https://www.ietf.org/rfc/rfc1123.txt"
-      scope="external" format="html">RFC 1123</xref>, Eucalyptus only supports 
-      lowercase characters, whereas DNS labels are <i>not</i> case-sensitive.</li>
-    </ul>
-   </p>
+   <p>The <codeph>Name</codeph> element is required and identifies the local region. This value
+     should be unique across all regions and should match the cloud property
+      <codeph>region.region_name</codeph> on the local region. The value of the
+      <codeph>Name</codeph> element should follow the <i>label</i> format described in the
+     'Conventions' section mentioned in <xref href="https://www.ietf.org/rfc/rfc1035.txt"
+      scope="external" format="html">RFC 1035 - Domain Names - Implementation and
+      Specification.</xref>. The conventions are as follows: <ul>
+      <li>
+       <codeblock>&lt;label&gt; ::= &lt;letter&gt; [ [ &lt;ldh-str&gt; ] &lt;let-dig&gt; ]</codeblock>
+      </li>
+      <li>The labels must follow the rules for ARPANET host names. Per <xref
+        href="https://www.ietf.org/rfc/rfc1123.txt" scope="external" format="html">RFC 1123</xref>,
+       Eucalyptus only supports lowercase characters, whereas DNS labels are <i>not</i>
+       case-sensitive.</li>
+     </ul></p>
    <p>The <codeph>Name</codeph> element should be assigned to each region in the Regions array:
-    <codeblock>"Name":"region-1"</codeblock>
-   </p>
+     <codeblock>"Name":"region-1"</codeblock></p>
   </conbody>
  </concept>
   <concept id="region_config_file_elements_certfingprtdigst">
    <title>CertificateFingerprintDigest</title>
    <conbody>
-    <p>The <codeph>CertificateFingerprintDigest</codeph> element is required and references the OpenSSL 
-     signature algorithm used for signing the Eucalyptus certificate <i>(/var/lib/eucalyptus/keys/cloud-cert.pem)</i>, 
-     with the default being SHA-256. For more information, go to <xref
+    <p>The <codeph>CertificateFingerprintDigest</codeph> element is required and references the
+     OpenSSL signature algorithm used for signing the Eucalyptus certificate
+      <i>(/var/lib/eucalyptus/keys/cloud-cert.pem)</i>, with the default being SHA-256. For more
+     information, go to <xref
       href="https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest"
-      scope="external" format="html">Oracle Java Documentation</xref>. Values supported by Eucalyptus 4.2 are as follows:
-     <ul>
+      scope="external" format="html">Oracle Java Documentation</xref>. Values supported by
+     Eucalyptus 4.2 are as follows: <ul>
       <li>SHA-1</li>
       <li>SHA-224</li>
       <li>SHA-256</li>
       <li>SHA-384</li>
       <li>SHA-512</li>
-     </ul>
-    </p>
-    <p>The <codeph>CertificateFingerprintDigest</codeph> element should be assigned to each region in the Regions array:
-     <codeblock>"CertificateFingerprintDigest": "SHA-256"</codeblock>
-    </p>
+     </ul></p>
+    <p>The <codeph>CertificateFingerprintDigest</codeph> element should be assigned to each region
+     in the Regions array: <codeblock>"CertificateFingerprintDigest": "SHA-256"</codeblock></p>
    </conbody>
   </concept>
   <concept id="region_config_file_elements_certfingprt">
    <title>CertificateFingerprint</title>
    <conbody>
-    <p>The <codeph>CertificateFingerprintDigest</codeph> element is required and references the OpenSSL fingerprint of the 
-     signed Eucalyptus certificate <i>(/var/lib/eucalyptus/keys/cloud-cert.pem)</i>. The value of <codeph>CertificateFingerprintDigest</codeph> 
-     should be used to help calculate the fingerprint. The default is SHA-256. The supported values can be found under the 
-     <codeph>CertificateFingerprintDigest</codeph> element. The <codeph>CertificateFingerprint</codeph> element should be assigned 
-     to each region in the Regions array.
-     <codeblock>"CertificateFingerprint": "EC:E7:3D:DF:97:43:00:9E:FC:F0:2C:6D:98:D2:82:EB:AA:04:75:10:E7:C2:F2:6F:31:F1:F1:CA:A1:61:DE:41"</codeblock>
-    </p>
-    <p>Currently there are two ways to calculate a fingerprint from the certificate using OpenSSL:
-     <ol>
+    <p>The <codeph>CertificateFingerprintDigest</codeph> element is required and references the
+     OpenSSL fingerprint of the signed Eucalyptus certificate
+      <i>(/var/lib/eucalyptus/keys/cloud-cert.pem)</i>. The value of
+      <codeph>CertificateFingerprintDigest</codeph> should be used to help calculate the
+     fingerprint. The default is SHA-256. The supported values can be found under the
+      <codeph>CertificateFingerprintDigest</codeph> element. The
+      <codeph>CertificateFingerprint</codeph> element should be assigned to each region in the
+     Regions array.
+     <codeblock>"CertificateFingerprint": "EC:E7:3D:DF:97:43:00:9E:FC:F0:2C:6D:98:D2:82:EB:AA:04:75:10:E7:C2:F2:6F:31:F1:F1:CA:A1:61:DE:41"</codeblock></p>
+    <p>Currently there are two ways to calculate a fingerprint from the certificate using OpenSSL: <ol>
       <li>When the Eucalyptus cloud certificate is available.
-      <codeblock>openssl x509 -inform PEM -in /var/lib/eucalyptus/keys/cloud-cert.pem -noout -fingerprint -sha256</codeblock>
-      </li>
-      <li>Use the -connect option:
-      <codeblock>openssl s_client -showcerts -connect 10.111.5.32:8773 &lt; /dev/null 2&gt;/dev/null | openssl x509 -noout -fingerprint -sha256</codeblock>
-      </li>
-     </ol>
-    </p>
+       <codeblock>openssl x509 -inform PEM -in /var/lib/eucalyptus/keys/cloud-cert.pem -noout -fingerprint -sha256</codeblock></li>
+      <li>Use the <varname>-connect</varname> option:
+       <codeblock>openssl s_client -showcerts -connect 10.111.5.32:8773 &lt; /dev/null 2&gt;/dev/null | openssl x509 -noout -fingerprint -sha256</codeblock></li>
+     </ol></p>
     <p>The <codeph>CertificateFingerprint</codeph> is mainly for WS-Security, it is often the same as the HTTPS certificate, 
      but might not be (in which case, the second option for configuration will not work, i.e. "openssl s_client"). For more information 
      about WS-Security, go to <xref
@@ -132,21 +126,20 @@
    <concept id="region_config_file_elements_idpartitions">
     <title>IdentifierPartitions</title>
      <conbody>
-      <p>The <codeph>IdentifierPartitions</codeph> element is required and must include at least one value in the 1-999 range. 
-       This element is unique for each region. The <codeph>IdentifierPartitions</codeph> element should be assigned to each 
-       region in the Regions array:
-       <codeblock>"IdentifierPartitions": [1]</codeblock>
-      </p>
+      <p>The <codeph>IdentifierPartitions</codeph> element is required and must include at least one
+     value in the 1-999 range. This element is unique for each region. The
+      <codeph>IdentifierPartitions</codeph> element should be assigned to each region in the Regions
+     array: <codeblock>"IdentifierPartitions": [1]</codeblock></p>
      </conbody>
    </concept>
     <concept id="region_config_file_elements_services">
      <title>Services</title>
      <conbody>
-      <p>The <codeph>Services</codeph> element is required and is an array that contains two type elements. 
-       Each type contains a <codeph>Type</codeph> and <codeph>Endpoints</codeph> element. These are the services 
-       that are associated with each region needed for federation. The <codeph>Services</codeph> element should be 
-       assigned to each region in the Regions array:
-       <codeblock>"Services": [
+      <p>The <codeph>Services</codeph> element is required and is an array that contains two type
+     elements. Each type contains a <codeph>Type</codeph> and <codeph>Endpoints</codeph> element.
+     These are the services that are associated with each region needed for federation. The
+      <codeph>Services</codeph> element should be assigned to each region in the Regions array:
+     <codeblock>"Services": [
     {
         "Type": "[service type]",
         "Endpoints": [
@@ -159,24 +152,45 @@
             "[http/https service endpoint]..."
             ]
     }
-]</codeblock>
-      </p>
+]</codeblock></p>
      </conbody>
     </concept>
      <concept id="region_config_file_elements_type">
       <title>Type</title>
       <conbody>
-       <p>The <codeph>Type</codeph> element is required and defines a service type under the <codeph>Services</codeph> element. 
-        Currently, the only types supported are <i>identity</i> and <i>compute</i>. If there are more than one <i>identity</i> and/or <i>compute</i> 
-        service types defined, the first one will be used. The <codeph>Type</codeph> element should be assigned to each service type in the Services array.
-        :
-        <codeblock>{
+    <p>The <codeph>Type</codeph> element is required and defines a service type under the
+      <codeph>Services</codeph> element. Currently, the only types supported are <i>identity</i> and
+      <i>compute</i>. If there are more than one <i>identity</i> and/or <i>compute</i> service types
+     defined, the first one will be used. The <codeph>Type</codeph> element should be assigned to
+     each service type in the Services array:
+     <codeblock>{
     "Type": "[identity|compute]",
     ....
+}</codeblock></p>
+   </conbody>
+     </concept>
+  <concept id="region_config_file_elements_endpoints">
+   <title>Endpoints</title>
+   <conbody>
+    <p>The <codeph>Endpoints</codeph> element is required and is an array that defines the endpoint
+     for each service type under the <codeph>Services</codeph> element. The endpoint format can have
+      <i>either</i> of the following formats: <ul>
+      <li>IP format
+       <codeblock>[http|https]://&lt;IPv4 Address&gt;:8773/services/[Identity|Compute]/</codeblock></li>
+      <li>DNS format
+       <codeblock>[http/https]://[identity|compute]&lt;Eucalyptus DNS subdomain&gt;:8773/</codeblock></li>
+     </ul></p>
+    <p>Even though the IP address can be used for the endpoint, it is <b>highly recommended</b> to use the Eucalyptus DNS name 
+     of the service endpoint. If there are more than one <codeph>Endpoints</codeph> defined, the first one will be used. 
+     The <codeph>Endpoints</codeph> element should be assigned to each service type in the Services array.</p>
+     
+     <codeblock>{
+    .....
+    "Endpoints": [
+        "[http/https DNS name endpoint or IP Address endpoint]"
+    ]
 }</codeblock>
-       </p>
-      </conbody>
-
+   </conbody>
   </concept>
+ </concept>
 </concept>
-   </concept>

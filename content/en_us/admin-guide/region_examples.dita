@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+ <concept id="region_config_file_examples">
+   <title>Examples</title>
+  <conbody>
+   <p>In this example, there will be two clouds used (10.111.5.32 and 10.111.1.1). Before setting up
+   federation, the clouds must meet the following requirements: <ul>
+    <li>Eucalyptus <ph conref="../shared/conrefs.dita#prod/version_short"/> installed</li>
+    <li>Eucalyptus DNS enabled</li>
+   </ul></p>
+  </conbody>
+ <concept id="region_config_file_examples_reg_reg_script">
+  <title>Register a Region - Script-assisted</title>
+  <conbody><p>This procedure allows you to run a script to register a region: <ol>
+     <li>Grab a copy of <codeph>/var/lib/eucalyptus/keys/cloud-cert.pem</codeph> from both Cloud
+      Controllers.</li>
+     <li>Clone the following repository: <xref
+       href="https://github.com/hspencer77/region-configuration-tool" scope="external" format="html"
+      />.</li>
+     <li>Run the <codeph>region-config-tool.py</codeph> script, passing the cloud certificates for
+      cloud (i.e. region). For example:
+      <codeblock># ./region-config-tool.py region_name=region-1,cloud_cert=at-long-last-asap-region.pem,domain_name=h-33.autoqa.qa1.eucalyptus-systems.com region_name=region-2,cloud_cert=long-live-asap-region.pem,domain_name=g-22-07.autoqa.qa1.eucalyptus-systems.com -f test-region-config.json
+# cat test-region-config.json
+{
+ "Regions": [
+ {
+ "CertificateFingerprint": "ED:8F:9A:92:45:4D:37:F3:54:E4:2E:E7:26:28:EE:04:A1:DF:AD:82:87:60:A6:C3:4A:15:CB:D7:E9:F2:99:13",
+ "CertificateFingerprintDigest": "SHA-256",
+ "IdentifierPartitions": [
+ 1
+ ],
+ "Name": "region-1",
+ "Services": [
+ {
+ "Endpoints": [
+ "http://identity.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+ ],
+ "Type": "identity"
+ },
+ {
+ "Endpoints": [
+ "http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+ ],
+ "Type": "compute"
+ }
+ ]
+ },
+ {
+ "CertificateFingerprint": "3A:69:0F:B3:A5:03:92:50:39:F2:C6:EB:E5:77:94:36:F9:36:12:E2:01:CA:AB:75:B2:6E:71:9B:D0:5E:61:94",
+ "CertificateFingerprintDigest": "SHA-256",
+ "IdentifierPartitions": [
+ 2
+ ],
+ "Name": "region-2",
+ "Services": [
+ {
+ "Endpoints": [
+ "http://identity.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+ ],
+ "Type": "identity"
+ },
+ {
+ "Endpoints": [
+ "http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+ ],
+ "Type": "compute"
+ }
+ ]
+ }
+ ]
+}</codeblock></li>
+     <li>Change the region.region_name cloud property on both clouds:
+      <codeblock>[root@h-32 ~]# euca-modify-property -p region.region_name=region-1
+PROPERTY	region.region_name	region-1 was {}
+
+[root@b-01 ~]# euca-modify-property -p region.region_name=region-2
+PROPERTY	region.region_name	region-2 was {}</codeblock></li>
+     <li>Set <codeph>region.region_ssl_verify_hostnames</codeph> to <i>true</i> on both clouds and
+      properly signed certificates should be added to the User Facing Service (UFS).</li>
+     <li>Add the region JSON file to both clouds by modifying the
+       <codeph>region.region_configuration</codeph> cloud property.</li>
+    </ol></p>
+  </conbody>
+ </concept>
+<concept id="region_config_file_examples_reg_reg_manual">
+ <title>Register a Region - Manual</title>
+ <conbody><p>This procedure allows you to manually register a region: <ol>
+     <li>Obtain the certificate fingerprint for both clouds, for example:
+      <codeblock>## region-1
+$ openssl s_client -showcerts -connect 10.111.5.32:8773 &lt; /dev/null 2&gt;/dev/null | openssl x509 -noout -fingerprint -sha256
+SHA256 Fingerprint=53:AE:4C:2F:D4:2D:AB:41:B9:F9:0B:B0:3E:DE:5D:94:3B:81:FC:FB:CC:58:3D:42:71:13:01:94:97:23:23:DD
+
+## region-2
+$ openssl s_client -showcerts -connect 10.111.1.1:8773 &lt; /dev/null 2&gt;/dev/null | openssl x509 -noout -fingerprint -sha256
+SHA256 Fingerprint=07:52:F3:50:07:FB:C3:B7:28:AA:ED:D4:19:17:D4:05:E8:92:DE:8A:85:18:2E:6C:11:A9:84:56:D8:A</codeblock>
+     </li>
+     <li>Create region JSON configuration file, for example:
+      <codeblock>{
+    "Regions": [
+        {
+            "Name": "region-1",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "53:AE:4C:2F:D4:2D:AB:41:B9:F9:0B:B0:3E:DE:5D:94:3B:81:FC:FB:CC:58:3D:42:71:13:01:94:97:23:23:DD",
+            "IdentifierPartitions": [
+                1
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "region-2",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "07:52:F3:50:07:FB:C3:B7:28:AA:ED:D4:19:17:D4:05:E8:92:DE:8A:85:18:2E:6C:11:A9:84:56:D8:A3:82:03",
+            "IdentifierPartitions": [
+                2
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        }
+    ]
+}</codeblock>
+     </li>
+     <li>Change the <codeph>region.region_name</codeph> cloud property on both clouds:
+      <codeblock>[root@h-32 ~]# euca-modify-property -p region.region_name=region-1
+PROPERTY	region.region_name	region-1 was {}
+
+[root@b-01 ~]# euca-modify-property -p region.region_name=region-2
+PROPERTY	region.region_name	region-2 was {}</codeblock></li>
+     <li>Set <codeph>region.region_ssl_verify_hostnames</codeph> to true, and properly signed
+      certificates should be added to the User Facing Service (UFS).</li>
+     <li>Add the region JSON file to both clouds by modifying the
+       <codeph>region.region_configuration</codeph> cloud property. Region section for both clouds
+      look like the following after all the changes:
+      <codeblock>### region 1
+[root@h-32 ~]# euca-describe-properties region.
+PROPERTY	region.region_configuration	{
+    "Regions": [
+        {
+            "Name": "region-1",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "53:AE:4C:2F:D4:2D:AB:41:B9:F9:0B:B0:3E:DE:5D:94:3B:81:FC:FB:CC:58:3D:42:71:13:01:94:97:23:23:DD",
+            "IdentifierPartitions": [
+                1
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "region-2",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "07:52:F3:50:07:FB:C3:B7:28:AA:ED:D4:19:17:D4:05:E8:92:DE:8A:85:18:2E:6C:11:A9:84:56:D8:A3:82:03",
+            "IdentifierPartitions": [
+                2
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+PROPERTY	region.region_enable_ssl	true
+PROPERTY	region.region_name	region-1
+PROPERTY	region.region_ssl_ciphers	RSA:DSS:ECDSA:TLS_EMPTY_RENEGOTIATION_INFO_SCSV:!NULL:!EXPORT:!EXPORT1024:!MD5:!DES
+PROPERTY	region.region_ssl_default_cas 	true
+PROPERTY	region.region_ssl_protocols	TLSv1.2
+PROPERTY	region.region_ssl_verify_hostnames	true
+
+## region 2
+[root@b-01 ~]# euca-describe-properties region.
+PROPERTY	region.region_configuration	{
+    "Regions": [
+        {
+            "Name": "region-1",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "53:AE:4C:2F:D4:2D:AB:41:B9:F9:0B:B0:3E:DE:5D:94:3B:81:FC:FB:CC:58:3D:42:71:13:01:94:97:23:23:DD",
+            "IdentifierPartitions": [
+                1
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "region-2",
+            "CertificateFingerprintDigest": "SHA-256",
+            "CertificateFingerprint": "07:52:F3:50:07:FB:C3:B7:28:AA:ED:D4:19:17:D4:05:E8:92:DE:8A:85:18:2E:6C:11:A9:84:56:D8:A3:82:03",
+            "IdentifierPartitions": [
+                2
+            ],
+            "Services": [
+                {
+                    "Type": "identity",
+                    "Endpoints": [
+                        "http://identity.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                },
+                {
+                    "Type": "compute",
+                    "Endpoints": [
+                        "http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+PROPERTY	region.region_enable_ssl	true
+PROPERTY	region.region_name	region-2
+PROPERTY	region.region_ssl_ciphers	RSA:DSS:ECDSA:TLS_EMPTY_RENEGOTIATION_INFO_SCSV:!NULL:!EXPORT:!EXPORT1024:!MD5:!DES
+PROPERTY	region.region_ssl_default_cas	true
+PROPERTY	region.region_ssl_protocols	TLSv1.2
+PROPERTY	region.region_ssl_verify_hostnames	true</codeblock></li>
+    </ol></p>
+ </conbody>
+</concept>
+ <concept id="region_config_file_examples_descr_regions">
+  <title>Describe Regions</title>
+  <conbody><p>Using cloud administrator (i.e. eucalyptus/admin user) credentials on each cloud, use <codeph>execute DescribeRegions</codeph>. 
+   This is a sanity check to make sure the configuration is correct on both clouds.
+   <note>Reminder: the cloud administrator for each cloud can only see the resources for that cloud. The eucalyptus account is one of the system 
+    accounts, therefore it is not synced across all clouds.</note></p>
+  <codeblock># euca-describe-regions
+REGION	region-1	http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
+REGION	region-2	http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/</codeblock>
+  </conbody>
+ </concept>
+ <concept id="region_config_file_example_create_nonsys_acct">
+  <title>Create a Non-system Account</title>
+  <conbody><p>After federation has been configuration correctly, create a non-system account on either cloud using the eucalyptus/admin user. 
+   In the example below, the non-system account <i>test1</i> will be created. The credentials from the test1/admin user will be downloaded 
+   and sourced. The user will run <codeph>DescribeAvailabilityZones</codeph> against both clouds to confirm federation is working as expected.</p>
+  <ol>
+   <li>On region-2 cloud, using eucalyptus/admin user - create IAM account 'test1'
+     <codeblock>[root@b-01 ~]# euare-accountcreate -a test1
+test1	002093902049
+
+[root@b-01 ~]# euare-accountlist
+eucalyptus	000163314767
+(eucalyptus)objectstorage	000107497415
+(eucalyptus)blockstorage	000831185453
+(eucalyptus)loadbalancing	000744507680
+(eucalyptus)aws-exec-read	000890823690
+test1	002093902049
+(eucalyptus)cloudformation	000993524712
+(eucalyptus)database	000630877528
+(eucalyptus)imaging	000789831484</codeblock></li>
+   <li>Download credentials for test1/admin user:
+     <codeblock># euca-get-credentials -a test1 -u admin test1-admin.zip
+# unzip test1-admin.zip
+Archive:  test1-admin.zip
+To setup the environment run: source /path/to/eucarc
+  inflating: eucarc
+  inflating: iamrc
+  inflating: cloud-cert.pem
+  inflating: jssecacerts
+  inflating: euca2-admin-af5f63d3-pk.pem
+  inflating: euca2-admin-af5f63d3-cert.pem </codeblock></li>
+   <li>Source test1/admin eucarc, then execute <codeph>DescribeAvailibilityZones</codeph> against
+     each region:
+     <codeblock># source eucarc
+# euca-describe-regions
+REGION	region-1	http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
+REGION	region-2	http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/
+# euca-describe-availability-zones -U http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
+AVAILABILITYZONE	region1-az-one	available
+# euca-describe-availability-zones -U http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/
+AVAILABILITYZONE	region2-az-one	available</codeblock></li>
+  </ol>
+  </conbody>
+ </concept>
+</concept>
