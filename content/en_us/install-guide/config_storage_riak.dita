@@ -10,9 +10,8 @@
         <!--    If there are no prereqs, state "None." -->        
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
-                <li>The OSG must be installed, registered, and running. REVIEWER need clarification
-                    on OSG / SC and Riak ??? (osg a service?)</li>
-                <li>You must have a functioning Riak CS cluster.</li>
+            <li>The UFS must be registered and enabled.</li>
+            <li>You must have a functioning Riak CS cluster.</li>
                 <li>You must execute the steps below as a Eucalyptus administrator.</li>
             </ul>      
         <p>For more information on Riak CS, see the <xref
@@ -26,7 +25,7 @@
                 <cmd>Enter <codeph>riakcs</codeph> as the storage provider using the
                         <codeph>euctl</codeph> command.</cmd>
                 <info>
-                    <codeph>euctl objectstorage.providerclient=riakcs</codeph>
+                    <codeph>euctl objectstorage.providerclient=riakcs --region @localhost</codeph>
                 </info>
             </step>
             <step>
@@ -34,14 +33,14 @@
                     example: </cmd>
                 <info>
                     <codeph>euctl
-                        objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com</codeph>
+                        objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com --region @localhost</codeph>
                 </info>
             </step>
             <step>
                 <cmd> Provide your RiakCS credentials to access your RiakCS installation: </cmd>
                 <info>
-                    <codeblock>euctl objectstorage.s3provider.s3accesskey=&lt;RiakCS access key>
-euctl objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key></codeblock>
+                    <codeblock>euctl objectstorage.s3provider.s3accesskey=&lt;RiakCS access key> --region @localhost
+euctl objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key> --region @localhost</codeblock>
                 </info>
             </step>
             <step>
@@ -49,9 +48,11 @@ euctl objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key></codeblock>
                         <codeph>ENABLED</codeph> by running the
                         <codeph>euserv-describe-services</codeph> command. For example: </cmd>
                 <info>
-                    <codeph>SERVICE objectstorage objectstorage osg-192.168.1.16 ENABLED 23
-                        http://192.168.1.16:8773/services/objectstorage
-                        arn:euca:bootstrap:objectstorage:objectstorage:osg-192.168.1.16/</codeph>
+                    <codeblock>[root@g-26-03 ~]# euserv-describe-services -U http://127.0.0.1:8773/services/Empyrean --show-headers
+SERVICE  TYPE              	ZONE    	NAME                   	STATE	
+...
+SERVICE  objectstorage            user-api-1     user-api-1.objectstorage      enabled 
+...</codeblock>
                 </info>
                 <info>
                     <p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
