@@ -16,8 +16,102 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>New euca2ools.ini man page</entry>
-						<entry>The new man page documents the euca2ools configuration files.</entry>
+						<entry>Zip files eliminated when obtaining credentials.</entry>
+						<entry>Eliminates the need for the zip files to be produced by Eucalyptus's deprecated 
+							<codeph>euca_conf --get-credentials</codeph> command.</entry>
+					</row>
+					<row>
+						<entry>Euca2ools 3.3.0 now requires version 0.4 of the <codeph>requestbuilder</codeph> 
+							python library.</entry>
+						<entry>If you install euca2ools with HP-provided RPM packages, <codeph>requestbuilder</codeph> 
+							will be installed automatically.</entry>
+					</row>
+					<row>
+						<entry>All commands use AWS signature version 4 for for all services except S3.</entry>
+						<entry> It can additionally be enabled for S3 on a per-region basis with the <codeph>s3-force-sigv4</codeph> 
+							region option in euca2ools.ini. 
+							<note>Eucalyptus 4.2's object storage gateway is not compatible with AWS signature version 4.</note></entry>
+					</row>
+					<row>
+						<entry>Configuration for AWS's <codeph>eu-central-1</codeph> region has been added.</entry>
+						<entry>This region covers AWS's new Frankfurt-based region.</entry>
+					</row>
+					<row>
+						<entry>A CloudFormation URL for the <codeph>localhost</codeph> region has been added.</entry>
+						<entry>This adds support for CloudFormation service.</entry>
+					</row>
+					<row>
+						<entry>Configuration for the retired Eucalyptus Community Cloud has been removed.</entry>
+						<entry>Eucalyptus Community Cloud has been integrated into the HP Helion community.</entry>
+					</row>
+					<row>
+						<entry>New load balancer commands.</entry>
+						<entry><p>The <codeph>eulb-describe-load-balancer-attributes</codeph> and 
+							<codeph>eulb-modify-lb-attributes</codeph> commands provide the ability 
+							to inspect and modify load balancers' attributes.</p>
+							<p>The <codeph>eulb-create-tags</codeph>, <codeph>eulb-describe-tags</codeph>, 
+								and <codeph>eulb-delete-tags</codeph> commands allow one to create, view, 
+								and delete tags on load balancers, respectively.</p></entry>
+					</row>
+					<row>
+						<entry>-A option added to ELB create policy command.</entry>
+						<entry>eulb-create-lb-policy gained a <codeph>-A</codeph> option that simplifies entering multiple attributes.</entry>
+					</row>
+					<row>
+						<entry>IAM roles commands can now be used inside an <codeph>eval</codeph> shell command.</entry>
+						<entry>Use <codeph>euare-assumerole</codeph> and <codeph>euare-releaserole</codeph> inside an
+							<codeph>eval</codeph> shell command to assume IAM roles.</entry>
+					</row>
+					<row>
+						<entry>The <varname>EUARE_URL</varname> environment variable has been removed.</entry>
+						<entry>Use the <varname>AWS_IAM_URL</varname> variable instead.</entry>
+					</row>
+					<row>
+						<entry>For IAM commands that act on only one entity, those entities' names may now be supplied positionally.</entry>
+						<entry>For example, <codeph>euare-usercreate alice</codeph> works the same as <codeph>euare-usercreate -u alice</codeph>.</entry>
+					</row>
+					<row>
+						<entry><codeph>-w</codeph>/<codeph>--write-config </codeph>option added to several commands.</entry>
+						<entry><codeph>euare-accountcreate</codeph>, <codeph>euare-usercreate</codeph>, and <codeph>euare-useraddkey</codeph> 
+							gained a <codeph>-w</codeph>/<codeph>--write-config </codeph>option that allows them create new access keys and output 
+							a euca2ools.ini file instead of their usual output formats, simplifying credential distribution. The service URLs it 
+							generates will be based on the IAM service's DNS domain; if the IAM service is accessed by IP address, the output will 
+							not contain service URLs. The <codeph>-d</codeph>/<codeph>--domain</codeph> option can be used to override this by choosing 
+							the domain name explicitly. Finally, the <codeph>-l</codeph>/<codeph>--set-default-user</codeph> option allows the output 
+							to set the given user as the default user for the region. Two examples are shown below:
+						<p><codeblock>euare-useraddkey alice -w > ~/.euca/alice.ini
+
+euare-accountcreate bob -wld mycloud.example.com | mail -s "Your credentials" bob@example.com</codeblock></p>
+						</entry>
+					</row>
+					<row>
+						<entry>Two eucalyptus-specific services may now be specified in euca2ools.ini files.</entry>
+						<entry><codeph>bootstrap</codeph> and <codeph>properties</codeph> services can be specified 
+							in the euca2ools.ini files.</entry>
+					</row>
+					<row>
+						<entry>Commands that bundle images no longer require private keys to run. </entry>
+						<entry>Images bundled without private keys will not be signed, and therefore, be incompatible with 
+							Eucalyptus 4.1 and earlier.</entry>
+					</row>
+					<row>
+						<entry>Commands that bundle images no longer require signing certificates to run.</entry>
+						<entry>Images bundled without signing certificates are incompatible with Eucalyptus 4.1 
+							and earlier and cannot be unbundled without cloud administrator assistance.</entry>
+					</row>
+					<row>
+						<entry>Commands that bundle images can fetch the cloud's signing certificate automatically.</entry>
+						<entry>If the commands have been configured with the <codeph>bootstrap</codeph> service's endpoint 
+							and the cloud runs Eucalyptus <ph conref="../shared/conrefs.dita#prod/version_short"/> or later. 
+							Normal users require the <codeph>euserv:DescribeServiceCertificates</codeph> capability in their 
+							IAM policies to use this functionality.</entry>
+					</row>
+					<row>
+						<entry>Two unbundle-related commands no longer process corrupt bundles.</entry>
+						<entry>Differences in digest zero-padding can cause euca-unbundle to fail. However, 
+							<codeph>euca-unbundle</codeph> and <codeph>euca-download-and-unbundle</codeph> 
+							ignores bundles with certain checksums to be corrupt and successfully unbundles 
+							them anyway.</entry>
 					</row>
 				</tbody>
 			</tgroup>
