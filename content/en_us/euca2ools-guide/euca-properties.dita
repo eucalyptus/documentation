@@ -89,1226 +89,1717 @@
     properties, it is not safe to change them at runtime.</note></section>
   <section id="modifiable_property_table"><title>Eucalyptus Properties</title>The following table
    contains a list of common Eucalyptus cloud properties.<table>
-    <tgroup cols="2">
-    
-     <thead>
-      <row>
-       <entry>Property</entry>
-       <entry>Description</entry>
-      </row>
-     </thead>
-     <tbody>
-      <row>
-       <entry>authentication.credential_download_host_match</entry>
-       <entry>CIDR to match against for host address selection.</entry>
-      </row>
-      <row>
-       <entry>authentication.ldap_integration_configuration</entry>
-       <entry>LDAP integration configuration, in JSON.</entry>
-      </row>
-      <row>
-       <entry>authentication.websession_life_in_minutes</entry>
-       <entry>Web session lifetime in minutes.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.activityexpiry</entry>
-       <entry>Expiry age for scaling activities. Older activities are deleted.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.activityinitialbackoff</entry>
-       <entry>Initial backoff period for failing activities.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.activitymaxbackoff</entry>
-       <entry>Maximum backoff period for failing activities.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.activitytimeout</entry>
-       <entry>Timeout for a scaling activity.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.maxlaunchincrement</entry>
-       <entry>Maximum instances to launch at one time.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.maxregistrationretries</entry>
-       <entry>Maximum number of times to attempt load balancer registration for each
-        instance.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.pendinginstancetimeout</entry>
-       <entry>Timeout for a pending instance.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.suspendedprocesses</entry>
-       <entry>Globally suspended scaling processes.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.suspendedtasks</entry>
-       <entry>Suspended scaling tasks.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.suspensionlaunchattemptsthreshold</entry>
-       <entry>Minimum launch attempts for administrative suspension of scaling activities for a
-        group.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.suspensiontimeout</entry>
-       <entry>Timeout for administrative suspension of scaling activities for a group.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.untrackedinstancetimeout</entry>
-       <entry>Timeout for termination of untracked auto scaling instances.</entry>
-      </row>
-      <row>
-       <entry>autoscaling.zonefailurethreshold</entry>
-       <entry>Time after which an unavailable zone should be treated as failed.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.async.future_listener_debug_limit_secs</entry>
-       <entry>Number of seconds a future listener can execute before a debug message is
-        logged.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.async.future_listener_error_limit_secs</entry>
-       <entry>Number of seconds a future listener can execute before an error message is
-        logged.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.async.future_listener_get_retries</entry>
-       <entry>Total number of seconds a future listener's executor waits to get().</entry>
-      </row>
-      <row>
-       <entry>bootstrap.async.future_listener_get_timeout</entry>
-       <entry>Number of seconds a future listener's executor waits to get() per call.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.async.future_listener_info_limit_secs</entry>
-       <entry>Number of seconds a future listener can execute before an info message is
-        logged.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.hosts.state_initialize_timeout</entry>
-       <entry>Timeout for state initialization (in msec).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.hosts.state_transfer_timeout</entry>
-       <entry>Timeout for state transfers (in msec).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.batch_delay_seconds</entry>
-       <entry>Interval (in seconds) during which a notification will be delayed to allow for
-        batching events for delivery.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.digest</entry>
-       <entry>Send a system state digest periodically.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.digest_frequency_hours</entry>
-       <entry>Period (in hours) with which a system state digest will be delivered.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.digest_only_on_errors</entry>
-       <entry>If sending system state digests is set to true, then only send the digest when the
-        system has failures to report.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email_from</entry>
-       <entry>From email address used for notification delivery.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email_from_name</entry>
-       <entry>From email name used for notification delivery.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email_subject_prefix</entry>
-       <entry>Email subject used for notification delivery.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email_to</entry>
-       <entry>Email address where notifications are to be delivered.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.include_fault_stack</entry>
-       <entry>Period (in hours) with which a system state digest will be delivered.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email.email_smtp_host</entry>
-       <entry>SMTP host to use when sending email. If unset, the following values are tried: 1) the
-        value of the 'mail.smtp.host' system property, 2) localhost, 3) mailhost.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.notifications.email.email_smtp_port</entry>
-       <entry>SMTP port to use when sending email. Defaults to 25.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.servicebus.context_timeout</entry>
-       <entry>Message context timeout (seconds).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.servicebus.hup</entry>
-       <entry>Do a soft reset.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.servicebus.max_outstanding_messages</entry>
-       <entry>Max queue length allowed per service stage.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.servicebus.min_scheduler_core_size</entry>
-       <entry>Internal connector core pool size.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.servicebus.workers_per_stage</entry>
-       <entry>Max queue length allowed per service stage.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.timer.rate</entry>
-       <entry>Amount of time (in milliseconds) before a previously running instance which is not
-        reported will be marked as terminated.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.topology.coordinator_check_backoff_secs</entry>
-       <entry>Backoff between service state checks (in seconds).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.topology.local_check_backoff_secs</entry>
-       <entry>Backoff between service state checks (in seconds).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.tx.concurrent_update_retries</entry>
-       <entry>Maximum number of times a transaction may be retried before giving up.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.async_internal_operations</entry>
-       <entry>Execute internal service operations from a separate thread pool (with respect to
-        I/O).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.async_operations</entry>
-       <entry>Execute service operations from a separate thread pool (with respect to I/O).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.async_pipeline</entry>
-       <entry>Execute service specific pipeline handlers from a separate thread pool (with respect
-        to I/O).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.channel_connect_timeout</entry>
-       <entry>Channel connect timeout (ms).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.channel_keep_alive</entry>
-       <entry>Socket keep alive.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.channel_nodelay</entry>
-       <entry>Server socket TCP_NODELAY.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.channel_reuse_address</entry>
-       <entry>Socket reuse address.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_http_chunk_buffer_max</entry>
-       <entry>Server http chunk max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_idle_timeout_secs</entry>
-       <entry>Client idle timeout (secs).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_internal_timeout_secs</entry>
-       <entry>Client idle timeout (secs).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_pool_max_mem_per_conn</entry>
-       <entry>Server worker thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_pool_max_threads</entry>
-       <entry>Server worker thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_pool_timeout_millis</entry>
-       <entry>Client socket select timeout (ms).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.client_pool_total_mem</entry>
-       <entry>Server worker thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.clock_skew_sec</entry>
-       <entry>A max clock skew value (in seconds) between client and server accepted when validating
-        timestamps in Query/REST protocol.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.cluster_connect_timeout_millis</entry>
-       <entry>Cluster connect timeout (ms).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_aws_sns_uri_scheme</entry>
-       <entry>Default scheme for AWS_SNS_URL in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_ec2_uri_scheme</entry>
-       <entry>Default scheme for EC2_URL in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_euare_uri_scheme</entry>
-       <entry>Default scheme for EUARE_URL in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_eustore_url</entry>
-       <entry>Default EUSTORE_URL in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_https_enabled</entry>
-       <entry>Default scheme prefix in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.default_s3_uri_scheme</entry>
-       <entry>Default scheme for S3_URL in eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.http_max_chunk_bytes</entry>
-       <entry>Maximum HTTP chunk size (bytes).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.http_max_header_bytes</entry>
-       <entry>Maximum HTTP headers size (bytes).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.http_max_initial_line_bytes</entry>
-       <entry>Maximum HTTP initial line size (bytes).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.listener_address_match</entry>
-       <entry>CIDRs matching addresses to bind on (note: default interface is always bound
-        regardless).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.oob_internal_operations</entry>
-       <entry>Execute internal service operations out of band from the normal service bus.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.pipeline_idle_timeout_seconds</entry>
-       <entry>Server socket idle timeout.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.pipeline_read_timeout_seconds</entry>
-       <entry>Server socket read timeout.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.pipeline_write_timeout_seconds</entry>
-       <entry>Server socket write timeout.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.port</entry>
-       <entry>Port to bind (note: port 8773 is always bound regardless).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.replay_skew_window_sec</entry>
-       <entry>Time interval duration (in seconds) during which duplicate signatures will be accepted
-        to accomodate collisions for legitimate requests inherent in Query/REST signing
-        protocol.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_boss_pool_max_mem_per_conn</entry>
-       <entry>Server max selector memory per connection.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_boss_pool_max_threads</entry>
-       <entry>Server selector thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_boss_pool_timeout_millis</entry>
-       <entry>Service socket select timeout (ms).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_boss_pool_total_mem</entry>
-       <entry>Server worker thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_channel_nodelay</entry>
-       <entry>Server socket TCP_NODELAY.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_channel_reuse_address</entry>
-       <entry>Server socket reuse address.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_pool_max_mem_per_conn</entry>
-       <entry>Server max worker memory per connection.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_pool_max_threads</entry>
-       <entry>Server worker thread pool max.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_pool_timeout_millis</entry>
-       <entry>Service socket select timeout (ms).</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.server_pool_total_mem</entry>
-       <entry>Server max worker memory total.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.statistics</entry>
-       <entry>Record and report service times.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.use_dns_delegation</entry>
-       <entry>Use DNS delegation for eucarc.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.use_instance_dns</entry>
-       <entry>Use DNS names for instances.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.ssl.server_alias</entry>
-       <entry>Alias of the certificate entry in euca.p12 to use for SSL for webservices.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.ssl.server_password</entry>
-       <entry>Password of the private key corresponding to the specified certificate for SSL for
-        webservices.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.ssl.server_ssl_ciphers</entry>
-       <entry>SSL ciphers for webservices.</entry>
-      </row>
-      <row>
-       <entry>bootstrap.webservices.unknown_parameter_handling</entry>
-       <entry>Allows unknown parameters to be ignored for all services or treated an error for
-        all services. Valid values: <ul>
-         <li><codeph>default</codeph>: Use each services default handling (i.e., error with EC2,
-          ignore unknown parameters for other services)</li>
-         <li><codeph>ignore</codeph>: All services ignore unknown parameters</li>
-         <li><codeph>error</codeph>: All services fail with an error for unknown parameters</li>
-        </ul>
-       </entry>
-      </row>
-      <row>
-       <entry>cloud.addresses.dodynamicpublicaddresses</entry>
-       <entry>Public addresses are assigned to instances by the system as available.</entry>
-      </row>
-      <row>
-       <entry>cloud.addresses.maxkillorphans</entry>
-       <entry>Number of times an orphaned address is reported by a cluster before it is reclaimed by
-        the system.</entry>
-      </row>
-      <row>
-       <entry>cloud.addresses.orphangrace</entry>
-       <entry>Time after the last recorded state change where an orphaned address will not be
-        modified by the system (minutes).</entry>
-      </row>
-      <row>
-       <entry>cloud.addresses.systemreservedpublicaddresses</entry>
-       <entry>Public addresses are assigned to instances by the system only from a pool of reserved
-        instances whose size is determined by this value.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.disabledinterval</entry>
-       <entry>The time period between service state checks for a Cluster Controller which is
-        DISABLED.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.enabledinterval</entry>
-       <entry>The time period between service state checks for a Cluster Controller which is
-        ENABLED.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.notreadyinterval</entry>
-       <entry>The time period between service state checks for a Cluster Controller which is
-        NOTREADY.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.pendinginterval</entry>
-       <entry>The time period between service state checks for a Cluster Controller which is
-        PENDING.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.requestworkers</entry>
-       <entry>The number of concurrent requests which will be sent to a single Cluster
-        Controller.</entry>
-      </row>
-      <row>
-       <entry>cloud.cluster.startupsyncretries</entry>
-       <entry>The number of times a request will be retried while bootstrapping a Cluster
-        Controller.</entry>
-      </row>
-      <row>
-       <entry>cloud.db_check_poll_time</entry>
-       <entry>Poll time (ms) for db connection check.</entry>
-      </row>
-      <row>
-       <entry>cloud.db_check_threshold</entry>
-       <entry>Threshold (num connections or %) for db connection check.</entry>
-      </row>
-      <row>
-       <entry>cloud.euca_log_level</entry>
-       <entry>Log level for dynamic override.</entry>
-      </row>
-      <row>
-       <entry>cloud.identifier_canonicalizer</entry>
-       <entry>Name of the canonicalizer for resource identifiers.</entry>
-      </row>
-      <row>
-       <entry>cloud.images.cleanupperiod</entry>
-       <entry>The period between runs for clean up of deregistered images.</entry>
-      </row>
-      <row>
-       <entry>cloud.images.defaultkernelid</entry>
-       <entry>The default used for running images which do not have a kernel specified in either the
-        manifest, at register time, or at run-instances time.</entry>
-      </row>
-      <row>
-       <entry>cloud.images.defaultramdiskid</entry>
-       <entry>The default used for running images which do not have a ramdisk specified in either
-        the manifest, at register time, or at run-instances time.</entry>
-      </row>
-      <row>
-       <entry>cloud.images.defaultvisibility</entry>
-       <entry>The default value used to determine whether or not images are marked 'public' when
-        first registered.</entry>
-      </row>
-      <row>
-       <entry>cloud.images.maximagesizegb</entry>
-       <entry>The maximum registerable image size in GB.</entry>
-      </row>
-      <row>
-       <entry>cloud.log_file_disk_check_poll_time</entry>
-       <entry>Poll time (ms) for log file disk check.</entry>
-      </row>
-      <row>
-       <entry>cloud.log_file_disk_check_threshold</entry>
-       <entry>Threshold (bytes or %) for log file disk check.</entry>
-      </row>
-      <row>
-       <entry>cloud.memory_check_poll_time</entry>
-       <entry>Poll time (ms) for memory check.</entry>
-      </row>
-      <row>
-       <entry>cloud.memory_check_ratio</entry>
-       <entry>Ratio (of post-garbage collected old-gen memory) for memory check.</entry>
-      </row>
-      <row>
-       <entry>cloud.monitor.default_poll_interval_mins</entry>
-       <entry>How often the reporting system requests information from the Cluster
-        Controller.</entry>
-      </row>
-      <row>
-       <entry>cloud.monitor.history_size</entry>
-       <entry>The initial history size of metrics to be sent from the Cluster Controller to the
-        Cloud Controller.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.ec2_classic_additional_protocols_allowed</entry>
-       <entry>Comma delimited list of protocol numbers supported in in EDGE mode for security group
-        rules beyond the EC2-Classic defaults (TCP,UDP,ICMP). Only <xref
-         href="http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml"
-         format="xhtml" scope="external">valid IANA protocol numbers</xref> are accepted.
-         <p>Default: None</p></entry>
-      </row>
-      <row>
-       <entry>cloud.network.global_max_network_index</entry>
-       <entry>Default max network index.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.global_max_network_tag</entry>
-       <entry>Default max vlan tag.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.global_min_network_index</entry>
-       <entry>Default min network index.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.global_min_network_tag</entry>
-       <entry>Default min vlan tag.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.min_broadcast_interval</entry>
-       <entry>Minimum interval between broadcasts of network information (seconds).</entry>
-      </row>
-      <row>
-       <entry>cloud.network.network_configuration</entry>
-       <entry>Network configuration document.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.network_index_pending_timeout</entry>
-       <entry>Minutes before a pending index allocation times out and is released.</entry>
-      </row>
-      <row>
-       <entry>cloud.network.network_tag_pending_timeout</entry>
-       <entry>Minutes before a pending tag allocation times out and is released.</entry>
-      </row>
-      <row>
-       <entry>cloud.perm_gen_memory_check_poll_time</entry>
-       <entry>Poll time (ms) for perm-gen memory check.</entry>
-      </row>
-      <row>
-       <entry>cloud.perm_gen_memory_check_ratio</entry>
-       <entry>Ratio (of used memory) for perm-gen memory check.</entry>
-      </row>
-      <row>
-       <entry>cloud.trigger_fault</entry>
-       <entry>Fault ID last used to trigger test.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.buried_time</entry>
-       <entry>Amount of time (in minutes) to retain unreported terminated instance data.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.ebs_root_device_name</entry>
-       <entry>Name for root block device mapping.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.ebs_volume_creation_timeout</entry>
-       <entry>Amount of time (in minutes) before a EBS volume backing the instance is
-        created.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.instance_subdomain</entry>
-       <entry>Subdomain to use for instance DNS.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.instance_timeout</entry>
-       <entry>Amount of time (in minutes) before a previously running instance which is not reported
-        will be marked as terminated.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.instance_touch_interval</entry>
-       <entry>Amount of time (in minutes) between updates for a running instance.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.mac_prefix</entry>
-       <entry>Prefix to use for instance MAC addresses.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.max_state_threads</entry>
-       <entry>Maximum number of threads the system will use to service blocking state
-        changes.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.migration_refresh_time</entry>
-       <entry>Maximum amount of time (in seconds) that migration state will take to propagate state
-        changes (e.g., to tags).</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.network_metadata_refresh_time</entry>
-       <entry>Maximum amount of time (in seconds) that the network topology service takes to
-        propagate state changes.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.shut_down_time</entry>
-       <entry>Amount of time (in minutes) before a VM which is not reported by a cluster will be
-        marked as terminated.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.stopping_time</entry>
-       <entry>Amount of time (in minutes) before a stopping VM which is not reported by a cluster
-        will be marked as terminated.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.terminated_time</entry>
-       <entry>Amount of time (in minutes) that a terminated VM will continue to be reported.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.tx_retries</entry>
-       <entry>Number of times to retry transactions in the face of potential concurrent update
-        conflicts.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.user_data_max_size_kb</entry>
-       <entry>Max length (in KB) that the user data file can be for an instance (after base 64
-        decoding).</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.vm_initial_report_timeout</entry>
-       <entry>Amount of time (in seconds) since completion of the creating run instance operation
-        that the new instance is treated as <codeph>unreported if not...</codeph> reported.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.vm_metadata_instance_cache</entry>
-       <entry>Instance metadata cache configuration.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.vm_metadata_request_cache</entry>
-       <entry>Instance metadata instance resolution cache configuration.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.vm_metadata_user_data_cache</entry>
-       <entry>Instance metadata user data cache configuration.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.vm_state_settle_time</entry>
-       <entry>Amount of time (in seconds) to let instance state settle after a transition to either
-        stopping or shutting down.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.volatile_state_interval_sec</entry>
-       <entry>Period (in seconds) between state updates for actively changing state.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmstate.volatile_state_timeout_sec</entry>
-       <entry>Timeout (in seconds) before a requested instance terminate will be repeated.</entry>
-      </row>
-      <row>
-       <entry>cloud.vmtypes.default_type_name</entry>
-       <entry>Default type used when no instance type is specified for run instances.</entry>
-      </row>
-      <row>
-       <entry>cloudformation.region</entry>
-       <entry>The value of AWS::Region and value in CloudFormation ARNs for Region.</entry>
-      </row>
-      <row>
-       <entry>cloudwatch.disable_cloudwatch_service</entry>
-       <entry>Set this to true to stop cloud watch alarm evaluation and new alarm/metric data
-        entry.</entry>
-      </row>
-      <row>
-       <entry>dns.dns_listener_address_match</entry>
-       <entry>Additional address patterns to listen on for DNS requests.</entry>
-      </row>
-      <row>
-       <entry>dns.enabled</entry>
-       <entry>Enable pluggable DNS resolvers. <b>Note</b>: This must be 'true' for any pluggable
-        resolver to work. Also, each resolver may need to be separately enabled. See
-         <codeph>euca-describe-properties dns</codeph>.</entry>
-      </row>
-      <row>
-       <entry>dns.instancedata.enabled</entry>
-       <entry>Enable the instance-data resolver. <b>Note</b>: <codeph>dns.enabled</codeph> must also
-        be 'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.ns.enabled</entry>
-       <entry>Enable the NS resolver. <b>Note</b>: <codeph>dns.enabled</codeph> must also be
-        'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.recursive.enabled</entry>
-       <entry>Enable the recursive DNS resolver. <b>Note</b>: <codeph>dns.enabled</codeph> must also
-        be 'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.services.enabled</entry>
-       <entry>Enable the service topology resolver. <b>Note</b>: <codeph>dns.enabled</codeph> must
-        also be 'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.services.hostmapping</entry>
-       <entry>Comma separated list of listener address CIDRs to desired host address CIDRS for services.</entry>
-      </row>
-      <row>
-       <entry>dns.split_horizon.enabled</entry>
-       <entry>Enable the split-horizon DNS resolution for internal instance public DNS name
-         queries.<b>Note</b>: <codeph>dns.enabled</codeph> must also be 'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.spoof_regions.enabled</entry>
-       <entry>Enable the spoofing resolver which allows for AWS DNS name emulation for
-         instances.<b>Note</b>: <codeph>dns.enabled</codeph> must also be 'true'.</entry>
-      </row>
-      <row>
-       <entry>dns.spoof_regions.region_name</entry>
-       <entry>Internal region name. If set, the region name to expect as the second label in the DNS
-        name. For example, to treat your Eucalyptus install like a region named 'eucalyptus', set
-        this value to <codeph>eucalyptus</codeph>. Then, e.g., autoscaling.eucalyptus.amazonaws.com
-        will resolve to the service address when using this DNS server. The specified name creates a
-        pseudo-region with DNS names like ec2.pseudo-region.amazonaws.com will resolve to Eucalyptus
-        endpoints from inside of instances. Here <codeph>ec2</codeph> is any service name supported
-        by Eucalyptus. Those that are not supported will continue to resolve through AWS's
-        DNS.</entry>
-      </row>
-      <row>
-       <entry>dns.spoof_regions.spoof_aws_default_regions</entry>
-       <entry>Enable spoofing of the default AWS DNS names, e.g., ec2.amazonaws.com would resolve to
-        the ENABLED Cloud Controller. Here <codeph>ec2</codeph> is any service name supported by
-        Eucalyptus. Those that are not supported will continue to resolve through AWS's DNS.</entry>
-      </row>
-      <row>
-       <entry>dns.spoof_regions.spoof_aws_regions</entry>
-       <entry>Enable spoofing for the normal AWS regions, e.g., ec2.us-east-1.amazonaws.com would
-        resolve to the ENABLED Cloud Controller. Here <codeph>ec2</codeph> is any service name
-        supported by Eucalyptus. Those that are not supported will continue to resolve through AWS's
-        DNS.</entry>
-      </row>
-      <row>
-       <entry>dns.tcp.timeout_seconds</entry>
-       <entry>Parameter controlling tcp handler timeout in seconds.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_availability_zones</entry>
-       <entry>Availability zones for imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_emi</entry>
-       <entry>EMI containing imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_enabled</entry>
-       <entry>Enabling imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_healthcheck </entry>
-       <entry>Enabling imaging worker healthcheck.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_instance_type</entry>
-       <entry>Instance type for imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_keyname</entry>
-       <entry>Keyname to use when debugging imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_log_server</entry>
-       <entry>Address/IP of the server that collects logs from imaging workers.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_log_server_port</entry>
-       <entry>UDP port that log server is listening to.</entry>
-      </row>
-      <row>
-       <entry>imaging.imaging_worker_ntp_server</entry>
-       <entry>Address of the NTP server used by imaging worker.</entry>
-      </row>
-      <row>
-       <entry>imaging.import_task_expiration_hours</entry>
-       <entry>Expiration hours of import volume/instance tasks.</entry>
-      </row>
-      <row>
-       <entry>imaging.import_task_timeout_minutes</entry>
-       <entry>Expiration time in minutes of import tasks.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_app_cookie_duration</entry>
-       <entry>Duration of app-controlled cookie to be kept in-memory (hours).</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_dns_subdomain</entry>
-       <entry>Loadbalancer dns subdomain.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_emi</entry>
-       <entry>EMI containing haproxy and the controller.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_instance_type</entry>
-       <entry>Instance type for loadbalancer instances.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_num_vm</entry>
-       <entry>Number of VMs per loadbalancer zone.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_restricted_ports</entry>
-       <entry>The ports restricted for use as a loadbalancer port. Format should be port(, port) or
-        [port-port].</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_vm_keyname</entry>
-       <entry>Keyname to use when debugging loadbalancer VMs.</entry>
-      </row>
-      <row>
-       <entry>loadbalancing.loadbalancer_vm_ntp_server</entry>
-       <entry>The address of the NTP server used by loadbalancer VMs.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.bucket_creation_wait_interval_seconds</entry>
-       <entry>Interval, in seconds, during which buckets in creating-state are valid. After this
-        interval, the operation is assumed failed.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.bucket_naming_restrictions</entry>
-       <entry>The S3 bucket naming restrictions to enforce. Values are 'dns-compliant' or
-        'extended'. Default is 'extended'. dns_compliant is non-US region S3 names, extended is for
-        US-Standard Region naming. See  <xref
-         href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html" format="html"
-         scope="external"
-         >http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html</xref>.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.cleanup_task_interval_seconds</entry>
-       <entry>Interval, in seconds, at which cleanup tasks are initiated for removing old/stale
-        objects.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.dogetputoncopyfail</entry>
-       <entry>Should provider client attempt a GET / PUT when backend does not support Copy
-        operation.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.failed_put_timeout_hrs</entry>
-       <entry>Number of hours to wait for object PUT operations to be allowed to complete before
-        cleanup.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.max_buckets_per_account</entry>
-       <entry>Maximum number of buckets per account.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.max_total_reporting_capacity_gb</entry>
-       <entry>Total ObjectStorage storage capacity for Objects soley for reporting usage percentage.
-        Not a size restriction. No enforcement of this value.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.providerclient</entry>
-       <entry>Object Storage Provider client to use for backend.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.queue_size</entry>
-       <entry>Channel buffer queue size for uploads.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.s3provider.s3accesskey</entry>
-       <entry>Local Store S3 Access Key.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.s3provider.s3endpoint</entry>
-       <entry>External S3 endpoint.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.s3provider.s3secretkey</entry>
-       <entry>Local Store S3 Secret Key.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.s3provider.s3usebackenddns</entry>
-       <entry>Use DNS virtual-hosted-style bucket names for communication to service
-        backend.</entry>
-      </row>
-      <row>
-       <entry>objectstorage.s3provider.s3usehttps</entry>
-       <entry>Use HTTPS for communication to service backend.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.addressespernetwork</entry>
-       <entry>Number of total addresses per network (including unusable gateway addresses controlled
-        by the system).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.maxnetworkindex</entry>
-       <entry>Maximum usable network index (0 &lt; x &lt; max_network_index).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.maxnetworktag</entry>
-       <entry>Maximum vlan tag to use (0 &lt; min_vlan &lt; x &lt; 4096).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.minnetworkindex</entry>
-       <entry>Maximum usable network index (0 &lt; min_network_index &lt; x).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.minnetworktag</entry>
-       <entry>Minimum vlan tag to use (0 &lt; x &lt; max_vlan &lt;= 4096).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.networkmode</entry>
-       <entry>Currently configured network mode.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.sourcehostname</entry>
-       <entry>Alternative address which is the source address for requests made by the component to
-        the cloud controller.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.usenetworktags</entry>
-       <entry>Indicates whether vlans are in use or not.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.vnetnetmask</entry>
-       <entry>Netmask used by the cluster's virtual private networking.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.vnetsubnet</entry>
-       <entry>IP subnet used by the cluster's virtual private networking.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.cluster.vnettype</entry>
-       <entry>IP version used by the cluster's virtual private networking.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.blockstoragemanager</entry>
-       <entry>EBS Block Storage Manager to use for backend.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.chapuser</entry>
-       <entry>User ID for CHAP authentication.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.dasdevice</entry>
-       <entry>Direct attached storage device location.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.deletedvolexpiration</entry>
-       <entry>Expiration time for deleted volumes (hours).</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.majornumber</entry>
-       <entry>AOE Major Number.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.maxconcurrentsnapshotuploads</entry>
-       <entry>Maximum number of snapshots that can be uploaded concurrently.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.maxsnapshotpartsqueuesize</entry>
-       <entry>Maximum number of snapshot parts per snapshot that can be spooled on the disk.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.maxsnaptransferretries</entry>
-       <entry>Maximum retry count for snapshot transfer.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.maxtotalvolumesizeingb</entry>
-       <entry>Total disk space reserved for volumes.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.maxvolumesizeingb</entry>
-       <entry>Max volume size.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.minornumber</entry>
-       <entry>AOE Minor Number.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.ncpaths</entry>
-       <entry>iSCSI paths for Node Controller.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.resourceprefix</entry>
-       <entry>Prefix for resource name on SAN.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.resourcesuffix</entry>
-       <entry>Suffix for resource name on SAN.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.sanhost</entry>
-       <entry>Hostname for SAN device.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.sanpassword</entry>
-       <entry>Password for SAN device.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.sanuser</entry>
-       <entry>Username for SAN device.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.scpaths</entry>
-       <entry>iSCSI paths for Storage Controller.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.shouldtransfersnapshots</entry>
-       <entry>Should transfer snapshots.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.snapshotpartsizeinmb</entry>
-       <entry>Snapshot part size in MB for snapshot transfers using multipart upload. Minimum part
-        size is 5MB.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.snapshotuploadtimeoutinhours</entry>
-       <entry>Snapshot upload wait time in hours after which the upload will be cancelled.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.storageinterface</entry>
-       <entry>Storage network interface.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.storeprefix</entry>
-       <entry>Prefix for ISCSI device.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.tasktimeout</entry>
-       <entry>Timeout for SAN commands.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.tid</entry>
-       <entry>Next Target ID for ISCSI device.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.timeoutinmillis</entry>
-       <entry>Timeout value in milliseconds for storage operations.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.volumesdir</entry>
-       <entry>Storage volumes directory.</entry>
-      </row>
-      <row>
-       <entry>&lt;partition&gt;.storage.zerofillvolumes</entry>
-       <entry>Should volumes be zero filled.</entry>
-      </row>
-      <row>
-       <entry>reporting.default_write_interval_mins</entry>
-       <entry>How often the reporting system requests information from the Cluster
-        Controller.</entry>
-      </row>
-      <row>
-       <entry>reporting.default_size_time_size_unit</entry>
-       <entry>Default size-time size unit (GB-days, etc).</entry>
-      </row>
-      <row>
-       <entry>reporting.default_size_time_time_unit</entry>
-       <entry>Default size-time time unit (GB-days, etc).</entry>
-      </row>
-      <row>
-       <entry>reporting.default_size_unit</entry>
-       <entry>Default size unit.</entry>
-      </row>
-      <row>
-       <entry>reporting.default_time_unit</entry>
-       <entry>Default time unit.</entry>
-      </row>
-      <row>
-       <entry>reporting.default_write_interval_secs</entry>
-       <entry>How often the reporting system writes instance snapshots.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.import_task_expiration_hours</entry>
-       <entry>Expiration hours of import volume/instance tasks. Default value is 168 hours.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.import_task_timeout_minutes</entry>
-       <entry>Expiration time in minutes of import tasks. Default value is 180 minutes.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.availability_zones</entry>
-       <entry>Availability zones for imaging worker.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.configured</entry>
-       <entry>Configure imaging so a worker can be launched. Default value is true.
-        If a service fails for some reason, there is a chance that setting it to false and back to true would solve issues.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.expiration_days</entry>
-       <entry>The days after which imaging work VMs expire. Default value is 180 days.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.healthcheck</entry>
-       <entry>Enables the imaging worker healthcheck. Default value is true.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.image</entry>
-       <entry>EMI containing imaging worker. The EMI is registered when the Load Balancer is configured.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.init_script</entry>
-       <entry>Bash script that will be executed before service configuration and start up.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.instance_type</entry>
-       <entry>Instance type for imaging worker. Default value is m1.small.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.keyname</entry>
-       <entry>Keyname to use when debugging imaging worker.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.log_server</entry>
-       <entry>Address/IP of the server that collects logs from the imaging workers.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.log_server_port</entry>
-       <entry>The UDP port that log server is listening to. Default value is 514.</entry>
-      </row>
-      <row>
-       <entry>services.imaging.worker.ntp_server</entry>
-       <entry>Address of the NTP server used by the imaging worker.</entry>
-      </row>
-      <row>
-       <entry>services.loadbalancing.dns_resolver_enabled</entry>
-       <entry>Enable the load balancing DNS resolver. <b>Note</b>: <codeph>dns.enabled</codeph> must also
-        be 'true'.</entry>
-      </row>
-      <row>
-       <entry>storage.global_total_snapshot_size_limit_gb</entry>
-       <entry>Maximum total snapshot capacity (GB).</entry>
-      </row>
-      <row>
-       <entry>system.dns.nameserveraddress</entry>
-       <entry>Nameserver IP address.</entry>
-      </row>
-      <row>
-       <entry>system.dns.dnsdomain</entry>
-       <entry>Domain name to use for DNS.</entry>
-      </row>
-      <row>
-       <entry>system.dns.nameserver</entry>
-       <entry>Nameserver address.</entry>
-      </row>
-      <row>
-       <entry>system.dns.registrationid</entry>
-       <entry>Unique ID of this cloud installation.</entry>
-      </row>
-      <row>
-       <entry>system.exec.max_restricted_concurrent_ops</entry>
-       <entry>Maximum number of concurrent processes which match any of the patterns in
-        system.exec.restricted_concurrent_ops.</entry>
-      </row>
-      <row>
-       <entry>system.exec.io_chunk_size</entry>
-       <entry>Size of IO chunks for streaming IO.</entry>
-      </row>
-      <row>
-       <entry>system.exec.restricted_concurrent_ops</entry>
-       <entry>Comma-separated list of commands which are restricted by
-        system.exec.max_restricted_concurrent_ops.</entry>
-      </row>
-      <row>
-       <entry>tagging.max_tags_per_resource</entry>
-       <entry>The maximum number of tags per resource for each account.</entry>
-      </row>
-      <row>
-       <entry>tokens.disabledactions</entry>
-       <entry>Actions to disable.</entry>
-      </row>
-      <row>
-       <entry>tokens.enabledactions</entry>
-       <entry>Actions to enable (ignored if empty).</entry>
-      </row>
-      <row>
-       <entry>walrusbackend.blockdevice</entry>
-       <entry>Walrus block device.</entry> 
-      </row>
-      <row>
-       <entry>walrusbackend.resource</entry>
-       <entry>Walrus resource name.</entry>
-      </row>
-      <row>
-       <entry>walrusbackend.storagedir</entry>
-       <entry>Path to buckets storage.</entry>
-      </row>
-      <row>
-       <entry>walrusbackend.storagemaxtotalcapacity</entry>
-       <entry>Total WalrusBackend storage capacity for Objects.</entry>
-      </row>
-      <row>
-       <entry>www.http_port</entry>
-       <entry>Listen to HTTP on this port.</entry>
-      </row>
-      <row>
-       <entry>www.httpproxyhost</entry>
-       <entry>Http Proxy Host.</entry>
-      </row>
-      <row>
-       <entry>www.httpproxyport</entry>
-       <entry>Http Proxy Port</entry>
-      </row>
-      <row>
-       <entry>www.https_ciphers</entry>
-       <entry>SSL ciphers for HTTPS listener.</entry>
-      </row>
-      <row>
-       <entry>www.https_port</entry>
-       <entry>Listen to HTTPS on this port.</entry>
-      </row>
-     </tbody>
-    </tgroup>
+       <tgroup
+                    cols="2">
+                    <colspec
+                        colnum="1"
+                        colname="c1"
+                        colwidth="1.5*"/>
+                    <colspec
+                        colnum="2"
+                        colname="c2"
+                        colwidth="1*"/>
+                    <thead>
+                        <row>
+                            <entry>Property</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>authentication.access_keys_limit </entry>
+                            <entry>Limit for access keys per user</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.authorization_cache </entry>
+                            <entry>Authorization cache configuration, for credentials and
+                                authorization metadata</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.authorization_expiry </entry>
+                            <entry>Default expiry for cached authorization metadata</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.authorization_reuse_expiry</entry>
+                            <entry>Default expiry for re-use of cached authorization metadata on
+                                failure</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.credential_download_generate_certificate </entry>
+                            <entry>Strategy for generation of certificates on credential download
+                                (Never | Absent | Limited)</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.credential_download_host_match </entry>
+                            <entry>CIDR to match against for host address selection</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.credential_download_port </entry>
+                            <entry>Port to use in service URLs when 'bootstrap.webservices.port' is
+                                not appropriate.</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.default_password_expiry </entry>
+                            <entry>Default password expiry time</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.max_policy_size </entry>
+                            <entry>Maximum size for an IAM policy (bytes)</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.signing_certificates_limit </entry>
+                            <entry>Limit for signing certificates per user</entry>
+                        </row>
+                        <row>
+                            <entry>authentication.system_account_quota_enabled </entry>
+                            <entry>Process quotas for system accounts</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.activityexpiry </entry>
+                            <entry>Expiry age for scaling activities. Older activities are
+                                deleted.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.activityinitialbackoff </entry>
+                            <entry>Initial backoff period for failing activities.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.activitymaxbackoff </entry>
+                            <entry>Maximum backoff period for failing activities.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.activitytimeout </entry>
+                            <entry>Timeout for a scaling activity.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.maxlaunchincrement </entry>
+                            <entry>Maximum instances to launch at one time.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.maxregistrationretries </entry>
+                            <entry>Number of times to attempt load balancer registration for each
+                                instance.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.pendinginstancetimeout </entry>
+                            <entry>Timeout for a pending instance.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.suspendedprocesses </entry>
+                            <entry>Globally suspended scaling processes.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.suspendedtasks </entry>
+                            <entry>Suspended scaling tasks.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.suspensionlaunchattemptsthreshold </entry>
+                            <entry>Minimum launch attempts for administrative suspension of scaling
+                                activities for a group.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.suspensiontimeout </entry>
+                            <entry>Timeout for administrative suspension of scaling activities for a
+                                group.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.untrackedinstancetimeout </entry>
+                            <entry>Timeout for termination of untracked auto scaling
+                                instances.</entry>
+                        </row>
+                        <row>
+                            <entry>autoscaling.zonefailurethreshold </entry>
+                            <entry>Time after which an unavailable zone should be treated as
+                                failed</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.async.future_listener_debug_limit_secs </entry>
+                            <entry>Number of seconds a future listener can execute before a debug
+                                message is logged.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.async.future_listener_error_limit_secs </entry>
+                            <entry>Number of seconds a future listener can execute before an error
+                                message is logged.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.async.future_listener_get_retries </entry>
+                            <entry>Total number of seconds a future listener's executor waits to
+                                get().</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.async.future_listener_get_timeout </entry>
+                            <entry>Number of seconds a future listener's executor waits to get() per
+                                call.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.async.future_listener_info_limit_secs </entry>
+                            <entry>Number of seconds a future listener can execute before an info
+                                message is logged.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.hosts.state_initialize_timeout </entry>
+                            <entry>Timeout for state initialization (in msec).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.hosts.state_transfer_timeout </entry>
+                            <entry>Timeout for state transfers (in msec).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.batch_delay_seconds </entry>
+                            <entry>Interval (in seconds) during which a notification will be delayed
+                                to allow for batching events for delivery.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.digest </entry>
+                            <entry>Send a system state digest periodically.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.digest_frequency_hours </entry>
+                            <entry>Period (in hours) with which a system state digest will be
+                                delivered.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.digest_only_on_errors </entry>
+                            <entry>If sending system state digests is set to true, then only send
+                                the digest when the system has failures to report.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.digest_frequency_hours </entry>
+                            <entry>Period (in hours) with which a system state digest will be
+                                delivered.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.digest_only_on_errors </entry>
+                            <entry>If sending system state digests is set to true, then only send
+                                the digest when the system has failures to report.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email_from </entry>
+                            <entry>From email address used for notification delivery.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email_from_name </entry>
+                            <entry>From email name used for notification delivery.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email_from_name </entry>
+                            <entry>From email name used for notification delivery.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email_subject_prefix </entry>
+                            <entry>Email subject used for notification delivery.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email_to </entry>
+                            <entry>Email address where notifications are to be delivered.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.include_fault_stack </entry>
+                            <entry>Period (in hours) with which a system state digest will be
+                                delivered.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email.email_smtp_host </entry>
+                            <entry>SMTP host to use when sending email. If unset, the following
+                                values are tried: 1) the value of the 'mail.smtp.host' system
+                                property, 2) localhost, 3) mailhost.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.notifications.email.email_smtp_port </entry>
+                            <entry>SMTP port to use when sending email. Defaults to 25</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.servicebus.context_timeout </entry>
+                            <entry>Message context timeout (seconds)</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.servicebus.hup </entry>
+                            <entry>Do a soft reset.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.servicebus.max_outstanding_messages </entry>
+                            <entry>Max queue length allowed per service stage.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.servicebus.min_scheduler_core_size </entry>
+                            <entry>Internal connector core pool size.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.servicebus.workers_per_stage </entry>
+                            <entry>Max queue length allowed per service stage.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.timer.rate </entry>
+                            <entry>Amount of time (in milliseconds) before a previously running
+                                instance which is not reported will be marked as terminated.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.topology.coordinator_check_backoff_secs </entry>
+                            <entry>Backoff between service state checks (in seconds).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.topology.local_check_backoff_secs </entry>
+                            <entry>Backoff between service state checks (in seconds).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.tx.concurrent_update_retries </entry>
+                            <entry>Maximum number of times a transaction may be retried before
+                                giving up.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.async_internal_operations </entry>
+                            <entry>Execute internal service operations from a separate thread pool
+                                (with respect to I/O).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.async_operations </entry>
+                            <entry>Execute service operations from a separate thread pool (with
+                                respect to I/O).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.async_pipeline </entry>
+                            <entry>Execute service specific pipeline handlers from a separate thread
+                                pool (with respect to I/O).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.channel_connect_timeout </entry>
+                            <entry>Channel connect timeout (ms).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.channel_keep_alive </entry>
+                            <entry>Socket keep alive.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.channel_nodelay </entry>
+                            <entry>Server socket TCP_NODELAY.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.channel_reuse_address </entry>
+                            <entry>Socket reuse address.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_http_chunk_buffer_max </entry>
+                            <entry>Server http chunk max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_idle_timeout_secs </entry>
+                            <entry>Client idle timeout (secs).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_internal_timeout_secs </entry>
+                            <entry>Client idle timeout (secs).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_pool_max_mem_per_conn </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_pool_max_threads </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_pool_timeout_millis </entry>
+                            <entry>Client socket select timeout (ms).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.client_pool_total_mem </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.clock_skew_sec </entry>
+                            <entry>A max clock skew value (in seconds) between client and server
+                                accepted when validating timestamps in Query/REST protocol.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.cluster_connect_timeout_millis </entry>
+                            <entry>Cluster connect timeout (ms).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_aws_sns_uri_scheme </entry>
+                            <entry>Default scheme for AWS_SNS_URL in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_ec2_uri_scheme </entry>
+                            <entry>Default scheme for EC2_URL in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_euare_uri_scheme </entry>
+                            <entry>Default scheme for EUARE_URL in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_eustore_url </entry>
+                            <entry>Default EUSTORE_URL in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_https_enabled </entry>
+                            <entry>Default scheme prefix in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.default_s3_uri_scheme </entry>
+                            <entry>Default scheme for S3_URL in eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.disabled_soap_api_components </entry>
+                            <entry>List of services with disabled SOAP APIs.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.http_max_chunk_bytes </entry>
+                            <entry>Maximum HTTP chunk size (bytes).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.http_max_header_bytes </entry>
+                            <entry>Maximum HTTP headers size (bytes).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.http_max_initial_line_bytes </entry>
+                            <entry>Maximum HTTP initial line size (bytes).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.listener_address_match </entry>
+                            <entry>CIDRs matching addresses to bind on (<b>Note:</b> default
+                                interface is always bound regardless).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.log_requests </entry>
+                            <entry>Enable request logging.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.oob_internal_operations </entry>
+                            <entry>Execute internal service operations out of band from the normal
+                                service bus.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.pipeline_idle_timeout_seconds </entry>
+                            <entry>Server socket idle time-out.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.pipeline_max_query_request_size </entry>
+                            <entry>Maximum Query Pipeline http chunk size (bytes).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.port </entry>
+                            <entry>Port to bind (<b>Note:</b> port 8773 is always bound
+                                regardless).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.replay_skew_window_sec </entry>
+                            <entry>Time interval duration (in seconds) during which duplicate
+                                signatures will be accepted to accommodate collisions.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_boss_pool_max_mem_per_conn </entry>
+                            <entry>Server max selector memory per connection.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_boss_pool_max_threads </entry>
+                            <entry>Server selector thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_boss_pool_timeout_millis </entry>
+                            <entry>Service socket select timeout (ms).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_boss_pool_total_mem </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_channel_nodelay </entry>
+                            <entry>Server socket TCP_NODELAY.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_channel_reuse_address </entry>
+                            <entry>Server socket reuse address.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_pool_max_mem_per_conn </entry>
+                            <entry>Server max worker memory per connection.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_pool_max_threads </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_pool_timeout_millis </entry>
+                            <entry>Service socket select timeout (ms).</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.server_pool_total_mem </entry>
+                            <entry>Server max worker memory total.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.statistics </entry>
+                            <entry>Record and report service times.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.unknown_parameter_handling </entry>
+                            <entry>Request unknown parameter handling (default | ignore |
+                                error)</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.use_dns_delegation </entry>
+                            <entry>Use DNS delegation for eucarc.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.use_instance_dns </entry>
+                            <entry>Use DNS names for instances.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.server_alias </entry>
+                            <entry>Alias of the certificate entry in euca.p12 to use for SSL for
+                                webservices.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.server_password </entry>
+                            <entry>Password of the private key corresponding to the specified
+                                certificate for SSL for webservices.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.server_ssl_ciphers </entry>
+                            <entry>SSL ciphers for webservices.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.server_ssl_protocols </entry>
+                            <entry>SSL protocols for webservices.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.user_ssl_ciphers </entry>
+                            <entry>SSL ciphers for external use.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.user_ssl_default_cas </entry>
+                            <entry>Use default CAs with SSL for external use.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.user_ssl_enable_hostname_verification </entry>
+                            <entry>SSL hostname validation for external use.</entry>
+                        </row>
+                        <row>
+                            <entry>bootstrap.webservices.ssl.user_ssl_protocols </entry>
+                            <entry>SSL protocols for external use.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.db_check_poll_time </entry>
+                            <entry>Poll time (ms) for db connection check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.db_check_threshold </entry>
+                            <entry>Threshold (num connections or %) for db connection check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.euca_log_level </entry>
+                            <entry>Log level for dynamic override.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.identifier_canonicalizer </entry>
+                            <entry>Name of the canonicalizer for resource identifiers.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.log_file_disk_check_poll_time </entry>
+                            <entry>Poll time (ms) for log file disk check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.log_file_disk_check_threshold </entry>
+                            <entry>Threshold (bytes or %) for log file disk check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.memory_check_poll_time </entry>
+                            <entry>Poll time (ms) for memory check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.memory_check_ratio </entry>
+                            <entry>Ratio (of post-garbage collected old-gen memory) for memory
+                                check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.perm_gen_memory_check_poll_time </entry>
+                            <entry>Poll time (ms) for perm-gen memory check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.perm_gen_memory_check_ratio </entry>
+                            <entry>Ratio (of used memory) for perm-gen memory check</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.trigger_fault </entry>
+                            <entry>Fault id last used to trigger test</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.disabledinterval </entry>
+                            <entry>The time period between service state checks for a Cluster
+                                Controller which is DISABLED.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.enabledinterval </entry>
+                            <entry>The time period between service state checks for a Cluster
+                                Controller which is ENABLED.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.notreadyinterval </entry>
+                            <entry>The time period between service state checks for a Cluster
+                                Controller which is NOTREADY.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.pendinginterval </entry>
+                            <entry>The time period between service state checks for a Cluster
+                                Controller which is PENDING.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.requestworkers </entry>
+                            <entry>The number of concurrent requests which will be sent to a single
+                                Cluster Controller.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.cluster.startupsyncretries </entry>
+                            <entry>The number of times a request will be retried while bootstrapping
+                                a Cluster Controller.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.images.cleanupperiod </entry>
+                            <entry>The period between runs for clean up of deregistered
+                                images.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.images.defaultvisibility </entry>
+                            <entry>The default value used to determine whether or not images are
+                                marked 'public' when first registered.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.images.maximagesizegb </entry>
+                            <entry>The maximum registerable image size in GB</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.images.maxmanifestsizebytes </entry>
+                            <entry>The maximum allowed image manifest size in bytes</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.monitor.default_poll_interval_mins </entry>
+                            <entry>How often the reporting system requests information from the
+                                cluster controller</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.monitor.history_size </entry>
+                            <entry>The initial history size of metrics to be send from the cc to the
+                                clc</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.ec2_classic_additional_protocols_allowed</entry>
+                            <entry>Comma delimited list of protocol numbers supported in in EDGE
+                                mode for security group rules beyond the EC2-Classic defaults
+                                (TCP,UDP,ICMP). Only <xref
+                                    href="http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml"
+                                    format="xhtml"
+                                    scope="external">valid IANA protocol numbers</xref> are
+                                accepted. <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.global_max_network_index </entry>
+                            <entry>Default max network index.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.global_max_network_tag </entry>
+                            <entry>Default max vlan tag.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.global_min_network_index </entry>
+                            <entry>Default min network index.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.global_min_network_tag </entry>
+                            <entry>Default min vlan tag.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.min_broadcast_interval </entry>
+                            <entry>Minimum interval between broadcasts of network information
+                                (seconds).</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.network_index_pending_timeout </entry>
+                            <entry>Minutes before a pending index allocation timesout and is
+                                released.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.network.network_tag_pending_timeout </entry>
+                            <entry>Minutes before a pending tag allocation timesout and is
+                                released.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.buried_time </entry>
+                            <entry>Amount of time (in minutes) to retain unreported terminated
+                                instance data.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.ebs_root_device_name </entry>
+                            <entry>Name for root block device mapping</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.ebs_volume_creation_timeout </entry>
+                            <entry>Amount of time (in minutes) before a EBS volume backing the
+                                instance is created</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.instance_reachability_timeout </entry>
+                            <entry>Amount of time (in minutes) before a VM which is not reported by
+                                a cluster will fail a reachability test.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.instance_subdomain </entry>
+                            <entry>Subdomain to use for instance DNS.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.instance_timeout </entry>
+                            <entry>Amount of time (default unit minutes) before a previously running
+                                instance which is not reported will be marked as terminated.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.instance_touch_interval </entry>
+                            <entry>Amount of time (in minutes) between updates for a running
+                                instance.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.mac_prefix </entry>
+                            <entry>Default prefix to use for instance / network interface MAC
+                                addresses.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.max_state_threads </entry>
+                            <entry>Maximum number of threads the system will use to service blocking
+                                state changes.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.migration_refresh_time </entry>
+                            <entry>Maximum amount of time (in seconds) that migration state will
+                                take to propagate state changes (e.g., to tags).</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.network_metadata_refresh_time </entry>
+                            <entry>Maximum amount of time (in seconds) that the network topology
+                                service takes to propagate state changes.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.shut_down_time </entry>
+                            <entry>Amount of time (in minutes) before a VM which is not reported by
+                                a cluster will be marked as terminated.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.stopping_time </entry>
+                            <entry>Amount of time (in minutes) before a stopping VM which is not
+                                reported by a cluster will be marked as terminated.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.terminated_time </entry>
+                            <entry>Amount of time (in minutes) that a terminated VM will continue to
+                                be reported.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.tx_retries </entry>
+                            <entry>Number of times to retry transactions in the face of potential
+                                concurrent update conflicts.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.unknown_instance_handlers </entry>
+                            <entry>Comma separated list of handlers to use for unknown instances
+                                ('restore', 'restore-failed', 'terminate', 'terminate-done')</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.user_data_max_size_kb </entry>
+                            <entry>Max length (in KB) that the user data file can be for an instance
+                                (after base 64 decoding)</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.vm_initial_report_timeout </entry>
+                            <entry>Amount of time (in seconds) since completion of the creating run
+                                instance operation that the new instance is treated as unreported if
+                                not... reported.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.vm_metadata_instance_cache </entry>
+                            <entry>Instance metadata cache configuration.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.vm_metadata_request_cache </entry>
+                            <entry>Instance metadata instance resolution cache
+                                configuration.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.vm_metadata_user_data_cache </entry>
+                            <entry>Instance metadata user data cache configuration.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.vm_state_settle_time </entry>
+                            <entry>Amount of time (in seconds) to let instance state settle after a
+                                transition to either stopping or shutting-down.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.volatile_state_interval_sec </entry>
+                            <entry>Period (in seconds) between state updates for actively changing
+                                state.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmstate.volatile_state_timeout_sec </entry>
+                            <entry>Timeout (in seconds) before a requested instance terminate will
+                                be repeated.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmtypes.default_type_name </entry>
+                            <entry>Default type used when no instance type is specified for run
+                                instances.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vmtypes.format_ephemeral_storage </entry>
+                            <entry>Format first ephemeral disk by defaut with ext3</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.defaultvpc </entry>
+                            <entry>Enable default VPC.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.networkaclspervpc </entry>
+                            <entry>Maximum number of network ACLs for each VPC.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.routespertable </entry>
+                            <entry>Maximum number of routes for each route table.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.routetablespervpc </entry>
+                            <entry>Maximum number of route tables for each VPC.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.rulespernetworkacl </entry>
+                            <entry>Maximum number of rules per direction for each network
+                                ACL.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.rulespersecuritygroup </entry>
+                            <entry>Maximum number of associated security groups for each network
+                                interface .</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.securitygroupspernetworkinterface </entry>
+                            <entry>Maximum number of associated security groups for each network
+                                interface .</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.securitygroupspervpc </entry>
+                            <entry>Maximum number of security groups for each VPC.</entry>
+                        </row>
+                        <row>
+                            <entry>cloud.vpc.subnetspervpc </entry>
+                            <entry>Maximum number of subnets for each VPC.</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.autoscaling_group_deleted_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for an autoscaling group
+                                to be deleted after deletion)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.autoscaling_group_zero_instances_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for an autoscaling group
+                                to have zero instances during delete</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.instance_attach_volume_max_create_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for an instance to have
+                                volumes attached after creation)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.instance_running_max_create_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for an instance to be
+                                running after creation)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.instance_terminated_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for an instance to be
+                                terminated after deletion)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.max_attributes_per_mapping </entry>
+                            <entry>The maximum number of attributes allowed in a mapping in a
+                                template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.max_mappings_per_template </entry>
+                            <entry>The maximum number of mappings allowed in a template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.max_outputs_per_template </entry>
+                            <entry>The maximum number of outputs allowed in a template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.max_parameters_per_template </entry>
+                            <entry>The maximum number of outputs allowed in a template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.max_resources_per_template </entry>
+                            <entry>The maximum number of resources allowed in a template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.region </entry>
+                            <entry>The value of AWS::Region and value in CloudFormation ARNs for
+                                Region</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.request_template_body_max_length_bytes </entry>
+                            <entry>The maximum number of bytes in a request-embedded
+                                template</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.request_template_url_max_content_length_bytes </entry>
+                            <entry>The maximum number of bytes in a template referenced via a
+                                URL</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.security_group_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to retry security group deletes
+                                (may fail if instances from autoscaling group)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.subnet_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to retry subnet deletes</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.swf_activity_worker_config </entry>
+                            <entry>JSON configuration for the cloudformation simple workflow
+                                activity worker</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.swf_domain </entry>
+                            <entry>The simple workflow service domain for cloudformation</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.swf_tasklist </entry>
+                            <entry>The simple workflow service task list for cloudformation</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.url_domain_whitelist </entry>
+                            <entry>A comma separated white list of domains (other than Eucalyptus S3
+                                URLs) allowed by CloudFormation URL parameters</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.volume_attachment_max_create_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for a volume to be
+                                attached during create)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.volume_available_max_create_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for a volume to be
+                                available after create)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.volume_deleted_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for a volume to be
+                                deleted)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.volume_detachment_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for a volume to detach
+                                during delete)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.volume_snapshot_complete_max_delete_retry_secs </entry>
+                            <entry>The amount of time (in seconds) to wait for a snapshot to be
+                                complete (if specified as the deletion policy) before a volume is
+                                deleted)</entry>
+                        </row>
+                        <row>
+                            <entry>cloudformation.wait_condition_bucket_prefix </entry>
+                            <entry>The prefix of the bucket used for wait condition handles</entry>
+                        </row>
+                        <row>
+                            <entry>cloudwatch.disable_cloudwatch_service </entry>
+                            <entry>Set this to true to stop cloud watch alarm evaluation and new
+                                alarm/metric data entry</entry>
+                        </row>
+                        <row>
+                            <entry>dns.dns_listener_address_match </entry>
+                            <entry>Additional address patterns to listen on for DNS
+                                requests.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.enabled</entry>
+                            <entry>Enable pluggable DNS resolvers. <b>Note:</b> This must be 'true'
+                                for any pluggable resolver to work. Also, each resolver may need to
+                                be separately enabled.See 'euca-describe-properties dns'.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.search</entry>
+                            <entry>Comma separated list of domains to search, OS settings used if
+                                none specified (change requires restart)</entry>
+                        </row>
+                        <row>
+                            <entry>dns.server</entry>
+                            <entry>Comma separated list of nameservers, OS settings used if none
+                                specified (change requires restart)</entry>
+                        </row>
+                        <row>
+                            <entry>dns.server_pool_max_threads </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.server_pool_max_threads </entry>
+                            <entry>Server worker thread pool max.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.instancedata.enabled </entry>
+                            <entry>Enable the instance-data resolver. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>dns.ns.enabled </entry>
+                            <entry>Enable the NS resolver. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>dns.recursive.enabled </entry>
+                            <entry>Enable the recursive DNS resolver. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>dns.services.enabled </entry>
+                            <entry>Enable the service topology resolver. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>dns.split_horizon.enabled </entry>
+                            <entry>Enable the split-horizon DNS resolution for internal instance
+                                public DNS name queries. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>dns.spoof_regions.enabled </entry>
+                            <entry>Enable the spoofing resolver which allows for AWS DNS name
+                                emulation for instances.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.spoof_regions.region_name </entry>
+                            <entry>Internal region name. If set, the region name to expect as the
+                                second label in the DNS name. For example, to treat your Eucalyptus
+                                install like a region named 'eucalyptus', set this value to
+                                    <codeph>eucalyptus</codeph>. Then, e.g.,
+                                autoscaling.eucalyptus.amazonaws.com will resolve to the service
+                                address when using this DNS server. The specified name creates a
+                                pseudo-region with DNS names like ec2.pseudo-region.amazonaws.com
+                                will resolve to Eucalyptus endpoints from inside of instances. Here
+                                    <codeph>ec2</codeph> is any service name supported by
+                                Eucalyptus. Those that are not supported will continue to resolve
+                                through AWS's DNS.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.spoof_regions.spoof_aws_default_regions </entry>
+                            <entry>Enable spoofing of the default AWS DNS names, e.g.,
+                                ec2.amazonaws.com would resolve to the ENABLED Cloud Controller.
+                                Here <codeph>ec2</codeph> is any service name supported by
+                                Eucalyptus. Those that are not supported will continue to resolve
+                                through AWS's DNS.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.spoof_regions.spoof_aws_regions </entry>
+                            <entry>Enable spoofing for the normal AWS regions, e.g.,
+                                ec2.us-east-1.amazonaws.com would resolve to the ENABLED Cloud
+                                Controller. Here <codeph>ec2</codeph> is any service name supported
+                                by Eucalyptus. Those that are not supported will continue to resolve
+                                through AWS's DNS.</entry>
+                        </row>
+                        <row>
+                            <entry>dns.tcp.timeout_seconds </entry>
+                            <entry>Parameter controlling tcp handler timeout in seconds.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.addressespernetwork </entry>
+                            <entry>Number of total addresses per network (including unusable gateway
+                                addresses controlled by the system)</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.maxnetworkindex </entry>
+                            <entry>Maximum usable network index (0 &lt; x &lt;
+                                max_network_index)</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.maxnetworktag </entry>
+                            <entry>Maximum vlan tag to use (0 &lt; min_vlan &lt; x &lt;
+                                4096)</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.minnetworkindex </entry>
+                            <entry>Maximum usable network index (0 &lt; min_network_index &lt;
+                                x)</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.minnetworktag </entry>
+                            <entry>Minimum vlan tag to use (0 &lt; x &lt; max_vlan &lt;4096)</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.networkmode </entry>
+                            <entry>Currently configured network mode</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.sourcehostname </entry>
+                            <entry>Alternative address which is the source address for requests made
+                                by the component to the cloud controller.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.usenetworktags </entry>
+                            <entry>Indicates whether vlans are in use or not.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.vnetnetmask </entry>
+                            <entry>Netmask used by the cluster's virtual private networking.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.vnetsubnet </entry>
+                            <entry>IP subnet used by the cluster's virtual private
+                                networking.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.cluster.vnettype </entry>
+                            <entry>IP version used by the cluster's virtual private
+                                networking.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.blockstoragemanager </entry>
+                            <entry>EBS Block Storage Manager to use for backend</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.cephconfigfile </entry>
+                            <entry>Absolute path to Ceph configuration (ceph.conf) file. Default
+                                value is '/etc/ceph/ceph.conf'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.cephkeyringfile </entry>
+                            <entry>Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring)
+                                file. Default value is
+                                '/etc/ceph/ceph.client.eucalyptus.keyring'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.cephsnapshotpools </entry>
+                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
+                                snapshots. Use a comma separated list for configuring multiple
+                                pools. Default value is 'rbd'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.cephuser </entry>
+                            <entry>Ceph username employed by Eucalyptus operations. Default value is
+                                'eucalyptus'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.cephvolumepools </entry>
+                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
+                                volumes. Use a comma separated list for configuring multiple pools.
+                                Default value is 'rbd'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.chapuser </entry>
+                            <entry>User ID for CHAP authentication</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.dasdevice </entry>
+                            <entry>Direct attached storage device location</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxconcurrentsnapshots </entry>
+                            <entry>Maximum number of snapshots processed on the block storage
+                                backend at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxconcurrentsnapshottransfers </entry>
+                            <entry>Maximum number of snapshots that can be uploaded to or downloaded
+                                from objectstorage gateway at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxconcurrentvolumes </entry>
+                            <entry>Maximum number of volumes processed on the block storage backend
+                                at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxsnapshotpartsqueuesize </entry>
+                            <entry>Maximum number of snapshot parts per snapshot that can be spooled
+                                on the disk</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxsnaptransferretries </entry>
+                            <entry>Maximum retry count for snapshot transfer</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxtotalvolumesizeingb </entry>
+                            <entry>Total disk space reserved for volumes</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.maxvolumesizeingb </entry>
+                            <entry>Max volume size</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.ncpaths </entry>
+                            <entry>iSCSI Paths for NC. Default value is 'nopath'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.readbuffersizeinmb </entry>
+                            <entry>Buffer size in MB for reading data from snapshot when uploading
+                                snapshot to objectstorage gateway</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.resourceprefix </entry>
+                            <entry>Prefix for resource name on SAN</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.resourcesuffix </entry>
+                            <entry>Suffix for resource name on SAN</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.sanhost </entry>
+                            <entry>Hostname for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.sanpassword </entry>
+                            <entry>Password for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.sanuser </entry>
+                            <entry>Username for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.scpaths </entry>
+                            <entry>iSCSI Paths for SC. Default value is 'nopath'</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.shouldtransfersnapshots </entry>
+                            <entry>Should transfer snapshots</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.snapexpiration </entry>
+                            <entry>Time interval in minutes after which Storage Controller metadata
+                                for snapshots that have been physically removed from the block
+                                storage backend will be deleted</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.snapshotpartsizeinmb </entry>
+                            <entry>Snapshot part size in MB for snapshot transfers using multipart
+                                upload. Minimum part size is 5MB</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.snapshottransfertimeoutinhours </entry>
+                            <entry>Snapshot upload wait time in hours after which the upload will be
+                                cancelled</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.storeprefix </entry>
+                            <entry>Prefix for ISCSI device</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.tasktimeout </entry>
+                            <entry>Timeout for SAN commands.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.tid </entry>
+                            <entry>Next Target ID for ISCSI device</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.timeoutinmillis </entry>
+                            <entry>Timeout value in milli seconds for storage operations</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.volexpiration </entry>
+                            <entry>Time interval in minutes after which Storage Controller metadata
+                                for volumes that have been physically removed from the block storage
+                                backend will be deleted</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.volumesdir </entry>
+                            <entry>Storage volumes directory.</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.writebuffersizeinmb </entry>
+                            <entry>Buffer size in MB for writing data to snapshot when downloading
+                                snapshot from objectstorage gateway</entry>
+                        </row>
+                        <row>
+                            <entry>ds2.storage.zerofillvolumes </entry>
+                            <entry>Should volumes be zero filled.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.bucket_creation_wait_interval_seconds </entry>
+                            <entry>Interval, in seconds, during which buckets in creating-state are
+                                valid. After this interval, the operation is assumed failed.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.bucket_naming_restrictions </entry>
+                            <entry>The S3 bucket naming restrictions to enforce. Values are
+                                'dns-compliant' or 'extended'. Default is 'extended'. dns_compliant
+                                is non-US region S3 names, extended is for US-Standard Region
+                                naming. See  <xref
+                                    href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html"
+                                    format="html"
+                                    scope="external">http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html</xref>.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.cleanup_task_interval_seconds </entry>
+                            <entry>Interval, in seconds, at which cleanup tasks are initiated for
+                                removing old/stale objects.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.dogetputoncopyfail </entry>
+                            <entry>Should provider client attempt a GET / PUT when backend does not
+                                support Copy operation</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.failed_put_timeout_hrs </entry>
+                            <entry>Number of hours to wait for object PUT operations to be allowed
+                                to complete before cleanup.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.max_buckets_per_account </entry>
+                            <entry>Maximum number of buckets per account</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.max_total_reporting_capacity_gb </entry>
+                            <entry>Total ObjectStorage storage capacity for Objects soley for
+                                reporting usage percentage. Not a size restriction. No enforcement
+                                of this value</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.providerclient </entry>
+                            <entry>Object Storage Provider client to use for backend</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.queue_size </entry>
+                            <entry>Channel buffer queue size for uploads</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.queue_timeout </entry>
+                            <entry>Channel buffer queue timeout (in seconds)</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3client.buffer_size </entry>
+                            <entry>Internal S3 client buffer size</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3client.connection_timeout_ms </entry>
+                            <entry>Internal S3 client connection timeout in ms</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3client.max_connections </entry>
+                            <entry>Internal S3 client maximum connections</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3client.max_error_retries </entry>
+                            <entry>Internal S3 client maximum retries on error</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3client.socket_read_timeout_ms </entry>
+                            <entry>Internal S3 client socket read timeout in ms</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3provider.s3accesskey </entry>
+                            <entry>Local Store S3 Access Key.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3provider.s3endpoint </entry>
+                            <entry>External S3 endpoint.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3provider.s3secretkey </entry>
+                            <entry>Local Store S3 Secret Key.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3provider.s3usebackenddns </entry>
+                            <entry>Use DNS virtual-hosted-style bucket names for communication to
+                                service backend.</entry>
+                        </row>
+                        <row>
+                            <entry>objectstorage.s3provider.s3usehttps </entry>
+                            <entry>Use HTTPS for communication to service backend.</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_enable_ssl </entry>
+                            <entry>Enable SSL (HTTPS) for regions.</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_name </entry>
+                            <entry>Region name.</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_ssl_ciphers </entry>
+                            <entry>Ciphers to use for region SSL</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_ssl_default_cas </entry>
+                            <entry>Use default CAs for region SSL connections.</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_ssl_protocols </entry>
+                            <entry>Protocols to use for region SSL</entry>
+                        </row>
+                        <row>
+                            <entry>region.region_ssl_verify_hostnames </entry>
+                            <entry>Verify hostnames for region SSL connections.</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.data_collection_enabled </entry>
+                            <entry>Set this to false to stop reporting from populating new
+                                data</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.default_size_time_size_unit </entry>
+                            <entry>Default size-time size unit (GB-days, etc)</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.default_size_time_time_unit </entry>
+                            <entry>Default size-time time unit (GB-days, etc)</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.default_size_unit </entry>
+                            <entry>Default size unit</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.default_time_unit </entry>
+                            <entry>Default time unit</entry>
+                        </row>
+                        <row>
+                            <entry>reporting.default_write_interval_mins </entry>
+                            <entry>How often the reporting system requests information from the
+                                cluster controller</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.appendonlyhost </entry>
+                            <entry>host address of the backend database for append-only data</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.appendonlypassword </entry>
+                            <entry>password of the backend database for append-only data</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.appendonlyport </entry>
+                            <entry>port number of the backend database for append-only data</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.appendonlysslcert </entry>
+                            <entry>ssl certificate to use when connecting to the backend database
+                                for append-only data</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.appendonlyuser </entry>
+                            <entry>user name of the backend database for append-only data</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.availability_zones </entry>
+                            <entry>availability zones for database server</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.configured </entry>
+                            <entry>Configure DB service so a VM can be launched.If something goes
+                                south with the service there is a chance that setting it to false
+                                and back to true would solve issues</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.expiration_days </entry>
+                            <entry>days after which the VMs expire</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.image </entry>
+                            <entry>EMI containing database server</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.init_script </entry>
+                            <entry>bash script that will be executed before serviceconfiguration and
+                                start up</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.instance_type </entry>
+                            <entry>instance type for database server</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.keyname </entry>
+                            <entry>keyname to use when debugging database server</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.ntp_server </entry>
+                            <entry>address of the NTP server used by database server</entry>
+                        </row>
+                        <row>
+                            <entry>services.database.worker.volume </entry>
+                            <entry>volume containing database files</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.import_task_expiration_hours </entry>
+                            <entry>expiration hours of import volume/instance tasks</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.import_task_timeout_minutes </entry>
+                            <entry>expiration time in minutes of import tasks</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.availability_zones </entry>
+                            <entry>availability zones for imaging worker</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.configured </entry>
+                            <entry>Prepare imaging service so a worker can be launched.If something
+                                goes south with the service there is a big chance that setting it to
+                                false and back to true would solve issues.</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.expiration_days </entry>
+                            <entry>the days after which imaging work VMs expire</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.healthcheck </entry>
+                            <entry>enabling imaging worker healthcheck</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.image </entry>
+                            <entry>EMI containing imaging worker</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.init_script </entry>
+                            <entry>bash script that will be executed before service configuration
+                                and start up</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.instance_type </entry>
+                            <entry>instance type for imaging worker</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.keyname </entry>
+                            <entry>keyname to use when debugging imaging worker</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.log_server </entry>
+                            <entry>address/ip of the server that collects logs from imaging
+                                wokrers</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.log_server_port </entry>
+                            <entry>UDP port that log server is listerning to</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.log_server_port </entry>
+                            <entry>UDP port that log server is listerning to</entry>
+                        </row>
+                        <row>
+                            <entry>services.imaging.worker.ntp_server </entry>
+                            <entry>address of the NTP server used by imaging worker</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.dns_resolver_enabled </entry>
+                            <entry>Enable the load balancing DNS resolver. <b>Note:</b>
+                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.dns_subdomain </entry>
+                            <entry>loadbalancer dns subdomain</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.dns_ttl </entry>
+                            <entry>loadbalancer dns ttl value</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.restricted_ports </entry>
+                            <entry>The ports restricted for use as a loadbalancer port. Format
+                                should be port(, port) or port-port</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.vm_per_zone </entry>
+                            <entry>number of VMs per loadbalancer zone</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.app_cookie_duration </entry>
+                            <entry>duration of app-controlled cookie to be kept in-memory
+                                (hours)</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.backend_instance_update_interval </entry>
+                            <entry>interval for updating backend instance state</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.cache_duration </entry>
+                            <entry>duration of cached data delivered to workers</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.cw_put_interval </entry>
+                            <entry>interval for updating CW metrics</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.expiration_days </entry>
+                            <entry>the days after which the loadbalancer Vms expire</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.image </entry>
+                            <entry>EMI containing haproxy and the controller</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.init_script </entry>
+                            <entry>bash script that will be executed before service configuration
+                                and start up</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.instance_type </entry>
+                            <entry>instance type for loadbalancer instances</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.keyname </entry>
+                            <entry>keyname to use when debugging loadbalancer VMs</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.lb_poll_interval </entry>
+                            <entry>interval for distributing ELB data to haproxy VM</entry>
+                        </row>
+                        <row>
+                            <entry>services.loadbalancing.worker.ntp_server </entry>
+                            <entry>the address of the NTP server used by loadbalancer VMs</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.activitytypesperdomain </entry>
+                            <entry>Maximum number of activity types for each domain.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.deprecatedactivitytyperetentionduration </entry>
+                            <entry>Deprecated activity type retention time.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.deprecateddomainretentionduration </entry>
+                            <entry>Deprecated domain minimum retention time.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.deprecatedworkflowtyperetentionduration </entry>
+                            <entry>Deprecated workflow type minimum retention time.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.openactivitytasksperworkflowexecution </entry>
+                            <entry>Maximum number of open activity tasks for each workflow
+                                execution.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.opentimersperworkflowexecution </entry>
+                            <entry>Maximum number of open timers for each workflow
+                                execution.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.openworkflowexecutionsperdomain </entry>
+                            <entry>Maximum number of open workflow executions for each
+                                domain.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.systemonly </entry>
+                            <entry>Service available for internal/administrator use only.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.workflowexecutionduration </entry>
+                            <entry>Maximum workflow execution time.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.workflowexecutionhistorysize </entry>
+                            <entry>Maximum number of events per workflow execution.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.workflowexecutionretentionduration </entry>
+                            <entry>Maximum workflow execution history retention time.</entry>
+                        </row>
+                        <row>
+                            <entry>services.simpleworkflow.workflowtypesperdomain </entry>
+                            <entry>Maximum number of workflow types for each domain.</entry>
+                        </row>
+                        <row>
+                            <entry>stats.config_update_check_interval_seconds </entry>
+                            <entry>Interval, in seconds, at which the sensor configuration is
+                                checked for changes</entry>
+                        </row>
+                        <row>
+                            <entry>stats.enable_stats </entry>
+                            <entry>Enable Eucalyptus internal monitoring stats</entry>
+                        </row>
+                        <row>
+                            <entry>stats.event_emitter </entry>
+                            <entry>Internal stats emitter FQ classname used to send metrics to
+                                monitoring system</entry>
+                        </row>
+                        <row>
+                            <entry>stats.file_system_emitter.stats_data_permissions </entry>
+                            <entry>group permissions to place on stats data files in string form.
+                                eg. rwxr-x--x</entry>
+                        </row>
+                        <row>
+                            <entry>stats.file_system_emitter.stats_group_name </entry>
+                            <entry>group name that owns stats data files</entry>
+                        </row>
+                        <row>
+                            <entry>storage.global_total_snapshot_size_limit_gb </entry>
+                            <entry>Maximum total snapshot capacity (GB)</entry>
+                        </row>
+                        <row>
+                            <entry>system.dns.dnsdomain </entry>
+                            <entry>Domain name to use for DNS.</entry>
+                        </row>
+                        <row>
+                            <entry>system.dns.nameserver </entry>
+                            <entry>Nameserver hostname.</entry>
+                        </row>
+                        <row>
+                            <entry>system.dns.nameserveraddress </entry>
+                            <entry>Nameserver ip address.</entry>
+                        </row>
+                        <row>
+                            <entry>system.dns.nameserveraddress </entry>
+                            <entry>Nameserver ip address.</entry>
+                        </row>
+                        <row>
+                            <entry>system.dns.registrationid </entry>
+                            <entry>Unique ID of this cloud installation.</entry>
+                        </row>
+                        <row>
+                            <entry>system.exec.io_chunk_size </entry>
+                            <entry>Size of IO chunks for streaming IO</entry>
+                        </row>
+                        <row>
+                            <entry>system.exec.max_restricted_concurrent_ops </entry>
+                            <entry>Maximum number of concurrent processes which match any of the
+                                patterns in system.exec.restricted_concurrent_ops.</entry>
+                        </row>
+                        <row>
+                            <entry>system.exec.restricted_concurrent_ops </entry>
+                            <entry>Comma-separated list of commands which are restricted by
+                                system.exec.max_restricted_concurrent_ops.</entry>
+                        </row>
+                        <row>
+                            <entry>tagging.max_tags_per_resource </entry>
+                            <entry>The maximum number of tags per resource for each account</entry>
+                        </row>
+                        <row>
+                            <entry>tokens.disabledactions </entry>
+                            <entry>Actions to disable</entry>
+                        </row>
+                        <row>
+                            <entry>tokens.enabledactions </entry>
+                            <entry>Actions to enable (ignored if empty)</entry>
+                        </row>
+                        <row>
+                            <entry>walrusbackend.blockdevice </entry>
+                            <entry>DRBD block device</entry>
+                        </row>
+                        <row>
+                            <entry>walrusbackend.resource </entry>
+                            <entry>DRBD resource name</entry>
+                        </row>
+                        <row>
+                            <entry>walrusbackend.storagedir </entry>
+                            <entry>Path to buckets storage</entry>
+                        </row>
+                        <row>
+                            <entry>walrusbackend.storagemaxtotalcapacity </entry>
+                            <entry>Total WalrusBackend storage capacity for Objects</entry>
+                        </row>
+                        <row>
+                            <entry>www.https_ciphers </entry>
+                            <entry>SSL ciphers for HTTPS listener.</entry>
+                        </row>
+                        <row>
+                            <entry>www.https_port </entry>
+                            <entry>Listen to HTTPs on this port.</entry>
+                        </row>
+                        <row>
+                            <entry>www.https_protocols </entry>
+                            <entry>SSL protocols for HTTPS listener.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
    </table></section>
  </conbody>
 </concept>
