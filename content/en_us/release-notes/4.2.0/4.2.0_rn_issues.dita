@@ -71,15 +71,21 @@ euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></
 										remains of that line in the shell.</li>
 								</ol></p></entry>
 					</row>
-					
+					<row>
+						<entry>ELB access logs collection fails when logs prefix contains an uppercase letter (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11524"
+							>EUCA-11524</xref>)</entry>
+						<entry>Uppercase characters in a path is invalid, resulting in an eror.
+							<p>Workaround: Specify the prefix with lowercase characters.</p></entry>
+					</row>
 					<row>
 						<entry>Large number of volumes breaks volumes landing page (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/GUI-1925"
 								>GUI-1925</xref>)</entry>
-						<entry>Workaround: There is a limit of
-							5,000 volumes and 10,000 snapshots per account. The filter list
-							limit is 200 items, which is the maximum number of filter values
-							specified in a single cell.</entry>
+						<entry>Workaround: There is a limit of 5,000 volumes and 10,000 snapshots per account. The
+							filter list limit is 200 items, which is the maximum number of filter
+							values specified in a single call.</entry>
 					</row>
 					<row>
 						<entry>Creating an account with 'admin' user entered prevents download of credentials (<xref
@@ -123,7 +129,29 @@ euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></
 	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
 	# end of SSL configuration. </codeblock></p></entry>
 					</row>
-					
+					<row>
+						<entry>Console does not allow an empty prefix to be entered for ELB access logs (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2173"
+							>GUI-2173</xref>)</entry>
+						<entry>The Prefix field is optional. However, when the field is left blank and saved, 
+							the console auto-generates a prefix with uppercase characters, which is invalid, 
+							resulting in an eror.
+							<p>Workaround: Using all lowercase characters, enter a path in the Prefix text field 
+								to specify the path within the bucket to store your log files.</p></entry>
+					</row>
+					<row>
+						<entry>ELB access logs aren't collected when the logs prefix is left blank 
+							(and console auto-generates prefix) (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2174"
+							>GUI-2174</xref>)</entry>
+						<entry>The Prefix field is optional. However, when the field is left blank and saved, 
+							the console auto-generates a prefix with uppercase characters, which is invalid, 
+							resulting in an eror.
+							<p>Workaround: Using all lowercase characters, enter a path in the Prefix text field 
+								to specify the path within the bucket to store your log files.</p></entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
@@ -148,17 +176,6 @@ euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></
 						</entry>
 					</row>
 					
-					<row>
-						<entry>Older imaging worker fails to convert paravirt on 4.1.1 (<xref
-							format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-10787"
-							>EUCA-10787</xref>)</entry>
-						<entry>
-							<p>After upgrading from 4.0.2 to 4.1.1 without updating the image
-								worker. Paravirt image conversion fails.</p>
-							<p>Workaround: See linked bug for more information.</p>
-						</entry>
-					</row>
 					<row>
 						<entry>Failed EMIs from CreateImage might leave behind orphaned snapshots (<xref
 							format="html"
