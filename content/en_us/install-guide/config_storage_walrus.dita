@@ -3,15 +3,14 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="task_template">
     <!--    This task template to be used for a specific PROCEDURE with steps. -->    
-    <title>Use Walrus</title>
+    <title>Use Walrus Backend</title>
     <shortdesc>This topic describes how to configure Walrus as the object storage backend provider
         for the Object Storage Gateway (OSG).</shortdesc>
     <taskbody>
         <!--    If there are no prereqs, state "None." -->        
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
-                <li>The OSG must be installed, registered, and running. REVIEWER need clarification
-                    on OSG / SC and Walrus ??? (osg a service?)</li>
+            <li>The UFS must be registered and enabled.</li>
                 <li>You must execute the steps below as a Eucalyptus administrator.</li>
             </ul></prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
@@ -21,18 +20,20 @@
                 <cmd>Enter <codeph>walrus</codeph> as the storage provider using the
                         <codeph>euctl</codeph> command.</cmd>
                 <info>
-                    <codeph>euctl objectstorage.providerclient=walrus</codeph>
+                    <codeph>euctl --region @localhost objectstorage.providerclient=walrus</codeph>
                 </info>
             </step>
             <step>
                 <cmd>Check that the OSG is enabled.</cmd>
                 <info>
-                    <codeblock>euserv-describe-services</codeblock>
+                    <codeblock>euserv-describe-services --region @localhost</codeblock>
                     <p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
                         check the cloud-*.log files in the
                         <codeph>/var/log/eucalyptus</codeph> directory. A
                         <codeph>DISABLED</codeph> state generally indicates that there is a
-                        problem with your network or credentials.</p>
+                        problem with your network or credentials. See <xref
+                            href="../troubleshooting-guide/ts_logs.dita#ts_logs"/> for more
+                        information.</p>
                 </info>
             </step>
         </steps>
