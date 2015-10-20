@@ -62,14 +62,50 @@ euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></
 							>EUCA-11516</xref>)</entry>
 						<entry>The <codeph>clcadmin-assume-system-credentials</codeph> command doesn't handle database
 							queries that return more than one result properly. <p>Workaround: <ol>
-									<li>Re-run the command a second time <i>outside</i> of
-											<codeph>eval</codeph> after running it for the first
-										time inside of <codeph>eval</codeph>. <note>Notice the
-												<codeph>AWS_SECRET_ACCESS_KEY</codeph> is followed
-											by two words instead of the usual one.</note></li>
-									<li>Copy that line, delete the second word, and then paste what
-										remains of that line in the shell.</li>
-								</ol></p></entry>
+									<li>When you first run
+											<codeph>clcadmin-assume-system-credentials</codeph>,
+										the resulting output shows: <p>
+											<codeblock>export AWS_IAM_URL=http://127.0.0.1:8773/services/Euare;
+export EMPYREAN_URL=http://127.0.0.1:8773/services/Empyrean;
+export PROPERTIES_URL=http://127.0.0.1:8773/services/Properties;
+export AWS_ACCESS_KEY_ID="AKIAANXD4CQD3EXAMPLE";
+export AWS_ACCESS_KEY="AKIAANXD4CQD3EXAMPLE";
+export EC2_ACCESS_KEY="AKIAANXD4CQD3EXAMPLE";
+export <b>AWS_SECRET_ACCESS_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE AKIABBNYD5CRE4EXAMPLE"</b>;
+export AWS_SECRET_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE AKIABBNYD5CRE4EXAMPLE";
+export EC2_SECRET_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE AKIABBNYD5CRE4EXAMPLE";
+unset AWS_CREDENTIAL_FILE;
+unset AWS_SESSION_TOKEN;
+unset AWS_SECURITY_TOKEN;
+unset EC2_USER_ID;</codeblock>
+										</p><p>
+											<note>Notice the environment variable,
+												<codeph>AWS_SECRET_ACCESS_KEY</codeph> returns two
+												words instead of the usual one, as shown in the
+												bolded text.</note>
+										</p></li>
+									<li>Copy that line without the second word, then paste it in the
+										shell: <p>
+											<codeblock>export AWS_SECRET_ACCESS_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE</codeblock>
+										</p> The following corrected output displays: <p>
+											<codeblock>export AWS_IAM_URL=http://127.0.0.1:8773/services/Euare;
+export EMPYREAN_URL=http://127.0.0.1:8773/services/Empyrean;
+export PROPERTIES_URL=http://127.0.0.1:8773/services/Properties;
+export AWS_ACCESS_KEY_ID="AKIAANXD4CQD3EXAMPLE";
+export AWS_ACCESS_KEY="AKIAANXD4CQD3EXAMPLE";
+export EC2_ACCESS_KEY="AKIAANXD4CQD3EXAMPLE";
+export AWS_SECRET_ACCESS_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE";
+export AWS_SECRET_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE";
+export EC2_SECRET_KEY="sfywRHlsRJ4joukXCEfymsdEbaNEZHl17EXAMPLE";
+unset AWS_CREDENTIAL_FILE;
+unset AWS_SESSION_TOKEN;
+unset AWS_SECURITY_TOKEN;
+unset EC2_USER_ID;</codeblock>
+										</p>
+									</li>
+									<li>Paste the corrected output into the terminal. </li>
+								</ol>
+							</p></entry>
 					</row>
 					<row>
 						<entry>ELB access logs collection fails when logs prefix contains an uppercase letter (<xref
@@ -83,16 +119,17 @@ euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></
 						<entry>Large number of volumes breaks volumes landing page (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/GUI-1925"
 								>GUI-1925</xref>)</entry>
-						<entry>Workaround: There is a limit of 5,000 volumes and 10,000 snapshots per account. The
+						<entry>There is a limit of 5,000 volumes and 10,000 snapshots per account. The
 							filter list limit is 200 items, which is the maximum number of filter
-							values specified in a single call.</entry>
+							values specified in a single call. <p>Workaround: Have less volumes per account, 
+							or avoid using the console for viewing them.</p></entry>
 					</row>
 					<row>
 						<entry>Creating an account with 'admin' user entered prevents download of credentials (<xref
 							format="html"
 							href="https://eucalyptus.atlassian.net/browse/GUI-2168"
 							>GUI-2168</xref>)</entry>
-						<entry>Workaround: Do not create an Administrator account as it is created by default.</entry>
+						<entry>Workaround: Do not create an 'admin' user as it is created automatically for every account.</entry>
 					</row>
 					<row>
 						<entry>Eucaconsole does not always load the latest IE mode (<xref
