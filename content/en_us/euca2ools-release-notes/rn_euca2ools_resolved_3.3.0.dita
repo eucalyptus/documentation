@@ -8,6 +8,14 @@
 		<p>Euca2ools 3.3.0 resolves issues listed in the following table.</p>
 		<table>
 			<tgroup cols="2">
+				<colspec
+					colnum="1"
+					colname="c1"
+					colwidth="1*"/>
+				<colspec
+					colnum="2"
+					colname="c2"
+					colwidth="5.67*"/>
 				<thead>
 					<row>
 						<entry>Issue</entry>
@@ -17,57 +25,48 @@
 				<tbody>
 					<row>
 						<entry><xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/EUCA-10590"
-							>EUCA-10590</xref></entry>
-						<entry>Improve client endpoint configuration.</entry>
-					</row>
-					<row>
-						<entry><xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/TOOLS-359"
-								>TOOLS-359</xref></entry>
-						<entry>Add STS support to tools.</entry>
-					</row>
-					<row>
-						<entry><xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/TOOLS-360"
-							>TOOLS-360</xref></entry>
-						<entry>Add sig v4 support in tools.</entry>
-					</row>
-					<row>
-						<entry><xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/TOOLS-469"
-							>TOOLS-469</xref></entry>
-						<entry>Add S3 sig v4 support to tools.</entry>
-					</row>
-					<row>
-						<entry><xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/TOOLS-524"
 								>TOOLS-524</xref></entry>
-						<entry>Add support for <codeph>eu-central-1 </codeph>region.</entry>
+						<entry>Add support for <codeph>eu-central-1 </codeph>region, 
+							which covers AWS's new Frankfurt-based region. </entry>
 					</row>
 					<row>
 						<entry><xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/TOOLS-527"
 							>TOOLS-527</xref></entry>
-						<entry>Implement *LB-attributes for ELB.</entry>
+						<entry>Implement *LB-attributes for ELB. <p>The 
+							<codeph>eulb-describe-load-balancer-attributes</codeph> and 
+							<codeph>eulb-modify-lb-attributes</codeph> commands provide the ability 
+							to inspect and modify load balancers' attributes.</p></entry>
 					</row>
 					<row>
 						<entry><xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/TOOLS-551"
 							>TOOLS-551</xref></entry>
-						<entry><codeph>eulb-create-policy</codeph> need to support a ton of attributes.</entry>
+						<entry><codeph>eulb-create-policy</codeph> need to support a ton of attributes. <p>The
+									<codeph>eulb-create-lb-policy</codeph> command gained a
+									<codeph>-A</codeph> option that simplifies entering multiple
+								attributes.</p></entry>
 					</row>
-					<row>
-						<entry><xref format="html"
-							href="https://eucalyptus.atlassian.net/browse/TOOLS-556"
-							>TOOLS-556</xref></entry>
-						<entry>Request to provide ability to add/delete/list ELB tags.</entry>
-					</row>
+					
 					<row>
 						<entry><xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/TOOLS-572"
 							>TOOLS-572</xref>  </entry>
-						<entry>Make certificate and private key options to bundle commands optional.</entry>
+						<entry>Make certificate and private key options to bundle commands optional, eliminating the
+							need for the zip files to be produced by Eucalyptus's deprecated
+								<codeph>euca_conf --get-credentials</codeph> command. <p>Images
+								bundled without signing certificates are incompatible with
+								Eucalyptus 4.1 and earlier and cannot be unbundled without cloud
+								administrator assistance. Commands that bundle images no longer
+								require signing certificates to run and can fetch the cloud's
+								signing certificate automatically.</p><p>If the commands have been
+								configured with the <codeph>bootstrap</codeph> service's endpoint
+								and the cloud runs Eucalyptus <ph
+									conref="../shared/conrefs.dita#prod/version_short"/> or later.
+								Normal users require the
+									<codeph>euserv:DescribeServiceCertificates</codeph> capability
+								in their IAM policies to use this functionality. </p></entry>
 					</row>
 					<row>
 						<entry><xref format="html"
@@ -79,7 +78,9 @@
 						<entry><xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/TOOLS-594"
 							>TOOLS-594</xref>  </entry>
-						<entry>Differences in digest zero-padding can cause euca-unbundle to fail.</entry>
+						<entry>Differences in digest zero-padding can cause euca-unbundle to fail. 
+							<codeph>euca-unbundle</codeph> and <codeph>euca-download-and-unbundle</codeph> 
+							mistakenly treated some non-corrupt bundles as corrupt.</entry>
 					</row>
 				</tbody>
 			</tgroup>
