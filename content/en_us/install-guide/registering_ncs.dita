@@ -18,25 +18,33 @@
 	<taskbody>
 		
 		<context>
-			<note type="important">If you are using host names rather than IP addresses when registering
-				your NCs, ensure that DNS is working properly, or populate /etc/hosts for all
-				nodes in a cluster.</note>
+			<note type="important">If you are using host names rather than IP addresses when registering your
+				NCs, ensure that DNS is working properly, or populate /etc/hosts for all nodes in a
+				zone.</note>
 		</context>
 		<steps>
 			<step>
-				<cmd>On a CC, register all NCs using the following command with the IP address of
-					each NC server:</cmd>
-				<info>
-					<codeblock>/usr/sbin/euca_conf --register-nodes "[node0_IP_address] ... [nodeN_IP_address]"</codeblock>
-				</info>
+				<cmd>SSH to the Cluster Controller in the zone.</cmd>
 			</step>
 			<step>
-				<cmd>Repeat each cluster in your cloud.</cmd>
+				<cmd>On the CC, register all NCs using the following command with the IP address of each NC host
+					machine:</cmd>
+				<info>
+					<codeblock>clusteradmin-register-nodes [node0_IP_address] ... [nodeN_IP_address]</codeblock>
+				</info>
+				<stepxmp><codeblock>clusteradmin-register-nodes 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
+			</step>
+			<step>
+				<cmd>Copy the CC's security credentials using the following command:</cmd>
+				<info>
+					<codeblock>clusteradmin-copy-keys [node0_IP_address] ... [nodeN_IP_address]</codeblock>
+				</info>
+				<stepxmp><codeblock>clusteradmin-copy-keys 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
+			</step>
+			<step>
+				<cmd>Repeat the steps for each zone in your cloud.</cmd>
 			</step>
 		</steps>
-		<example>
-			<p>The IP addresses of the NCs are space delimited, as in the following example:</p>
-			<codeblock>/usr/sbin/euca_conf --register-nodes "192.168.71.154 192.168.71.155 192.168.71.159"</codeblock></example>
 
 		<postreq></postreq>
 
