@@ -45,7 +45,14 @@
 euca-authorize --egress -P udp -p 53 -s 0.0.0.0/0 sg-f3a511c4
 euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></entry>
 					</row>
-					
+					<row>
+						<entry>PV instance migration doesn't work(<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11511"
+							>EUCA-11511</xref>)</entry>
+						<entry>Paravirtual instances cannot be migrated using <codeph>euserv-migrate-instance</codeph>. 
+							There are no workarounds at this time.</entry>
+					</row>
 					<row>
 						<entry>Failure to multi-delete objects by non-bucket-owning accounts (<xref
 							format="html"
@@ -106,6 +113,16 @@ unset EC2_USER_ID;</codeblock>
 									<li>Paste the corrected output into the terminal. </li>
 								</ol>
 							</p></entry>
+					</row>
+					<row>
+						<entry>euserv-describe-services with secure http endpoint results in 
+							python2.6 InsecureRequestWarning. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11519"
+							>EUCA-11519</xref>)</entry>
+						<entry>When an administrator uses HTTPS and doesn't enable certificate verification, 
+							running any command thereafter, will display the InsecureRequestWarning message.
+							<p>Workaround: Use a valid certificate and set <varname>verify-ssl</varname> = 
+								<userinput>true</userinput> in the region's configuration, or use plain HTTP.</p></entry>
 					</row>
 					<row>
 						<entry>ELB access logs collection fails when logs prefix contains an uppercase letter (<xref
