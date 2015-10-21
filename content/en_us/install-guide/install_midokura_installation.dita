@@ -214,7 +214,7 @@ chkconfig tomcat on</codeblock>
                     <cmd>After approximately one minute, you should be able to access the Midonet
                         API using the Midonet shell:</cmd>
                     <info>
-                        <codeph>midonet-cli -A --mido http://127.0.0.1:8080/midonet-api</codeph>
+                        <codeph>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api</codeph>
                     </info>
                     <info>
                         <note>If this command does not work, check
@@ -291,21 +291,21 @@ chkconfig midolman on</codeblock>
             <steps>
                 <step>
                     <cmd>Log into the midonet shell. For example:</cmd>
-                    <info><codeblock>midonet-cli -A —mido http://127.0.0.1:8080/midonet-api
+                    <info><codeblock>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api
 </codeblock>
                     </info>
                 </step>
                 <step>
                     <cmd>Create a GRE tunnel zone:</cmd>
                     <info>
-                        <codeblock>[root@clcfrontend mido-docs]# midonet-cli -A --mido http://127.0.0.1:8080/midonet-api
-midonet> list tunnel-zone
+                        <codeblock>[root@clcfrontend mido-docs]# midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api
+midonet> tunnel-zone add name eucatz type gre
+midonet> tunnel-zone list
 tzone tzone0 name eucatz type gre
-midonet> list host
+midonet> host list
 host host0 name node1 alive true
 host host1 name clcfrontend alive true
-host host2 name node2 alive true
-midonet></codeblock>
+host host2 name node2 alive true</codeblock>
                     </info>
                     <info>
                         <p>You should see a host listed for each of your Node controllers and for
