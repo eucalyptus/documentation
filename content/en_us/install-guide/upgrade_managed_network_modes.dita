@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_managed_network_modes">
+    <title>Upgrade Managed Network Modes</title>
+    <shortdesc>You must generate the JSON network property/configuration string to use managed
+        networking modes in Eucalyptus 4.2. The creation of the network configuration JSON file should be done
+        prior to upgrade.This topic describes how to upgrade managed networking modes (MANAGED and
+        MANAGED-NOVLAN) for Eucalytpus 4.2. </shortdesc>
+    <taskbody>
+        <context>
+            <p>To upgrade managed network modes for Eucalyptus 4.2:</p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Before upgrading, retrieve and note VNET settings from your current
+                    installation of Eucalyptus. These are contained in the
+                        <codeph>/etc/eucalyptus/eucalyptus.conf</codeph> file. For example:</cmd>
+                <info>
+                    <codeblock>VNET_PUBLICIPS="10.111.101.31 10.111.101.40 10.111.101.42 10.111.101.43 10.111.101.132 10.111.101.133 10.111.101.134 10.111.101.135"
+VNET_SUBNET="172.16.0.0"
+VNET_NETMASK="255.255.0.0"
+VNET_ADDRSPERNET="16"
+VNET_DNS="10.1.1.254"</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Retrieve cluster properties from your current installation using either the
+                        <codeph>euctl</codeph> or the <codeph>euca-describe-properties</codeph>
+                    commands. For example:</cmd>
+                <info>
+                    <codeblock>PROPERTY &lt;clustername>.cluster.maxnetworktag 639
+PROPERTY &lt;clustername>.cluster.minnetworktag 512</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Create the JSON configuration. For this example, save the file as
+                        <codeph>network.json</codeph>. Examples for both MANAGED and MANAGED-NOVLAN
+                    are shown below.</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>The following shows an example JSON configuration file for MANAGED
+                            mode:</cmd>
+                        <info>
+                            <codeblock>{
+  "InstanceDnsServers": [
+    “10.1.1.254"
+  ],
+  "Clusters": [
+    {
+      "MacPrefix": "d0:0d",
+      "Name": “&lt;clustername>"
+    }
+  ],
+  "PublicIps": [
+    "10.111.101.31",
+    "10.111.101.40",
+    "10.111.101.42",
+    "10.111.101.43", 
+    "10.111.101.132",
+    "10.111.101.133",
+    "10.111.101.134",
+    "10.111.101.135"
+  ],
+  "Mode": "MANAGED",
+  "ManagedSubnet": {
+    "Subnet": "172.16.0.0",
+    "Netmask": "255.255.0.0",
+    "MinVlan": "512",
+    "MaxVlan": "639"
+  }
+}</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>The following shows an example JSON configuration file for
+                            MANAGED-NOVLAN mode:</cmd>
+                        <info>
+                            <codeblock>{
+  "Clusters": [
+    {
+      "MacPrefix": "d0:0d",
+      "Name": "one"
+    }
+  ],
+  "InstanceDnsServers": [
+    "10.111.1.56"
+  ],
+  "ManagedSubnet": {
+    "Netmask": "255.255.0.0",
+    "Subnet": "172.16.0.0"
+  },
+  "Mode": "MANAGED-NOVLAN",
+  "PublicIps": [
+    "10.111.31.177",
+    "10.111.31.178",
+    "10.111.31.179",
+    "10.111.31.180",
+    "10.111.31.181",
+    "10.111.31.182",
+    "10.111.31.183",
+    "10.111.31.184"
+  ]
+}</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Stop all cloud components using the <codeph>service <i>component_name</i>
+                        stop</codeph> command. For example:</cmd>
+                <info>
+                    <codeblock>service eucalyptus-cc stop
+service eucalyptus-cloud stop
+service eucalyptus-nc stop</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>On the machine for each Eucalyptus component, upgrade Eucalyptus. For
+                    example:</cmd>
+                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+            </step>
+            <step>
+                <cmd>Start the Eucalyptus services on each of the Eucalyptus component machines. For
+                    example:</cmd>
+                <info><codeph>service eucalyptus-cloud start</codeph></info>
+            </step>
+            <step>
+                <cmd>When the CLC completes database upgrade and becomes enabled, set the
+                    'cloud.network.network_configuration' property to point to the JSON file that
+                    was created. For example:</cmd>
+                <info>
+                    <codeph>euctl cloud.network.network_configuration=@network.json</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Upgrade the CC and SC machines. For example:</cmd>
+                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+            </step>
+            <step>
+                <cmd>On the SC machine, start the SC services:</cmd>
+                    <info>
+                        <codeph>service eucalyptus-cloud start</codeph>
+                    </info>
+            </step>
+            <step>
+                <cmd>On the CC machine, start the CC services:</cmd>
+                <info>
+                    <codeph>service eucalyptus-cloud start</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>On the CCs, start EUCANETD.</cmd>
+                <info>
+                    <codeph>service eucanetd start</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Upgrade each NC. </cmd>
+                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+            </step>
+            <step>
+                <cmd>Start the NC services on each NC:</cmd>
+                <info>
+                    <codeph>service eucalyptus-nc start</codeph>
+                </info>
+            </step>
+            <step>
+                <cmd>Start the EUCANETD service on each NC:</cmd>
+                <info>
+                    <codeph>"service eucanetd start</codeph>
+                </info>
+            </step>
+        </steps>
+        <result>Congratulations! You've now upgraded your managed network mode for Eucalyptus 4.2.</result>
+    </taskbody>
+</task>
