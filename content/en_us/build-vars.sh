@@ -34,7 +34,7 @@ export ANT_OPTS="$ANT_OPTS -Djavax.xml.transform.TransformerFactory=net.sf.saxon
 export DOC_VERSION_NUMBER=$(sed -n '/version_long">/ s/[^<]*<p><ph[^>]*>\([^<]*\).*/\1/p' ./shared/conrefs.dita)
 echo "  DOC VERSION NUMBER: " $DOC_VERSION_NUMBER
 
-export EUCA2OOLS_VERSION_NUMBER=$(sed -n '/e2ools_version_short">/ s/[^<]*<p><ph[^>]*>\([^<]*\).*/\1/p' ./shared/conrefs.dita)
+export EUCA2OOLS_VERSION_NUMBER=$(sed -n '/e2ools_version">/ s/[^<]*<p><ph[^>]*>\([^<]*\).*/\1/p' ./shared/conrefs.dita)
 echo "  EUCA2OOLS VERSION NUMBER: " $EUCA2OOLS_VERSION_NUMBER
 
 echo "*** Adding project-specific version of ant to path ***"
