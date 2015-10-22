@@ -19,13 +19,19 @@
 	  </shortdesc>
 	  <taskbody>
 	    <steps>
-	      <step>
-		<cmd>Run the following command on the machine where you installed the eucalyptus-service-image
-						package:</cmd>
-		<info>
-		  <codeblock>euca-install-load-balancer --install-default</codeblock>
-		</info>
-	      </step>
+	    	<step>
+	    		<note>This command is not necessary if you've already performed the steps in <xref href="install-guide/configure_imaging_service.dita">Install and Configure the Imaging Service</xref>.</note>
+	    		<cmd>Run the following commands on the machine where you installed the
+	    			<codeph>eucalyptus-service-image</codeph> RPM package (it will set
+	    			the <codeph>imaging.imaging_worker_emi</codeph> property to the newly
+	    			created EMI of the imaging worker):</cmd>
+	    		<info>
+	    			<codeblock>export AWS_DEFAULT_REGION=localhost
+eval `clcadmin-assume-system-credentials`
+export S3_URL=http://your_s3_url_here/
+esi-install-image --region localhost --install-default</codeblock>
+	    		</info>
+	    	</step>
 	    </steps>
 	  </taskbody>
 	</task>
@@ -43,7 +49,12 @@
 	      <step>
 		<cmd>Run the following command to list installed Load Balancer images:</cmd>
 		<info>
-		  <codeblock>euca-install-load-balancer --list</codeblock>
+		  <codeblock>esi-describe-images --region admin@</codeblock>
+			<p>This will produce output similar to the followin:</p>
+			<codeblock>SERVICE     VERSION  ACTIVE     IMAGE      INSTANCES
+    imaging       2.2      *     emi-573925e5      0
+ loadbalancing    2.2      *     emi-573925e5      0
+    database      2.2      *     emi-573925e5      0</codeblock>
 		</info>
 	      </step>
 	      <step>
