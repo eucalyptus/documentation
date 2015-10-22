@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_imaging_service_shared">
-	<title>Configure the Imaging Service</title>
+	<title>Install and Configure the Imaging Service</title>
 	<shortdesc> The Eucalyptus Imaging Service is a service, introduced in Eucalyptus 4.0, that makes
 		it easier to deploy EBS images in your Eucalyptus cloud. This service automates many of the
 		labor-intensive processes required for uploading data into EBS images. The Imaging Service
@@ -61,26 +61,7 @@ export S3_URL=http://your_s3_url_here/
 esi-install-image --region localhost --install-default</codeblock>
 					</info>
 				</step>
-				<step>
-					<cmd>To create the imaging worker for the first time:</cmd>
-					<info>
-						<codeph>esi-manage-stack -a create imaging</codeph>
-					</info>
-					<info>
-						<p>Later, you can delete or stop the imaging worker with the following command:</p>
-						<codeph>esi-manage-stack -a delete imaging</codeph>
-					</info>
-				</step>
-				<step>
-					<cmd>Consider setting the <codeph>imaging.imaging_worker_instance_type</codeph> property to an
-						Instance Type with enough ephemeral disk to convert any of your paravirtual
-						images. The Imaging Worker root filesystem takes up about 2GB, so the
-						maximum paravirtual image that the Imaging Worker will be able to convert is
-						the disk allocation of the Instance Type minus 2GBs.</cmd>
-					<info>
-						<codeblock>euctl services.imaging.worker.instance_type=m3.xlarge</codeblock>
-					</info>
-				</step>
+				
 				<step>
 					<cmd>Consider setting the <codeph>imaging.imaging_worker_keyname</codeph> property to an SSH
 						keyname (previously created with the <codeph>euca-create-keypair</codeph>
@@ -94,7 +75,7 @@ esi-install-image --region localhost --install-default</codeblock>
 		</taskbody>
 	</task>
 	<task id="manage_imaging_service_instance">
-		<title>Managing Imaging Worker Instance</title>
+		<title>Managing the Imaging Worker Instance</title>
 		<shortdesc>Eucalyptus automatically starts Imaging Worker instances when there are tasks for
 			workers to perform. </shortdesc>
 		<taskbody>
@@ -107,36 +88,31 @@ esi-install-image --region localhost --install-default</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Imaging Worker instances are not terminated automatically when they no longer have tasks
-						to perform. Free up resources used by the Imaging Worker instances by
-						reducing the Auto Scaling group size as follows:</cmd>
-					<info><ul>
-						<li><codeph>Min=0</codeph></li>
-						<li><codeph>Desired=0</codeph></li>
-						<li><codeph>Max=</codeph>leave at <codeph>1</codeph></li>
-					</ul>
-					</info>
+					<cmd>To delete / stop the imaging worker:</cmd>
 					
 					<info>
-						<codeblock># euscale-update-auto-scaling-group asg-euca-internal-imaging-worker-01 --desired-capacity 0 --min-size 0</codeblock>
+						
+						<codeph>esi-manage-stack -a delete imaging</codeph>
 					</info>
-					<info><note>When an Auto Scaling group is reduced in that manner, tasks that require the Imaging Worker
-							(new paravirtual EMI deployment, import of volumes and instances) will
-							not work.</note></info>
 				</step>
 				<step>
-					<cmd>To allow the Imaging Worker instances to be deployed again, increase the Auto Scaling
-						group (ASG) capacity:</cmd>
-					<info><ul>
-						<li><codeph>Min=1</codeph></li>
-						<li><codeph>Desired=1</codeph></li>
-						<li><codeph>Max=</codeph>leave at <codeph>1</codeph></li>
-					</ul>
-					</info>
+					<cmd>To create the imaging worker for the first time:</cmd>
 					<info>
-						<codeblock># euscale-update-auto-scaling-group asg-euca-internal-imaging-worker-01 --desired-capacity 1 --min-size 1</codeblock>
+						<codeph>esi-manage-stack -a create imaging</codeph>
+					</info>
+					
+				</step>
+				<step>
+					<cmd>Consider setting the <codeph>imaging.imaging_worker_instance_type</codeph> property to an
+						Instance Type with enough ephemeral disk to convert any of your paravirtual
+						images. The Imaging Worker root filesystem takes up about 2GB, so the
+						maximum paravirtual image that the Imaging Worker will be able to convert is
+						the disk allocation of the Instance Type minus 2GBs.</cmd>
+					<info>
+						<codeblock>euctl services.imaging.worker.instance_type=m3.xlarge</codeblock>
 					</info>
 				</step>
+				
 			</steps>
 		</taskbody>
 	</task>
