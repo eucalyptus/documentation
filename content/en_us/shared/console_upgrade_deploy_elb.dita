@@ -13,92 +13,72 @@
         </context>
         <steps>
             <step>
-                <cmd>Create a load balancer. For more information, see <xref href="../user-guide/elb_examples_basic_config.dita"></xref>.</cmd>
+                <cmd>If you don't have a CentOS 6.x image on your cloud, perform the following steps to install one:</cmd>
                 <substeps>
+                    <substep id="step_download_centos_image">
+                        <cmd>Download a CentOS 6.x image from the <xref href="http://emis.eucalyptus.com"
+                            scope="external" format="html">Eucalyptus Machine Image Catalog</xref>.</cmd>
+                        <info><note>Keep its ID handy as it will be required in the subsequent steps.</note></info>
+                    </substep>
                     <substep>
-                        <cmd>Leave the default listener port on 80.</cmd>
+                        <cmd>Install the image onto your cloud. For more information, see 
+                            <xref href="../image-guide/img_task_install_hvm_image.dita"></xref></cmd>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Create or import an SSH key. For more information, see <xref
+                    href="../user-guide/create_keypairs.dita"/> or 
+                    <xref href="../euca2ools-guide/euca-import-keypair.dita"></xref>.</cmd>
+            </step>
+            <step>
+                <cmd>Create the console stack using a pre-defined template from the eucaconsole github repository:</cmd>
+                <substeps>
+                    <substep id="step_create_stack">
+                        <cmd>In the terminal command line, run the following command using your own ssh key name, 
+                            the image ID (from step <xref href="#console_upgrade_console/step_download_centos_image" type="li" />),
+                          instance type, and your cloud’s fully qualified domain name (FQDN):</cmd>
                         <info>
-                            <note>Don't change the listener to port 443 at this point yet, since you
-                                will need an SSL certificate first.</note>
+                            <codeblock>euform-create-stack —template-url https://raw.githubusercontent.com/eucalyptus/eucaconsole/maint-4.2/scripts/console-deploy.cfn eucaconsole-stack -p KeyName=dak-ssh-key -p ImageId=emi-2fb14ad7 -p InstanceType=m3.2xlarge -p CloudIP=a-09.autoqa.qa1.eucalyptus-systems.com</codeblock>
+                            <note>The InstanceType shown in the above is only an example of the size of the image chosen. The image type (size) you choose could be smaller, since that size could serve 1000 users.</note>
                         </info>
                     </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Create an SSL certificate using the domain name for the ELB:</cmd>
+                <substeps>
                     <substep>
-                        <cmd>Define the health check to use HHTP/443 and path of <codeph>/</codeph>.</cmd>
+                        <cmd> run <codeph>euform-describe-stacks eucaconsole-stack</codeph> 
+                            to obtain the domain name from the resulting output URL.</cmd>
                     </substep>
                     <substep>
-                        <cmd>Select the zone or zones you wish to use for your scaling group(s).</cmd>
-                        <info><codeblock>PROVIDE SAMPLE REPRESENTING COMBINED STEPS HERE WOULD BE NICE</codeblock></info>
+                        <cmd>See <xref
+                            href="../admin-guide/configuring_ssl.dita"/> to create an SSL certificate.</cmd>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
+                <cmd>Upload the SSL certificate by running the command:</cmd>
+                <info><codeblock>euare-servercertupload –s eucaconsole-cert —private-key-file &lt;<varname>console-pk.pem</varname>&gt; —certificate-file &lt;<varname>console.crt</varname>&gt;</codeblock></info>
+            </step>
+            <step>
+                <cmd>Add the HTTPS listener to your ELB:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Obtain the SSL certificate ARN by running the command:</cmd>
+                        <info><codeblock>euare-servercertgetattributes –s eucaconsole-cert</codeblock></info>
+                    </substep>
+                    <substep>
+                        <cmd>Then add the listener by runnng the command:</cmd>
+                        <info><codeblock>eulb-create-lb-listeners &lt;elb-name&gt; --listener "protocol=HTTPS,lb-port=443,instance-port=443,instance-protocol=HTTPS,cert-id=&lt;cert-arn&gt;”</codeblock></info>
+                        <stepresult>Now you should be able to reach the console via "https://&lt;cloudIP&gt;” 
+                            (the FQDN you provided when creating the stack in step <xref href="#console_upgrade_console/step_create_stack" type="li" />).</stepresult>
                     </substep>
                     
                 </substeps>
             </step>
-            <step>
-                <cmd>Create an SSL certificate using the ELB public DNS name, or configure a DNS record pointing to the ELB,
-                    and use that DNS name in your SSL certficate. For more information on creating a server certificate, go to <xref
-                        href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/ssl-server-cert.html#create-cert"
-                        scope="external" format="html">AWS SSL Certificates for Elastic Load Balancing</xref>.</cmd>
-            </step>
-          
-            <step>
-                <cmd>Add a listener to the ELB for HTTP/443 on the client and instance side, using the SSL certificate you just 
-                    created in the previous step.</cmd>
-                <info><codeblock>PROVIDE SAMPLE REPRESENTING WHAT THAT LOOKS LIKE HERE WOULD BE NICE</codeblock></info>
-            </step>
-            <step>
-                <cmd>Create a security group for scaling group (console servers) which you will use in your launch configuration. </cmd>
-                <substeps>
-                    <substep>
-                        <cmd>Open port ports 80 and 443 to incoming traffic from the security group being used by the ELB.</cmd>
-                        <info><codeblock>PROVIDE EXAMPLE HERE WOULD BE NICE</codeblock></info>
-                    </substep>
-                </substeps>
-            </step>
-            <step>
-                <cmd>Create launch configuration using the <codeph>cloud-init script</codeph> in <filepath>user-data</filepath>:</cmd>
-            <substeps>
-                <substep>
-                    <cmd>Use a CentOS 6 image.</cmd>
-                </substep>
-            <substep>
-                <cmd>Use at least the minimum server specification of 4 cores and 8GB of memory. In this example, we use m3.2xlarge with 4 
-                    cores and 4G memory.</cmd>
-            </substep>
-            <substep>
-                <cmd>Modify the 10th line in the cloud-init script to use the cloud back-end FQDN in place of the name already there.</cmd>
-                <info>
-                    <codeblock>9th line sample from script would be great here
-10th line sample from script would be great here
-11th line sample from script would be great here</codeblock> 
-                </info>
-                <stepresult>Near the bottom of the <codeph>cloud-init</codeph> script are two random keys. Generate your own to ensure some uniqueness 
-                    in your session cookie encryption.</stepresult>
-            </substep>
-            <substep>
-                <cmd>On CentOS, run the following to create a new random 32-character string:</cmd>
-                <info>
-                    <codeblock>"cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1"</codeblock>
-                </info>
-                <stepresult><b>Provide outcome screen here would be nice.</b></stepresult>
-            </substep>
-            </substeps>
-            </step>
-            <step>
-                <cmd>Create an autoscaling group that uses this launch configuration and the ELB.</cmd>
-                <info><note>You might want to set a propagating tag to label instances in this autoscaling group. 
-                    If you want to manually scale this group, you can start with min/desired/max set to <codeph>1</codeph>, 
-                    but adjust desired/max to reflect the number of instances you'd like. A better way is to set up scaling 
-                    policies: one to scale up, another to scale down based on CPU load. Sustained CPU load over 90% is usually 
-                    a good sign you want to add another instance. Sustained CPU load under 40% likely means you can remove an instance.</note></info>
-                <info><codeblock>PROVIDE SAMPLE REPRESENTING WHAT THAT LOOKS LIKE HERE WOULD BE NICE</codeblock></info>
-                
-                <stepresult>At this point, you will see one instance being launched and in a couple of minutes, it will show healthy 
-                    and <i>in-service</i> in the ELB, at which point, you can start using the console. 
-                <b>PROVIDE SAMPLE</b>
-                </stepresult>
-                
-            </step>
         </steps>
-        
     </taskbody>
     
 </task>
