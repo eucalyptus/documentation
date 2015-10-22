@@ -11,8 +11,7 @@
 		4.0,  raw disks are exclusively used within the system for deploying images to Node
 		Controllers.)</shortdesc>
 	<taskbody>
-		<context><note>Imaging Service is <b>required</b> to run paravirtual images in your
-				Eucalyptus cloud.</note> The Eucalyptus Imaging Service is implemented as a
+		<context> The Eucalyptus Imaging Service is implemented as a
 			system-controlled "worker" virtual machine that is monitored and controlled via Auto
 			Scaling. Once the Imaging Service is configured, the Imaging Service VM will be started
 			automatically upon the first request that requires it: either an EBS volume ingress or a
@@ -30,7 +29,8 @@
 					registers the EMI, and launches an instance from the EMI. This is accomplished
 					with euca-import-instance command, which has options for specifying the instance
 					type and the SSH key for the instance to use.</li>
-				<li><b><i>Running a paravirtual image:</i></b> If your system has partition-based paravirtual
+				<!-- Removed per Shaon tech review comments 2015-10-22 -->
+				<!--<li><b><i>Running a paravirtual image:</i></b> If your system has partition-based paravirtual
 					EMIs (which entered the system via the standard bundle/upload/register process),
 					the Imaging Service will be engaged when you run such an EMI on a 4.0 system for
 					the first time: Soon after run request is acknowledged, an Imaging Worker
@@ -38,7 +38,7 @@
 					the paravirtual image. During this time, both the pending instance and the EMI
 					will have tags associated with them showing the status of conversion. If
 					conversion is successful, the instance will be deployed and the image will be
-					usable again, without requiring conversion upon next run.</li>
+					usable again, without requiring conversion upon next run.</li>-->
 			</ul>
 		</context>
 	</taskbody>
@@ -50,12 +50,25 @@
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>Run the following command on the machine where you installed the
+					<cmd>Run the following commands on the machine where you installed the
 						<codeph>eucalyptus-service-image</codeph> RPM package (it will set
 						the <codeph>imaging.imaging_worker_emi</codeph> property to the newly
 						created EMI of the imaging worker):</cmd>
 					<info>
-						<codeblock>esi-install-image --install-default</codeblock>
+						<codeblock>export AWS_DEFAULT_REGION=localhost
+eval `clcadmin-assume-system-credentials`
+export S3_URL=http://your_s3_url_here/
+esi-install-image --region localhost --install-default</codeblock>
+					</info>
+				</step>
+				<step>
+					<cmd>To create the imaging worker for the first time:</cmd>
+					<info>
+						<codeph>esi-manage-stack -a create imaging</codeph>
+					</info>
+					<info>
+						<p>Later, you can delete or stop the imaging worker with the following command:</p>
+						<codeph>esi-manage-stack -a delete imaging</codeph>
 					</info>
 				</step>
 				<step>
