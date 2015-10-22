@@ -48,40 +48,67 @@ euare-accountcreate bob -wld mycloud.example.com | mail -s "Your credentials" bo
 							will be installed automatically.</entry>
 					</row>
 					<row>
-						<entry>All commands use AWS signature version 4 for all services except S3.</entry>
-						<entry> It can additionally be enabled for S3 on a per-region basis with the <codeph>s3-force-sigv4</codeph> 
-							region option in euca2ools.ini. 
-							<note>Eucalyptus 4.2's object storage gateway is not compatible with AWS signature version 4.</note></entry>
-					</row>
-					
-					<row>
-						<entry>Configuration for the retired Eucalyptus Community Cloud has been removed.</entry>
-						<entry>Eucalyptus Community Cloud has been integrated into the HP Helion community.</entry>
+						<entry>All commands now use AWS signature version 4 for all services except S3.</entry>
+						<entry>AWS signture version 4 can additionally be enabled for S3 on a per-region 
+							basis with the <codeph>s3-force-sigv4</codeph> region option in euca2ools.ini.
+								<note>Eucalyptus 4.2's object storage gateway is not compatible with
+								AWS signature version 4.</note></entry>
 					</row>
 					<row>
-						<entry>New load balancer commands.</entry>
-						<entry>Added load balancer commands to provide the ability to add, delete, and list ELB
-							tags.</entry>
+						<entry>Commands that bundle images no longer require signing certificates or private keys to run.</entry>
+						<entry>Images bundled without signing certificates are incompatible with Eucalyptus 4.1 and earlier 
+							and cannot be unbundled without cloud administrator assistance. If the commands have been configured 
+							with the bootstrap service's endpoint and the cloud runs Eucalyptus 4.2 or later, running the commands 
+							can fetch the cloud's signing certificate automatically. Typical users require the euserv:DescribeServiceCertificates 
+							capability in their IAM policies to use this functionality. </entry>
 					</row>
-					
+					<row>
+						<entry>ECC retired.</entry>
+						<entry>The Eucalyptus Community Cloud (ECC) was decommissioned in mid-2015 and therefore, its
+							configuration file has  been removed. </entry>
+					</row>
+					<row>
+						<entry>New load balancer commands added.</entry>
+						<entry>The <codeph>eulb-create-tags</codeph>, <codeph>eulb-describe-tags</codeph>, and 
+							<codeph>eulb-delete-tags</codeph> commands allow one to create, view, and delete 
+							tags on load balancers, respectively.<p>The <codeph>eulb-describe-load-balancer-attributes</codeph> 
+								and <codeph>eulb-modify-lb-attributes</codeph> provide the ability
+								to inspect and modify load balancers' attributes.</p></entry>
+					</row>
+					<row>
+						<entry>Entering multiple attributes simplified.</entry>
+						<entry>The <codeph>eulb-create-lb-policy</codeph> command gained a
+							<codeph>-A</codeph> option that simplifies entering multiple
+							attributes.</entry>
+					</row>
 					<row>
 						<entry>Added STS support to tools.</entry>
-						<entry>The <codeph>euare-assumerole</codeph> and <codeph>euare-releaserole</codeph> commands 
-							can now be used inside an <codeph>eval</codeph> shell command to assume IAM roles.</entry>
+						<entry>The <codeph>euare-assumerole</codeph> and <codeph>euare-releaserole</codeph> commands
+							can now be used inside an <codeph>eval</codeph> command to assume IAM
+							roles.</entry>
 					</row>
 					<row>
-						<entry>The <varname>EUARE_URL</varname> environment variable has been removed.</entry>
-						<entry>The <varname>AWS_IAM_URL</varname> variable is used instead.</entry>
+						<entry>Removed the <varname>EUARE_URL</varname> environment variable.</entry>
+						<entry>The previously-deprecated support for the <varname>EUARE_URL</varname> environment 
+							variable has been removed. Use the <varname>AWS_IAM_URL</varname> variable instead.</entry>
 					</row>
 					<row>
-						<entry>For IAM commands that act on only one entity, those entities' names may now be supplied positionally.</entry>
-						<entry>For example, <codeph>euare-usercreate alice</codeph> works the same as <codeph>euare-usercreate -u alice</codeph>.</entry>
+						<entry>Support added for IAM positional options.</entry>
+						<entry>For IAM commands that act on only one entity, those entities' names may now 
+							be supplied positionally. For example, <codeph>euare-usercreate alice</codeph> 
+							works the same as <codeph>euare-usercreate -u alice</codeph>.</entry>
 					</row>
 					
 					<row>
-						<entry>Two eucalyptus-specific services may now be specified in euca2ools.ini files.</entry>
-						<entry><codeph>bootstrap</codeph> and <codeph>properties</codeph> services can be specified 
-							in the euca2ools.ini files.</entry>
+						<entry>Two Eucalyptus services can now be specified in euca2ools.ini files.</entry>
+						<entry>The Eucalyptus-specific <codeph>bootstrap</codeph> and <codeph>properties</codeph>
+							services may now be specified in euca2ools.ini files for use with
+							Eucalyptus's admin tools as well as euca2ools commands that bundle
+							images.</entry></row>
+						<row>
+							<entry>New region added.</entry>
+							<entry>Added support for <codeph>eu-central-1 </codeph>region, which covers AWS's new
+								Frankfurt-based region.</entry>
 					</row>
 				</tbody>
 			</tgroup>
