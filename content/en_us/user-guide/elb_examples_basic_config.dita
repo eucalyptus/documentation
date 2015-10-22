@@ -38,7 +38,7 @@
                             as the endpoint URL for the load balancing service
                             (using <codeph>-\-url</codeph>). </p>
                         <p>Optional arguments are marked below in italics.</p>-->
-                        <codeblock>eulb-create-lb -z PARTI00 -l "lb-port=80, protocol=HTTP, instance-port=80, 
+                        <codeblock>eulb-create-lb -z one -l "lb-port=80, protocol=HTTP, instance-port=80, 
 instance-protocol=HTTP" MyLoadBalancer<!--
                         	eulb-create-lb 
   (-\-subnets SUBNET1,... | -\-availability-zones ZONE1,...)  \ 
@@ -68,8 +68,8 @@ instance-protocol=HTTP" MyLoadBalancer<!--
                     <cmd>Optionally, you can create listeners for the load balancer as
                         follows:</cmd>
                     <info>
-                        <codeblock>eulb-create-lb-listeners --listener "lb-port=<b>PORT</b>, protocol=<b>PROTOCOL</b>,
-    instance-port=<b>PORT</b>, instance-protocol=<b>PROTOCOL</b>,cert-id=<b>ARN</b>"</codeblock>
+                        <codeblock>eulb-create-lb-listeners --listener "lb-port=80, protocol=HTTP,
+    instance-port=80, instance-protocol=HTTP"</codeblock>
                     </info>
                 </step>
             </steps>
@@ -88,11 +88,7 @@ instance-protocol=HTTP" MyLoadBalancer<!--
                 <step>
                     <cmd>Enter the following command:</cmd>
                     <info>
-                        <codeblock>eulb-register-instances-with-lb 
-  --instances INSTANCE1,INSTANCE2,...     \
- (--region USER@REGION | --url URL)       \
-  --access-key-id KEY_ID --secret-key KEY \
-    MyLoadBalancer</codeblock>
+                        <codeblock>eulb-register-instances-with-lb --instances i-e0636aca,i-0c9c3967 MyLoadBalancer</codeblock>
                     </info>
                 </step>
                 <step>
