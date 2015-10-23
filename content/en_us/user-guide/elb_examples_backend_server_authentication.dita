@@ -15,7 +15,8 @@
             <step>
                 <cmd>Create a new loadbalancer with HTTPS as backend instance’s protocol: </cmd>
                 <info>
-                    <codeblock>eulb-create-lb -l "protocol=HTTPS,lb-port=443,instance-protocol=HTTPS,instance-port=8443,cert-id=arn:aws:iam::000550595745:server-certificate/mycert01" -z one myloadbalancer</codeblock>
+                    <codeblock>eulb-create-lb -l "protocol=HTTPS,lb-port=443,instance-protocol=HTTPS,instance-port=8443,cert-id=arn:aws:iam::000550595745:server-certificate/mycert01"\
+                        -z one myloadbalancer</codeblock>
                 </info>
             </step>
             <step>
@@ -50,8 +51,9 @@
                     <codeblock>eulb-describe-lbs --show-long myloadbalancer
 LOAD_BALANCER myloadbalancer
 myloadbalancer-000550595745.lb.c-04.autoqa.qa1.eucalyptus-systems.com
-{interval=30,target=TCP:8443,timeout=5,healthy-threshold=3,unhealthy-threshold=3}
-one {protocol=HTTPS,lb-port=443,instance-protocol=HTTPS,instance-port=8443,cert-id=arn:aws:iam::000550595745:server-certificate/mycert01,{ELBSecurityPolicy-2015-05}}
+{interval=30,target=TCP:8443,timeout=5,healthy-threshold=3,unhealthy-threshold=3} one \
+{protocol=HTTPS,lb-port=443,instance-protocol=HTTPS,instance-port=8443,cert-id=arn:aws:iam::000550595745:server-certificate/mycert01,\
+{ELBSecurityPolicy-2015-05}}
 {instance-port=8443,policies={webserverauthentication}}
 {ELBSecurityPolicy-2015-05,webservercert,webserverauthentication}
 {owner-alias=000936883517,group-name=euca-internal-000550595745-myloadbalancer}
