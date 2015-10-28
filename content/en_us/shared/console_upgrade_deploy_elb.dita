@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_upgrade_console">
-    <title>Upgrade the Management Console Behind an ELB</title>
+    <title>Deploy the Management Console Behind an ELB</title>
     <shortdesc>This section describes the process for deploying the console behind a load balancer (ELB).
     </shortdesc>
     
@@ -27,20 +27,108 @@
                 </substeps>
             </step>
             <step>
-                <cmd>Create or import an SSH key. For more information, see <xref
-                    href="../user-guide/create_keypairs.dita"/> or 
-                    <xref href="../euca2ools-guide/euca-import-keypair.dita"></xref>.</cmd>
+                <cmd>Establish a user account to install and run Euca2ools commands to set up your console.</cmd>  
+                <substeps>
+                    <substep>
+                        <cmd>On the machine running the CLC on your cloud, designate an existing user account from the 
+                            <codeph>cred_depot</codeph> directory to be used to set up the console in this manner.</cmd>
+                        <info>Use an existing account with admin privileges as identified by 'admin' after the account name: 
+                            <filepath>../cred_depot/<varname>&lt;acct_name-02&gt;</varname>/admin</filepath>.</info>
+                        <info><note>If no accounts exist with admin privileges, create a new one using the <i>create-users</i> 
+                            script.</note></info>
+                    </substep>
+                    <substep>
+                        <cmd>In the <filepath>../cred_depot/<varname>&lt;acct_name-02&gt;</varname>/admin</filepath>, 
+                            run <codeph>source eucarc</codeph>.</cmd>
+                        <info><note>If a message returns that indicates <systemoutput>eucarc cannot be found</systemoutput> 
+                            in that directory, unzip the <codeph>creds.zip</codeph> file then run <codeph>source eucarc</codeph> again. 
+                        </note></info>
+                        <info>Once you have designated which user account to set up the console,
+                            complete the remaining procedure using Euca2ools. You can invoke
+                            Euca2ools commands anywhere.</info>
+                    </substep>
+                </substeps>
             </step>
+            
+            
+            <step>
+                <cmd>Create or import an SSH key. For more information, see <xref
+                        href="../user-guide/create_keypairs.dita"/> or <xref
+                        href="../euca2ools-guide/euca-import-keypair.dita"/>.</cmd>
+            </step>
+           
             <step>
                 <cmd>Create the console stack using a pre-defined template from the eucaconsole github repository:</cmd>
                 <substeps>
+                    <substep>
+                        <cmd>First, download the template by running <codeph>wget https://raw.githubusercontent.com/eucalyptus/eucaconsole/maint-4.2/scripts/console-deploy.cfn</codeph>.</cmd>
+                    </substep>
                     <substep id="step_create_stack">
-                        <cmd>In the terminal command line, run the following command using your own ssh key name, 
-                            the image ID (from step <xref href="#console_upgrade_console/step_download_centos_image" type="li" />),
-                          instance type, and your cloud’s fully qualified domain name (FQDN):</cmd>
+                        <cmd>Run the following command supplying your own values for each attribute,
+                            as outlined in the table below:</cmd>
                         <info>
-                            <codeblock>euform-create-stack —template-url https://raw.githubusercontent.com/eucalyptus/eucaconsole/maint-4.2/scripts/console-deploy.cfn eucaconsole-stack -p KeyName=dak-ssh-key -p ImageId=emi-2fb14ad7 -p InstanceType=m3.2xlarge -p CloudIP=a-09.autoqa.qa1.eucalyptus-systems.com</codeblock>
-                            <note>The InstanceType shown in the above is only an example of the size of the image chosen. The image type (size) you choose could be smaller, since that size could serve 1000 users.</note>
+                            <codeblock>euform-create-stack -—template-file console-deploy.cfn &lt;<varname>stack_name</varname>&gt; -p KeyName=&lt;<varname>your_ssh_key</varname>&gt; -p ImageId=&lt;<varname>emi_id</varname>&gt; -p InstanceType=&lt;<varname>instance_size</varname>&gt; -p CloudIP=&lt;<varname>fully_qualified_domain_name</varname>&gt;</codeblock>
+                        </info>
+                        <info>
+                                <table>
+                                    <tgroup cols="3">
+                                    <colspec
+                                        colnum="1"
+                                        colname="c1"
+                                        colwidth="1.5*"/>
+                                    <colspec
+                                        colnum="2"
+                                        colname="c2"
+                                        colwidth="2.5*"/>
+                                    <colspec
+                                        colnum="3"
+                                        colname="c3"
+                                        colwidth="3*"/>
+                                        <thead>
+                                            <row>
+                                                <entry>Attribute</entry>
+                                                <entry>Variable</entry>
+                                                <entry>Example</entry>
+                                                
+                                            </row>
+                                        </thead>
+                                        <tbody>
+                                            <row>
+                                                <entry><varname>stack_name</varname></entry>
+                                                <entry>&lt;stack_name&gt;</entry>
+                                                <entry><codeph>eucaconsole-stack</codeph></entry>
+                                            </row>
+                                            <row>
+                                                <entry><codeph>keyName</codeph></entry>
+                                                <entry>&lt;your_ssh_key&gt;</entry>
+                                                <entry><codeph>dak-ssh-key</codeph></entry>
+                                            </row>
+                                            <row>
+                                                <entry><codeph>ImageId</codeph></entry>
+                                                <entry>&lt;emi_id&gt;</entry>
+                                                <entry><codeph>emi-2fb14ad7</codeph>
+                                                  <note>Obtained from step <xref
+                                                  href="#console_upgrade_console/step_download_centos_image"
+                                                  type="li"/></note></entry>
+                                            </row>
+                                            <row>
+                                                <entry><codeph>InstanceType</codeph></entry>
+                                                <entry>&lt;instance_size&gt;</entry>
+                                                <entry><codeph>m1.medium</codeph>
+                                                  <note>The InstanceType shown in the above example
+                                                  is generally sufficient in size. The image type
+                                                  (size) you choose should rarely be larger than
+                                                  m1.medium or c1.medium, unless you plan on
+                                                  accomodating more than 1000 users.</note></entry>
+                                            </row>
+                                            <row>
+                                                <entry><codeph>CloudIP</codeph></entry>
+                                                <entry>&lt;fully_qualified_domain_name&gt; (fqdn)</entry>
+                                                <entry><codeph>a-09.autoqa.qa1.eucalyptus-systems.com</codeph></entry>
+                                            </row>
+                                    </tbody>
+                                </tgroup>
+                            </table>
                         </info>
                     </substep>
                 </substeps>
@@ -49,31 +137,65 @@
                 <cmd>Create an SSL certificate using the domain name for the ELB:</cmd>
                 <substeps>
                     <substep>
-                        <cmd> run <codeph>euform-describe-stacks eucaconsole-stack</codeph> 
+                        <cmd> run <codeph>euform-describe-stacks &lt;<varname>stack_name</varname>&gt;</codeph> 
                             to obtain the domain name from the resulting output URL.</cmd>
                     </substep>
                     <substep>
                         <cmd>See <xref
-                            href="../admin-guide/configuring_ssl.dita"/> to create an SSL certificate.</cmd>
+                            href="../user-guide/elb_examples_ssl_certificates.dita"/> to create an SSL certificate.</cmd>
                     </substep>
                 </substeps>
             </step>
             <step>
-                <cmd>Upload the SSL certificate by running the command:</cmd>
-                <info><codeblock>euare-servercertupload –s eucaconsole-cert —private-key-file &lt;<varname>console-pk.pem</varname>&gt; —certificate-file &lt;<varname>console.crt</varname>&gt;</codeblock></info>
+                <cmd>Upload the SSL certificate by running the following command, supplying your own values for each attribute outlined in the table below:</cmd>
+                <info><codeblock>euare-servercertupload –s eucaconsole-cert -—private-key-file &lt;<varname>your_private_key</varname>&gt;.pem -—certificate-file &lt;<varname>cert_name</varname>&gt;.cert</codeblock>
+                    <table>
+                        <tgroup cols="3">
+                            <thead>
+                                <row>
+                                    <entry>Attribute</entry>
+                                    <entry>Variable</entry>
+                                    <entry>Example</entry>
+                                    
+                                </row>
+                            </thead>
+                            <tbody>
+                                <row>
+                                    <entry><codeph>-—private-key-file</codeph></entry>
+                                    <entry>&lt;your_private_key&gt;</entry>
+                                    <entry><codeph>console-pk.pem</codeph></entry>
+                                </row>
+                                <row>
+                                    <entry><codeph>-—certificate-file</codeph></entry>
+                                    <entry>&lt;cert_name&gt;</entry>
+                                    <entry><codeph>console.crt</codeph></entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </info>
+            </step>
+            <step>
+                <cmd>Obtain the name of your load balancer by running the
+                    <codeph>eulb-describe-lbs</codeph> command in order to provide it later in 
+                    step <xref href="#console_upgrade_console/step_add_listener" type="li" />.</cmd>
+                <stepresult>The results display all the ELBs. There may be only one ELB if you haven’t run others. Look for 
+                    the ELB name that was prefixed with the &lt;<varname>stack_name</varname>&gt; you specified or “eucaconsole-stack" 
+                    if you used the one supplied in step <xref href="#console_upgrade_console/step_create_stack" type="li" />. 
+                </stepresult>
             </step>
             <step>
                 <cmd>Add the HTTPS listener to your ELB:</cmd>
                 <substeps>
                     <substep>
                         <cmd>Obtain the SSL certificate ARN by running the command:</cmd>
-                        <info><codeblock>euare-servercertgetattributes –s eucaconsole-cert</codeblock></info>
+                        <info><codeblock>euare-servercertgetattributes –s &lt;<varname>cert_name</varname>&gt; | head –1</codeblock></info>
                     </substep>
-                    <substep>
-                        <cmd>Then add the listener by runnng the command:</cmd>
-                        <info><codeblock>eulb-create-lb-listeners &lt;elb-name&gt; --listener "protocol=HTTPS,lb-port=443,instance-port=443,instance-protocol=HTTPS,cert-id=&lt;cert-arn&gt;”</codeblock></info>
-                        <stepresult>Now you should be able to reach the console via "https://&lt;cloudIP&gt;” 
-                            (the FQDN you provided when creating the stack in step <xref href="#console_upgrade_console/step_create_stack" type="li" />).</stepresult>
+                    <substep id="step_add_listener">
+                        <cmd>Then add the listener by running the command:</cmd>
+                        <info><codeblock>eulb-create-lb-listeners &lt;<varname>elb_name</varname>&gt; --listener "protocol=HTTPS,lb-port=443,instance-port=443,instance-protocol=HTTPS,cert-id=&lt;<varname>cert_arn</varname>&gt;”</codeblock></info>
+                        <stepresult>Now you should be able to reach the console via "https://&lt;<varname>cloudIP</varname>&gt;” 
+                            (the cloudIP is the FQDN you provided when creating the stack in step <xref href="#console_upgrade_console/step_create_stack" type="li" />).</stepresult>
                     </substep>
                     
                 </substeps>
