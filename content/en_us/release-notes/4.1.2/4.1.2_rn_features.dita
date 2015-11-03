@@ -7,8 +7,54 @@
 	<conbody>
 		<section>
 			<title>New Features</title>
-			<p>Eucalyptus 4.1.2 is a maintenance release and contains no new features.</p>
+			<p>Eucalyptus 4.1.2 introduces the following new feature.</p>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Feature</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Adds the ability to pass SCTP traffic between instances.</entry>
+							<entry>This feature enables SCTP traffic passing between instances when using EDGE network
+								mode. <ol>
+									<li>SCTP requires the conn track modules to be installed on each NC running in EDGE mode:
+												<p><codeph>modprobe
+											nf_conntrack_proto_sctp</codeph></p></li>
+									<li>Check the underlying network to verify it is configured and capable of passing new
+										types of IP traffic. Perform the test outside the Eucalyptus
+										cloud. 
+									</li>
+									<li>Modify the <codeph>cloud.network.ec2_classic_additional_protocols_allowed</codeph>
+										property: <p><codeph>euca-modify-property –p
+												cloud.network.ec2_classic_additional_protocols_allowed
+												=132</codeph></p></li>
+									<li>Set the <codeph>euca-authorize</codeph> option to
+											<codeph>--protocol 132</codeph> (the <xref
+											href="http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml"
+											format="xhtml" scope="external">IANA-assigned protocol
+											number</xref> for SCTP) to enable SCTP for a security
+										group:<p><codeph>euca-authorize mygroup --protocol 132</codeph></p></li>
+								</ol>
+								<note>
+									<ul>
+										<li>If you need to remove the rule from a security group,
+											use <codeph>euca-revoke</codeph>.</li>
+										<li>If you want to remove the protocol from the cloud
+											property, all the related security group rules should be
+											revoked first.</li>
+										<li>All ports are available to SCTP. (Port ranges are
+											ignored.)</li>
+									</ul>
+								</note>
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
 		</section>
-		
 	</conbody>
 </concept>

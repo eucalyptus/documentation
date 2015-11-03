@@ -17,18 +17,41 @@
 					</row>
 				</thead>
 				<tbody>
-
 					<row>
-						<entry>Generic EDGE Networking Deployment Improvements (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-10695"
-								>EUCA-10695</xref>)</entry>
+						<entry>Failed EMIs from CreateImage might leave behind orphaned snapshots (<xref
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-11184"
+							>EUCA-11184</xref>)</entry>
 						<entry>
-							<p>See linked bug for more information.</p>
+							<ol>
+								<li>Use <codeph>euca-describe-images</codeph> to see if the EMI associated with CreateImage
+									has a <codeph>failed</codeph> status.<p>If any failed,
+									then:</p></li>
+								<li>Use <codeph>euca-describe-snapshots</codeph> to find any snapshot IDs associated with
+									the failed CreateImage EMI ID.<p>The snapshot description
+										includes the EMI ID and Instance ID. Note that the snapshot
+										state can be <codeph>failed</codeph> or
+											<codeph>completed</codeph>.</p></li>
+							</ol>
+							<p>Workaround: The cloud administrator and/or cloud user (with proper IAM access to the
+								account's snapshots) can simply delete any orphaned snapshots.</p>
 						</entry>
 					</row>
+				</tbody>
+			</tgroup>
+		</table>
 
+		<p><b>Outstanding known issues from previous releases:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
 					<row>
-
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
 						<entry>Unable to launch EBS instance or delete volume when launched in
 							different zone than created. (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-10697"
@@ -37,46 +60,21 @@
 							<p>See linked bug for more information.</p>
 						</entry>
 					</row>
-
+					
 					<row>
-
 						<entry>Older imaging worker fails to convert paravirt on 4.1.1 (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-10787"
-								>EUCA-10787</xref>)</entry>
+							format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-10787"
+							>EUCA-10787</xref>)</entry>
 						<entry>
 							<p>After upgrading from 4.0.2 to 4.1.1 without updating the image
 								worker. Paravirt image conversion fails.</p>
 							<p>Workaround: See linked bug for more information.</p>
 						</entry>
 					</row>
-
-					<row>
-						<entry>Reduce default cloud.vmstate.terminated_time to 2 (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-10792"
-								>EUCA-10792</xref>)</entry>
-						<entry>
-							<p>The <codeph>cloud.vmstate.terminated_time</codeph> property default
-								value was previously 60 minutes. This time has been reduced to 2
-								minutes.</p>
-						</entry>
-					</row>
-
-					<row>
-						<entry>IAM policy settings/modifications with multiple Resource items are
-							not showing up after save (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/GUI-1710"
-								>GUI-1710</xref>)</entry>
-						<entry>
-							<p>After modifying and saving a policy, the modified settings do not
-								show up when viewing the updated policy. </p>
-							<p>Workaround: see linked bug.</p>
-						</entry>
-					</row>
 				</tbody>
 			</tgroup>
 		</table>
-
+		
 	</conbody>
 </concept>
