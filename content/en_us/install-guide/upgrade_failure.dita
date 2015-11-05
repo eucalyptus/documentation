@@ -48,8 +48,8 @@
             </step>
             <step>
                 <cmd>If you have a Eucalyptus subscription, downgrade your subscription release
-                        package on each host machine to the release package you obtained for
-                        Eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
+                        package on each host machine to the release package you used for Eucalyptus
+                            <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
                 <info>
                     <codeblock>yum downgrade eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>*.rpm</codeblock>
                 </info>
@@ -67,14 +67,7 @@
                                 <codeph>-<ph conref="../shared/conrefs.dita#prod/prev_version"
                             /></codeph> to each of the packages in the following list:</cmd>
                 <info>
-                    <codeblock>yum downgrade 
-                        eucalyptus 
-                        eucalyptus-admin-tools 
-                        eucanetd
-                        eucalyptus-axis2c-common
-                        eucalyptus-blockdev-utils
-                        eucalyptus-imaging-toolkit
-                        eucalyptus-nc
+                    <codeblock>yum downgrade eucalyptus eucalyptus-admin-tools eucanetd eucalyptus-axis2c-common eucalyptus-blockdev-utils eucalyptus-imaging-toolkit eucalyptus-nc
                     </codeblock>
                 </info>
             </step>
@@ -93,10 +86,9 @@
                 </info>
             </step>
             <step>
-                <cmd>Add the transaction commands listed below for each
-                    component installed on the machine. If more than one
-                    component asks you to use the same transactional command,
-                    you only need to specify that command once. </cmd>
+                <cmd>Add the transaction commands listed below for each service installed on the
+                        machine host. If more than one service requires the same transactional
+                        command, you only need to specify that command once per machine host. </cmd>
             </step>
             <stepsection>
                 <p>CLC Service Transaction Commands:</p>
@@ -113,7 +105,7 @@ downgrade eucalyptus-axis2c-common
                 <p>Additional CLC Service Transaction Commands for Eucalyptus
                     Subscription customers:</p>
                 <codeblock>
-downgrade <!--??? ANYTHING ??? for SUBSCRIPTION customers ???-->
+downgrade [TBD] <!--??? ANYTHING ??? for SUBSCRIPTION customers ???-->
 </codeblock>
                 <p>CC Service Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-cc
@@ -152,8 +144,8 @@ downgrade eucalyptus-enterprise-storage-san-common
 </codeblock>
             </stepsection>
             <step>
-                <cmd>When all yum transaction commands have been entered, run the following command
-                        to verify that the transaction will be successful:</cmd>
+                <cmd>When you have entered all the appropriate yum transaction commands, run the
+                        following command to verify that the transaction will be successful:</cmd>
                 <info>
                     <codeblock>ts solve</codeblock>
                 </info>
@@ -177,8 +169,7 @@ downgrade eucalyptus-enterprise-storage-san-common
                     file from each Eucalyptus host machine:</cmd>
                 <info>
                     <codeblock>rm /etc/eucalyptus/.upgrade</codeblock>
-                    <p>Enter <codeph>y</codeph> when prompted, to remove this
-                        file.</p>
+                    <p>Enter <codeph>y</codeph> when prompted, to remove this file.</p>
                     <note type="important"><p>Remove this file from every
                         Eucalyptus host machine.</p></note>
                 </info>
@@ -187,6 +178,7 @@ downgrade eucalyptus-enterprise-storage-san-common
 	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all Eucalyptus host machines.</cmd>
 	           <info>
 	               <codeblock>rm -rf /var/run/eucalyptus/classcache/</codeblock>
+	               <p>Enter <codeph>y</codeph> when prompted, to remove these files.</p>
 	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file artifacts; they will be regenerated as needed for your downgraded cloud.</p>
 	           </info>
 	       </step>
