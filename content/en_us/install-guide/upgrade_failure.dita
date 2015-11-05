@@ -3,7 +3,8 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_failure">
     <title>Dealing with Failed Upgrades</title>
-    <shortdesc/>
+    <shortdesc>This topic describes how to downgrade your Eucalyptus cloud to an earlier
+        release.</shortdesc>
     <taskbody id="upgrade_failure_tasks">
         <context>
             <p>The upgrade process creates a backup to
@@ -24,9 +25,6 @@
                 co-located or each run on their own machine. You will need to
                 perform the downgrade for all services running on a single
                 machine at the same time.</p>
-            <!--<note type="important">Eucalyptus 3.2 requires Java 1.6. If you are downgrading from
-                Eucalyptus 3.3, you must ensure that Java 1.6 is available and
-                specified in your <codeph>CLOUD_OPTS</codeph>.</note>-->
             <p>The <filepath>/var/lib/eucalyptus/db</filepath> and
                     <filepath>/var/lib/eucalyptus/keys</filepath> directories should not be
                 affected by the upgrade. If they have been removed subsequent to
@@ -42,40 +40,42 @@
 	<steps>
             <step>
                 <cmd>Downgrade to the Eucalyptus <ph
-                        conref="../shared/conrefs.dita#prod/prev_version"/>
-                    release package on each host.</cmd>
+                            conref="../shared/conrefs.dita#prod/prev_version"/> release package on
+                        each host machine.</cmd>
                 <info>
                     <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/eucalyptus_downgrade"/></codeblock>
                 </info>
             </step>
             <step>
-                <cmd>If you have a Eucalyptus subscription, downgrade your
-                    subscription release package on each host to the release
-                    package you obtained for Eucalyptus <ph
-                        conref="../shared/conrefs.dita#prod/prev_version"
-                    />.</cmd>
+                <cmd>If you have a Eucalyptus subscription, downgrade your subscription release
+                        package on each host machine to the release package you obtained for
+                        Eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
                 <info>
                     <codeblock>yum downgrade eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>*.rpm</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Expire the cache for the yum repositories on each
-                    host.</cmd>
+                <cmd>Expire the cache for the yum repositories on each host machine.</cmd>
                 <info>
                     <codeblock>yum clean expire-cache</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Log in to each NC host and downgrade it. To downgrade to a
-                    specific version, append the version number to each package
-                    name. For example, to downgrade to <ph
-                        conref="../shared/conrefs.dita#prod/prev_version"/>, add
-                            <codeph>-<ph
-                            conref="../shared/conrefs.dita#prod/prev_version"
-                        /></codeph> to each of the packages in the following
-                    list:</cmd>
+                <cmd>Log in to each NC host and downgrade it. To downgrade to a specific version,
+                        append the version number to each package name. For example, to downgrade to
+                            <ph conref="../shared/conrefs.dita#prod/prev_version"/>, add
+                                <codeph>-<ph conref="../shared/conrefs.dita#prod/prev_version"
+                            /></codeph> to each of the packages in the following list:</cmd>
                 <info>
-                    <codeblock>yum downgrade eucalyptus eucalyptus-gl eucalyptus-admin-tools eucalyptus-nc python-eucadmin</codeblock>
+                    <codeblock>yum downgrade 
+                        eucalyptus 
+                        eucalyptus-admin-tools 
+                        eucanetd
+                        eucalyptus-axis2c-common
+                        eucalyptus-blockdev-utils
+                        eucalyptus-imaging-toolkit
+                        eucalyptus-nc
+                    </codeblock>
                 </info>
             </step>
             <stepsection>
@@ -105,19 +105,20 @@ downgrade eucalyptus
 downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
 downgrade eucalyptus-admin-tools
-downgrade python-eucadmin
+downgrade eucalyptus-blockdev-utils
+downgrade eucanetd
+downgrade eucalyptus-service-image
+downgrade eucalyptus-axis2c-common
 </codeblock>
                 <p>Additional CLC Service Transaction Commands for Eucalyptus
                     Subscription customers:</p>
-                <codeblock>downgrade eucalyptus-enterprise-storage-san-common-libs
-downgrade eucalyptus-enterprise-storage-san-libs
+                <codeblock>
+downgrade <!--??? ANYTHING ??? for SUBSCRIPTION customers ???-->
 </codeblock>
                 <p>CC Service Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-cc
 downgrade eucalyptus
-downgrade eucalyptus-gl
 downgrade eucalyptus-admin-tools
-downgrade python-eucadmin
 </codeblock>
                 <p>SC Service Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-sc
@@ -125,7 +126,6 @@ downgrade eucalyptus
 downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
 downgrade eucalyptus-admin-tools
-downgrade python-eucadmin
 </codeblock>
                 <p>Walrus Service Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-walrus
@@ -133,45 +133,40 @@ downgrade eucalyptus
 downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
 downgrade eucalyptus-admin-tools
-downgrade python-eucadmin
 </codeblock>
-<!-- Need to find out if this is in place yet or 4.2.1. Also, should it be 'downgrade' or 'remove' ??? 
+<!-- Need to find out if this is in place yet or 4.2.1. (Shaon believes we should have it now in 4.2.0)
                     <p>SAN 3PAR Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-threepar
-remove eucalyptus-enterprise-storage-san-threepar-libs
+downgrade eucalyptus-enterprise-storage-san-threepar-libs
 downgrade eucalyptus-enterprise-storage-san-common
-downgrade remove eucalyptus-enterprise-storage-san-common-libs
 </codeblock>-->
                 <p>SAN EqualLogic Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-equallogic
-remove eucalyptus-enterprise-storage-san-equallogic-libs
+downgrade eucalyptus-enterprise-storage-san-equallogic-libs
 downgrade eucalyptus-enterprise-storage-san-common
-downgrade remove eucalyptus-enterprise-storage-san-common-libs
 </codeblock>
                 <p>SAN NetApp Transaction Commands:</p>
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-netapp
 downgrade eucalyptus-enterprise-storage-san-netapp-libs
 downgrade eucalyptus-enterprise-storage-san-common
-downgrade eucalyptus-enterprise-storage-san-common-libs
 </codeblock>
             </stepsection>
             <step>
-                <cmd>When all transaction commands have been entered run the
-                    following command to verify that the transaction will be
-                    successful:</cmd>
+                <cmd>When all yum transaction commands have been entered, run the following command
+                        to verify that the transaction will be successful:</cmd>
                 <info>
                     <codeblock>ts solve</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Perform the downgrade by running the following command in
-                    the transaction shell:</cmd>
+                    the yum transaction shell:</cmd>
                 <info>
                     <codeblock>run</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Exit the transaction shell using the following
+                <cmd>Exit the yum transaction shell using the following
                     command:</cmd>
                 <info>
                     <codeblock>exit</codeblock>
@@ -179,35 +174,72 @@ downgrade eucalyptus-enterprise-storage-san-common-libs
             </step>
             <step>
                 <cmd>Remove the <filepath>/etc/eucalyptus/.upgrade</filepath>
-                    file from each machine:</cmd>
+                    file from each Eucalyptus host machine:</cmd>
                 <info>
                     <codeblock>rm /etc/eucalyptus/.upgrade</codeblock>
                     <p>Enter <codeph>y</codeph> when prompted, to remove this
-                        file. It is important to remove this file from every
-                        Eucalyptus host.</p>
+                        file.</p>
+                    <note type="important"><p>Remove this file from every
+                        Eucalyptus host machine.</p></note>
                 </info>
             </step>
+	       <step>
+	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all Eucalyptus host machines.</cmd>
+	           <info>
+	               <codeblock>rm -rf /var/run/eucalyptus/classcache/</codeblock>
+	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file artifacts; they will be regenerated as needed for your downgraded cloud.</p>
+	           </info>
+	       </step>
         </steps>
     </taskbody>
 	</task>
-	<task id="upgrade_failure_prep">
-		<title>Prepare System for Upgrade</title>
+	<task id="upgrade_failure_downgrade_euca2ools">
+		<title>Downgrade Euca2ools</title>
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>Clear out the <codeph>/var/run/eucalyptus/</codeph> directory on all machines used for
-						Eucalyptus.</cmd>
-				</step>
-				<step>
-					<cmd>Downgrade Euca2ools to <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>.</cmd>
-				</step>
-				<step>
-					<cmd>Perform the upgrade tasks for your Eucalyptus version.</cmd>
-				</step>
-				<step>
-					<cmd>Start the cloud back up. Make sure all services show <codeph>ENABLED</codeph>.</cmd>
-				</step>
+					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"
+					/> release package on each host machine.</cmd>
+			        <info>
+			            <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca2ools_downgrade"/></codeblock>
+			        </info>
+			    </step>
+			    <step>
+			        <cmd>Expire the cache for the yum repositories on each host machine.</cmd>
+			        <info>
+			            <codeblock>yum clean expire-cache</codeblock>
+			        </info>
+			    </step>
+			    <step>
+			        <cmd>Downgrade to Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"
+			        /> on each host machine.</cmd>
+			        <info>
+			            <codeblock>yum downgrade euca2ools</codeblock>
+			        </info>
+			    </step>
 			</steps>
 		</taskbody>
 	</task>
+    <task id="upgrade_failure_verify_downgrade">
+        <title>Verify the Downgrade</title>
+        <taskbody>
+            <steps>
+                <step>
+                    <cmd>Restart your downgraded cloud.</cmd>
+                </step>
+                <step>
+                    <cmd>Verify the Eucalyptus versions. For example:</cmd>
+                    <info>
+                        <codeblock># euca-version
+euca2ools 3.2.1-4-g7369a57 (Apollo)
+eucalyptus 4.1.2</codeblock>
+                    </info>
+                </step>
+                
+                <step>
+                    <cmd>Verify that all services are <codeph>ENABLED</codeph>.</cmd>
+                </step>
+            </steps>
+        </taskbody>
+    </task>
 </task>
