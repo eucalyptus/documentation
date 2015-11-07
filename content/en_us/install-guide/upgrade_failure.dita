@@ -37,6 +37,7 @@
 	<task id="upgrade_failure_downgrade">
 		<title>Downgrade Eucalyptus</title>
 <taskbody>
+    <prereq>You must <xref href="upgrade_shutdown.dita"/> before downgrading Eucalyptus.</prereq>
 	<steps>
             <step>
                 <cmd>Downgrade to the Eucalyptus <ph
@@ -44,6 +45,7 @@
                         each host machine.</cmd>
                 <info>
                     <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/eucalyptus_downgrade"/></codeblock>
+                    <p>Enter <codeph>y</codeph> when prompted, to downgrade the release package.</p>
                 </info>
             </step>
             <step>
@@ -51,7 +53,9 @@
                         package on each host machine to the release package you used for Eucalyptus
                             <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
                 <info>
-                    <codeblock>yum downgrade eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/prev_version_short"/>*.rpm</codeblock>
+                    <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca_subscription_downgrade"/></codeblock>
+                    <p>Enter <codeph>y</codeph> when prompted, to downgrade the subscription release
+                            package.</p>
                 </info>
             </step>
             <step>
@@ -61,17 +65,17 @@
                 </info>
             </step>
             <step>
-                <cmd>Log in to each NC host and downgrade it. To downgrade to a specific version,
-                        append the version number to each package name. For example, to downgrade to
-                            <ph conref="../shared/conrefs.dita#prod/prev_version"/>, add
-                                <codeph>-<ph conref="../shared/conrefs.dita#prod/prev_version"
-                            /></codeph> to each of the packages in the following list:</cmd>
+                <cmd>Log in to each NC host and downgrade it:</cmd>
+<!-- TESTED OK 
+                Tip to tech writer: If you get 'Package eucalyptus-bla-bla-nnnn.el6.x86_64.rpm is not signed' error you can use 
+                            'yum downgrade bla bla bla -\-nogpg' to bypass it. This will allow you to continue with the downgrade.
+                -->
                 <info>
-                    <codeblock>yum downgrade eucalyptus eucalyptus-admin-tools eucanetd eucalyptus-axis2c-common eucalyptus-blockdev-utils eucalyptus-imaging-toolkit eucalyptus-nc
-                    </codeblock>
+                    <codeblock>yum downgrade eucalyptus eucalyptus-admin-tools eucalyptus-axis2c-common eucalyptus-blockdev-utils eucalyptus-imaging-toolkit eucalyptus-nc eucanetd</codeblock>
+                    <p>Enter <codeph>y</codeph> when prompted, to downgrade the NC packages.</p>
                 </info>
             </step>
-            <stepsection>
+	    <stepsection>
                 <note type="important"><p>Use the <codeph>yum shell</codeph>
                         command for the following instructions. This will allow
                         you to perform more complex transactions that are
@@ -88,59 +92,81 @@
             <step>
                 <cmd>Add the transaction commands listed below for each service installed on the
                         machine host. If more than one service requires the same transactional
-                        command, you only need to specify that command once per machine host. </cmd>
+                        command, you only need to specify that command once per machine host.</cmd>
             </step>
             <stepsection>
-                <p>CLC Service Transaction Commands:</p>
-                <codeblock>downgrade eucalyptus-cloud
-downgrade eucalyptus
-downgrade eucalyptus-common-java
-downgrade eucalyptus-common-java-libs
+                <p>Transaction commands for a combined machine host with CLC, Walrus, CC, and SC:</p>
+<!-- TESTED OK 
+                Tip to tech writer: if you can't get the download to work due to not-signed RPMs, try this
+                'yum downgrade eucanetd "eucalyptus*" -/-nogpgcheck' 
+                -->
+                <codeblock>downgrade eucalyptus
 downgrade eucalyptus-admin-tools
-downgrade eucalyptus-blockdev-utils
-downgrade eucanetd
-downgrade eucalyptus-service-image
 downgrade eucalyptus-axis2c-common
+downgrade eucalyptus-blockdev-utils
+downgrade eucalyptus-cc
+downgrade eucalyptus-cloud
+downgrade eucalyptus-common-java
+downgrade eucalyptus-common-java-libs
+downgrade eucalyptus-sc
+downgrade eucalyptus-service-image
+downgrade eucalyptus-walrus
+downgrade eucanetd
 </codeblock>
-                <p>Additional CLC Service Transaction Commands for Eucalyptus
-                    Subscription customers:</p>
+                <p>CLC transaction commands:</p><!-- Not able to test CLC-only yet-->
+                <codeblock>downgrade eucalyptus
+downgrade eucalyptus-admin-tools
+downgrade eucalyptus-axis2c-common
+downgrade eucalyptus-blockdev-utils
+downgrade eucalyptus-cloud
+downgrade eucalyptus-common-java
+downgrade eucalyptus-common-java-libs
+downgrade eucalyptus-service-image
+downgrade eucanetd
+</codeblock>
+<!--                <p>Additional CLC commands for Eucalyptus Subscription customers:</p>
                 <codeblock>
-downgrade [TBD] <!--??? ANYTHING ??? for SUBSCRIPTION customers ???-->
-</codeblock>
-                <p>CC Service Transaction Commands:</p>
-                <codeblock>downgrade eucalyptus-cc
-downgrade eucalyptus
+downgrade [TBD] there are no known downgrades for subscription packages at this time
+</codeblock>-->
+                <p>UFS transaction commands:</p><!-- TESTED OK -->
+                <codeblock>downgrade eucalyptus
 downgrade eucalyptus-admin-tools
-</codeblock>
-                <p>SC Service Transaction Commands:</p>
-                <codeblock>downgrade eucalyptus-sc
-downgrade eucalyptus
+downgrade eucalyptus-cloud
 downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
-downgrade eucalyptus-admin-tools
+downgrade eucanetd
 </codeblock>
-                <p>Walrus Service Transaction Commands:</p>
-                <codeblock>downgrade eucalyptus-walrus
-downgrade eucalyptus
+                <p>CC transaction commands:</p><!-- Not able to test CC-only yet-->
+                <codeblock>downgrade eucalyptus
+downgrade eucalyptus-admin-tools
+downgrade eucalyptus-cc
+                </codeblock>
+                <p>SC transaction commands:</p><!-- Not able to test SC-only yet-->
+                <codeblock>downgrade eucalyptus
+downgrade eucalyptus-admin-tools
 downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
+downgrade eucalyptus-sc
+</codeblock>
+                <p>Walrus Backend transaction commands:</p><!-- Not able to test Walrus-only yet-->
+                <codeblock>downgrade eucalyptus
 downgrade eucalyptus-admin-tools
+downgrade eucalyptus-common-java
+downgrade eucalyptus-common-java-libs
+downgrade eucalyptus-walrus
 </codeblock>
 <!-- Need to find out if this is in place yet or 4.2.1. (Shaon believes we should have it now in 4.2.0)
-                    <p>SAN 3PAR Transaction Commands:</p>
+                    <p>SAN 3PAR transaction commands:</p>
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-threepar
 downgrade eucalyptus-enterprise-storage-san-threepar-libs
-downgrade eucalyptus-enterprise-storage-san-common
 </codeblock>-->
-                <p>SAN EqualLogic Transaction Commands:</p>
+                <p>SAN EqualLogic transaction commands:</p><!-- Not able to test SAN-EqualLogic yet-->
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-equallogic
 downgrade eucalyptus-enterprise-storage-san-equallogic-libs
-downgrade eucalyptus-enterprise-storage-san-common
 </codeblock>
-                <p>SAN NetApp Transaction Commands:</p>
+                <p>SAN NetApp transaction commands:</p><!-- Not able to test SAN NetApp yet-->
                 <codeblock>downgrade eucalyptus-enterprise-storage-san-netapp
 downgrade eucalyptus-enterprise-storage-san-netapp-libs
-downgrade eucalyptus-enterprise-storage-san-common
 </codeblock>
             </stepsection>
             <step>
@@ -178,8 +204,9 @@ downgrade eucalyptus-enterprise-storage-san-common
 	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all Eucalyptus host machines.</cmd>
 	           <info>
 	               <codeblock>rm -rf /var/run/eucalyptus/classcache/</codeblock>
-	               <p>Enter <codeph>y</codeph> when prompted, to remove these files.</p>
-	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file artifacts; they will be regenerated as needed for your downgraded cloud.</p>
+	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file
+                            artifacts; they will be regenerated as needed for your downgraded
+                            cloud.</p>
 	           </info>
 	       </step>
         </steps>
@@ -190,10 +217,11 @@ downgrade eucalyptus-enterprise-storage-san-common
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"
-					/> release package on each host machine.</cmd>
+					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>
+                        release package on each host machine.</cmd>
 			        <info>
 			            <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca2ools_downgrade"/></codeblock>
+			            <p>Enter <codeph>y</codeph> when prompted, to downgrade the release package.</p>
 			        </info>
 			    </step>
 			    <step>
@@ -204,9 +232,10 @@ downgrade eucalyptus-enterprise-storage-san-common
 			    </step>
 			    <step>
 			        <cmd>Downgrade to Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"
-			        /> on each host machine.</cmd>
+                        /> on each host machine.</cmd>
 			        <info>
 			            <codeblock>yum downgrade euca2ools</codeblock>
+			            <p>Enter <codeph>y</codeph> when prompted, to downgrade Euca2ools.</p>
 			        </info>
 			    </step>
 			</steps>
