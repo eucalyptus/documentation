@@ -14,16 +14,19 @@
 				<keyword>IAM compatible commands</keyword>
 				<keyword>Eucalyptus role assume</keyword>
 				<keyword>arn</keyword>
+				<keyword>euare</keyword>
 			</keywords>
 		</metadata>
 	</prolog>
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>eval `euare-assumerole <b>arn</b> [--as-account <b>account</b>] [-d <b>duration</b>]</codeblock>
+			<codeblock>eval `euare-assumerole <b>arn</b> [--as-account <b>account</b>] [-d <b>duration</b>]`</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
+			<p>euare-assumerole accepts common options similar to most other euare commands, but note the 
+				difference with the <codeph>&#x2011;U</codeph>/<codeph>--url</codeph> option in the table below.</p>
 			<table>
 				<tgroup cols="3">
 					<colspec colwidth="25*"/>
@@ -40,9 +43,10 @@
 					<tbody>
 						<row>
 							<entry><codeph>arn:aws:iam::<i>ARN</i></codeph></entry>
-							<entry>ARN is the role you want to assume. If the complete ARN is not supplied, the command prepends this option.
-								For example, when given <codeph>123456789012:role/S3Access</codeph>, it prepends the <codeph>arn:aws:iam::</codeph> 
-								to the entry.</entry>
+							<entry>ARN is the role you want to assume. <codeph>arn:aws:iam::ARN</codeph> should read either 
+								<codeph>ARN</codeph> or spell out each part of an ARN, as <codeph>arn:aws:iam</codeph> is 
+								part of an ARN. For example, when given <codeph>123456789012:role/S3Access</codeph>, 
+								it prepends the <codeph>arn:aws:iam::</codeph> to the entry as part of the ARN.</entry>
 							<entry align="center">Yes</entry>
 						</row>
 						<row>
@@ -74,25 +78,25 @@
 						<row>
 							<entry><codeph>--policy-content</codeph>
 								<i>policy</i></entry>
-							<entry>Use this option along with pasting the contents of the IAM policy to 
-								further limit what the assumed role can do.</entry>
+							<entry>The contents of an IAM policy that further limits what the assumed role can do. 
+								This option cannot grant additional permissions beyond what the role already allows.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
 							<entry><codeph>--policy-document</codeph>
 								<i>file</i></entry>
-							<entry>Use this option along with an actual IAM policy file to further limit 
-								what the assumed role can do as an alternative means to pasting the contents 
-								as exemplified by the above option. </entry>
+							<entry>A file of an IAM policy that further limits what the assumed role can do. 
+								This option cannot grant additional permissions beyond what the role already allows.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
 							<entry><codeph>--external-id</codeph></entry>
-							<entry>A unique identifier that third parties can give to their customers 
-								to assume roles in their customers' accounts. For more information about
-								external IDs, go to <xref
+							<entry>A unique identifier that third parties can give to their customers to assume roles in
+								their customers' accounts. For more information about external IDs,
+								go to <xref
 									href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html"
-									scope="external" format="html">AWS External ID use case scenaior.</xref>.</entry>
+									scope="external"
+									format="html">AWS External ID use case scenario</xref>.</entry>
 							<entry align="center">No</entry>
 						</row>
 						<row>
@@ -106,6 +110,12 @@
 							<entry><codeph>--mfa-code</codeph></entry>
 							<entry>The code provided by the MFA device that allows access to the role that a user is assuming. 
 								If used, must be used in conjunction with <codeph>--mfa-serial</codeph>.</entry>
+							<entry align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>-U, --url</codeph></entry>
+							<entry>Points to the STS (tokens) service, not the IAM service. The matching environment 
+								variable for that is <i>TOKENS_URL</i>.</entry>
 							<entry align="center">No</entry>
 						</row>
 					</tbody>
