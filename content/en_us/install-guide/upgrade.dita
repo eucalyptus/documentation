@@ -15,38 +15,49 @@
 
 	<conbody>
 		
-			<p>You can upgrade to Eucalyptus <ph conref="../shared/conrefs.dita#prod/version_long"/> from
-			4.1.2 or <ph conref="../shared/conrefs.dita#prod/prev_version"/>; see the prescribed
-			paths below. Follow the directions in that version's Installation Guide in the <xref
+		<note type="important">If you want to upgrade to 4.2.0, contact the Eucalyptus Support team for
+			help with the issue described in <xref
+				href="https://support.eucalyptus.com/hc/en-us/articles/206154936" format="html"
+				scope="external">this KB article</xref>, which will be resolved in 4.2.1. New
+			installs of 4.2.0 are not affected by the issue.</note>
+				
+			<p>You can upgrade to Eucalyptus <ph conref="../shared/conrefs.dita#prod/version_long"/> from <ph
+				conref="../shared/conrefs.dita#prod/prev_version"/>. If your current version is earlier than <ph
+				conref="../shared/conrefs.dita#prod/prev_version"/>, see the prescribed paths below.
+			Follow the directions in that version's Installation Guide in the <xref
 				href="../shared/doc_archive.dita#doc_archive">documentation archive</xref>, and then
 			upgrade to <ph conref="../shared/conrefs.dita#prod/version_long"/> using the directions
 			in this section.</p>
-		<p>You do not need to shut down instances in order to upgrade. However, Auto Scaling instances
-			will likely shut down and be replaced, based on each group's scaling policy and health
-			check criteria.</p>
 		
-		<note type="tip">If you want to upgrade from a release prior to 4.2.1, follow the prescribed
-			upgrade path as shown: <ul>
-				<li>Upgrade from 3.1.2 -> 3.2.2</li>
-				<li>Upgrade from 3.2.2 -> 3.3.2</li>
-				<li>Upgrade from 3.3.2 -> 3.4.3</li>
-				<li>Upgrade from 3.4.3 -> 4.0.2</li>
-				<li>Upgrade from 4.0.2 -> 4.1.2</li>
-				<li>Upgrade from 4.1.2 -> 4.2.1</li>
-			</ul>
-		</note>    
-			
-			<note type="important">Eucalyptus does not support components that are at different releases,
-			even at the sub-minor level. For example, you cannot have a CLC at <ph
-				conref="../shared/conrefs.dita#prod/version_long"/> and a Walrus at <ph
-				conref="../shared/conrefs.dita#prod/prev_version"/>. Make sure that you update all
-			Eucalyptus components when you upgrade.</note>
-			
-		<note type="important">Eucalyptus does not support upgrade to a federated setup. For example, if
-			you have a 4.1.x cloud, it can't have any non-Eucalyptus services accounts created, nor
-			can it be an LDAP integrated cloud. Federated Eucalyptus clouds begin with 4.2.0. For
-			more information, see <xref href="../admin-guide/manage_regions.dita#manage_regions"
-				>Manage Regions</xref>.</note>
-		
+		<section>
+			<term>Warm upgrade</term>
+			<p>Eucalyptus supports warm upgrades as of the 3.4.2 release. This means you do not need
+				to shut down EBS-backed or instance-store-backed instances in order to upgrade. Auto
+				Scaling instances will likely shut down and be replaced, based on each group's
+				scaling policy and health check criteria.</p>
+			<note type="important">When you upgrade the underlying OS (RHEL or Centos), this
+				requires a reboot and therefore warm upgrade is not available in any release when
+				you also upgrade your OS.</note>
+			<term>Prescribed upgrade paths</term>
+			<p>The following are the prescribed upgrade paths for Eucalyptus versions prior to <ph
+					conref="../shared/conrefs.dita#prod/prev_version"/>: <ul>
+					<li>Upgrade from 3.1.2 -> 3.2.2</li>
+					<li>Upgrade from 3.2.2 -> 3.3.2</li>
+					<li>Upgrade from 3.3.2 -> 3.4.3</li>
+					<li>Upgrade from 3.4.3 -> 4.0.2</li>
+					<li>Upgrade from 4.0.2 -> 4.1.2</li>
+				</ul></p>
+			<note type="important">Eucalyptus does not support components that are at different
+				releases, even at the sub-minor level. For example, you cannot have a CLC at <ph
+					conref="../shared/conrefs.dita#prod/version_long"/> and a Walrus at <ph
+					conref="../shared/conrefs.dita#prod/prev_version"/>. Make sure that you update
+				all Eucalyptus components when you upgrade.</note>
+			<note type="important">Eucalyptus does not support upgrade to a federated setup. For
+				example, if you have a 4.1.x cloud, it can't have any non-Eucalyptus services
+				accounts created, nor can it be an LDAP integrated cloud. Federated Eucalyptus
+				clouds begin with 4.2.0. For more information, see <xref
+					href="../admin-guide/manage_regions.dita#manage_regions">Manage
+				Regions in the Administration Guide</xref>.</note>
+		</section>
 	</conbody>
 </concept>
