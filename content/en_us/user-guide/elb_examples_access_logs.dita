@@ -34,8 +34,8 @@ protocol=HTTP,instance-port=80}
             <step>
                 <cmd>Use any S3 client tools to update the bucket’s ACL. For example:</cmd>
                 <info>
-                    <codeblock>s3cmd -c ./s3.config mb s3://webserverlog
-s3cmd -c ./s3.config --acl-grant=write:<b>000865102303</b> setacl s3://webserverlog</codeblock>
+                    <codeblock># aws --endpoint-url http://objectstorage.a-18.autoqa.qa1.eucalyptus-systems.com:8773/ s3 s3://webserverlog
+# aws --endpoint-url http://objectstorage.a-18.autoqa.qa1.eucalyptus-systems.com:8773/ s3api put-bucket-acl --grant-write "id=<b>000865102303</b>" --bucket s3://webserverlog</codeblock>
                 </info>
             </step>
             <step>
