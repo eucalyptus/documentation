@@ -16,16 +16,14 @@
                     write permissions. The access control list requires the canonical ID of the
                     grantee. To obtain the canonical ID of the load balancing service:</cmd>
                 <info>
-                    <codeblock>euca-describe-services -T loadbalancing
-warning: euca-describe-services is deprecated; use ``euserv-describe-services'' instead
-SERVICE loadbalancing     API_10.111.1.39
-API_10.111.1.39.loadbalancing
-ENABLED 1042
-http://10.111.1.39:8773/services/LoadBalancing
-arn:euca:bootstrap:API_10.111.1.39:loadbalancing:API_10.111.1.39.loadbalancing/
-SERVICEACCOUNT
-(eucalyptus)loadbalancing           
-000936883517 <b>59633f572415171541e0f3e403d52a4a1d27337613d203d3829e4961b2d2f3e5</b></codeblock>
+                    <codeblock>[root@a-18 ~]# eulb-describe-lbs --show-long --region devops-admin@region-1
+LOAD_BALANCER	NginxWebServers	NginxWebServers-000476918024.lb.a-
+18.autoqa.qa1.eucalyptus-systems.com			
+{interval=30,target=TCP:80,timeout=5,healthy-threshold=3,unhealthy-threshold=3	
+cash,money			i-6f2a1874,i-be660343	{protocol=HTTP,lb-port=80,instance-
+protocol=HTTP,instance-port=80}					
+<b>{owner-alias=000865102303</b>,group-name=euca-internal-000476918024-NginxWebServers}		
+2015-09-29T18:11:33.761Z	internet-facing</codeblock>
                 </info>
                 <info>
                     <p>
@@ -37,7 +35,7 @@ SERVICEACCOUNT
                 <cmd>Use any S3 client tools to update the bucket’s ACL. For example:</cmd>
                 <info>
                     <codeblock>s3cmd -c ./s3.config mb s3://webserverlog
-s3cmd -c ./s3.config --acl-grant=write:59633f572415171541e0f3e403d52a4a1d27337613d203d3829e4961b2d2f3e5 setacl s3://webserverlog</codeblock>
+s3cmd -c ./s3.config --acl-grant=write:<b>000865102303</b> setacl s3://webserverlog</codeblock>
                 </info>
             </step>
             <step>
