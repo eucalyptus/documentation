@@ -13,20 +13,22 @@
 					conref="../shared/conrefs.dita#prod/version"/>. <ph
 						conref="../shared/conrefs.dita#prod/compat_matrix"/></li>
 				<li>Verified that the required hardware and software are ready and available to Eucalyptus.</li>
-				<li>Followed the <xref href="upgrade.dita#upgrade/prescribed">prescribed path of prior
-						Eucalyptus versions</xref> to get to this upgrade.</li>
+				<li>Followed the <xref href="upgrade.dita#prescribed">prescribed path of prior Eucalyptus
+						versions</xref>, if needed, to prepare for this upgrade.</li>
 				<li>Backed up your data and followed best practices for your environment. See <xref
 						href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/index.html"
 						format="html" scope="external">RHEL documentation</xref>.</li>
-				<li>Prepared to upgrade <i>all Eucalyptus services</i>. Eucalyptus does not support services that are at different
-					releases. For example, you cannot have a CLC at <ph conref="../shared/conrefs.dita#prod/version_long"/> and a 
-					Walrus at <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</li>
+				<li>Prepared to upgrade <i>all Eucalyptus services</i>. Eucalyptus does not support services
+					that are on different release versions. For example, you cannot have a CLC at
+						<ph conref="../shared/conrefs.dita#prod/version_long"/> and a Walrus at <ph
+						conref="../shared/conrefs.dita#prod/prev_version"/>.</li>
 				<li>Verified that you already have the repositories installed for Euca2ools and EPEL from your
 					previous installation. If you do not have these installed, see the installation
-					instructions that version's Installation Guide in the <xref
+					instructions for that version's Installation Guide in the <xref
 						href="../shared/doc_archive.dita#doc_archive">documentation archive</xref>
-					to find out how to add these to your machines.</li>
-				<li>Fully updated your systems using <codeph>yum update</codeph> where possible.</li>
+					to find out how to add these to your host machines.</li>
+				<li>Fully updated your existing (pre-<ph conref="../shared/conrefs.dita#prod/version_long"/>)
+					Eucalyptus services using <codeph>yum update</codeph> where possible.</li>
 				<li>Removed any hand-written repository files for earlier versions of Eucalyptus and Euca2ools
 					from <codeph>/etc/yum.repos.d</codeph>.</li>
 			</ul>
@@ -36,9 +38,9 @@
 				<ul>
 					<li>Unless otherwise noted, perform the upgrade steps on <i>every</i> Eucalyptus
 						host machine.</li>
-					<li>It is recommended that you install the new version of Euca2ools, although
-						this is not required. If you don't install the new version of Euca2ools, you
-						will not be able to use new features from the command line.</li>
+					<li>It is recommended that you also install the new version of Euca2ools, although this is not
+						required. If you don't install the new version of Euca2ools, you will not be
+						able to use new features from the command line.</li>
 					<li>Federated Eucalyptus clouds began with 4.2.0; you can upgrade a 4.2.x cloud
 						to a federated setup. If you have a 4.1.x or earlier cloud, it cannot have
 						any non-Eucalyptus services accounts created, nor can it be an LDAP
@@ -74,8 +76,8 @@
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) If you have a Eucalyptus subscription, test the new subscription package on each
-					host machine that runs a Eucalyptus service:</cmd>
+				<cmd>(Optional) If you have a Eucalyptus subscription, test the new subscription release package
+					on each host machine that runs a Eucalyptus service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
