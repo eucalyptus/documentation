@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="roles_tasks_assume_role_application">
+    <title>Assume a Role</title>
+    <shortdesc/>
+    <taskbody>
+        <context>A role is assigned a specific set of tasks and permissions. Users may assume a
+            different role than the one they have in order to perform a different set of tasks. For
+            example, the primary administrator is unavailable and the backup administrator is asked
+            to assume the role of the primary administrator during his or her absence. <p>A few
+                points to consider before assuming a role: <ul>
+                    <li>A role must first be set up by an administrator.</li>
+                    <li>You must log in as an IAM user, not as an account root user.</li>
+                    <li>Once you assume another role, you temporarily give up your existing user
+                        permissions and assume the permissions of your new role.</li>
+                    <li>When you are no longer assuming another role, your usual user permissions
+                        are automatically restored.</li>
+                </ul></p>
+        </context>
+    </taskbody>
+    <task id="role_assume_create_role">
+        <title>Create Role</title>
+        <shortdesc>The scenario described in this section outlines the procedure for creating a role in order to delegate permissions to an IAM user.</shortdesc>
+        <taskbody>
+            <context>
+                <p>Create a role that allows users of an account to manage keypairs. Management of keypairs include the following EC2 actions:</p>
+                <ul>
+                    <li>CreateKeyPair</li>
+                    <li>DeleteKeyPair</li>
+                    <li>DescribeKeyPairs</li>
+                    <li>ImportKeyPair</li>
+                </ul>
+            </context>
+            <steps>
+                <step>
+                    <cmd>Create role for managing keypairs for the account. In this example, the admin user of 'devops' account (001827830003) is creating the role:</cmd>
+                    <info>
+                        <codeblock># cat devops-role-trustpolicy.json
+{
+ "Version": "2012-10-17",
+ "Statement": [{
+ "Effect": "Allow",
+ "Principal": {"AWS": "arn:aws:iam::001827830003:root"},
+ "Action": "sts:AssumeRole"
+ }]
+}
+
+# euare-rolecreate -f devops-role-trustpolicy.json devops-ec2-keypair-mgmt-role --region devops-admin@future
+</codeblock>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Add IAM access policy for keypair management to the role:</cmd>
+                    <info><codeblock># cat keypair-mgmt-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1445362739663",
+      "Action": [
+        "ec2:CreateKeyPair",
+        "ec2:DeleteKeyPair",
+        "ec2:DescribeKeyPairs",
+        "ec2:ImportKeyPair"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+
+# euare-roleuploadpolicy --policy-name ec2-keypair-actions --policy-document keypair-mgmt-policy.json devops-ec2-keypair-mgmt-role --region devops-admin@future
+</codeblock></info>
+                </step>
+                <step>
+                    <cmd>Now that the role has been created, users under the account have access to assume the role. 
+                        For example, 'user01' user under the 'devops' account will assume the role, then list all keypairs under the account:</cmd>
+                    <info><codeblock># eval `/usr/bin/euare-assumerole devops-ec2-keypair-mgmt-role --region devops-user01@future`
+# euca-describe-keypairs --region @future
+KEYPAIR	devops-admin	9e:1a:bc:ac:98:b1:97:7c:65:b0:b3:7c:96:f5:d5:7b:a1:3e:36:a6</codeblock></info>
+                </step>
+                <step>
+                    <cmd>When done assuming the role, the role must be released using <codeph>euare-releaserole</codeph>:</cmd>
+                    <info><codeblock># eval `/usr/bin/euare-releaserole --region devops-user01@future`
+</codeblock></info>
+                </step>
+            </steps>
+            <postreq>For information about Euca2ools IAM commands, see <xref
+                href="../euca2ools-guide/eiam.dita"/>.</postreq>
+                </taskbody>
+            </task>
+        </task>
