@@ -33,7 +33,8 @@
             </context>
             <steps>
                 <step>
-                    <cmd>Create role for managing keypairs for the account. In this example, the admin user of 'devops' account (001827830003) is creating the role:</cmd>
+                    <cmd>Create a role for managing keypairs for the account. In this example, the
+                        admin user of 'devops' account (001827830003) is creating the role:</cmd>
                     <info>
                         <codeblock># cat devops-role-trustpolicy.json
 {
@@ -73,8 +74,27 @@
 </codeblock></info>
                 </step>
                 <step>
-                    <cmd>Now that the role has been created, users under the account have access to assume the role. 
-                        For example, 'user01' user under the 'devops' account will assume the role, then list all keypairs under the account:</cmd>
+                    <cmd>Now that the role has been created, follow the <xref
+                            href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html#use-groups-for-permissions"
+                            scope="external" format="html">AWS IAM best practice of using groups to assign permission
+                            to IAM users</xref> and attach an IAM access policy to the group to allow any members (example shows 'user01' user) 
+                        to assume the 'devops-ec2-keypair-mgmt-role' role:</cmd>
+                    <info><codeblock># euare-groupcreate -g Key-Managers --region devops-admin@future
+# euare-groupadduser -u user01 -g Key-Managers --region devops-admin@future
+# cat devops-keypair-mgmt-assume-role-policy.json
+{
+ "Version": "2012-10-17",
+ "Statement": [{
+ "Effect": "Allow",
+ "Action": "sts:AssumeRole",
+ "Resource": "arn:aws:iam::001827830003:role/devops-ec2-keypair-mgmt-role"
+ }]
+}
+# euare-groupuploadpolicy -p keypair-mgmt-role-perm -f devops-keypair-mgmt-assume-role-policy.json Key-Managers --region devops-admin@future</codeblock></info>
+                </step>
+                <step>
+                    <cmd>Now that members can assume the 'devops-ec2-keypair-mgmt-role' role, run the
+                        following command to list all keypairs under the account:</cmd>
                     <info><codeblock># eval `/usr/bin/euare-assumerole devops-ec2-keypair-mgmt-role --region devops-user01@future`
 # euca-describe-keypairs --region @future
 KEYPAIR	devops-admin	9e:1a:bc:ac:98:b1:97:7c:65:b0:b3:7c:96:f5:d5:7b:a1:3e:36:a6</codeblock></info>
