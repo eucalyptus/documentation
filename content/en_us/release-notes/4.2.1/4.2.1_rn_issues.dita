@@ -11,7 +11,7 @@
 		<table>
 			<tgroup cols="2">
 				<colspec colnum="1" colname="c1" colwidth="1*"/>
-				<colspec colnum="2" colname="c2" colwidth="4.13*"/>
+				<colspec colnum="2" colname="c2" colwidth="2.44*"/>
 				<thead>
 					<row>
 						<entry>Issue</entry>
@@ -19,11 +19,28 @@
 					</row>
 				</thead>
 				<tbody>
-					<row><entry><xref format="html" href="https://eucalyptus.atlassian.net/browse/EUCA-11476">EUCA-11476</xref></entry>
-						<entry>MANAGED mode - Security group rules using instances Public IP are not enforced</entry></row>
-					
-
-
+					<row>
+						<entry>Security group rules using instances Public IP are not enforced in
+							MANAGED mode (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-11476"
+								>EUCA-11476</xref>)</entry>
+						<entry>Security group rules are enforced in the FORWARD chain, which is
+							processed before POSTROUTING (where SNAT happens). Thus, security group
+							rules that use instances public IP addresses will not match in FORWARD
+							chain (packets will have instances' private IP address in the FORWARD
+							chain). See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>Instance Migration Fails when SELinux is enabled and is in Permissive
+							mode (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-11803"
+								>EUCA-11803</xref>)</entry>
+						<entry>Instance migration fails when SELinux is enabled and is in permissive mode.
+							<p>Workaround: Disable SELinux and reboot the system. For
+								example:</p><codeblock># vi /etc/selinux/config
+SELINUX=disabled
+# reboot</codeblock></entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
