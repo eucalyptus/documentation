@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="elb_listener_configs">
+ <title>Eucalyptus ELB Listener Configurations</title>
+ <shortdesc/>
+ <conbody>
+  <p>This section provides a reference to various possible ways to configure your listener, 
+   depending on how secure you want your load balancer. Currently, Eucalyptus supports the following HTTP/HTTPS Load Balancer use cases:
+   <ul>
+    <li>Basic HTTP load balancer</li>
+    <li>Secure website or application using ELB to offload SSL decryption.</li>
+    <li>Secure website or application using end-to-end encryption</li>
+   </ul>
+  </p>
+   <table id="vnet_options">
+    <tgroup cols="6">
+       <thead>
+      <row>
+       <entry>Use Case</entry>
+       <entry>Front-end Protocol</entry>
+       <entry>Front-end Options</entry>
+       <entry>Back-end Protocol</entry>
+       <entry>Back-end Options</entry>
+       <entry>Notes</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>Basic HTTP load balancer</entry>
+       <entry>HTTP</entry>
+       <entry>NA</entry>
+       <entry>HTTP</entry>
+       <entry>NA</entry>
+       <entry>Supports X-forward for header. Go to <xref
+        href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/x-forwarded-headers.html#x-forwarded-for"
+        scope="external" format="html">AWS X-forwarding</xref> for more information.</entry>
+      </row>
+      <row>
+       <entry>Secure website or application using Elastic Load Balancing to offload SSL decryption</entry>
+       <entry>HTTPS</entry>
+       <entry>SSL Negotiation. See <xref
+        href="../user-guide/elb_examples_ssl_negotiation.dita"/>.</entry>
+       <entry>HTTP</entry>
+       <entry>NA</entry>
+       <entry>Supports X-forward for header. Go to <xref
+        href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/x-forwarded-headers.html#x-forwarded-for"
+        scope="external" format="html">AWS X-forwarding</xref> for more information.
+        <p>Requires an SSL certificate installed on the load balancer. For instructions, see <xref
+         href="../user-guide/elb_examples_ssl_certificates.dita"/>.</p></entry>
+      </row>
+      <row>
+       <entry>Secure website or application using end-to-end encryption</entry>
+       <entry>HTTPS</entry>
+       <entry>SSL Negotiation. See <xref
+        href="../user-guide/elb_examples_ssl_negotiation.dita"/>.</entry>
+       <entry>HTTPS</entry>
+       <entry>Back-end authentication</entry>
+       <entry>Supports X-forward for header. Go to <xref
+        href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/x-forwarded-headers.html#x-forwarded-for"
+        scope="external" format="html">AWS X-forwarding</xref> for more information.
+        <p>Requires an SSL certificate installed on the load balancer and registered instances. For instructions, see <xref
+         href="../user-guide/elb_examples_ssl_certificates.dita"/> and <xref
+          href="../user-guide/elb_examples_basic_config.dita#elb_register_instances"/>.</p></entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+ </conbody>
+</concept>
