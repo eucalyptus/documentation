@@ -2,79 +2,88 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_start">
-	<title>Start Eucalyptus</title>
-	<shortdesc/>
+	<title>Restart Eucalyptus Services</title>
+	<shortdesc>This topic describes how to restart all Eucalyptus services after upgrade.</shortdesc>
 	<taskbody id="upgrade_start_task">
-
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b>
+			<p>You should have successfully completed <xref href="upgrade_packages.dita"/> before
+				you begin this process.</p>
+		</prereq>        
+		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+		<context>
+			<p>You need to restart all Eucalyptus services after upgrade. The steps you take depend
+				upon where Eucalyptus services are hosted.</p>
+			<p><b>To restart Eucalyptus services</b></p>
+		</context>
 		<steps>
-			
-			
 			<step>
-				<cmd>In the CLC, enter the following command. </cmd>
-				<info>
-					<codeblock>service eucalyptus-cloud start</codeblock>
-				</info>
-				<stepresult>
-					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
-						will see that the process starts the database upgrade. Eucalyptus
-						returns output similar to the following example.</p>
-                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph conref="../shared/conrefs.dita#prod/prev_version"/>
-at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326904600...
-#                           UPGRADE INFORMATION
-#================================================================================
-# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
-# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
-# Upgrade keys:             false              using:
-# Upgrade configuration:    false              using:
-# Upgrade database:         true               using: upgrade_db
-# Same version:             false              using:
-# Start upgrading: db
-Upgrading your database...
-.
-.
-.
-# Done upgrading:  db
-done.
-[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
-and stderr to //var/log/eucalyptus/startup.log
-done.</codeblock>
-					<note>You might see some warnings in the output. These are a
-						known issue.</note>
-				</stepresult>
-			</step>
-
-
-			<step>
-				<cmd>Log in to the Walrus server and enter the following
-					command:</cmd>
+				<cmd>Log in to the CLC host machine and restart the services:</cmd>
 				<info>
 					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
 				</info>
 				<stepresult>
-					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
-						will see that Eucalyptus returns output similar to the following
-						example.</p>
-                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph conref="../shared/conrefs.dita#prod/prev_version"/>
-at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905005...
+					<!--NOTE TO WRITER - this needs to change FOR THIS RELEASE ONLY
+					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you-->
+					<p>If you are upgrading from 4.1.2 you
+						will see that the process starts the database upgrade. Eucalyptus
+						returns output similar to the following example.</p>
+                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from 4.1.2 
+at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585...
 #                           UPGRADE INFORMATION
 #================================================================================
-# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
-# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
-# Upgrade keys:             false              using:
-# Upgrade configuration:    false              using:
+# Old Version:              4.1.2
+# New Version:              4.2.0
+# Upgrade keys:             false              using:                                          
+# Upgrade configuration:    false              using:                                          
 # Upgrade database:         true               using: upgrade_db
-# Same version:             false              using:
+# Same version:             false              using:                                          
 # Start upgrading: db
-CLC is disabled.  Skipping DB upgrade.
-# Done upgrading:  db
+<!--Upgrade command: //usr/sbin/eucalyptus-cloud -u eucalyptus -h / -\-upgrade  -\-upgrade-old-version=4.1.2 -\-upgrade-old-dir=/var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585
+-->
+Upgrading your database...
+.
+.
+.
+Done upgrading:  db
 done.
-[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
-and stderr to //var/log/eucalyptus/startup.log
-done.</codeblock>
+.
+.
+.
+done.
+</codeblock>
 				</stepresult>
 			</step>
 			<step>
-				<cmd>Log in to the CC server and enter the following:</cmd>
+				<cmd>(Optional) If you have a separate SC host machine, log in and restart the services:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+			</step>
+			<step>
+				<cmd>(Optional) If you have a separate Walrus host machine, log in and restart the
+					services:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+			</step>
+			<step>
+				<cmd>(Optional) If you have a separate UFS host machine, log in and restart the
+					services:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+			</step>
+			<step>
+				<cmd>(Optional) If there are any other Eucalyptus services (for example Walrus, SC, UFS)
+					co-located on the CC host machine, use this command to restart the other
+					services on the CC host, and in the correct order:</cmd>
+				<info>
+					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
+				</info>
+			</step>			
+			<step>
+				<cmd>Log in to each CC host machine and restart the service:</cmd>
 				<info>
 					<codeblock>service eucalyptus-cc start</codeblock>
 				</info>
@@ -83,50 +92,20 @@ done.</codeblock>
 				<cmd>If you have a multi-cluster setup, repeat the previous step
 					for each cluster.</cmd>
 			</step>
-
 			<step>
-				<cmd>Repeat for each CC server.</cmd>
-			</step>
-			<step>
-				<cmd>Log in to the SC server and enter the following
-					command:</cmd>
-				<info>
-					<codeblock conref="../shared/reuse.dita#reuse/euca_start"/>
-				</info>
-				<stepresult>
-					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you
-						will see that Eucalyptus returns output similar to the following
-						example></p>
-                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from <ph
-                    	conref="../shared/conrefs.dita#prod/prev_version"/>
-at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905005...
-#                           UPGRADE INFORMATION
-#================================================================================
-# Old Version:              <ph conref="../shared/conrefs.dita#prod/prev_version"/>
-# New Version:              <ph conref="../shared/conrefs.dita#prod/version"/>
-# Upgrade keys:             false              using:
-# Upgrade configuration:    false              using:
-# Upgrade database:         true               using: upgrade_db
-# Same version:             false              using:
-# Start upgrading: db
-CLC is disabled.  Skipping DB upgrade.
-# Done upgrading:  db
-done.
-[debug:0387] redirecting stdout to //var/log/eucalyptus/startup.log
-and stderr to //var/log/eucalyptus/startup.log
-done.</codeblock>
-				</stepresult>
-			</step>
-			<step>
-				<cmd>Log in to an NC server and enter the following
-					command:</cmd>
+				<cmd>Log in to each NC server and restart the service:</cmd>
 				<info>
 					<codeblock>service eucalyptus-nc start</codeblock>
 				</info>
-
 			</step>
 			<step>
-				<cmd>Repeat for each NC server.</cmd>
+				<cmd>Log in to each Management Console host machine and restart the service:</cmd>
+				<info>
+					<codeblock>service eucaconsole start</codeblock>
+					<p>For more information, see <xref
+						href="../shared/console_upgrade_console.dita#console_upgrade_console"
+					/>.</p>
+				</info>
 			</step>
 		</steps>
 		<postreq>You are now ready to <xref href="./upgrade_verify.dita"/>.</postreq>

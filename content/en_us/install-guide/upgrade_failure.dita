@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_failure">
-    <title>Dealing with Failed Upgrades</title>
+    <title>Downgrade a Failed Upgrade</title>
     <shortdesc>This topic describes how to downgrade your Eucalyptus cloud to an earlier
         release.</shortdesc>
     <taskbody id="upgrade_failure_tasks">
@@ -42,7 +42,7 @@
             <step>
                 <cmd>Downgrade to the Eucalyptus <ph
                             conref="../shared/conrefs.dita#prod/prev_version"/> release package on
-                        each host machine.</cmd>
+                        each host machine:</cmd>
                 <info>
                     <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/eucalyptus_downgrade"/></codeblock>
                     <p>Enter <codeph>y</codeph> when prompted, to downgrade the release package.</p>
@@ -51,7 +51,7 @@
             <step>
                 <cmd>If you have a Eucalyptus subscription, downgrade your subscription release
                         package on each host machine to the release package you used for Eucalyptus
-                            <ph conref="../shared/conrefs.dita#prod/prev_version"/>.</cmd>
+                            <ph conref="../shared/conrefs.dita#prod/prev_version"/>:</cmd>
                 <info>
                     <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca_subscription_downgrade"/></codeblock>
                     <p>Enter <codeph>y</codeph> when prompted, to downgrade the subscription release
@@ -59,7 +59,7 @@
                 </info>
             </step>
             <step>
-                <cmd>Expire the cache for the yum repositories on each host machine.</cmd>
+                <cmd>Expire the cache for the yum repositories on each host machine:</cmd>
                 <info>
                     <codeblock>yum clean expire-cache</codeblock>
                 </info>
@@ -201,7 +201,8 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
                 </info>
             </step>
 	       <step>
-	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all Eucalyptus host machines.</cmd>
+	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all
+                        Eucalyptus host machines:</cmd>
 	           <info>
 	               <codeblock>rm -rf /var/run/eucalyptus/classcache/</codeblock>
 	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file
@@ -218,21 +219,21 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
 			<steps>
 				<step>
 					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>
-                        release package on each host machine.</cmd>
+                        release package on each host machine:</cmd>
 			        <info>
 			            <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca2ools_downgrade"/></codeblock>
 			            <p>Enter <codeph>y</codeph> when prompted, to downgrade the release package.</p>
 			        </info>
 			    </step>
 			    <step>
-			        <cmd>Expire the cache for the yum repositories on each host machine.</cmd>
+			        <cmd>Expire the cache for the yum repositories on each host machine:</cmd>
 			        <info>
 			            <codeblock>yum clean expire-cache</codeblock>
 			        </info>
 			    </step>
 			    <step>
 			        <cmd>Downgrade to Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"
-                        /> on each host machine.</cmd>
+                        /> on each host machine:</cmd>
 			        <info>
 			            <codeblock>yum downgrade euca2ools</codeblock>
 			            <p>Enter <codeph>y</codeph> when prompted, to downgrade Euca2ools.</p>
