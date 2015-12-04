@@ -2,30 +2,49 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_euca2ools_packages">
- <title>Upgrade Euca2ools Packages</title>
- <shortdesc/>
+ <title>Upgrade Euca2ools Package Repositories</title>
+ <shortdesc>This topic describes the steps to upgrade the Euca2ools package repositories.</shortdesc>
  <taskbody id="upgrade_euca2ools_packages_task">
+  <!--    If there are no prereqs, state "None." -->        
+  <prereq><b>Prerequisites</b>
+   <p>See <xref href="upgrade_prep.dita#upgrade_prep"/> for the complete list of upgrade
+    prerequisites.</p>
+  </prereq>        
+  <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
   <context>
-   <p>To use the new features available in Eucalyptus <ph
-     conref="../shared/conrefs.dita#prod/version"/>, you must upgrade to the
-    latest version of the Euca2ools packages:</p>
+   <p>It is recommended (but optional) that you upgrade Euca2ools to the version compatible with
+    Eucalyptus <ph conref="../shared/conrefs.dita#prod/version_long"/>. If you do not install the
+    new version of Euca2ools, you will not be able to use new features from the command line.</p>
+   <p><b>To upgrade Euca2ools</b></p>
   </context>
   <steps>
    <step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+    <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
     <info>
-     <codeblock>yum clean expire-cache</codeblock>
+     <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_download"/></codeblock>
+     <p>Review the dependencies and install package information.</p>
+     <p>Enter <codeph>Y</codeph> when prompted to install the package.</p>
+    </info>
+   </step>   
+   <step>
+    <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
+    <info>
+     <codeblock>yum clean all</codeblock>
     </info>
    </step>
    <step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+    <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
     <info>
      <codeblock>yum update euca2ools</codeblock>
+     <p>Enter <codeph>Y</codeph> when prompted to upgrade Euca2ools.</p>
+     <p>This retrieves the package verification keys; for more information, see <xref
+       href="installing_euca_software_signing.dita#installing_software_signing"/>.</p>
     </info>
    </step>
+   <step>
+    <cmd>Repeat these steps for each host machine that runs a Eucalyptus service.</cmd>
+   </step>
   </steps>
- 	<postreq>You are now ready to <xref href="upgrade_start.dita"/>.</postreq>
+ 	<postreq>You are now ready to <xref href="upgrade_packages.dita"/>.</postreq>
  </taskbody>
 </task>

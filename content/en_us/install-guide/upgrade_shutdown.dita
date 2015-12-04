@@ -5,54 +5,75 @@
     <title>Shutdown Services</title>
     <shortdesc>This topic describes how to stop all Eucalyptus services.</shortdesc>
 	<taskbody>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b>
+			<p>See <xref href="upgrade_prep.dita#upgrade_prep"/> for the complete list of upgrade
+				prerequisites.</p>
+		</prereq>        
+		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
 	<context>
-		<p>To shut down Eucalyptus services:</p>
+		<p>The steps you take depend upon where Eucalyptus services are hosted.</p>
+		<p><b>To shut down Eucalyptus services</b></p>
 	</context>
 	<steps>
 			<step>
-				<cmd>Log in to the CLC host and shut down the CLC service.</cmd>
+				<cmd>Log in to the CLC host machine and shut down the CLC service.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock></info>
 			</step>
 			<step>
-				<cmd>Log in to an SC host and shut down the SC service.</cmd>
+				<cmd>Log in to an SC host machine and shut down the SC service.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock>
 					<p>Repeat for any other machine hosting an SC.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Log in to the Walrus host and shut down the Walrus
-					service.</cmd>
+				<cmd>Log in to the Walrus host machine and shut down the Walrus service.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock></info>
 			</step>
 			<step>
-				<cmd>Shut down the services on the CC host.</cmd>
+				<cmd>(Optional) If there are any other Eucalyptus services (for example Walrus, SC, UFS)
+					co-located on the CC host machine, use this command to shut down the other
+					services on the CC host, and in the correct order.</cmd>
 				<info><codeblock>service eucalyptus-cloud stop</codeblock>
-					<note type="tip">This command shuts down any CLC, Walrus, and SC components co-located with the
-						CC, and in the correct order.</note>
 				</info>
 			</step>
 			<step>
-				<cmd>Log in to a CC host and shut down the CC service.</cmd>
+				<cmd>Log in to a CC host machine and shut down the CC service.</cmd>
 				<info><codeblock>service eucalyptus-cc stop</codeblock>
-					<p>Repeat for each machine hosting a CC.</p>
+					<p>Repeat for every machine hosting a CC.</p>
 				</info>
 			</step>
 		<step>
-			<cmd>Log in to each NC host and shut down eucanet.</cmd>
+			<cmd>Log in to each NC host machine and shut down eucanet.</cmd>
 			<info>
 				<codeblock>service eucanetd stop</codeblock>
 			</info>
 		</step>
 		<step>
-				
-				<cmd>In each NC shut down the NC service.</cmd>
+				<cmd>Also on each NC, shut down the NC service.</cmd>
 				<info><codeblock>service eucalyptus-nc stop</codeblock>
 					<note type="important">Running instances on the NC will continue running.</note>
 					<p>Repeat the last two steps for each machine hosting an NC.</p>
 				</info>
-			</step>
+		</step>
+		<step>
+			<cmd>Log in to each UFS host machine and shut down eucanet.</cmd>
+			<info>
+				<codeblock>service eucanetd stop</codeblock>
+			</info>
+		</step>
+		<step>
+			<cmd>Log in to each Management Console host machine and shut down the console service.</cmd>
+			<info>
+				<codeblock>service eucaconsole stop</codeblock>
+				<p>Repeat for every machine hosting a Management Console.</p>
+				<p>For more information, see <xref
+							href="../shared/console_upgrade_console.dita#console_upgrade_console"
+						/>.</p>
+			</info>
+		</step>
 	</steps>
-    	<postreq>You are now ready to <xref href="upgrade_packages.dita"/>.</postreq>
+    	<postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
     </taskbody>
 
 </task>

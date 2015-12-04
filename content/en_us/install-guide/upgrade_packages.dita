@@ -7,46 +7,45 @@
   repositories.</shortdesc>
  <taskbody id="upgrade_packages_task">
   <!--    If there are no prereqs, state "None." -->        
-  <prereq><b>Prerequisites</b><ul>
-   <li>Before upgrading Eucalyptus packages, we suggest fully updating your
-    systems using <codeph>yum update</codeph> where possible.</li>
-   <li>Validate configuration versions for the release. <ph
-      conref="../shared/conrefs.dita#prod/compat_matrix"/></li>
-   <li>The prerequisite hardware and software should be in place and available for
-    Eucalyptus.</li>
-  </ul>
+  <prereq><b>Prerequisites</b>
+   <p>See <xref href="upgrade_prep.dita#upgrade_prep"/> for the complete list of upgrade
+    prerequisites.</p>
   </prereq>        
   <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-  <context><b>To upgrade Eucalyptus package repos</b></context>
+  <context>
+   <p>You need to upgrade your existing Eucalyptus package repositories to use the new features in
+     <ph conref="../shared/conrefs.dita#prod/version_long"/>.</p>
+   <b>To upgrade Eucalyptus</b></context>
   <steps>
   	<step>
-  		<cmd>Enter the following command on each machine running a Eucalyptus component: </cmd>
-  		<info>
+  	 <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
+  	 <info>
   			<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
-  			<p>Enter <codeph>y</codeph> when prompted to install this
-  				package.</p>
+  	  <p>Review the dependencies and install package information.</p>
+  	  <p>Enter <codeph>Y</codeph> when prompted to install the package.</p>
   		</info>
   	</step>
   	<step>
   		<cmd>If you are not a Eucalyptus subscriber, skip this step. If you are a Eucalyptus subscriber, you should have received an rpm package file containing your license for subscription-only components. Install that package, along with the Eucalyptus subscription package, on each host that will run a Eucalyptus component, as follows: </cmd>
   		<info>
   			<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
-  			<p>Enter <codeph>y</codeph> when prompted to install this
-  				package.</p>
+  		 <p>Review the dependencies and install package information.</p>
+  		 <p>Enter <codeph>y</codeph> when prompted to install these packages.</p>
   		</info>
   	</step>
   	<step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+  	 <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
     <info>
-     <codeblock>yum clean expire-cache</codeblock>
+     <codeblock>yum clean all</codeblock>
     </info>
    </step>
    <step>
-    <cmd>Enter the following command on each machine running a Eucalyptus
-     component:</cmd>
+    <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
     <info>
      <codeblock>yum update 'eucalyptus*'</codeblock>
+     <p>Enter <codeph>Y</codeph> when prompted to upgrade Eucalyptus.</p>
+     <p>This retrieves the package verification keys; for more information, see <xref
+      href="installing_euca_software_signing.dita#installing_software_signing"/>.</p>
     </info>
     <stepresult>
      <p>If you have previously customized your configuration files,
@@ -54,17 +53,33 @@
       configuration files with a different name. This preserves your
       customizations. Before you continue, customize and rename the new
       Configuration files.</p>
-     <note type="tip">For larger deployments, use a script to upgrade the
-      component host machines. For example:
+     <note type="tip">For larger deployments, use a script to upgrade the host machines. For
+      example:
       <codeblock>for host in 28 29 32 33 35 39 40; do echo 192.168.51.$host; 
 ssh 192.168.51.$host 'yum -y update $( rpm -qa | grep euca )' ; done</codeblock>
      </note>
     </stepresult>
    </step>
    <step>
-    <cmd>Install the <codeph>qemu-kvm-rhev</codeph> package on each NC.</cmd>
+    <cmd>Go to <xref href="../shared/console_upgrade_console.dita#console_upgrade_console"/> then return to this section.</cmd>
+<!--The following is simplified, but customers should follow specific Mgmt Console doc instructions (linked-to above) instead:    
+    <cmd>Enter the following command on each machine that hosts a Management Console:</cmd>
+    <info>
+     <codeblock>yum upgrade eucaconsole</codeblock>
+     <p>Enter <codeph>Y</codeph> when prompted to upgrade the Management Console.</p>
+     <p>For more information, see <xref
+      href="../shared/console_upgrade_console.dita#console_upgrade_console"
+     />.</p>
+    </info>-->
+   </step>
+   <step>
+    <cmd>Enter the following command on each NC:</cmd>
+    <info>
+     <codeblock>yum install qemu-kvm-rhev</codeblock>
+<!--     VERIFY that it is install and not update
+-->    </info>
    </step>
   </steps>
- 	<postreq>You are now ready to <xref href="upgrade_euca2ools_packages.dita"/>.</postreq>
+ 	<postreq>You are now ready to <xref href="upgrade_start.dita"/>.</postreq>
  </taskbody>
 </task>
