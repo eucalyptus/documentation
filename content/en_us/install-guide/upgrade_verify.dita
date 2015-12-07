@@ -12,35 +12,35 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Verify your Walruses:</cmd>
+				<cmd>Verify your Walrus backend service:</cmd>
 				<info>
-					<codeblock>euca_conf --list-walrusbackends</codeblock>
+					<codeblock>euserv-describe-services --filter service-type=walrusbackend</codeblock>
 				</info>
 				<stepresult>
 					<p>Eucalyptus returns a list, as in the following example.</p>
-					<codeblock>WALRUS  walrus     walrus     192.168.51.28     ENABLED {}</codeblock>
+					<codeblock>SERVICE walrusbackend walrus walrus enabled</codeblock>
 				</stepresult>
 			</step>
 			<step>
 				<cmd>Verify your CCs:</cmd>
 				<info>
-					<codeblock>euca_conf --list-clusters</codeblock>
+					<codeblock>euserv-describe-services --filter service-type=cluster</codeblock>
 				</info>
 				<stepresult>
 					<p>Eucalyptus returns a list, as in the following example.</p>
-					<codeblock>CLUSTER test00     test00_cc     192.168.51.29     ENABLED {}
-CLUSTER test01     test01_cc     192.168.51.35     ENABLED {}</codeblock>
+					<codeblock>SERVICE cluster one one-cc enabled
+SERVICE cluster two two-cc enabled</codeblock>
 				</stepresult>
 			</step>
 			<step>
 				<cmd>Verify your SCs:</cmd>
 				<info>
-					<codeblock>euca_conf --list-scs</codeblock>
+					<codeblock>euserv-describe-services --filter service-type=storage</codeblock>
 				</info>
 				<stepresult>
 					<p>Eucalyptus returns a list, as in the following example.</p>
-					<codeblock>STORAGECONTROLLER     test01     test01_sc     192.168.51.39      ENABLED {}
-STORAGECONTROLLER     test00     test00_sc     192.168.51.32      ENABLED {}</codeblock>
+					<codeblock>SERVICE storage one one-sc enabled
+SERVICE storage one one-sc enabled</codeblock>
 				</stepresult>
 
 			</step>
