@@ -36,16 +36,31 @@
 				system responsiveness so separating them over a long-latency, lossy network link
 				will not work.</p>
 		</section>
+		
+		<!--DOC-1588 calls for UFS in this section. Also Management Console is missing:-->
+		<section>
+			<title>User Services</title>
+			<p>The User Facing Services (UFS) handle most of the AWS APIs and provide an entry point for
+				clients and users interacting with the <ph conref="../shared/conrefs.dita#prod/product"/> cloud. The UFS and the Management
+				Console are often hosted on the same machine since both must be accessible from the
+				public, client-facing network.</p>
+			<p>You may optionally choose to have redundant UFS and Management Console host machines behind a
+				load balancer.</p>
+			<!--<p>All user services should be in the same data center. They use aggressive time-outs to maintain
+				system responsiveness so separating them over a long-latency, lossy network link
+				will not work. ??? ANY  REQUIREMENTS OR SUGGESTIONS ??? </p>-->
+		</section>
 
 		<section>
 			<title>Cluster Services</title>
-<!--			Technically, this should be Zone Services and the zone level - talk to gholms.
--->			<p>The Eucalyptus services deployed in the cluster level of a Eucalyptus deployment are the
-				Cluster Controller (CC) and Storage Controller (SC).</p>
+<!--			Technically, this should be Zone Services and the zone level - talk to gholms - is the cluster-to-zone change going to work?
+-->			<p>The <ph conref="../shared/conrefs.dita#prod/product"/> services deployed in the cluster level
+				of a <ph conref="../shared/conrefs.dita#prod/product"/> deployment are the Cluster
+				Controller (CC) and Storage Controller (SC).</p>
 			<p>You can install all cluster services on a single server, or you can distribute them on
 				different servers. The choice of one or multiple servers is dictated by the demands
 				of user workload in terms of external network utilization (CC) and EBS volume access
-				(SC). </p>
+				(SC).</p>
 			<p>Things to consider for CC placement:</p>
 			<ul>
 				<li>For Edge mode, the CC physical server will not act as a software gateway. Network traffic
