@@ -15,31 +15,33 @@
 	</prolog>
 
 	<conbody>
-		<!--<p>The following image depicts the logical relationship between
-			Eucalyptus components in a generalized deployment.</p>
-		<image href="../shared/images/euca-arch-ha-one-cluster-trinity.png"
-			alt="Eucalyptus components in a
- 		regular deployment"/>-->
+		<!--	DOC-1542 need new architectural diagrams 
+			Source of below diagram: 
+			https://eucalyptus.atlassian.net/wiki/display/DS/Eucalyptus+Deployment%3A+Design+and+Operate+a+Reliable+Eucalyptus+Cloud
+		-->
+		<image href="images/euca_arch_separate_hosts.png" scale="75"> 
+			<alt><ph conref="../shared/conrefs.dita#prod/product"/> architecture</alt>
+		</image>
 
-		<p>The cloud components, Cloud Controller (CLC), user-facing services (UFS), and Walrus (WS), communicate
-			with cluster components, the Cluster Controllers (CCs) and Storage
-			Controllers (SCs). The CCs and SCs, in turn, communicate with the
-			Node Controllers (NCs). The networks between machines hosting these
-			components must be able to allow TCP connections between them. </p>
-		<p>However, if the CCs are on separate network interfaces (one for the
-			network on which the cloud components are hosted and another for the
-			network that NCs use) the CCs will act as software routers between
-			these networks in some networking configurations. So each cluster
-			can use an internal private network for its NCs and the CCs will
-			route traffic from that network to a network shared by the cloud
-			components. </p>
-		<p>Virtual machines (VMs) run on the machines that host NCs. You can use
-			the CCs as software routers for traffic between clients outside
-			Eucalyptus and VMs. Or the VMs can use the routing framework already
-			in place without CC software routers. However, depending on the
-			layer-2 isolation characteristics of your existing network, you
-			might not be able to implement all of the security features
-			supported by Eucalyptus.</p>
+		<p>The cloud components, Cloud Controller (CLC), User-Facing Services (UFS), and Walrus,
+			communicate with cluster components, the Cluster Controllers (CCs) and Storage
+			Controllers (SCs). The CCs and SCs, in turn, communicate with the Node Controllers
+			(NCs). The networks between machines hosting these components must be able to allow TCP
+			connections between them.</p>
+		<p>However, if the CCs are on separate subnets (one for the network on which the cloud components
+			are hosted and another for the network that NCs use) the CCs will act as software
+			routers between these networks in some networking configurations. Each cluster can use
+			an internal private network for its NCs, and the CCs can route traffic from that private
+			network to a network shared by the cloud components.</p>
+		<p>Virtual machines (VMs) run on the machines that host NCs. You can use the CCs as software
+			routers for traffic between clients outside <ph
+				conref="../shared/conrefs.dita#prod/product"/> and VMs. Or the VMs can use the
+			routing framework already in place without CC software routers. However, depending on
+			the layer-2 isolation characteristics of your existing network, you might not be able to
+			implement all of the security features supported by <ph
+				conref="../shared/conrefs.dita#prod/product"/>.</p>
+		<p>Riak CS clusters provide an alternative to Walrus as an object storage provider. SAN
+			clusters are available to <ph conref="../shared/conrefs.dita#prod/product"/> subscribers.</p>
 		
 
 	</conbody>

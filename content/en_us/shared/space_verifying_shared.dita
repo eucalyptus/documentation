@@ -3,9 +3,9 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="space_verifying_shared">
 	<title>Verify Component Disk Space</title>
-	<shortdesc>Eucalyptus components need disk space for log files, databases,
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> components need disk space for log files, databases,
 		buckets, and instances. The following table details the needs of
-		each component. Verify that the machines you plan to install the
+		each component. Verify that the host machines you plan to install the
 		components on have adequate space.</shortdesc>
 	<prolog>
 		<metadata>
@@ -19,12 +19,10 @@
 	<conbody>
 
 		
-		<p>We recommend that you choose a disk for each Walrus that is large
-			enough to hold all objects and buckets you ever expect to have,
-			including all images that will ever be registered to your system,
-			plus any Amazon S3 application data. For consistent performance, we
-			recommend that you use identical disks for the primary and secondary
-			Walrus.</p>
+		<p>We recommend that you choose a disk for the Walrus that is large enough to hold all objects and
+			buckets you ever expect to have, including all images that will ever be registered to
+			your system, plus any Amazon S3 application data. For heavy S3 usage, Riak CS is a
+			better choice for object storage.</p>
 		
 		<note type="tip">We recommend that you use LVM (Logical Volume Manager).
 			If you run out of disk space, LVM allows you to add disks and
@@ -75,6 +73,28 @@
 						<entry>250GB</entry>
 					</row>
 					<row>
+						<entry><p>User-Facing Services (UFS)</p>
+							<p>UFS logging </p></entry>
+						<entry><p><filepath>/var/lib/eucalyptus</filepath>
+							</p>
+							<p><filepath>/var/log/eucalyptus</filepath></p>
+						</entry>
+						<entry><p>5GB </p>
+							<p>2GB</p>
+						</entry>
+					</row>
+					<row>
+						<entry><p>Management Console</p>
+							<p>Console logging </p></entry>
+						<entry><p><filepath>/var/lib/eucalyptus-console</filepath>
+							</p>
+							<p><filepath>/var/log/eucalyptus-console</filepath></p>
+						</entry>
+						<entry><p>5GB </p>
+							<p>2GB</p>
+						</entry>
+					</row>
+					<row>
 						<entry><p>Cluster Controller (CC)</p>
 							<p>CC logging</p></entry>
 						<entry><p><filepath>/var/lib/eucalyptus/CC</filepath></p>
@@ -99,9 +119,8 @@
 				</tbody>
 			</tgroup>
 		</table>
-		<p>If necessary, create symbolic links to larger filesystems from the
-			above locations. Make sure that the eucalyptus user owns the
-			directories.</p>
+		<p>If necessary, create symbolic links or mount points to larger filesystems from the above
+			locations. Make sure that the eucalyptus user owns the directories.</p>
 		
 	</conbody>
 </concept>
