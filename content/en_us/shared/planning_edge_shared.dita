@@ -3,12 +3,10 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="planning_edge_shared">
 	<title>Edge Mode</title>
-	<shortdesc>Edge mode offers the most features of the networking modes. It is
-		designed to integrate into already extant (or straightforward to
-		deploy) underlying network topologies. However, Edge mode can
-		impose constraints in certain environments, in which case you can choose another
-		mode.
-	</shortdesc>
+	<shortdesc>Edge mode offers the most features of the EC2 Classic-compatible networking modes. It is
+		designed to integrate into already extant (or straightforward to deploy) underlying network
+		topologies. However, Edge mode can impose constraints in certain environments, in which case
+		you can choose another mode.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -19,34 +17,35 @@
 	</prolog>
 	
 	<conbody>
-		<p>In Edge networking mode, the component responsible for implementing Eucalyptus VM
-			networking artifacts is running at the edge of a Eucalyptus deployment: the Node Controller (NC).
-			Eucalyptus provides a stand-alone component called <codeph>eucanetd</codeph> in each NC. This
-			component dynamically receives changing Eucalyptus networking views and is responsible for
+		<p>In Edge networking mode, the component responsible for implementing <ph conref="../shared/conrefs.dita#prod/product"/> VM
+			networking artifacts is running at the edge of a <ph conref="../shared/conrefs.dita#prod/product"/> deployment: the Node Controller (NC).
+			<ph conref="../shared/conrefs.dita#prod/product"/> provides a stand-alone component called <codeph>eucanetd</codeph> in each NC. This
+			component dynamically receives changing <ph conref="../shared/conrefs.dita#prod/product"/> networking views and is responsible for
 				configuring the Linux machine on which the NC is running to reflect the latest view.</p>
 			
 			<p>Edge networking mode integrates with your existing network infrastructure, allowing you to
-				'tell' Eucalyptus (through configuration parameters for Edge mode) about the existing network,
-				which Eucalyptus then will consume when implementing the networking view.</p>
+				inform <ph conref="../shared/conrefs.dita#prod/product"/>, through configuration parameters for Edge mode, about the existing network,
+				which <ph conref="../shared/conrefs.dita#prod/product"/> then will consume when implementing the networking view.</p>
 			
 			<p>Edge networking mode integrates with two basic types of pre-existing network setups:</p>
 			<ul>
-			<li>One flat IP network used to service Eucalyptus component systems, Eucalyptus VM public IPs (elastic IPs), and Eucalyptus VM private IPs.</li>
-			<li>Two networks, one for Eucalyptus components and Eucalyptus VM public IPs, and the other for
-				Eucalyptus VM private IPs.</li>
+				<li>One flat IP network used to service <ph conref="../shared/conrefs.dita#prod/product"/> component systems, <ph conref="../shared/conrefs.dita#prod/product"/>
+					VM public IPs (elastic IPs), and <ph conref="../shared/conrefs.dita#prod/product"/> VM private IPs.</li>
+				<li>Two networks, one for <ph conref="../shared/conrefs.dita#prod/product"/> components and <ph conref="../shared/conrefs.dita#prod/product"/> VM public IPs, and the other for
+					<ph conref="../shared/conrefs.dita#prod/product"/> VM private IPs.</li>
 			</ul>
 			<note type="important">Edge networking mode will not set up the network from scratch as Managed and Managed (No VLAN)
 				modes do. Instead, it integrates with networks that already exist. If the network, netmask, and
-				router don't already exist,  you must create them outside of Eucalyptus before configuring
-				Edge.</note>
+				router don't already exist,  you must create them outside of <ph conref="../shared/conrefs.dita#prod/product"/> before configuring
+				Edge mode.</note>
 		<section>
 			<title>Edge Mode Requirements</title>
 			<ul>
 				<li>Each NC must have an interface configured with an IP on a VM public and a VM private network
 					(which can be the same network).
 				<ul>
-				<li>There must be unused IP addresses on the VM public network for Eucalyptus to assign VM elastic IPs</li>
-				<li>There must be unused IP addresses on the VM private network for Eucalyptus to assign VM private IPs</li>
+					<li>There must be unused IP addresses on the VM public network for <ph conref="../shared/conrefs.dita#prod/product"/> to assign VM elastic IPs.</li>
+					<li>There must be unused IP addresses on the VM private network for <ph conref="../shared/conrefs.dita#prod/product"/> to assign VM private IPs.</li>
 				</ul>
 				</li>
 				<li>There must be IP connectivity from each NC machine (where <codeph>eucanetd</codeph> runs) and the CLC, for metadata re-directs for 169.254.169.254 to the active CLC to function.</li>
@@ -58,11 +57,10 @@
 				<li>If you're using a public network, the NCs need an interface on the
 					public network as well (if the public and private networks are the
 					same network, then the bridge needs an IP assigned on the network).</li>
-				<li>If you run in multi-cluster, each cluster can use the
-					same network as its private network, or they can use separate networks
-					as private networks. If you use separate networks, you need to have a
-					router in place that is configured to route traffic between the
-					networks.</li>
+				<li>If you run multiple clusters, each cluster can use the same network as its private network,
+					or they can use separate networks as private networks. If you use separate
+					networks, you need to have a router in place that is configured to route traffic
+					between the networks.</li>
 				<li>If you use private addressing only mode, the Cloud Controller machines must have a route
 					back to the VM private network.</li>
 			</ul>
@@ -71,13 +69,15 @@
 		<section>
 			<title>Edge Mode Limitations</title>
 			<ul>
-				<li>All NCs must have an interface on the VM public (Elastic IP) network.</li>
+				<li>All NCs must have interfaces on the VM public (Elastic IP) network.</li>
 				<li>Global network updates (such as security group rule updates, security
-					group VM membership updates, and elastic IP updates) are be applied through
+					group VM membership updates, and elastic IP updates) are applied through
 					an "eventually consistent" mechanism, as opposed to an "atomic" mechanism. That is, there may
 					be a brief period of time where one NC has the new state implemented but another NC has the
 					previous state implemented.</li>
-				<li>Mappings between VM MAC addresses and private IPs are strictly enforced.</li>
+				<li>Mappings between VM MAC addresses and private IPs are strictly enforced. This means that
+					instances cannot communicate using addresses the cloud has not assigned to
+					them.</li>
 			</ul>
 		</section>
 		
