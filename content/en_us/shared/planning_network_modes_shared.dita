@@ -3,9 +3,9 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="planning_networking_modes_shared">
 	<title>Plan Networking Modes</title>
-	<shortdesc>Eucalyptus overlays a virtual network on top of your existing network. In order to do
-		this, Eucalyptus supports three  different networking modes: Edge, Managed, and Managed (No
-		VLAN). </shortdesc>
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> overlays a virtual network on top of your existing network. In order to do
+		this, <ph conref="../shared/conrefs.dita#prod/product"/> supports four different networking modes: Edge, Managed, Managed (No VLAN),
+		and VPC (MidoNet).</shortdesc>
 	 
 	<prolog>
 		<metadata>
@@ -20,11 +20,11 @@
 		<p>
 			Each mode is designed to allow you to choose an appropriate level of
 			security and flexibility. The purpose of these modes is to direct
-			Eucalyptus to use different network features to manage the virtual
+			<ph conref="../shared/conrefs.dita#prod/product"/> to use different network features to manage the virtual
 			networks that connect VMs to each other and to clients external to
-			Eucalyptus. </p>
-		<p>A Eucalyptus installation must be compatible with local site policies
-			and configurations (e.g., firewall rules). Eucalyptus configuration
+			<ph conref="../shared/conrefs.dita#prod/product"/>. </p>
+		<p>A <ph conref="../shared/conrefs.dita#prod/product"/> installation must be compatible with local site policies
+			and configurations (e.g., firewall rules). <ph conref="../shared/conrefs.dita#prod/product"/> configuration
 			and deployment interfaces allow a wide range of options for
 			specifying how it should be deployed. However, choosing between
 			these options implies tradeoffs.</p>
@@ -52,22 +52,15 @@
 				<tbody>
 					<row>
 						<entry>Elastic IPs</entry>
-						<entry>Eucalyptus instances typically have two IPs
+						<entry><ph conref="../shared/conrefs.dita#prod/product"/> instances typically have two IPs
 							associated with them: a private one and a public
 							one. Private IPs are intended for internal
 							communications between instances and are usually
-							only routable within a Eucalyptus cloud. Public IPs
+							only routable within a <ph conref="../shared/conrefs.dita#prod/product"/> cloud. Public IPs
 							are used for external access and are usually
-							routable outside of Eucalyptus cloud. How these
+							routable outside <ph conref="../shared/conrefs.dita#prod/product"/> cloud. How these
 							addresses are allocated and assigned to instances is
-							determined by a networking mode. <!-- REMOVED PER DOC-1353: In System and
-							Static modes, an instance is assigned only one IP
-							address, which will be represented as both the
-							private and public address assigned to the instance.
-							 Whether this address is routable outside of
-							Eucalyptus is a property of the addresses that are
-							set by the cloud administrator during Eucalyptus
-							configuration. -->The distinction between public and
+							determined by a networking mode. The distinction between public and
 							private addresses becomes important in Edge, Managed, and
 							Managed (No VLAN) modes, which support elastic IPs.
 							With elastic IPs the user gains control over a set
@@ -75,12 +68,14 @@
 							those same IPs can be dynamically associated to
 							running instances, overriding pre-assigned public
 							IPs. This allows users to run well-known services
-							(for example, web sites) within the Eucalyptus cloud
+							(for example, web sites) within the <ph conref="../shared/conrefs.dita#prod/product"/> cloud
 							and to assign those services fixed IPs that do not
 							change.</entry>
 						<entry><p>Edge</p>
 							<p>Managed</p>
-							<p>Managed (No VLAN)</p></entry>
+							<p>Managed (No VLAN)</p>
+							<p>VPC (MidoNet)</p>
+						</entry>
 					</row>
 					<row>
 						<entry>Security groups</entry>
@@ -99,45 +94,51 @@
 							<cmdname>euca-authorize</cmdname> command. </entry>
 						<entry><p>Edge</p>
 							<p>Managed</p>
-							<p>Managed (No VLAN)</p></entry>
+							<p>Managed (No VLAN)</p>
+							<p>VPC (MidoNet)</p>
+						</entry>
 					</row>
 					<row>
 						<entry>VM isolation</entry>
 						<entry>Although network traffic between VM instances
 							belonging to a security group is always open,
-							Eucalyptus can enforce isolation of network traffic
+							<ph conref="../shared/conrefs.dita#prod/product"/> can enforce isolation of network traffic
 							between different security groups. This isolation is
 							enforced using ebtables (Edge) or VLAN tags (Managed), thus,
 							protecting VMs from possible eavesdropping by VM
 							instances belonging to other security
 							groups.</entry>
 						<entry><p>Edge</p>
-							<p>Managed</p></entry>
+							<p>Managed</p>
+							<p>VPC (MidoNet)</p>
+						</entry>
 					</row>
 					<row>
 						<entry>DHCP server</entry>
-						<entry> Eucalyptus assigns IP addresses to VMs in all modes. </entry>
+						<entry> <ph conref="../shared/conrefs.dita#prod/product"/> assigns IP addresses to VMs in all modes. </entry>
 						<entry><p>Edge</p>
 							<p>Managed</p>
-							<p>Managed (No VLAN)</p></entry>
+							<p>Managed (No VLAN)</p>
+							<p>VPC (MidoNet)</p>
+						</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>
 		
-		<p>If Eucalyptus can control and condition the networks its components
+		<p>If <ph conref="../shared/conrefs.dita#prod/product"/> can control and condition the networks its components
 			use, your deployment will support the full set of API features.
-			However, if Eucalyptus is confined to using an existing network,
+			However, if <ph conref="../shared/conrefs.dita#prod/product"/> is confined to using an existing network,
 			some of the API features might be disabled. So, understanding and
 			choosing the right networking configuration is an important (and
 			complex) step in deployment planning.</p>
-		<!--<p>The following image shows which networking mode you should choose,
+<!--		<p>The following image shows which networking mode you should choose,
 			depending on what networking features you want: </p>
 		
 		<image href="images/networking_mode_decision75.jpg" scale="90">
 			<alt>Decision tree for determining networking mode</alt>
-		</image>-->
-		
+		</image>
+		-->
 		<p>Each networking mode is detailed in the following sections.</p>
 		
 		

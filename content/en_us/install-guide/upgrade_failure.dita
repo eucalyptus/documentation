@@ -8,8 +8,8 @@
     <taskbody id="upgrade_failure_tasks">
         <context>
             <p>The upgrade process creates a backup to
-                    <codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.&lt;timestamp></codeph>.
-                For example:</p>
+                    <codeph>/var/lib/eucalyptus/upgrade/eucalyptus.backup.TIMESTAMP</codeph>. For
+                example:</p>
             <codeblock>/var/lib/eucalyptus/upgrade/eucalyptus.backup.1326905212</codeblock>
             <p>If the upgrade fails and needs to be reverted to your earlier
                 version, you can find your preserved data in this directory.</p>
@@ -216,6 +216,8 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
 	<task id="upgrade_failure_downgrade_euca2ools">
 		<title>Downgrade Euca2ools</title>
 		<taskbody>
+		    <context>If Euca2ools is not the source of upgrade failure, you are not required to downgrade
+                Euca2ools.</context>
 			<steps>
 				<step>
 					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>
