@@ -32,31 +32,46 @@
             Come back to this statement, once the reorg'd guide is in place.)</p>-->
         <p>Registration commands need the following information:</p>
         <ul>
-            <li>The <b>Type</b> (<codeph>-t</codeph> required) of service you are registering. For
-                example: <codeph>cluster</codeph>.</li>
-            <li>The <b>Host</b> (<codeph>-h</codeph> required) of the service being registered. The
-                host must be specified by IP address to function correctly. <note importance="high"
-                    >You must specify public IP addresses.</note>
-                <note importance="high">We recommend that you use IP addresses rather than host
-                    names when registering Eucalyptus services. If you do use host names, the
-                    underlying IP address must not be a site-local, any-cast, loopback, link-local,
-                    or multicast address.</note>
-                <note>If you do register a Eucalyptus service with a host name, to avoid
-                    connectivity issues, do not change the host name's underlying IP address.</note>
+            <li>The <b>Type</b>
+                <codeph>-t</codeph> of service you are registering. Required. For example:
+                    <codeph>cluster</codeph>.</li>
+            <li>The <b>Host</b>
+                <codeph>-h</codeph> of the service being registered. Required. The host must be specified by
+                IP address to function correctly.<note type="important">IP address is recommended.<ul>
+                        <li>You must specify public IP addresses.</li>
+                        <li>We recommend that you use IP addresses rather than DNS host names when
+                            registering Eucalyptus services.</li>
+                    </ul></note>
+                <note type="important"> If you do register a Eucalyptus service with a DNS host
+                    name: <ul>
+                        <li>To avoid connectivity issues, do not change the DNS host name's
+                            underlying IP address.</li>
+                        <li>The underlying IP address must NOT be a site-local, any-cast, loopback,
+                            link-local, or multicast address.</li>
+                        <li>Always ensure that DNS is working properly, or populate etc/hosts.</li>
+                    </ul>
+                </note>
             </li>
-            <li>The <b>URL</b> (<codeph>-U</codeph>) bootstrap service endpoint URL
-                is temporarily required until Eucalyptus DNS and other endpoint services are configured.</li>
-            <!--						REMOVE above comment WHEN THIS IS NO LONGER TRUE. -->
+<!--    As long as you copy the security credentials from the CLC to the other host machines, you do not need this:
+                
+            <li>The <b>URL</b> <codeph>-U</codeph> bootstrap service endpoint URL might be temporarily required until
+                Eucalyptus DNS and other endpoint services are configured.</li>
+                
+This might be required in some QA circumstances so keep this note. -->
                 						
-            <li>The <b>Zone</b> (<codeph>-z</codeph>) the service belongs to. This is equivalent to the availability zone in AWS.</li>           
-            <li>The <b>Service Instance</b> (<codeph>[SVCINSTANCE]</codeph> required) name you
-                assign to the service, up to 256 characters. This is the name used to identify the
-                service in a human-friendly way. This name is also used when reporting system state
-                changes which require administrator attention. This name must be globally-unique
-                with respect to other service registrations. To ensure this uniqueness, we recommend
-                using a combination of the service type (CLC, SC, CC, etc.) and system IP address
-                (or host name) when you choose your service instance names. For example:
-                    <codeph>clc-192.168.0.15</codeph> or <codeph>clc-eucahost15</codeph>.
+            <li>The <b>Availability Zone</b>
+                <codeph>-z</codeph> the service belongs to. This is equivalent to the availability
+                zone in AWS.</li>           
+            <li>The <b>Name</b>
+                <codeph>SVCINSTANCE</codeph> you assign to each instance of a service, up to 256
+                characters. Required. This is the name used to identify the service in a
+                human-friendly way. This name is also used when reporting system state changes that
+                require administrator attention. <note>The <codeph>SVCINSTANCE</codeph> name must be
+                    globally-unique with respect to other service registrations. To ensure this
+                    uniqueness, we recommend using a combination of the service type (CLC, SC, CC,
+                    etc.) and system IP address (or DNS host name) when you choose your service
+                    instance names. For example: <codeph>clc-192.168.0.15</codeph> or
+                        <codeph>clc-eucahost15</codeph>.</note>
             </li>
         </ul>
        

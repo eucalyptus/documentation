@@ -25,50 +25,54 @@
 		
 		<steps>
 			<step>
+				<cmd>Obtain your temporary access keys for the Eucalyptus set up by running the following command:</cmd>
+				<info>
+					<codeblock>eval 'clcadmin-assume-system-credentials'</codeblock>
+					<note>You will create longer-lived and fully functional access keys later.</note>
+				</info>				
+			</step>
+			<step>
+				<cmd>On the CLC host machine, run the following command:</cmd>
+				<info>
+					<codeblock>euserv-register-service -t user-api -h IP SVCINSTANCE</codeblock>
+					<p>where:</p>
+					<ul>
+						<li><codeph>IP</codeph> is the IP address of the UFS you are registering.</li>						
+						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the User-Facing service.</li>
+					</ul>
+				</info>
+				<stepxmp>
+						<p>For example:</p>
+					<codeblock>euserv-register-service -t user-api -h 10.111.5.183 user-api-1</codeblock>
+				</stepxmp>
+			</step>
+			<step>
+				<cmd>Repeat for each UFS host, replacing the UFS IP address and UFS name.</cmd>
+			</step>
+			<step>
 				<cmd>Copy the security credentials from the CLC to each machine running User-Facing Services.
 					Run this command on the CLC host machine:</cmd>
 				<info>
-					<codeblock>clcadmin-copy-keys [HOST] [HOST ...]</codeblock>
+					<codeblock>clcadmin-copy-keys HOST [HOST ...]</codeblock>
 				</info>	
 				<stepxmp>
 					<p>For example:</p>
 					<codeblock>clcadmin-copy-keys 10.111.5.183</codeblock>
 				</stepxmp>
 			</step>
+<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
 			<step>
-				<cmd>On the CLC host machine, run the following command:</cmd>
+				<cmd>Verify that the User-Facing service is registered with the following command for each instance of the UFS:</cmd>
 				<info>
-					<codeblock>euserv-register-service -t user-api -h [IP] -U [URL] [SVCINSTANCE]</codeblock>
-					<p>where:</p>
-					<ul>
-						<li><codeph>IP</codeph> is the IP of the UFS you are registering.</li>
-						<li><codeph>URL</codeph> bootstrap service endpoint URL is temporarily required 
-							until Eucalyptus DNS and other endpoint services are configured.</li>
-<!--						REMOVE above comment WHEN THIS IS NO LONGER TRUE. -->						
-						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the User-Facing service.</li>
-					</ul>
+					<codeblock>euserv-describe-services SVCINSTANCE</codeblock>
 				</info>
-				<stepxmp>
-						<p>For example:</p>
-					<codeblock>euserv-register-service -t user-api -h 10.111.5.183 -U http://127.0.0.1:8773/services/Empyrean user-api-1</codeblock>
-				</stepxmp>
 			</step>
-			<step>
-				<cmd>Repeat for each UFS host, replacing the UFS IP address and UFS name.</cmd>
-			</step>
-			<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task.  -->   
-			<step>
-				<cmd>Verify that the User-Facing service is registered with the following command:</cmd>
-				<info>
-					<codeblock>euserv-describe-services [SVCINSTANCE]</codeblock>
-				</info>
-			</step>			
 		</steps>
 		
 		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
             in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
 		<result>
-			<p>The registered User-Facing service is now ready for your cloud.</p>
+			<p>The registered UFS instances are now ready for your cloud.</p>
 			<!--<p>(Optional) Where to go next.</p>-->
 		</result>
 		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
