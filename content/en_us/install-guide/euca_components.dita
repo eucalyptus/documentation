@@ -2,10 +2,8 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="euca_components">
-	<title>Eucalyptus Components</title>
-	<shortdesc>Eucalyptus is comprised of the following components: Cloud Controller (CLC), User-Facing
-		Services (UFS), Object Storage Gateway (OSG), Cluster Controller (CC), Storage Controller
-		(SC), and Node Controller (NC).</shortdesc>
+	<title><ph conref="../shared/conrefs.dita#prod/product"/> Components</title>
+	<shortdesc>This topic describes the various components that comprise a <ph conref="../shared/conrefs.dita#prod/product"/> cloud.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -16,44 +14,77 @@
 	</prolog>
 
 	<conbody>
-		<!--	<p>The following image shows the interconnectivity of the Eucalyptus components.</p>-->
-		<!--	<image href="images/euca_arch.png" scale="75" alt="Eucalyptus architecture"/>-->
-
-		<p>A detailed description of each Eucalyptus component follows.</p>
+		<!--	DOC-1542 need new architectural diagrams 
+			Source of below diagram: 
+			Technical Intro to Eucalyptus training
+		-->
+		<p>The following image shows an example of <ph conref="../shared/conrefs.dita#prod/product"/>
+			components.</p>
+		<image href="images/euca_cloud_arch_basics.png" scale="75"> 
+		<alt>Image displaying user, cloud, cluster, and node components</alt>
+		</image>
+		
+		<p>A detailed description of each <ph conref="../shared/conrefs.dita#prod/product"/> component follows.</p>
 		<section><title>Cloud Controller</title>
-			<p>In most deployments, the CLC and the UFS are on the same machine. This machine is the
-				entry-point into the cloud for administrators, developers, project managers, and
-				end-users. The CLC handles persistence and is the backend for the UFS.</p>
+			<p>In many deployments, the Cloud Controller (CLC) and the User-Facing Services (UFS) are on the
+				same host machine. This server is the entry-point into the cloud for administrators,
+				developers, project managers, and end-users. The CLC handles persistence and is the
+				backend for the UFS. A <ph conref="../shared/conrefs.dita#prod/product"/> cloud must
+				have exactly one CLC.</p>
 		</section>
 		<section>
 			<title>User-Facing Services</title>
-			<p>The UFS serve as endpoints for the AWS-compatible services offered by Eucalyptus: EC2
-				(compute), AS (AutoScaling), CW (CloudWatch), ELB (LoadBalancing), IAM (Euare), and
-				STS (tokens).</p>
+			<p>The User-Facing Services (UFS) serve as endpoints for the AWS-compatible services offered by
+				<ph conref="../shared/conrefs.dita#prod/product"/>: EC2 (compute), AS (AutoScaling), CW (CloudWatch), ELB (LoadBalancing),
+				IAM (Euare), and STS (tokens). A <ph conref="../shared/conrefs.dita#prod/product"/> cloud can have several UFS host
+				machines.</p>
 		</section>
-		<section><title>Object Storage Gateway</title>
-			<p>The OSG passes requests to object storage providers and talks to the persistence
-				layer (DB) to authenticate requests. You can use Walrus or Riak CS as the object
-				storage provider. </p></section>
+		<section>
+			<title>Management Console</title>
+			<p>The <ph conref="../shared/conrefs.dita#prod/product"/> Management Console is an easy-to-use
+				web-based interface that allows you to manage your <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud. The Management Console is
+				often deployed on the same host machine as the UFS. A <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud can have multiple
+				Management Console host machines.</p>
+		</section>
+		<section>
+			<title>Object Storage Gateway</title>
+			<p>The Object Storage Gateway (OSG) passes requests to object storage providers and talks to the
+				persistence layer (DB) to authenticate requests. You can use Walrus or Riak CS as
+				the object storage provider. The OSG is part of the UFS group.</p>
+		</section>
+		<section>
+			<title>Object Storage Provider</title>
+			<p>The Object Storage Provider (OSP) can be either the <ph
+					conref="../shared/conrefs.dita#prod/product"/> Walrus backend or Riak CS. Walrus
+				is intended for light S3 usage and is a single host. Riak CS is an open source
+				scalable general purpose data platform created by <xref
+					href="http://docs.basho.com/riakcs/latest/" format="html" scope="external"
+					>Basho</xref>; it is intended for deployments with heavy S3 usage.</p>
+		</section>
 		<section><title>Cluster Controller</title>
-			<p>The Cluster Controller (CC) generally executes on a machine that has network
-				connectivity to both the machines running the Node Controllers (NCs) and to the
-				machine running the CLC. CCs gather information about a set of NCs and schedules
-				virtual machine (VM) execution on specific NCs. The CC also manages the virtual
-				machine networks in Managed and Managed (No VLAN) <xref
-					href="planning_networking_modes.dita">networking modes</xref>. All NCs
-				associated with a single CC must be in the same subnet.</p></section>
+			<p>The Cluster Controller (CC) must run on a host machine that has network connectivity to both
+				the machines running the Node Controllers (NCs) and to the machine running the CLC.
+				CCs gather information about a set of NCs and schedules virtual machine (VM)
+				execution on specific NCs. The CC also manages the virtual machine networks in
+				Managed and Managed (No VLAN) <xref href="planning_networking_modes.dita">networking
+				modes</xref>. All NCs associated with a single CC must be in the same
+				subnet.</p>
+<!--			DOC-1754: TO DO: Add VPC (MidoNet) note here, if applicable.
+-->		</section>
 		<section><title>Storage Controller</title>
-			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic
-				Block Store (Amazon EBS). The SC can interface with various storage systems. Elastic
-				block storage exports storage volumes that can be attached by a VM and mounted or
-				accessed as a raw block device. EBS volumes persist past VM termination and are
-				commonly used to store persistent data. An EBS volume cannot be shared between VMs
-				and can only be accessed within the same availability zone in which the VM is
-				running. Users can create snapshots from EBS volumes. Snapshots are stored in Walrus
-				and made available across availability zones. Eucalyptus with SAN support lets you
-				use your enterprise-grade SAN devices to host EBS storage within a Eucalyptus
-				cloud.</p></section>
+			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic Block Store
+				(Amazon EBS). The SC can interface with various storage systems. Elastic block
+				storage exports storage volumes that can be attached by a VM and mounted or accessed
+				as a raw block device. EBS volumes can persist past VM termination and are commonly
+				used to store persistent data. An EBS volume cannot be shared between multiple VMs
+				at once and can be accessed only within the same availability zone in which the VM
+				is running. Users can create snapshots from EBS volumes. Snapshots are stored by the
+				OSG and made available across availability zones. <ph
+					conref="../shared/conrefs.dita#prod/product"/> with SAN support provides the
+				ability to use your enterprise-grade SAN devices to host EBS storage within a <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud.</p></section>
 		<section><title>Node Controller</title>
 			<p>The Node Controller (NC) executes on any machine that hosts VM instances. The NC
 				controls VM activities, including the execution, inspection, and termination of VM

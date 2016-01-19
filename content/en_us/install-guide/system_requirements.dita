@@ -3,8 +3,8 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="system_requirements">
 	<title>System Requirements</title>
-	<shortdesc>To install Eucalyptus, your system must meet the following baseline
-		requirements.</shortdesc>
+	<shortdesc>To install <ph conref="../shared/conrefs.dita#prod/product"/>, your system must meet the
+		baseline requirements described in this topic.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -12,11 +12,8 @@
 			</keywords>
 		</metadata>
 	</prolog>
-
 	<conbody>
-
-		
-		<note type="note">The specific requirements of your Eucalyptus deployment, including the number of
+		<note type="note">The specific requirements of your <ph conref="../shared/conrefs.dita#prod/product"/> deployment, including the number of
 			physical machines, structure of the physical network, storage requirements, and access
 			to software are ultimately determined by the features you choose for your cloud and the
 			availability of infrastructure required to support those features. For more information,
@@ -25,34 +22,30 @@
 			physical resources recommended for your deployment type. <ph conref="../shared/conrefs.dita#prod/compat_matrix"/></note>
 		<section><title>Compute Requirements</title>
 			<ul>
-				<li>Physical Machines: All Eucalyptus components must be
-					installed on physical machines, not virtual machines. </li>
-				<li>Central Processing Units (CPUs): We recommend that each
-					machine in your Eucalyptus cloud contain either an Intel or
-					AMD processor with a minimum of two, 2GHz cores.</li>
-				<li>Operating Systems: Eucalyptus supports the following Linux distributions: CentOS 6 and RHEL
-					6. Eucalyptus supports only 64-bit architecture.</li>
-				<li>Machine Clocks: Each Eucalyptus component machine and any
-					client machine clocks must be synchronized (for example,
-					using NTP). These clocks must be synchronized all the time,
-					not just at installation.</li>
+				<li>Physical Machines: All <ph conref="../shared/conrefs.dita#prod/product"/> components must be installed on physical servers, not
+					virtual machines. </li>
+				<li>Central Processing Units (CPUs): We recommend that each machine in your <ph conref="../shared/conrefs.dita#prod/product"/> cloud
+					contain either an Intel or AMD processor with a minimum of two 2GHz cores.</li>
+				<li>Operating Systems: <ph conref="../shared/conrefs.dita#prod/product"/> supports the following Linux distributions: CentOS 6 and RHEL
+					6. <ph conref="../shared/conrefs.dita#prod/product"/> supports only 64-bit architecture.</li>
+				<li>Machine Clocks: Each <ph conref="../shared/conrefs.dita#prod/product"/> host machine and any client machine clocks must be
+					synchronized (for example, using NTP). These clocks must be synchronized all the
+					time, not only during the installation process.</li>
 				<li>Machine Access: Verify that all machines in your network
 					allow SSH login, and that root or sudo access is available
 					on each of them.</li>
 			</ul></section>
 		<section><title>Storage and Memory Requirements</title>
 			<ul>
-				<li>Each machine in your network needs a minimum of 30 GB of
-					storage.</li>
+				<li>Each machine in your network needs a minimum of 30GB of storage.</li>
 				<li>We recommend at least 100GB for Walrus and SC hosts running
 					Linux VMs. We recommend at least 250GB for Walrus and SC
 					hosts running Windows VMs.</li>
-				<li>We recommend a range of 50-100GB per NC host running Linux
-					VMs, and at least 250GB per NC host for running Windows VMs.
-					Note that larger available disk space enables greater number
-					of VMs.</li>
-				<li>Each machine in your network needs a minimum of 4 GB RAM.
-					However, we recommend more RAM for improved caching.</li>
+				<li>We recommend a range of 50-100GB per NC host running Linux VMs, and at least 250GB per NC
+					host for running Windows VMs. Note that larger available disk space enables a
+					greater number of VMs.</li>
+				<li>Each machine in your network needs a minimum of 4GB RAM. However, we recommend more RAM for
+					improved caching.</li>
 			</ul>
 		</section>
 		<section>
@@ -60,29 +53,29 @@
 			<ul>
 				<li>All NCs must have access to a minimum of 1Gb Ethernet
 					network connectivity.</li>
-				<li>All Eucalyptus components must have at least one Network
-					Interface Card (NIC) for a base-line deployment. For better
-					network isolation and scale, the CC should have two NICS
-					(one facing the CLC/user network and one facing the NC/VM
-					network). <!--For HA configurations that include network failure
-					resilience, each machine should have one extra NIC for each
-					functional NIC (they will be bonded and connected to
-					separate physical network hardware components).--></li>
+				<li>All <ph conref="../shared/conrefs.dita#prod/product"/> components must have at least one
+					Network Interface Card (NIC) for a base-line deployment. For better network
+					isolation and scale, the CC should have two NICs (one facing the CLC/user
+					network and one facing the NC/VM network).</li>
 				<li>Some configurations require that machines hosting a CC have
 					two network interfaces, each with a minimum of 1Gb
 					Ethernet.</li>
 				<li>For virtual machine traffic isolation, the network ports connecting Ethernet interfaces
-					might	 need to allow VLAN trunking.</li>
-				<li>For <xref href="planning_managed.dita">Managed</xref> and <xref href="planning_managed_novlan.dita">Managed (No VLAN)</xref> modes, Eucalyptus needs two sets of IP addresses.</li>
-				<li>For <xref href="planning_edge.dita">Edge</xref> mode, Eucalyptus needs at least one existing network.</li>
-				<li>The network connecting machines that host Eucalyptus components (except the CC and NC) must support
+					might need to allow VLAN trunking.</li>
+				<li>For <xref href="planning_managed.dita">Managed</xref> and <xref href="planning_managed_novlan.dita">Managed (No VLAN)</xref> modes, <ph conref="../shared/conrefs.dita#prod/product"/> needs two sets of IP addresses.</li>
+				<li>For <xref href="planning_edge.dita">Edge</xref> mode, <ph conref="../shared/conrefs.dita#prod/product"/> needs at least one existing network.</li>
+<!--			DOC-1754: TO DO: Added VPC (MidoNet) note here - SME should improve it.
+-->					<li>For <xref href="preparing_vpc_midonet.dita">VPC and MidoNet</xref>, <ph conref="../shared/conrefs.dita#prod/product"/> needs MidoNet
+					to be installed. For more information, see <xref
+						href="install_midokura.dita#install_midonet_intro"/>.</li>
+				<li>The network connecting machines that host <ph conref="../shared/conrefs.dita#prod/product"/> components (except the CC and NC) must support
 					UDP multicast for IP address 228.7.7.3. Note that UDP
 					multicast is not used over the network that connects
 					the CC to the NCs. For information about testing connectivity, see <xref href="preparing_connectivity.dita"/>.</li>
 
 			</ul>
 			<p> Once you are satisfied that your systems requirements are met,
-				you are ready to plan your Eucalyptus installation. </p>
+				you are ready to plan your <ph conref="../shared/conrefs.dita#prod/product"/> installation. </p>
 		</section>
 
 	</conbody>

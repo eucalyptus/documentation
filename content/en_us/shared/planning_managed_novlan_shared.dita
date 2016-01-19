@@ -3,9 +3,9 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="planning_managed_novlan_shared">
 	<title>Managed (No VLAN) Mode</title>
-	<shortdesc>In Managed (No VLAN) mode, Eucalyptus fully manages the local VM
+	<shortdesc>In Managed (No VLAN) mode, <ph conref="../shared/conrefs.dita#prod/product"/> fully manages the local VM
 		instance network and provides all of the networking features
-		Eucalyptus currently supports, including security groups, elastic
+		<ph conref="../shared/conrefs.dita#prod/product"/> currently supports, including security groups, elastic
 		IPs, etc. However, it does not provide VM network isolation.</shortdesc>
 	<prolog>
 		<metadata>
@@ -18,10 +18,9 @@
 	</prolog>
 	
 	<conbody>
-		<p>Without
-			VLAN isolation at the bridge level, it is possible in Managed (No
+		<p>Without VLAN isolation at the bridge level, it is possible in Managed (No
 			VLAN) mode for a root user on one VM to snoop and/or interfere with
-			the ethernet traffic of other VMs running on the same layer 2
+			the Ethernet traffic of other VMs running on the same layer 2
 			network.</p>
 		<note type="tip">In Managed (No VLAN) mode, VM isolation is provided by
 			having different security groups on different subnets—this
@@ -35,11 +34,11 @@
 					physical network. Typically these IP addresses are selected
 					from the private IP ranges: 192.168.x.x, 10.x.x.x, etc. </li>
 				<li>Any firewall running on the Cluster Controller must be
-					compatible with the dynamic changes performed by Eucalyptus
-					when working with security groups. (Note that Eucalyptus
+					compatible with the dynamic changes performed by <ph conref="../shared/conrefs.dita#prod/product"/>
+					when working with security groups. (Note that <ph conref="../shared/conrefs.dita#prod/product"/>
 					will flush the 'filter' and 'nat' tables upon boot). </li>
 				<li>A range of public IP addresses must be available for use by
-					Eucalyptus. </li>
+					<ph conref="../shared/conrefs.dita#prod/product"/>. </li>
 				<li>The CC must have a DHCP server daemon installed that is
 					compatible with ISC DHCP Daemon version 3.0.X.</li>
 				<li>If you plan to set up more than one cluster, you need to have a bridge for security groups
@@ -51,6 +50,10 @@
 			<title>Managed (No VLAN) Mode Limitations</title>
 			<ul>
 				<li>Limited (Layer-3) VM isolation.</li>
+				<li>The number of instances permitted in each security group is limited by the size
+					of the private subnet and the number of security groups you choose to
+					allow.</li>
+				<li>Instances may belong only to one security group.</li>
 			</ul>
 		</section>
 		
