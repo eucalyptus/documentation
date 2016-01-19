@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="create_scaling_group_ui_help_context">
-    <title>Create a Scaling Group</title>
+    <title>Create a Scaling Group - Membership</title>
     <shortdesc> This page allows you to create a scaling group. An Auto Scaling group defines the
         parameters for the Eucalyptus instances that are used for scaling, as well as the minimum,
         maximum, and the desired number of instances to use for Auto Scaling your application. In
@@ -10,100 +10,6 @@
         more information on Auto Scaling, please see <i>Using Auto Scaling</i> in the <i>Eucalyptus
             User Guide</i>. </shortdesc>
     <taskbody/>
-    <task id="create_scaling_group_ui_help_steps_general">
-        <title>General</title>
-        <shortdesc>This section is where you specify the basic configuration of your new auto
-            scaling group.</shortdesc>
-        <taskbody>
-            <steps>
-                <step>
-                    <cmd>Type the name of your new auto scaling group in the
-                            <uicontrol>Name</uicontrol> textbox.</cmd>
-                </step>
-                <step>
-                    <cmd> Select a launch configuration from the <uicontrol>Launch
-                            Configuration</uicontrol> drop-down list box. A launch configuration
-                        defines the properties of the instances that are launched as part of your
-                        auto scaling group.</cmd>
-                </step>
-                <step>
-                    <cmd> From the <uicontrol>VPC network</uicontrol> drop-down list box, select No VPC or specify which of your VPCs you want
-                        to launch instances in this scaling group. </cmd>
-                    <stepresult>If a VPC network is selected, the <uicontrol>VPC subnet(s)</uicontrol> drop-down list box displays.</stepresult>
-                </step>
-                <step>
-                    <cmd> Select a CIDR range from the <uicontrol>VPC subnet(s)</uicontrol> drop-down list box.</cmd>
-                </step>
-                
-            </steps>
-        </taskbody>
-    </task>
-    <task id="create_scaling_group_ui_help_steps_capacity">
-        <title>Capacity</title>
-        <shortdesc>Use the capacity values to manually scale your scaling groups.</shortdesc>
-        <taskbody>
-            <steps>
-
-                <step>
-                    <cmd>Specify the minimum number of instances you want running in your autoscaling
-                        group using the <uicontrol>Min</uicontrol> control.</cmd>
-                </step>
-                
-                <step>
-                    <cmd>Specify the desired number of instances you want running using the
-                            <uicontrol>Desired</uicontrol> control. </cmd>
-                </step>
-                <step>
-                    <cmd>Specify the maximum number of instances you want running using the
-                        <uicontrol>Max</uicontrol> control. </cmd>
-                </step>
-                <step>
-                    <cmd>A termination policy defines how instances that are no longer needed in the scaling group are terminated. A default termination policy is already pre-selected but 
-                        you can change the policy to a different one, or add more termination policies from the <uicontrol>Termination policies</uicontrol> text box.
-                      Termination policies are executed in the order they are listed. </cmd>
-                    <info>For information on termination policies, see <xref href="http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/us-termination-policy.html" format="html" scope="external">
-                        Configure Instance Termination Policy for Your Auto Scaling Group</xref></info>
-                </step>
-                <step>
-                    <cmd>To apply tags, proceed to the next section. Otherwise, click
-                            <uicontrol>Next</uicontrol> to proceed to the Membership tab.</cmd>
-                </step>
-            </steps>
-        </taskbody>
-    </task>
-    <task id="create_scaling_group_ui_help_steps_tags">
-        <title>Tags</title>
-        <shortdesc>A tag is a key/value pair containing data that you can attach to resources in
-            your cloud. This section of the <uicontrol>Create Scaling Group</uicontrol> wizard
-            allows you to define tags for your scaling group and for instances that run in your
-            scaling group.</shortdesc>
-        <taskbody>
-            <steps>
-                <step>
-                    <cmd>If you want to apply the new tag to instances running in the scaling group,
-                        select the <uicontrol>Propagate</uicontrol> check box.</cmd>
-                </step>
-                <step>
-                    <cmd>Type the key name for your tag into the <uicontrol>Key</uicontrol> text
-                        box.</cmd>
-                </step>
-                <step>
-                    <cmd>Type the value for your tag into the <uicontrol>Value</uicontrol> text
-                        box.</cmd>
-                </step>
-                <step>
-                    <cmd>To add this tag, click the <uicontrol>Add Tag</uicontrol> button.</cmd>
-                </step>
-                <step>
-                    <cmd>If you wish to delete a tag that you've already entered, click the <uicontrol>x</uicontrol>
-                        on the tag icon.</cmd>
-                </step>
-                <step>
-                    <cmd>Click <uicontrol>Next</uicontrol> to proceed to the Membership tab.</cmd>
-                </step>
-            </steps>
-        </taskbody>
-    </task>
     <task id="create_scaling_group_ui_help_steps_membership">
         <title>Membership</title>
         <shortdesc>In this tab, you can specify availability zones and health checks for the
@@ -117,11 +23,11 @@
                     <info><note>Availability zones are not applicable if a VPC network is selected.</note></info>
                     <info>You can remove a selected availability zone by clicking on the
                             <uicontrol>x</uicontrol> next to the availability zone's name in the
-                            <uicontrol>Availability Zones</uicontrol> field.</info>
+                            <uicontrol>Availability Zone(s)</uicontrol> field.</info>
                 </step>
                 <step>
                     <cmd>Select one or more load balancers for you new scaling group from the
-                            <uicontrol>Load balancers</uicontrol> drop-down list box.</cmd>
+                            <uicontrol>Load balancer(s)</uicontrol> drop-down list box.</cmd>
                     <info>You can add another load balancer to the new auto scaling group by
                         clicking the <b>+</b> button next to the drop-down list box.</info>
                     <info>The auto scaling health check uses EC2 instance status checks to determine
@@ -132,16 +38,15 @@
                 <step>
                     
                     <cmd>Type the amount of grace period, in seconds, into the <uicontrol>Health
-                            check grace period</uicontrol> text box or use the scroll bars to
+                            check grace period (secs)</uicontrol> text box or use the scroll bars to
                         incrementally adjust the values. This is the amount of time after a new
                         instance is launched in your auto scaling group before health checks start
                         for the instance. </cmd>
                 </step>
-                
-                
             </steps>
         </taskbody>
     </task>
+   
     <!--<task id="create_scaling_group_ui_help_steps_policies">
         <title>Policies</title>
         <shortdesc>In this section, you can define the scaling policies for your auto scaling group.
