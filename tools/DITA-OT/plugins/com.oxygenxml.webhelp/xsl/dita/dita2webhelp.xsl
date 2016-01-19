@@ -124,6 +124,7 @@ available in the base directory of this Oxygen Webhelp plugin.
       <xsl:comment/>
       <xsl:call-template name="oxygenCustomHeaderAndFooter"/>
     </div>
+    <div id="feedback" style="padding-top:6px">x</div><script>feedback();</script>
     <xsl:if test="string-length($CUSTOM_RATE_PAGE_URL) > 0">
       <noscript>.rate_page{display:none}</noscript>
       <div class="rate_page">
