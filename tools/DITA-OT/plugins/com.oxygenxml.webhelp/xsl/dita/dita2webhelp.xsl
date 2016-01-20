@@ -123,7 +123,9 @@ available in the base directory of this Oxygen Webhelp plugin.
     <div class="navfooter">
       <xsl:comment/>
       <xsl:call-template name="oxygenCustomHeaderAndFooter"/>
+      
     </div>
+    <script>feedback();</script>
     <xsl:if test="string-length($CUSTOM_RATE_PAGE_URL) > 0">
       <noscript>.rate_page{display:none}</noscript>
       <div class="rate_page">
@@ -165,6 +167,7 @@ available in the base directory of this Oxygen Webhelp plugin.
                           <xsl:text> - Trial Edition</xsl:text>
                       </xsl:if>
                   </div>
+                <div id="feedback" style="padding-top:6px">x</div>
               </xsl:when>
               <xsl:otherwise>
                   <!-- Include custom footer file. -->
