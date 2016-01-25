@@ -167,7 +167,7 @@ available in the base directory of this Oxygen Webhelp plugin.
                           <xsl:text> - Trial Edition</xsl:text>
                       </xsl:if>
                   </div>
-                <div id="feedback" style="padding-top:6px">x</div>
+                <div id="feedback" style="padding-top:6px">x</div><script>feedback();</script>
               </xsl:when>
               <xsl:otherwise>
                   <!-- Include custom footer file. -->
