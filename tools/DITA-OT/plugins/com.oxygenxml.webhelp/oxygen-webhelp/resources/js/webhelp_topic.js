@@ -51,11 +51,12 @@ function feedback(){
 		var topic=document.getElementsByTagName("title")[0].innerHTML ;
 		var tmp=topic.replace(/<[^>]*>/, "");
 		var topic=tmp.replace(/<\/[^>]*>/, "");
-		document.getElementById("feedback").innerHTML = "<a href=\"mailto:heliondocs@hpe.com&subject=Feedback on '"+topic+"'&body=Thank you for providing the Helion Eucalyptus Documentation Team with feedback about this topic!  Please replace this text with your feedback.%0D%0A %0D%0ALeave the title unchanged, because this will make it clear to us what topic you are providing feedback about.  If you need support, please contact your HPE Support representative.%0D%0A %0D%0AThanks for helping us improve the documentation!\">Feedback to the Helion Eucalyptus Docs Team</a>  ";
+		document.getElementById("feedback").innerHTML = "<a href=\"mailto:heliondocs@hpe.com&subject=Eucalyptus%20Documentation%20Feedback%20on%20'"+topic+"'&body=Thank%20you%20for%20providing%20the%20Helion%20Eucalyptus%20Documentation%20Team%20with%20feedback%20about%20this%20topic!%20%20Please%20replace%20this%20text%20with%20your%20feedback.%0D%0A%20%0D%0ALeave%20the%20title%20unchanged,%20because%20this%20will%20make%20it%20clear%20to%20us%20what%20topic%20you%20are%20providing%20feedback%20about.%20%20If%20you%20need%20support,%20please%20contact%20your%20HPE%20Support%20representative.%0D%0A%20%0D%0AThanks%20for%20helping%20us%20improve%20the%20documentation!\">Feedback%20to%20the%20Helion%20Eucalyptus%20Docs%20Team</a>  ";
 	}else {
 		document.getElementById("feedback").style.display = "none";
 	}
 }
+
  
 $(document).ready(function () {
     $('#permalink').show();
