@@ -2,13 +2,13 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="install_euca_release">
-	<title>Install Eucalyptus Release Packages</title>
-	<shortdesc>To install Eucalyptus from release packages, perform the tasks listed in this topic.</shortdesc>
+	<title>Install <ph conref="../shared/conrefs.dita#prod/product"/> Release Packages</title>
+	<shortdesc>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release packages, perform the tasks listed in this topic.</shortdesc>
 	<taskbody>
-		<context><b>To install Eucalyptus from release packages</b></context>		
+		<context><b>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release packages</b></context>		
 		<steps>
 			<step>
-				<cmd>Configure the Eucalyptus package repository on each host machine that will run a Eucalyptus
+				<cmd>Configure the <ph conref="../shared/conrefs.dita#prod/product"/> package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
 					service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
@@ -16,26 +16,16 @@
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>(Optional) If you are a Eucalyptus subscriber, you will receive two RPM package files
+				<cmd>(Optional) If you are a <ph conref="../shared/conrefs.dita#prod/product"/> subscriber, you will receive two RPM package files
 					containing your license for subscription-only services. Install these packages
-					on each host machine that will run a Eucalyptus service.</cmd>
-				<substeps>
-					<substep>
-						<cmd>Install the license files to access the enterprise repository.</cmd>
+					on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/> service.
+					Install the license files to access the enterprise repository.</cmd>
 						<info>
 							<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
 						</info>
-					</substep>
-					<substep>
-						<cmd>Install the actual repository file.</cmd>
-						<info>
-							<codeblock>yum install eucalyptus-enterprise-release-<ph conref="../shared/conrefs.dita#prod/version_short"/>*.noarch.rpm eucalyptus-license-*.rpm</codeblock>
-						</info>
-					</substep>
-				</substeps>
 			</step>
 			<step>
-				<cmd>Configure the Euca2ools package repository on each host machine that will run a Eucalyptus
+				<cmd>Configure the Euca2ools package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
 					service or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_download"/></codeblock>
@@ -43,7 +33,7 @@
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the EPEL package repository on each host machine that will run a Eucalyptus
+				<cmd>Configure the EPEL package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
 					service or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/epel_download"/></codeblock>
@@ -77,7 +67,7 @@
 				<substeps>
 					
 					<substep>
-						<cmd>Install the Eucalyptus node controller software on each NC host:</cmd>
+						<cmd>Install the <ph conref="../shared/conrefs.dita#prod/product"/> Node Controller software on each NC host:</cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
@@ -110,7 +100,7 @@ virsh net-autostart default --disable</codeblock>
 			</step>
 			
 			<step>
-				<cmd>On each CLC host machine, install the Eucalyptus cloud controller software.</cmd>
+				<cmd>On each CLC host machine, install the <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Controller software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
@@ -125,14 +115,14 @@ virsh net-autostart default --disable</codeblock>
 				<info>This installs nginx for metadata support.</info>
 			</step>
 			<step>
-				<cmd>Install the services image package on the machine hosting the primary CLC:</cmd>
+				<cmd>Install the backend service image package on the machine hosting the CLC:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-service-image</codeblock>
 				</info>
-				<info>This installs worker images for both the Load Balancer and Imaging services.</info>
+				<stepresult>This installs worker images for both the load balancer and imaging services.</stepresult>
 			</step>
 			<step>
-				<cmd>On the UFS host machine, install the Eucalyptus cloud controller software.</cmd>
+				<cmd>On the UFS host machine, install the <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Controller software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
@@ -142,20 +132,21 @@ virsh net-autostart default --disable</codeblock>
 				<info>
 					<codeblock>yum install eucaconsole</codeblock>
 				</info>
-				<info>For more information, see the <xref href="../console-guide/index.dita#welcome"
-					>Console Guide</xref>.</info>
+				<stepresult>The Management Console can run on any host machine, even one that does not have other <ph conref="../shared/conrefs.dita#prod/product"/> services. 
+					For more information, see the <xref href="../console-guide/index.dita#welcome"
+					>Console Guide</xref>.</stepresult>
 			</step>
 			<step>
-				<cmd>Install the software for the remaining Eucalyptus services. The following example shows
-					services being installed on the same host. We recommend that you use a different
+				<cmd>Install the software for the remaining <ph conref="../shared/conrefs.dita#prod/product"/> services. The following example shows
+					services being installed on the same host machine. We recommend that you use a different
 					host machine for each service, when possible:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
-				<info>This installs the cloud controller (CC), storage controller (SC), and Walrus backend (WS) services.</info>
+				<info>This installs the cloud controller (CC), storage controller (SC), and Walrus Backend services.</info>
 			</step>
 			<step props="subscribe">
-				<cmd>(Optional) If you are a subscriber and use SAN, run the appropriate command for your device on each
+				<cmd>(Optional) If you are a subscriber and use a SAN, run the appropriate command for your device on each
 					CLC host machine:</cmd>
 				<info>
 					<p>For HP 3PAR SAN:</p>
@@ -167,7 +158,7 @@ virsh net-autostart default --disable</codeblock>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>(Optional) If you are a subscriber and use SAN, run the appropriate command for your device on each SC
+				<cmd>(Optional) If you are a subscriber and use a SAN, run the appropriate command for your device on each SC
 					host machine:</cmd>
 				<info>
 					<p>For HP 3PAR SAN:</p>
@@ -180,7 +171,7 @@ virsh net-autostart default --disable</codeblock>
 
 			</step>
 			<step>
-				<cmd>After you have installed Eucalyptus, test multicast connectivity between each CLC and
+				<cmd>After you have installed <ph conref="../shared/conrefs.dita#prod/product"/>, test multicast connectivity between each CLC and
 					Walrus, and SC.</cmd>
 				<substeps>
 					<substep>
@@ -209,7 +200,6 @@ virsh net-autostart default --disable</codeblock>
 		</steps>
 
 		<result>Your package installation is complete.</result>
-		<postreq>You are now ready to <xref href="configuring_euca.dita">Configure
-			Eucalyptus</xref>.</postreq>
+		<postreq>You are now ready to <xref href="configuring_euca.dita"></xref>.</postreq>
 	</taskbody>
 </task>
