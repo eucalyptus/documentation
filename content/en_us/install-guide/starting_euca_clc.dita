@@ -13,12 +13,21 @@
 			</keywords>
 		</metadata>
 	</prolog>
-
+	
 	<taskbody>
-		<context> </context>
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b>
+			<p>You should have installed and configured Eucalyptus before starting the CLC.</p>
+		</prereq>        
+		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+		<context>
+<!--			<p>The steps you take depend upon where Eucalyptus services are hosted.</p>
+-->			<p><b>To initialize and start the CLC</b></p>
+		</context>
+		
 		<steps>
 			<step>
-				<cmd>Log in to the Cloud Controller (CLC).</cmd>
+				<cmd>Log in to the Cloud Controller (CLC) host machine.</cmd>
 			</step>
 			<step>
 				<cmd>Enter the following command to initialize the CLC:</cmd>
@@ -27,9 +36,9 @@
 						<codeph>eucalyptus-cloud</codeph> process is not running prior to
 						executing this command. </note>
 					<codeblock>clcadmin-initialize-cloud</codeblock>
-					<note type="note">This command might take a minute or more
-						to finish.</note>
 				</info>
+				<stepresult>This command might take a minute or more to finish. If it fails, check
+						<filepath>/var/log/eucalyptus/cloud-output.log</filepath>.</stepresult>
 			</step>
 			<step>
 				<cmd>Enter the following command to start the CLC:</cmd>
@@ -37,13 +46,6 @@
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 			</step>
-			<step>
-				<cmd>Get temporary set-up credentials:</cmd>
-				<info>
-					<codeblock>eval `clcadmin-assume-system-credentials`</codeblock>
-				</info>
-			</step>
-			
 		</steps>
 		
 	</taskbody>
