@@ -3,7 +3,7 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_ntp_shared">
 	<title>Configure NTP</title>
-	<shortdesc>Eucalyptus requires that each machine have the Network Time
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> requires that each machine have the Network Time
 		Protocol (NTP) daemon started and configured to run
 		automatically on reboot.</shortdesc>
 	<prolog>
@@ -22,7 +22,7 @@
 		</context>
 		<steps>
 			<step>
-				<cmd>Install NTP on the machines that will host Eucalyptus
+				<cmd>Install NTP on the machines that will host <ph conref="../shared/conrefs.dita#prod/product"/>
 					components.</cmd>
 				<info>
 					<codeblock>yum install ntp</codeblock>
@@ -39,8 +39,8 @@
             	</choices>-->
 			</step>
 			<step>
-				<cmd>Open the <filepath>/etc/ntp.conf</filepath> file and add
-					NTP servers, as in the following example.</cmd>
+				<cmd>Open the <filepath>/etc/ntp.conf</filepath> file and add NTP servers, if necessary, as in
+					the following example.</cmd>
 				<info>
 					<codeblock>server 0.pool.ntp.org
 server 1.pool.ntp.org
@@ -49,6 +49,12 @@ server 2.pool.ntp.org</codeblock>
 			</step>
 			<step>
 				<cmd>Save and close the file.</cmd>
+			</step>
+			<step>
+				<cmd>Synchronize your server.</cmd>
+				<info>
+					<codeblock>ntpdate -u YOUR_NTP_SERVER</codeblock>
+				</info>
 			</step>
 			<step>
 				<cmd>Configure NTP to run at reboot.</cmd>
@@ -63,12 +69,6 @@ server 2.pool.ntp.org</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Synchronize your server.</cmd>
-				<info>
-					<codeblock>ntpdate -u &lt;your_ntp_server></codeblock>
-				</info>
-			</step>
-			<step>
 				<cmd>Synchronize your system clock, so that when your system is
 					rebooted, it does not get out of sync.</cmd>
 				<info>
@@ -76,8 +76,8 @@ server 2.pool.ntp.org</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Repeat on each host that will run a Eucalyptus
-					component.</cmd>
+				<cmd>Repeat on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
+					service.</cmd>
 			</step>
 		</steps>
 	</taskbody>

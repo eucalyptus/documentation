@@ -3,48 +3,37 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="configure_imaging_service_shared">
 	<title>Install and Configure the Imaging Service</title>
-	<shortdesc> The Eucalyptus Imaging Service is a service, introduced in Eucalyptus 4.0, that makes
-		it easier to deploy EBS images in your Eucalyptus cloud. This service automates many of the
-		labor-intensive processes required for uploading data into EBS images. The Imaging Service
-		is also involved in running paravirtual images: it converts the partitions of paravirtual
-		images into disks and caches them in a system-owned bucket in Object Store (in Eucalyptus
-		4.0,  raw disks are exclusively used within the system for deploying images to Node
-		Controllers.)</shortdesc>
+	<shortdesc> The <ph conref="../shared/conrefs.dita#prod/product"/> Imaging Service, introduced in <ph conref="../shared/conrefs.dita#prod/product"/> 4.0, makes it easier to deploy
+		EBS images in your <ph conref="../shared/conrefs.dita#prod/product"/> cloud and automates many of the labor-intensive processes
+		required for uploading data into EBS images.</shortdesc>
 	<taskbody>
-		<context> The Eucalyptus Imaging Service is implemented as a
-			system-controlled "worker" virtual machine that is monitored and controlled via Auto
+		<context> The <ph conref="../shared/conrefs.dita#prod/product"/> Imaging Service is implemented as
+			a system-controlled "worker" virtual machine that is monitored and controlled via Auto
 			Scaling. Once the Imaging Service is configured, the Imaging Service VM will be started
-			automatically upon the first request that requires it: either an EBS volume ingress or a
-			run of a paravirtual image that hasn't been converted. Specifically, in this release of
-			Eucalyptus, there are three usage scenarios for the Eucalyptus Imaging Service: <ul>
+			automatically upon the first request that requires it: such as an EBS volume ingress.
+			Specifically, in this release of <ph conref="../shared/conrefs.dita#prod/product"/>,
+			these are the usage scenarios for the <ph conref="../shared/conrefs.dita#prod/product"/>
+			Imaging Service: <ul>
 				<li><i><b>Importing a raw disk image as a volume:</b></i> If you have a raw disk image
 					(containing either a data partition or a full operating system with a boot
 					record, e.g., an HVM image), you can use the Imaging Service to import this into
-					your Eucalyptus cloud as a volume. This is accomplished with
-					euca-import-volume command. If the volume was populated with a bootable disk,
-					that volume can be snapshotted and registered as an EMI.</li>
+					your <ph conref="../shared/conrefs.dita#prod/product"/> cloud as a volume. This
+					is accomplished with the <codeph>euca-import-volume</codeph> command. If the volume was populated
+					with a bootable disk, that volume can be snapshotted and registered as an
+					image.</li>
 				<li><b><i>Importing a raw disk image as an instance:</i></b> If you have a raw disk image
-					containing a bootable operating system, you can import this disk image into
-					Eucalyptus as an instance: the Imaging Service automatically creates a volume,
-					registers the EMI, and launches an instance from the EMI. This is accomplished
-					with euca-import-instance command, which has options for specifying the instance
-					type and the SSH key for the instance to use.</li>
-				<!-- Removed per Shaon tech review comments 2015-10-22 -->
-				<!--<li><b><i>Running a paravirtual image:</i></b> If your system has partition-based paravirtual
-					EMIs (which entered the system via the standard bundle/upload/register process),
-					the Imaging Service will be engaged when you run such an EMI on a 4.0 system for
-					the first time: Soon after run request is acknowledged, an Imaging Worker
-					instance will start (unless one is already running) and will begin processing
-					the paravirtual image. During this time, both the pending instance and the EMI
-					will have tags associated with them showing the status of conversion. If
-					conversion is successful, the instance will be deployed and the image will be
-					usable again, without requiring conversion upon next run.</li>-->
+					containing a bootable operating system, you can import this disk image into <ph
+						conref="../shared/conrefs.dita#prod/product"/> as an instance: the Imaging
+					Service automatically creates a volume, registers the image, and launches an
+					instance from the image. This is accomplished with the <codeph>euca-import-instance</codeph>
+					command, which has options for specifying the instance type and the SSH key for
+					the instance to use.</li>
 			</ul>
 		</context>
 	</taskbody>
 	<task id="installing_and_registering_imaging_worker">
 		<title>Install and Register the Imaging Worker Image</title>
-		<shortdesc>Eucalyptus provides a command-line tool for installing and registering the
+		<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> provides a command-line tool for installing and registering the
 			Imaging Worker image. Once you have run the tool, the Imaging Worker will be ready to
 			use. </shortdesc>
 		<taskbody>
@@ -55,10 +44,7 @@
 						the <codeph>imaging.imaging_worker_emi</codeph> property to the newly
 						created EMI of the imaging worker):</cmd>
 					<info>
-						<codeblock>export AWS_DEFAULT_REGION=localhost
-eval `clcadmin-assume-system-credentials`
-export S3_URL=http://your_s3_url_here/
-esi-install-image --region localhost --install-default</codeblock>
+						<codeblock>esi-install-image --region localhost --install-default</codeblock>
 					</info>
 				</step>
 				
@@ -76,15 +62,15 @@ esi-install-image --region localhost --install-default</codeblock>
 	</task>
 	<task id="manage_imaging_service_instance">
 		<title>Managing the Imaging Worker Instance</title>
-		<shortdesc>Eucalyptus automatically starts Imaging Worker instances when there are tasks for
+		<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> automatically starts Imaging Worker instances when there are tasks for
 			workers to perform. </shortdesc>
 		<taskbody>
 			<steps>
 				<step>
-					<cmd>The cloud administrator can list running Imaging Worker instances, if any, by running the
-						command:</cmd>
+					<cmd>The cloud administrator can list the running Imaging Worker instances, if any, by running
+						the command:</cmd>
 					<info>
-						<codeblock># euca-describe-instances --filter tag-value=euca-internal-imaging-workers</codeblock>
+						<codeblock>euca-describe-instances --filter tag-value=euca-internal-imaging-workers</codeblock>
 					</info>
 				</step>
 				<step>
@@ -92,13 +78,13 @@ esi-install-image --region localhost --install-default</codeblock>
 					
 					<info>
 						
-						<codeph>esi-manage-stack -a delete imaging</codeph>
+						<codeblock>esi-manage-stack -a delete imaging</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>To create/start the imaging worker:</cmd>
+					<cmd>To create / start the imaging worker:</cmd>
 					<info>
-						<codeph>esi-manage-stack -a create imaging</codeph>
+						<codeblock>esi-manage-stack -a create imaging</codeblock>
 					</info>
 					
 				</step>
@@ -141,9 +127,9 @@ euca-terminate-instances $(euca-describe-instances --filter tag-value=euca-inter
 				<step>
 					<cmd>If the status of the conversion operation is 'Image conversion failed', but the image is
 						marked as 'available' (in the output of euca-describe-images), the
-						conversion can be retried by running the EMI again: :</cmd>
+						conversion can be retried by running the EMI again:</cmd>
 					<info>
-						<codeblock>euca-run-instance ...</codeblock>
+						<codeblock>euca-run-instances ...</codeblock>
 					</info>
 				</step>
 			</steps>

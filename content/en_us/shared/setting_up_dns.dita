@@ -3,9 +3,9 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="setting_up_dns">
   <title>Configure DNS</title>
-  <shortdesc>Eucalyptus provides a DNS service that you can configure to map instance IPs and Walrus
-    bucket names to DNS host names. This section details how to configure the Eucalyptus DNS
-    service.</shortdesc>
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> provides a DNS service that maps
+		service names, bucket names, and more to IP addresses. This section details how to configure
+		the <ph conref="../shared/conrefs.dita#prod/product"/> DNS service.</shortdesc>
   <prolog>
     <metadata>
       <keywords>
@@ -22,9 +22,12 @@
 
   <taskbody>
     <context>
+    	<note type="important"><ph conref="../shared/conrefs.dita#prod/product"/> administration tools are designed to work with DNS-enabled clouds, so configuring this
+				service is highly recommended. The remainder of this guide is written with the
+				assumption that your cloud is DNS-enabled.</note>
       <p>The DNS service will automatically try to bind to port 53. If port 53 cannot be used, DNS
 	will be disabled. Typically, other system services like dnsmasq are configured to run on
-	port 53. To use the Eucalyptus DNS service, you must disable these services.</p>
+	port 53. To use the <ph conref="../shared/conrefs.dita#prod/product"/> DNS service, you must disable these services.</p>
     </context>
 
   </taskbody>
@@ -32,22 +35,22 @@
     <title>Configure the Domain and Subdomain</title>
     <taskbody>
       <context>
-	<p>Before using the DNS service, configure the DNS sub domain name that you want Eucalyptus
-	  to handle using the steps that follow. Make sure that the Eucalyptus Cloud Controller
-	  (CLC) has been started.</p>
+      	<p>Before using the DNS service, configure the DNS subdomain name that you want <ph
+						conref="../shared/conrefs.dita#prod/product"/> to handle using the steps
+					that follow.</p>
       </context>
       <steps>
 	<step>
 	  <cmd>Log in to the CLC and enter the following:</cmd>
 	  <info>
-	    <codeblock>euctl system.dns.dnsdomain=&lt;eucadomain.yourdomain></codeblock>
+	    <codeblock>euctl system.dns.dnsdomain=mycloud.example.com</codeblock>
 	  </info>
 	</step>
 	<step>
-	  <cmd>You can configure the load balancer DNS subdomain. To do so, log in to the primary CLC and
-	    enter the following:</cmd>
+	  <cmd>You can configure the load balancer DNS subdomain. To do so, log in to the CLC and enter the
+						following:</cmd>
 	  <info>
-	    <codeblock>euctl services.loadbalancing.dns_subdomain = &lt;your-subdomain></codeblock>
+	    <codeblock>euctl services.loadbalancing.dns_subdomain=lb.mycloud.example.com</codeblock>
 	  </info>
 	</step>
       </steps>
@@ -57,7 +60,7 @@
     <title>Turn on IP Mapping</title>
     <taskbody>
       <context>
-	<p>To turn on mapping of instance IPs to DNS host names:</p>
+	<p>To enable mapping of instance IPs to DNS host names:</p>
       </context>
       <steps>
 	<step>
@@ -65,18 +68,27 @@
 	  <info>
 	    <codeblock>euctl bootstrap.webservices.use_instance_dns=true</codeblock>
 
-	    <p>When this option is enabled, public and private DNS entries are set up for each instance that is launched in Eucalyptus. This also enables virtual hosting for Walrus.
-	      Buckets created in Walrus can be accessed as hosts. For example, the bucket <codeph>mybucket</codeph> is accessible as <codeph>mybucket.objectstorage.cloudsubdomain.yourdomain</codeph>.
-	    </p> <p>Instance IP addresses will be mapped as <codeph>euca-A-B-C-D.eucalyptus.&lt;cloudsubdomain></codeph>, where <codeph>A-B-C-D</codeph> is the IP address (or addresses) assigned to your instance.
-	    </p>
+	  	<p>When this option is enabled, public and private DNS entries are created for each launched
+							instance in <ph conref="../shared/conrefs.dita#prod/product"/>. This
+							also enables virtual hosting for Walrus. Buckets created in Walrus can
+							be accessed as hosts. For example, the bucket <codeph>mybucket</codeph>
+							is accessible as
+								<codeph>mybucket.objectstorage.mycloud.example.com</codeph>. </p> <p>Instance IP addresses will be mapped as
+								<codeph>euca-A-B-C-D.eucalyptus.mycloud.example.com</codeph>, where
+								<codeph>A-B-C-D</codeph> is the IP address (or addresses) assigned
+							to your instance. </p>
 	  </info>
 	</step>
 	<step>
 	  <cmd>If you want to modify the subdomain that is reported as part of the instance DNS name, enter the following command:</cmd>
 	  <info>
-	    <codeblock>euctl cloud.vmstate.instance_subdomain=.&lt;custom-dns-subdomain></codeblock>
-	    <p>When this value is modified, the public and private DNS names reported for each instance will contain the specified custom DNS subdomain name, instead of the default value, which is <codeph>eucalyptus</codeph>.
-	      For example, if this value is set to <codeph>foobar</codeph>, the instance DNS names will appear as <codeph>euca-A-B-C-D.foobar.&lt;cloud-subdomain.yourdomain></codeph>.</p>
+	    <codeblock>euctl cloud.vmstate.instance_subdomain=custom-dns-subdomain</codeblock>
+	    <p>When this value is modified, the public and private DNS names reported for each instance
+							will contain the specified custom DNS subdomain name, instead of the
+							default value, which is <codeph>eucalyptus</codeph>. For example, if
+							this value is set to <codeph>foobar</codeph>, the instance DNS names
+							will appear as
+							<codeph>euca-A-B-C-D.foobar.mycloud.example.com</codeph>.</p>
 	  </info>
 	</step>
       </steps>
@@ -86,10 +98,14 @@
     <title>Enable DNS Delegation</title>
     <taskbody>
       <context>
-	<p>DNS delegation allows you to forward DNS traffic for the Eucalyptus subdomain to the Eucalyptus CLC host. This host acts as a name server. This allows interruption-free access
-	  to Eucalyptus cloud services in the event of a failure. The CLC host is capable of mapping cloud host names to IP addresses of the CLC and UFS / OSG hosts.</p>
-	<p>For example, if the IP address of the CLC is <codeph>192.168.5.1</codeph>, and the IP address of Walrus is <codeph>192.168.6.1</codeph>, the host
-	  <codeph>compute.cloudsubdomain.yourdomain</codeph> will resolve to <codeph>192.168.5.1</codeph> and <codeph>objectstorage.cloudsubdomain.yourdomain</codeph> will resolve to <codeph>192.168.6.1</codeph>.</p>
+      	<p>DNS delegation allows you to forward DNS traffic for the <ph conref="../shared/conrefs.dita#prod/product"/> subdomain to the <ph conref="../shared/conrefs.dita#prod/product"/> CLC host. This host acts as a name server. This allows interruption-free access
+      		to <ph conref="../shared/conrefs.dita#prod/product"/> cloud services in the event of a failure. The CLC host is capable of mapping cloud host names to IP addresses of the CLC and UFS / OSG hosts.</p>
+	<p>For example, if the IP address of the CLC is <codeph>192.168.5.1</codeph>, and the IP address of
+					Walrus is <codeph>192.168.6.1</codeph>, the host
+						<codeph>compute.mycloud.example.com</codeph> will resolve to
+						<codeph>192.168.5.1</codeph> and
+						<codeph>objectstorage.mycloud.example.com</codeph> will resolve to
+						<codeph>192.168.6.1</codeph>.</p>
 	<p>To enable DNS delegation:</p>
       </context>
       <steps>
@@ -99,9 +115,6 @@
 	    <codeblock>euctl bootstrap.webservices.use_dns_delegation=true</codeblock>
 	  </info>
 	</step>
-	<step>
-	  <cmd>Because the credentials are now slightly changed, you must generate the administrative credentials and source the <filepath>eucarc</filepath> file again. For more information, see <xref href="../install-guide/admin_creds.dita"/>.</cmd>
-	</step>
       </steps>
     </taskbody>
   </task>
@@ -109,57 +122,50 @@
     <title>Configure the Master DNS Server</title>
     <taskbody>
       <context>
-	<p>Set up your master DNS server to forward the Eucalyptus subdomain to the CLC server, which acts as a name server.</p>
-	<p>The following example shows how the Linux name server <codeph>bind</codeph> is set up to forward the Eucalyptus subdomain.</p>
+      	<p>Set up your master DNS server to delegate the <ph
+						conref="../shared/conrefs.dita#prod/product"/> subdomain to the UFS servers,
+					which act as name servers.</p>
+      	<p>The following example shows how the Linux name server <codeph>bind</codeph> is set up to
+					delegate the <ph conref="../shared/conrefs.dita#prod/product"/> subdomain.</p>
       </context>
       <steps>
 	<step>
-	  <cmd>Open <filepath>/etc/named.conf</filepath> and set up the <codeph>cloudsubdomain.yourdomain zone</codeph>. For example, your <filepath>/etc/named.conf</filepath> may look like the following:</cmd>
+	  <cmd>Open <filepath>/etc/named.conf</filepath> and set up the <codeph>example.com</codeph> zone.
+						For example, your <filepath>/etc/named.conf</filepath> may look like the
+						following:</cmd>
 	  <info>
-	    <codeblock>zone "yourdomain" IN {
+	    <codeblock>zone "example.com" IN {
 	      type master;
-	      file "/etc/bind/db.yourdomain";
+	      file "/etc/bind/db.example.com";
 	      };
 	    </codeblock>
 	  </info>
 	</step>
 	<step>
-	  <cmd>Create <filepath>/etc/bind/db.yourdomain</filepath> if it does not exist. If your master DNS is already set up for <codeph>yourdomain</codeph>, you will need to add a name server entry for <codeph>&lt;CLC_IP></codeph>.
-	    For example:</cmd>
+	  <cmd>Create <filepath>/etc/bind/db.example.com</filepath> if it does not exist. If your master
+						DNS is already set up for <codeph>example.com</codeph>, you will need to add
+						a name server entry for UFS machine hosts. For example:</cmd>
 	  <info>
-	    <codeblock>$TTL 604800
-	      @ IN SOA yourdomain. root.yourdomain. (
-	      2 ; Serial
-	      604800 ; Refresh
-	      86400 ; Retry
-	      2419200 ; Expire
-	      604800 ) ; Negative Cache TTL
-	      ;
+						<codeblock>$ORIGIN example.com.
+$TTL 604800
 
-	      $ORIGIN yourdomain.
-	      @ IN NS ns1.yourdomain.
-	      @ IN A &lt;master_nameserver_IP>
-	      
-	      ns1.yourdomain. IN A &lt;master_nameserver_IP>
-
-	      ;Add entry your cloud subdomain
-	      $ORIGIN cloudsubdomain.yourdomain.
-	      @ NS clc
-	      clc IN A &lt;CLC_IP></codeblock>
-	      eucalyptus IN NS clc.cloudsubdomainyourdomain.
-	      lb IN NS clc.cloudsubdomain.yourdomain.
-	    <p>where <codeph>clc.cloudsbdomain.yourdomain</codeph> is the host name of your CLC server.</p>
-	    <p>From now you will be able to resolve your instances Public DNS Names such as euca-A-B-C-D.eucalyptus.cloudsubdomain.yourdomain</p>
-	  </info>
+@ IN    SOA ns1 admin.example.com 1 604800 86400 2419200 604800
+        NS  ns1
+ns1     A   MASTER.DNS.SERVER_IP
+ufs1    A   UFS1_IP
+mycloud NS  ufs1</codeblock>
+						<p>After this, you will be able to resolve your instances' public DNS names such as
+								<codeph>euca-A-B-C-D.eucalyptus.mycloud.example.com</codeph>.</p>
+					</info>
 	</step>
 	<step>
-	  <cmd>Restart the bind nameserver (<codeph>/etc/init.d/bind9 restart</codeph> or
-	    <codeph>/etc/init.d/named restart</codeph>, depending on your Linux
-	    distribution).</cmd>
+		<cmd>Restart the bind nameserver <codeph>service named restart</codeph>.</cmd>
 	</step>
 	<step>
-	  <cmd>Test your setup by pointing <codeph>/etc/resolv.conf</codeph> on your client to your primary DNS server and attempt to resolve
-	    <codeph>compute.cloudsubdomain.yourdomain</codeph> using ping or nslookup. It should return the IP address of the CLC server.</cmd>
+	  <cmd>Verify your setup by pointing <filepath>/etc/resolv.conf</filepath> on your client to your
+						primary DNS server and attempt to resolve
+							<codeph>compute.example.com</codeph> using ping or nslookup. It should
+						return the IP address of a UFS server.</cmd>
 	</step>
       </steps>
     </taskbody>
@@ -169,7 +175,7 @@
     <title>Advanced DNS Options</title>
     <taskbody>
       <context>
-	<p>Recursive lookups and split-horizon DNS are available in Eucalyptus.</p>
+      	<p>Recursive lookups and split-horizon DNS are available in <ph conref="../shared/conrefs.dita#prod/product"/>.</p>
       </context>
       <steps>
 	<step>

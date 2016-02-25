@@ -3,7 +3,7 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_prep">
 	<title>Prepare for Upgrade</title>
-	<shortdesc>This topic helps you prepare for upgrading Eucalyptus.</shortdesc>
+	<shortdesc>This topic helps you prepare for upgrading <ph conref="../shared/conrefs.dita#prod/product"/>.</shortdesc>
 	<taskbody>
 		<!--    If there are no prereqs, state "None." -->        
 		<prereq><b>Prerequisites</b>
@@ -12,13 +12,13 @@
 				<li>Verified that your hardware and software are compatible with <ph
 					conref="../shared/conrefs.dita#prod/version"/>. <ph
 						conref="../shared/conrefs.dita#prod/compat_matrix"/></li>
-				<li>Verified that the required hardware and software are ready and available to Eucalyptus.</li>
-				<li>Followed the <xref href="upgrade.dita#prescribed">prescribed path of prior Eucalyptus
-						versions</xref>, if needed, to prepare for this upgrade.</li>
+				<li>Verified that the required hardware and software are ready and available to <ph conref="../shared/conrefs.dita#prod/product"/>.</li>
+				<li>Followed the <xref href="upgrade.dita#prescribed">prescribed path</xref> of prior <ph conref="../shared/conrefs.dita#prod/product"/>
+						versions, if needed, to prepare for this upgrade.</li>
 				<li>Backed up your data and followed best practices for your environment. See <xref
 						href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/index.html"
 						format="html" scope="external">RHEL documentation</xref>.</li>
-				<li>Prepared to upgrade <i>all Eucalyptus services</i>. Eucalyptus does not support services
+				<li>Prepared to upgrade <i>all <ph conref="../shared/conrefs.dita#prod/product"/> services</i>. <ph conref="../shared/conrefs.dita#prod/product"/> does not support services
 					that are on different release versions. For example, you cannot have a CLC at
 						<ph conref="../shared/conrefs.dita#prod/version_long"/> and a Walrus at <ph
 						conref="../shared/conrefs.dita#prod/prev_version"/>.</li>
@@ -28,22 +28,22 @@
 						href="../shared/doc_archive.dita#doc_archive">documentation archive</xref>
 					to find out how to add these to your host machines.</li>
 				<li>Fully updated your existing (pre-<ph conref="../shared/conrefs.dita#prod/version_long"/>)
-					Eucalyptus services using <codeph>yum update</codeph> where possible.</li>
-				<li>Removed any hand-written repository files for earlier versions of Eucalyptus and Euca2ools
+					<ph conref="../shared/conrefs.dita#prod/product"/> services using <codeph>yum update</codeph> where possible.</li>
+				<li>Removed any hand-written repository files for earlier versions of <ph conref="../shared/conrefs.dita#prod/product"/> and Euca2ools
 					from <codeph>/etc/yum.repos.d</codeph>.</li>
 			</ul>
 		</prereq>    
 		<context>
 			<note type="important">
 				<ul>
-					<li>Unless otherwise noted, perform the upgrade steps on <i>every</i> Eucalyptus
+					<li>Unless otherwise noted, perform the upgrade steps on <i>every</i> <ph conref="../shared/conrefs.dita#prod/product"/>
 						host machine.</li>
 					<li>It is recommended that you also install the new version of Euca2ools, although this is not
 						required. If you don't install the new version of Euca2ools, you will not be
 						able to use new features from the command line.</li>
-					<li>Federated Eucalyptus clouds began with 4.2.0; you can upgrade a 4.2.x cloud
+					<li>Federated <ph conref="../shared/conrefs.dita#prod/product"/> clouds began with 4.2.0; you can upgrade a 4.2.x cloud
 						to a federated setup. If you have a 4.1.x or earlier cloud, it cannot have
-						any non-Eucalyptus services accounts created, nor can it be an LDAP
+						any non-<ph conref="../shared/conrefs.dita#prod/product"/> services accounts created, nor can it be an LDAP
 						integrated cloud. For more information, see <xref
 							href="../admin-guide/manage_regions.dita#manage_regions">Manage Regions
 							in the Administration Guide</xref>.</li>
@@ -52,14 +52,14 @@
 			<note type="tip">You can preview the install and its dependencies by running the following
 				commands. <i>Be sure and respond with 'N' so you do not start the install before you
 					are ready.</i></note>
-			<p><b>To pre-test the upgrade of Eucalyptus cloud</b></p>
-			<p>The following steps are an optional preview. If you do not want to do this, continue to <xref
-					href="upgrade_shutdown.dita"/>.</p>
+			<p><b>To pre-test the upgrade of <ph conref="../shared/conrefs.dita#prod/product"/> cloud</b></p>
+			<p>The following steps are an optional preview of what the upgrade command will do. If you do not
+				want to do this, continue to <xref href="upgrade_shutdown.dita"/>.</p>
 		</context>
 		<steps id="test_distro">
 			<step>
-				<cmd>(Optional) Test the new Eucalyptus release package on each host machine that runs a
-					Eucalyptus service:</cmd>
+				<cmd>(Optional) Test the new <ph conref="../shared/conrefs.dita#prod/product"/> release package on each host machine that runs a
+					<ph conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
@@ -67,8 +67,8 @@
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) Test the new Euca2ools release package on each host machine that runs a
-					Eucalyptus service:</cmd>
+				<cmd>(Optional) Test the new Euca2ools release package on each host machine that runs Euca2ools
+					or a <ph conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
@@ -76,8 +76,8 @@
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) If you have a Eucalyptus subscription, test the new subscription release package
-					on each host machine that runs a Eucalyptus service:</cmd>
+				<cmd>(Optional) If you have a <ph conref="../shared/conrefs.dita#prod/product"/> subscription, test the new subscription release package
+					on each host machine that runs a <ph conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
