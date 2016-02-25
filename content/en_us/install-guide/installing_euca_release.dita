@@ -168,34 +168,6 @@ virsh net-autostart default --disable</codeblock>
 					<p>For Dell EqualLogic SAN:</p>
 					<codeblock>yum install eucalyptus-enterprise-storage-san-equallogic</codeblock>
 				</info>
-
-			</step>
-			<step>
-				<cmd>After you have installed <ph conref="../shared/conrefs.dita#prod/product"/>, test multicast connectivity between each CLC and
-					Walrus, and SC.</cmd>
-				<substeps>
-					<substep>
-						<cmd>Install the network tomography package on the Cloud Controller, Cluster Controller,
-							Storage Controller, and any host machines running a Walrus backend
-							service.</cmd>
-						<info>
-							<codeblock>yum install --nogpgcheck http://downloads.eucalyptus.com/software/tools/centos/6/x86_64/network-tomography-1.0.0-3.el6.x86_64.rpm</codeblock>
-						</info>
-					</substep>
-					<substep>
-						<cmd>Run the <codeph>network-tomography</codeph> tool on the Cloud Controller, Cluster
-							Controller, Storage Controller, and any host machines running a Walrus
-							backend service, passing a list of IP addresses for each of these host
-							machines.</cmd>
-						<info>
-							<codeblock>/usr/bin/network-tomography 192.168.51.174 192.168.51.196 192.168.51.86 
-192.168.51.99</codeblock>
-							This tool may take up to an hour to run. Check the output for reports of packet loss.
-							If there is significant packet loss, ensure that your network is available and
-							multicast enabled.</info>
-					</substep>
-
-				</substeps>
 			</step>
 		</steps>
 
