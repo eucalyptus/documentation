@@ -14,14 +14,15 @@
 			</keywords>
 		</metadata>
 	</prolog>
-
 	<taskbody>
-		
-		<context>
-			<note type="important">If you are using host names rather than IP addresses when registering your
-				NCs, ensure that DNS is working properly, or populate /etc/hosts for all nodes in a
-				zone.</note>
-		</context>
+		<!--    If there are no prereqs, state "None." -->        
+	<prereq><b>Prerequisites</b>
+		<ul>
+		<li>The Cluster Controller service must be properly installed and started.</li>
+				<li>The Node Controller service must be properly installed and started.</li>
+	</ul>
+	</prereq>   
+		<context><b>To register the Node Controller service with the <ph conref="../shared/conrefs.dita#prod/product"/> cloud</b></context>
 		<steps>
 			<step>
 				<cmd>SSH to the Cluster Controller in the zone.</cmd>
@@ -30,23 +31,39 @@
 				<cmd>On the CC, register all NCs using the following command with the IP address of each NC host
 					machine:</cmd>
 				<info>
-					<codeblock>clusteradmin-register-nodes [node0_IP_address] ... [nodeN_IP_address]</codeblock>
+					<codeblock>clusteradmin-register-nodes node0_IP_address ... [nodeN_IP_address]</codeblock>
 				</info>
-				<stepxmp><codeblock>clusteradmin-register-nodes 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>clusteradmin-register-nodes 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
 			</step>
 			<step>
 				<cmd>Copy the CC's security credentials using the following command:</cmd>
 				<info>
-					<codeblock>clusteradmin-copy-keys [node0_IP_address] ... [nodeN_IP_address]</codeblock>
+					<codeblock>clusteradmin-copy-keys node0_IP_address ... [nodeN_IP_address]</codeblock>
 				</info>
-				<stepxmp><codeblock>clusteradmin-copy-keys 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
+				<stepxmp>
+					<p>For example:</p>
+					<codeblock>clusteradmin-copy-keys 10.111.5.160 10.111.5.161 10.111.5.162</codeblock></stepxmp>
 			</step>
 			<step>
 				<cmd>Repeat the steps for each zone in your cloud.</cmd>
 			</step>
 		</steps>
-
-		<postreq></postreq>
-
+		
+		<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+		<result>
+			<p>The registered Node Controller service is now ready for your cloud.</p>
+			<!--<p>(Optional) Where to go next.</p>-->
+		</result>
+		
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->		     
+		
 	</taskbody>
 </task>

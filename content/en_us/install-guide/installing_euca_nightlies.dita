@@ -3,7 +3,7 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="installing_euca_nightlies">
  <title>Install Nightly Release Packages</title>
-	<shortdesc>To install Eucalyptus from nightly builds, perform the tasks listed in this topic.</shortdesc>
+ <shortdesc>To install <ph conref="../shared/conrefs.dita#prod/product"/> from nightly builds, perform the tasks listed in this topic.</shortdesc>
  <prolog>
   <metadata>
    <keywords>
@@ -17,20 +17,20 @@
   <!--This is a reused / modified topic.-->
   <!--    If there are no prereqs, state "None." -->        
   <prereq><b>Prerequisites</b><ul>
-   <li>You should have an existing Eucalyptus deployment in a QA test or development
+   <li>You should have an existing <ph conref="../shared/conrefs.dita#prod/product"/> deployment in a QA test or development
      environment.</li>
   <!-- <li>??? Can these commands be applied to running services ??? or do they need to be stopped first
      ??? REVIEWER QUESTION</li>-->
    <li>The prerequisite hardware and software should be in place and available to
-    Eucalyptus.</li>
+    <ph conref="../shared/conrefs.dita#prod/product"/>.</li>
   </ul>
   </prereq>        
   <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->  
   <context>
-   <note type="important">Eucalyptus nightly packages are the latest Eucalyptus builds. They should
+   <note type="important"><ph conref="../shared/conrefs.dita#prod/product"/> nightly packages are the latest <ph conref="../shared/conrefs.dita#prod/product"/> builds. They should
     be considered unstable/"bleeding edge" software and should not be installed in a production
     environment. In addition, upgrades from nightlies to released software are not supported.</note>
-   <p><b>To install Eucalyptus nightly builds:</b></p>
+   <p><b>To install <ph conref="../shared/conrefs.dita#prod/product"/> nightly builds:</b></p>
   </context>
   <steps>
    <step>
@@ -41,7 +41,7 @@
     </info>
    </step>
    <step>
-    <cmd>On all host machines that will run either Eucalyptus or Euca2ools, run the following
+    <cmd>On all host machines that will run either <ph conref="../shared/conrefs.dita#prod/product"/> or Euca2ools, run the following
      commands:</cmd>
     <info>
      <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_nightly_download"/></codeblock>
@@ -55,26 +55,18 @@
     </info>
    </step>
    <step>
-    <cmd>Install Eucalyptus packages. The following example shows most services being installed all
+    <cmd>Install <ph conref="../shared/conrefs.dita#prod/product"/> packages. The following example shows most services being installed all
      on the same host machine. You can use a different host for each service.</cmd>
     <info>
-     <codeblock>yum install eucalyptus-cloud
-yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
+     <codeblock>yum install eucalyptus-cloud eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
     </info>
    </step>
    <step>
-    <cmd>Install the Imaging Worker image package on the machine hosting the primary
-     CLC:</cmd>
+    <cmd>Install the backend service image package on the machine hosting the CLC:</cmd>
     <info>
      <codeblock>yum install eucalyptus-service-image</codeblock>
     </info>
-   </step>
-   <step>
-     <cmd>If you need Load Balancer support in your cloud, you will need to install the Load
-     Balancer image package on the machine hosting the primary CLC:</cmd>
-     <info>
-       <codeblock>yum install eucalyptus-service-image</codeblock>
-     </info>
+    <stepresult>This installs worker images for both the load balancer and imaging services.</stepresult>
    </step>
    <step>
     <cmd>On each planned NC host, install the NC package:</cmd>
@@ -84,8 +76,7 @@ yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
    </step>
   </steps>
   <result>The nightly package installation is complete.</result>
-  <postreq>You are now ready to <xref href="configuring_euca.dita">Configure
-    Eucalyptus</xref>.</postreq>
+  <postreq>You are now ready to <xref href="configuring_euca.dita"></xref>.</postreq>
  </taskbody>
 <!-- Update the postreq to the proper next section (if there is always the same next).-->
 </task>

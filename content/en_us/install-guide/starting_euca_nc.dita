@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="starting_euca_nc">
-    <title>Start the NCs</title>
+    <title>Start the NC</title>
     <shortdesc/>
     <prolog>
         <metadata>
@@ -12,27 +12,34 @@
             </keywords>
         </metadata>
     </prolog>
-
+    
     <taskbody>
-        <context>To start the Node Controllers, perform the following tasks.</context>
-        <steps>
-            
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <p>You should have installed and configured Eucalyptus before starting the NC.</p>
+        </prereq>        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>
+			<p><b>To start the NC</b></p>
+        </context>
+        
+        <steps>           
             <step>
-                <cmd>Log in to an NC server and enter the following
-                    command:</cmd>
+                <cmd>Log in to the NC host machine and enter the following command:</cmd>
                 <info>
                     <codeblock>service eucalyptus-nc start</codeblock>
                 </info>
 
             </step>
         	<step>
-        		<cmd>If you are running in Edge networking mode, start the Edge component.</cmd>
+        		<cmd>If you are running in Edge networking mode, start the Edge component:</cmd>
         		<info>
         			<codeblock>service eucanetd start</codeblock>
+        		    <note>For VPCMido, eucanetd is only on the CLC.</note>
         		</info>
         	</step>
             <step>
-                <cmd>Repeat for each NC server.</cmd>
+                <cmd>Repeat for each NC host machine.</cmd>
             </step>
         </steps>
     </taskbody>
