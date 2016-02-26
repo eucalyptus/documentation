@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="modify_multicast">
+	<title>Change Multicast Address</title>
+	<shortdesc>This topic describes how to change your multicast address for group membership.</shortdesc>
+	<taskbody>
+		<!--    If there are no prereqs, state "None."         
+		<prereq><b>Prerequisites</b><ul>
+			<li>A prereq.</li>
+			<li>Another prereq.</li>
+		</ul>
+		</prereq>       --> 
+		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+		<context><p>By default, Eucalyptus uses the multicast address 239.193.7.3 for group membership,
+				which falls in the globally-scoped multicast address range. Most data centers limit
+				multicast address communication for security measures. We recommend that you use
+				addresses in the administratively-scoped multicast address range.<note>As of
+					Eucalyptus 4.3, the default multicast address changed from 228.7.7.3 to
+					239.193.7.3.</note></p>
+			<b>To change the multicast address for group membership</b></context>
+		<steps>
+			<step>
+				<cmd>Stop all services, starting from the CC, SC, Walrus, then CLC. For example:</cmd>
+				<info>
+					<codeblock>service eucalyptus-cc stop
+service eucalyptus-cloud stop</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Change the <filepath>eucalyptus.conf</filepath> on the CC, modifying the <codeph>CLOUD_OPTS</codeph> parameter to the new IP
+					address:</cmd>
+				<info>
+					<codeblock>CLOUD_OPTS="--mcast-addr=228.7.7.3"</codeblock>
+					<note>The above shows how to set the multicast address to a value compatible with releases prior to Eucalyptus 4.3.</note>
+				</info>
+			</step>
+			<step>
+				<cmd>Restart all services, starting from the CLC, Walrus, SC, CC. For example:</cmd>
+				<info>
+					<codeblock>service eucalyptus-cloud start
+service eucalyptus-cc start</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>Verify that the configured multicast address is being used via netstat:</cmd>
+				<info>
+					<codeblock>netstat -nulp</codeblock>
+				</info>
+			</step>
+		</steps>
+		<!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+	</taskbody>
+</task>
