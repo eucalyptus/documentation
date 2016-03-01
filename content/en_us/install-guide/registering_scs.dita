@@ -43,28 +43,29 @@
 					<p>where:</p>
 					<ul>
 						<li><codeph>IP</codeph> is the IP address of the SC you are registering with this CLC.</li>
-						<li><codeph>ZONE</codeph> name should be a descriptive name for the
-							availability zone controlled by the CC. For example:
-							<codeph>zone-1</codeph>. An SC must have the same <codeph>ZONE</codeph> name 
-							as the CC in the same zone.</li>
+						<li><codeph>ZONE</codeph> name should be a descriptive name for the zone controlled by the CC.
+							For example: <codeph>zone-1</codeph>. An SC must have the same
+								<codeph>ZONE</codeph> name as the CC in the same zone.</li>
 						<li><codeph>SVCINSTANCE</codeph> must be a unique name for the SC service. We recommend that
 							you use a short-hand name of the IP address or hostname of the machine,
 							for example: <codeph>sc-IP_ADDRESS</codeph> or
 								<codeph>sc-HOSTNAME</codeph>.</li>
 					</ul>
 					<note>We recommend that you use IP addresses instead of DNS names when registering <ph conref="../shared/conrefs.dita#prod/product"/> services.</note>
-					<note type="important">The SC automatically goes to the <codeph>BROKEN</codeph> state after
-						being registered with the CLC; it will remain in that state until you
-						explicitly configure the SC by configuring the backend storage provider
-						(later). For more information, see <xref
-							href="../install-guide/config_storage_broken_state.dita#broken_state"
-							>About the BROKEN state</xref>.</note>
-<!--STATEs probably deserve their own section, then xref to it.
--->				</info>
+			</info>
 				<stepxmp>
 					<p>For example:</p>
 					<codeblock>euserv-register-service -t storage -h 10.111.5.182 -z zone-1 sc-10.111.5.182</codeblock>
 				</stepxmp>
+				<info>
+				<note type="important">The SC automatically goes to the <codeph>BROKEN</codeph> state after
+					being registered with the CLC; it will remain in that state until you
+					explicitly configure the SC by configuring the backend storage provider
+					(later). For more information, see <xref
+						href="../install-guide/config_storage_broken_state.dita#broken_state"
+						>About the BROKEN state</xref>.</note>
+				<!--STATEs probably deserve their own section, then xref to it. Come back to this.
+-->			</info>	
 			</step>
 			<step>
 				<cmd>Repeat the above steps for each Storage Controller in each zone.</cmd>

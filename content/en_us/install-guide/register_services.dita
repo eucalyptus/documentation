@@ -27,9 +27,9 @@
             host where the registering service is assumed to be running. The registration command
             also contacts the service so it must be running at the time the command is issued. If a
             password is required to allow SSH access, the command will prompt the user for it.</p>
-<!--       <p>REVIEWER QUESTION: Verify that we can register all these services now (with only CLC
-            installed) considering the above comment??? (This relates to the reorg plan for the Install Guide. 
-            Come back to this statement, once the reorg'd guide is in place.)</p>-->
+<!--       <p>REVIEWER QUESTION: Verify that we can register all these services now (if only the CLC is 
+            installed) considering the above comment??? (This relates to DOC-1615 reorg plan for the Install Guide. 
+            Come back to this.)</p>-->
         <p>Registration commands need the following information:</p>
         <ul>
             <li>The <b>Type</b>
@@ -48,20 +48,21 @@
                             underlying IP address.</li>
                         <li>The underlying IP address must NOT be a site-local, any-cast, loopback,
                             link-local, or multicast address.</li>
-                        <li>Always ensure that DNS is working properly, or populate etc/hosts.</li>
+                        <li>Always ensure that DNS is working properly, or populate <filepath>etc/hosts</filepath>.</li>
                     </ul>
                 </note>
             </li>
 <!--    As long as you copy the security credentials from the CLC to the other host machines, you do not need this:
-                
             <li>The <b>URL</b> <codeph>-U</codeph> bootstrap service endpoint URL might be temporarily required until
-                <ph conref="../shared/conrefs.dita#prod/product"/> DNS and other endpoint services are configured.</li>
-                
+                <ph conref="../shared/conrefs.dita#prod/product"/> DNS and other endpoint services are configured.</li>                
 This might be required in some QA circumstances so keep this note. -->
-                						
-            <li>The <b>Availability Zone</b>
-                <codeph>-z</codeph> the service belongs to. This is equivalent to the availability
-                zone in AWS.</li>           
+
+            <!--The following "zone" is what used to be called "cluster" (and still is in much of the docs - 
+                global correction/clarification needed. Also incorrectly sometimes called partition. It is 
+                similar to, but NOT the same as, an AWS availability zone. Better NOT to include "availability" here.)
+-->            
+            <li>The <b>Zone</b> <codeph>-z</codeph> the service belongs to. 
+                This is roughly equivalent to the availability zone in AWS.</li>           
             <li>The <b>Name</b>
                 <codeph>SVCINSTANCE</codeph> you assign to each instance of a service, up to 256
                 characters. Required. This is the name used to identify the service in a

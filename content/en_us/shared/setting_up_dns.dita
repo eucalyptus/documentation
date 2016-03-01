@@ -98,8 +98,13 @@
     <title>Enable DNS Delegation</title>
     <taskbody>
       <context>
-      	<p>DNS delegation allows you to forward DNS traffic for the <ph conref="../shared/conrefs.dita#prod/product"/> subdomain to the <ph conref="../shared/conrefs.dita#prod/product"/> CLC host. This host acts as a name server. This allows interruption-free access
-      		to <ph conref="../shared/conrefs.dita#prod/product"/> cloud services in the event of a failure. The CLC host is capable of mapping cloud host names to IP addresses of the CLC and UFS / OSG hosts.</p>
+      	<p>DNS delegation allows you to forward DNS traffic for the <ph
+						conref="../shared/conrefs.dita#prod/product"/> subdomain to the <ph
+						conref="../shared/conrefs.dita#prod/product"/> CLC host. This host acts as a
+					name server. This allows interruption-free access to <ph
+						conref="../shared/conrefs.dita#prod/product"/> cloud services in the event
+					of a failure. The CLC host is capable of mapping cloud host names to IP
+					addresses of the CLC and UFS / OSG host machines.</p>
 	<p>For example, if the IP address of the CLC is <codeph>192.168.5.1</codeph>, and the IP address of
 					Walrus is <codeph>192.168.6.1</codeph>, the host
 						<codeph>compute.mycloud.example.com</codeph> will resolve to
@@ -123,8 +128,8 @@
     <taskbody>
       <context>
       	<p>Set up your master DNS server to delegate the <ph
-						conref="../shared/conrefs.dita#prod/product"/> subdomain to the UFS servers,
-					which act as name servers.</p>
+						conref="../shared/conrefs.dita#prod/product"/> subdomain to the UFS host
+					machines, which act as name servers.</p>
       	<p>The following example shows how the Linux name server <codeph>bind</codeph> is set up to
 					delegate the <ph conref="../shared/conrefs.dita#prod/product"/> subdomain.</p>
       </context>
@@ -142,10 +147,11 @@
 	  </info>
 	</step>
 	<step>
-	  <cmd>Create <filepath>/etc/bind/db.example.com</filepath> if it does not exist. If your master
-						DNS is already set up for <codeph>example.com</codeph>, you will need to add
-						a name server entry for UFS machine hosts. For example:</cmd>
-	  <info>
+					<cmd>Create <filepath>/etc/bind/db.example.com</filepath> if it does not exist.
+						If your master DNS is already set up for <codeph>example.com</codeph>, you
+						will need to add a name server entry for UFS host machines. For
+						example:</cmd>
+					<info>
 						<codeblock>$ORIGIN example.com.
 $TTL 604800
 
@@ -154,19 +160,20 @@ $TTL 604800
 ns1     A   MASTER.DNS.SERVER_IP
 ufs1    A   UFS1_IP
 mycloud NS  ufs1</codeblock>
-						<p>After this, you will be able to resolve your instances' public DNS names such as
-								<codeph>euca-A-B-C-D.eucalyptus.mycloud.example.com</codeph>.</p>
+						<p>After this, you will be able to resolve your instances' public DNS names
+							such as
+							<codeph>euca-A-B-C-D.eucalyptus.mycloud.example.com</codeph>.</p>
 					</info>
-	</step>
+				</step>
 	<step>
 		<cmd>Restart the bind nameserver <codeph>service named restart</codeph>.</cmd>
 	</step>
 	<step>
-	  <cmd>Verify your setup by pointing <filepath>/etc/resolv.conf</filepath> on your client to your
-						primary DNS server and attempt to resolve
+					<cmd>Verify your setup by pointing <filepath>/etc/resolv.conf</filepath> on your
+						client to your primary DNS server and attempt to resolve
 							<codeph>compute.example.com</codeph> using ping or nslookup. It should
-						return the IP address of a UFS server.</cmd>
-	</step>
+						return the IP address of a UFS host machine.</cmd>
+				</step>
       </steps>
     </taskbody>
   </task>
