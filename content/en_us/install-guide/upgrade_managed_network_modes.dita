@@ -3,18 +3,18 @@
 <task id="upgrade_managed_network_modes">
     <title>Upgrade Managed Network Modes</title>
     <shortdesc>You must generate the JSON network property/configuration string to use managed
-        networking modes in Eucalyptus 4.2. The creation of the network configuration JSON file should be done
-        prior to upgrade.This topic describes how to upgrade managed networking modes (MANAGED and
-        MANAGED-NOVLAN) for Eucalytpus 4.2. </shortdesc>
+        networking modes in <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/>. The creation of the network configuration JSON file should be done
+        prior to upgrade. This topic describes how to upgrade managed networking modes (MANAGED and
+        MANAGED-NOVLAN) for <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/>.</shortdesc>
     <taskbody>
         <context>
-            <p>To upgrade managed network modes for Eucalyptus 4.2:</p>
+            <p>To upgrade managed network modes for <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/>:</p>
         </context>
         <steps>
             <step>
                 <cmd>Before upgrading, retrieve and note VNET settings from your current
-                    installation of Eucalyptus. These are contained in the
-                        <codeph>/etc/eucalyptus/eucalyptus.conf</codeph> file. For example:</cmd>
+                    installation of <ph conref="../shared/conrefs.dita#prod/product"/>. These are contained in the
+                    <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file. For example:</cmd>
                 <info>
                     <codeblock>VNET_PUBLICIPS="10.111.101.31 10.111.101.40 10.111.101.42 10.111.101.43 10.111.101.132 10.111.101.133 10.111.101.134 10.111.101.135"
 VNET_SUBNET="172.16.0.0"
@@ -25,11 +25,10 @@ VNET_DNS="10.1.1.254"</codeblock>
             </step>
             <step>
                 <cmd>Retrieve cluster properties from your current installation using either the
-                        <codeph>euctl</codeph> or the <codeph>euca-describe-properties</codeph>
-                    commands. For example:</cmd>
+                        <codeph>euctl</codeph> command. For example:</cmd>
                 <info>
-                    <codeblock>PROPERTY &lt;clustername>.cluster.maxnetworktag 639
-PROPERTY &lt;clustername>.cluster.minnetworktag 512</codeblock>
+                    <codeblock>euctl ZONE.cluster.maxnetworktag=639
+euctl ZONE.cluster.minnetworktag=512</codeblock>
                 </info>
             </step>
             <step>
@@ -115,12 +114,12 @@ service eucalyptus-nc stop</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>On the machine for each Eucalyptus component, upgrade Eucalyptus. For
+                <cmd>On the machine for each <ph conref="../shared/conrefs.dita#prod/product"/> service, upgrade <ph conref="../shared/conrefs.dita#prod/product"/>. For
                     example:</cmd>
-                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+                <info><codeph>yum upgrade `euca*`</codeph></info>
             </step>
             <step>
-                <cmd>Start the Eucalyptus services on each of the Eucalyptus component machines. For
+                <cmd>Start the <ph conref="../shared/conrefs.dita#prod/product"/> services on each of the <ph conref="../shared/conrefs.dita#prod/product"/> host machines. For
                     example:</cmd>
                 <info><codeph>service eucalyptus-cloud start</codeph></info>
             </step>
@@ -134,7 +133,7 @@ service eucalyptus-nc stop</codeblock>
             </step>
             <step>
                 <cmd>Upgrade the CC and SC machines. For example:</cmd>
-                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+                <info><codeph>yum upgrade `euca*`</codeph></info>
             </step>
             <step>
                 <cmd>On the SC machine, start the SC services:</cmd>
@@ -155,8 +154,8 @@ service eucalyptus-nc stop</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Upgrade each NC. </cmd>
-                <info><codeph>yum upgrade ‘euca*’</codeph></info>
+                <cmd>Upgrade each NC.</cmd>
+                <info><codeph>yum upgrade `euca*`</codeph></info>
             </step>
             <step>
                 <cmd>Start the NC services on each NC:</cmd>
@@ -167,10 +166,10 @@ service eucalyptus-nc stop</codeblock>
             <step>
                 <cmd>Start the EUCANETD service on each NC:</cmd>
                 <info>
-                    <codeph>"service eucanetd start</codeph>
+                    <codeph>service eucanetd start</codeph>
                 </info>
             </step>
         </steps>
-        <result>Congratulations! You've now upgraded your managed network mode for Eucalyptus 4.2.</result>
+        <result>You have now upgraded your managed network mode for <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/>.</result>
     </taskbody>
 </task>
