@@ -11,9 +11,9 @@
                     <li>Successful completion of all the install sections prior to this
                         section.</li>
                     <li>The SC must be installed, registered, and running.</li>
-                    <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+                <li>You must have a paid subscription to <ph conref="../shared/conrefs.dita#prod/product"/> in order to use a SAN
                         backend.</li>
-                    <li>You must have a functioning NetApp 7-mode device available to Eucalyptus
+                <li>You must have a functioning NetApp 7-mode device available to <ph conref="../shared/conrefs.dita#prod/product"/>
                         cloud.</li>
                     <li>A supported version of the Data ONTAP operating system must be installed on
                         the SAN. 
@@ -22,8 +22,8 @@
                     <li>One or more aggregates with sufficient space should be available and iSCSI
                     service should be started.</li>
                     <li>Administrator account credentials for NetApp Filer must be available to be
-                        configured in Eucalyptus.</li>
-                    <li>You must execute the steps below as a Eucalyptus administrator.</li>
+                        configured in <ph conref="../shared/conrefs.dita#prod/product"/>.</li>
+                <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
             </ul>
             </prereq>   
             <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
@@ -34,38 +34,40 @@
                 <step>
                     <cmd>Configure the SC to use the Netapp for EBS.</cmd>
                     <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager=netapp</codeblock> The
-                    output of the command should be similar to:
-                    <codeblock>PROPERTY	[zone].storage.blockstoragemanager	netapp was &lt;unset></codeblock>
+                    <codeblock>euctl ZONE.storage.blockstoragemanager=netapp</codeblock> The output
+                    of the command should be similar to:
+                    <codeblock>ZONE.storage.blockstoragemanager=netapp</codeblock>
                 </info>
                 </step>
                 <step>
                     <cmd>Verify that the property value is now: 'netapp'</cmd>
                     <info>
-                        <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+                        <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
                     </info>
                 </step>
                 <step conref="../shared/conrefs.dita#shared_task/verify_sc">
                     <cmd/>
                 </step>
                 <step>
-                    <cmd>Wait for the SC to transition to the NOTREADY or DISABLED state.</cmd>
-                </step>
+                <cmd>Wait for the SC to transition to the 'notready' or 'disabled' state.</cmd>
+            </step>
                 <step>
-                    <cmd>On the CLC, enable NetApp SAN support in Eucalyptus by entering the
+                    <cmd>On the CLC, enable NetApp SAN support in <ph conref="../shared/conrefs.dita#prod/product"/> by entering the
                         Filer's hostname or IP address, the username and password of the
                         administrator account, and CHAP username. </cmd>
                     <info>
-                        <note>Eucalyptus uses Challenge Handshake Authentication Protocol (CHAP)
+                        <note><ph conref="../shared/conrefs.dita#prod/product"/> uses Challenge Handshake Authentication Protocol (CHAP)
                             for disk operations. The CHAP username can be any value, however it
                             should be unique when sharing a NetApp Filer across multiple
-                            Eucalyptus clusters. </note>
-                        <note>CHAP support for NetApp was added in Eucalyptus 3.3. An SC will not
+                            <ph conref="../shared/conrefs.dita#prod/product"/> clusters. </note>
+                        <note>CHAP support for NetApp was added in <ph conref="../shared/conrefs.dita#prod/product"/> 3.3. An SC will not
                         transition to ENABLED state until the CHAP username is conﬁgured. </note>
-                        <codeblock>euctl [zone].storage.sanhost=&lt;Filer_IP_address>
-euctl [zone].storage.sanuser=&lt;Filer_admin_username>
-euctl [zone].storage.sanpassword=&lt;Filer_admin_password>
-euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
+                        <!-- The following can actually be combined but it's difficult to display properly 
+                    in PDF and HTML so separating.-->
+                        <codeblock>euctl ZONE.storage.sanhost=Filer_IP_address 
+euctl ZONE.storage.sanuser=Filer_admin_username
+euctl ZONE.storage.sanpassword=Filer_admin_password 
+euctl ZONE.storage.chapuser=Chap_username</codeblock>
                     </info>
                 </step>
                 <step>
@@ -76,17 +78,17 @@ euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>If no aggregate is set, Eucalyptus will query the NetApp Filer for all
+                    <cmd>If no aggregate is set, <ph conref="../shared/conrefs.dita#prod/product"/> will query the NetApp Filer for all
                         available aggregates and use the one that has the highest capacity (free
-                        space) by default. To make Eucalyptus use specific aggregate(s)
+                        space) by default. To make <ph conref="../shared/conrefs.dita#prod/product"/> use specific aggregate(s)
                         configure the following property: </cmd>
                     <info>
-                        <codeblock>euctl [zone].storage.aggregate=&lt;aggregate_1_name,aggregate_2_name,...></codeblock>
+                        <codeblock>euctl ZONE.storage.aggregate=aggregate_1_name,aggregate_2_name,...</codeblock>
                     </info>
                     <info>
-                        <p>If you want Eucalyptus to use the smallest aggregate first configure
+                        <p>If you want <ph conref="../shared/conrefs.dita#prod/product"/> to use the smallest aggregate first configure
                             the following property: </p>
-                        <codeblock>euctl [zone].storage.uselargestaggregate=false</codeblock>
+                        <codeblock>euctl ZONE.storage.uselargestaggregate=false</codeblock>
                     </info>
                 </step>
                 <step>
@@ -94,11 +96,11 @@ euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                         perform disk operations on the Filer. </cmd>
                     <info>
                         <note>Filer IP address can be used as the data port IP. If this is not
-                            set, Eucalyptus will automatically use the Filer IP
+                            set, <ph conref="../shared/conrefs.dita#prod/product"/> will automatically use the Filer IP
                             address/hostname.</note>
-                        <note>Eucalyptus does not support Multipath I/O for NetApp 7-mode
+                        <note><ph conref="../shared/conrefs.dita#prod/product"/> does not support Multipath I/O for NetApp 7-mode
                             Filers. </note>
-                        <codeblock>euctl [zone].storage.ncpaths=&lt;ip></codeblock>
+                        <codeblock>euctl ZONE.storage.ncpaths=IP</codeblock>
                     </info>
                 </step>
                 <step>
@@ -107,15 +109,15 @@ euctl [zone].storage.chapuser=&lt;Chap_username></codeblock>
                     transfer snapshots to objectstorage during snapshot operations. </cmd>
                     <info>
                         <note>The Filer IP address can be used as the data port IP. If this is
-                            not set, Eucalyptus will automatically use the Filer IP
+                            not set, <ph conref="../shared/conrefs.dita#prod/product"/> will automatically use the Filer IP
                             address/hostname.</note>
-                        <note>Eucalyptus does not support Multipath I/O for NetApp 7-mode
+                        <note><ph conref="../shared/conrefs.dita#prod/product"/> does not support Multipath I/O for NetApp 7-mode
                             Filers. </note>
-                        <codeblock>euctl [zone].storage.scpaths=&lt;ip></codeblock>
+                        <codeblock>euctl ZONE.storage.scpaths=IP</codeblock>
                     </info>
                 </step>
             </steps>
-            <result>Your NetApp 7-mode SAN backend is now ready to use with Eucalyptus.</result>
+            <result>Your NetApp 7-mode SAN backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.</result>
         </taskbody>
     </task>
  

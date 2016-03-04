@@ -8,10 +8,9 @@
         registered it with the Cloud Controller (CLC).</shortdesc>
     <conbody>
 <!--This is OK for first release (perhaps) but the STATES need to be defined and described in a separate section. BROKEN is just one.
--->        <p>The SC automatically
-            goes to the <codeph>BROKEN</codeph> state after being registered with the CLC; it
-            will remain in that state until you explicitly configure the SC by telling it which
-            backend storage provider to use.</p>
+-->        <p>The SC automatically goes to the <codeph>broken</codeph> state after being registered
+            with the CLC; it will remain in that state until you explicitly configure the SC by
+            telling it which backend storage provider to use.</p>
         <p>You can check the state of a storage controller by running
                 <codeph>euserv-describe-services --expert</codeph> and note the state and status
             message of the SC(s). The output for an unconfigured SC looks something like this:</p>
@@ -24,13 +23,13 @@ SERVICEEVENT	6c1f7a0a-21c9-496c-bb79-23ddd5749222	SC blockstorageamanger not con
         <p>Note the error above: <codeph>SC blockstoragemanager not configured. Found empty or unset
             manager(unset). Legal values are: das,overlay,ceph</codeph>.</p>
         <p>This indicates that the SC is not yet configured. It can be configured by setting the
-                <codeph>[zone].storage.blockstoragemanager</codeph> property to 'das', 'overlay', or
+                <codeph>ZONE.storage.blockstoragemanager</codeph> property to 'das', 'overlay', or
             'ceph'.</p>
-        <p>If you have installed the (paid) Eucalyptus Enterprise packages for your EBS adapter, you
+        <p>If you have installed the (paid) <ph conref="../shared/conrefs.dita#prod/product"/> Enterprise packages for your EBS adapter, you
             will also see additional options in the output line above, and can set the block storage
             manager to 'netapp', 'equallogic', or 'threepar' as appropriate.</p>
         <p>You can verify that the SC block storage manager is unset using:
-            <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+            <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
         </p>
     </conbody>
 </concept>
