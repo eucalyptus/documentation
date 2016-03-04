@@ -12,7 +12,7 @@
             <li>Direct Attached Storage requires that
                 <filepath>/var/lib/eucalyptus/volumes</filepath> have enough space for
                 locally cached snapshots.</li>
-            <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
                 </ul>
         </prereq>
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
@@ -21,15 +21,15 @@
             <step>
                 <cmd>Configure the SC to use the Direct Attached Storage for EBS.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager=das</codeblock> The output
-                    of the command should be similar to:
-                    <codeblock>PROPERTY	one.storage.blockstoragemanager	das was &lt;unset></codeblock>
+                    <codeblock>euctl ZONE.storage.blockstoragemanager=das</codeblock> The output of
+                    the command should be similar to:
+                    <codeblock>one.storage.blockstoragemanager=das</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now: 'das'</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+                    <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
                 </info>
             </step>
             <step conref="../shared/conrefs.dita#shared_task/verify_sc">
@@ -40,7 +40,7 @@
                     (/dev/sdX, for example), or the name of an existing Linux LVM volume
                     group.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.dasdevice=[device name]</codeblock>
+                    <codeblock>euctl ZONE.storage.dasdevice=DEVICE_NAME</codeblock>
                 </info>
                 <stepxmp>
                     <p>For example:</p>
@@ -48,6 +48,7 @@
                 </stepxmp>
             </step>
         </steps>
-        <result>Your DAS-JBOD backend is now ready to use with Eucalyptus.</result>
+        <result>Your DAS-JBOD backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.
+        </result>
     </taskbody>
 </task>

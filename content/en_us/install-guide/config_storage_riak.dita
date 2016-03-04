@@ -12,7 +12,7 @@
                 <li>Successful completion of all the install sections prior to this section.</li>
             <li>The UFS must be registered and enabled.</li>
             <li>You must have a functioning Riak CS cluster.</li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
             </ul>      
         <p>For more information on Riak CS, see the <xref
             href="http://docs.basho.com/riakcs/latest/"
@@ -24,39 +24,41 @@
             <step>
                 <cmd>Enter <codeph>riakcs</codeph> as the storage provider using the
                         <codeph>euctl</codeph> command.</cmd>
+                
+<!--                Note to writer: Removed "-\-region @localhost" from all these code examples because 
+                    assume creds handles it. (You might need for testing at times, so keeping this comment here.)
+-->                
                 <info>
-                    <codeblock>euctl --region @localhost objectstorage.providerclient=riakcs</codeblock>
+                    <codeblock>euctl objectstorage.providerclient=riakcs</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Specify the RiakCS/S3 endpoint that you want to use with Eucalyptus. For
+                <cmd>Specify the RiakCS/S3 endpoint that you want to use with <ph conref="../shared/conrefs.dita#prod/product"/>. For
                     example: </cmd>
                 <info>
-                    <codeblock>euctl --region @localhost objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com</codeblock>
+                    <codeblock>euctl objectstorage.s3provider.s3endpoint=riakcs-01.riakcs-cluster.myorg.com</codeblock>
                 </info>
             </step>
             <step>
                 <cmd> Provide your RiakCS credentials to access your RiakCS installation: </cmd>
                 <info>
-                    <codeblock>euctl --region @localhost objectstorage.s3provider.s3accesskey=&lt;RiakCS access key>
-euctl --region @localhost objectstorage.s3provider.s3secretkey=&lt;RiakCS secret key></codeblock>
+                    <codeblock>euctl objectstorage.s3provider.s3accesskey=RIAK_CS_ACCESS_KEY_ID
+euctl objectstorage.s3provider.s3secretkey=RIAK_CS_SECRET_ACCESS_KEY</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>After successful configuration, check to ensure that the state of the OSG is
-                        <codeph>ENABLED</codeph> by running the
+                        <codeph>enabled</codeph> by running the
                         <codeph>euserv-describe-services</codeph> command. For example: </cmd>
                 <info>
-                    <codeblock>[root@g-26-03 ~]# euserv-describe-services -U http://127.0.0.1:8773/services/Empyrean --show-headers
-SERVICE  TYPE              	ZONE    	NAME                   	STATE	
-...
-SERVICE  objectstorage            user-api-1     user-api-1.objectstorage      enabled 
-...</codeblock>
+                    <codeblock>[root@g-26-03 ~]# euserv-describe-services --show-headers --filter service-type=objectstorage
+SERVICE  TYPE              	ZONE    	NAME                   	  STATE	
+SERVICE  objectstorage      user-api-1  user-api-1.objectstorage  enabled </codeblock>
                 </info>
                 <info>
-                    <p>If the state appears as <codeph>DISABLED</codeph> or <codeph>BROKEN</codeph>,
-                        check the cloud-*.log files in the <codeph>/var/log/eucalyptus</codeph>
-                        directory. A <codeph>DISABLED</codeph> state generally indicates that there
+                    <p>If the state appears as <codeph>disabled</codeph> or <codeph>broken</codeph>,
+                        check the cloud-*.log files in the <filepath>/var/log/eucalyptus</filepath>
+                        directory. A <codeph>disabled</codeph> state generally indicates that there
                         is a problem with your network or credentials. See <xref
                             href="../troubleshooting-guide/ts_logs.dita#ts_logs"/> for more
                         information.</p>

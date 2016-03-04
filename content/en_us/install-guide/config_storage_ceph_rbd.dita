@@ -9,10 +9,10 @@
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li> 
-            <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
             <li>You must have a functioning Ceph cluster.</li>
             <li>Ceph user credentials with the following privileges are available to 
-                Eucalyptus SCs and NCs (different user credentials can be used for the SCs and NCs).
+                <ph conref="../shared/conrefs.dita#prod/product"/> SCs and NCs (different user credentials can be used for the SCs and NCs).
             <ul>
                 <li>Ceph user privileges for credentials assigned to SCs
                 <ul>
@@ -44,15 +44,15 @@
         <steps>            
             <step>
                 <cmd>Configure the SC to use Ceph-RBD for EBS.</cmd>
-                <info><codeblock>euctl [zone].storage.blockstoragemanager=ceph-rbd</codeblock> The
+                <info><codeblock>euctl ZONE.storage.blockstoragemanager=ceph-rbd</codeblock> The
                     output of the command should be similar to:
-                    <codeblock>PROPERTY	one.storage.blockstoragemanager	ceph-rbd was &lt;unset></codeblock>
+                    <codeblock>one.storage.blockstoragemanager=ceph-rbd</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now <codeph>ceph-rbd</codeph>:</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+                    <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
                 </info>
             </step>
             <step>
@@ -65,7 +65,7 @@
                 <cmd>The ceph-rbd provider will assume defaults for the following properties for the
                     SC:</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.ceph
+                    <codeblock>euctl ZONE.storage.ceph
  
 PROPERTY        one.storage.cephconfigfile  /etc/ceph/ceph.conf
 DESCRIPTION     one.storage.cephconfigfile  Absolute path to Ceph configuration (ceph.conf) file. Default value is '/etc/ceph/ceph.conf'
@@ -74,13 +74,13 @@ PROPERTY        one.storage.cephkeyringfile /etc/ceph/ceph.client.eucalyptus.key
 DESCRIPTION     one.storage.cephkeyringfile Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring) file. Default value is '/etc/ceph/ceph.client.eucalyptus.keyring'
  
 PROPERTY        one.storage.cephsnapshotpools       rbd
-DESCRIPTION     one.storage.cephsnapshotpools       Ceph storage pool(s) made available to Eucalyptus for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
+DESCRIPTION     one.storage.cephsnapshotpools       Ceph storage pool(s) made available to <ph conref="../shared/conrefs.dita#prod/product"/> for EBS snapshots. Use a comma separated list for configuring multiple pools. Default value is 'rbd'
  
 PROPERTY        one.storage.cephuser        eucalyptus
-DESCRIPTION     one.storage.cephuser        Ceph username employed by Eucalyptus operations. Default value is 'eucalyptus'
+DESCRIPTION     one.storage.cephuser        Ceph username employed by <ph conref="../shared/conrefs.dita#prod/product"/> operations. Default value is 'eucalyptus'
  
 PROPERTY        one.storage.cephvolumepools rbd
-DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available to Eucalyptus for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
+DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available to <ph conref="../shared/conrefs.dita#prod/product"/> for EBS volumes. Use a comma separated list for configuring multiple pools. Default value is 'rbd'</codeblock>
                 </info>
             </step>
             <step>
@@ -88,10 +88,10 @@ DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available 
                     cloud:</cmd>
                 <substeps>
                     <substep>
-                        <cmd>To set the Ceph username (the default value for Eucalyptus is
+                        <cmd>To set the Ceph username (the default value for <ph conref="../shared/conrefs.dita#prod/product"/> is
                             'eucalyptus'): </cmd>
                         <info>
-                            <codeblock>euctl [zone].storage.cephuser=qauser</codeblock>
+                            <codeblock>euctl ZONE.storage.cephuser=myuser</codeblock>
                         </info>
                     </substep>
                     <substep>
@@ -99,7 +99,7 @@ DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available 
                             'eucalyptus' user (the default value is
                             '/etc/ceph/ceph.client.eucalyptus.keyring'):</cmd>
                         <info>
-                            <codeblock>euctl [zone].storage.cephkeyringfile='/etc/ceph/ceph.client.qauser.keyring'</codeblock>
+                            <codeblock>euctl ZONE.storage.cephkeyringfile='/etc/ceph/ceph.client.myuser.keyring'</codeblock>
                             <note>If cephuser was modified, ensure that cephkeyringfile is also
                                 updated with the location to the keyring for the specific
                                 cephuser:</note>
@@ -110,22 +110,22 @@ DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available 
                         <cmd>To set the absolute path to ceph.conf file (default value is
                             '/etc/ceph/ceph.conf'):</cmd>
                         <info>
-                            <codeblock>euctl [zone].storage.cephconfigfile=&lt;path-to-ceph.conf></codeblock>
+                            <codeblock>euctl ZONE.storage.cephconfigfile=/path/to/ceph.conf</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>To change the comma-delimited list of Ceph pools assigned to
-                            Eucalyptus for managing EBS volumes (default value is 'rbd') :</cmd>
+                            <ph conref="../shared/conrefs.dita#prod/product"/> for managing EBS volumes (default value is 'rbd') :</cmd>
                         <info>
-                            <codeblock>euctl [zone].storage.cephvolumepools=rbd,qavolumes</codeblock>
+                            <codeblock>euctl ZONE.storage.cephvolumepools=rbd,myvolumes</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>To change the comma-delimited list of Ceph pools assigned to
-                            Eucalyptus for managing EBS snapshots (default value is 'rbd')
+                            <ph conref="../shared/conrefs.dita#prod/product"/> for managing EBS snapshots (default value is 'rbd')
                             :</cmd>
                         <info>
-                            <codeblock>euctl [zone].storage.cephsnapshotpools=qasnapshots</codeblock>
+                            <codeblock>euctl ZONE.storage.cephsnapshotpools=mysnapshots</codeblock>
                         </info>
                     </substep>
                 </substeps>
@@ -141,22 +141,21 @@ CEPH_CONFIG_PATH="/etc/ceph/ceph.conf"</codeblock>
                 <substeps>
                     <substep>
                         <cmd>To override the above defaults, add/edit the following properties in
-                            the <codeph>$EUCALYPTUS/etc/eucalyptus/eucalyptus.conf</codeph> on the
-                            specific NC file: </cmd>
+                            the <codeph>/etc/eucalyptus/eucalyptus.conf</codeph> on the specific NC
+                            file: </cmd>
                         <info>
-                            <codeblock>CEPH_USER_NAME="&lt;ceph-username-for-use-by-this-NC>"
-CEPH_KEYRING_PATH="&lt;path-to-keyring-file-for-ceph-username>"
-CEPH_CONFIG_PATH="&lt;path-to-ceph.conf-file>"</codeblock>
+                            <codeblock>CEPH_USER_NAME="ceph-username-for-use-by-this-NC"
+CEPH_KEYRING_PATH="path-to-keyring-file-for-ceph-username"
+CEPH_CONFIG_PATH="path-to-ceph.conf-file"</codeblock>
                         </info>
-                        
                     </substep>
                     
                     <substep>
-                        <cmd>Repeat this step for every NC in the specific Eucalyptus zone.</cmd>
+                        <cmd>Repeat this step for every NC in the specific <ph conref="../shared/conrefs.dita#prod/product"/> zone.</cmd>
                     </substep>
                 </substeps>
             </step>
         </steps>
-        <result>Your Ceph backend is now ready to use with Eucalyptus.</result>
+        <result>Your Ceph backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.</result>
     </taskbody>
 </task>

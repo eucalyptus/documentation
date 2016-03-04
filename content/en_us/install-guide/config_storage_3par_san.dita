@@ -9,9 +9,9 @@
         <prereq><b>Prerequisites</b><ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
-                <li>You must have a paid subscription to Eucalyptus in order to use a SAN
+            <li>You must have a paid subscription to <ph conref="../shared/conrefs.dita#prod/product"/> in order to use a SAN
                     backend.</li>
-                <li>You must have a functioning 3PAR device available to Eucalyptus cloud.</li>
+            <li>You must have a functioning 3PAR device available to <ph conref="../shared/conrefs.dita#prod/product"/> cloud.</li>
                 <li>
                     <p>Network access must be available from the:</p>
                     <ul>
@@ -27,13 +27,13 @@
                         <li>Common Provisioning Groups (CPG) is created and configured. Recommend one CPG
                             for user data and another for snapshot data. </li>
                         <li>A user exists with "edit" role in the "all" domain. </li>
-                        <li>(Optional) Eucalyptus can operate within the scope of a 3PAR virtual domain.
+                        <li>(Optional) <ph conref="../shared/conrefs.dita#prod/product"/> can operate within the scope of a 3PAR virtual domain.
                             This virtual domain should have the necessary CPGs assigned to it. A user with
                             "edit" role in the specific domain as well as "edit" role in the "all" domain
                             must be configured.</li>
                     </ul>
                 </li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
         </ul>
         </prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
@@ -42,56 +42,58 @@
             <step>
                 <cmd>Configure the SC to use the 3PAR for EBS.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager=threepar</codeblock> The
+                    <codeblock>euctl ZONE.storage.blockstoragemanager=threepar</codeblock> The
                     output of the command should be similar to:
-                    <codeblock>PROPERTY	one.storage.blockstoragemanager	threepar was &lt;unset></codeblock>
+                    <codeblock>one.storage.blockstoragemanager=threepar</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Verify that the property value is now: 'threepar'</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+                    <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
                 </info>
             </step>
             <step conref="../shared/conrefs.dita#shared_task/verify_sc">
                 <cmd/>
             </step>
             <step>
-                <cmd>On the CLC, enable SAN support in Eucalyptus by entering your SAN's hostname or
+                <cmd>On the CLC, enable SAN support in <ph conref="../shared/conrefs.dita#prod/product"/> by entering your SAN's hostname or
                     IP address, the username, password, and the paths:</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.sanhost=[3PAR_IP_address]
-euctl [zone].storage.sanuser=[3PAR_admin_user_name]
-euctl [zone].storage.sanpassword=[3PAR_admin_password]
-euctl [zone].storage.scpaths=[3PAR_iSCSI_IP]
-euctl [zone].storage.ncpaths=[3PAR_iSCSI_IP]</codeblock>
+                   <!-- The following can actually be combined but it's difficult to display properly 
+                    in PDF and HTML so separating.-->
+                    <codeblock>euctl ZONE.storage.sanhost=3PAR_IP_address 
+euctl ZONE.storage.sanuser=3PAR_admin_user_name 
+euctl ZONE.storage.sanpassword=3PAR_admin_password 
+euctl ZONE.storage.scpaths=3PAR_iSCSI_IP 
+euctl ZONE.storage.ncpaths=3PAR_iSCSI_IP</codeblock>
                     <p>If you have multiple management IP addresses for the SAN adapter, provide a
                         comma-delimited list of IP addresses to the
-                            <codeph>[zone].storage.sanhost</codeph> property.</p>
+                            <codeph>ZONE.storage.sanhost</codeph> property.</p>
                 </info>
             </step>
             <step>
                 <cmd>Assign any string to the <codeph>chap_username</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.chapuser=[chap_username]</codeblock>
+                    <codeblock>euctl ZONE.storage.chapuser=chap_username</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Assign the 3PAR CPG that should be used for creating virtual volumes to the <codeph>threeparusercpg</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.threeparusercpg=[3PAR_user_cpg]</codeblock>
+                    <codeblock>euctl ZONE.storage.threeparusercpg=3PAR_user_cpg</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Assign the 3PAR CPG that should be used for creating virtual volume snapshot space to the <codeph>threeparcopycpg</codeph> property.</cmd>
                 <info>
-                    <codeblock>euctl [zone].storage.threeparcopycpg=[3PAR_copy_cpg]</codeblock>
+                    <codeblock>euctl ZONE.storage.threeparcopycpg=3PAR_copy_cpg</codeblock>
                 </info>
             </step>
                 <step>
                     <cmd>(Optional) These properties are available for advanced configuration.</cmd>
                     <info>
-                        <codeblock>euctl [zone].storage.threepar
+                        <codeblock>euctl ZONE.storage.threepar
 PROPERTY        one.storage.threepardomain     {}
 DESCRIPTION     one.storage.threepardomain     Name of the virtual domain containing threeparusercpg and threeparcopycpg. If threeparusercpg and threeparcopycpg don't belong to a specific virtual domain leave this property unset
 
@@ -111,7 +113,7 @@ PROPERTY        one.storage.threeparusetpvv     true
 DESCRIPTION     one.storage.threeparusetpvv     Configure virtual volumes to be either thinly (TPVV) or fully provisioned (FPVV). Value must be true for TPVV and false for FPVV. Default value is true
 
 PROPERTY        one.storage.threeparvluncachesize     10000
-DESCRIPTION     one.storage.threeparvluncachesize     Maximum number of VLUNs that can be cahced by the provider. Default value is 10000</codeblock>
+DESCRIPTION     one.storage.threeparvluncachesize     Maximum number of VLUNs that can be cached by the provider. Default value is 10000</codeblock>
                         <p>For more information about the <codeph>threeparoptimizesnaptovol</codeph>
                         property, and how to configure it, see <xref
                             href="../install-guide/config_storage_3par_op_modes.dita#op_modes"
@@ -120,6 +122,6 @@ DESCRIPTION     one.storage.threeparvluncachesize     Maximum number of VLUNs th
               
             </step>
         </steps>
-        <result>Your 3PAR SAN backend is now ready to use with Eucalyptus.</result>
+        <result>Your 3PAR SAN backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.</result>
     </taskbody>
 </task>
