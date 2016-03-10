@@ -9,9 +9,9 @@
         <prereq>This task assumes the following: <ul>
                 <li>Successful completion of all the install sections prior to this section.</li>
                 <li>The SC must be installed, registered, and running.</li>
-                <li>You must have a paid subscription to Eucalyptus in order to use a SAN backend.</li>
-                <li>You must have a functioning EqualLogic device available to Eucalyptus cloud.</li>
-                <li>You must execute the steps below as a Eucalyptus administrator.</li>
+            <li>You must have a paid subscription to <ph conref="../shared/conrefs.dita#prod/product"/> in order to use a SAN backend.</li>
+            <li>You must have a functioning EqualLogic device available to <ph conref="../shared/conrefs.dita#prod/product"/> cloud.</li>
+            <li>You must execute the steps below as a <ph conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
                 </ul>
         </prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
@@ -21,45 +21,47 @@
                 <step>
                     <cmd>Configure the SC to use Equallogic for EBS.</cmd>
                     <info>
-                    <codeblock>euctl [zone].storage.blockstoragemanager=equallogic</codeblock> The
+                    <codeblock>euctl ZONE.storage.blockstoragemanager=equallogic</codeblock> The
                     output of the command should be similar to:
-                    <codeblock>PROPERTY	one.storage.blockstoragemanager	equallogic was &lt;unset></codeblock>
+                    <codeblock>one.storage.blockstoragemanager=equallogic</codeblock>
                 </info>
                 </step>
                 <step>
                     <cmd>Verify that the property value is now: 'equallogic'</cmd>
                     <info>
-                        <codeblock>euctl [zone].storage.blockstoragemanager</codeblock>
+                        <codeblock>euctl ZONE.storage.blockstoragemanager</codeblock>
                     </info>
                 </step>
                 <step conref="../shared/conrefs.dita#shared_task/verify_sc">
                     <cmd/>
                 </step>
                 <step>
-                    <cmd>Enable SAN support in Eucalyptus by entering your SAN's
+                    <cmd>Enable SAN support in <ph conref="../shared/conrefs.dita#prod/product"/> by entering your SAN's
                         hostname or IP address, the username, password, and the name of the chap
                         user:</cmd>
                     <info>
-                        <codeblock>euctl [zone].storage.sanhost=[SAN_IP_address]
-euctl [zone].storage.sanuser=[SAN_admin_user_name]
-euctl [zone].storage.sanpassword=[SAN_admin_password]
-euctl [zone].storage.chapuser=[chap_username]</codeblock>
+                        <!-- The following can actually be combined but it's difficult to display properly 
+                    in PDF and HTML so separating.-->
+                        <codeblock>euctl ZONE.storage.sanhost=SAN_IP_address 
+euctl ZONE.storage.sanuser=SAN_admin_user_name
+euctl ZONE.storage.sanpassword=SAN_admin_password 
+euctl ZONE.storage.chapuser=chap_username</codeblock>
                       
                     </info>
                 </step>
                 <step>
-                    <cmd>(Optional) If your EqualLogic setup has dedicated paths for data access
-                    that are different from the management IP address supplied for the
-                        <codeph>[zone].storage.sanhost</codeph> property, the following properties
-                    must also be configured in Eucalyptus:</cmd>
-                    <info>
-                        <codeblock>euctl [zone].storage.scpaths=[data-IP-address]
-euctl [zone].storage.ncpaths=[data-IP-address]</codeblock>
-                        <p>The SC and NC data IP address might be the same; or they can be
-                        different, if EqualLogic has multiple data interfaces.</p>
-                    </info>
-                </step>
+                <cmd>(Optional) If your EqualLogic setup has dedicated paths for data access that
+                    are different from the management IP address supplied for the
+                        <codeph>ZONE.storage.sanhost</codeph> property, the following properties
+                    must also be configured in <ph conref="../shared/conrefs.dita#prod/product"
+                    />:</cmd>
+                <info>
+                    <codeblock>euctl ZONE.storage.scpaths=data-IP-address ZONE.storage.ncpaths=data-IP-address</codeblock>
+                    <p>The SC and NC data IP address might be the same; or they can be different, if
+                        EqualLogic has multiple data interfaces.</p>
+                </info>
+            </step>
             </steps>
-            <result>Your Dell EqualLogic SAN backend is now ready to use with Eucalyptus.</result>
+        <result>Your Dell EqualLogic SAN backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.</result>
         </taskbody>
 </task>
