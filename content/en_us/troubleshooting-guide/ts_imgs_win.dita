@@ -27,18 +27,17 @@
 				are:</p>
 			<ul>
 
-				<li><codeph>walrus.storagemaxbucketsizeinmb</codeph>: max bucket
-					size enforced by Walrus; should be larger than a Windows
-					image</li>
-				<li><codeph>walrus.storagemaxcachesizeinmb</codeph>: total size
-					of all images that is cached in Walrus; should be larger
-					than the sum of all images (Windows/Linux) in Walrus</li>
-				<li>walrus.storagemaxtotalsnapshotsizeingb: if a Windows image
-					is a type of EBS-backed EMI, this should be large enough to
-					store all EBS backed images</li>
-				<li><codeph>{PARTITION}.storage.maxvolumesizeingb</codeph>: if a
-					Windows image is a type of EBS-backed EMI, this should be
-					large enough to store the image</li>
+				<li><codeph>walrusbackend.storagemaxbucketsizeinmb</codeph>: max bucket size enforced by Walrus;
+					should be larger than a Windows image</li>
+<!--				IT APPEARS that the following property (walrusbackend.storagemaxcachesizeinmb) is now gone - is there a replacement?
+				<li><codeph>walrusbackend.storagemaxcachesizeinmb</codeph>: total size of all images that are
+					cached in Walrus; should be larger than the sum of all images (Windows/Linux) in
+					Walrus</li>
+-->
+				<li><codeph>walrusbackend.storagemaxtotalsnapshotsizeingb</codeph>: if a Windows image is a type of EBS-backed
+					EMI, this should be large enough to store all EBS backed images</li>
+				<li><codeph>ZONE.storage.maxvolumesizeingb</codeph>: if a Windows image is a type of EBS-backed
+					EMI, this should be large enough to store the image</li>
 			</ul>
 			<p>In addition, during the <cmdname>euca-run-instances</cmdname>,
 				the CLC may time-out an instance while a large windows image
@@ -74,8 +73,8 @@
 				</dlentry>
 				<dlentry>
 					<dt><cmdname>euca-upload-bundle</cmdname> fails</dt>
-					<dd>Make sure ‘walrus.storagemaxbucketsizeinmb’ is large
-						enough. If not, ask your administrator.</dd>
+					<dd>Make sure <codeph>walrusbackend.storagemaxbucketsizeinmb</codeph> is large enough. If not, ask your
+						administrator.</dd>
 				</dlentry>
 			</dl>
 		</section>
@@ -189,7 +188,7 @@
 					<dt><cmdname>euca-bundle-instance</cmdname> fails</dt>
 					<dd>Make sure the bucket specified with ‘-b’ option doesn’t
 						already exist and the property
-						‘walrus.storagemaxbucketsizeinmb’ is large enough to
+						<codeph>walrusbackend.storagemaxbucketsizeinmb</codeph> is large enough to
 						store the image. </dd>
 				</dlentry>
 			</dl>
