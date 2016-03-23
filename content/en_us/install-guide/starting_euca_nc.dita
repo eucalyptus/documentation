@@ -28,17 +28,34 @@
                 <cmd>Log in to the Node Controller (NC) host machine.</cmd>
             </step>
             <step>
+                <cmd>If you want the NC service to start at each boot-time, run this command:</cmd>
+                <info>
+                    <codeblock>chkconfig eucalyptus-nc on</codeblock>
+                </info>
+            </step>
+            <step>
                 <cmd>Enter the following command to start the NC:</cmd>
                 <info>
                     <codeblock>service eucalyptus-nc start</codeblock>
                 </info>
             </step>
         	<step>
-        		<cmd>If you are running in Edge networking mode, start the Edge component:</cmd>
-        		<info>
-        			<codeblock>service eucanetd start</codeblock>
-        		    <note>For VPCMido, eucanetd is only on the CLC.</note>
-        		</info>
+        		<cmd>If you are running in Edge networking mode:</cmd>
+        	    <substeps>
+        	        <substep>
+        	            <cmd>If you want the Edge mode eucanetd service to start at each boot-time, run this command:</cmd>
+        	            <info>
+        	                <codeblock>chkconfig eucanetd on</codeblock>
+        	            </info>
+        	        </substep>
+        	        <substep>
+                        <cmd>Start the Edge eucanetd service:</cmd>
+                        <info>
+                            <codeblock>service eucanetd start</codeblock>
+                            <note>For VPCMido, eucanetd is only on the CLC.</note>
+                        </info>
+                    </substep>
+        	    </substeps>
         	</step>
             <step>
                 <cmd>Repeat for each NC host machine.</cmd>
