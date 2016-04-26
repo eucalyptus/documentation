@@ -20,27 +20,12 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>Security group rules using instances Public IP are not enforced in
-							MANAGED mode (<xref format="html"
+						<entry>TBD (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-11476"
-								>EUCA-11476</xref>)</entry>
-						<entry>Security group rules are enforced in the FORWARD chain, which is
-							processed before POSTROUTING (where SNAT happens). Thus, security group
-							rules that use instances public IP addresses will not match in FORWARD
-							chain (packets will have instances' private IP address in the FORWARD
-							chain). See linked bug for more information.</entry>
+								>EUCA-TBD</xref>)</entry>
+						<entry>TBD</entry>
 					</row>
-					<row>
-						<entry>Instance Migration Fails when SELinux is enabled and is in Permissive
-							mode (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11803"
-								>EUCA-11803</xref>)</entry>
-						<entry>Instance migration fails when SELinux is enabled and is in permissive mode.
-							<p>Workaround: Disable SELinux and reboot the system. For
-								example:</p><codeblock># vi /etc/selinux/config
-SELINUX=disabled
-# reboot</codeblock></entry>
-					</row>
+					
 				</tbody>
 			</tgroup>
 		</table>
@@ -55,91 +40,15 @@ SELINUX=disabled
 				</thead>
 				<tbody>
 					<row>
-						<entry>Cloud restart necessary when removing public IPs (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-9326"
-								>EUCA-9326</xref>)</entry>
-						<entry>While running TEST-1905 for edge mode, it was discovered that
-							removing a public IP requires a cloud service restart while adding
-							public/private IPs, removing private IPs and changing the subnet does
-							not require a cloud service restart.</entry>
-					</row>
-					<row>
-						<entry>Internal loadbalancer is not functional (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11324"
-								>EUCA-11324</xref>)</entry>
-						<entry>In VPC, an internal load balancer has ELB instances that is in a
-							private subnet without a public IP. That instance cannot reach ELB
-							service to retrieve information on the ELB, update its status, etc.,
-							without configuring a NAT instance in the VPC. <p>Workaround: None at
-								this time.</p></entry>
-					</row>
-
-					<row>
-						<entry>Non-default security group for ELB/VPC blocks ports for ELBs (<xref
-								format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11374"
-								>EUCA-11374</xref>)</entry>
-						<entry>In VPC, all egress ports for non-default security groups are blocked.
-							When the non-default security group is used with the ELB, the ELB will
-							not be functional until the required ports are opened. <p>Workaround:
-								Use Euca2ools to run the following commands to authorize each of the
-								egress ports (TCP:8773 (Web service), UDP:53 (DNS), and UDP:123) for
-								the non-default security group:
-								<codeblock>euca-authorize --egress -P tcp -p 8773 -s 0.0.0.0/0 sg-f3a511c4
-euca-authorize --egress -P udp -p 53 -s 0.0.0.0/0 sg-f3a511c4
-euca-authorize --egress -P udp -p 123 -s 0.0.0.0/0 sg-f3a511c4</codeblock></p></entry>
-					</row>
-					<row>
-						<entry>euserv-describe-services with secure http endpoint results in
-							python2.6 InsecureRequestWarning. (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11519"
-								>EUCA-11519</xref>)</entry>
-						<entry>When an administrator uses HTTPS and doesn't enable certificate
-							verification, running any command thereafter, will display the
-							InsecureRequestWarning message. <p>Workaround: Use a valid certificate
-								and set <varname>verify-ssl</varname> = <userinput>true</userinput>
-								in the region's configuration, or use plain HTTP.</p></entry>
-					</row>
-					<row>
-						<entry>ELB access logs collection fails when logs prefix contains an
-							uppercase letter (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11524"
-								>EUCA-11524</xref>)</entry>
-						<entry>Uppercase characters in a path is invalid, resulting in an eror.
-								<p>Workaround: Specify the prefix with lowercase
-							characters.</p></entry>
-					</row>
-					<row>
-						<entry>Unable to launch EBS instance or delete volume when launched in
-							different zone than created. (<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-10697"
-								>EUCA-10697</xref>)</entry>
-						<entry>
-							<p>See linked bug for more information.</p>
-						</entry>
-					</row>
-
-					<row>
-						<entry>Failed EMIs from CreateImage might leave behind orphaned snapshots
-								(<xref format="html"
-								href="https://eucalyptus.atlassian.net/browse/EUCA-11184"
-								>EUCA-11184</xref>)</entry>
-						<entry>
-							<ol>
-								<li>Use <codeph>euca-describe-images</codeph> to see if the EMI
-									associated with CreateImage has a <codeph>failed</codeph>
-										status.<p>If any failed, then:</p></li>
-								<li>Use <codeph>euca-describe-snapshots</codeph> to find any
-									snapshot IDs associated with the failed CreateImage EMI
-										ID.<p>The snapshot description includes the EMI ID and
-										Instance ID. Note that the snapshot state can be
-											<codeph>failed</codeph> or
-										<codeph>completed</codeph>.</p></li>
-							</ol>
-							<p>Workaround: The cloud administrator and/or cloud user (with proper
-								IAM access to the account's snapshots) can simply delete any
-								orphaned snapshots.</p>
-						</entry>
+						<entry>Security group rules using instances Public IP are not enforced in
+							MANAGED mode (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-11476"
+								>EUCA-11476</xref>)</entry>
+						<entry>Security group rules are enforced in the FORWARD chain, which is
+							processed before POSTROUTING (where SNAT happens). Thus, security group
+							rules that use instances public IP addresses will not match in FORWARD
+							chain (packets will have instances' private IP address in the FORWARD
+							chain). See linked bug for more information.</entry>
 					</row>
 				</tbody>
 			</tgroup>
