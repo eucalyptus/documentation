@@ -8,9 +8,13 @@
     <taskbody>
         <prereq><b>Prerequisites</b>
             <ul>
-                <li>A ceph storage cluster is available</li>
-                <li>The ceph-radosgw service has been installed (on the UFS or any other host) and
-                    configured to use the Ceph storage cluster. </li>
+                <li>A ceph storage cluster is available.</li>
+                <li>The ceph-radosgw service has been installed (on the UFS or any other host) 
+                    and configured to use the Ceph storage cluster. Eucalyptus recommends using 
+                    civetweb with ceph-radosgw service. <xref
+                        href="https://sourceforge.net/projects/civetweb/" scope="external" format="html">Civetweb</xref> 
+                    is a lightweight web server and is included in the ceph-radosgw installation. It is relatively easier 
+                    to install and configure than the alternative option – a combination of Apache and Fastcgi modules.</li>
                 <li>You've followed all of the steps from the official documentation to successfully register UFS.</li>
                 <li>You must execute the steps below as a <ph
                         conref="../shared/conrefs.dita#prod/product"/> administrator.</li>
@@ -30,10 +34,8 @@
                 <cmd>Configure <codeph>objectstorage.s3provider.s3endpoint</codeph> to the ip:port of the host
                     running the ceph-radosgw service:</cmd>
                 <info>
-                    <note> Depending on the front end web server used by ceph-radosgw service, the
-                        default port is 80 for apache and 7480 for civetweb. In case of Calyptos
-                        based installs, ceph-radosgw is co-located with UFS and configured with
-                        civetweb to run on port 7480.</note>
+                    <note>Depending on the front end web server used by ceph-radosgw service, the
+                        default port is 80 for apache and 7480 for civetweb.</note>
                     <codeblock>euctl objectstorage.s3provider.s3endpoint=&lt;radosgw-host-ip>:&lt;radosgw-webserver-port></codeblock>
                 </info>
             </step>
