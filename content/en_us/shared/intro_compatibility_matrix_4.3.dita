@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="install_compatibility_matrix_43">
+ <title>Eucalyptus Compatibility Matrix</title>
+ <!--   NOTE TO WRITER: The compat matrix is SHARED for all releases in the 4.3.x line. Please do not change "4.3" to "4.3.1" for example. THANKS!
+
+IMPORTANT NOTE: THIS IS A PLACEHOLDER DOC FOR NOW!!! NOT YET UPDATED See DOC-1848 for status.
+-->
+ <shortdesc>This compatibility matrix details supported platforms in HPE Helion Eucalyptus 4.3
+  software.
+  
+<b>!!! NEEDS UPDATING !!!</b>
+ 
+ </shortdesc>
+
+ <conbody>
+  <section>
+   <title>Compute compatibility</title>
+   <p><table>
+     <tgroup cols="3">
+      <thead>
+       <row>
+        <entry>OS and Hypervisors</entry>
+        <entry>Version</entry>
+        <entry>Architecture</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>Centos+KVM</entry>
+        <entry>6.7</entry>
+        <entry>x86_64</entry>
+       </row>
+       <row>
+        <entry>RHEL+KVM</entry>
+        <entry>6.7</entry>
+        <entry>x86_64</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table></p>
+  </section>
+  <section>
+   <title>Java</title>
+   <p><table>
+    <tgroup cols="3">
+     <thead>
+      <row>
+       <entry>Component</entry>
+       <entry>Version</entry>
+       <entry>Notes</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>JVM</entry>
+       <entry>7</entry>
+       <entry>For the <codeph>CLOUD_OPTS</codeph> setting in the
+          <codeph>/etc/eucalyptus/eucalyptus.conf</codeph> file: <p>either do not set
+           <systemoutput>--java-home</systemoutput>, or <systemoutput>--java-home</systemoutput>
+          must point to a version 7 JVM.</p></entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table></p>
+  </section>
+  <section>
+   <title>Guest operating systems</title>
+   <p><table>
+     <tgroup cols="3">
+      <thead>
+       <row>
+        <entry>OS Type</entry>
+        <entry>Version/Edition</entry>
+        <entry>Architecture</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>Microsoft Windows Server 2003 R2</entry>
+        <entry>Deprecated</entry>
+        <entry>n/a</entry>
+       </row>
+       <row>
+        <entry>Microsoft Windows Server 2008</entry>
+        <entry>Datacenter</entry>
+        <entry>i386/x86_64</entry>
+       </row>
+       <row>
+        <entry>Microsoft Windows Server 2008 R2</entry>
+        <entry>Datacenter</entry>
+        <entry>i386/x86_64</entry>
+       </row>
+       <row>
+        <entry>Microsoft Windows Server 2012</entry>
+        <entry>Datacenter</entry>
+        <entry>x86_64</entry>
+       </row>
+       <row>
+        <entry>Microsoft Windows 7</entry>
+        <entry>Professional</entry>
+        <entry>x86_64</entry>
+       </row>
+       <row>
+        <entry>All modern Linux distributions</entry>
+        <entry>Redhat, CentOS, Ubuntu, Fedora, Debian, SLES, OpenSUSE, etc.</entry>
+        <entry>i386/x86_64</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table></p>
+  </section>
+  <section>
+   <title>Network modes</title>
+   <p><table>
+     <tgroup cols="3">
+      <thead>
+       <row>
+        <entry>Networking Mode</entry>
+        <entry>Description</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>Edge</entry>
+        <entry>
+         <p>Layer 2 and 3 VM isolation; uses built-in DHCP service.</p>
+         <p>Requires that any external DHCP service be isolated from guest VMs.</p>
+        </entry>
+       </row>
+       <row>
+        <entry>Managed</entry>
+        <entry>
+         <p>Layer 2 and 3 VM isolation; uses built-in DHCP service.</p>
+         <p>Requires a cloud switch to forward a configurable range of VLAN-tagged packets, and
+          requires that any external DHCP service be isolated from guest VMs.</p>
+        </entry>
+       </row>
+       <row>
+        <entry>Managed (No VLAN)</entry>
+        <entry>
+         <p>Layer 3 VM isolation; uses built-in DHCP service and requires that any external DHCP
+          service be isolated from guest VMs.</p>
+        </entry>
+       </row>
+       <row>
+        <entry>VPCMIDO</entry>
+        <entry>
+         <p>AWS VPC on-premise equivalent; in partnership with Midokura.</p>
+        </entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table></p>
+  </section>
+  <section>
+   <title>Object Storage Compatibility</title>
+   <p><table>
+     <tgroup cols="4">
+      <thead>
+       <row>
+        <entry>Storage Array</entry>
+        <entry>Type/Series</entry>
+        <entry>Version</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>Ceph RGW</entry>
+        <entry>Open source enterprise</entry>
+        <entry>0.94.6 </entry>
+       </row>
+       <row>
+        <entry>Riak CS</entry>
+        <entry>Open source enterprise</entry>
+        <entry>1.5.1 </entry>
+       </row>
+
+      </tbody>
+     </tgroup>
+    </table></p>
+  </section>
+  <section>
+   <title>Elastic Block Storage Compatibility</title>
+   <p><table>
+     <tgroup cols="5">
+      <thead>
+       <row>
+        <entry>Storage Array</entry>
+        <entry>Type/Series</entry>
+        <entry>Version</entry>
+        <entry>Notes</entry>
+       </row>
+      </thead>
+      <tbody>
+       <row>
+        <entry>NetApp SAN</entry>
+        <entry>
+         <p>FAS 2000 series</p>
+         <p>FAS 3000 series</p>
+         <p>FAS 6000 series</p>
+        </entry>
+        <entry>8.1.2 Clustered Data ONTAP or 7-mode </entry>
+        <entry>FlexClone and iSCSI licenses required.</entry>
+       </row>
+       <row>
+        <entry>Dell EqualLogic SAN</entry>
+        <entry>
+         <p>PS 4000 series</p>
+         <p>PS 6000 series</p>
+        </entry>
+        <entry>Compatible CLI versions </entry>
+        <entry/>
+       </row>
+       <row>
+        <entry>HP 3PAR SAN</entry>
+        <entry>
+         <p>7000 StoreServ Storage systems</p>
+        </entry>
+        <entry>
+          <p>3PAR Release Version 3.2.1</p>
+          <p>3PAR Web Services API 1.4.2</p>
+        </entry>
+        <entry>
+         <p>Virtual copy and thin provisioning features required.</p>
+         <p>Virtual domains feature optional.</p>
+        </entry>
+       </row>
+       <row>
+        <entry>Ceph RDB</entry>
+        <entry>Any CentOS/RHEL machine with disk, compute and network resources</entry>
+        <entry>0.94.6</entry>
+        <entry/>
+       </row>
+       <row>
+        <entry>Direct attached storage</entry>
+        <entry>Any DAS-JBOD </entry>
+        <entry>N/A</entry>
+        <entry>Linux SCSI target framework is required.</entry>
+       </row>
+
+       <row>
+        <entry>Local disks</entry>
+        <entry>Local overlay filesystem</entry>
+        <entry>N/A </entry>
+        <entry>Linux SCSI target framework is required.</entry>
+       </row>
+
+       <row>
+        <entry>Remote disk</entry>
+        <entry>N/A </entry>
+        <entry>N/A </entry>
+        <entry>Linux SCSI target framework is required.</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </table></p>
+  </section>
+  <section>
+   <title>Minimum Hardware Requirements</title>
+   <p><b>Front end components</b></p>
+   <p>Cloud Controller, Walrus, Storage Controller, Cluster Controller:</p>
+   <p>8 Cores, 2.4GHz, 8GB RAM, 500GB Disk space (multiple disks in a RAID 5/10 recommended).</p>
+   <p><b>Node controllers</b></p>
+   <p>4 Cores, 2.4GHz, 8GB RAM, 160GB Disks (multiple disks recommended).</p>
+    <p><b>Note</b>: Hardware virtualization must be enabled in the BIOS.</p>
+  </section>
+  <section>
+   <title>Euca2ools</title>
+<!--   NOTE TO WRITER: The compat matrix is SHARED for all releases in the 4.3.x line. Please do not change "4.3" to "4.3.2" for example. THANKS!
+-->
+   <p>We recommend using <xref href="../euca2ools-guide/index.dita#welcome">Euca2ools 3.3.1</xref>
+    with HPE Helion Eucalyptus version 4.3.</p>
+  </section>
+  <section>
+   <title>Eucalyptus Management Console</title>
+   <p>Management Console 4.3 operates with the above compatibilities. See <xref
+     href="console_browser_support.dita#browser_support"/> for a list of supported browsers in this
+    release.</p>
+  </section>
+ </conbody>
+</concept>
