@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="configure_java_shared">
+	<title>Configure Java</title>
+	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> Java services include the CLC, UFS, OSG, Walrus, and SC.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>Java <indexterm>configuring</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+	
+	<taskbody>
+		<context>
+			<p>For the supported version of the Java Virtual Machine (JVM), <ph
+					conref="../shared/conrefs.dita#prod/compat_matrix_snip"/>.</p>
+			<p>As of <ph conref="../shared/conrefs.dita#prod/product"/> 4.3, JVM 8 is supported.</p>
+			
+			<p><b>To use Java with <ph conref="../shared/conrefs.dita#prod/product"/> cloud:
+				</b></p>
+		</context>
+		<!--Does Euca or customer install Java? Should we use "JVM" or "Java"? (be consistent!)-->
+		<steps>
+			<step> 
+				<cmd>Install Java on the  machines that will host <ph conref="../shared/conrefs.dita#prod/product"/>
+					Java services.</cmd>
+			</step>
+			<step>
+				<cmd>Open the <filepath>/etc/eucalyptus/eucalyptus.conf</filepath> file.</cmd>
+			</step>
+			<step>
+				<cmd>Verify that the CLOUD_OPTS setting does not set
+						<systemoutput>--java-home</systemoutput>, or that
+						<systemoutput>--java-home</systemoutput> points to a supported JVM
+					version.</cmd>
+			</step>
+			<step>
+				<cmd>If you are upgrading to <ph conref="../shared/conrefs.dita#prod/product"/> 4.3,
+					note that Java 8 does not have permanent generation memory. Remove any
+					JAVA_OPTS <systemoutput>MaxPermSize</systemoutput> settings at upgrade time.</cmd>
+			</step>
+			<step>
+				<cmd>Save and close the file.</cmd>
+			</step>
+			<step>
+				<cmd>Repeat on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
+					service.</cmd>
+			</step>
+		</steps>
+	</taskbody>
+</task>
