@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="console_install_rhel7_extras">
+    <!--    This task template to be used for a specific PROCEDURE with steps. -->        
+    <title>Install RHEL 7 'extras' Repository</title>
+    <shortdesc>To install the RHEL 7 'extras' repository, complete the steps in this
+        topic.</shortdesc>
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b><ul>
+            <li>These instructions assume you are installing 
+                <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/> on RHEL 7.</li>
+            <li>Note that CentOS enables the 'extras' repo by default. See <xref
+                        href="https://wiki.centos.org/AdditionalResources/Repositories"
+                        format="html" scope="external"
+                        >https://wiki.centos.org/AdditionalResources/Repositories</xref> for more
+                    information. (So there is not a CentOS equivalent of this topic.)</li>
+        </ul>    
+        </prereq>
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context><p>The 'extras' repository is required before installing the 
+            <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version_short"/> Management Console.</p>
+            
+            <b>To install and enable the 'extras' repo for RHEL 7</b></context>       
+        
+        <steps>
+            <step>
+                <cmd>(Optional) If you do not already have the yum-utils, install it with this command:</cmd>
+                <info>
+                    <codeblock>yum install yum-utils</codeblock>
+                    <p>This provides the yum-config-manager, which allows you to enable a repo.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Run the following commands:</cmd>
+                <info>
+                    <codeblock>yum clean all</codeblock>
+                    <codeblock>yum install rhel-7-server-extras-rpms</codeblock>
+                    <codeblock>yum-config-manager --enable rhel-7-server-extras-rpms</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>QUESTION: VERIFY THIS WORKED HOW?</cmd>
+            </step>
+        </steps>
+        
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The RHEL 7 'extras' repo is now installed and enabled.</p>
+        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+       
+        <postreq> You are now ready to <xref href="console_install_centos_rhel7.dita"/>. </postreq>
+    </taskbody>
+</task>
