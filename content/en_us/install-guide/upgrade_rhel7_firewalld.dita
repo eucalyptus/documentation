@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="upgrade_rhel7_disable_firewalld">
+    <!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Disable FirewallD on RHEL 7</title>
+    <shortdesc>This topic describes how to stop and disable FirewallD on RHEL 7.</shortdesc>
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <ul>
+                <li>You should have successfully installed RHEL 7 before this task.</li>
+            </ul>
+        </prereq>
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>
+            <p>The firewall on a RHEL 7 system is enabled by default. However, FirewallD is not
+                compatible with <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/>.</p>
+            <note>After you upgrade to RHEL 7, and before you restart the CLC, you must disable the
+                firewalld service on all host machines.</note>
+            <!-- Is this only for the CLC or for all host machines?-->
+            <p>For more information, see <xref
+                    href="https://www.certdepot.net/rhel7-get-started-firewalld/" format="html"
+                    scope="external">FirewallD on RHEL 7</xref> or <xref
+                    href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7"
+                    format="html" scope="external">FirewallD on CentOS</xref>.</p>
+            <b>To stop and disable FirewallD</b></context>
+        <steps>
+            <step>
+                <cmd>Check the status of the firewalld service:</cmd>
+                <info>
+                    <codeblock>systemctl status firewalld</codeblock>
+                </info>
+                <stepresult>The status displays as <codeph>active (running)</codeph> or
+                        <codeph>inactive (dead)</codeph>.</stepresult>
+            </step>
+            <step>
+                <cmd>If the firewall is active / running, enter this command to stop it:</cmd>
+                <info>
+                    <codeblock>service firewalld stop</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>To completely disable the firewalld service, so it does not reload when you
+                    restart the host machine:</cmd>
+                <info>
+                    <codeblock>systemctl disable firewalld.service</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>Verify the status of the firewalld service:</cmd>
+                <info>
+                    <codeblock>systemctl status firewalld</codeblock>
+                </info>
+                <stepresult>The status should display as <codeph>disabled</codeph> and <codeph>inactive
+                        (dead)</codeph>.
+                    <codeblock>firewalld.service - firewalld - dynamic firewall daemon
+  Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+  Active: inactive (dead)</codeblock>
+                </stepresult>
+            </step>
+        </steps>
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The firewalld service is stopped and disabled. You can now start the CLC and other
+                host machines.</p>
+        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>
