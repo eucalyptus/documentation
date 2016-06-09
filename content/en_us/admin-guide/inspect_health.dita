@@ -29,8 +29,8 @@
 		<shortdesc/>
 		<taskbody>
 			<context>
-				<p>Use the <cmdname>euca-describe-services</cmdname> command to
-					view the service state. The output indicates:</p>
+				<p>Use the <cmdname>euserv-describe-services</cmdname> command to view the service state. The
+					output indicates:</p>
 				<ul>
 					<li>Component type of the service</li>
 					<li>Partition in which the service is registered</li>
@@ -98,37 +98,22 @@
 				</step>
 			</steps>
 			<example>
-				<p>If, for example, you have SCs that are correctly configured
-					and operating in HA mode. However, you want to shut down the
-					primary SC for maintenance. The primary SC is
-						<codeph>SC00</codeph> and the secondary SC is
-						<codeph>SC01</codeph>. <codeph>SC00</codeph> is
-						<codeph>ENABLED</codeph> and <codeph>SC01</codeph> is
-						<codeph>DISABLED</codeph>.</p>
-				<p>To stop <codeph>SC00</codeph> and cause <codeph>SC01</codeph>
-					to take over, you would enter the following command on
-					SC00:</p>
+				<!--THIS EXAMPLE was HA, which is deprecated. Replace with a better use case.-->
+				<p>If you want to shut down the SC for maintenance. The SC is <codeph>SC00</codeph> is
+						<codeph>ENABLED</codeph> and needs to be <codeph>DISABLED</codeph>for
+					maintenance.</p>
+				<p>To stop <codeph>SC00</codeph> first verify that no volumes or snapshots are being created and
+					that no volumes are being attached or detached, and then enter the following
+					command on SC00:</p>
 				<codeblock>eucalyptus-cloud stop</codeblock>
 				<p>To check status of services, you would enter:</p>
-				<codeblock>euca-describe-services</codeblock>
-				<p>When <codeph>SC01</codeph> starts, the eucalyptus-cloud
-					process on the host that SC00 is shutdown and maintenance
-					tasks can be performed. When maintenance is complete, you
-					can start the eucalyptus-cloud process on
-						<codeph>SC00</codeph>. <codeph>SC00</codeph> will enter
-					the <codeph>DISABLED</codeph> state by default. You can
-					chose to let <codeph>SC01</codeph> continue to be the
-					primary and <codeph>SC00</codeph> will be the secondary.</p>
-				<p>If you want to designate <codeph>SC00</codeph> as the
-					primary, make sure no volumes or snapshots are being created
-					and that no volumes are being attached or detached, and then
-					enter on SC01:</p>
-				<codeblock>eucalyptus-cloud stop</codeblock>
-				<p>Monitor the state of services using
-						<codeph>euca-describe-services</codeph> until
-						<codeph>SC01</codeph> is marked
-						<codeph>DISABLED</codeph> and <codeph>SC00</codeph> is
-						<codeph>ENABLED</codeph>.</p>
+				<codeblock>euserv-describe-services</codeblock>
+				<p>When maintenance is complete, you can start the eucalyptus-cloud process on
+						<codeph>SC00</codeph>, which will enter the <codeph>DISABLED</codeph> state
+					by default.</p>
+				<codeblock>eucalyptus-cloud start</codeblock>
+				<p>Monitor the state of services using <codeph>euserv-describe-services</codeph> until
+						<codeph>SC00</codeph> is <codeph>ENABLED</codeph>.</p>
 			</example>
 		</taskbody>
 	</task>
