@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA General Task//EN" "generalTask.dtd">
+<task id="upgrade_euca_before_OS">
+    <title>Upgrade <ph conref="../shared/conrefs.dita#prod/product"/> before the OS</title>
+<!--    This general task template to be used for a PROCESS, a higher-level description, which points to specific procedures (tasks).-->    
+
+    <shortdesc>This topic describes the <ph conref="../shared/conrefs.dita#prod/product"/>
+        <ph conref="../shared/conrefs.dita#prod/version"/> and RHEL / CentOS 7 upgrade processes and
+        procedural order.</shortdesc>
+    <taskbody>
+        <!--    NOTE TO WRITER: This topic is VERY SPECIFIC TO EUCA 4.3 and RHEL 7 UPGRADE. -->
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <note type="important">Before you begin the <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> upgrade process, it's important
+                you understand these compatibility points:</note>
+            <p>
+                <ul id="ul_zvd_djg_gw">
+                    <li><ph conref="../shared/conrefs.dita#prod/product"/>
+                        <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> requires
+                        version 6 of RHEL / CentOS.</li>
+                    <li>RHEL / CentOS 6 is intended to be used in <ph
+                            conref="../shared/conrefs.dita#prod/product"/>
+                        <ph conref="../shared/conrefs.dita#prod/version"/> only during the initial
+                        migration/upgrade of an existing <ph
+                            conref="../shared/conrefs.dita#prod/product"/> cloud, which was deployed
+                        before the <ph conref="../shared/conrefs.dita#prod/version"/> release.</li>
+                    <li><b>After you have completed the upgrade/migration to <ph
+                                conref="../shared/conrefs.dita#prod/product"/>
+                            <ph conref="../shared/conrefs.dita#prod/version"/>, you must upgrade the
+                            OS to RHEL / CentOS 7.0.</b></li>
+                    <li><ph conref="../shared/conrefs.dita#prod/product"/>
+                        <ph conref="../shared/conrefs.dita#prod/version"/> requires version 7 of
+                        RHEL / CentOS.</li>
+                    <li>RHEL / CentOS 7 is a fully supported OS for the <ph
+                            conref="../shared/conrefs.dita#prod/product"/>
+                        <ph conref="../shared/conrefs.dita#prod/version"/> release.</li>
+                </ul>
+            </p>
+            <p><note>References to RHEL below apply equally to CentOS in the following process.</note></p>
+        </prereq>
+        
+<!--    There are no steps (per se) in a general task. It's a collection of procedures, which points to the procedures (tasks) below.-->
+        
+        <context>
+            <p>The overall process of upgrading your cloud from <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+                    conref="../shared/conrefs.dita#prod/version"/> is outlined here. In some cases,
+                you need to choose the appropriate procedures for your specific situation.</p>
+            <p><b>To upgrade <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+                        conref="../shared/conrefs.dita#prod/version"/>, follow this process</b></p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Upgrade each existing <ph
+                    conref="../shared/conrefs.dita#prod/product"/> host machine from <ph
+                        conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+                        conref="../shared/conrefs.dita#prod/version"/> on RHEL 6. </cmd>
+                <info>
+                    <p>See <xref href="upgrade_prep.dita#upgrade_prep"/> through <xref
+                            href="upgrade_from_oldv.dita#upgrade_from_oldv"/>.</p>
+                </info>
+            </step>
+            <step id="backup_cloud_state">
+                <cmd>Back up the newly upgraded <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/> cloud state including: </cmd>
+                <info>
+                    <p>
+                        <ul>
+                            <li>CLC database</li>
+                            <li>Credentials</li>
+                            <li>Keys</li>
+                            <li>Configuration data</li>
+                        </ul>
+                    </p>
+                    <p>See <xref href="../admin-guide/backup_euca.dita#backup_euca"/> in the
+                        <xref href="../admin-guide/index.dita">Administration Guide</xref>.</p>
+<!--QUESTION: we are using the term "instance" .. need clarification: is there another term we are using for the same thing? what is "instance" in comparison to an NC?-->
+                </info>
+            </step>
+            <step id="migrate_instance_choice">
+                <cmd>Migrate each instance; you have 3 choices: </cmd>
+                <info>
+                    <p>
+                        <ol>
+                            <li>Live migration from a RHEL 6 NC to a RHEL 7 NC, with no service
+                                interruption. See XREF.</li>
+                            <li>Offline migration from a source NC to a destination NC, using the
+                                pack/unpack utility. See XREF.</li>
+                            <li>Offline migration within a single NC, using the pack/unpack utility
+                                and persistent storage. See XREF.</li>
+                        </ol>
+                    </p>
+                    <p>For more information, including risks and benefits of these choices, see
+                        XREF.</p>
+                    <p><note>If you chose offline migration, continue with the procedures below.</note></p>
+                </info>
+            </step>
+<!--QUESTION: Clarify: Does this mean I'm definitely going to need additional host machines? If I chose live migration, I do not need the below. So these steps are only for offline migrations? Please confirm. -->
+            <step>
+                <cmd>Wipe each host machine and perform a clean install of RHEL 7.</cmd>
+                <info>
+                    <p>See XREF and note postreq of firewalld (are there any others?).</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Perform a clean <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/> install on each new RHEL 7
+                    host machine.</cmd>
+                <info>
+                    <p>See xref through xref.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Restore the <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/> state that you backed up in xrefstep.</cmd>
+                <info>
+                    <p>See xref.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Unpack the instances you packed in xrefstep onto the destination NCs.</cmd>
+                <info>
+                    <p>See xref.</p>
+                </info>
+            </step>
+        </steps>
+     
+        
+<!--    The result tells me what to expect at the end of this process, and where to go next. Use CAUTION if this process will be reused in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>Your <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> cloud has now been successfully upgraded and the OS on RHEL 7.</p>
+        </result>
+    </taskbody>
+</task>
