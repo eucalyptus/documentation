@@ -1,93 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="upgrade_rhel6_rhel7">
- <title>Upgrading Eucalyptus from RHEL 6 to RHEL 7</title>
- <shortdesc>This topic describes available approaches to upgrade your Eucalyptus cloud components
-  from RHEL6 to RHEL7.</shortdesc>
+ <title>Operating System Upgrade Scenarios</title>
+ <shortdesc>This topic describes available scenarios for upgrading your <ph
+   conref="../shared/conrefs.dita#prod/product"/> cloud components from RHEL 6 to RHEL
+  7.</shortdesc>
  <conbody>
-  <p>There are three scenarios for upgrading the operating system for your Eucalyptus cloud:</p>
-  <ul>
-   <li>Live Migration - instances are moved from a node controller running RHEL6 to one running
-    RHEL7 without interruption</li>
-   <li>Offline Migration - instances are suspended on the RHEL6 NC and moved to the NC running
-    RHEL7, where they are resumed</li>
-   <li>Offline Local - instances are suspended on the RHEL6 NC, which is upgraded to RHEL7 and then
-    the instances are resumed</li>
-  </ul>
+  <p><note type="important">Be sure you have read <xref
+     href="upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> to understand the interrelated <ph
+     conref="../shared/conrefs.dita#prod/product"/> and OS upgrade processes before attempting any
+    of the OS upgrade scenarios described in this section.</note></p>
+  <p>There are three scenarios for upgrading the operating system for your <ph conref="../shared/conrefs.dita#prod/product"/> cloud:</p>
+  <p>
+   <table frame="all" rowsep="1" colsep="1" id="table_RHEL7_migration_scenarios">
+    <title>RHEL 6 to RHEL 7 Migration Scenarios</title>
+    <tgroup cols="4">
+     <colspec colname="c1" colnum="1" colwidth="1.5*"/>
+     <colspec colname="c2" colnum="2" colwidth="4.85*"/>
+     <colspec colname="c3" colnum="3" colwidth="1*"/>
+     <colspec colname="c4" colnum="4" colwidth="1*"/>
+     <thead>
+      <row>
+       <entry>Scenario</entry>
+       <entry>Description</entry>
+       <entry>Instance downtime?</entry>
+       <entry>Instance host move?</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>Live Migration</entry>
+       <entry>Instance is moved from a RHEL 6 NC to a RHEL 7 NC without service
+        interruption.</entry>
+       <entry>No</entry>
+       <entry>Yes</entry>
+      </row>
+      <row>
+       <entry>Offline Migration Between NCs</entry>
+       <entry>Instance is suspended (packed) on a RHEL 6 NC, moved to a RHEL 7 NC, then resumed
+        (unpacked).</entry>
+       <entry>Yes</entry>
+       <entry>Yes</entry>
+      </row>
+      <row>
+       <entry>Offline Migration Using a Single NC</entry>
+       <entry>Instance is suspended (packed) on a RHEL 6 NC, NC is upgraded to RHEL 7, then resumed
+        (unpacked).</entry>
+       <entry>Yes</entry>
+       <entry>No</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </table>
+  </p>
   <section id="upgrade_rhel6_rhel7_live_overview">
    <title>Live Migration</title>
-   <p>In a live migration, Eucalyptus 4.3 is installed on a new node controller running RHEL7, and
-    instances are migrated from the old NC.</p>
+   <p>In a live migration, <ph conref="../shared/conrefs.dita#prod/product"/>
+    <ph conref="../shared/conrefs.dita#prod/version"/> is installed on a new (or spare) NC running
+    RHEL 7, and instances are migrated from the old RHEL 6 NC. The migration is managed by KVM.</p>
    <p>Benefits of a live migration include:</p>
    <ul>
-    <li>Minimal or no downtime for running instances</li>
-    <li>Minimal disruption for users</li>
+    <li>Minimal or no downtime for running instances.</li>
+    <li>Minimal disruption for cloud users.</li>
    </ul>
    <p>Risks of a live migration include:</p>
    <ul>
     <li>Live migration is managed by KVM, which may fail. KVM makes no guarantees that any given
-     migration will succeed even if it starts successfully.</li>
+     migration will succeed even when it starts successfully.</li>
     <li>Handling large instances with large instance-store-backed storage can take hours or days,
      resulting in the overall upgrade time for a region taking days or even weeks.</li>
     <li>Live migration is very resource intensive; memory, storage, and runtime state must be moved
-     over the network, which could interfere with other workloads.</li>
-    <li>Live migration requires enough spare capacity to handle migrations/evacuations of node
-     controllers.</li>
+     over the network, which might interfere with other workloads.</li>
+    <li>Live migration requires enough spare capacity to handle migrations/evacuations of NCs.</li>
    </ul>
    <p>For instructions on how to perform a live migration, see <xref
      href="live_upgrade_to_rhel7.dita"/>.</p>
   </section>
   <section id="upgrade_rhel6_rhel7_offline_overview">
-   <title>Offline Migration</title>
-   <p>This approach involves suspending instances on a node controller running RHEL6, dumping their
-    state to disk to create a canonical persisted instance snapshot, moving that data to a RHEL7 NC,
-    and then importing the instances to a running state and resuming execution. This approach
-    assumes there is an upgraded node controller running RHEL7 available to import the suspended
-    instance, and preserves the runtime memory state and disk state of the instance to avoid
-    requiring users to reconstruct instances from scratch, but it does require that the instances be
-    down and unavailable for the duration of the suspend, dump, copy, and resume process. </p>
+   <title>Offline Migration Between NCs</title>
+   <p>This scenario involves suspending (packing) instances on RHEL 6 NC, dumping their state to
+    disk to create an instance snapshot, moving that data to a RHEL7 NC, and then unpacking the
+    instances to a running state and resuming execution. This approach assumes there is an upgraded
+    RHEL7 NC available for the suspended instance, and preserves the runtime memory state and disk
+    state of the instance to avoid requiring users to reconstruct instances from scratch, but it
+    does require that the instances be down and unavailable for the duration of the pack, dump,
+    copy, unpack, and resume process.</p>
    <p>Benefits of an offline migration include:</p>
    <ul>
-    <li>More reliable than a live migration</li>
+    <li>More reliable than a live migration.</li>
     <li>Each instance can be moved individually so a given instance's downtime is a function of its
-     size, not the cumulative size of all instances on the source host</li>
+     size, not the cumulative size of all instances on the source host machine.</li>
     <li>Allows a measure of safety, since instances remain on the source NC until they can be
-     confirmed to have been moved successfully to the destination NC</li>
+     confirmed as moved successfully to the destination NC.</li>
    </ul>
    <p>Risks of an offline migration include:</p>
    <ul>
-    <li>Requires instance downtime</li>
-    <li>Like a live migration, offline migrations still requires the contents of instances to be
-     copied over the network</li>
-    <li>Requires additional NCs to receive the suspended instances</li>
-    <li>Copying large instances can take a long time</li>
+    <li>Requires instance downtime.</li>
+    <li>Like a live migration, offline migrations still require the contents of instances to be
+     copied over the network.</li>
+    <li>Requires additional NCs to receive the suspended instances.</li>
+    <li>Copying large instances can take a long time.</li>
    </ul>
-   <p>For instructions on how to perform an offline migration upgrade, see <xref
-    href="offline_migration_upgrade_to_rhel7.dita"/>.</p>
+   <p>For instructions on how to perform this offline migration, see <xref
+     href="offline_migration_upgrade_to_rhel7.dita"/>.</p>
   </section>
   <section id="upgrade_rhel6_rhel7_offline_local_overview">
-   <title>Offline Local Migration</title>
-   <p>Offline local migrations use the same basic approach as offline migrations, but assume that
-    persisted suspended instances can be moved off-box and then back to the same host before being
-    resumed on an upgraded system. This approach requires sufficient storage to hold saved instances
-    during the upgrade that are not in a location where they can be destroyed or modified by a clean
-    OS install.</p>
-   <p>Benefits of an offline local migration include:</p>
+   <title>Offline Migration Using a Single NC</title>
+   <p>This offline migration scenario is similar to the offline migration between NCs. It assumes
+    that suspended (packed) RHEL 6 instances can be moved off-machine (or using local persistent
+    storage) and then back to the same host before being unpacked on an upgraded RHEL7 NC. This
+    scenario requires sufficient storage to hold packed instances during the upgrade that are not in
+    a location where they can be destroyed or modified by a clean OS install.</p>
+   <p>Benefits of an offline migration using a single NC include:</p>
    <ul>
-    <li>No network copy of instances required. </li>
-    <li>No impact on other instances in the system because there is no network/resource contention</li>
-    <li>No additional capacity is required, since the existing NCs can be used</li>
-    <li>Rollback is a clean install of RHEL6 and Euca 4.3.0 if necessary </li>
+    <li>No network copy of instances required.</li>
+    <li>No impact on other instances in the cloud because there is no network/resource
+     contention.</li>
+    <li>No additional capacity is required, since the existing NCs can be used.</li>
+    <li>Rollback is a clean install of RHEL 6 and <ph conref="../shared/conrefs.dita#prod/product"/>
+     <ph conref="../shared/conrefs.dita#prod/version"/> if necessary.</li>
    </ul>
-   <p>Risks of an offline local migration include:</p>
+   <p>Risks of an offline migration using a single NC include:</p>
    <ul>
-    <li>Complete failure of a node or accidental wiping of the vm state could result in lost instances</li>
-    <li>Requires downtime of all instances at the same time</li>
-    <li>Rollback possibilities are not as robust as offline migrations, since the host itself is being upgraded. </li>
+    <li>Complete failure of an NC or accidental wiping of the VM state can result in lost
+     instances.</li>
+    <li>Requires downtime of all instances at the same time.</li>
+    <li>Rollback possibilities are not as robust as offline migrations, since the host itself is
+     being upgraded.</li>
     
    </ul>
-   <p>For instructions on how to perform an offline local migration upgrade, see <xref
-    href="offline_local_migration_upgrade_to_rhel7.dita"/>.</p>
+   <p>For instructions on how to perform this offline migration, see <xref
+     href="offline_local_migration_upgrade_to_rhel7.dita"/>.</p>
   </section>
 
  </conbody>
