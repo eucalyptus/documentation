@@ -3,8 +3,8 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="disable_firewall_shared">
 	<title>Disable the Firewall</title>
-	<shortdesc>If you have existing firewall rules on your hosts, you should disable the
-		firewall in order to install Eucalyptus. You should re-enable it
+	<shortdesc>If you have existing firewall rules on your host machines, you must disable the
+		firewall in order to install <ph conref="../shared/conrefs.dita#prod/product"/>. You should re-enable it
 		after installation. </shortdesc>
 	<prolog>
 		<metadata>
@@ -23,22 +23,14 @@
 		<steps>
 			
 			<step>
-				<cmd>To disable your firewall:</cmd>
-				<substeps>
-					<substep>
-						<cmd>Run the command
-							<codeph>system-config-firewall-tui</codeph></cmd>
-					</substep>
-					<substep>
-						<cmd>Turn off the <uicontrol>Enabled</uicontrol> check
-							box.</cmd>
-					</substep>
-				</substeps>
+				<cmd>To disable your firewall enter these commands:</cmd>
+				<info>
+					<codeblock>systemctl stop firewalld.service
+systemctl disable firewalld.service</codeblock>
+				</info>
 			</step>
-			
-			
 			<step>
-				<cmd>Repeat on each host that will run a Eucalyptus component:
+				<cmd>Repeat on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/> service:
 					Cloud Controller, Walrus, Cluster Controller, Storage Controller, and Node Controllers.</cmd>
 			</step>
 		</steps>
