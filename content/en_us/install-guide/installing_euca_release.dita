@@ -3,50 +3,56 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="install_euca_release">
 	<title>Install <ph conref="../shared/conrefs.dita#prod/product"/> Release Packages</title>
-	<shortdesc>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release packages, perform the tasks listed in this topic.</shortdesc>
+	<shortdesc>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release packages,
+		perform the tasks listed in this topic.</shortdesc>
 	<taskbody>
-		<context><b>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release packages</b></context>		
+		<context><b>To install <ph conref="../shared/conrefs.dita#prod/product"/> from release
+				packages</b></context>		
 		<steps>
 			<step>
-				<cmd>Configure the <ph conref="../shared/conrefs.dita#prod/product"/> package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
-					service:</cmd>
+				<cmd>Configure the <ph conref="../shared/conrefs.dita#prod/product"/> package
+					repository on each host machine that will run a <ph
+						conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
 					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step props="subscribe">
-				<cmd>(Optional) If you are a <ph conref="../shared/conrefs.dita#prod/product"/> subscriber, you will receive two RPM package files
-					containing your license for subscription-only services. Install these packages
-					on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/> service.
-					Install the license files to access the enterprise repository.</cmd>
-						<info>
-							<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
-						</info>
+				<cmd>(Optional) If you are a <ph conref="../shared/conrefs.dita#prod/product"/>
+					subscriber, you will receive two RPM package files containing your license for
+					subscription-only services. Install these packages on each host machine that
+					will run a <ph conref="../shared/conrefs.dita#prod/product"/> service. Install
+					the license files to access the enterprise repository.</cmd>
+				<info>
+					<codeblock>yum install eucalyptus-enterprise-license*.noarch.rpm <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
+				</info>
 			</step>
 			<step>
-				<cmd>Configure the Euca2ools package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
-					service or Euca2ools:</cmd>
+				<cmd>Configure the Euca2ools package repository on each host machine that will run a
+						<ph conref="../shared/conrefs.dita#prod/product"/> service or
+					Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_download"/></codeblock>
 					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>Configure the EPEL package repository on each host machine that will run a <ph conref="../shared/conrefs.dita#prod/product"/>
-					service or Euca2ools:</cmd>
+				<cmd>Configure the EPEL package repository on each host machine that will run a <ph
+						conref="../shared/conrefs.dita#prod/product"/> service or Euca2ools:</cmd>
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/epel_download"/></codeblock>
 					<p>Enter <codeph>y</codeph> when prompted to install this package.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>If you are installing on RHEL 6, you must enable the Optional repository in Red Hat
-					Network for each NC, as follows:</cmd>
+				<cmd>If you are installing on RHEL 7, you must enable the Optional repository in Red
+					Hat Network for each NC, as follows:</cmd>
 				<substeps>
 					<substep>
-						<cmd>Go to <xref format="html" href="http://rhn.redhat.com">http://rhn.redhat.com</xref>
-							and navigate to the system that will run the NC.</cmd>
+						<cmd>Go to <xref format="html" href="http://rhn.redhat.com"
+								>http://rhn.redhat.com</xref> and navigate to the system that will
+							run the NC.</cmd>
 					</substep>
 					<substep>
 						<cmd>Click <uicontrol>Alter Channel Subscriptions</uicontrol>.</cmd>
@@ -67,7 +73,8 @@
 				<substeps>
 					
 					<substep>
-						<cmd>Install the <ph conref="../shared/conrefs.dita#prod/product"/> Node Controller software on each NC host:</cmd>
+						<cmd>Install the <ph conref="../shared/conrefs.dita#prod/product"/> Node
+							Controller software on each NC host:</cmd>
 						<info>
 							<codeblock>yum install eucalyptus-nc</codeblock>
 						</info>
@@ -100,7 +107,9 @@ virsh net-autostart default --disable</codeblock>
 			</step>
 			
 			<step>
-				<cmd>On each CLC host machine, install the <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Controller software.</cmd>
+				<cmd>On each CLC host machine, install the <ph
+						conref="../shared/conrefs.dita#prod/product"/> Cloud Controller
+					software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
@@ -122,7 +131,9 @@ virsh net-autostart default --disable</codeblock>
 				<stepresult>This installs worker images for both the load balancer and imaging services.</stepresult>
 			</step>
 			<step>
-				<cmd>On the UFS host machine, install the <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Controller software.</cmd>
+				<cmd>On the UFS host machine, install the <ph
+						conref="../shared/conrefs.dita#prod/product"/> Cloud Controller
+					software.</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cloud</codeblock>
 				</info>
@@ -132,18 +143,21 @@ virsh net-autostart default --disable</codeblock>
 				<info>
 					<codeblock>yum install eucaconsole</codeblock>
 				</info>
-				<stepresult>The Management Console can run on any host machine, even one that does not have other <ph conref="../shared/conrefs.dita#prod/product"/> services. 
-					For more information, see the <xref href="../console-guide/index.dita#welcome"
-					>Console Guide</xref>.</stepresult>
+				<stepresult>The Management Console can run on any host machine, even one that does not have
+					other <ph conref="../shared/conrefs.dita#prod/product"/> services. For more
+					information, see the <xref href="../console-guide/index.dita#welcome">Console
+						Guide</xref>.</stepresult>
 			</step>
 			<step>
-				<cmd>Install the software for the remaining <ph conref="../shared/conrefs.dita#prod/product"/> services. The following example shows
-					services being installed on the same host machine. We recommend that you use a different
-					host machine for each service, when possible:</cmd>
+				<cmd>Install the software for the remaining <ph
+						conref="../shared/conrefs.dita#prod/product"/> services. The following
+					example shows services being installed on the same host machine. We recommend
+					that you use a different host machine for each service, when possible:</cmd>
 				<info>
 					<codeblock>yum install eucalyptus-cc eucalyptus-sc eucalyptus-walrus</codeblock>
 				</info>
-				<info>This installs the cloud controller (CC), storage controller (SC), and Walrus Backend services.</info>
+				<info>This installs the cloud controller (CC), storage controller (SC), and Walrus
+					Backend services.</info>
 			</step>
 			<step props="subscribe">
 				<cmd>(Optional) If you are a subscriber and use a SAN, run the appropriate command for your device on each
