@@ -105,68 +105,68 @@ euctl ZONE.cluster.minnetworktag=512</codeblock>
                 </substeps>
             </step>
             <step>
-                <cmd>Stop all cloud components using the <codeph>service <i>component_name</i>
-                        stop</codeph> command. For example:</cmd>
+                <cmd>Stop all cloud components using the <codeph>systemctl stop <i>component_name</i>.service</codeph> command. 
+                    For example:</cmd>
                 <info>
-                    <codeblock>service eucalyptus-cc stop
-service eucalyptus-cloud stop
-service eucalyptus-nc stop</codeblock>
+                    <codeblock>systemctl stop eucalyptus-cc.service
+systemctl stop eucalyptus-cloud.service
+systemctl stop eucalyptus-nc.service</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>On the machine for each <ph conref="../shared/conrefs.dita#prod/product"/> service, upgrade <ph conref="../shared/conrefs.dita#prod/product"/>. For
                     example:</cmd>
-                <info><codeph>yum upgrade `euca*`</codeph></info>
+                <info><codeblock>yum upgrade `euca*`</codeblock></info>
             </step>
             <step>
                 <cmd>Start the <ph conref="../shared/conrefs.dita#prod/product"/> services on each of the <ph conref="../shared/conrefs.dita#prod/product"/> host machines. For
                     example:</cmd>
-                <info><codeph>service eucalyptus-cloud start</codeph></info>
+                <info><codeblock>systemctl start eucalyptus-cloud.service</codeblock></info>
             </step>
             <step>
                 <cmd>When the CLC completes database upgrade and becomes enabled, set the
                     'cloud.network.network_configuration' property to point to the JSON file that
                     was created. For example:</cmd>
                 <info>
-                    <codeph>euctl cloud.network.network_configuration=@network.json</codeph>
+                    <codeblock>euctl cloud.network.network_configuration=@network.json</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Upgrade the CC and SC machines. For example:</cmd>
-                <info><codeph>yum upgrade `euca*`</codeph></info>
+                <info><codeblock>yum upgrade `euca*`</codeblock></info>
             </step>
             <step>
                 <cmd>On the SC machine, start the SC services:</cmd>
                     <info>
-                        <codeph>service eucalyptus-cloud start</codeph>
+                        <codeblock>systemctl start eucalyptus-cloud.service</codeblock>
                     </info>
             </step>
             <step>
                 <cmd>On the CC machine, start the CC services:</cmd>
                 <info>
-                    <codeph>service eucalyptus-cloud start</codeph>
+                    <codeblock>systemctl start eucalyptus-cc.service</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>On the CCs, start EUCANETD.</cmd>
+                <cmd>On the CCs, start eucanetd.</cmd>
                 <info>
-                    <codeph>service eucanetd start</codeph>
+                    <codeblock>systemctl start eucanetd.service</codeblock>
                 </info>
             </step>
             <step>
                 <cmd>Upgrade each NC.</cmd>
-                <info><codeph>yum upgrade `euca*`</codeph></info>
+                <info><codeblock>yum upgrade `euca*`</codeblock></info>
             </step>
             <step>
                 <cmd>Start the NC services on each NC:</cmd>
                 <info>
-                    <codeph>service eucalyptus-nc start</codeph>
+                    <codeblock>systemctl start eucalyptus-nc.service</codeblock>
                 </info>
             </step>
             <step>
-                <cmd>Start the EUCANETD service on each NC:</cmd>
+                <cmd>Start the eucanetd service on each NC:</cmd>
                 <info>
-                    <codeph>service eucanetd start</codeph>
+                    <codeblock>systemctl start eucanetd.service</codeblock>
                 </info>
             </step>
         </steps>
