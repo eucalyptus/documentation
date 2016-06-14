@@ -13,9 +13,10 @@
             <ul>
                 <li>No procedure is required to enable nginx to start with eucaconsole, as it is part of the standard console installation and 
                     execution process.</li>
-                <li>If you edit any of the parameters in the nginx.conf file, you must first stop the eucaconsole service and restart it for the changes to take effect:
-                <codeblock>service eucaconsole stop 
-service eucaconsole restart</codeblock></li>
+                <li>If you edit any of the parameters in the nginx.conf file, you must first stop
+                        the eucaconsole service and restart it for the changes to take effect:
+                        <codeblock>systemctl stop eucaconsole.service 
+systemctl restart eucaconsole.service</codeblock></li>
             </ul>
             
         </context>
@@ -26,7 +27,8 @@ service eucaconsole restart</codeblock></li>
     <task id="console_use_own_certs">
         
         <title>Use Your Own Certificates</title>
-        <shortdesc>The Management Console generates self-signed certificates by default but can use your own certifcates to run the console instead.</shortdesc>
+        <shortdesc>The Management Console generates self-signed certificates by default but can use
+            your own certificates to run the console instead.</shortdesc>
         <taskbody>
             <context>
                 <p>This procedure involves copying over your certificate files: </p>
@@ -35,7 +37,7 @@ service eucaconsole restart</codeblock></li>
                 <step>
                     <cmd>Stop eucaconsole and nginix, using the single command:</cmd>
                     <info>
-                        <codeblock>service eucaconsole stop</codeblock>
+                        <codeblock>systemctl stop eucaconsole.service</codeblock>
                     </info>
                 </step>
                 <step>
@@ -55,7 +57,7 @@ service eucaconsole restart</codeblock></li>
                 </step>
                 <step>
                     <cmd>Start the eucaconsole service:</cmd>
-                    <info><codeblock>service eucaconsole start</codeblock></info>
+                    <info><codeblock>systemctl start eucaconsole.service</codeblock></info>
                 </step>
             </steps>
         </taskbody>
@@ -99,7 +101,7 @@ server_name  localhost;</codeblock></info>
                         
                     <step>
                         <cmd>Restart the eucaconsole service using the following command:</cmd>
-                        <info><codeblock>service eucaconsole restart</codeblock></info>
+                        <info><codeblock>systemctl restart eucaconsole.service</codeblock></info>
                         <info><note><b>This command restarts nginx automatically. There is no need to run nginx manually.</b></note></info>
                     </step>
                     
