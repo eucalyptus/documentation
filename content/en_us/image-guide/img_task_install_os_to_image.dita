@@ -11,13 +11,13 @@
                 <cmd>Use the QEMU disk utility to create a disk image. In the following example, we
                     create a 5GB disk image:</cmd>
                 <info>
-                    <codeph>qemu-img create -f raw centos6.img 5G</codeph>
+                    <codeph>qemu-img create -f raw centos7.img 5G</codeph>
                 </info>
             </step>
             <step>
                 <cmd> Use the <codeph>parted</codeph> utility to set the disk label. </cmd>
                 <info>
-                    <codeph>parted centos6.img mklabel msdos</codeph>
+                    <codeph>parted centos7.img mklabel msdos</codeph>
                 </info>
             </step>
             <step>
@@ -25,8 +25,8 @@
                     as in the following example (note the example has been broken into multiple
                     lines for formatting purposes): </cmd>
                 <info>
-                    <codeblock>virt-install --name centos6 --ram 1024 --os-type linux --os-variant rhel6 
- -c /tmp/CentOS-6.3-x86_64-bin-DVD1.iso --disk path=/tmp/centos6.img,device=disk,bus=virtio 
+                    <codeblock>virt-install --name centos7 --ram 1024 --os-type linux --os-variant rhel7 
+ -c /tmp/CentOS-7.0-x86_64-bin-DVD1.iso --disk path=/tmp/centos7.img,device=disk,bus=virtio 
  --graphics vnc,listen=0.0.0.0 --force </codeblock>
                 </info>
             </step>
@@ -52,7 +52,7 @@
     <devices>
         <!--<emulator>/usr/bin/kvm</emulator>-->
         <disk type='file'>
-            <source file='/tmp/centos6.img'/>
+            <source file='/tmp/centos7.img'/>
             <target dev='hda'/>
         </disk>
      <interface type='bridge'>
@@ -110,10 +110,10 @@ default=0
 timeout=5
 #splashimage=(hd0,0)/grub/splash.xpm.gz
 hiddenmenu
-title Eucalyptus (2.6.32-358.18.1.el6.x86_64)
+title Eucalyptus (n.n.32-358.18.1.el7.x86_64)
 	root (hd0,0)
-	kernel /vmlinuz-2.6.32-358.18.1.el6.x86_64 ro root=UUID=062b9c31-95f3-424f-8b47-35107cfdfc08 rd_NO_LUKS rd_NO_LVM LANG=en_US.UTF-8 rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb
-	initrd /initramfs-2.6.32-358.18.1.el6.x86_64.img</codeblock>
+	kernel /vmlinuz-n.n.32-358.18.1.el7.x86_64 ro root=UUID=062b9c31-95f3-424f-8b47-35107cfdfc08 rd_NO_LUKS rd_NO_LVM LANG=en_US.UTF-8 rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb
+	initrd /initramfs-n.n.32-358.18.1.el7.x86_64.img</codeblock>
                         </info>
                     </substep>
                     <substep>
@@ -140,7 +140,7 @@ title Eucalyptus (2.6.32-358.18.1.el6.x86_64)
                     <substep>
                         <cmd>Install cloud-init:</cmd>
                         <info>
-                            <codeblock># rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+                            <codeblock># rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # yum install cloud-init</codeblock>
                         </info>
                     </substep>
