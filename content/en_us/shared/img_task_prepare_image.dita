@@ -30,48 +30,39 @@
                                     href="https://help.ubuntu.com/community/CloudInit"
                                     scope="external" format="html"
                                     >https://help.ubuntu.com/community/CloudInit</xref></note>
-                            <p>For Ubuntu images:</p>
-                            <codeblock>sudo apt-get install cloud-init</codeblock>
-                            <p>For Red Hat, Fedora, and CentOS EL5:</p>
-                            <codeblock>rpm -Uvh http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm</codeblock>
-                            <p>For Red Hat, Fedora, and CentOS EL6:</p>
-                            <codeblock>rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+                       <!--     <p>For Ubuntu images:</p>
+                            <codeblock>sudo apt-get install cloud-init</codeblock>-->
+                            <p>For Red Hat, and CentOS EL7:</p>
+                            <codeblock>rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum install cloud-init</codeblock>
                         </info>
                     </substep>
-                    <!--<substep>
-                        <cmd>Install the Eucalyptus Windows Integration Tool:</cmd>
-                        <info><p> Confirm 'Eucalyptus windows integration' tool is installed an
-                                configured for use (See Eucalyptus-Admin Guide section on creating a
-                                Windows image and installing integration tool). The tool will help
-                                in setting up access to vm, hostname, etc.. </p></info>
-                    </substep>-->
                     <substep>
                         <cmd>Install and configure ssh:</cmd>
                         <info>
-                            <p>For Ubuntu:</p>
-                            <codeblock>sudo apt-get install openssh-server </codeblock>
-                            <p>For Red Hat, Fedora, and CentOS:</p>
+                          <!--  <p>For Ubuntu:</p>
+                            <codeblock>sudo apt-get install openssh-server </codeblock>-->
+                            <p>For Red Hat and CentOS:</p>
                             <codeblock>yum install openssh-server
-chkconfig sshd on</codeblock>
+systemctl enable sshd.service</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>Install Euca2ools:</cmd>
                         <info>
-                            <p>For Ubuntu:</p>
-                            <codeblock>sudo apt-get install euca2ools</codeblock>
-                            <p>For Red Hat, Fedora, and CentOS:</p>
+                          <!--  <p>For Ubuntu:</p>
+                            <codeblock>sudo apt-get install euca2ools</codeblock>-->
+                            <p>For Red Hat and CentOS:</p>
                             <codeblock>yum install euca2ools</codeblock>
                         </info>
                     </substep>
                     <substep>
                         <cmd>Optionally, update existing packages.</cmd>
                         <info>
-                            <p>For Ubuntu:</p>
+                 <!--           <p>For Ubuntu:</p>
                             <codeblock>sudo apt-get update
-sudo apt-get upgrade</codeblock>
-                            <p>For Red Hat, Fedora, and CentOS:</p>
+sudo apt-get upgrade</codeblock>-->
+                            <p>For Red Hat and CentOS:</p>
                             <codeblock>yum update</codeblock>
                         </info>
                     </substep>
@@ -102,13 +93,14 @@ iptables -t mangle -X
 iptables -P INPUT ACCEPT
 iptables -P OUTPUT ACCEPT
 iptables -P FORWARD ACCEPT</codeblock>
-                            <p>For Red Hat, Fedora, and CentOS, you can disable iptables via service
+                            <p>For Red Hat and CentOS 6, you can disable iptables via service
                                 scripts. For example:</p>
-                            <codeblock>/etc/init.d/iptables stop 
-(or...) 
-service iptables stop
+                            <codeblock>service iptables stop
 (then use...) 
 chkconfig iptables off  (to disable at boot time as well) </codeblock>
+                            <p>For Red Hat and CentOS 7, see the Red Hat Migration and Planning Guide <xref
+                                    href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Migration_Planning_Guide/sect-Red_Hat_Enterprise_Linux-Migration_Planning_Guide-Security_and_Access_Control.html"
+                                    format="html" scope="external">Security and Access Control section</xref>.</p>
                         </info>
                     </substep>
                     <substep>
@@ -148,9 +140,8 @@ SELINUXTYPE=targeted</codeblock>
                                         address, the MAC address may be restored and will need to be
                                         commented out again.</note></li>
                             </ul>
-                            <p> For Red Hat, Fedora, and CentOS images, the configuration for the
-                                default network interface can usually be found in the following
-                                file: </p>
+                            <p> For Red Hat and CentOS images, the configuration for the default
+                                network interface can usually be found in the following file: </p>
                             <codeblock>/etc/sysconfig/network-scripts/ifcfg-eth0</codeblock>
                             <p>The following is an example of an <codeph>ifcfg-eth0</codeph>
                                 configuration file:</p>
