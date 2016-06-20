@@ -20,20 +20,70 @@
 					</thead>
 					<tbody>
 						<row>
-							<entry>Red Hat Enterprise Linux 7 support</entry>
-							<entry>RHEL7 is the supported deployment OS. For more information, see <xref
+							<entry>Red Hat Enterprise Linux 7 (RHEL 7) support</entry>
+							<entry>RHEL7 is the supported deployment OS. 
+								<ul>
+									<li>Libraries repackaged for use with RHEL 7 that alleviate certain dependencies on
+										obsoleted java libraries.</li>
+									<li>Eucalyptus can now run confined by SELinux on RHEL 7.</li>
+								</ul>
+								
+								For more information, see <xref
 								href="../../install-guide/upgrade_rhel6_rhel7.dita"/>.</entry>
 						</row>
+						<row><entry>Security improvements</entry>
+							<entry>Notable security hardening measures have been implemented in 4.3.0:
+								<ul>
+									<li>Eucalyptus can now run in confined mode on UFS and other eucalyptus-cloud-based processes.</li>
+									<li>Usage of Jetty is removed along with the Jetty libraries and associated credential download functionality.</li>
+									<li>Eucalyptus can now run confined by SELinux on RHEL 7</li>
+								</ul></entry></row>
+						<row><entry>Removed reverse DNS dependency of eucanetd in VPCMIDO mode.</entry>
+							<entry>Allows administrators to register NCs to a back-end network instead 
+								of a routable front-end network. This only affects VPCMIDO mode.
+							</entry></row>
+							<row>
+								<entry>EC2 API Compatibility: Instance termination protection.</entry>
+								<entry>Allows an attribute to be set to protect instances from being accidentally
+									terminated. We now support the <codeph>DisableApiTermination</codeph> parameter with
+								the <codeph>RunInstances</codeph> action and the <codeph>disableApiTermination</codeph> attribute for
+								the <codeph>ModifyInstanceAttribute</codeph> and <codeph>DescribeInstanceAttribute</codeph> actions.
+								However, instance termination protection does not prevent an auto
+								scaling instance to be terminated by that service.</entry>
+							</row>
 						<row>
-							<entry>CloudWatch</entry>
-							<entry>Release note here TO BE WRITTEN. For more information, see UPDATE XREF: <xref
-									href="../../install-guide/upgrade_rhel6_rhel7.dita"/>.</entry>
+							<entry>Switch multicast from globally scoped to locally scoped address range</entry>
+							<entry>The multicast addresses that the CLC uses for jgroups membership changed from 
+								a globally-scoped multicast address range, to a configurable option and the default 
+								be addresses that are in the administratively-scoped range.</entry>
 						</row>
 						<row>
-							<entry>Federation</entry>
-							<entry>Release note here TO BE WRITTEN. For more information, see UPDATE XREF: <xref
-									href="../../install-guide/upgrade_rhel6_rhel7.dita"/>.</entry>
+							<entry>Support for IAM policy variables</entry>
+							<entry>The use of policy variables simplifies the writing of policies when exact names of 
+								resources are unknown.</entry>
 						</row>
+						<row>
+							<entry>Virtual Private Cloud (VPC) improvements.</entry>
+							<entry>Notable improvements in VPC include:
+								<ul>
+									<li>Internal ELB in VPC</li>
+									<li>NAT Gateway</li>
+									<li>Custom route table</li>
+									<li>Multiple ENIs</li>
+								</ul></entry></row>
+						<row>
+							<entry>CloudFormation improvements.</entry>
+							<entry>Update stack supported both in euca2ools and the Management Console.</entry>
+						</row>
+						<row>
+							<entry>CloudWatch in the Management Console</entry>
+							<entry>The Management Console has improved alarms, metrics, and monitoring management.</entry>
+						</row>
+						<row>
+							<entry>View scaling history added to Management Console.</entry>
+							<entry>Added the ability to view scaling activity (history) to scaling group details page.</entry>
+						</row>
+		
 					</tbody>
 				</tgroup>
 			</table>
