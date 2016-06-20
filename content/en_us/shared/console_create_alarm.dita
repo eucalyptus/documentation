@@ -24,25 +24,26 @@
                         text box.</cmd>
                 </step>
                 <step>
-                    <cmd>Select a statistic from the first drop-down list box. A statistic is
-                        computed aggregation of metric data over a specified period of time; valid
-                        values are minimum, maximum, average, sum, and sample count. </cmd>
+                    <cmd>Select trigger dimensions, if not already pre-populated with the selected 
+                        resource such as an image or scaling group. A dimension is
+                        a name-value pair that uniquely identifies a metric; for example:
+                        "<codeph>Scaling group</codeph>" = "<codeph>myscalinggroup</codeph>".
+                    </cmd>
                 </step>
                 <step>
-                    <cmd>Select a metric from the next drop-down list box. A metric is a
-                        time-ordered set of data points - for example, CPU utilization or volume
-                        write ops. You can get metric data from Eucalyptus cloud resources (like
-                        instances or volumes), or you can publish your own set of custom metric data
+                    <cmd>When <uicontrol>Create Alarm</uicontrol> is launched from a resources' detail page, 
+                        pre-defined metrics specific to those resources display. Select a metric from the 
+                        drop-down list box. A metric is a time-ordered set of data points - for example, 
+                        CPU utilization or volume write ops. You can get metric data from Eucalyptus cloud 
+                        resources (like instances or volumes), or you can publish your own set of custom metric data
                         points to CloudWatch. You then retrieve statistics about those data points
                         as an ordered set of time-series data.</cmd>
                 </step>
                 <step>
-                    <cmd>Select trigger dimensions. A dimension is
-                        a name-value pair that uniquely identifies a metric; for example:
-                            "<codeph>Scaling group</codeph>" = "<codeph>myscalinggroup</codeph>".
-                    </cmd>
+                    <cmd>Select a statistic from the <uicontrol>Trigger alarm when the</uicontrol> drop-down list
+                        box. A statistic is computed aggregation of metric data over a specified
+                        period of time; valid values are average, minimum, maximum, sum, and data samples. </cmd>
                 </step>
-
 
                 <step>
                     <cmd>Select a comparison operator for the statistic value.</cmd>
@@ -55,10 +56,45 @@
                 </step>
                 <step>
                     <cmd>Select the number of measurement periods and the period lengths using the
-                        controls in the <uicontrol>Evaluation</uicontrol> section of the dialog box.
-                        Periods define the time period over which the metric value is compared to
-                        the trigger threshold, as well as how many consecutive periods the trigger
-                        threshold must be breached before the alarm is triggered.</cmd>
+                        controls in the <uicontrol>for at least</uicontrol> and <uicontrol>consecutive period(s) 
+                        of</uicontrol> areas of the dialog box. Periods define the time period over which the 
+                        metric value is compared to the trigger threshold, as well as how many consecutive 
+                        periods the trigger threshold must be breached before the alarm is triggered.</cmd>
+                    <stepresult>As you specify the values in this section, the chart that follows display the 
+                    graphical representation of that statistic data.</stepresult>
+                </step>
+                <step>
+                    <cmd>In the <b>Actions</b> section of the Create alarm window, specify the action to be 
+                        taken when an alarm is triggered.</cmd>
+                    <info><note>This section does not display if creating alarms is launched from the create 
+                        scaling policy workflow. </note></info>
+                    <substeps>
+                        <substep>
+                            <cmd>The <uicontrol>Action type</uicontrol> is pre-populated with the resource 
+                            activity associated with the alarm.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>Select the state you want the alarm to take action from the 
+                                <uicontrol>When alarm state is</uicontrol> drop-down list box.</cmd>
+                        </substep>
+                        <substep>
+                            <cmd>If launched from a scaling group, the name of that scaling group displays  
+                               as the default selection in the <uicontrol>For scaling group</uicontrol> 
+                                drop-down list box. Select a different scaling group, if needed.</cmd>
+                            <stepresult>When a scaling group is selected, the <uicontrol>Execute scaling policy</uicontrol> 
+                                drop-down list box displays with only the policies associated with the selected 
+                                scaling group.</stepresult>
+                        </substep>
+                       <substep>
+                           <cmd>Choose a policy to execute from the <uicontrol>Execute scaling policy</uicontrol> 
+                               drop-down list box.</cmd>
+                           <info><note>If there is already an action associated with this alarm, the policy selection is not applicable.</note>
+                           <note>If all scaling policies are already associated with actions, or there are none defined, the policy 
+                           selection displays, "No policies available."</note>
+                           
+                           </info>
+                       </substep>
+                    </substeps>
                 </step>
                 <step>
                     <cmd>To save your new alarm, click the <uicontrol>Create Alarm</uicontrol>
@@ -67,8 +103,10 @@
 
 
             </steps>
-            <result>For more information on Auto Scaling and CloudWatch, see the Eucalyptus User
-                Guide.</result>
+            <result>For more details about CloudWatch alarm properties, see <xref
+                href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html"
+                scope="external" format="html"
+                >AWS Resource Types Reference for Alarms</xref>.</result>
         </taskbody>
     </task>
 </task>
