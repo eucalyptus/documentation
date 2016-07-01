@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="backup_cloud_state_rhel7">
+<!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Back Up the <ph conref="../shared/conrefs.dita#prod/product"/> Cloud State Before OS Upgrade</title>
+    <shortdesc>This topic describes the special circumstances for backing up during an upgrade of
+            <ph conref="../shared/conrefs.dita#prod/product"/>
+        <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+            conref="../shared/conrefs.dita#prod/version"/> and from RHEL 6 to RHEL 7.</shortdesc>
+    <taskbody>
+<!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <p>Before starting the cloud state backup, ensure that you have:</p>
+            <ul>
+                <li>Upgraded each existing <ph conref="../shared/conrefs.dita#prod/product"/> host
+                    machine from <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to
+                    <ph conref="../shared/conrefs.dita#prod/version"/> while the OS is still
+                    RHEL 6.</li>
+                <li>Verified that all <ph conref="../shared/conrefs.dita#prod/product"/> services
+                    are enabled and running on <ph conref="../shared/conrefs.dita#prod/product"/>
+                    release version <ph conref="../shared/conrefs.dita#prod/version"/>.</li>
+<!--                <li>ANYTHING ELSE ???</li>
+-->            </ul>
+        </prereq>        
+<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>
+            <p>You now have <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> running on all RHEL 6 hosts, but
+                this is only an interim state. To reach the supported configuration, you will soon
+                perform a clean install of RHEL 7, and then a clean install of <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> on the hosts.</p>
+            <p>Because you will be wiping out the OS and <ph
+                    conref="../shared/conrefs.dita#prod/product"/>, you must back up the
+                configuration state of your cloud beforehand.</p>
+            <p>The upgrade to <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> on RHEL 6 was required so that
+                the <ph conref="../shared/conrefs.dita#prod/version"/> code can properly back up
+                your cloud state, which can then be restored after the clean install of <ph
+                    conref="../shared/conrefs.dita#prod/version"/> on RHEL 7 hosts.</p>
+            <b>To back up the <ph conref="../shared/conrefs.dita#prod/product"/> cloud
+            state</b></context>
+        <steps>
+            <step id="backup_cloud_state">
+                <cmd>Back up the newly upgraded <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/> cloud state including: </cmd>
+                <info>
+                    <p>
+                        <ul>
+                            <li>CLC database</li>
+                            <li>Credentials</li>
+                            <li>Keys</li>
+                            <li>Configuration data</li>
+                        </ul>
+                    </p>
+                    <p>See <xref href="../admin-guide/backup_euca.dita#backup_euca"/> in the <xref
+                            href="../admin-guide/index.dita">Administration Guide</xref>.</p>
+                </info>
+            </step>
+<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task. -->    
+            <step>
+                <cmd>Verify that the cloud state backup was successful.</cmd>
+                <info>
+<!--                    <codeblock>HOW TO VERIFY THIS? IS THERE A WAY?</codeblock>
+-->                </info>
+            </step>
+        </steps>
+<!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>Your cloud state backup is now available for restore later in the OS upgrade
+                process.</p>
+            <!--            <p>(Optional) Where to go next.</p>
+-->        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>
