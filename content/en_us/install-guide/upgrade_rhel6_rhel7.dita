@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="upgrade_rhel6_rhel7">
- <title>Operating System Upgrade Scenarios</title>
- <shortdesc>This topic describes available scenarios for upgrading your <ph
-   conref="../shared/conrefs.dita#prod/product"/> cloud components from RHEL 6 to RHEL
-  7.</shortdesc>
+ <title>RHEL 7 OS Upgrade and Instance Migrations</title>
+ <shortdesc>This topic describes available scenarios for migrating your <ph
+   conref="../shared/conrefs.dita#prod/product"/> cloud instances from RHEL 6 to RHEL 7.</shortdesc>
  <conbody>
   <p><note type="important">Be sure you have read <xref
      href="upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> to understand the interrelated <ph
      conref="../shared/conrefs.dita#prod/product"/> and OS upgrade processes before attempting any
-    of the OS upgrade scenarios described in this section.</note></p>
-  <p>There are three scenarios for upgrading the operating system for your <ph conref="../shared/conrefs.dita#prod/product"/> cloud:</p>
+    of the scenarios described in this section.</note></p>
+  <p>There are four possible scenarios for instances (the VMs on the NCs) in your <ph
+    conref="../shared/conrefs.dita#prod/product"/> cloud:</p>
   <p>
    <table frame="all" rowsep="1" colsep="1" id="table_RHEL7_migration_scenarios">
-    <title>RHEL 6 to RHEL 7 Migration Scenarios</title>
+    <title>RHEL 6 to RHEL 7 Instance Scenarios</title>
     <tgroup cols="4">
      <colspec colname="c1" colnum="1" colwidth="1.5*"/>
      <colspec colname="c2" colnum="2" colwidth="4.85*"/>
@@ -49,6 +50,15 @@
        <entry>Yes</entry>
        <entry>No</entry>
       </row>
+      <row>
+       <entry>Terminate the instance</entry>
+       <entry>If you have an instance that is test-only, redundant, stale, or otherwise not needed,
+        no need to migrate; simply <xref
+         href="../euca2ools-guide/euca-terminate-instances.dita#euca-terminate-instances">terminate
+         the instance</xref>.</entry>
+       <entry>N/A</entry>
+       <entry>N/A</entry>
+      </row>
      </tbody>
     </tgroup>
    </table>
@@ -74,7 +84,7 @@
     <li>Live migration requires enough spare capacity to handle migrations/evacuations of NCs.</li>
    </ul>
    <p>For instructions on how to perform a live migration, see <xref
-     href="live_upgrade_to_rhel7.dita"/>.</p>
+     href="rhel7_vm_migration_live.dita#live_migration_rhel7"/>.</p>
   </section>
   <section id="upgrade_rhel6_rhel7_offline_overview">
    <title>Offline Migration Between NCs</title>
@@ -102,7 +112,7 @@
     <li>Copying large instances can take a long time.</li>
    </ul>
    <p>For instructions on how to perform this offline migration, see <xref
-     href="offline_migration_upgrade_to_rhel7.dita"/>.</p>
+     href="rhel7_vm_migration_offline_remote_NC.dita#offline_migration_remote_rhel7"/>.</p>
   </section>
   <section id="upgrade_rhel6_rhel7_offline_local_overview">
    <title>Offline Migration Using a Single NC</title>
@@ -130,7 +140,7 @@
     
    </ul>
    <p>For instructions on how to perform this offline migration, see <xref
-     href="offline_local_migration_upgrade_to_rhel7.dita"/>.</p>
+     href="rhel7_vm_migration_offline_local_NC.dita#offline_migration_local_rhel7"/>.</p>
   </section>
 
  </conbody>
