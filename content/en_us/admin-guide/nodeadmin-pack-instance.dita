@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="nodeadmin-pack-instance">
+	<title>nodeadmin-pack-instance</title>
+	<abstract>
+		<shortdesc>The nodeadmin-pack-instance command allows you to pack an instance from libvirt and
+			place the output artifacts in a packed file.</shortdesc>
+	</abstract>
+	<refbody>
+		<section>
+			<title>Syntax</title>
+			<codeblock>nodeadmin-pack-instance [-h] (--all | -i INSTANCE)
+				[-o OUTPUT_DIRECTORY] [--shutdown] [--verbose]
+				[--no-compression]
+			</codeblock>
+		</section>
+		<section>
+			<title>Options</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+
+					<thead>
+						<row>
+							<entry align="center">Option</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						
+						<row id="help">
+							<entry><codeph>-h,--help</codeph></entry>
+							<entry>Display the manual page for the command.</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--all</codeph></entry>
+							<entry>Pack all the instances on the node controller (NC).
+							IS THIS THE DEFAULT? MUST I CHOOSE ONE?</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>-i INSTANCE, --instance INSTANCE</codeph></entry>
+							<entry>Name of the source instance to pack and the name of the output file. MUST I CHOOSE
+								ONE: ALL OR INSTANCE?</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>-o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY</codeph></entry>
+							<entry>Location to store the resulting packed file(s). IS THERE A DEFAULT LOCATION? OR IS
+								THIS REQUIRED?</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--shutdown</codeph></entry>
+							<entry>The default is to suspend the instance during the pack operation. If
+							you want to shut down the instance before packing, include this option.</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--verbose</codeph></entry>
+							<entry>If you want to see more details and progress during the pack operation,
+								include this option.</entry>
+							<entry>No</entry>
+						</row>
+						
+						<row>
+							<entry><codeph>--no-compression</codeph></entry>
+							<entry>The default is to compress the packed output to minimize the file size. However, 
+								this takes more time. If time is more important than output size, include this
+								option.</entry>
+							<entry>No</entry>
+						</row>
+						
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+<!-- Common options do not apply to these commands (at least not in 4.3.0 release).
+			<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>-->
+
+		<section>
+			<title>Output</title>
+			<p><ph conref="../shared/conrefs.dita#prod/product"/> returns a message stating that the instance was packed and output
+				to the directory you specified.</p>
+		</section>
+		
+		<section>
+			<title>Examples</title>
+			<p>To pack all the instances on the NC and output in <filepath>/root/myinstances</filepath>:</p>
+			<codeph>nodeadmin-pack-instance --all -o /root/myinstances</codeph>
+			<p>Or, to pack a specific instance:</p>
+			<codeph>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances</codeph>
+		</section>
+	</refbody>
+</reference>
