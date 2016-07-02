@@ -22,8 +22,7 @@
         <context>
             <note type="important">For migrations to succeed, you must have
                     <codeph>INSTANCE_PATH</codeph> set to the same value in the
-                    <codeph>eucalyptus.conf</codeph> file on each Node
-                Controller.</note>
+                    <codeph>eucalyptus.conf</codeph> file on each NC.</note>
         </context>
         <steps-unordered>
             <step>
@@ -31,30 +30,23 @@
                     following command:</cmd>
                 <info>
                     <codeblock>euserv-migrate-instances -i [instance_id]</codeblock>
-                    <p>You can also optionally specify
-                            <codeph>--dest=[destination NC IP]</codeph> or
-                            <codeph>--exclude-dest=[excluded NC IP]</codeph>, to
-                        ensure that the instance is migrated to one of the
-                        specified Node Controllers, or to avoid migrating the
-                        instance to any of the specified Node Controllers. These
-                        flags may be used more than once to specify multiple
-                        Node Controllers.</p>
+                    <p>You can also optionally specify <codeph>--dest=[destination NC IP]</codeph>
+                        or <codeph>--exclude-dest=[excluded NC IP]</codeph>, to ensure that the
+                        instance is migrated to one of the specified NCs, or to avoid migrating the
+                        instance to any of the specified NCs. These flags may be used more than once
+                        to specify multiple NCs.</p>
                 </info>
             </step>
             <step>
-                <cmd>To migrate all instances away from a Node Controller, enter
-                    the following command:</cmd>
+                <cmd>To migrate all instances away from an NC, enter the following command:</cmd>
                 <info>
                     <codeblock>euserv-migrate-instances --source=[NC IP]</codeblock>
-                    <p>You can also optionally specify
-                            <codeph>--stop-source</codeph>, to stop the
-                        specified Node Controller and ensure that no new
-                        instances are started on that NC while the migration
-                        occurs. This allows you to safely remove the NC without
-                        interrupting running instances. The NC will remain in
-                        the DISABLED state until it is explicitly enabled using
-                            <codeph>euca-modify-service -s start [NC
-                            IP]</codeph>. </p>
+                    <p>You can also optionally specify <codeph>--stop-source</codeph>, to stop the
+                        specified NC and ensure that no new instances are started on that NC while
+                        the migration occurs. This allows you to safely remove the NC without
+                        interrupting running instances. The NC will remain in the DISABLED state
+                        until it is explicitly enabled using <codeph>euserv-modify-service -s start
+                            [NC IP]</codeph>. </p>
                 </info>
             </step>
             <step>

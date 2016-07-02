@@ -5,42 +5,64 @@
 <!--    This task template to be used for a specific PROCEDURE with steps. -->    
     <title>Offline Instance Migration to RHEL 7 Between NCs</title>
     <shortdesc>This topic describes offline instance migration from a source NC to a destination NC,
-        using the pack/unpack utility.</shortdesc>
+        using the pack/unpack tool.</shortdesc>
     <taskbody>
 <!--    If there are no prereqs, state "None." -->        
         <prereq><b>Prerequisites</b>
-            <p>Before offline instance migration, ensure that you:</p>
+            <p>Before offline instance migration between NCs, ensure that:</p>
             <ul>
-                <li>Understand the risks of offline migration between NCs, as described in <xref
+                <li>You understand the risks of offline migration between NCs, as described in <xref
                     href="upgrade_rhel6_rhel7.dita#upgrade_rhel6_rhel7"/>.</li>
-                <li>Have successfully backed up your <ph
-                    conref="../shared/conrefs.dita#prod/product"/> cloud state.</li>
-                <li>Have an available host machine for the destination NC.</li>
+                <li>You have successfully backed up your <ph
+                    conref="../shared/conrefs.dita#prod/product"/> cloud state. See 
+                    <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</li>
+                <li>You have an available host machine for the destination NC.</li>
+                <li>If you are upgrading the <i>destination</i> NC, you need to migrate <i>its</i>
+                    instances before you upgrade to RHEL 7.</li>
+                <li>You are prepared for instances to be unavailable during the migration process.</li>
             </ul>
         </prereq>      
 <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-        <context><b>To CONTINUE HERE</b></context>
+        <context><p>In this offline migration scenario, you have <ph conref="../shared/conrefs.dita#prod/product"/>
+            <ph conref="../shared/conrefs.dita#prod/version"/> installed on a new NC running RHEL 7,
+            and then you migrate instances from the old NC.</p>
+            <p>The migration begins by suspending instances on the source NC running RHEL 6 and then packing their state to disk, 
+                creating an instance snapshot. The instance snapshot is then unpacked on the destination NC running RHEL 7.</p>
+            <p><b>To perform an offline instance migration to <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> on RHEL 7</b></p></context>
         <steps>
             <step>
-                <cmd>Configure this.</cmd>
-                <info>
-                    <codeblock>code-example -help</codeblock>
-                    The output of the command should be similar to:
-                    <codeblock>code-example</codeblock>
+                <cmd>Upgrade the destination NC to RHEL 7.</cmd>
+                <info> See XREF TO Upgrade NC Host Machines to RHEL 7 and EUCA 4.3. </info>
+            </step>
+            <step>
+                <cmd>Pack the instance on the source RHEL 6 NC.</cmd>
+                <info><p>You have the option to pack all the instances on an NC or to choose a specific instance for
+                        migration. For example, you might want to move instances to different NCs in
+                        a separate migrations.</p>
+                    <p>See XREF TO Pack Instances for Offline Migration.</p>
                 </info>
             </step>
-<!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task. -->    
             <step>
-                <cmd>Verify that XYZ.</cmd>
+                <cmd>Copy the packed file to the destination RHEL 7 NC.</cmd>
                 <info>
-                    <codeblock>code-example</codeblock>
                 </info>
+            </step>
+            <step>
+                <cmd>Unpack the instance on the destination RHEL 7 NC.</cmd>
+                <info>See XREF TO Unpack Instances for Offline Migration. </info>
+            </step>
+            <step>
+                <cmd>Verify that the migration worked.</cmd>
+                <info><!--The command provides error feedback, per the migrate section (implied anyway). Test it.--></info>
             </step>
         </steps>
 <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
             in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
         <result>
-            <p>The XXX is now ready for production.</p>
+            <p>The instance has now been migrated to <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> on RHEL 7.</p>
             <!--            <p>(Optional) Where to go next.</p>
 -->        </result>
         <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
