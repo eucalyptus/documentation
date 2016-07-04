@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="instance_unpack_migrate">
+<!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Unpack Instances for Offline Migration</title>
+    
+    <shortdesc>This topic describes unpacking instances (VMs) for offline migration on or between Node
+        Controllers (NCs).</shortdesc>
+    
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <p>Before unpacking instances, ensure that:</p>
+            <ul>
+                <li>The NC is running <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/>.</li>
+                <li>You follow the appropriate offline migration scenario for your environment;
+                    see <xref href="rhel7_migration_scenarios.dita#upgrade_rhel6_rhel7"/>.</li>
+                <li>You have verified the prerequisites in your selected offline scenario.</li>
+                <li>You are prepared to have the NC offline for the duration of the procedure.</li>
+            </ul>
+        </prereq>        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>The packed instance file can be unpacked on any NC running <ph
+                conref="../shared/conrefs.dita#prod/product"/>
+            <ph conref="../shared/conrefs.dita#prod/version"/>, which may or may not be the same NC.
+            The NC in this topic is the destination NC, where you want the instance to run.
+                <note>The intention is for the destination NC to be running RHEL 7, however if you
+                are running a multi-phase, rolling migration, it is possible that the destination NC
+                be running RHEL 6 for a short while.<!-- IS THIS TRUE???--></note>
+            <p><b>To unpack instances for an offline migration</b></p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Change the state of the NC in the database to stopped. On the CLC host machine:</cmd>
+                <info>
+                    <codeblock>euserv-modify-service -s STOP NC_IP_ADDRESS</codeblock>
+                </info>
+                <stepxmp>
+                    <p>If the default region has not been set up, use the <codeph>--region</codeph> option. For example:</p>
+                    <codeblock>euserv-modify-service -s STOP 10.111.1.207 --region 000812195068:admin@localhost</codeblock>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Shut down the NC service. On the NC:</cmd>
+                <info>On RHEL 6 host machines: 
+                    <codeblock>service eucalyptus-nc stop</codeblock> 
+                    On RHEL 7 host machines:
+                    <codeblock>systemctl stop eucalyptus-nc.service</codeblock>
+                </info>
+            </step>
+            <step>
+                <cmd>(Optional) Move the packed instances' files to the NC host machine or locate the persistent storage, 
+                    depending on the offline migration scenario you chose.</cmd>
+                <info>
+                    <!--Anything to say here? Is this valid?-->
+                </info>
+            </step>
+            <step>
+                <cmd>Unpack the instances. On the NC:</cmd>
+                <info>
+                    <codeblock>nodeadmin-unpack-instance PACKED_FILE_PATH</codeblock>
+                    <note type="important">When the command completes, the instance will be running on the NC host 
+                        machine, even though the NC service has not yet been restarted.</note>
+                </info>
+                <stepxmp>
+                    <p>You can also unpack with the <codeph>--verbose</codeph> option for more details. 
+                        For example:</p>
+                    <codeblock>nodeadmin-unpack-instance --verbose /root/myinstances/i-0a24a959</codeblock>
+                    <p>For more information, see <xref
+                        href="../admin-guide/nodeadmin-unpack-instance.dita#nodeadmin-unpack-instance"
+                    />.</p>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Restart the NC service. On the NC:</cmd>
+                <info>On RHEL 6 host machines: 
+                       <codeblock>service eucalyptus-nc start</codeblock> 
+                       On RHEL 7 host machines:
+                       <codeblock>systemctl start eucalyptus-nc.service</codeblock>
+                        </info>
+            </step>
+            <step>
+                 <cmd>Change the state of the NC in the database to started. On the CLC:</cmd>
+                 <info>
+                     <codeblock>euserv-modify-service -s START NC_IP_ADDRESS</codeblock>
+                 </info>
+                 <stepxmp>
+                      <p>If the default region has not been set up, use the <codeph>--region</codeph> option. For example:</p>
+                      <codeblock>euserv-modify-service -s START 10.111.1.207 --region 000812195068:admin@localhost</codeblock>
+                 </stepxmp>
+            </step>
+            <step>
+                <cmd>Verify that the instance is running and the NC started.</cmd>
+                <info><!--HOW TO KNOW it actually worked.--></info>
+            </step>
+        </steps>
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The instances are now migrated and running on the <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> NC.</p>
+            <!--            <p>(Optional) Where to go next.</p>
+-->        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>
+

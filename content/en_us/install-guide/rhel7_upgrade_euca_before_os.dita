@@ -125,24 +125,33 @@
                         href="#upgrade_euca_before_OS/migrate_instance_choice" format="dita"
                         >step 3</xref>.</cmd>
                 <info>The process order at this point will vary, based on your detailed migration
-                    plan. For example, if you choose a live migration  from a RHEL 6 NC to a RHEL 7
+                    plan. For example, if you choose a live migration from a RHEL 6 NC to a RHEL 7
                     NC, you will need to have the destination NC ready with RHEL 7 installed
-                        first.<p>See XREF.</p></info>
+                        first.<p>See <xref href="rhel7_migration_scenarios.dita#upgrade_rhel6_rhel7"
+                        /> through <xref href="rhel7_upgrade_non_nc_hosts.dita#rhel7_upgrade_non_nc"
+                        />.</p></info>
             </step>
             <step>
                 <cmd>Migrate your instances.</cmd>
                 <info>IF the rolling upgrade is possible, we need to mention it. And explain it with
-                    an example for instances.<p>See XREF.</p></info>
+                    an example for instances.<p>See <xref
+                            href="rhel7_migration_scenarios.dita#upgrade_rhel6_rhel7"/> through
+                            <xref href="instance_unpack_migrate.dita#instance_unpack_migrate"
+                    />.</p></info>
             </step>
             <step>
                 <cmd>Upgrade the NC host machines to RHEL 7 before the non-NC hosts.</cmd>
-                <info>IF the rolling upgrade is possible, we need to mention it. And explain it with
-                    an example for NCs. And maybe for zones?<p>See XREF.</p></info>
+                <info>IF the rolling upgrade is possible, we need to mention it and clarify the
+                    extent of what is possible. And explain it with an example for NCs. And maybe
+                    for zones?<p>See <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"
+                        />.</p></info>
             </step>            
             <step>
                 <cmd>Upgrade all the non-NC host machines to RHEL 7 at the same time.</cmd>
                 <info>After all the NC host machines have been upgraded to RHEL 7, then you can
-                    upgrade all the other host machines together.<p>See XREF.</p></info>
+                    upgrade all the other host machines together.<p>See <xref
+                            href="rhel7_upgrade_non_nc_hosts.dita#rhel7_upgrade_non_nc"
+                    />.</p></info>
             </step>            
         </steps>
      
@@ -155,65 +164,3 @@
     </taskbody>
 </task>
 
-<!--PUT THESE ASIDE FOR NOW:
-
-<step id="migrate_instance_choice">
-    <cmd>Migrate each instance; you have three scenarios to choose from:</cmd>
-    <info>
-        <p>
-            <ol>
-                <li>Live migration from a RHEL 6 NC to a RHEL 7 NC, with little or no
-                    service interruption. See <xref
-                        href="live_upgrade_to_rhel7.dita#live_upgrade_to_rhel7"/>.</li>
-                <li>Offline migration from a source NC to a destination NC, using the
-                    pack/unpack tool. See <xref
-                        href="offline_migration_upgrade_to_rhel7.dita#offline_migration_upgrade_to_rhel7"
-                    />.</li>
-                <li>Offline migration within a single NC, using the pack/unpack tool 
-                    and off-machine (or local persistent) storage. See <xref
-                        href="offline_local_migration_upgrade_to_rhel7.dita#offline_local_migration_upgrade_to_rhel7"
-                    />.</li>
-            </ol>
-        </p>
-        <p>For more information, including risks and benefits of each option, see <xref
-            href="upgrade_rhel6_rhel7.dita#upgrade_rhel6_rhel7"/>.</p>
-    </info>
-</step>
-<step>
-    <cmd>Wipe each host machine and perform a clean install of RHEL 7.</cmd>
-    <info>
-        <p>See XREF and note postreq of firewalld (are there any others?).</p>
-    </info>
-</step>
-<step>
-    <cmd>Perform a clean <ph conref="../shared/conrefs.dita#prod/product"/>
-        <ph conref="../shared/conrefs.dita#prod/version"/> install on each new RHEL 7
-        host machine.</cmd>
-    <info>
-        <p>See <xref href="eucalyptus.dita#eucalyptus"/>.</p>
-    </info>
-</step>
-<step>
-    <cmd>Restore the <ph conref="../shared/conrefs.dita#prod/product"/>
-        <ph conref="../shared/conrefs.dita#prod/version"/> state that you backed up in
-        <xref href="#upgrade_euca_before_OS/backup_cloud_state" format="dita"
-            >step 2</xref>.</cmd>
-    <info>
-        <p>See <xref href="../admin-guide/euca_recover.dita#euca_recover"/> in the
-            <xref href="../admin-guide/index.dita">Administration Guide</xref>.</p>
-    </info>
-</step>
-<step>
-    <cmd>Unpack the instances you packed in <xref
-        href="#upgrade_euca_before_OS/migrate_instance_choice" format="dita"
-        >step 3</xref> onto the destination NCs.</cmd>
-    <info>
-        <p>See XREF.</p>
-    </info>
-</step>
-<step>
-    <cmd>VERIFY IT WORKED somehow.</cmd>
-    <info>
-        <p>See XREF.</p>
-    </info>
-</step>-->
