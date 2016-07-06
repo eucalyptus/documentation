@@ -11,7 +11,8 @@
 	<refbody>
 		<section>
 			<title>Syntax</title>
-			<codeblock>nodeadmin-unpack-instance [-h] [--verbose] packed_file
+			<codeblock>nodeadmin-unpack-instance [-h] [--verbose] packed_file 
+				EUCALYPTUS AXIS2C_HOME LD_LIBRARY_PATH
 			</codeblock>
 		</section>
 		<section>
@@ -30,26 +31,43 @@
 						</row>
 					</thead>
 
-					<tbody>
-						
+					<tbody>						
 						<row id="help">
 							<entry><codeph>-h,--help</codeph></entry>
 							<entry>Display the manual page for the command.</entry>
 							<entry>No</entry>
-						</row>
-						
+						</row>				
 						<row>
 							<entry><codeph>--verbose</codeph></entry>
 							<entry>If you want to see more details and progress during the unpack operation,
 								include this option.</entry>
 							<entry>No</entry>
 						</row>
-						
 						<row>
 							<entry><codeph><i>packed_file</i></codeph></entry>
 							<entry>Path to the packed file storing the instance artifacts.</entry>
 							<entry>Yes</entry>
 						</row>
+						<row>
+							<entry><codeph><i>EUCALYPTUS</i></codeph></entry>
+							<entry>Path to the root of the Eucalyptus installation, which is system root <codeph>/</codeph> 
+								for a package-based installation, 
+								must be set so that the cryptographic credentials can be found.</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph><i>AXIS2C_HOME</i></codeph></entry>
+							<entry>Axis2 libraries home. For most packaged installs, AXIS2C_HOME will be 
+								<filepath>/usr/lib64/axis2c</filepath>.</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph><i>LD_LIBRARY_PATH</i></codeph></entry>
+							<entry>The dynamic library search path must be set to include several Axis2 libraries.</entry>
+							<entry>Yes</entry>
+						</row>
+						
+						
 						
 					</tbody>
 				</tgroup>
@@ -68,7 +86,7 @@
 			<title>Examples</title>
 			<p>To unpack an instance in <filepath>/root/myinstances</filepath> with verbose
 				messages:</p>
-			<codeph>nodeadmin-unpack-instance --verbose /root/myinstances/i-0a24a959</codeph>
+			<codeph>nodeadmin-unpack-instance --verbose /root/myinstances/i-0a24a959 EUCALYPTUS=/opt/eucalyptus AXIS2C_HOME=/usr/lib64/axis2c LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart/</codeph>
 		</section>
 	</refbody>
 </reference>
