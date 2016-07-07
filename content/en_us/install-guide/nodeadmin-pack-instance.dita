@@ -13,7 +13,7 @@
 			<title>Syntax</title>
 			<codeblock>nodeadmin-pack-instance [-h] (--all | -i INSTANCE)
 				[-o OUTPUT_DIRECTORY] [--shutdown] [--verbose]
-				[--no-compression]
+				[--no-compression] --sc-host-port SC_HOST_PORT
 			</codeblock>
 		</section>
 		<section>
@@ -23,7 +23,6 @@
 					<colspec colwidth="20*"/>
 					<colspec colwidth="70*"/>
 					<colspec colwidth="10*"/>
-
 					<thead>
 						<row>
 							<entry align="center">Option</entry>
@@ -31,7 +30,7 @@
 							<entry align="center">Required</entry>
 						</row>
 					</thead>
-
+					
 					<tbody>
 						
 						<row id="help">
@@ -39,23 +38,20 @@
 							<entry>Display the manual page for the command.</entry>
 							<entry>No</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>--all</codeph></entry>
-							<entry>Pack all the instances on the node controller (NC). <p>* Must specify one: all or a
-									specific instance.</p>
+							<entry>Pack all the instances on the node controller (NC). <p>* Must specify one option: all
+									or a specific instance.</p>
 							</entry>
 							<entry>Yes *</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>-i INSTANCE, --instance INSTANCE</codeph></entry>
 							<entry>Name of the source instance to pack and the name of the output file. <p>* Must specify
-									one: all or a specific instance.</p>
+									one option: all or a specific instance.</p>
 							</entry>
 							<entry>Yes *</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>-o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY</codeph></entry>
 							<entry>Location to store the resulting packed file(s).
@@ -63,21 +59,18 @@
 							</entry>
 							<entry>No</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>--shutdown</codeph></entry>
 							<entry>The default is to suspend the instance during the pack operation. If
 							you want to shut down the instance before packing, include this option.</entry>
 							<entry>No</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>--verbose</codeph></entry>
 							<entry>If you want to see more details and progress during the pack operation,
 								include this option.</entry>
 							<entry>No</entry>
 						</row>
-						
 						<row>
 							<entry><codeph>--no-compression</codeph></entry>
 							<entry>The default is to compress the packed output to minimize the file size. However, 
@@ -85,11 +78,60 @@
 								option.</entry>
 							<entry>No</entry>
 						</row>
-						
+						<row>
+							<entry><codeph>--sc-host-port SC_HOST_PORT</codeph></entry>
+							<entry>The host and port of the Storage Controller (SC). <p>To find these, run from the
+									CLC: <codeph>euserv-describe-services --filter service-type=storage
+									--expert</codeph> (one per zone)</p></entry>
+							<entry>Yes</entry>
+						</row>						
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
+		
+		<section>
+			<title>Environment Variables</title>
+			<table>
+				<tgroup cols="3">
+					<colspec colwidth="20*"/>
+					<colspec colwidth="70*"/>
+					<colspec colwidth="10*"/>
+					
+					<thead>
+						<row>
+							<entry align="center">Variable</entry>
+							<entry align="center">Description</entry>
+							<entry align="center">Required</entry>
+						</row>
+					</thead>
+					
+					<tbody>						
+						<row>
+							<entry><codeph><i>EUCALYPTUS</i></codeph></entry>
+							<entry>Path to the root of the Eucalyptus installation, which is system root
+								<codeph>/</codeph> for a package-based installation, must be set
+								so that the cryptographic credentials can be found.
+								<p>Default: <filepath>EUCALYPTUS=/</filepath></p></entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph><i>AXIS2C_HOME</i></codeph></entry>
+							<entry>Axis2 libraries home.
+								<p>Default: <filepath>AXIS2C_HOME=/usr/lib64/axis2c</filepath></p></entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry><codeph><i>LD_LIBRARY_PATH</i></codeph></entry>
+							<entry>The dynamic library search path must be set to include several Axis2 libraries.
+								<p>Default: <filepath>LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</filepath></p></entry>
+							<entry>Yes</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>						
+		
 <!-- Common options do not apply to these commands (at least not in 4.3.0 release).
 			<section conref="../shared/euca-common.dita#euca-common/euca_common_options"/>-->
 
@@ -102,9 +144,14 @@
 		<section>
 			<title>Examples</title>
 			<p>To pack all the instances on the NC and output in <filepath>/root/myinstances</filepath>:</p>
-			<codeph>nodeadmin-pack-instance --all -o /root/myinstances</codeph>
+			<codeblock>nodeadmin-pack-instance --all -o /root/myinstances --sc-host-port 10.111.1.207:8773</codeblock>
 			<p>Or, to pack a specific instance:</p>
-			<codeph>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances</codeph>
+			<codeblock>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances --sc-host-port 10.111.1.207:8773</codeblock>
+			<p>To set environment variables:</p>
+			<codeblock>export EUCALYPTUS=/
+export AXIS2C_HOME=/usr/lib64/axis2c
+export LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</codeblock>
 		</section>
+		
 	</refbody>
 </reference>
