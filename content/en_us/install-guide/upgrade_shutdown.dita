@@ -12,33 +12,52 @@
 		</prereq>        
 		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
 	<context>
-		<p>The steps you take depend upon where Eucalyptus services are hosted.</p>
+			<p>The steps you take depend upon where Eucalyptus services are hosted.</p>
+		
+		<!--		NOTE THAT DURING THE UPGRADE TO 4.3.0, EUCA is still on RHEL 6 !!!
+				
+				NEXT RELEASE after 4.3.0 - UNHIDE the RHEL 7 commands below!
+-->
 		<p><b>To shut down Eucalyptus services</b></p>
-	</context>
+		</context>
 	<steps>
 			<step>
 				<cmd>Log in to the CLC host machine and shut down the CLC service:</cmd>
-				<info><codeblock>systemctl stop eucalyptus-cloud.service</codeblock></info>
+				<info>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>-->
+				</info>
 			</step>
 			<step>
 				<cmd>If you have a separate SC host machine, log in and shut down the SC
 					service:</cmd>
 				<info>
-					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>-->
 				</info>
 			</step>
 			<step>
 				<cmd>If you have a separate Walrus host machine, log in and shut down the Walrus
 					service:</cmd>
 				<info>
-					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>-->
 				</info>
 			</step>
 		<step>
 				<cmd>If you have a separate UFS host machine, log in and shut down the UFS
 					services:</cmd>
 				<info>
-					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>-->
 				</info>
 			</step>
 			<step>
@@ -46,31 +65,46 @@
 					co-located on the CC host machine, use this command to shut down the other
 					services on the CC host, and in the correct order:</cmd>
 				<info>
-					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cloud.service</codeblock>-->
 				</info>
 			</step>
 			<step>
 				<cmd>Log in to each CC host machine and shut down the CC service:</cmd>
-				<info><codeblock>systemctl stop eucalyptus-cc.service</codeblock>
+				<info>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cc stop</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl stop eucalyptus-cc.service</codeblock>-->
 				</info>
 			</step>
 		<step>
 			<cmd>Log in to each NC host machine and shut down eucanetd:</cmd>
 			<info>
-				<codeblock>systemctl stop eucanetd.service</codeblock>
+				For RHEL 6:
+				<codeblock>service eucanetd stop</codeblock>
+				<!--For RHEL 7:
+				<codeblock>systemctl stop eucanetd.service</codeblock>-->
 			</info>
 		</step>
 		<step>
 			<cmd>Also on each NC, shut down the NC service:</cmd>
-			<info><codeblock>systemctl stop eucalyptus-nc.service</codeblock>
+			<info>For RHEL 6:
+				<codeblock>service eucalyptus-nc stop</codeblock>
+				<!--For RHEL 7:
+				<codeblock>systemctl stop eucalyptus-nc.service</codeblock>-->
 					<note>Running instances on the NC will continue running. For more information see <xref
 							href="upgrade.dita#upgrade/warm_upgrade">Warm Upgrade</xref>.</note>
 				</info>
 		</step>
 		<step>
 			<cmd>Log in to each Management Console host machine and shut down the console service:</cmd>
-			<info>
-				<codeblock>systemctl stop eucaconsole.service</codeblock>
+			<info>For RHEL 6:
+				<codeblock>service eucaconsole stop</codeblock>
+				<!--For RHEL 7:
+				<codeblock>systemctl stop eucaconsole.service</codeblock>-->
 				<p>For more information, see <xref
 							href="../shared/console_upgrade_console.dita#console_upgrade_console"
 						/>.</p>
