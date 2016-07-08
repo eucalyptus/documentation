@@ -34,19 +34,21 @@
         </context>
         <steps>
             <step>
-                <cmd>Change the state of the NC in the database to stopped. On the CLC host machine:</cmd>
+                <cmd>Change the state of the destination NC in the database to stopped. On the CLC
+                    host machine:</cmd>
                 <info>
                     <codeblock>euserv-modify-service -s STOP NC_IP_ADDRESS</codeblock>
                 </info>
                 <stepxmp>
-                    <p>If the default region has not been set up, use the <codeph>--region</codeph> option. For example:</p>
+                    <p>If the default region has not been set up, use the <codeph>--region</codeph>
+                        option. For example:</p>
                     <codeblock>euserv-modify-service -s STOP 10.111.1.207 --region 000812195068:admin@localhost</codeblock>
                 </stepxmp>
             </step>
             <step>
-                <cmd>Shut down the NC service. On the NC:</cmd>
+                <cmd>Shut down the destination NC service. On the NC:</cmd>
                 <info>
-<!-- this is not supported and not necessary for 4.3:
+                    <!-- this is not supported and not necessary for 4.3:
                     On a RHEL 6 host machine: 
                     <codeblock>service eucalyptus-nc stop</codeblock> -->
                     On a RHEL 7 host machine:
@@ -54,26 +56,26 @@
                 </info>
             </step>
             <step>
-                <cmd>(Optional) Move the packed instances' files to the NC host machine or locate the persistent storage, 
-                    depending on the offline migration scenario you chose.</cmd>
-                <info>
-                    <!--Anything to say here? Is this valid?-->
-                </info>
+                <cmd>(Optional) Move the packed instances' files to the destination NC host machine
+                    or locate the persistent storage, depending on the offline migration scenario
+                    you chose.</cmd>
+                <info><!--Anything to say here? Is this valid?--></info>
             </step>
             <step>
-                <cmd>Unpack the instances. On the NC:</cmd>
+                <cmd>Unpack the instances. On the destination NC:</cmd>
                 <info>
                     <codeblock>nodeadmin-unpack-instance --sc-host-port SC_HOST_PORT PACKED_FILE_PATH</codeblock>
-                    <note type="important">When the command completes, the instance will be running on the NC host 
-                        machine, even though the NC service has not yet been restarted.</note>
+                    <note type="important">When the command completes, the instance will be running
+                        on the destination NC host machine, even though the NC service has not yet
+                        been restarted.</note>
                 </info>
                 <stepxmp>
-                    <p>You can also unpack with the <codeph>--verbose</codeph> option for more details. 
-                        For example:</p>
+                    <p>You can also unpack with the <codeph>--verbose</codeph> option for more
+                        details. For example:</p>
                     <codeblock>nodeadmin-unpack-instance --verbose --sc-host-port 10.111.1.207:8773 /root/myinstances/i-0a24a959</codeblock>
                     <p>For more information, see <xref
-                        href="../install-guide/nodeadmin-unpack-instance.dita#nodeadmin-unpack-instance"
-                    />.</p>
+                            href="../install-guide/nodeadmin-unpack-instance.dita#nodeadmin-unpack-instance"
+                        />.</p>
                 </stepxmp>
             </step>
             <step>
@@ -87,24 +89,27 @@
                         </info>
             </step>
             <step>
-                 <cmd>Change the state of the NC in the database to started. On the CLC:</cmd>
-                 <info>
-                     <codeblock>euserv-modify-service -s START NC_IP_ADDRESS</codeblock>
-                 </info>
-                 <stepxmp>
-                      <p>If the default region has not been set up, use the <codeph>--region</codeph> option. For example:</p>
-                      <codeblock>euserv-modify-service -s START 10.111.1.207 --region 000812195068:admin@localhost</codeblock>
-                 </stepxmp>
+                <cmd>Change the state of the destination NC in the database to started. On the
+                    CLC:</cmd>
+                <info>
+                    <codeblock>euserv-modify-service -s START NC_IP_ADDRESS</codeblock>
+                </info>
+                <stepxmp>
+                    <p>If the default region has not been set up, use the <codeph>--region</codeph>
+                        option. For example:</p>
+                    <codeblock>euserv-modify-service -s START 10.111.1.207 --region 000812195068:admin@localhost</codeblock>
+                </stepxmp>
             </step>
             <step>
-                <cmd>Verify that the instance is running and the NC started.</cmd>
+                <cmd>Verify that the instance is running and the destination NC started.</cmd>
                 <info><!--HOW TO KNOW it actually worked.--></info>
             </step>
         </steps>
         <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
             in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
         <result>
-            <p>The instances are now migrated and running on the <ph conref="../shared/conrefs.dita#prod/product"/>
+            <p>The instances are now migrated and running on the <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
                 <ph conref="../shared/conrefs.dita#prod/version"/> NC.</p>
             <!--            <p>(Optional) Where to go next.</p>
 -->        </result>

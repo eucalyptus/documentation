@@ -34,7 +34,7 @@
                     <li><ph conref="../shared/conrefs.dita#prod/product"/>
                         <ph conref="../shared/conrefs.dita#prod/version"/> is intended for use with
                         version 7 of RHEL / CentOS.</li>
-                    <li>RHEL / CentOS 7 is a fully supported OS for the <ph
+                    <li>RHEL / CentOS 7 is the officially supported OS for the <ph
                             conref="../shared/conrefs.dita#prod/product"/>
                         <ph conref="../shared/conrefs.dita#prod/version"/> release.</li>
                 </ul>
@@ -59,6 +59,13 @@
                         conref="../shared/conrefs.dita#prod/version"/>, follow this process</b></p>
         </context>
         <steps>
+            <step id="backup_cloud_4.2_recovery">
+                <cmd>Back up the pre-upgrade cloud state.</cmd>
+                <info>
+                    <p>This is good to have in case you need it for recovery purposes.</p>
+                    <p>See <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</p>
+                </info>
+            </step>
             <step>
                 <cmd>Upgrade each existing <ph conref="../shared/conrefs.dita#prod/product"/> host
                     machine from <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to
@@ -70,37 +77,26 @@
                             <ph conref="../shared/conrefs.dita#prod/version"/> provides new tools to
                             help with the OS upgrade and migration, so it is important to perform
                             this upgrade first. You need to upgrade all the host machines for all
-                                <ph conref="../shared/conrefs.dita#prod/product"/> services:<ul
-                                id="ul_uxb_dcd_mw">
-                                <li>CLC</li>
-                                <li>Walrus</li>
-                                <li>UFS</li>
-                                <li>CC</li>
-                                <li>SC</li>
-                                <li>NC</li>
-                                <li>Management Console</li>
-                            </ul></note>
+                                <ph conref="../shared/conrefs.dita#prod/product"/> services:
+                            <ol>
+                                    <li>Upgrade all the non-NCs first.</li>
+                                    <li>If you have any issues with the non-NC hosts, resolve
+                                    them before moving on to NC migrations.</li>
+                                <li>Upgrade the NCs.</li>
+                            </ol>
+                        </note>
                     </p>
-                    <!--                    <p>IF THERE IS A SPECIFIC HOST ORDER REQD, MAKE SURE THE DOCS ARE CLEAR ABOUT IT.</p>
--->
                     <p>See <xref href="upgrade_prep.dita#upgrade_prep"/> through <xref
                             href="upgrade_from_oldv.dita#upgrade_from_oldv"/>.</p>
                 </info>
             </step>
-            <step id="backup_cloud_state">
+            <step id="backup_cloud_4.3_recovery">
                 <cmd>Back up the newly upgraded <ph conref="../shared/conrefs.dita#prod/product"/>
-                    <ph conref="../shared/conrefs.dita#prod/version"/> cloud state including: </cmd>
+                    <ph conref="../shared/conrefs.dita#prod/version"/> cloud state.</cmd>
                 <info>
-                    <p>
-                        <ul>
-                            <li>CLC database</li>
-                            <li>Credentials</li>
-                            <li>Keys</li>
-                            <li>Configuration data</li>
-                        </ul>
-                    </p>
-                    <p>See <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"
-                        />.</p>
+                    <p>This is good to have in case you need to go back to this initial 
+                        <ph conref="../shared/conrefs.dita#prod/version"/> cloud state.</p>
+                    <p>See <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</p>
                 </info>
             </step>
             <step id="migrate_instance_choice">
@@ -148,13 +144,12 @@
             </step>
             <step>
                 <cmd>Upgrade the NC host machines to RHEL 7 before the non-NC hosts.</cmd>
-                <info>IF the rolling upgrade is possible, we need to mention it and clarify the
-                    extent of what is possible. And explain it with an example for NCs. And maybe
-                    for zones? IMPORTANT - THIS PROCEDURE TO UPGRADE THE NC (LINK BELOW) IS INCLUDED
-                    IN ALL THE MIGRATION SCENARIOS - SO IS IT REQUIRED IN THIS OVERALL PROCESS AS
-                    WELL? IN CASE THERE WAS NO MIGRATION (i.e., if all instances on the NC were
-                    terminated) OR ???<p>See <xref
-                            href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"/>.</p></info>
+                <info>Explain with an example for NCs. And maybe for zones? IMPORTANT - THIS
+                    PROCEDURE TO UPGRADE THE NC (LINK in this step) IS INCLUDED IN ALL THE MIGRATION
+                    SCENARIOS - SO IS IT REQUIRED IN THIS OVERALL PROCESS AS WELL? e.g., IN CASE
+                    THERE WAS NO MIGRATION (i.e., if all instances on the NC were terminated) OR
+                        ???<p>See <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"
+                    />.</p></info>
             </step>            
             <step>
                 <cmd>Upgrade all the non-NC host machines to RHEL 7 at the same time.</cmd>
@@ -173,4 +168,3 @@
         </result>
     </taskbody>
 </task>
-
