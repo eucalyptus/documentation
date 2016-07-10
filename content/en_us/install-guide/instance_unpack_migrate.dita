@@ -56,6 +56,16 @@
                 </info>
             </step>
             <step>
+                <cmd>Prevent the NC from restarting upon reboot, for now. On the destination NC:</cmd>
+                <info>
+                    <!-- this is not supported and not necessary for 4.3:
+                    On a RHEL 6 host machine: 
+                    <codeblock>service eucalyptus-nc disable</codeblock> -->
+                    On a RHEL 7 host machine:
+                    <codeblock>systemctl disable eucalyptus-node.service</codeblock>
+                </info>
+            </step>
+            <step>
                 <cmd>(Optional) Move the packed instances' files to the destination NC host machine
                     or locate the persistent storage, depending on the offline migration scenario
                     you chose.</cmd>
@@ -79,7 +89,7 @@
                 </stepxmp>
             </step>
             <step>
-                <cmd>Restart the NC service. On the NC:</cmd>
+                <cmd>Restart the NC service. On the destination NC:</cmd>
                 <info>
 <!-- this is not supported and not necessary for 4.3:                    
                        On a RHEL 6 host machine: 
@@ -87,6 +97,16 @@
                        On a RHEL 7 host machine:
                        <codeblock>systemctl start eucalyptus-node.service</codeblock>
                         </info>
+            </step>
+            <step>
+                <cmd>Re-enable the NC to start upon reboot. On the destination NC:</cmd>
+                <info>
+                    <!-- this is not supported and not necessary for 4.3:                    
+                       On a RHEL 6 host machine: 
+                       <codeblock>service eucalyptus-nc reenable</codeblock> -->
+                    On a RHEL 7 host machine:
+                    <codeblock>systemctl reenable eucalyptus-node.service</codeblock>
+                </info>
             </step>
             <step>
                 <cmd>Change the state of the destination NC in the database to started. On the
