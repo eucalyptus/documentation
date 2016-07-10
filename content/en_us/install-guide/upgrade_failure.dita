@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+    
 <task id="upgrade_failure">
     <title>Downgrade a Failed Upgrade</title>
-    <shortdesc>If your upgrade fails, this topic describes how to downgrade your Eucalyptus cloud to
+    <shortdesc>If your upgrade fails, this topic describes how to downgrade your <ph conref="../shared/conrefs.dita#prod/product"/> cloud to
         an earlier release.</shortdesc>
     <taskbody id="upgrade_failure_tasks">
         <context>
@@ -18,13 +19,12 @@
                 upgrade by following the upgrade instructions in the sections,
                     <xref href="upgrade_shutdown.dita"/> and <xref
                     href="upgrade_packages.dita"/>.</p>
-            <p>If you do not want to continue with the upgrade
-                after a failure, you can downgrade your installation back to the
-                previous version. Please note that downgrade instructions are
-                different, depending on whether your Eucalyptus services are
-                co-located or each run on their own machine. You will need to
-                perform the downgrade for all services running on a single
-                machine at the same time.</p>
+            <p>If you do not want to continue with the upgrade after a failure, you can downgrade
+                your installation back to the previous version. Please note that downgrade
+                instructions are different, depending on whether your <ph
+                    conref="../shared/conrefs.dita#prod/product"/> services are co-located or each
+                hosted on their own machine. You will need to perform the downgrade for all services
+                running on a single machine at the same time.</p>
             <p>The <filepath>/var/lib/eucalyptus/db</filepath> and
                     <filepath>/var/lib/eucalyptus/keys</filepath> directories should not be
                 affected by the upgrade. If they have been removed subsequent to
@@ -34,13 +34,41 @@
         	<p>To downgrade from a failed upgrade, perform the tasks listed in the following sections.</p>
         </context>
     </taskbody>
+    <task id="upgrade_failure_downgrade_rhel7">
+        <title>Downgrade from RHEL 7</title>
+        <!--<shortdesc>This is confusing as is and unclear on Admin versus Install guide topic XREFs..
+            Add XREFs to the correct topics. Turn this paragraph into a procedure if possible. </shortdesc>-->
+        <taskbody>
+            <context>If you have installed RHEL 7 and re-installed <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/>, then the only way to downgrade
+                to <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/prev_version"/> is to perform a clean
+                install of RHEL 6 (wiping out RHEL 7), then install <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/prev_version"/> following the <ph
+                    conref="../shared/conrefs.dita#prod/prev_version"/> Installation Guide (not the
+                    <ph conref="../shared/conrefs.dita#prod/version"/> guide), then restore your
+                cloud state following the "Recover Cloud Data" section of the <ph
+                    conref="../shared/conrefs.dita#prod/prev_version"/> Installation Guide,
+                <!--??? this section does not exist in install ???--> using the cloud data you
+                backed up before installing RHEL 7. If you want to apply the current RHEL7 <ph
+                    conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> state
+                <!--??? why and how would I do
+                this ???--> to your downgraded <ph
+                    conref="../shared/conrefs.dita#prod/prev_version"/> install, such as object
+                storage data, follow the section "Back Up Your Cloud" on RHEL 7 before installing
+                RHEL 6.</context>
+        </taskbody>
+    </task>
 	<task id="upgrade_failure_downgrade">
-		<title>Downgrade Eucalyptus</title>
+	    <title>Downgrade <ph conref="../shared/conrefs.dita#prod/product"/></title>
 <taskbody>
-    <prereq>You must <xref href="upgrade_shutdown.dita"/> before downgrading Eucalyptus.</prereq>
+    <prereq>You must <xref href="upgrade_shutdown.dita"/> before downgrading <ph conref="../shared/conrefs.dita#prod/product"/>.</prereq>
 	<steps>
             <step>
-                <cmd>Downgrade to the Eucalyptus <ph
+                <cmd>Downgrade to the <ph conref="../shared/conrefs.dita#prod/product"/> <ph
                             conref="../shared/conrefs.dita#prod/prev_version"/> release package on
                         each host machine:</cmd>
                 <info>
@@ -49,8 +77,8 @@
                 </info>
             </step>
             <step>
-                <cmd>If you have a Eucalyptus subscription, downgrade your subscription release
-                        package on each host machine to the release package you used for Eucalyptus
+                <cmd>If you have a <ph conref="../shared/conrefs.dita#prod/product"/> subscription, downgrade your subscription release
+                    package on each host machine to the release package you used for <ph conref="../shared/conrefs.dita#prod/product"/>
                             <ph conref="../shared/conrefs.dita#prod/prev_version"/>:</cmd>
                 <info>
                     <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca_subscription_downgrade"/></codeblock>
@@ -83,7 +111,7 @@
                 </note>
             </stepsection>
             <step>
-                <cmd>Log in to each machine running a Eucalyptus service and run
+                <cmd>Log in to each machine running a <ph conref="../shared/conrefs.dita#prod/product"/> service and run
                     the following command:</cmd>
                 <info>
                     <codeblock>yum shell</codeblock>
@@ -191,20 +219,20 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
             </step>
             <step>
                 <cmd>Remove the <filepath>/etc/eucalyptus/.upgrade</filepath>
-                    file from each Eucalyptus host machine:</cmd>
+                    file from each <ph conref="../shared/conrefs.dita#prod/product"/> host machine:</cmd>
                 <info>
                     <codeblock>rm /etc/eucalyptus/.upgrade</codeblock>
                     <p>Enter <codeph>y</codeph> when prompted, to remove this file.</p>
                     <note type="important"><p>Remove this file from every
-                        Eucalyptus host machine.</p></note>
+                        <ph conref="../shared/conrefs.dita#prod/product"/> host machine.</p></note>
                 </info>
             </step>
 	       <step>
 	           <cmd>Clear out the <filepath>/var/run/eucalyptus/classcache/</filepath> directory on all
-                        Eucalyptus host machines:</cmd>
+	               <ph conref="../shared/conrefs.dita#prod/product"/> host machines:</cmd>
 	           <info>
 	               <codeblock>rm -rf /var/run/eucalyptus/classcache/</codeblock>
-	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version_short"/> class file
+	               <p>This deletes <ph conref="../shared/conrefs.dita#prod/version"/> class file
                             artifacts; they will be regenerated as needed for your downgraded
                             cloud.</p>
 	           </info>
@@ -251,7 +279,7 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
                     <cmd>Restart your downgraded cloud.</cmd>
                 </step>
                 <step>
-                    <cmd>Verify the Eucalyptus versions. For example:</cmd>
+                    <cmd>Verify the <ph conref="../shared/conrefs.dita#prod/product"/> versions. For example:</cmd>
                     <info>
                         <codeblock># euca-version
 euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>
