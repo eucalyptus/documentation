@@ -17,7 +17,7 @@
 	<taskbody>
 		<!--    If there are no prereqs, state "None." -->        
 		<prereq><b>Prerequisites</b>
-			<p>You should have installed and configured Eucalyptus before starting the SC.</p>
+			<p>You should have installed and configured <ph conref="../shared/conrefs.dita#prod/product"/> before starting the SC.</p>
 		</prereq>        
 		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
 		<context>
@@ -34,6 +34,15 @@
 				<cmd>If you want the SC service to start at each boot-time, run this command:</cmd>
 				<info>
 					<codeblock>systemctl enable eucalyptus-cloud.service</codeblock>
+				</info>
+			</step>
+			<step>
+				<cmd>If you want the tgtd service to start at each boot-time, run this command:</cmd>
+				<info>
+					<codeblock>systemctl enable tgtd.service</codeblock>
+					<note><ph conref="../shared/conrefs.dita#prod/product"/> depends on tgtd to create and manage
+							<ph conref="../shared/conrefs.dita#prod/product"/> block storage volumes
+						when the storage provider is either DAS or Overlay.</note>
 				</info>
 			</step>
 			<step>
