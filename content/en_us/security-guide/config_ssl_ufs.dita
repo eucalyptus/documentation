@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="config_ssl_ufs">
-	<title>Configure SSL for the UFS</title>
+	<title>Configure and Enable SSL for the UFS</title>
 	<shortdesc>This topic details tasks to configure SSL for the User-Facing Services (UFS).</shortdesc>
 	<taskbody>
 		<context>
-			<note type="important">If you have multiple USF machines, repeat these tasks on each machine.</note>
+			<note type="important">If you have multiple USF machines, note the following:
+				<ul>
+					<li>Importing the keystore must be performed on each UFS</li>
+					<li>The <varname>[key_alias]</varname> and <varname>[export_password]</varname> 
+						must be the same on each UFS</li>
+					<li>Use wildcard certificate (i.e. *.<varname>&lt;system.dns.dnsdomain&gt;</varname>), since
+						UFS is responsible for all service API endpoints</li>
+				</ul></note>
 		</context>
 	</taskbody>
 	<task id="config_ssl_ufs_keystore">
@@ -32,13 +39,11 @@
 						<filepath>/var/lib/eucalyptus/keys/euca.p12</filepath>.</cmd>
 				</step>
 				<step>
-					<cmd>Import your keystore into the Eucalyptus keystore</cmd>
+					<cmd>Import your keystore into the Eucalyptus keystore on the UFS:</cmd>
 					<info>
-						<codeblock>keytool -importkeystore \ 
--srckeystore tmp.p12 -srcstoretype pkcs12 -srcstorepass [export_password] \ 
--destkeystore /var/lib/eucalyptus/keys/euca.p12 -deststoretype pkcs12 \ 
--deststorepass eucalyptus -alias [key_alias] \ 
--srckeypass [export_password] </codeblock>
+						<codeblock>keytool -importkeystore -srckeystore tmp.p12 -srcstoretype pkcs12 
+-srcstorepass [export_password] -destkeystore /var/lib/eucalyptus/keys/euca.p12 
+-deststoretype pkcs12 -deststorepass eucalyptus -alias [key_alias] -destkeypass eucalyptus</codeblock>
 					</info>
 				</step>
 			</steps>
@@ -47,35 +52,43 @@
 	<task id="config-ssl_ufs_enable">
 		<title>Enable the UFS to Use the Keystore</title>
 		<taskbody>
-			<context>To enable the UFS to use the keystore, perform the following steps.</context>
+			<context>To enable the UFS to use the keystore, perform the following steps in
+				the CLC because the UFS gets all its configuration information from the CLC.</context>
 			<steps>
 				<step>
-					<cmd>Run the following commands on the UFS:</cmd>
+					<cmd>Run the following commands on the CLC:</cmd>
 					<info>
-						<codeblock>euctl-modify-property -p bootstrap.webservices.ssl.server_alias=[key_alias]
-euctl-modify-property -p \
-bootstrap.webservices.ssl.server_password=[export_password]</codeblock>
+						<codeblock>euctl bootstrap.webservices.ssl.server_alias=[key_alias]
+euctl bootstrap.webservices.ssl.server_password=[export_password]</codeblock>
 					</info>
 				</step>
-				<step>
-					<cmd>Restart the UFS by running <codeph>systemctl restart eucalyptus-cloud.service</codeph> or
-								<codeph>systemctl restart
-									eucalyptus-cloud.service</codeph>.</cmd>
-				</step>
+				
 			</steps>
 		</taskbody>
 	</task>
 	<task id="config_ssl_ufs_redirect">
-		<title>Optional: Redirect Requests</title>
+		<title>Optional: Redirect Requests to use Port 443</title>
 		<taskbody>
 			<context>
-				<p>The UFS listens for both SSL and non-SSL
-					connections on port 8773. If you have other tools that expect to
-					speak SSL on port 443, you should forward requests on that port
-					to port 8773. For example, the following iptables command can be
-					used:</p>
-				<codeblock>iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8773</codeblock>
+				<p>To direct all user facing services requests to use port 443 instead of using 8773, 
+					run the following commands on the CLC:</p>
+				<codeblock>euctl bootstrap.webservices.port=443
+euctl bootstrap.webservices.default_ec2_uri_scheme=https
+euctl bootstrap.webservices.default_euare_uri_scheme=https
+euctl bootstrap.webservices.default_s3_uri_scheme=https</codeblock>
 			</context>
+		</taskbody>
+	</task>
+	<task id="config_ssl_enable_ssl">
+		<title>Enable SSL</title>
+		<taskbody>
+			<context>
+				<p>To enable SSL, both the UFS and CLC must be restarted. 
+					Restart the UFS and CLC by running service eucalyptus-cloud restart 
+					or</p>
+				<codeblock>/etc/init.d/eucalyptus-cloud restart</codeblock>
+			</context>
+			
 		</taskbody>
 	</task>
 </task>
