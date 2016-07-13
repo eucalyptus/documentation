@@ -202,4 +202,68 @@ mycloud NS  ufs1</codeblock>
       </steps>
     </taskbody>
   </task>
+	<task id="config_dns_spoof_aws_endpoints">
+		<title>Optional: Configure Eucalyptus DNS to Spoof AWS Endpoints</title>
+		<taskbody>
+			<context>
+				<p>You can configure instances to use AWS region FQDNs for service endpoints by enabling DNS spoofing.</p>
+			</context>
+			<steps>
+				<step>
+					<cmd>Set up a Eucalyptus cloud with Eucalyptus DNS and HTTPS endpoints. When creating CSR, make sure and add 
+						Subject Alternative Names for all the supported AWS services for the given region that’s being tested. 
+						For example:</cmd>
+					<info><codeblock>$ openssl req -in wildcard.c-06.autoqa.qa1.eucalyptus-systems.com.csr -noout -text | less
+            X509v3 Subject Alternative Name:
+                DNS:ec2.us-east-1.amazonaws.com, DNS:autoscaling.us-east-1.amazonaws.com, 
+                DNS:cloudformation.us-east-1.amazonaws.com, DNS:monitoring.us-east-1.amazonaws.com, 
+                DNS:elasticloadbalancing.us-east-1.amazonaws.com, DNS:s3.amazonaws.com, 
+                DNS:sts.us-east-1.amazonaws.com</codeblock></info>
+				</step>
+				<step>
+					<cmd>Set DNS spoofing:</cmd>
+					<info><codeblock>[root@d-17 ~]#  euctl dns.spoof_regions --region euca-admin@future
+dns.spoof_regions.enabled = true
+dns.spoof_regions.region_name =
+dns.spoof_regions.spoof_aws_default_regions = true
+dns.spoof_regions.spoof_aws_regions = true</codeblock></info>
+				</step>
+				<step>
+					<cmd>Launch an instance, and allow SSH access.</cmd>
+				</step>
+				<step>
+					<cmd>SSH into the instance and install AWS CLI.</cmd>
+					<info><codeblock>ubuntu@euca-172-31-12-59:~$ sudo apt-get install -y python-pip
+ubuntu@euca-172-31-12-59:~$ sudo -H pip install --upgrade pip
+ubuntu@euca-172-31-12-59:~$ sudo -H pip install --upgrade awscli</codeblock></info>
+				</step>
+				<step>
+					<cmd>Run <codeph>aws configure</codeph> and set access and secret key information 
+						if not using instance profile.</cmd>
+				</step>
+				<step>
+					<cmd>Confirm AWS CLI works with HTTPS Eucalyptus service endpoint:</cmd>
+					<info><codeblock>ubuntu@euca-172-31-12-59:~$ aws --ca-bundle euca-ca-0.crt 
+--endpoint-url https://ec2.c-06.autoqa.qa1.eucalyptus-systems.com/ ec2 describe-key-pairs
+{
+    "KeyPairs": [
+        {
+            "KeyName": "devops-admin",
+            "KeyFingerprint": "ee:4f:93:a8:87:8d:80:8d:2c:d6:d5:60:20:a3:2d:b2"
+        }
+    ]
+}</codeblock></info>
+				</step>
+				<step>
+					<cmd>Test against AWS FQDN service endpoint that matches one of the SANs in the signed certificate:</cmd>
+					<info><codeblock>ubuntu@euca-172-31-12-59:~$ aws --ca-bundle euca-ca-0.crt 
+--endpoint-url https://ec2.us-east-1.amazonaws.com ec2 describe-key-pairs</codeblock></info>
+					
+					<stepresult>A client error (404 Not Found) occurred when calling the DescribeKeyPairs operation: unknown</stepresult>
+				</step>
+			</steps>
+			
+			
+		</taskbody>
+	</task>
 </task>
