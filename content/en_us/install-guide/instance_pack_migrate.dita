@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="instance_pack_migrate">
+<!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Pack Instances for Offline Migration</title>
+    
+    <shortdesc>This topic describes packing instances (VMs) for offline migration on or between Node
+        Controllers (NCs).</shortdesc>
+    
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <p>Before packing instances, ensure that:</p>
+            <ul>
+                <li>The NC is running <ph conref="../shared/conrefs.dita#prod/product"/>
+                    <ph conref="../shared/conrefs.dita#prod/version"/>.</li>
+                <li>You follow the appropriate offline migration scenario for your environment;
+                    see <xref href="rhel7_migration_scenarios.dita#upgrade_rhel6_rhel7"/>.</li>
+                <li>You have verified the prerequisites in your selected offline scenario.</li>
+                <li>You are prepared to have the NC offline for the duration of the procedure.</li>
+            </ul>
+            <note type="tip">There’s no need to detach EBS volumes before packing instances, 
+                and the tool will pack ephemeral volumes in the packed instance file.</note>
+        </prereq>        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>When you pack an instance, the source instance is suspended. Then its configuration, 
+            virtual memory files, and virtual disk files are stored in a new file. That file can then be unpacked
+            later on any NC running <ph conref="../shared/conrefs.dita#prod/product"/>
+            <ph conref="../shared/conrefs.dita#prod/version"/>.
+            
+            <p><b>To pack instances for an offline migration</b></p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Change the state of the NC in the database to stopped. On the CLC host machine:</cmd>
+                <info>
+                    <codeblock>euserv-modify-service -s STOP NC_IP_ADDRESS</codeblock>
+                </info>
+                <stepxmp>
+                    <p>If the default region has not been set up, use the <codeph>--region</codeph> option. For example:</p>
+                    <codeblock>euserv-modify-service -s STOP 203.0.113.13 --region 000812195068:admin@localhost</codeblock>
+                </stepxmp>
+            </step>
+            <step>
+                <cmd>Shut down the NC service. On the NC:</cmd>
+                <info>On a RHEL 6 host machine:<codeblock>service eucalyptus-nc stop</codeblock>
+<!-- this is not supported and not necessary for 4.3:
+                        On a RHEL 7 host machine:
+                    <codeblock>systemctl stop eucalyptus-node.service</codeblock>-->
+                </info>
+            </step>
+            <step>
+                <cmd>Choose or create a directory for the instances' packed files.</cmd>
+                <info>In the next step, <filepath>/root/myinstances</filepath> is used.</info>
+            </step>
+            <step>
+                <cmd>Pack the instances. On the NC:</cmd>
+                <info>To pack all instances on the host machine:
+                    <codeblock>nodeadmin-pack-instance --all -o OUTPUT_DIRECTORY --sc-host-port SC_HOST_PORT</codeblock>
+                </info>
+                <stepxmp>
+                    <p>You can also pack a specific instance. For example:</p>
+                    <codeblock>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances --sc-host-port 203.0.113.13:8773</codeblock>
+                    <p>For more information, see <xref
+                            href="../install-guide/nodeadmin-pack-instance.dita#nodeadmin-pack-instance"
+                        />.</p>
+                </stepxmp>
+            </step>
+<!-- this is not supported and not necessary for 4.3:
+                <step>
+                <cmd>(Optional) Restart the NC service.</cmd>
+                <info><note>If you are about to wipe the host machine for RHEL 7 next, you can skip this step.</note></info>
+                    <substeps>
+                        <substep>
+                            <cmd>On the NC:</cmd>
+                            <info>On RHEL 6 host machines: 
+                                <codeblock>service eucalyptus-nc start</codeblock> 
+                                On RHEL 7 host machines:
+                                <codeblock>systemctl start eucalyptus-node.service</codeblock>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Change the state of the NC in the database to started. On the CLC:</cmd>
+                            <info>
+                                <codeblock>euserv-modify-service -s START NC_IP_ADDRESS</codeblock>
+                            </info>
+                            <stepxmp>
+                                <p>If the default region has not been set up, use the <codeph>-\-region</codeph> option. For example:</p>
+                                <codeblock>euserv-modify-service -s START 203.0.113.13 -\-region 000812195068:admin@localhost</codeblock>
+                            </stepxmp>
+                        </substep>
+                    </substeps>
+            </step>-->
+            <step>
+                <cmd>Verify that the instance packing was successful.</cmd>
+                <info><!--HOW TO KNOW it actually worked.--></info>
+            </step>
+            <step>
+                <cmd>(Optional) Move the packed instances' files to the NC host machine or persistent storage, depending on the 
+                    offline migration scenario you chose.</cmd>
+                <info>If the output storage location you chose was DAS or SAN, and will not be wiped out by a clean install of RHEL 7,
+                    you might not need to move them.</info>
+            </step>
+        </steps>
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The instances have now been packed in preparation for migration to any NC running <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/>.</p>
+            <!--            <p>(Optional) Where to go next.</p>
+-->        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>

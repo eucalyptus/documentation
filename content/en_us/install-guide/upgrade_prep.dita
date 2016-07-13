@@ -21,7 +21,7 @@
 				<li>Followed the <xref href="upgrade.dita#prescribed">prescribed path</xref> of prior <ph conref="../shared/conrefs.dita#prod/product"/>
 						versions, if needed, to prepare for this upgrade.</li>
 				<li>Backed up your data and followed best practices for your environment. See <xref
-						href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/index.html"
+						href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/index.html"
 						format="html" scope="external">RHEL documentation</xref>.</li>
 <!--				QUESTION: SHOULD WE ALSO XREF TO ADMIN GUIDE, "BACK UP YOUR CLOUD" SECTION HERE?
 -->				<li>Prepared to upgrade <i>all <ph conref="../shared/conrefs.dita#prod/product"/> services</i>. <ph conref="../shared/conrefs.dita#prod/product"/> does not support services
@@ -38,19 +38,28 @@
 				<li>Removed any hand-written repository files for earlier versions of <ph conref="../shared/conrefs.dita#prod/product"/> and Euca2ools
 					from <codeph>/etc/yum.repos.d</codeph>.</li>
 				<li>Prepared completely for the RHEL 7 upgrade. RedHat documentation like the <xref
-						href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/pdf/Migration_Planning_Guide/Red_Hat_Enterprise_Linux-7-Migration_Planning_Guide-en-US.pdf"
-						format="pdf" scope="external">Migration Planning Guide</xref> and <xref
 						href="https://access.redhat.com/sites/default/files/attachments/rhel_5_6_7_cheatsheet_27x36_1014_jcs_web.pdf"
-						format="pdf" scope="external">Admin Commands Cheat Sheet</xref> can be
-					helpful.</li>
+						format="pdf" scope="external">Admin Commands Cheat Sheet</xref> and the <xref
+							href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/pdf/Migration_Planning_Guide/Red_Hat_Enterprise_Linux-7-Migration_Planning_Guide-en-US.pdf"
+							format="pdf" scope="external">Migration Planning Guide</xref> can be
+					helpful. (Do <i><b>not</b></i> perform the RedHat migration described in chapter
+					1 of the Migration Planning Guide.)</li>
+				<li>Read <xref
+					href="rhel7_upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> to understand the interrelated 
+					<ph conref="../shared/conrefs.dita#prod/product"/> and OS upgrade processes that are unique to the
+					<ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version"/>release.</li>
 			</ul>
 		</prereq>    
 		<context>
 			<note type="important">
 				<ul>
-					<li>Unless otherwise noted, perform the upgrade steps on <i>every</i> <ph conref="../shared/conrefs.dita#prod/product"/>
-						host machine.</li>
-					<li>It is recommended that you also install the new version of Euca2ools, although this is not
+					<li>Perform the upgrade steps on <i>every</i>
+						<ph conref="../shared/conrefs.dita#prod/product"/> host machine, as
+						described in this section.</li>
+					<li>We recommend that you also install the new version of the Management Console, although this
+						is not required. If you don't install the new version, you will not be able
+						to use new features from the console.</li>
+					<li>We recommend that you install the current version of Euca2ools, although this is not
 						required. If you don't install the new version of Euca2ools, you will not be
 						able to use new features from the command line.</li>
 					<li>Federated <ph conref="../shared/conrefs.dita#prod/product"/> clouds began with 4.2.0; you can upgrade a 4.2.x cloud
@@ -76,7 +85,7 @@
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
-					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b>install the package.</p>
+					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b> install the package.</p>
 				</info>
 			</step>
 			<step>
@@ -85,7 +94,7 @@
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca2ools_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
-					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b>install the package.</p>
+					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b> install the package.</p>
 				</info>
 			</step>
 			<step>
@@ -94,7 +103,7 @@
 				<info>
 					<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
 					<p>Review the dependencies and install package information.</p>
-					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b>install the package.</p>
+					<p>Enter <codeph>N</codeph> when prompted so you do <b>NOT</b> install the package.</p>
 				</info>
 			</step>
 		</steps>

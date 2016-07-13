@@ -5,9 +5,15 @@
 	
 	<title>Configure SELinux</title>
 	<shortdesc>Security-enabled Linux (SELinux) is a security feature for Linux that allows you to set
-		access control through policies. <ph conref="../shared/conrefs.dita#prod/product"/> provides
-		SELinux support beginning with version 4.3. RHEL 7 provides the ability to add a policy
-		file.</shortdesc>
+		access control through policies. Beginning with <ph
+			conref="../shared/conrefs.dita#prod/product"/> 4.3.0, the install packages automatically
+		install the SELinux policy on RHEL 7 / CentOS 7.</shortdesc>
+	
+<!--	Hold off on policy file docs for 4.3.0 release
+		RHEL 7 provides the ability to add a policy file.
+		Where is the policy file and what do we need to tell customers about it?
+-->	
+	
 	<prolog>
 		<metadata>
 			<keywords>
@@ -17,44 +23,57 @@
 		</metadata>
 	</prolog>
 	
-	<taskbody>
-		<context>
-			<b><p>To enable SELinux on <ph conref="../shared/conrefs.dita#prod/product"/>:</p></b>
+	<taskbody>		
+		<!--    If there are no prereqs, state "None." -->        
+		<prereq><b>Prerequisites</b>
+			<p>You should have installed and configured <ph conref="../shared/conrefs.dita#prod/product"/>
+				<ph conref="../shared/conrefs.dita#prod/version"/> on RHEL 7 / CentOS 7.</p>
+		</prereq>        
+		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+		<context>You need to set boolean values on Storage Controller (SC) and Management Console host
+			machines. If your network mode is VPCMIDO, you also set a boolean value on the Cloud
+			Controller (CC) host machines.<p><b>To configure SELinux on <ph
+						conref="../shared/conrefs.dita#prod/product"/>
+					<ph conref="../shared/conrefs.dita#prod/version"/>:</b></p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Open <filepath>/etc/selinux/config</filepath> and edit the SELINUX line:</cmd>
-					<info>
-						<codeblock>SELINUX=enforcing</codeblock>
-					</info>
-			</step>
-			<step>
-				<cmd>Save the file.</cmd>
-			</step>
-			<step>
-				<cmd>Run the following command:</cmd>
+				<cmd>On each Storage Controller (SC) host machine, run the following command:</cmd>
 				<info>
-					<codeblock>setenforce 0</codeblock>
+					<codeblock>setsebool -P eucalyptus_storage_controller 1</codeblock>
+					<p>This allows <ph conref="../shared/conrefs.dita#prod/product"/> to manage EBS volumes.</p>
 				</info>
 			</step>
 			<step>
-				<cmd>On each Storage Controller (SC), run the following command:</cmd>
+				<cmd>On each Management Console host machine, run the following command:</cmd>
 				<info>
-					<codeblock>setsebool -P eucalyptus_storage_controller</codeblock>
+					<codeblock>setsebool -P httpd_can_network_connect 1</codeblock>
+					<p>This allows the Management Console's HTTP proxy to access the back end.</p>
+				</info>
+			</step>
+			<step>
+				<cmd>If your cloud uses VPCMIDO networking mode, on each Cloud Controller (CC), run
+					the following command:</cmd>
+				<info>
+					<codeblock>setsebool -P httpd_can_network_connect 1</codeblock>
+					<p>This allows the CC's HTTP proxy to access the back end.</p>
 				</info>
 			</step>
 		</steps>
 		<result>SELinux is now configured and ready to use with your <ph
-				conref="../shared/conrefs.dita#prod/product"/> cloud.</result>
-		
-<!--		Where is the policy file and what do we need to tell customers about it for Euca 4.3?
--->		
+				conref="../shared/conrefs.dita#prod/product"/> cloud.</result>	
 	</taskbody>
 
 
 	<taskbody>
-		<context>
-		<b><p>To disable SELinux on <ph conref="../shared/conrefs.dita#prod/product"/>:</p></b>
+		<context>In general, you should not disable SELinux on the host machines that run the <ph
+				conref="../shared/conrefs.dita#prod/product"/> services. One exception would be if
+			it were necessary to support RHEL 6 and CentOS 6. 
+			
+<!--			Is there a 4.3 upgrade / downgrade gotcha hidden here?
+-->
+			<p><b>To disable SELinux on a RHEL 6 / CentOS 6 <ph
+						conref="../shared/conrefs.dita#prod/product"/> host machine:</b></p>
 		</context>
 		<steps>
 			<step>

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="install_midokura_installation">
-    <title>Install Midokura on Eucalyptus</title>
-    <shortdesc>This topic shows how to install Midokura for use in your Eucalyptus
+    <title>Install MidoNet for <ph conref="../shared/conrefs.dita#prod/product"/></title>
+    <shortdesc>This topic shows how to install Midokura for use in your <ph conref="../shared/conrefs.dita#prod/product"/>
         cloud.</shortdesc>
     <taskbody/>
     <task id="install_midokura_api">
-        <title>Install the Midonet API on the Cloud Controller</title>
+        <title>Install the MidoNet API on the Cloud Controller (CLC)</title>
         <shortdesc/>
         <taskbody>
-            <context>To install the Midonet API on the cloud controller:</context>
+            <context>To install the MidoNet API on the CLC:</context>
             <steps>
                 <step>
-                    <cmd>Add the Midonet repo file as discussed in <xref href="install_midokura_prereqs.dita"/>.</cmd>
+                    <cmd>Add the MidoNet repo file as discussed in <xref href="install_midokura_prereqs.dita"/>.</cmd>
                     
                 </step>
                 <step>
@@ -47,9 +48,6 @@
                         <substep>
                             <cmd>Set zookeeper-zookeeper_hosts. In the example config below, replace
                                     <codeph>ZOOKEEPER_IP</codeph>.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Set rest_api-base_uri to "127.0.0.1"</cmd>
                         </substep>
                         <substep>
                             <cmd>An example configuration:</cmd>
@@ -211,8 +209,8 @@ systemctl enable tomcat.service</codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>After approximately one minute, you should be able to access the Midonet
-                        API using the Midonet shell:</cmd>
+                    <cmd>After approximately one minute, you should be able to access the MidoNet
+                        API using the MidoNet shell:</cmd>
                     <info>
                         <codeph>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api</codeph>
                     </info>
@@ -242,42 +240,45 @@ systemctl enable tomcat.service</codeblock>
                     <info><codeph>reboot now</codeph></info>
                 </step>
                 <step>
-                    <cmd>Install iproute2, Midolman, and kmod-openvswitch:</cmd>
+                    <cmd>Install iproute2 and Midolman:</cmd>
                     <info>
-                        <codeph>yum install iproute-netns midolman kmod-openvswitch</codeph>
+                        <codeph>yum install iproute-netns midolman</codeph>
                     </info>
                 </step>
                 <step>
-                    <cmd>Edit the <codeph>/etc/midolman/midolman.conf</codeph> file and set the
-                        zookeeper and cassandra IPs (replace ZOOKEEPER_IP and CASSANDRA_IP in the
-                        following example):</cmd>
+                    <cmd>Edit the <codeph>/etc/midolman/midolman.conf</codeph> file to set the
+                        ZooKeeper IP(s) (replace ZOOKEEPER_IP in the following example):</cmd>
                     <info>
                         <codeblock>[zookeeper]
 zookeeper_hosts = ZOOKEEPER_IP:2181
-root_key = /midonet/v1
-[cassandra]
-servers = CASSANDRA_IP</codeblock>
+root_key = /midonet/v1</codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>Start midolman:</cmd>
+                    <cmd>Start Midolman:</cmd>
                     <info>
                         <codeblock>systemctl start midolman.service
 systemctl enable midolman.service</codeblock>
                     </info>
                 </step>
-
+                <step>
+                    <cmd>Edit the <codeph>/etc/midolman/mn.conf</codeph> file to set the Cassandra
+                        IP(s) (replace CASSANDRA_IP in the following example):</cmd>
+                    <info>
+                        <codeblock>echo 'cassandra.servers : CASSANDRA_IP' | mn-conf set -t default</codeblock>
+                    </info>
+                </step>
             </steps>
         </taskbody>
     </task>
     <task id="install_midokura_tunnel">
-        <title>Create a tunnel zone in Midonet and add hosts</title>
-        <shortdesc>In Midonet, a tunnel zone groups hosts together for use as a SDN.</shortdesc>
+        <title>Create a tunnel zone in MidoNet and add hosts</title>
+        <shortdesc>In MidoNet, a tunnel zone groups hosts together for use as a SDN.</shortdesc>
         <taskbody>
-            <context>To create a tunnel zone in Midonet:</context>
+            <context>To create a tunnel zone in MidoNet:</context>
             <steps>
                 <step>
-                    <cmd>Log into the midonet shell. For example:</cmd>
+                    <cmd>Log into the MidoNet shell. For example:</cmd>
                     <info><codeblock>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api
 </codeblock>
                     </info>
@@ -295,7 +296,7 @@ host host1 name clcfrontend alive true
 host host2 name node2 alive true</codeblock>
                     </info>
                     <info>
-                        <p>You should see a host listed for each of your Node controllers and for
+                        <p>You should see a host listed for each of your Node Controllers and for
                             your User Facing Service host; if not, check the
                                 <codeph>/var/log/midolman/midolman.log</codeph> log file on the
                             missing hosts to ensure there are no error messages.</p>
@@ -303,9 +304,9 @@ host host2 name node2 alive true</codeblock>
                 </step>
                 <step>
                     <cmd>After verifying all your hosts are listed, add each host to your tunnel
-                        zone as follows. ReplacE HOST_N_IP with the IP of your Node Controller or
-                        User Facing Host that you used to register the component with
-                        Eucalyptus:</cmd>
+                        zone as follows. Replace HOST_N_IP with the IP of your Node Controller or
+                        User Facing Service host that you used to register the component with
+                        <ph conref="../shared/conrefs.dita#prod/product"/>:</cmd>
                     <info>
                         <codeblock>midonet> tunnel-zone tzone0 add member host host0 address HOST_0_IP
 midonet> tunnel-zone tzone0 add member host host1 address HOST_1_IP
@@ -313,7 +314,7 @@ midonet> tunnel-zone tzone0 add member host host2 address HOST_2_IP</codeblock>
                     </info>
                 </step>
             </steps>
-            <postreq>You are now ready to install and configure Eucalyptus to use this Midonet installation.</postreq>
+            <postreq>You are now ready to install and configure <ph conref="../shared/conrefs.dita#prod/product"/> to use this MidoNet installation.</postreq>
         </taskbody>
     </task>
     

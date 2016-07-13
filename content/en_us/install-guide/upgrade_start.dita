@@ -2,8 +2,8 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_start">
-	<title>Restart Eucalyptus Services</title>
-	<shortdesc>This topic describes how to restart all Eucalyptus services after upgrade.</shortdesc>
+	<title>Start Eucalyptus Services</title>
+	<shortdesc>This topic describes how to start all Eucalyptus services after upgrade.</shortdesc>
 	<taskbody id="upgrade_start_task">
 		<!--    If there are no prereqs, state "None." -->        
 		<prereq><b>Prerequisites</b>
@@ -12,34 +12,42 @@
 		</prereq>        
 		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
 		<context>
-			<p>You need to restart all Eucalyptus services after upgrade. The steps you take depend
-				upon where Eucalyptus services are hosted.</p>
-			<p><b>To restart Eucalyptus services</b></p>
+			<p>You need to start all Eucalyptus services after upgrade. The steps you take depend upon where
+				Eucalyptus services are hosted.</p>
+			
+<!--		NOTE THAT DURING THE UPGRADE TO 4.3.0, EUCA is still on RHEL 6 !!!
+				
+				NEXT RELEASE after 4.3.0 - UNHIDE the RHEL 7 commands below!
+-->
+			
+			<p><b>To start Eucalyptus services after the upgrade</b></p>
 		</context>
 		<steps>
 			<step>
-				<cmd>Log in to the CLC host machine and restart the services:</cmd>
+				<cmd>Log in to the CLC host machine and start the services:</cmd>
 				<info>
-					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud start</codeblock>
+					<!--For RHEL 7:
+					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>-->
 				</info>
 				<stepresult>
-					<!--NOTE TO WRITER - this needs to change FOR THIS RELEASE ONLY
-					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> you-->
-					<p>If you are upgrading from 4.1.2 you
-						will see that the process starts the database upgrade. Eucalyptus
-						returns output similar to the following example.</p>
-                    <codeblock>Starting Eucalyptus services: Attempting database upgrade from 4.1.2 
+					<p>If you are upgrading from <ph conref="../shared/conrefs.dita#prod/prev_version"/> 
+						you will see that the process starts the
+						database upgrade. Eucalyptus returns output similar to the following
+						example.</p>
+					<codeblock>Starting Eucalyptus services: Attempting database upgrade from 4.2.2 
 at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585...
 #                           UPGRADE INFORMATION
 #================================================================================
-# Old Version:              4.1.2
-# New Version:              4.2.0
+# Old Version:              4.2.2
+# New Version:              4.3.0
 # Upgrade keys:             false              using:                                          
 # Upgrade configuration:    false              using:                                          
 # Upgrade database:         true               using: upgrade_db
 # Same version:             false              using:                                          
 # Start upgrading: db
-<!--Upgrade command: //usr/sbin/eucalyptus-cloud -u eucalyptus -h / -\-upgrade  -\-upgrade-old-version=4.1.2 -\-upgrade-old-dir=/var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585
+<!--Upgrade command: //usr/sbin/eucalyptus-cloud -u eucalyptus -h / -\-upgrade  -\-upgrade-old-version=4.2.2 -\-upgrade-old-dir=/var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585
 -->
 Upgrading your database...
 .
@@ -55,56 +63,74 @@ done.
 				</stepresult>
 			</step>
 			<step>
-				<cmd>(Optional) If you have a separate SC host machine, log in and restart the services:</cmd>
+				<cmd>If you have a separate SC host machine, log in and start the services:</cmd>
 				<info>
-					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud start</codeblock>
+					<!--For RHEL 7:
+					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>-->
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) If you have a separate Walrus host machine, log in and restart the
+				<cmd>If you have a separate Walrus host machine, log in and start the
 					services:</cmd>
 				<info>
-					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud start</codeblock>
+					<!--For RHEL 7:
+					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>-->
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) If you have a separate UFS host machine, log in and restart the
-					services:</cmd>
+				<cmd>If you have a separate UFS host machine, log in and start the services:</cmd>
 				<info>
-					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud start</codeblock>
+					<!--For RHEL 7:
+					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>-->
 				</info>
 			</step>
 			<step>
-				<cmd>(Optional) If there are any other Eucalyptus services (for example Walrus, SC, UFS)
-					co-located on the CC host machine, use this command to restart the other
-					services on the CC host, and in the correct order:</cmd>
+				<cmd>If there are any other Eucalyptus services (for example Walrus, SC, UFS)
+					co-located on the CC host machine, use this command to start the other services
+					on the CC host, and in the correct order:</cmd>
 				<info>
-					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cloud start</codeblock>
+					<!--For RHEL 7:
+					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>-->
 				</info>
 			</step>			
 			<step>
-				<cmd>Log in to each CC host machine and restart the service:</cmd>
+				<cmd>Log in to each CC host machine and start the service:</cmd>
 				<info>
-					<codeblock>systemctl start eucalyptus-cc.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-cc start</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl start eucalyptus-cluster.service</codeblock>-->
 				</info>
 			</step>
 			<step>
-				<cmd>If you have a multi-cluster setup, repeat the previous step
-					for each cluster.</cmd>
-			</step>
-			<step>
-				<cmd>Log in to each NC server and restart the service:</cmd>
+				<cmd>Log in to each NC server and start the service:</cmd>
 				<info>
-					<codeblock>systemctl start eucalyptus-nc.service</codeblock>
+					For RHEL 6:
+					<codeblock>service eucalyptus-nc start</codeblock>
+					<!--For RHEL 7:
+					<codeblock>systemctl start eucalyptus-node.service</codeblock>-->
 				</info>
 			</step>
 			<step>
-				<cmd>Log in to each Management Console host machine and restart the service:</cmd>
-				<info>
-					<codeblock>systemctl start eucaconsole.service</codeblock>
-					<p>For more information, see <xref
-						href="../shared/console_upgrade_console.dita#console_upgrade_console"
-					/>.</p>
+				<cmd>Log in to each host machine that was running eucanetd prior to upgrade and
+					start the service again:</cmd>
+				<info><p><note type="important">Depending on your network configuration, eucanetd might have been running on
+							any of these hosts: CLC, CC, NC. Also note that it might have been
+								<i>installed</i> and not <i>running</i>.
+							<!--See XREF-to-new-eucanetd-TOPIC for more information.--></note></p>
+					<p>For RHEL 6: <codeblock>service eucanetd start</codeblock>
+					<!--For RHEL 7:
+				<codeblock>systemctl start eucanetd.service</codeblock>--></p>
+					<note>Use the list of <i>running</i> eucanetd hosts, which you created in <xref
+							href="upgrade_shutdown.dita#upgrade_shutdown"/>.</note>
 				</info>
 			</step>
 		</steps>

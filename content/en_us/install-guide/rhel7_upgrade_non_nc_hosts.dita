@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+<task id="rhel7_upgrade_non_nc">
+<!--    This task template to be used for a specific PROCEDURE with steps. -->    
+    <title>Upgrade Non-NC Host Machines to RHEL 7 and <ph conref="../shared/conrefs.dita#prod/product"/> 4.3</title>
+    
+<!--This topic written for Euca 4.3 so not a conref for "4.3" above.
+-->
+    <shortdesc>This topic describes how to upgrade a <ph conref="../shared/conrefs.dita#prod/product"/>
+        <ph conref="../shared/conrefs.dita#prod/version"/> non-NC host machine to RHEL 7.</shortdesc>
+    <taskbody>
+        <!--    If there are no prereqs, state "None." -->        
+        <prereq><b>Prerequisites</b>
+            <p>Before upgrading your non-NC host machine, ensure that:</p>
+            <ul>
+                <li>You understand the RHEL 7 OS upgrade process, as described in the <xref
+                        href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/pdf/Migration_Planning_Guide/Red_Hat_Enterprise_Linux-7-Migration_Planning_Guide-en-US.pdf"
+                        format="pdf" scope="external">RedHat Migration Planning Guide</xref>.</li>
+                <li>You have successfully backed up your <ph
+                        conref="../shared/conrefs.dita#prod/product"/> cloud state using the
+                    instructions in <xref
+                        href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</li>
+                <li>You have verified that this host machine is <i>not</i> running NC services.</li>
+                <li>All NC host machines have already been upgraded; see 
+                    <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"/>.</li>
+                <li>No <ph conref="../shared/conrefs.dita#prod/product"/> services are running 
+                    during this upgrade procedure.</li>
+                <li>You are prepared to upgrade all the non-NC host machines at the same time.</li>
+               <!-- <li>The current state of the host machine is STOPPED / DISABLED (VERIFY WHERE WE ARE
+                    AT THIS POINT!). THIS PROCEDURE IS LINKED-TO from THE TOP-LEVEL PROCESS
+                    only.</li>-->
+            </ul>
+        </prereq>        
+        <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
+        <context>
+            <note>If this host machine is running NC services, do not perform these
+                steps; instead see <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"
+                />.</note>
+          <!--  <p>SHOULD WE SAY SOMETHING ABOUT WHERE THEY ARE COMING FROM TO GET TO THIS
+                PROCEDURE?</p>-->
+            <note type="warning">It is critical that the cloud state backup is valid and held in persistent storage that will be
+                unaffected by the <ph conref="../shared/conrefs.dita#prod/product"/>
+                <ph conref="../shared/conrefs.dita#prod/version"/> and RHEL 7 installs
+                before performing this procedure.</note>
+            <p><b>To upgrade a non-NC host machine to RHEL 7</b></p>
+        </context>
+        <steps>
+            <step>
+                <cmd>Shut down the host machine gracefully.</cmd>
+                <info>This is for the benefit of the other <ph conref="../shared/conrefs.dita#prod/product"/> hosts in the cloud.</info>
+            </step>
+            <step>
+                <cmd>Replace the host machine's operating system with RHEL 7.</cmd>
+                <info>This is a clean install of the OS. <p>See <xref
+                    href="rhel7_install_euca_hosts.dita#rhel7_install_euca_hosts"/>.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Install <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version"/>.</cmd>
+                <info>This is a clean install of <ph conref="../shared/conrefs.dita#prod/product"/>,
+                    specifically for this host machine. <p>See <xref
+                        href="install_repos_intro.dita#install_repo_oview"/> through <xref
+                            href="configuring_security_groups.dita#configuring_security_groups"/>.</p>
+                    <p>Install the same set of <ph conref="../shared/conrefs.dita#prod/product"/> services 
+                        as you had running prior to the RHEL 7 upgrade.</p>
+                </info>
+            </step>
+            <step>
+                <cmd>Recover the host machine's cloud state.</cmd>
+                <info>This restores the host's cloud state after the clean RHEL 7 and clean <ph conref="../shared/conrefs.dita#prod/product"/>
+                    installs. <p>See <xref href="../admin-guide/euca_recover.dita#euca_recover"
+                    />.</p>
+                </info>
+            </step>            
+            
+            <!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task. -->    
+            <step>
+                <cmd>Verify that the clean installs worked and that the host's cloud state has been
+                    recovered properly.</cmd>
+                <info>
+                    <!--<codeblock>CODE SAMPLE TO VERIFY THE HOST MACHINE UPGRADE</codeblock>-->
+                </info>
+            </step>
+            <step>
+                <cmd>Repeat this procedure for all <ph conref="../shared/conrefs.dita#prod/product"/> host machines.</cmd>
+            </step>
+        </steps>
+        <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
+            in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
+        <result>
+            <p>The upgraded host machine is now ready for production.</p>
+            <!--            <p>(Optional) Where to go next.</p>
+-->        </result>
+        <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
+        <postreq><b>Postrequisites</b><ul>
+            <li>A postereq.</li>
+            <li>Another postreq.</li>                
+        </ul>
+        </postreq>         -->
+    </taskbody>
+</task>

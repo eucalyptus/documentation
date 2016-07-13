@@ -2,22 +2,56 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="backup_euca">
     <title>Back Up Your Cloud</title>
-    <shortdesc>This section explains what you need to back up to protect your cloud data.</shortdesc>
+    <shortdesc>This section explains what you need to back up and protect your cloud
+		data.</shortdesc>
     <taskbody>
         <context>
             <p>We recommend that you back up the following data:</p>
         	<ul>
         		<li>The cloud database: see <xref href="backup_postgres.dita"/></li>
         		<li>Object storage. For objects in Walrus, the frequency depends on current load. Use your
-        			own discretion to determine backup plan and strategy. You must have Walrus running. For
-        			information about backing up Riak CS, go to <xref
-        				href="http://docs.basho.com/riak/latest/ops/running/backups/" scope="external"
-        				format="html">Backing Up Riak</xref>.
+					own discretion to determine the  backup plan and strategy. You must have Walrus
+					running.
+        			<ul>
+        				<li>Bucket and object metadata are stored in the cloud database. See <xref href="backup_postgres.dita"/>.</li>
+        				<li>In Walrus, the object data in the buckets are stored in <filepath>/var/lib/eucalyptus/bukkits</filepath>
+        				on all host machines running the Walrus Backend service. Back up this entire directory tree. If the total 
+        				size of your objects is not too large for a tar file, you can use the tar command. For example:
+        				<codeblock>tar -czvf ~/eucalyptus-objects.tgz /var/lib/eucalyptus/bukkits</codeblock></li>
+        				<li>For information about backing up Riak CS, go to <xref
+        					href="http://docs.basho.com/riak/latest/ops/running/backups/"
+        					scope="external" format="html">Backing Up Riak</xref>.</li>
+        			</ul>
         		</li>
-        		<li>Volumes in each cluster (DAS and Overlay)</li>
-        		<li>Configuration files for each Eucalyptus component
-        			(<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>)</li>
-        		<li>Eucalyptus and LVM snapshots</li>
+        		<li>EBS volumes in each cluster (DAS and Overlay)
+        		<ul>
+        			<li>Ensure that the system is quiescent enough that volumes are unlikely to be written while backing up these files.</li>
+        			<li>In DAS mode, use LVM to manage and preserve your volumes.</li>
+        			<li>In Overlay mode, volumes are stored in
+								<filepath>/var/lib/eucalyptus/volumes</filepath> on all host
+							machines running the Storage Controller (SC) service. Back up this
+							entire directory tree, which also contains snapshots in DAS and Overlay
+							modes.</li>
+        		</ul>
+        		</li>
+        		<li>The configuration file for the Eucalyptus cloud is stored on the CLC:
+						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
+        		<li>Any configuration file for the Eucalyptus cloud stored on any other host (UFS, CC,
+					etc.): <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
+				<li>The CC and NC configuration files, stored on every CC and NC: 
+					<filepath>/etc/eucalyptus/httpd.conf</filepath>.</li>
+				<li>Any .ini or credentials files on the CLC, which will be needed for Euca2ools commands on the
+					newly upgraded cloud. These files can be found here:
+						<filepath>/root/.euca</filepath>.</li>
+        		<li>Eucalyptus and LVM snapshots
+        		<ul>
+        			<li>Ensure that the system is quiescent enough that snapshots are unlikely to be written while backing up these files.</li>
+						<li>Eucalyptus EBS snapshots for DAS and Overlay modes are stored in
+								<filepath>/var/lib/eucalyptus/volumes</filepath> on all host
+							machines running the Storage Controller (SC) service. Back up this
+							entire directory tree, which also contains EBS volumes in Overlay mode
+							only. </li>
+        		</ul></li>
         		<li>SAN technologies vary, so see the backup documentation for your SAN.</li>
         	</ul>
         	<p>Users are responsible for volume backups using EBS snapshots on their defined schedules.</p>

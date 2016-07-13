@@ -16,6 +16,8 @@
                     write permissions. The access control list requires the canonical ID of the
                     grantee. To obtain the canonical ID of the load balancing service:</cmd>
                 <info>
+                    <note>If your cloud is using VPCMido networking mode, use the command in the
+                        next step.</note>
                     <codeblock>eulb-describe-lbs --show-long --region devops-admin@region-1
 LOAD_BALANCER myloadbalancer	
 myloadbalancer-000476918024.lb.a-18.autoqa.qa1.eucalyptus-systems.com			
@@ -28,11 +30,32 @@ internet-facing</codeblock>
                 </info>
                 <info>
                     <p>
-                        <note>Save the number at the end of the output for the next step.</note>
+                        <note>Save the number at the end of the output to update the bucket's ACL in
+                                <xref href="#task_dcd_stv_qt/bucketACL" format="dita">step 3</xref>.
+                        </note>
                     </p>
                 </info>
             </step>
             <step>
+                <cmd>To obtain the canonical ID of the load balancing service in VPCMido
+                    networking mode:</cmd>
+                <info>
+                    <note>If your cloud is not using VPCMido networking mode, use the command in the
+                        previous step.</note>
+                    <codeblock>euserv-describe-services --filter service-type=loadbalancing --expert
+SERVICE arn:euca:bootstrap:API_10.111.1.19:loadbalancing:API_10.111.1.19.loadbalancing/ enabled 25 
+http://10.111.1.19:8773/services/LoadBalancing 
+(eucalyptus)loadbalancing=<b>000036660381:28323c32338354b20255a633830524c1224434cb1a5254c1d614614841586042</b></codeblock>
+                </info>
+                <info>
+                    <p>
+                        <note>Save the number at the end of the output to update the bucket's ACL in
+                            <xref href="#task_dcd_stv_qt/bucketACL" format="dita">step 3</xref>.
+                        </note>
+                    </p>
+                </info>
+            </step>
+            <step id="bucketACL">
                 <cmd>Use any S3 client tools to update the bucket’s ACL. For example:</cmd>
                 <info>
                     <codeblock># aws --endpoint-url http://objectstorage.a-18.autoqa.qa1.eucalyptus-systems.com:8773/ s3 s3://webserverlog
