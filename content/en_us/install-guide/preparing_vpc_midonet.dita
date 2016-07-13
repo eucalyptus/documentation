@@ -41,7 +41,7 @@
     <li>MidoNet Network State Database (NSDB): consists of a cluster of Zookeeper and Cassandra. All
      MidoNet nodes must have IP connectivity with NSDB.</li>
     <li>MidoNet API: consists of tomcat and MidoNet web app. Exposes MidoNet REST APIs.</li>
-    <li>Hypervisor: MidoNet agent (midolman) are required in all Hypervisors to enable VMs to be
+    <li>Hypervisor: MidoNet agent (Midolman) are required in all Hypervisors to enable VMs to be
      connected via MidoNet overlay networks/SDN.</li>
     <li>Gateway: Gateway nodes are connected to the public network, and enable the network flow from
      MidoNet overlays to the public network.</li>
@@ -125,14 +125,14 @@
     <p><b>Deployment Topology</b></p>
    
    <ul>
-    <li>Single server with all MidoNet components (NSDB, API, and midolman), and with
+    <li>Single server with all MidoNet components (NSDB, API, and Midolman), and with
      CLC/eucanetd</li>
     <li>A server acting as MidoNet Gateway - when BGP terminated links are used, this node must not
      be co-located with CLC/eucanetd (in a proxy_arp setup described below, it is possible to
      consolidate CLC/eucanetd with MidoNet Gateway). This is due to incompatibilities in
-     CentOS/RHEL7 netns (used by eucanetd), and bgpd (started by midolman when BGP links are
+     CentOS/RHEL7 netns (used by eucanetd), and bgpd (started by Midolman when BGP links are
      configured).</li>
-    <li>Hypervisors with midolman</li>
+    <li>Hypervisors with Midolman</li>
     <li>One IP network handling NSDB, Tunnel Zone, and Public Network traffic</li>
     <li>API communication via loopback/localhost network</li>
    </ul>
@@ -192,7 +192,7 @@
    <ul>
     <li>Four (4) or more modern Intel cores or AMD modules - exclude logical cores that share CPU
      resources from the count (Hyperthreads and AMD cores within a module) - for gateway nodes, 4 or
-     more cores should be dedicated to MidoNet agent (midolman)</li>
+     more cores should be dedicated to MidoNet agent (Midolman)</li>
     <li>4GB of RAM reserved for MidoNet Agent (when applicable), 8GB for Gateway nodes</li>
     <li>4GB of free RAM reserved for MidoNet NSDB (when applicable)</li>
     <li>4GB of free RAM reserved for MidoNet API (when applicable)</li>
@@ -222,7 +222,7 @@
     <li>A 3-node cluster for NSDB (co-located Zookeeper and Cassandra)</li>
     <li>eucanetd co-located with MidoNet API Server (Tomcat)</li>
     <li>Two (2) MidoNet Gateway Nodes</li>
-    <li>Hypervisors with midolman</li>
+    <li>Hypervisors with Midolman</li>
     <li>One 10Gbps IP network handling NSDB and Tunnel Zone traffic</li>
     <li>One 10Gbps IP Network handling Public Network traffic</li>
     <li>API communication via loopback/localhost network</li>
@@ -253,7 +253,7 @@
    </ul>
    <p><b>MidoNet Gateway Load Balancing and Sharing</b></p>
    <ul>
-    <li>Load Balancing from MidoNet is implemented by MidoNet agents (midolman): ports in a stateful
+    <li>Load Balancing from MidoNet is implemented by MidoNet agents (Midolman): ports in a stateful
      port group with default routes out are used in a round-robin fashion.</li>
     <li>Partial load sharing from the Customer's router to MidoNet can be accomplished by: <ul>
       <li>Partition the allocated CIDR in 2 parts. For example, a /24 CIDR can be split into 2 /25
@@ -275,7 +275,7 @@
    <ul>
     <li>Eight (8) or more modern Intel cores or AMD modules - exclude logical cores that share CPU
      resources from the count (Hyperthreads and AMD cores within a module) - for gateway nodes, 8 or
-     more cores should be dedicated to MidoNet agent (midolman)</li>
+     more cores should be dedicated to MidoNet agent (Midolman)</li>
     <li>4GB of RAM reserved for MidoNet Agent (when applicable), 16GB for Gateway nodes</li>
     <li>4GB of free RAM reserved for MidoNet NSDB (when applicable)</li>
     <li>4GB of free RAM reserved for MidoNet API (when applicable)</li>
@@ -305,7 +305,7 @@
     <li>A 5-node cluster for NSDB (co-located Zookeeper and Cassandra)</li>
     <li>eucanetd co-located with MidoNet API Server (Tomcat)</li>
     <li>Three (3) MidoNet Gateway Nodes</li>
-    <li>Hypervisors with midolman</li>
+    <li>Hypervisors with Midolman</li>
     <li>One 1Gbps IP network handling NSDB traffic</li>
     <li>One 10Gbps IP network handling Tunnel Zone traffic</li>
     <li>One 10Gbps IP network handling Public Network traffic</li>
@@ -332,7 +332,7 @@
    </ul>
    <p><b>MidoNet Gateway Load Balancing/Sharing</b></p>
    <ul>
-    <li>Load Balancing from MidoNet is implemented by MidoNet agents (midolman): ports in a stateful
+    <li>Load Balancing from MidoNet is implemented by MidoNet agents (Midolman): ports in a stateful
      port group with default routes out are used in a round-robin fashion.</li>
     <li>The customer AS should handle multi path routing in order to support load sharing/balancing
      to MidoNet; for example, Equal Cost Multi Path (ECMP).</li>

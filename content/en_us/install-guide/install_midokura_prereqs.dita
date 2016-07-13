@@ -6,11 +6,12 @@
  <conbody>
   <section>
    <title>Repository Access</title>
-   <p>In order to use MidoNet with Eucalyptus you will need access to the Midokura repositories. You
-        can sign up here: <xref href="https://support.midokura.com/access/unauthenticated"
-          format="html" scope="external"/>.</p>
+    <p>In order to use MidoNet with <ph conref="../shared/conrefs.dita#prod/product"/> you need
+        access to the Midokura repositories. You can sign up here: <xref
+          href="https://support.midokura.com/access/unauthenticated" format="html" scope="external"
+        />.</p>
    <p>Create <codeph>/etc/yum.repos.d/midokura.repo</codeph> on all machines that will run MidoNet
-        components including Zookeeper. For example:</p>
+        components including ZooKeeper. For example:</p>
    <codeblock>[midokura]
 name=Midokura Repository
 baseurl=http://USERNAME:PASSWORD@yum.midokura.com/repo/v1.9/stable/RHEL/7/
@@ -27,15 +28,15 @@ gpgcheck=1
 metadata_expire=1</codeblock>
   </section>
   <section>
-   <title>Zookeeper</title>
-   <p>Zookeeper is where MidoNet stores most of its running state. This service needs to be up and
+   <title>ZooKeeper</title>
+   <p>ZooKeeper is where MidoNet stores most of its running state. This service needs to be up and
         running before any other installation takes place. </p>
-   <note>For advanced zookeeper installation (clustered for reliability), please see the <xref
+   <note>For advanced ZooKeeper installation (clustered for reliability), please see the <xref
           href="http://docs.midokura.com/docs/latest/quick-start-guide/rhel-7_kilo-rdo/content/_nsdb_nodes.html"
           format="html" scope="external">MidoNet NSDB Installation Guide</xref>. </note>
-   <p>For a simple single-server installation, install the zookeeper package on any server that is
-    IP accessible from all midolman agents (for example: on the Cloud Controller server itself),
-    start the service and ensure that the service is enabled. For example: </p>
+   <p>For a simple single-server installation, install the ZooKeeper package on any server that is
+        IP accessible from all Midolman agents (for example: on the Cloud Controller server itself),
+        start the service and ensure that the service is enabled. For example: </p>
    <codeblock>yum install zookeeper
 systemctl start zookeeper.service
 systemctl enable zookeeper.service</codeblock>
@@ -44,7 +45,7 @@ systemctl enable zookeeper.service</codeblock>
    <title>Cassandra</title>
    <p>Cassandra is used to track flows in MidoNet. This service needs to be up and running before
         any other installation takes place. For a simple single-server installation, install
-        Cassandra on any server that is IP accessible from all midolman agents (for example: on the
+        Cassandra on any server that is IP accessible from all Midolman agents (for example: on the
         Cloud Controller server itself), start the service and ensure that the service is enabled. </p>
    <p>To install Cassandra, please refer to the documentation for Cassandra <xref
      href="http://docs.datastax.com/en/cassandra/2.1/cassandra/install/installRHEL_t.html"
