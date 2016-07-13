@@ -318,4 +318,25 @@ midonet> tunnel-zone tzone0 add member host host2 address HOST_2_IP</codeblock>
         </taskbody>
     </task>
     
+<task id="zookeeper_config">
+    <title>Additional ZooKeeper Configuration</title>
+    <shortdesc>Ongoing data directory cleanup is required for ZooKeeper.</shortdesc>
+    <taskbody>
+        <context></context>
+<steps>
+    <step>
+        <cmd>The following parameters should be added in <filepath>/etc/zookeeper/zoo.cfg</filepath> for 
+            automatic purging of the snapshots and corresponding transaction logs:</cmd>
+        <info>
+            <codeblock>autopurge.snapRetainCount=3  # The number of snapshots to retain in dataDir
+autopurge.purgeInterval=1  # Purge task interval in hours</codeblock>
+            <p>For more information, see <xref
+                                href="http://zookeeper.apache.org/doc/r3.4.5/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup"
+                                format="html" scope="external"/>.</p>
+        </info>
+    </step>
+</steps>
+    </taskbody>
+</task>
+
 </task>
