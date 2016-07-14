@@ -213,12 +213,12 @@ mycloud NS  ufs1</codeblock>
 					<cmd>Set up a Eucalyptus cloud with Eucalyptus DNS and HTTPS endpoints. When creating CSR, make sure and add 
 						Subject Alternative Names for all the supported AWS services for the given region that’s being tested. 
 						For example:</cmd>
-					<info><codeblock>$ openssl req -in wildcard.c-06.autoqa.qa1.eucalyptus-systems.com.csr -noout -text | less
-            X509v3 Subject Alternative Name:
-                DNS:ec2.us-east-1.amazonaws.com, DNS:autoscaling.us-east-1.amazonaws.com, 
-                DNS:cloudformation.us-east-1.amazonaws.com, DNS:monitoring.us-east-1.amazonaws.com, 
-                DNS:elasticloadbalancing.us-east-1.amazonaws.com, DNS:s3.amazonaws.com, 
-                DNS:sts.us-east-1.amazonaws.com</codeblock></info>
+					<info><codeblock>$ openssl req -in wildcard.c-06.autoqa.qa1.eucalyptus-systems.com.csr 
+						-noout -text | less X509v3 Subject Alternative Name:
+     DNS:ec2.us-east-1.amazonaws.com, DNS:autoscaling.us-east-1.amazonaws.com, 
+     DNS:cloudformation.us-east-1.amazonaws.com, DNS:monitoring.us-east-1.amazonaws.com, 
+     DNS:elasticloadbalancing.us-east-1.amazonaws.com, DNS:s3.amazonaws.com, 
+     DNS:sts.us-east-1.amazonaws.com</codeblock></info>
 				</step>
 				<step>
 					<cmd>Set DNS spoofing:</cmd>
@@ -257,9 +257,14 @@ ubuntu@euca-172-31-12-59:~$ sudo -H pip install --upgrade awscli</codeblock></in
 				<step>
 					<cmd>Test against AWS FQDN service endpoint that matches one of the SANs in the signed certificate:</cmd>
 					<info><codeblock>ubuntu@euca-172-31-12-59:~$ aws --ca-bundle euca-ca-0.crt 
---endpoint-url https://ec2.us-east-1.amazonaws.com ec2 describe-key-pairs</codeblock></info>
-					
-					<stepresult>A client error (404 Not Found) occurred when calling the DescribeKeyPairs operation: unknown</stepresult>
+--endpoint-url https://ec2.us-east-1.amazonaws.com ec2 describe-key-pairs{
+    "KeyPairs": [
+        {
+            "KeyName": "devops-admin",
+            "KeyFingerprint": "ee:4f:93:a8:87:8d:80:8d:2c:d6:d5:60:20:a3:2d:b2"
+        }
+    ]
+}				</codeblock></info>
 				</step>
 			</steps>
 			
