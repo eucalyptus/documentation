@@ -3,8 +3,8 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="install_midokura_installation">
     <title>Install MidoNet for <ph conref="../shared/conrefs.dita#prod/product"/></title>
-    <shortdesc>This topic shows how to install Midokura for use in your <ph conref="../shared/conrefs.dita#prod/product"/>
-        cloud.</shortdesc>
+    <shortdesc>This topic shows how to install MidoNet for use in your <ph
+            conref="../shared/conrefs.dita#prod/product"/> cloud.</shortdesc>
     <taskbody/>
     <task id="install_midokura_api">
         <title>Install the MidoNet API on the Cloud Controller (CLC)</title>
@@ -195,10 +195,9 @@
                         access to the API.</cmd>
                     <info>
                         <p>Change the line:</p>
-                        <codeph>Connector port="8080" protocol="HTTP/1.1"</codeph>
+                        <codeblock>Connector port="8080" protocol="HTTP/1.1"</codeblock>
                         <p>...to:</p>
-                        <codeph>Connector address="127.0.0.1" port="8080"
-                            protocol="HTTP/1.1"</codeph>
+                        <codeblock>Connector address="127.0.0.1" port="8080" protocol="HTTP/1.1"</codeblock>
                     </info>
                 </step>
                 <step>
@@ -212,7 +211,7 @@ systemctl enable tomcat.service</codeblock>
                     <cmd>After approximately one minute, you should be able to access the MidoNet
                         API using the MidoNet shell:</cmd>
                     <info>
-                        <codeph>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api</codeph>
+                        <codeblock>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api</codeblock>
                     </info>
                     <info>
                         <note>If this command does not work, check
@@ -225,24 +224,28 @@ systemctl enable tomcat.service</codeblock>
 
     </task>
     <task id="install_midokura_midolman">
-        <title>Install Midolman on the Cloud Controller</title>
+        <title>Install Midolman on <ph conref="../shared/conrefs.dita#prod/product"/>
+            components</title>
         <shortdesc/>
         <taskbody>
-            <context>To install the Midolman agent on the node controllers and user facing
+            <context>The Midolman agent is required on the Cloud Controller (CLC), Node Controllers (NCs), 
+                and MidoNet Gateway nodes (UFS host).
+                <p><b>To install Midolman agent</b></p>
+                To install the Midolman agent on the node controllers and user facing
                 service:</context>
             <steps>
                 <step>
                     <cmd>Update to the latest kernel and reboot for the kernel changes to take
                         effect:</cmd>
                     <info>
-                        <codeph>yum upgrade kernel </codeph>
+                        <codeblock>yum upgrade kernel </codeblock>
                     </info>
-                    <info><codeph>reboot now</codeph></info>
+                    <info><codeblock>reboot now</codeblock></info>
                 </step>
                 <step>
                     <cmd>Install iproute2 and Midolman:</cmd>
                     <info>
-                        <codeph>yum install iproute-netns midolman</codeph>
+                        <codeblock>yum install iproute-netns midolman</codeblock>
                     </info>
                 </step>
                 <step>
@@ -318,4 +321,25 @@ midonet> tunnel-zone tzone0 add member host host2 address HOST_2_IP</codeblock>
         </taskbody>
     </task>
     
+<task id="zookeeper_config">
+    <title>Additional ZooKeeper Configuration</title>
+    <shortdesc>Ongoing data directory cleanup is required for ZooKeeper.</shortdesc>
+    <taskbody>
+        <context></context>
+<steps>
+    <step>
+        <cmd>The following parameters should be added in <filepath>/etc/zookeeper/zoo.cfg</filepath> for 
+            automatic purging of the snapshots and corresponding transaction logs:</cmd>
+        <info>
+            <codeblock>autopurge.snapRetainCount=3  # The number of snapshots to retain in dataDir
+autopurge.purgeInterval=1  # Purge task interval in hours</codeblock>
+            <p>For more information, see <xref
+                                href="http://zookeeper.apache.org/doc/r3.4.5/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup"
+                                format="html" scope="external"/>.</p>
+        </info>
+    </step>
+</steps>
+    </taskbody>
+</task>
+
 </task>
