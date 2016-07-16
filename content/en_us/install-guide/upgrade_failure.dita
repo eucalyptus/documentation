@@ -36,8 +36,7 @@
     </taskbody>
     <task id="upgrade_failure_downgrade_rhel7">
         <title>Downgrade from RHEL 7</title>
-        <!--<shortdesc>This is confusing as is and unclear on Admin versus Install guide topic XREFs..
-            Add XREFs to the correct topics. Turn this paragraph into a procedure if possible. </shortdesc>-->
+        <!--<shortdesc></shortdesc>-->
         <taskbody>
             <context>If you have installed RHEL 7 and re-installed <ph
                     conref="../shared/conrefs.dita#prod/product"/>
@@ -98,9 +97,7 @@
                 Tip to tech writer: If you get 'Package eucalyptus-bla-bla-nnnn.el6.x86_64.rpm is not signed' error you can use 
                             'yum downgrade bla bla bla -\-nogpg' to bypass it. This will allow you to continue with the downgrade.
                 -->
-                <info><note>For 4.2.2 / RHEL 6, the service name is <filepath>eucalyptus-nc</filepath>; for 4.3.0 / RHEL 7
-                            it is <filepath>eucalyptus-node</filepath>. Use the correct name in the
-                            yum command below, depending on your downgrade situation.</note>
+                <info>
                     <codeblock>yum downgrade eucalyptus eucalyptus-admin-tools eucalyptus-axis2c-common eucalyptus-blockdev-utils eucalyptus-imaging-toolkit eucalyptus-nc eucanetd</codeblock>
                     <p>Enter <codeph>y</codeph> when prompted, to downgrade the NC packages.</p>
                 </info>
@@ -131,10 +128,6 @@
                 Tip to tech writer: if you can't get the download to work due to not-signed RPMs, try this
                 'yum downgrade eucanetd "eucalyptus*" -/-nogpgcheck' 
                 -->
-                    <note>For 4.2.2 / RHEL 6, the service name is
-                        <filepath>eucalyptus-cc</filepath>; for 4.3.0 / RHEL 7 it is
-                            <filepath>eucalyptus-cluster</filepath>. Use the correct name in the yum
-                        command below, depending on your downgrade situation.</note>
                     <codeblock>downgrade eucalyptus
 downgrade eucalyptus-admin-tools
 downgrade eucalyptus-axis2c-common
@@ -172,9 +165,6 @@ downgrade eucalyptus-common-java-libs
 downgrade eucanetd
 </codeblock>
                     <p>CC transaction commands:</p><!-- Not able to test CC-only yet-->
-                <note>For 4.2.2 / RHEL 6, the service name is <filepath>eucalyptus-cc</filepath>; for 4.3.0 / RHEL 7
-                    it is <filepath>eucalyptus-cluster</filepath>. Use the correct name in the
-                    yum command below, depending on your downgrade situation.</note>
                     <codeblock>downgrade eucalyptus
 downgrade eucalyptus-admin-tools
 downgrade eucalyptus-cc
@@ -193,10 +183,10 @@ downgrade eucalyptus-common-java
 downgrade eucalyptus-common-java-libs
 downgrade eucalyptus-walrus
 </codeblock>
-                    <p>SAN 3PAR transaction commands:</p>
+                <p>SAN 3PAR transaction commands:</p><!-- Not able to test SAN-3PAR yet-->
                     <codeblock>downgrade eucalyptus-enterprise-storage-san-threepar
 downgrade eucalyptus-enterprise-storage-san-threepar-libs
-</codeblock>-->
+</codeblock>
                         <p>SAN EqualLogic transaction commands:</p><!-- Not able to test SAN-EqualLogic yet-->
                     <codeblock>downgrade eucalyptus-enterprise-storage-san-equallogic
 downgrade eucalyptus-enterprise-storage-san-equallogic-libs
