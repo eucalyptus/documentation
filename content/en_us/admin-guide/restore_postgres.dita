@@ -35,21 +35,26 @@
 			<step>
 				<cmd>Start the database manually.</cmd>
 				<info>
+					On a RHEL 6 host machine:
 					<codeblock>su eucalyptus -c "/usr/pgsql-9.1/bin/pg_ctl start -w \
+-s -D/var/lib/eucalyptus/db/data -o '-h0.0.0.0/0 -p8777 -i'"</codeblock>
+					On a RHEL 7 host machine:
+					<codeblock>su eucalyptus -s /bin/bash -c "/usr/bin/pg_ctl start -w \
 -s -D/var/lib/eucalyptus/db/data -o '-h0.0.0.0/0 -p8777 -i'"</codeblock>
 				</info>
 			</step>
 			<step>
 				<cmd>Restore the backup.</cmd>
-				<info>
-					<codeblock>psql -U root -d postgres -p 8777 -h /var/lib/eucalyptus/db/data -f ~/eucalyptus_pg_dumpall-backup.sql</codeblock>
+				<info><codeblock>psql -U root -d postgres -p 8777 -h /var/lib/eucalyptus/db/data -f/root/eucalyptus_pg_dumpall-backup.sql</codeblock>
 				</info>
 			</step>
-			
 			<step>
 				<cmd>Stop the database manually.</cmd>
-				<info>
+				<info>				
+					On a RHEL 6 host machine:
 					<codeblock>su eucalyptus -c "/usr/pgsql-9.1/bin/pg_ctl stop -D/var/lib/eucalyptus/db/data"</codeblock>
+					On a RHEL 7 host machine:
+					<codeblock>su eucalyptus -s /bin/bash -c "/usr/bin/pg_ctl stop -D/var/lib/eucalyptus/db/data"</codeblock>
 				</info>
 			</step>
 			<step>

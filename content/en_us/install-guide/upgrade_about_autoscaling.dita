@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="upgrade_autoscaling">
+ <!--    This concept template to be used for conceptual or overview information. -->    
+    <title>About Auto Scaling During Upgrade</title>
+    <shortdesc>This topic describes considerations for auto scaling during the upgrade process.</shortdesc>
+    <conbody>
+        <p><ph conref="../shared/conrefs.dita#prod/product"/> recommends suspending autoscaling
+            before instance migrations begin, then resuming autoscaling after the entire upgrade is
+            complete.</p>
+        <p>The reasoning behind this recommendation is that, while you are packing/unpacking and
+            migrating instances, it would be difficult to track (by numbers of instances at least)
+            if the autoscaling process were also starting/stopping instances at the same time.</p>
+        <p>The instances that are being started/stopped by autoscaling are meant to be transient, so
+            you wouldn't normally pack or unpack those anyway, but their presence and their
+            (dis)appearing can be confusing as you're listing the other instances you do want to
+            pack.</p>
+           
+        <p>The following commands work on RHEL 6 and RHEL 7, and on <ph conref="../shared/conrefs.dita#prod/product"/> 
+            <ph conref="../shared/conrefs.dita#prod/prev_version"/> or <ph conref="../shared/conrefs.dita#prod/version"/>.</p>
+        <p><note>The eucalyptus-cloud service on the CLC must be running when the cloud admin runs these
+                commands.</note></p>
+        <p><b>To suspend all autoscaling processing on you cloud:</b></p>
+        <p>
+            <codeblock>euctl 
+autoscaling.suspendedprocesses=Launch,Terminate,HealthCheck,ReplaceUnhealthy,AZRebalance,AlarmNotification,ScheduledActions,AddToLoadBalancer</codeblock>
+        </p>
+        
+<!--        There does not appear to be a resume property 
+        <p><b>To resume all autoscaling processing on your cloud:</b></p>
+        <p>
+            <codeblock>euctl 
+autoscaling.resumedprocesses=Launch,Terminate,HealthCheck,ReplaceUnhealthy,AZRebalance,AlarmNotification,ScheduledActions,AddToLoadBalancer</codeblock>
+        </p>-->
+       
+    </conbody>
+</concept>
