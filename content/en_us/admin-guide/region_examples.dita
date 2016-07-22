@@ -303,21 +303,10 @@ test1	002093902049
 (eucalyptus)cloudformation	000993524712
 (eucalyptus)database	000630877528
 (eucalyptus)imaging	000789831484</codeblock></li>
-   <li>Download credentials for test1/admin user:
-     <codeblock># euca-get-credentials -a test1 -u admin test1-admin.zip
-# unzip test1-admin.zip
-Archive:  test1-admin.zip
-To setup the environment run: source /path/to/eucarc
-  inflating: eucarc
-  inflating: iamrc
-  inflating: cloud-cert.pem
-  inflating: jssecacerts
-  inflating: euca2-admin-af5f63d3-pk.pem
-  inflating: euca2-admin-af5f63d3-cert.pem </codeblock></li>
-   <li>Source test1/admin eucarc, then execute <codeph>DescribeAvailibilityZones</codeph> against
-     each region:
-     <codeblock># source eucarc
-# euca-describe-regions
+   <li>Generate credentials for test1/admin user:
+                    <codeblock># euare-useraddkey --region admin@test1 </codeblock></li>
+   <li>Run <codeph>DescribeAvailibilityZones</codeph> against each region:
+                    <codeblock># euca-describe-regions
 REGION	region-1	http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
 REGION	region-2	http://compute.g-22-07.autoqa.qa1.eucalyptus-systems.com:8773/
 # euca-describe-availability-zones -U http://compute.h-33.autoqa.qa1.eucalyptus-systems.com:8773/
@@ -328,3 +317,4 @@ AVAILABILITYZONE	region2-az-one	available</codeblock></li>
   </conbody>
  </concept>
 </concept>
+
