@@ -2,93 +2,99 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="eucaproperties">
- <title>Eucalyptus Configuration Properties</title>
- <shortdesc>Eucalyptus exposes a number of properties that can be configured using the<codeph>
-   euctl-modify-property</codeph> command. This topic explains what types of properties Eucalyptus
-  uses, and lists the most common configurable properties.</shortdesc>
+ <title>Eucalyptus Configuration Variables</title>
+ <shortdesc>Eucalyptus exposes a number of variables that can be configured using the<codeph>
+            euctl</codeph> command. This topic explains what types of variables Eucalyptus uses,
+        and lists the most common configurable variables.</shortdesc>
  <conbody>
-  <section id="modifiable_property_notes"><title>Eucalyptus Property Types</title><p>Eucalyptus uses
-    two types of properties: ones that can be changed (as configuration options), and ones that
-    cannot be changed (they are displayed as properties, but configured by modifying the
-     <codeph>eucalyptus.conf</codeph> file on the CC). </p>
-   <p><b>Non-Changeable Properties</b></p>
-   <p> The following properties are
-    'discovered' by the CLC by asking the CC for the values of the properties. They are configured
-    by setting them in eucalyptus.conf on a CC, and define the 'maximum values that a cluster can
-    possibly support, based on the settings in eucalyptus.conf', and some static values (such as
-    mode and usenetworktags). </p><ul>
-    <li>PROPERTY ecc-cluster-1.cluster.addressespernetwork 128</li>
-    <li>PROPERTY ecc-cluster-1.cluster.maxnetworkindex 126</li>
-    <li>PROPERTY ecc-cluster-1.cluster.maxnetworktag 511</li>
-    <li>PROPERTY ecc-cluster-1.cluster.minnetworkindex 9</li>
-    <li>PROPERTY ecc-cluster-1.cluster.minnetworktag 2</li>
-    <li>PROPERTY ecc-cluster-1.cluster.networkmode MANAGED</li>
-    <li>PROPERTY ecc-cluster-1.cluster.usenetworktags true</li>
-   </ul><p>If you attempt to change these properties on the CLC, they will revert back to the values
-    that are set on the CC. This information is discovered through an internal call (from CLC to CC)
-    to describeNetworks(). </p><p>Note that all of these properties are 'cluster.' properties, and
-    they are all unsettable (as properties). The meaning of each follows:</p><table>
-    <tgroup cols="2">
-     <colspec colwidth="1*"/>
-     <colspec colwidth="1.55*"/>
-     <thead>
-      <row>
-       <entry>Property</entry>
-       <entry>Description</entry>
-      </row>
-     </thead>
-     <tbody>
-      <row>
-       <entry>cluster.addressespernetwork</entry>
-       <entry>Value set on the CC as VNET_ADDRSPERNET.</entry>
-      </row>
-      <row>
-       <entry>cluster.maxnetworkindex</entry>
-       <entry>Value calculated as the maximum index into a sec. group subnet (VNET_ADDRSPERNET -
-        2).</entry>
-      </row>
-      <row>
-       <entry>cluster.minnetworkindex</entry>
-       <entry>Value calculated as the minimum index into a sec. group subnet (0 is reserved, 1-8 are
-        reserved as cluster def. GW IPs, so 9).</entry>
-      </row>
-      <row>
-       <entry>cluster.minnetworktag</entry>
-       <entry>Minimum network tag (VLAN, in MANAGED mode, just an index in MANAGED-NOVLAN mode) that
-        the cluster will support (VLAN 0 and 1 is reserved, so 2).</entry>
-      </row>
-      <row>
-       <entry>cluster.maxnetworktag</entry>
-       <entry>Maximum network tag that the cluster will support (calculated as
-        VNET_SUBNET/VNET_NETMASK size divided by VNET_ADDRSPERNET minus 1 (starts at 0)).</entry>
-      </row>
-      <row>
-       <entry>ecc-cluster-1.cluster.usenetworktags</entry>
-       <entry>Determines whether or not the system will be using network tags/indices at all (true in MANAGED*
-        modes, false in SYSTEM/STATIC)</entry>
-      </row>
-     </tbody>
-    </tgroup>
-   </table>
-   <p><b>Configurable Properties</b></p>
-   <p>The following are the properties that can be set on the CLC, by the admin, as
-    configuration options:</p><ul>
-    <li>PROPERTY cloud.network.global_max_network_index 4096</li>
-    <li>PROPERTY cloud.network.global_max_network_tag 160</li>
-    <li>PROPERTY cloud.network.global_min_network_index 2</li>
-    <li>PROPERTY cloud.network.global_min_network_tag 30</li>
-   </ul><p>These are properties that must be either identical or non-overlapping subsets of their
-    equivalent cluster. properties. Their meanings are similar to the cluster level properties, but
-    they can be constrained by setting them to a subset range of the range that the cluster
-    supports. </p><p>For example, if an administrator wishes a cluster to only use VLANs 30 - 160
-    (the above case), then they would set these cloud.network.global. settings appropriately.</p>The
-   above example shows that while the cluster settings permit the software to use VLANs 2 - 511, the
-   administrator has configured the cloud to only use VLANs 30 - 160. In MANAGED-NOVLAN mode, there
-   is no reason to change these parameters from defaults, which match the cluster configuration.
-    <note importance="high">Once a cloud is in use and has started operating based on these
-    properties, it is not safe to change them at runtime.</note></section>
-  <section id="modifiable_property_table"><title>Eucalyptus Properties</title>The following table
-   contains a list of common Eucalyptus cloud properties.<table>
+  <section id="modifiable_property_notes"><title>Eucalyptus Variable Types</title><p>Eucalyptus uses
+                two types of variables: ones that can be changed (as configuration options), and
+                ones that cannot be changed (they are displayed as variables, but configured by
+                modifying the <codeph>eucalyptus.conf</codeph> file on the CC). </p>
+            <p><b>Non-Changeable Variables</b></p>
+            <p> The following variables are 'discovered' by the CLC by asking the CC for the values
+                of the variables. They are configured by setting them in eucalyptus.conf on a CC,
+                and define the 'maximum values that a zone can possibly support, based on the
+                settings in eucalyptus.conf', and some static values (such as mode and
+                usenetworktags). </p><ul>
+                <li>ecc-cluster-1.cluster.addressespernetwork=128</li>
+                <li>ecc-cluster-1.cluster.maxnetworkindex=126</li>
+                <li>ecc-cluster-1.cluster.maxnetworktag=511</li>
+                <li>ecc-cluster-1.cluster.minnetworkindex=9</li>
+                <li>ecc-cluster-1.cluster.minnetworktag=2</li>
+                <li>ecc-cluster-1.cluster.networkmode=MANAGED</li>
+                <li>ecc-cluster-1.cluster.usenetworktags=true</li>
+            </ul><p>If you attempt to change these variables on the CLC, they will revert back to
+                the values that are set on the CC. This information is discovered through an
+                internal call (from CLC to CC) to describeNetworks(). </p><p>Note that all of these
+                variables are zone ('cluster.') variables, and they cannot be set (as variables).
+                The meaning of each follows:</p><table>
+                <tgroup cols="2">
+                    <colspec colwidth="1*"/>
+                    <colspec colwidth="1.55*"/>
+                    <thead>
+                        <row>
+                            <entry>Variable</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>cluster.addressespernetwork</entry>
+                            <entry>Value set on the CC as VNET_ADDRSPERNET.</entry>
+                        </row>
+                        <row>
+                            <entry>cluster.maxnetworkindex</entry>
+                            <entry>Value calculated as the maximum index into a sec. group subnet
+                                (VNET_ADDRSPERNET - 2).</entry>
+                        </row>
+                        <row>
+                            <entry>cluster.maxnetworktag</entry>
+                            <entry>Maximum network tag that the zone (cluster) will support
+                                (calculated as VNET_SUBNET/VNET_NETMASK size divided by
+                                VNET_ADDRSPERNET minus 1 (starts at 0)).</entry>
+                        </row>
+                        <row>
+                            <entry>cluster.minnetworkindex</entry>
+                            <entry>Value calculated as the minimum index into a sec. group subnet (0
+                                is reserved, 1-8 are reserved as zone (cluster) def. GW IPs, so
+                                9).</entry>
+                        </row>
+                        <row>
+                            <entry>cluster.minnetworktag</entry>
+                            <entry>Minimum network tag (VLAN, in MANAGED mode, just an index in
+                                MANAGED-NOVLAN mode) that the zone (cluster) will support (VLAN 0
+                                and 1 is reserved, so 2).</entry>
+                        </row>
+                        <row>
+                            <entry>cluster.usenetworktags</entry>
+                            <entry>Determines whether or not the system will be using network
+                                tags/indices at all (true in MANAGED* modes, false in
+                                SYSTEM/STATIC)</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <p><b>Configurable Variables</b></p>
+            <p>The following are the variables that can be set on the CLC, by the admin, as
+                configuration options:</p><ul>
+                <li>cloud.network.global_max_network_index=4096</li>
+                <li>cloud.network.global_max_network_tag=160</li>
+                <li>cloud.network.global_min_network_index=2</li>
+                <li>cloud.network.global_min_network_tag=30</li>
+            </ul><p>These are variables that must be either identical or non-overlapping subsets of
+                their equivalent zone ('cluster.') variables. Their meanings are similar to the zone
+                (cluster) level variables, but they can be constrained by setting them to a subset
+                range of the range that the zone supports.</p><p>For example, if an administrator
+                wants a zone to only use VLANs 30 - 160 (the above case), then they would set these
+                cloud.network.global settings appropriately.</p>The above example shows that while
+            the zone ('cluster.') settings permit the software to use VLANs 2 - 511, the
+            administrator has configured the cloud to only use VLANs 30 - 160. In MANAGED-NOVLAN
+            mode, there is no reason to change these variables from defaults, which match the zone
+            configuration. <note importance="high">Once a cloud is in use and has started operating
+                based on these variables, it is not safe to change them at runtime.</note></section>
+  <section id="modifiable_property_table"><title>Eucalyptus Variables</title>The following table
+   contains a list of common Eucalyptus cloud variables.<table>
        <tgroup
                     cols="2">
                     <colspec
@@ -101,7 +107,7 @@
                         colwidth="1*"/>
                     <thead>
                         <row>
-                            <entry>Property</entry>
+                            <entry>Variable</entry>
                             <entry>Description</entry>
                         </row>
                     </thead>
@@ -161,11 +167,11 @@
                         </row>
                         <row>
                             <entry>autoscaling.activityinitialbackoff </entry>
-                            <entry>Initial backoff period for failing activities.</entry>
+                            <entry>Initial back-off period for failing activities.</entry>
                         </row>
                         <row>
                             <entry>autoscaling.activitymaxbackoff </entry>
-                            <entry>Maximum backoff period for failing activities.</entry>
+                            <entry>Maximum back-off period for failing activities.</entry>
                         </row>
                         <row>
                             <entry>autoscaling.activitytimeout </entry>
@@ -186,7 +192,13 @@
                         </row>
                         <row>
                             <entry>autoscaling.suspendedprocesses </entry>
-                            <entry>Globally suspended scaling processes.</entry>
+                            <entry>Globally suspend scaling processes; a comma-delimited list of
+                                processes
+                                (Launch,Terminate,HealthCheck,
+                                ReplaceUnhealthy,AZRebalance,
+                                AlarmNotification,ScheduledActions,
+                                AddToLoadBalancer).
+                                Default is empty, meaning the processes are not suspended.</entry>
                         </row>
                         <row>
                             <entry>autoscaling.suspendedtasks </entry>
@@ -303,7 +315,7 @@
                             <entry>bootstrap.notifications.email.email_smtp_host </entry>
                             <entry>SMTP host to use when sending email. If unset, the following
                                 values are tried: 1) the value of the 'mail.smtp.host' system
-                                property, 2) localhost, 3) mailhost.</entry>
+                                variable, 2) localhost, 3) mailhost.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.notifications.email.email_smtp_port </entry>
@@ -417,27 +429,27 @@
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_aws_sns_uri_scheme </entry>
-                            <entry>Default scheme for AWS_SNS_URL in eucarc.</entry>
+                            <entry>Default scheme for AWS_SNS_URL.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_ec2_uri_scheme </entry>
-                            <entry>Default scheme for EC2_URL in eucarc.</entry>
+                            <entry>Default scheme for EC2_URL.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_euare_uri_scheme </entry>
-                            <entry>Default scheme for EUARE_URL in eucarc.</entry>
+                            <entry>Default scheme for EUARE_URL.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_eustore_url </entry>
-                            <entry>Default EUSTORE_URL in eucarc.</entry>
+                            <entry>Default EUSTORE_URL.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_https_enabled </entry>
-                            <entry>Default scheme prefix in eucarc.</entry>
+                            <entry>Default scheme prefix.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.default_s3_uri_scheme </entry>
-                            <entry>Default scheme for S3_URL in eucarc.</entry>
+                            <entry>Default scheme for S3_URL.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.disabled_soap_api_components </entry>
@@ -538,7 +550,7 @@
                         </row>
                         <row>
                             <entry>bootstrap.webservices.use_dns_delegation </entry>
-                            <entry>Use DNS delegation for eucarc.</entry>
+                            <entry>Use DNS delegation.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.use_instance_dns </entry>
@@ -552,15 +564,15 @@
                         <row>
                             <entry>bootstrap.webservices.ssl.server_password </entry>
                             <entry>Password of the private key corresponding to the specified
-                                certificate for SSL for webservices.</entry>
+                                certificate for SSL for web services.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.ssl.server_ssl_ciphers </entry>
-                            <entry>SSL ciphers for webservices.</entry>
+                            <entry>SSL ciphers for web services.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.ssl.server_ssl_protocols </entry>
-                            <entry>SSL protocols for webservices.</entry>
+                            <entry>SSL protocols for web services.</entry>
                         </row>
                         <row>
                             <entry>bootstrap.webservices.ssl.user_ssl_ciphers </entry>
@@ -584,7 +596,8 @@
                         </row>
                         <row>
                             <entry>cloud.db_check_threshold </entry>
-                            <entry>Threshold (num connections or %) for db connection check</entry>
+                            <entry>Threshold (number of connections or %) for db connection
+                                check</entry>
                         </row>
                         <row>
                             <entry>cloud.euca_log_level </entry>
@@ -666,7 +679,7 @@
                         <row>
                             <entry>cloud.monitor.default_poll_interval_mins </entry>
                             <entry>How often the reporting system requests information from the
-                                cluster controller</entry>
+                                Cluster Controller</entry>
                         </row>
                         <row>
                             <entry>cloud.monitor.history_size </entry>
@@ -1015,16 +1028,16 @@
                             <entry>dns.enabled</entry>
                             <entry>Enable pluggable DNS resolvers. <b>Note:</b> This must be 'true'
                                 for any pluggable resolver to work. Also, each resolver may need to
-                                be separately enabled.See 'euctl-describe-properties dns'.</entry>
+                                be separately enabled.</entry>
                         </row>
                         <row>
                             <entry>dns.search</entry>
                             <entry>Comma separated list of domains to search, OS settings used if
-                                none specified (change requires restart)</entry>
+                                none specified (a change requires restart).</entry>
                         </row>
                         <row>
                             <entry>dns.server</entry>
-                            <entry>Comma separated list of nameservers, OS settings used if none
+                            <entry>Comma separated list of name servers; OS settings used if none
                                 specified (change requires restart)</entry>
                         </row>
                         <row>
@@ -1038,28 +1051,28 @@
                         <row>
                             <entry>dns.instancedata.enabled </entry>
                             <entry>Enable the instance-data resolver. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>dns.ns.enabled </entry>
                             <entry>Enable the NS resolver. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>dns.recursive.enabled </entry>
                             <entry>Enable the recursive DNS resolver. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>dns.services.enabled </entry>
                             <entry>Enable the service topology resolver. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>dns.split_horizon.enabled </entry>
                             <entry>Enable the split-horizon DNS resolution for internal instance
                                 public DNS name queries. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>dns.spoof_regions.enabled </entry>
@@ -1098,7 +1111,7 @@
                         </row>
                         <row>
                             <entry>dns.tcp.timeout_seconds </entry>
-                            <entry>Parameter controlling tcp handler timeout in seconds.</entry>
+                            <entry>Variable controlling tcp handler timeout in seconds.</entry>
                         </row>
                      
                         <row>
@@ -1137,7 +1150,7 @@
                         </row>
                         <row>
                             <entry>objectstorage.max_total_reporting_capacity_gb </entry>
-                            <entry>Total ObjectStorage storage capacity for Objects soley for
+                            <entry>Total ObjectStorage storage capacity for Objects solely for
                                 reporting usage percentage. Not a size restriction. No enforcement
                                 of this value</entry>
                         </row>
@@ -1195,214 +1208,214 @@
                             <entry>Use HTTPS for communication to service backend.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.addressespernetwork </entry>
+                            <entry>ZONE.cluster.addressespernetwork </entry>
                             <entry>Number of total addresses per network (including unusable gateway
                                 addresses controlled by the system)</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.maxnetworkindex </entry>
+                            <entry>ZONE.cluster.maxnetworkindex </entry>
                             <entry>Maximum usable network index (0 &lt; x &lt;
                                 max_network_index)</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.maxnetworktag </entry>
+                            <entry>ZONE.cluster.maxnetworktag </entry>
                             <entry>Maximum vlan tag to use (0 &lt; min_vlan &lt; x &lt;
                                 4096)</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.minnetworkindex </entry>
+                            <entry>ZONE.cluster.minnetworkindex </entry>
                             <entry>Maximum usable network index (0 &lt; min_network_index &lt;
                                 x)</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.minnetworktag </entry>
+                            <entry>ZONE.cluster.minnetworktag </entry>
                             <entry>Minimum vlan tag to use (0 &lt; x &lt; max_vlan &lt;4096)</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.networkmode </entry>
+                            <entry>ZONE.cluster.networkmode </entry>
                             <entry>Currently configured network mode</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.sourcehostname </entry>
+                            <entry>ZONE.cluster.sourcehostname </entry>
                             <entry>Alternative address which is the source address for requests made
                                 by the component to the cloud controller.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.usenetworktags </entry>
+                            <entry>ZONE.cluster.usenetworktags </entry>
                             <entry>Indicates whether vlans are in use or not.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.vnetnetmask </entry>
+                            <entry>ZONE.cluster.vnetnetmask </entry>
                             <entry>Netmask used by the cluster's virtual private networking.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.vnetsubnet </entry>
+                            <entry>ZONE.cluster.vnetsubnet </entry>
                             <entry>IP subnet used by the cluster's virtual private
                                 networking.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.cluster.vnettype </entry>
+                            <entry>ZONE.cluster.vnettype </entry>
                             <entry>IP version used by the cluster's virtual private
                                 networking.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.blockstoragemanager </entry>
+                            <entry>ZONE.storage.blockstoragemanager </entry>
                             <entry>EBS Block Storage Manager to use for backend</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.cephconfigfile </entry>
+                            <entry>ZONE.storage.cephconfigfile </entry>
                             <entry>Absolute path to Ceph configuration (ceph.conf) file. Default
                                 value is '/etc/ceph/ceph.conf'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.cephkeyringfile </entry>
+                            <entry>ZONE.storage.cephkeyringfile </entry>
                             <entry>Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring)
                                 file. Default value is
                                 '/etc/ceph/ceph.client.eucalyptus.keyring'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.cephsnapshotpools </entry>
+                            <entry>ZONE.storage.cephsnapshotpools </entry>
                             <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
                                 snapshots. Use a comma separated list for configuring multiple
                                 pools. Default value is 'rbd'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.cephuser </entry>
+                            <entry>ZONE.storage.cephuser </entry>
                             <entry>Ceph username employed by Eucalyptus operations. Default value is
                                 'eucalyptus'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.cephvolumepools </entry>
+                            <entry>ZONE.storage.cephvolumepools </entry>
                             <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
                                 volumes. Use a comma separated list for configuring multiple pools.
                                 Default value is 'rbd'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.chapuser </entry>
+                            <entry>ZONE.storage.chapuser </entry>
                             <entry>User ID for CHAP authentication</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.dasdevice </entry>
+                            <entry>ZONE.storage.dasdevice </entry>
                             <entry>Direct attached storage device location</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxconcurrentsnapshots </entry>
+                            <entry>ZONE.storage.maxconcurrentsnapshots </entry>
                             <entry>Maximum number of snapshots processed on the block storage
                                 backend at a given time</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxconcurrentsnapshottransfers </entry>
+                            <entry>ZONE.storage.maxconcurrentsnapshottransfers </entry>
                             <entry>Maximum number of snapshots that can be uploaded to or downloaded
                                 from objectstorage gateway at a given time</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxconcurrentvolumes </entry>
+                            <entry>ZONE.storage.maxconcurrentvolumes </entry>
                             <entry>Maximum number of volumes processed on the block storage backend
                                 at a given time</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxsnapshotpartsqueuesize </entry>
+                            <entry>ZONE.storage.maxsnapshotpartsqueuesize </entry>
                             <entry>Maximum number of snapshot parts per snapshot that can be spooled
                                 on the disk</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxsnaptransferretries </entry>
+                            <entry>ZONE.storage.maxsnaptransferretries </entry>
                             <entry>Maximum retry count for snapshot transfer</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxtotalvolumesizeingb </entry>
+                            <entry>ZONE.storage.maxtotalvolumesizeingb </entry>
                             <entry>Total disk space reserved for volumes</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.maxvolumesizeingb </entry>
+                            <entry>ZONE.storage.maxvolumesizeingb </entry>
                             <entry>Max volume size</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.ncpaths </entry>
+                            <entry>ZONE.storage.ncpaths </entry>
                             <entry>iSCSI Paths for NC. Default value is 'nopath'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.readbuffersizeinmb </entry>
+                            <entry>ZONE.storage.readbuffersizeinmb </entry>
                             <entry>Buffer size in MB for reading data from snapshot when uploading
                                 snapshot to objectstorage gateway</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.resourceprefix </entry>
+                            <entry>ZONE.storage.resourceprefix </entry>
                             <entry>Prefix for resource name on SAN</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.resourcesuffix </entry>
+                            <entry>ZONE.storage.resourcesuffix </entry>
                             <entry>Suffix for resource name on SAN</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.sanhost </entry>
+                            <entry>ZONE.storage.sanhost </entry>
                             <entry>Hostname for SAN device.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.sanpassword </entry>
+                            <entry>ZONE.storage.sanpassword </entry>
                             <entry>Password for SAN device.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.sanuser </entry>
+                            <entry>ZONE.storage.sanuser </entry>
                             <entry>Username for SAN device.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.scpaths </entry>
+                            <entry>ZONE.storage.scpaths </entry>
                             <entry>iSCSI Paths for SC. Default value is 'nopath'</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.shouldtransfersnapshots </entry>
+                            <entry>ZONE.storage.shouldtransfersnapshots </entry>
                             <entry>Should transfer snapshots</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.snapexpiration </entry>
+                            <entry>ZONE.storage.snapexpiration </entry>
                             <entry>Time interval in minutes after which Storage Controller metadata
                                 for snapshots that have been physically removed from the block
                                 storage backend will be deleted</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.snapshotpartsizeinmb </entry>
+                            <entry>ZONE.storage.snapshotpartsizeinmb </entry>
                             <entry>Snapshot part size in MB for snapshot transfers using multipart
                                 upload. Minimum part size is 5MB</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.snapshottransfertimeoutinhours </entry>
+                            <entry>ZONE.storage.snapshottransfertimeoutinhours </entry>
                             <entry>Snapshot upload wait time in hours after which the upload will be
                                 cancelled</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.storeprefix </entry>
+                            <entry>ZONE.storage.storeprefix </entry>
                             <entry>Prefix for ISCSI device</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.tasktimeout </entry>
+                            <entry>ZONE.storage.tasktimeout </entry>
                             <entry>Timeout for SAN commands.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.tid </entry>
+                            <entry>ZONE.storage.tid </entry>
                             <entry>Next Target ID for ISCSI device</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.timeoutinmillis </entry>
+                            <entry>ZONE.storage.timeoutinmillis </entry>
                             <entry>Timeout value in milli seconds for storage operations</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.volexpiration </entry>
+                            <entry>ZONE.storage.volexpiration </entry>
                             <entry>Time interval in minutes after which Storage Controller metadata
                                 for volumes that have been physically removed from the block storage
                                 backend will be deleted</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.volumesdir </entry>
+                            <entry>ZONE.storage.volumesdir </entry>
                             <entry>Storage volumes directory.</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.writebuffersizeinmb </entry>
+                            <entry>ZONE.storage.writebuffersizeinmb </entry>
                             <entry>Buffer size in MB for writing data to snapshot when downloading
-                                snapshot from objectstorage gateway</entry>
+                                snapshot from object storage gateway</entry>
                         </row>
                         <row>
-                            <entry>&lt;partition&gt;.storage.zerofillvolumes </entry>
+                            <entry>ZONE.storage.zerofillvolumes </entry>
                             <entry>Should volumes be zero filled.</entry>
                         </row>
                         <row>
@@ -1453,7 +1466,7 @@
                         <row>
                             <entry>reporting.default_write_interval_mins </entry>
                             <entry>How often the reporting system requests information from the
-                                cluster controller</entry>
+                                Cluster Controller</entry>
                         </row>
                         <row>
                             <entry>services.database.appendonlyhost </entry>
@@ -1482,7 +1495,7 @@
                         </row>
                         <row>
                             <entry>services.database.worker.configured </entry>
-                            <entry>Configure DB service so a VM can be launched.If something goes
+                            <entry>Configure DB service so a VM can be launched. If something goes
                                 south with the service there is a chance that setting it to false
                                 and back to true would solve issues</entry>
                         </row>
@@ -1496,8 +1509,8 @@
                         </row>
                         <row>
                             <entry>services.database.worker.init_script </entry>
-                            <entry>bash script that will be executed before serviceconfiguration and
-                                start up</entry>
+                            <entry>bash script that will be executed before service configuration
+                                and start up</entry>
                         </row>
                         <row>
                             <entry>services.database.worker.instance_type </entry>
@@ -1529,7 +1542,7 @@
                         </row>
                         <row>
                             <entry>services.imaging.worker.configured </entry>
-                            <entry>Prepare imaging service so a worker can be launched.If something
+                            <entry>Prepare imaging service so a worker can be launched. If something
                                 goes south with the service there is a big chance that setting it to
                                 false and back to true would solve issues.</entry>
                         </row>
@@ -1539,7 +1552,7 @@
                         </row>
                         <row>
                             <entry>services.imaging.worker.healthcheck </entry>
-                            <entry>enabling imaging worker healthcheck</entry>
+                            <entry>enabling imaging worker health check</entry>
                         </row>
                         <row>
                             <entry>services.imaging.worker.image </entry>
@@ -1565,11 +1578,11 @@
                         </row>
                         <row>
                             <entry>services.imaging.worker.log_server_port </entry>
-                            <entry>UDP port that log server is listerning to</entry>
+                            <entry>UDP port that log server is listening to</entry>
                         </row>
                         <row>
                             <entry>services.imaging.worker.log_server_port </entry>
-                            <entry>UDP port that log server is listerning to</entry>
+                            <entry>UDP port that log server is listening to</entry>
                         </row>
                         <row>
                             <entry>services.imaging.worker.ntp_server </entry>
@@ -1578,7 +1591,7 @@
                         <row>
                             <entry>services.loadbalancing.dns_resolver_enabled </entry>
                             <entry>Enable the load balancing DNS resolver. <b>Note:</b>
-                                <codeph>dns.enable</codeph> must also be 'true'</entry>
+                                <codeph>dns.enabled</codeph> must also be 'true'</entry>
                         </row>
                         <row>
                             <entry>services.loadbalancing.dns_subdomain </entry>
@@ -1616,7 +1629,7 @@
                         </row>
                         <row>
                             <entry>services.loadbalancing.worker.expiration_days </entry>
-                            <entry>the days after which the loadbalancer Vms expire</entry>
+                            <entry>the days after which the loadbalancer VMs expire</entry>
                         </row>
                         <row>
                             <entry>services.loadbalancing.worker.image </entry>
@@ -1731,11 +1744,11 @@
                         </row>
                         <row>
                             <entry>system.dns.nameserveraddress </entry>
-                            <entry>Nameserver ip address.</entry>
+                            <entry>Nameserver IP address.</entry>
                         </row>
                         <row>
                             <entry>system.dns.nameserveraddress </entry>
-                            <entry>Nameserver ip address.</entry>
+                            <entry>Nameserver IP address.</entry>
                         </row>
                         <row>
                             <entry>system.dns.registrationid </entry>
