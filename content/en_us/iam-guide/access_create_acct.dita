@@ -4,7 +4,7 @@
 <concept id="access_create_acct">
 	
 	<title>Account Creation</title>
-	<shortdesc>This topic describes the process for creating an account.</shortdesc>
+	<shortdesc>This topic describes the process for creating an account using the command line tool.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
@@ -15,11 +15,22 @@
 		</metadata>
 	</prolog>
 	<conbody>
-		<p>You can create accounts using the command line tool. You must be a cloud administrator 
-			to use this command. Accounts created are available for immediate access.</p>
-		
+		<p>You must be a cloud administrator to use this command. Accounts created are available for immediate access.</p>
 		<p>To create an account, run the following command:</p>
 		<codeblock>euare-accountcreate -a <varname>account_name</varname></codeblock>
+		<p>When an account is created by <codeph>euare-accountcreate</codeph> command, 
+			an "admin" user is created by default.
+			<note importance="high">Note the following security considerations of the "admin" user 
+				when an account is initially created:
+				<ul>
+					<li>When an account is created, the "admin" user is created without a password.</li>
+					<li>The "admin" user does not have the ability to log in through the Eucalyptus Management 
+						Console without a login profile being set.</li>
+					<li>There are no password complexity requirements applied to passwords created for users (admin/generic).</li>
+				</ul>
+			</note> 
+		</p>
+		
 		<note>Eucalyptus has discontinued account registration status retrieval, however, for
 			compatibility with older versions of Eucalyptus, the ability to view and manipulate
 			registration status is limited to the system administrator through Euca2ools. For more 
