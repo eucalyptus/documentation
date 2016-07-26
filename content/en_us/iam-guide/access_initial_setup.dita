@@ -23,27 +23,7 @@
 		</context>
 
 	</taskbody>
-	<!--<task id="setup_get_creds">
-		<title>Get Your Account Credentials</title>
-		<taskbody>
-			<context><p>You can interact with Eucalyptus access control using Euca2ools, a suite of command
-				line interface (CLI) tools designed for Eucalyptus services. </p>
-				
-				<p>To use the CLI, you must first get the access keys for your account. You can find them by going to the AWS management console on the web, clicking your name on the top, followed by Security Credentials, and scrolling down to the section titled Access Credentials. Make note of the Access Key ID and the Secret Access Key that appears beside it. Both of them should be long sets of alphanumeric characters. Create a file called .iamrc in your home directory that contains those keys in this format:</p></context>
-			<steps>
-				<step>
-					<cmd></cmd>
-				</step>
-			</steps>
-		</taskbody>
-		</task>-->
-	<!--<task id="setup_initial_setup">
-		<title>Initial Setup</title>
-		Install the Command Line Tools
-		Install the euca2ools package. To do so with yum, run:
-		# yum install euca2ools
-		</task>-->
-
+	
 	<task id="setup_create_admin_group">
 		<title>Create an Admin Group</title>
 		<taskbody>
@@ -105,70 +85,55 @@
 			</context>
 			<steps>
 				<step>
-					<cmd>Enter the following command to create an administrative
-						user named <codeph>alice</codeph>:</cmd>
+					<cmd><ph conref="../shared/conrefs.dita#prod/product"/> admin tools and Euca2ools
+						commands need configuration from <filepath>~/.euca</filepath>. If the directory does
+						not yet exist, create it:</cmd>
 					<info>
-						<codeblock>euare-usercreate -u alice</codeblock>
+						<codeblock>mkdir ~/.euca</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Add the new administrative user to the administrators
-						group.</cmd>
+					<cmd>Create an administrative user, for example <userinput>alice</userinput> and
+						create it along with an access key:</cmd>
 					<info>
-						<codeblock>euare-groupadduser -g administrators -u alice</codeblock>
+						<codeblock>euare-usercreate -wd DOMAIN USER >~/.euca/FILE.ini</codeblock>
+						<p>where:<ul>
+								<li><codeph>-w</codeph> means output access keys and region
+									information in a euca2ools.ini type configuration file.</li>
+								<li><codeph>-d DOMAIN</codeph> is the DNS domain to use for region
+									information in configuration file output (default: based on IAM
+									URL).</li>
+								<li><codeph>USER</codeph> is the name of the new admin user:
+									alice.</li>
+								<li><codeph>FILE</codeph> can be anything; we recommend a
+									descriptive name that includes the user's name; for example,
+										<filepath>alice.ini</filepath>.</li>
+							</ul></p>
 					</info>
-				</step>
-			</steps>
-		</taskbody>
-	</task>
-	<task id="setup_gen_admin_creds">
-		<title>Generate Administrative Credentials</title>
-		<shortdesc/>
-		<taskbody>
-			<context>
-				<p>To start running commands as the new administrative user, you
-					must create an access key for that user.</p>
-			</context>
-			<steps>
-				<step>
-					<cmd>Enter the following command to generate an access key
-						for the administrative user:</cmd>
-					<info>
-						<codeblock>euare-useraddkey -u alice</codeblock>
-					</info>
+					<stepxmp>
+						<codeblock>euare-usercreate -wd DNS_DOMAIN alice >~/.euca/alice.ini</codeblock>
+					</stepxmp>
 					<stepresult>
-						<p>Eucalyptus returns the access key ID and the user's
-							secret key.</p>
+						<p>This creates a user admin file with a region name that matches that of
+							your cloud's DNS domain.</p>
 					</stepresult>
 				</step>
 				<step>
-					<cmd>Open the <filepath>~/.eucarc</filepath> file and
-						replace your account credentials you just created, as in
-						this example:</cmd>
+					<cmd>Add the new admin user to the administrators group.</cmd>
 					<info>
-						<codeblock>export EC2_ACCESS_KEY='WOKSEQRNM1LVIR702XVX1'
-export EC2_SECRET_KEY='0SmLCQ8DAZPKoaC7oJYcRMfeDUgGbiSVv1ip5WaH'</codeblock>
+						<codeblock>euare-groupadduser -u alice administrators</codeblock>
 					</info>
 				</step>
 				<step>
-					<cmd>Save and close the file.</cmd>
-				</step>
-				<step>
-					<cmd>Open the <filepath>~/.iamrc</filepath> file and replace
-						your account credentials, as in this example:</cmd>
+					<cmd>To list the new user's access keys:</cmd>
 					<info>
-						<codeblock>AWSAccessKeyId=WOKSEQRNM1LVIR702XVX1
-AWSSecretKey=0SmLCQ8DAZPKoaC7oJYcRMfeDUgGbiSVv1ip5WaH</codeblock>
-					</info>
-				</step>
-				<step>
-					<cmd>Save and close the file.</cmd>
-				</step>
-				<step>
-					<cmd>Switch euca2ools over to using the new
-						credentials.</cmd>
-					<info>
-						<codeblock>source ~/.eucarc</codeblock>
+						<codeblock>euare-userlistkeys --region alice@DNS_DOMAIN</codeblock>
+						<p>For more information on how to configure the default region and default users for a region,
+							see <xref
+								href="../shared/euca2ools_config_file_sections_global.dita#euca2ools-working-with-config-files.global-section"
+							/> and <xref
+								href="../shared/euca2ools_config_file_sections_region.dita#euca2ools-working-with-config-files.region-section"
+							/> in the <xref href="../euca2ools-guide/index.dita#welcome">Euca2ools Guide</xref>.</p>
 					</info>
 				</step>
 			</steps>
