@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="vpc_concepts_subnets_ip">
- <title>Understanding Subnets and IP Addressing </title>
+ <title>Subnets and IP Addressing </title>
  <shortdesc/>
  <conbody>
   <p>A virtual private cloud (VPC) is a virtual network that is logically isolated from other
@@ -19,9 +20,9 @@
    The public IP address is mapped to the instance's private IP address using Network Address
    Translation (NAT).</p>
 
-  <p>You can control whether or not your VPC instances get a public IP address by either disabling
-   the public IP address attribute of the subnet, or by overrding the subnet's behavior when
-   launching an instance into the VPC. For more information, see ((( LINK HERE )))</p>
+  <p>You can control whether or not your VPC instances get a public IP address by either
+   enabling/disabling the public IP address attribute of the subnet, or by overriding the subnet's
+   behavior when launching an instance into the VPC. <!--For more information, see ((( LINK HERE )))--></p>
 
   <p>If you want a persistent IP address for your VPC instance, you can use the
     <codeph>euca-allocate-address</codeph> to create an elastic IP address, and then use
@@ -31,7 +32,11 @@
    simply a logical subdivision of a network of IP addresses. Subnets can be used to enable tighter
    security, allow separate administration of the network by organization, and enable more efficient
    network traffic by containing traffic between nodes in a subnet and using route tables for
-   traffic that needs to move between subnets.</p>
+   traffic that needs to move between subnets. </p>
+  <p>Note that subnets in a VPC cannot overlap; and the first four IP addresses and the last IP
+   address are reserved for internal use. For example, of the 16 IP addresses of a /28 subnet, 11
+   are available for instances; of the 256 IP addresses of a /24 subnet, 251 are available for
+   instances. Subnets must be larger than /28 and smaller than /16.</p>
   <note>For more information about subnets, see the <xref format="html" scope="external"
     href="http://en.wikipedia.org/wiki/Subnetwork">Subnetwork article</xref> on Wikipedia. </note>
  </conbody>
