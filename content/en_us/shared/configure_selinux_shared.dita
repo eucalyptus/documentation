@@ -4,10 +4,10 @@
 <task id="configure_selinux_shared">
 	
 	<title>Configure SELinux</title>
-	<shortdesc>Security-enabled Linux (SELinux) is a security feature for Linux that allows you to set
-		access control through policies. Beginning with <ph
-			conref="../shared/conrefs.dita#prod/product"/> 4.3.0, the install packages automatically
-		install the SELinux policy on RHEL 7 / CentOS 7.</shortdesc>
+	<shortdesc>Security-Enhanced Linux (SELinux) is a security feature for Linux that allows you to set
+		access control through policies. <ph conref="../shared/conrefs.dita#prod/product"/> 
+		<ph conref="../shared/conrefs.dita#prod/version"/> packages automatically install SELinux policy for <ph
+			conref="../shared/conrefs.dita#prod/product"/> on RHEL 7 and CentOS 7.</shortdesc>
 	
 <!--	Hold off on policy file docs for 4.3.0 release
 		RHEL 7 provides the ability to add a policy file.
@@ -32,7 +32,7 @@
 		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
 		<context>You need to set boolean values on Storage Controller (SC) and Management Console host
 			machines. If your network mode is VPCMIDO, you also set a boolean value on the Cloud
-			Controller (CC) host machines.<p><b>To configure SELinux on <ph
+			Controller (CLC) host machines.<p><b>To configure SELinux on <ph
 						conref="../shared/conrefs.dita#prod/product"/>
 					<ph conref="../shared/conrefs.dita#prod/version"/>:</b></p>
 		</context>
@@ -52,11 +52,11 @@
 				</info>
 			</step>
 			<step>
-				<cmd>If your cloud uses VPCMIDO networking mode, on each Cloud Controller (CC), run
+				<cmd>If your cloud uses VPCMIDO networking mode, on the Cloud Controller (CLC), run
 					the following command:</cmd>
 				<info>
 					<codeblock>setsebool -P httpd_can_network_connect 1</codeblock>
-					<p>This allows the CC's HTTP proxy to access the back end.</p>
+					<p>This allows the CLC's HTTP proxy to access the back end.</p>
 				</info>
 			</step>
 		</steps>
