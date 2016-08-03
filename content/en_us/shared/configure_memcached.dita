@@ -3,73 +3,51 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_configure_memcached">
     <title>Configure Memcached</title>
-    <shortdesc>Configuring memcached is required for the eucaconsole service to use memcached on a single host. 
-        The configuration provided instructs the memcached service to only accept connections from localhost. 
-        If you wish to run multiple eucaconsoles on separate hosts, you should set up a common memcached instance 
-        that accepts connections from those hosts.</shortdesc>
+    <shortdesc>Memcached is configured by default for the eucaconsole service on a single host. 
+        On multiple hosts (in a scaling group), it is required to run a central memcached, as outlined in the 
+        procedure below.</shortdesc> 
+    <taskbody>
+        <prereq> This procedure assumes that the Eucalyptus Management Console package is installed.
+            For instructions on installing the packages, see <xref
+                href="console_install_intro.dita#console_install_intro"/>. <note>If there is just
+                one Console server, the automatically configured memcached service is sufficient for
+                use by the console. </note></prereq>
+            <steps>
+               <step>
+                   <cmd>Turn off the default memcached on all the consoles by editing <codeph>/etc/init.d/eucaconsole</codeph> 
+                   and set <codeph>MEMCACHED_FLAGS="NO"</codeph>. This would normally be handled by your cloud-init or cfn-init 
+                   script from your launch configuration.</cmd></step>
+                <step>
+                    <cmd>Set up a central memcache to ensure your memcached instance is available and durable, 
+                        we recommend running it within a scaling group of 1 and behind and ELB. The ELB requires 
+                        a listener for port 11211 and it's DNS address would be used in the cache.memory.url in 
+                        the next step. </cmd>
+                </step>
+                <step>
+                        <cmd>Configure the console.ini file to talk to the central memcached. This
+                            is typically defined in an init script, such as the cloud.init, shell
+                            script or cfn.init file. For example, the memcached socket in the cache memory 
+                            URL should point to the port that memcache uses (11211) to listen:</cmd>
+                        <info><codeblock>cache.memory.url = /var/run/eucaconsole/memcached.sock</codeblock><p>to</p>
+                            <codeblock>cache.memory.url = [memcachedhost]:11211</codeblock>
+                            <p>For example: <codeblock>cache.memory.url = 10.0.0.20:11211</codeblock></p></info>
+               </step>
+              
+            </steps>
+    </taskbody>
+    <task id="console_configure_memcached_clear">
+        <title>Restarting the Console</title>
+        <shortdesc/>
         <taskbody>
-            <prereq>
-                <note> This procedure assumes that the Eucalyptus Management Console package is
-                installed. For instructions on installing the packages, see <xref
-                    href="console_install_intro.dita#console_install_intro"/>. </note>
-                <note>If there is just one Console server, we recommend co-locating memcached on that server for optimum speed. 
-                    Since memcached isn't critical to the functioning of the Console, a single memcached instance would suffice.
-                    If memcached were to go down, replacing it with another instance is adequate.
-                </note>
-            </prereq>
-             
             <steps>
                 <step>
-                    <cmd>Run the following command to install memcached:</cmd>
+                    <cmd>If you add shared images with Euca2ools, you can make them available to users sooner by 
+                        restarting the console, which clears the cache (memcached). To do that, restart the service:</cmd>
                     <info>
-                        <codeblock>yum install -y memcached</codeblock>
+                        <codeblock>servicectl restart eucaconsole</codeblock>
                     </info>
                 </step>
-                <step>
-                    <cmd> Copy Eucalyptus' default configuration file with the following command:</cmd>
-                    <info>
-                        <codeblock>cp /usr/share/doc/eucaconsole-<ph conref="../shared/conrefs.dita#prod/version_long"/>/memcached /etc</codeblock>
-                    </info>
-                </step>
-                <step>
-                    <cmd>Configure the service to start automatically using the following command:</cmd>
-                    <info>
-                        <codeblock>systemctl enable memcached.service</codeblock></info>
-                </step>
-                
-                <step>
-                    <cmd>Launch the service to start immediately using the following command:</cmd>
-                    <info><codeblock>systemctl start memcached.service</codeblock></info>
-                </step>
             </steps>
-        </taskbody>
-    <task id="console_flush_memcached">
-        
-        <title>Flush Memcached in the Console</title>
-        <shortdesc>Changing the ufshost (formerly clchost) could cause the image cache to not properly refresh in the
-            Launch Instance and Create Launch Configuration wizards, which prevents the launching of
-            instances and creating launch configurations. Clearing (flushing) memcached in the
-            Console will refresh the cache to properly resume operations. </shortdesc>
-        <taskbody>
-            <context>
-                <p>To flush memcache without restarting the server:</p>
-            </context>
-            <steps>
-                <step>
-                    <cmd>Telnet to the localhost on which the Console is running:</cmd>
-                    <info>
-                        <codeblock>telnet localhost</codeblock></info>
-                </step>
-                <step>
-                    <cmd>Run the flush command:</cmd>
-                    <info><codeblock>flush_all</codeblock></info>
-                </step>
-            </steps>
-            <result>
-                <note>Alternatively, if you change the console.ini file while installing the
-                    Console, you could restart memcached using the <codeph>systemctl restart
-                        memcached.service</codeph> command instead.</note>
-                </result>
         </taskbody>
     </task>
 </task>
