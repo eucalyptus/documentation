@@ -191,14 +191,71 @@
                     <info><codeblock><![CDATA[<Context path="/midonet-api" docBase="/usr/share/midonet-api" antiResourceLocking="false" privileged="true"/>]]></codeblock></info>
                 </step>
                 <step>
-                    <cmd>Modify <codeph>/etc/tomcat/server.xml</codeph> to allow only localhost
-                        access to the API.</cmd>
-                    <info>
-                        <p>Change the line:</p>
-                        <codeblock>Connector port="8080" protocol="HTTP/1.1"</codeblock>
-                        <p>...to:</p>
-                        <codeblock>Connector address="127.0.0.1" port="8080" protocol="HTTP/1.1"</codeblock>
-                    </info>
+                    <cmd>Modify <codeph>/etc/tomcat/server.xml</codeph>.</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Allow only localhost access to the API.</cmd>
+                            <info>
+                                <p>Change the line:</p>
+                             <codeblock>Connector port="8080" protocol="HTTP/1.1"</codeblock>
+                                <p>... to:</p>
+                                <codeblock>Connector address="127.0.0.1" port="8080" protocol="HTTP/1.1"</codeblock>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Comment out the Connector Port 8009 (AJP) line:</cmd>
+                            <info>
+                                <codeblock>&lt;!-- Connector port="8009" protocol="AJP/1.3" redirectPort="8443" --&gt;</codeblock>
+                            </info>
+                        </substep>
+                    </substeps>
+                </step>
+                <step>
+                    <cmd>(Optional) Change Tomcat logging properties to reduce excessive logging and avoid filling up the 
+                        <filepath>/var/log</filepath> filesystem.</cmd>
+                    <substeps>
+                        <substep>
+                            <cmd>Disable ConsoleHandler as described in <xref
+                                    href="https://tomcat.apache.org/tomcat-7.0-doc/logging.html#Considerations_for_productive_usage"
+                                    format="html" scope="external">Considerations for productive
+                                    usage</xref>.</cmd>
+                            <info>
+                                <p>Edit <filepath>/etc/tomcat/logging.properties</filepath> and change the line:</p>
+                                <codeblock>.handlers = 1catalina.org.apache.juli.FileHandler, java.util.logging.ConsoleHandler</codeblock>
+                                <p>... to:</p>
+                                <codeblock>.handlers = 1catalina.org.apache.juli.FileHandler</codeblock>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Set log level to WARN to avoid unnecessary logs.</cmd>
+                            <info>
+                                <p>Edit <filepath>/etc/tomcat/logging.properties</filepath> and change the line:</p>
+                                <codeblock>1catalina.org.apache.juli.FileHandler.level = FINE</codeblock>
+                                <p>... to:</p>
+                                <codeblock>1catalina.org.apache.juli.FileHandler.level = WARN</codeblock>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Disable midonet-api writing to STDOUT.</cmd>
+                            <info>
+                                <p>Comment out the following lines in 
+                                    <filepath>/usr/share/midonet-api/WEB-INF/classes/logback.xml</filepath>:</p>
+                                <codeblock>&lt;!– Disables midonet-api writing to STDOUT ...
+&lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+&lt;encoder>
+&lt;pattern>%d
+{yyyy.MM.dd HH:mm:ss.SSS}
+
+%-5level %logger
+{0}
+
+- %m%n%rEx &lt;/pattern>
+&lt;/encoder>
+&lt;/appender>
+... End of Disable STDOUT -></codeblock>
+                            </info>
+                        </substep>
+                    </substeps>
                 </step>
                 <step>
                     <cmd>Start tomcat:</cmd>
@@ -270,6 +327,44 @@ systemctl enable midolman.service</codeblock>
                     <info>
                         <codeblock>echo 'cassandra.servers : CASSANDRA_IP' | mn-conf set -t default</codeblock>
                     </info>
+                </step>
+                <step>
+                    <cmd>Configure a Midolman resource usage template.</cmd>
+                    <info>
+                        <p>For large <ph conref="../shared/conrefs.dita#prod/product"/> clouds, use
+                            the agent-compute-large template. For standard (small or medium) <ph
+                                conref="../shared/conrefs.dita#prod/product"/> clouds, use the
+                            default template. For gateway nodes, use the agent-gateway
+                            templates.</p>
+                        <p>
+                            <note type="tip">For production environments, large templates are
+                                recommended.</note>
+                        </p>
+                        <p>See the <xref
+                                href="http://docs.midokura.com/docs/v1.9/en/quick-start-guide/rhel-7_juno-osp/content/_midolman_installation.html"
+                                format="html" scope="external">Midolman Installation
+                                documentation</xref> for more information.</p>
+                    </info>
+                    <substeps>
+                        <substep>
+                            <cmd>Choose the Midolman resource usage template name, based on the size
+                                and type of installation:</cmd>
+                            <info>
+                                <codeblock>agent-compute-large
+agent-compute-medium
+agent-gateway-large
+agent-gateway-medium
+default</codeblock>
+                            </info>
+                        </substep>
+                        <substep>
+                            <cmd>Run this command, replacing <codeph>TEMPLATE_NAME</codeph> with
+                                your chosen template:</cmd>
+                            <info>
+                                <codeblock>mn-conf template-set -h local -t TEMPLATE_NAME</codeblock>
+                            </info>
+                        </substep>
+                    </substeps>
                 </step>
             </steps>
         </taskbody>

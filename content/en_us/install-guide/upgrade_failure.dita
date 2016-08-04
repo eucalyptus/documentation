@@ -305,13 +305,10 @@ eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/></codeblock>
                 is to perform a clean install of RHEL 6 (wiping out RHEL 7), then install <ph
                     conref="../shared/conrefs.dita#prod/product"/> again.</p>
                 <p>Here are the two main scenarios:
-                    <ul>
+                    <ol>
                         <li>
-                            <p>IF <ph conref="../shared/conrefs.dita#prod/product"/>
-                                <ph conref="../shared/conrefs.dita#prod/version"/>, then the only way to downgrade
-                                is to perform a clean install of RHEL 6 (wiping out RHEL 7), then install <ph
-                                    conref="../shared/conrefs.dita#prod/product"/> 4.3 was operating correctly after you upgraded it on
-                                RHEL 6</p>
+                            <p>IF <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 was
+                                operating correctly on RHEL 6 before you upgraded it to RHEL 7</p>
                             <p>AND you backed up your cloud data after your 4.3 cloud was running
                                 successfully on RHEL 6</p>
                             <p>THEN you can downgrade to the state you saved with 4.3 on RHEL 6. You
@@ -330,7 +327,7 @@ eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/></codeblock>
                                     href="#upgrade_failure_downgrade_43_rhel7_42_rhel6"
                                     format="dita"/>.</p>
                         </li>
-                    </ul>
+                    </ol>
                  </p>
             </context>
         </taskbody>
@@ -339,9 +336,11 @@ eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/></codeblock>
     <task id="upgrade_failure_downgrade_43_rhel7_43_rhel6">
         <title>Downgrade <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 on RHEL 7 to 4.3 on RHEL 6</title>
         <taskbody>
-            <context>If you have installed RHEL 7 and re-installed <ph conref="../shared/conrefs.dita#prod/product"/> 
-                4.3, then you can downgrade to 
-                <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 on RHEL 6.
+            <context>If you have installed RHEL 7 and re-installed <ph
+                    conref="../shared/conrefs.dita#prod/product"/> 4.3, then you can downgrade to
+                    <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 on RHEL 6. <note
+                    type="tip">Follow this procedure when you are ready to fix the problems, then
+                    upgrade again to RHEL 7.</note>
             </context>
             <steps>
                 <step>
@@ -368,18 +367,31 @@ eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/></codeblock>
                         <xref href="../admin-guide/index.dita#welcome">Administration Guide</xref>
                         using the cloud data you backed up after you upgraded 4.2 to 4.3, but before
                         you upgraded RHEL 6 to RHEL 7.</cmd>
-                    <info></info>
+                    <info><note>RHEL 6 is intended to be used with <ph conref="../shared/conrefs.dita#prod/product"/> 
+                        4.3 only during the initial migration/upgrade of an existing 
+                        <ph conref="../shared/conrefs.dita#prod/product"/> cloud.</note>
+                    </info>
+                </step>
+                <step>
+                    <cmd>Correct the problems that occurred during the upgrade to RHEL 7, then prepare to 
+                        re-upgrade to RHEL 7.</cmd>
+                    <info><note>RHEL 7 is the officially supported OS for the <ph
+                        conref="../shared/conrefs.dita#prod/product"/>
+                        <ph conref="../shared/conrefs.dita#prod/version"/> release.</note></info>
                 </step>
             </steps>
+            <result>Your cloud is now running <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 on RHEL 6.</result>
         </taskbody>
     </task>
     
     <task id="upgrade_failure_downgrade_43_rhel7_42_rhel6">
         <title>Downgrade <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 on RHEL 7 to 4.2 on RHEL 6</title>
         <taskbody>
-            <context>If you have installed RHEL 7 and re-installed <ph conref="../shared/conrefs.dita#prod/product"/> 
-                4.3, then you can downgrade to 
-                <ph conref="../shared/conrefs.dita#prod/product"/> 4.2 on RHEL 6.
+            <context>If you have installed RHEL 7 and re-installed <ph
+                    conref="../shared/conrefs.dita#prod/product"/> 4.3, then you can downgrade to
+                    <ph conref="../shared/conrefs.dita#prod/product"/> 4.2 on RHEL 6. <note
+                    type="tip">Follow this procedure when you need to wait a while before attempting
+                    another upgrade to RHEL 7.</note>
             </context>
             <steps>
                 <step>
@@ -402,16 +414,23 @@ eucalyptus <ph conref="../shared/conrefs.dita#prod/prev_version"/></codeblock>
                             Guide</xref>.</info>
                 </step>
                 <step>
-                    <cmd>Restore your cloud state following the "Recover Cloud Data" section of the <ph
-                            conref="../shared/conrefs.dita#prod/prev_version"/> Administration Guide (not
-                        the 4.3 guide), using the cloud data you backed up before you upgraded 4.2 to 4.3
-                        on RHEL 6.</cmd>
+                    <cmd>Restore your cloud state following the <xref
+                            href="http://docs.hpcloud.com/eucalyptus/4.2.2/#admin-guide/euca_recover.html"
+                            format="html" scope="external">Recover Cloud Data</xref> section of the
+                            <ph conref="../shared/conrefs.dita#prod/prev_version"/> Administration
+                        Guide (not the 4.3 guide), using the cloud data you backed up before you
+                        upgraded 4.2 to 4.3 on RHEL 6.</cmd>
                     <info>See the <xref
                             href="http://docs.hpcloud.com/eucalyptus/4.2.2/#shared/manage_section.html"
                             format="html" scope="external">Eucalyptus 4.2.2 Administration
                             Guide</xref>.</info>
                 </step>
+                <step>
+                    <cmd>Analyze the problems that occurred during the upgrade to RHEL 7, then
+                        decide when you are ready to re-upgrade to RHEL 7.</cmd>
+                </step>
             </steps>
+            <result>Your cloud is now running <ph conref="../shared/conrefs.dita#prod/product"/> 4.2 on RHEL 6.</result>	
         </taskbody>
     </task>
 </task>
