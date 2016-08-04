@@ -5,6 +5,14 @@
     <!--    This task template to be used for a specific PROCEDURE with steps. -->    
     <title>Disable FirewallD on RHEL 7</title>
     <shortdesc>This topic describes how to stop and disable FirewallD on RHEL 7.</shortdesc>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>firewalls <indexterm>configuring</indexterm>
+                </indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
     <taskbody>
         <!--    If there are no prereqs, state "None." -->        
         <prereq><b>Prerequisites</b>
@@ -13,13 +21,14 @@
             </ul>
         </prereq>
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-        <context>
+        <context>If you have existing firewall rules on your host machines, you must disable the
+            firewall in order to install <ph conref="../shared/conrefs.dita#prod/product"/>. You should re-enable it
+            after installation.
             <p>The firewall on a RHEL 7 system is enabled by default. However, FirewallD is not
                 compatible with <ph conref="../shared/conrefs.dita#prod/product"/>
                 <ph conref="../shared/conrefs.dita#prod/version"/>.</p>
             <note>After you upgrade to RHEL 7, and before you restart the CLC, you must disable the
                 firewalld service on all host machines.</note>
-            <!-- Is this only for the CLC or for all host machines?-->
             <p>For more information, see <xref
                     href="https://www.certdepot.net/rhel7-get-started-firewalld/" format="html"
                     scope="external">FirewallD on RHEL 7</xref> or <xref
@@ -59,6 +68,9 @@
   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
   Active: inactive (dead)</codeblock>
                 </stepresult>
+            </step>
+            <step>
+                <cmd>Repeat these steps for all host machines.</cmd>
             </step>
         </steps>
         <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
