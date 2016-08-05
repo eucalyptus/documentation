@@ -17,7 +17,7 @@
 							machines running the Walrus Backend service. Restore this entire
 							directory tree. If the total size of your objects is not too large for a
 							tar file, you can use the tar command. For example:
-							<codeblock>tar -xzvf ~/eucalyptus-objects.tgz -C/</codeblock></li>
+							<codeblock>tar -xzvf ~/eucalyptus-objects.tgz -C /</codeblock></li>
 						<li>For information about restoring Riak CS, go to <xref
 							href="https://docs.basho.com/riak/kv/2.1.4/using/repair-recovery/failure-recovery/#cluster-recovery-from-backups"
 								scope="external" format="html">Cluster Recovery From Backups</xref>.</li>
@@ -44,14 +44,16 @@
         			<codeblock>tar -xvf ~/eucalyptus-keydir.tgz -C /</codeblock>.</li>
         		<li>The CC and NC configuration files, stored on every CC and NC: 
         			<filepath>/etc/eucalyptus/httpd.conf</filepath>.</li>
-        		<li>Any .ini or credentials files on the CLC, which will be needed for Euca2ools commands on the
-        			newly upgraded cloud. These files can be found here:
-        			<filepath>/root/.euca</filepath>.</li>
-        		<li>Any Euca2ools configuration files, which reside on any Euca2ools host machine. Files can be
-        			found in: <filepath>/etc/euca2ools/euca2ools.ini</filepath>,
-        			<filepath>/etc/euca2ools/conf.d/*.ini</filepath>,
-        			<filepath>~/.euca/*.ini</filepath>.  Also include any user-created
-        			directories and the .ini files within them, for example: <filepath>/home/user1/.euca</filepath>.</li>
+        		<li>Any Euca2ools (.ini) configuration files, which reside on any Euca2ools host machine.
+					Files in these directories:<ul>
+						<li><filepath>/etc/euca2ools/euca2ools.ini</filepath></li>
+						<li><filepath>/etc/euca2ools/conf.d/*.ini</filepath></li>
+						<li><filepath>~/.euca/*.ini</filepath>, for any user's home directory.</li>
+					</ul><note>Others besides the root user can have a ~/.euca directory, and any
+						user might have more than one file in that directory. The user "joe" might
+						have <filepath>/home/joe/.euca</filepath> with
+							<filepath>joe_as_viewer.ini</filepath> and
+							<filepath>joe_as_admin.ini</filepath> files.</note></li>
         		<li>Ensure you have your instances' <xref
         			href="../user-guide/create_keypairs.dita#create_keypairs">private ssh key
         			files stored safely</xref> so you can access the instances.</li>
