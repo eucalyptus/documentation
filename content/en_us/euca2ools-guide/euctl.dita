@@ -9,7 +9,7 @@
 			Information Base (MIB) style name, described as a dotted set of components. See usage
 			notes and examples below.</shortdesc>
 		<note>The <codeph>euctl</codeph> command is intended to replace the deprecated
-				<codeph>euctl-describe-properties</codeph> and <codeph>euctl-modify-property</codeph>
+				<codeph>euca-describe-properties</codeph> and <codeph>euca-modify-property</codeph>
 			commands.</note></abstract>
 
 
@@ -19,15 +19,15 @@
 			<title>Syntax</title>
 			<codeblock>euctl [-A] [-r] [-d] [-s] [-n] [-q] [--edit | --dump] [--format {json,yaml}]
              [-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
-             [--security-token TOKEN] [--debug] [--debugger] [--version] [-h]
+        [--security-token TOKEN] [--debug] [--debugger] [--version] [-h]
              [NAME[=VALUE|=@FILE] [NAME[=VALUE|=@FILE] ...]]</codeblock>
 		</section>
 		<section>
 			<title>Options</title>
 			<table>
 				<tgroup cols="3">
-					<colspec colwidth="20*"/>
-					<colspec colwidth="70*"/>
+					<colspec colwidth="25*"/>
+					<colspec colwidth="65*"/>
 					<colspec colwidth="10*"/>
 
 					<thead>
@@ -149,16 +149,35 @@
 			<title>Examples</title>
 			<p>When retrieving a variable, a subset of the MIB name may be specified to retrieve a
 				list of variables in that subset. For example, to list all the dns variables: </p>
-			<codeph>euctl dns</codeph>
-			<p> </p><p>When setting a variable, the MIB name should be followed by an equal sign and
-				the new value:</p>
-			<codeph>euctl dns.enabled=true</codeph><p/><p>To reset a varable to its default
-				value, specify the -r option:</p>
-			<codeph>euctl -r dns.enabled</codeph>
+			<codeblock>euctl dns</codeblock>
+			<p>This replaces <codeph>euca-describe-properties</codeph>.</p>
+			<p>When setting a variable, the MIB name should be followed by an equal sign and the new
+				value:</p>
+			<codeblock>euctl dns.enabled=true</codeblock>
+			<p>This replaces <codeph>euca-modify-property -p</codeph>.</p>
+			<p>To write variables using the contents of the files as their new values rather than
+				typing them into the command line, follow them with <codeph>=@</codeph> and those
+				file names:</p>
+			<codeblock>euctl authentication.ldap_integration_configuration=@ldap.lic</codeblock>
+			<p>This replaces <codeph>euca-modify-property -f</codeph>.</p>
+			<p>It is possible to read or write more than one variable in a single invocation of
+				euctl. Just separate them with spaces:</p>
+			<codeblock>euctl one=1 two=2 three four=@4.txt five</codeblock>
+			<p>In all of these cases, <codeph>euctl</codeph> will generally output each variable named on its
+				command line, along with its current (and potentially just-changed) value. For
+				example, the output of the command above could be:
+				<codeblock>one = 1 
+two = 2
+three = 3
+four = 4
+five = 5</codeblock> To reset a
+				variable to its default value, specify the -r option:</p>
+			<codeblock>euctl -r dns.enabled</codeblock>
 			<p/><p>The information available from euctl consists of integers, strings, and
 				structures. The structured information can only be retrieved by specialized programs
 				and, in some cases, this program's <codeph>--edit</codeph> and
 					<codeph>--dump</codeph> options.</p>
+			<note>Refer to this command's manpage for a complete list of options and outputs.</note>
 		</section>
 	</refbody>
 </reference>
