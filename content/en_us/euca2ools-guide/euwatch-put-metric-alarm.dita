@@ -7,7 +7,7 @@
   <refbody>
   	<section>
   		<title>Syntax</title>
-  		<codeblock>euwatch-put-metric-alarm <b>AlarmName</b>  --comparison-operator  <b>value</b>  --evaluation-periods  <b>value</b>
+  		<codeblock>euwatch-put-metric-alarm <b>Alarm</b> --comparison-operator  <b>value</b>  --evaluation-periods  <b>value</b>
 --metric-name  <b>value</b>  --namespace  <b>value</b>  --period  <b>value</b>  --statistic 
 <b>value</b>  --threshold  <b>value</b> [--actions-enabled  <b>value</b> ] [--alarm-actions 
 <b>value</b>[,<b>value</b>...] ] [--alarm-description  <b>value</b> ] [--dimensions 
@@ -17,105 +17,136 @@
   	<section>
   		<title>Options</title>
   		<table>
-  			<tgroup cols="3">
-  				<colspec colwidth="25*"/>
-  				<colspec colwidth="60*"/>
-  				<colspec colwidth="15*"/>
-  				<thead>
-  					<row>
-  						<entry>Option</entry>
-  						<entry>Description</entry>
-  						<entry>Required</entry>
-  						
-  					</row>
-  				</thead>
-  				<tbody>
-  					<row>
-  						<entry><codeph><i>AlarmName</i></codeph></entry>
-  						<entry>Name of the alarm.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--actions-enabled <i>value</i></codeph></entry>
-  						<entry>This determines if you want actions be executed when this alarm changes state.
-  							<p>Valid values: <codeph>true</codeph> | <codeph>false</codeph></p></entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--alarm-actions <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
-  						<entry>Describes what you want to do if the alarm changes state. The value is the Amazon resource
-  							name (ARN) of the resource you want to act on. </entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--alarm-description <i>value</i></codeph></entry>
-  						<entry>Description of the alarm.</entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--comparison-operator <i>value</i></codeph></entry>
-  						<entry>The operator with which the comparison with threshold will be made.
-  							<p>Valid values: <codeph>GreaterThanOrEqualToThreshold</codeph> |
-  								<codeph>GreaterThanThreshold</codeph> |
-  								<codeph>LessThanThreshold</codeph> | <codeph>LessThanOrEqualToThreshold</codeph></p></entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--dimensions "<i>key1=value1</i>,<i>key2=value2</i>..."</codeph></entry>
-  						<entry>Dimensions of the metric on which to alarm.</entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--evaluation-periods <i>value</i></codeph></entry>
-  						<entry>Number of consecutive periods for which the value of the metric needs to
-  							be compared to threshold.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--metric-name <i>value</i></codeph></entry>
-  						<entry>The name of the metric on which to alarm.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--namespace <i>value</i></codeph></entry>
-  						<entry>Namespace of the metric on which to alarm.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--ok-actions <i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
-  						<entry>Describes what you want to do if the alarm goes to state <codeph>OK</codeph>. The value is the Amazon resource
-  							name (ARN) of the resource you want to act on. </entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--period <i>value</i></codeph></entry>
-  						<entry>Period of metric on which to alarm.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--statistic <i>value</i></codeph></entry>
-  						<entry>The statistic of the metric on which to alarm. 
-  							<p>Valid values: <codeph>SampleCount</codeph> | <codeph>Average</codeph> | <codeph>Sum</codeph> | <codeph>Minimum</codeph> | <codeph>Maximum</codeph></p></entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--threshold <i>value</i></codeph></entry>
-  						<entry>The threshold with which the metric value will be compared.</entry>
-  						<entry align="center">Yes</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--unit <i>value</i></codeph></entry>
-  						<entry>The unit of the metric on which to alarm.</entry>
-  						<entry align="center">No</entry>
-  					</row>
-  					<row>
-  						<entry><codeph>--insufficient-data-actions <i>value1</i>,<i>value2</i>,<i>value3</i>..</codeph></entry>
-  						<entry>Describes what you want to do if the alarm goes to state  <codeph>INSUFFICIENT_DATA</codeph>. The value is the Amazon resource
-  							name (ARN) of the resource you want to act on. </entry>
-  						<entry align="center">No</entry>
-  					</row>
-  				</tbody>
-  			</tgroup>
+  			<tgroup
+					cols="3">
+					<colspec
+						colwidth="2.77*"/>
+					<colspec
+						colwidth="4.3*"/>
+					<colspec
+						colwidth="1*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+							<entry>Required</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph><i>Alarm</i></codeph></entry>
+							<entry>Name of the alarm.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--actions-enabled <i>value</i></codeph></entry>
+							<entry>This determines if you want actions be executed when this alarm
+								changes state. <p>Valid values: <codeph>true</codeph> |
+										<codeph>false</codeph></p></entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--alarm-actions
+									<i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+							<entry>Describes what you want to do if the alarm changes state. The
+								value is the Amazon resource name (ARN) of the resource you want to
+								act on. </entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--alarm-description <i>value</i></codeph></entry>
+							<entry>Description of the alarm.</entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--comparison-operator <i>value</i></codeph></entry>
+							<entry>The operator with which the comparison with threshold will be
+								made. <p>Valid values:
+										<codeph>GreaterThanOrEqualToThreshold</codeph> |
+										<codeph>GreaterThanThreshold</codeph> |
+										<codeph>LessThanThreshold</codeph> |
+										<codeph>LessThanOrEqualToThreshold</codeph></p></entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--dimensions
+									"<i>key1=value1</i>,<i>key2=value2</i>..."</codeph></entry>
+							<entry>Dimensions of the metric on which to alarm.</entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--evaluation-periods <i>value</i></codeph></entry>
+							<entry>Number of consecutive periods for which the value of the metric
+								needs to be compared to threshold.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--metric-name <i>value</i></codeph></entry>
+							<entry>The name of the metric on which to alarm.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--namespace <i>value</i></codeph></entry>
+							<entry>Namespace of the metric on which to alarm.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--ok-actions
+									<i>value1</i>,<i>value2</i>,<i>value3</i>...</codeph></entry>
+							<entry>Describes what you want to do if the alarm goes to state
+									<codeph>OK</codeph>. The value is the Amazon resource name (ARN)
+								of the resource you want to act on. </entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--period <i>value</i></codeph></entry>
+							<entry>Period of metric on which to alarm.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--statistic <i>value</i></codeph></entry>
+							<entry>The statistic of the metric on which to alarm. <p>Valid values:
+										<codeph>SampleCount</codeph> | <codeph>Average</codeph> |
+										<codeph>Sum</codeph> | <codeph>Minimum</codeph> |
+										<codeph>Maximum</codeph></p></entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--threshold <i>value</i></codeph></entry>
+							<entry>The threshold with which the metric value will be
+								compared.</entry>
+							<entry
+								align="center">Yes</entry>
+						</row>
+						<row>
+							<entry><codeph>--unit <i>value</i></codeph></entry>
+							<entry>The unit of the metric on which to alarm.</entry>
+							<entry
+								align="center">No</entry>
+						</row>
+						<row>
+							<entry><codeph>--insufficient-data-actions
+										<i>value1</i>,<i>value2</i>,<i>value3</i>..</codeph></entry>
+							<entry>Describes what you want to do if the alarm goes to state
+									<codeph>INSUFFICIENT_DATA</codeph>. The value is the Amazon
+								resource name (ARN) of the resource you want to act on. </entry>
+							<entry
+								align="center">No</entry>
+						</row>
+					</tbody>
+				</tgroup>
   		</table>
   	</section>
   	
