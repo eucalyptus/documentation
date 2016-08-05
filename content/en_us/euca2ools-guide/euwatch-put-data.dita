@@ -9,7 +9,7 @@
   		<title>Syntax</title>
   		<codeblock>euwatch-put-data -m METRIC -n NAMESPACE
                         (-v FLOAT | -s Maximum=FLOAT,Minimum=FLOAT,SampleCount=F                           LOAT,Sum=FLOAT)
-                        [-d <b>KEY1=VALUE1,KEY2=VALUE2,...</b>]
+                        [-d <b>key1=value1,key2=value2,...</b>]
                         [-t YYYY-MM-DDThh:mm:ssZ] [-u UNIT]
                         [--show-empty-fields] [-U URL] [--region USER@REGION]
                         [-I KEY_ID] [-S KEY] [--security-token TOKEN]
@@ -49,7 +49,7 @@
 						</row>
 						<row>
 							<entry><codeph> -v FLOAT, --value FLOAT, <i>value</i></codeph></entry>
-							<entry>Data value for the metric.</entry>
+							<entry>Data value for the metric. Exactly one of -v and -s is required.</entry>
 							<entry
 								align="center">Yes</entry>
 						</row>
@@ -62,16 +62,16 @@
 								align="center">No</entry>
 						</row>
 						<row>
-							<entry><codeph>-s, --statisticValues
+							<entry><codeph>-s, --statistic-values
 										"<i>key1=value1</i>,<i>key2=value2</i>..." </codeph></entry>
 							<entry>Statistics to be provided for the given metric. You must specify
-								each value you want for this option, or else Eucalyptus returns an
-								error. <p>Valid key values: <codeph>SampleCount</codeph> |
+								all four of the key values you want for this option, or else Eucalyptus 
+								returns an error. <p>Valid key values: <codeph>SampleCount</codeph> |
 										<codeph>Sum</codeph> | <codeph>Maximum</codeph> |
 										<codeph>Minimum</codeph></p>
 							</entry>
 							<entry
-								align="center">No</entry>
+								align="center">Yes</entry>
 						</row>
 						<row>
 							<entry><codeph>-t, --timestamp
@@ -116,13 +116,13 @@
   	
   	<section>
   		<title>Examples</title>
-  		<p>The following example puts statistic data for "RequestCount" in the "MyService" namespace. 
-  			The metric contains no dimensions and so represents the overall RequestCount
-  			across the entire service.  The measurement is a pre-aggregated
-  			statisticValue representing five earlier measurements whose maximum was 70,
-  			minimum was 30 and sum was 250.</p>
+  		<p>The following example puts statistic data for "RequestCount" in the "MyService" namespace.
+				The metric contains no dimensions and so represents the overall RequestCount across
+				the entire service. The measurement is a pre-aggregated statistic-values
+				representing five earlier measurements whose maximum was 70, minimum was 30 and sum
+				was 250.</p>
   		<codeblock>euwatch-put-data --metric-name RequestCount --namespace "MyService" 
- --timestamp 2009-11-25T00:00:00.000Z --statisticValues 
+ --timestamp 2009-11-25T00:00:00.000Z --statistic-values 
  "Sum=250,Minimum=30,Maximum=70,SampleCount=5"</codeblock>
   		
   		<p>The following example puts user-specific "RequestCount" test data in the "MyService"
