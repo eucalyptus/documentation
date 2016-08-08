@@ -27,6 +27,12 @@
 						<entry>See linked bug for more information.</entry>
 					</row>
 					<row>
+						<entry><codeph>esi-*</codeph> tools have issues with HTTPS endpoints (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-11682"
+								scope="external">EUCA-11682</xref>)</entry>
+						<entry>Workaround: Use non-HTTPS endpoints, for example, use localhost region. See linked bug for procedure.</entry>
+					</row>
+					<row>
 						<entry><codeph>ImportInstance</codeph> failed to create booting instance 
 							on HTTPS-enabled Eucalyptus Cloud (<xref format="html"
 								href="https://eucalyptus.atlassian.net/browse/EUCA-12253"
@@ -41,12 +47,114 @@
 							<p>Workaround: Manually delete the unwanted duplicate entry.</p></entry>
 					</row>
 					<row>
+						<entry>Possible modification or rebuilding Windows images needed to run properly. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12493"
+							scope="external">EUCA-12493</xref>)</entry>
+						<entry>Windows 2003 no longer supported and images will require modification. 
+							<p>Workaround: Manually recreate VMs.</p></entry>
+					</row>
+					<row>
+						<entry><codeph>nodeadmin-unpack-instance</codeph> fails in MANAGED mode. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12501"
+							scope="external">EUCA-12501</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry><codeph>euserv-migrate-instances</codeph> (formerly <codeph>euca-migrate-instance)</codeph> 
+							fails in MANAGED mode. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12509"
+							scope="external">EUCA-12509</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>EC2 VPC route status is invalid for Internet gateway. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12510"
+							scope="external">EUCA-12510</xref>)</entry>
+						<entry>Route's status for Internet gateway doesn't update when the gateway is detached from VPC.</entry>
+					</row>
+					<row>
+						<entry>VPCMIDO:  limited connectivity with more than 500 instances/interfaces in a VPC subnet. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12552"
+							scope="external">EUCA-12552</xref>)</entry>
+						<entry>Known issue with MidoNet 1.9, which has difficulty handling bridges with high number of ports (> 500). 
+							<p>Workaround: Midokura recommendation is to limit bridges (each VPC subnet is mapped to a MidoNet bridge in Eucalyptus) 
+								to have less than 500 ports (each ENI takes 1 port).</p></entry>
+					</row>
+					<row>
+						<entry>Failure to unset policies from load balancer listeners. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12593"
+							scope="external">EUCA-12593</xref>)</entry>
+						<entry>Clearing a policy before unsetting them causes this failure. 
+							<p>Workaround: When changing policies, set the policies to the new value directly rather than clearing them first. 
+								See linked bug for specific commands to use.</p></entry>
+					</row>
+					<row>
 						<entry>Bucket object URLs not displayed properly in IE11 (<xref format="html"
 							href="https://eucalyptus.atlassian.net/browse/GUI-2215"
 							scope="external">GUI-2215</xref>)</entry>
 						<entry>Workaround: Use another Internet browser if necessary.</entry>
 					</row>
-					
+					<row>
+						<entry>Metrics landing page display issues (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2503"
+							scope="external">GUI-2503</xref>)</entry>
+						<entry>In FireFox, if the browser is displayed widely, the <uicontrol>Actions</uicontrol> menu 
+							displays too far right and becomes partially cut off. 
+							<p>Workaround: Narrow the width of the browser or use another Internet browser.</p></entry>
+					</row>
+					<row>
+						<entry>ELB Instances page doesn't always automatically select instances in the ELB. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2567"
+							scope="external">GUI-2567</xref>)</entry>
+						<entry>Issue appears intermittent. See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>Memcache is not cleared when user adds a new image or makes image public. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2669"
+							scope="external">GUI-2669</xref>)</entry>
+						<entry>When a user adds an image or changes permissions on image, it does not take effect immediately. 
+							The refresh time is considerable.
+							<p>Workaround: To make images available sooner, restart the console by running 
+								<codeph>servicectl restart eucaconsole</codeph>.</p></entry>
+					</row>
+					<row>
+						<entry>Authorize ports for ELB created in VPC.(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2673"
+							scope="external">GUI-2673</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>When a public image is made private, other users can still list it and 
+							try launching instance with it resulting in an error.(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2682"
+							scope="external">GUI-2682</xref>)</entry>
+						<entry>When a user changes permissions on image, it does not take effect immediately. 
+							The refresh time is considerable.
+							<p>Workaround: To make images available sooner, restart the console by running 
+								<codeph>servicectl restart eucaconsole</codeph>.</p></entry>
+					</row>
+					<row>
+						<entry>Internal server error on fresh install of eucaconsole.(<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/GUI-2700"
+								scope="external">GUI-2700</xref>)</entry>
+						<entry>It has been determined that python-nss cannot be installed on the same system with eucaconsole.
+							<p>Workaround: See <xref format="html"
+								href="https://support.eucalyptus.com/hc/en-us/articles/210311806"
+								scope="external">Knowledge Base article 210311806</xref>.</p></entry>
+					</row>
+					<row>
+						<entry>Empty error message when trying to change security policy for ELB (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2719"
+							scope="external">GUI-2719</xref>)</entry>
+						<entry>Empty error message appears when changing a security policy for an ELB.</entry>
+					</row>
+					<row>
+						<entry>Unable to change security policy on a load balancer. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2720"
+							scope="external">GUI-2720</xref>)</entry>
+						<entry>ELB is always assigned the latest security policy, even when an older one is specified 
+							<p>Workaround: When changing policies, set the policies to the new value directly rather than clearing them first.</p></entry>
+					</row>
 				</tbody>
 			</tgroup>
 		</table>
