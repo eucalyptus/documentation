@@ -5,9 +5,9 @@
 	
 	<title>Configure SELinux</title>
 	<shortdesc>Security-Enhanced Linux (SELinux) is a security feature for Linux that allows you to set
-		access control through policies. <ph conref="../shared/conrefs.dita#prod/product"/> 
-		<ph conref="../shared/conrefs.dita#prod/version"/> packages automatically install SELinux policy for <ph
-			conref="../shared/conrefs.dita#prod/product"/> on RHEL 7 and CentOS 7.</shortdesc>
+		access control through policies. <ph conref="../shared/conrefs.dita#prod/product"/>
+		<ph conref="../shared/conrefs.dita#prod/version"/> packages automatically install SELinux
+		policy for <ph conref="../shared/conrefs.dita#prod/product"/> on RHEL 7 and CentOS 7.</shortdesc>
 	
 <!--	Hold off on policy file docs for 4.3.0 release
 		RHEL 7 provides the ability to add a policy file.
@@ -24,15 +24,25 @@
 	</prolog>
 	
 	<taskbody>		
-		<!--    If there are no prereqs, state "None." -->        
-		<prereq><b>Prerequisites</b>
+		<!--    If there are no prereqs, state "None." -->      
+		
+<!-- FOR NOW removing this prerequisite - need to clarify with gholms per DOC-1805.
+			
+			<prereq><b>Prerequisites</b>
 			<p>You should have installed and configured <ph conref="../shared/conrefs.dita#prod/product"/>
 				<ph conref="../shared/conrefs.dita#prod/version"/> on RHEL 7 / CentOS 7.</p>
-		</prereq>        
+		</prereq>      -->  
 		<!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
-		<context>You need to set boolean values on Storage Controller (SC) and Management Console host
-			machines. If your network mode is VPCMIDO, you also set a boolean value on the Cloud
-			Controller (CLC) host machines.<p><b>To configure SELinux on <ph
+		<context><p>We recommend enabling SELinux on host systems running <ph
+					conref="../shared/conrefs.dita#prod/product"/>
+				<ph conref="../shared/conrefs.dita#prod/version"/> services to improve their
+				security on RHEL 7. Enabling SELinux, as described in this topic, can help contain
+				break-ins. For more information, see <xref
+					href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/SELinux_Users_and_Administrators_Guide/chap-Security-Enhanced_Linux-Troubleshooting.html"
+					format="html" scope="external">RedHat SELinux</xref> documentation. </p>You need
+			to set boolean values on Storage Controller (SC) and Management Console host machines.
+			If your network mode is VPCMIDO, you also set a boolean value on the Cloud Controller
+			(CLC) host machines. <p><b>To configure SELinux on <ph
 						conref="../shared/conrefs.dita#prod/product"/>
 					<ph conref="../shared/conrefs.dita#prod/version"/>:</b></p>
 		</context>
@@ -61,18 +71,19 @@
 			</step>
 		</steps>
 		<result>SELinux is now configured and ready to use with your <ph
-				conref="../shared/conrefs.dita#prod/product"/> cloud.</result>	
+				conref="../shared/conrefs.dita#prod/product"/> 
+			<ph conref="../shared/conrefs.dita#prod/version"/> cloud.</result>	
 	</taskbody>
 
 
-	<taskbody>
+<!--	<taskbody>
 		<context>In general, you should not disable SELinux on the host machines that run the <ph
 				conref="../shared/conrefs.dita#prod/product"/> services. One exception would be if
 			it were necessary to support RHEL 6 and CentOS 6. 
-			
+			-->
 <!--			Is there a 4.3 upgrade / downgrade gotcha hidden here?
 -->
-			<p><b>To disable SELinux on a RHEL 6 / CentOS 6 <ph
+<!--			<p><b>To disable SELinux on a RHEL 6 / CentOS 6 <ph
 						conref="../shared/conrefs.dita#prod/product"/> host machine:</b></p>
 		</context>
 		<steps>
@@ -94,6 +105,6 @@
 			</step>
 		</steps>
 		<result>SELinux is now disabled on your <ph conref="../shared/conrefs.dita#prod/product"/> cloud.</result>
-	</taskbody>
+	</taskbody>-->
 	
 </task>
