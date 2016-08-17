@@ -244,17 +244,22 @@ downgrade eucalyptus-enterprise-storage-san-netapp-libs
 	<task id="upgrade_failure_downgrade_euca2ools">
 		<title>Downgrade Euca2ools</title>
 		<taskbody>
-		    <context>If Euca2ools is not the source of upgrade failure, you are not required to downgrade
-                Euca2ools.</context>
+		    <context><p>In general, there is no need to downgrade Euca2ools.</p>
+		      <p>Whenever you install Euca2ools, it will always give you the latest patch of a release
+                    (for example, you'd get 3.3.1 over 3.3.0). If, for example, you have 3.3.1
+                    installed, then performing the following steps would downgrade to 3.3.0.</p>
+		        <p><note>If Euca2ools is not the source of upgrade failure, there is no reason to downgrade Euca2ools.</note></p></context>
 			<steps>
-				<step>
+				<!-- There is no need to do this step because there is no older repo to go back to (it's got 3.3.0 and 3.3.1). 
+				    See DOC-1929 for details.
+				    <step>
 					<cmd>Downgrade to the Euca2ools <ph conref="../shared/conrefs.dita#prod/e2ools_prev_version"/>
                         release package on each host machine:</cmd>
 			        <info>
 			            <codeblock>yum downgrade <ph conref="../shared/conrefs.dita#paths/euca2ools_downgrade"/></codeblock>
 			            <p>Enter <codeph>y</codeph> when prompted, to downgrade the release package.</p>
 			        </info>
-			    </step>
+			    </step>-->
 			    <step>
 			        <cmd>Expire the cache for the yum repositories on each host machine:</cmd>
 			        <info>
