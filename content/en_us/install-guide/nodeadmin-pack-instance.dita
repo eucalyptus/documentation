@@ -12,8 +12,8 @@
 		<section>
 			<title>Syntax</title>
 			<codeblock>nodeadmin-pack-instance [-h] (--all | -i INSTANCE)
-				[-o OUTPUT_DIRECTORY] [--shutdown] [--verbose]
-				[--no-compression] --sc-host-port SC_HOST_PORT
+				-o OUTPUT_DIRECTORY [--shutdown] [--verbose]
+				[--no-compression]
 			</codeblock>
 		</section>
 		<section>
@@ -54,10 +54,8 @@
 						</row>
 						<row>
 							<entry><codeph>-o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY</codeph></entry>
-							<entry>Location to store the resulting packed file(s).
-								<p>If you do not specify an output directory, the default is where you run the command.</p>
-							</entry>
-							<entry>No</entry>
+							<entry>Location to store the resulting packed file(s).</entry>
+							<entry>Yes</entry>
 						</row>
 						<row>
 							<entry><codeph>--shutdown</codeph></entry>
@@ -77,14 +75,7 @@
 								this takes more time. If time is more important than output size, include this
 								option.</entry>
 							<entry>No</entry>
-						</row>
-						<row>
-							<entry><codeph>--sc-host-port SC_HOST_PORT</codeph></entry>
-							<entry>The host and port of the Storage Controller (SC). One per zone.<p>To find these, run
-									from the CLC: <codeph>euserv-describe-services --filter
-										service-type=storage --expert</codeph></p></entry>
-							<entry>Yes</entry>
-						</row>						
+						</row>					
 					</tbody>
 				</tgroup>
 			</table>
@@ -144,9 +135,9 @@
 		<section>
 			<title>Examples</title>
 			<p>To pack all the instances on the NC and output in <filepath>/root/myinstances</filepath>:</p>
-			<codeblock>nodeadmin-pack-instance --all -o /root/myinstances --sc-host-port 203.0.113.13:8773</codeblock>
+			<codeblock>nodeadmin-pack-instance --all -o /root/myinstances</codeblock>
 			<p>Or, to pack a specific instance:</p>
-			<codeblock>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances --sc-host-port 203.0.113.13:8773</codeblock>
+			<codeblock>nodeadmin-pack-instance -i i-0a24a959 -o /root/myinstances</codeblock>
 			<p>To set environment variables:</p>
 			<codeblock>export EUCALYPTUS=/
 export AXIS2C_HOME=/usr/lib64/axis2c
