@@ -153,5 +153,48 @@ export AXIS2C_HOME=/usr/lib64/axis2c
 export LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</codeblock>
 		</section>
 		
+		<section>
+			<title>About nodeadmin-pack-instance</title>
+			<p>The nodeadmin-pack-instance command makes the following changes to the instance
+				artifacts in the <filepath>/var/lib/eucalyptus/instances/work/ACCOUNT_KEY_ID/INSTANCE_ID</filepath> directory:
+			<ol>
+				<li>Dumps RAM to disk in a file named
+					<filepath>INSTANCE_ID-ram.save</filepath>.</li>
+				<li>For each block device found in the libvirt configuration defined by 
+					<filepath>instance-libvirt.xml</filepath> and <filepath>instance.xml</filepath>:
+					<ol>
+						<li>Uses the "dd" command to save the entire device state to a <filepath>*-block.save</filepath> file.</li>
+						<li>Changes symbolic links such as 
+							"link-to-vda" to "/dev/mapper/euca-..." to "link-to-vda.orig" 
+							and a new link such as "link-to-vda" creates a <filepath>*-block.save</filepath> file.</li>
+						<li>Updates <filepath>instance-libvirt.xml</filepath> to change the block device to a file device.</li>
+					</ol>
+				</li>
+				<li>Appends the original <filepath>instance-libvirt.xml</filepath> with
+						<filepath>.orig</filepath> and saves a new version.</li>
+			</ol></p>
+		</section>
+		<section>
+			<title>If nodeadmin-pack-instance fails</title>
+			<p>In case of failure, you can roll back manually: 
+				<ol>
+					<li>Delete all <filepath>link-to-vd*</filepath> files.</li>
+					<li>Rename the <filepath>link-to-vd*.orig</filepath> files by removing the
+							<filepath>.orig</filepath>.</li>
+					<li>Delete the <filepath>instance-libvirt.xml</filepath> file.</li>
+					<li>Rename the <filepath>instance-libvirt.xml.orig</filepath> file by removing
+						the <filepath>.orig</filepath>.</li>
+					<li>Delete the <filepath>*-block.save</filepath> files.</li>
+					<li>Run the following command:
+						<codeblock>virsh restore INSTANCE_ID-ram.save</codeblock></li>
+					<li>If you get an error such as: "Failed to open file '/dev/disk/by-id/scsi-1IET_00040001': No such file or directory" 
+						you can reconnect all volumes that were attached to the instance using this command on the NC:
+						<codeblock>/usr/libexec/eucalyptus/nodeadmin-manage-volume-connections ConnectVolumes -s SC_HOST_PORT -i INSTANCE</codeblock>
+						For example:
+						<codeblock>/usr/libexec/eucalyptus/nodeadmin-manage-volume-connections ConnectVolumes -s 203.0.113.13:8773 -i i-356e4f34</codeblock>
+					</li>
+				</ol></p>
+		</section>
+		
 	</refbody>
 </reference>
