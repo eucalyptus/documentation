@@ -155,9 +155,11 @@ export LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</codeblock>
 					<filepath>instance-libvirt.xml</filepath> and <filepath>instance.xml</filepath>:
 					<ol>
 						<li>Uses the "dd" command to save the entire device state to a <filepath>*-block.save</filepath> file.</li>
-						<li>Changes symbolic links such as 
-							"link-to-vda" to "/dev/mapper/euca-..." to "link-to-vda.orig" 
-							and a new link such as "link-to-vda" creates a <filepath>*-block.save</filepath> file.</li>
+						<li>Renames symbolic links such as "link-to-vda", which link to "/dev/mapper/euca-...", to a
+								new name such as "link-to-vda.orig" without changing the target of
+								the link.</li>
+							<li>Creates new links such as "link-to-vda" that link to the
+									<filepath>*-block.save</filepath>files created above.</li>
 						<li>Updates <filepath>instance-libvirt.xml</filepath> to change the block device to a file device.</li>
 					</ol>
 				</li>
@@ -169,7 +171,8 @@ export LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</codeblock>
 			<title>If nodeadmin-pack-instance fails</title>
 			<p>In case of failure, you can roll back manually: 
 				<ol>
-					<li>Delete all <filepath>link-to-vd*</filepath> files.</li>
+					<li>Delete all <filepath>link-to-vd*</filepath> files (but not the
+							<filepath>link-to-vd*.orig</filepath> files).</li>
 					<li>Rename the <filepath>link-to-vd*.orig</filepath> files by removing the
 							<filepath>.orig</filepath>.</li>
 					<li>Delete the <filepath>instance-libvirt.xml</filepath> file.</li>
