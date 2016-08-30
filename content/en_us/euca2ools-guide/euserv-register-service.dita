@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euserv-register-service">
+  <title>euserv-register-service</title>
+  <abstract><shortdesc>Registers a new service instance.</shortdesc>
+    <note>The <codeph>euserv-register-service</codeph> command replaces the deprecated 
+      <codeph>euca_conf --register-</codeph>* (except <codeph>--register-nodes</codeph>) and 
+      <codeph>euca-register-service</codeph>* commands.</note>
+  </abstract>
+  
+  <refbody>
+    <section>
+      <title>Syntax</title>
+      <codeblock>euserv-register-service <b>-t</b> TYPE <b>-h</b> IP [--port PORT] [-z ZONE] [-U URL]
+
+       [--region USER@REGION] [-I KEY_ID] [-S KEY]
+           [--security-token   TOKEN]  [--debug]  [--debugger]  [--version]
+           [--help] SVCINSTANCE
+</codeblock>
+    </section>
+    <section>
+      <title>Positional Arguments</title>
+      <table>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Argument</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry><codeph>SVCINSTANCE</codeph></entry>
+              <entry>The name of the new service instance to register.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Options</title>
+      <table>
+        <tgroup cols="3">
+          <colspec colwidth="28*"/>
+          <colspec colwidth="60*"/>
+          <colspec colwidth="12*"/>
+          
+          <thead>
+            <row>
+              <entry align="center">Option</entry>
+              <entry align="center">Description</entry>
+              <entry align="center">Required</entry>
+            </row>
+          </thead>
+          
+          <tbody>
+    <row>
+      <entry><codeph>-t, --type
+        <i>type</i></codeph></entry>
+      <entry>The new service instance's type. </entry>
+      <entry align="center">Yes</entry>
+    </row>
+            
+            <row>
+              <entry><codeph>-h, --host
+                <i>IP</i></codeph></entry>
+              <entry>The host on which the new instance of the service runs. </entry>
+              <entry align="center">Yes</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--port
+                <i>port</i></codeph></entry>
+              <entry>The port on which the new instance of the service runs (default  for
+                cluster: 8774, otherwise: 8773). </entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>-z, --availability-zone
+                <i>zone</i></codeph></entry>
+              <entry>The availability zone in which to register the new service instance. This
+                is required only for services of certain types. </entry>
+              <entry align="center">Conditional</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+  
+    <section
+      conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+    
+    <section>
+      <title>Output</title>
+      <p>If an output was requested, then Eucalyptus returns a message stating that the service instance was successfully
+        registered.</p>
+    </section>
+    
+    <section>
+      <title>Example</title>
+      <p>To register the ufs service named "user-api-5":</p>
+      <codeblock>euserv-register-service -t user-api -h 10.0.0.15 -U http://127.0.0.1:8773/services/Empyrean user-api-5</codeblock>
+      <note>A prerequisite for this command is to have the credentials in the shell you are running the register command. For example:
+        <codeblock>eval `clcadmin-assume-system-credentials`</codeblock></note>
+    </section>
+  </refbody>
+</reference>
