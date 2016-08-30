@@ -8,7 +8,7 @@
 			cloud state. The state to be retrieved or set is described using a Management
 			Information Base (MIB) style name, described as a dotted set of components. See usage
 			notes and examples below.</shortdesc>
-		<note>The <codeph>euctl</codeph> command is intended to replace the deprecated
+		<note>The <codeph>euctl</codeph> command replaces the deprecated
 				<codeph>euca-describe-properties</codeph> and <codeph>euca-modify-property</codeph>
 			commands.</note></abstract>
 
@@ -17,10 +17,40 @@
 
 		<section>
 			<title>Syntax</title>
-			<codeblock>euctl [-A] [-r] [-d] [-s] [-n] [-q] [--edit | --dump] [--format {json,yaml}]
-             [-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
-        [--security-token TOKEN] [--debug] [--debugger] [--version] [-h]
-             [NAME[=VALUE|=@FILE] [NAME[=VALUE|=@FILE] ...]]</codeblock>
+			<codeblock>euctl [-Anr] [-d | -s] NAME ...
+euctl [-nq] NAME=VALUE ...
+euctl [-nq] NAME=@FILE ...
+euctl --dump [--format {raw,json,yaml}] NAME
+euctl --edit [--format {raw,json,yaml}] NAME</codeblock>
+		</section>
+		
+		<section>
+			<title>Positional Arguments</title>
+			<table>
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Argument</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry><codeph>NAME</codeph></entry>
+							<entry>Output a variable's value.</entry>
+						</row>
+						<row>
+							<entry><codeph>NAME=VALUE</codeph></entry>
+							<entry>Set a variable to the specified value and then output it.</entry>
+						</row>
+						<row>
+							<entry><codeph>NAME=@FILE</codeph></entry>
+							<entry>Set a variable to that of the specified file's contents, then
+								output it.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
 		</section>
 		<section>
 			<title>Options</title>
@@ -40,101 +70,75 @@
 
 
 					<tbody>
-						<row>
-							<entry><codeph>NAME[<i>=VALUE</i>|<i>=@FILE</i>]</codeph>
-								<varname>name</varname>=<varname>value</varname></entry>
-							<entry>Output the specified variable, and where a value is given, attempt to set it to the
-								specified value. Specify a filename to read the values from a file;
-								for example: <codeph>myproperty=@myvaluefile</codeph></entry>
-							<entry>Positional</entry>
-
-						</row>
-
+						
 						<row>
 							<entry><codeph>-A, --all-types</codeph></entry>
 							<entry>List all the known variable names, including structures. Those
 								with string or integer values will be output as usual; for the
 								structured values, the methods of retrieving them are given.</entry>
 							<entry>No</entry>
-
 						</row>
-						<row>
-							<entry><codeph>-r, --reset</codeph>
-							</entry>
-							<entry>Resets the named property to the default value.</entry>
-
-							<entry>No</entry>
-
-						</row>
-
-						<row>
-							<entry><codeph>-d</codeph>
-							</entry>
-							<entry>Show variables' default values instead of their current
-								values.</entry>
-
-							<entry>No</entry>
-
+							<row>
+								<entry><codeph>-d</codeph></entry>
+								<entry>Output variables' default values rather than their current values. 
+									Note that not all variables have default values.</entry>
+								<entry>No</entry>
 						</row>
 						<row>
 							<entry><codeph>-s</codeph>
 							</entry>
 							<entry>Show variables' descriptions instead of their current
 								values.</entry>
-							
 							<entry>No</entry>
-							
 						</row>
 						<row>
 							<entry><codeph>-n</codeph>
 							</entry>
 							<entry>Suppress output of the variable name. This is useful for setting
 								shell variables.</entry>
-
 							<entry>No</entry>
-
 						</row>
-
 						<row>
 							<entry><codeph>-q</codeph>
 							</entry>
 							<entry>Suppress all output when setting a variable. This option
 								overrides the behavior of the <codeph>-n</codeph> parameter.</entry>
-
 							<entry>No</entry>
+						</row>
+						<row>
+							<entry><codeph>-r, --reset</codeph>
+							</entry>
+							<entry>Reset the given variables to their default values.</entry>
+							<entry>No</entry>
+						</row>
 
+						<row>
+							<entry><codeph>--dump</codeph></entry>
+							<entry>Output the value of a structured variable in its
+								entirety. The value will be formatted in the manner specified 
+								by the <codeph>--format</codeph> option.</entry>
+							<entry>No</entry>
 						</row>
 
 						<row>
 							<entry><codeph>--edit</codeph>
 							</entry>
-							<entry>Edit a structured variable interactively. Only one variable may
-								be edited per invocation. When looking for an editor, the program
-								will first try the environment variable VISUAL, then the environment
-								variable EDITOR, and finally the default editor, vi.</entry>
-
+							<entry>Edit the value of a structure variable interactively. The value
+								will be formatted in the manner specified by the <codeph>--format</codeph> option.
+								Only one variable may be edited per invocation. When looking for
+								an editor, the program will first try the environment variable
+								VISUAL, then the environment variable EDITOR, and finally the
+								default editor, vi.</entry>
 							<entry>No</entry>
-
 						</row>
 
 						<row>
-							<entry><codeph>--dump</codeph>
-							</entry>
-							<entry>Output the value of a structured variable in its
-								entirety.</entry>
-
-							<entry>No</entry>
-
-						</row>
-
-						<row>
-							<entry><codeph>--format <i>format</i></codeph>
-							</entry>
-							<entry>Try to use the specified format when displaying a structured
-								variable. <p>Valid values: <codeph>json</codeph> |
-										<codeph>yaml</codeph></p><p>Default value:
+							<entry><codeph>--format {raw,json,yaml}</codeph></entry>
+							<entry>Use the specified format when displaying a structured
+								variable.<p>Valid values: <codeph>raw</codeph> |
+									<codeph>json</codeph> |
+									<codeph>yaml</codeph> </p><p>Default value:
 										<codeph>json</codeph></p></entry>
-
 							<entry>No</entry>
 
 						</row>
@@ -160,8 +164,10 @@
 				file names:</p>
 			<codeblock>euctl authentication.ldap_integration_configuration=@ldap.lic</codeblock>
 			<p>This replaces <codeph>euca-modify-property -f</codeph>.</p>
+			<p>Specify a filename to read the values from a file:
+				<codeblock>myproperty=@myvaluefile</codeblock></p>
 			<p>It is possible to read or write more than one variable in a single invocation of
-				euctl. Just separate them with spaces:</p>
+				<codeph>euctl</codeph>. Just separate them with spaces:</p>
 			<codeblock>euctl one=1 two=2 three four=@4.txt five</codeblock>
 			<p>In all of these cases, <codeph>euctl</codeph> will generally output each variable named on its
 				command line, along with its current (and potentially just-changed) value. For
@@ -177,7 +183,7 @@ five = 5</codeblock> To reset a
 				structures. The structured information can only be retrieved by specialized programs
 				and, in some cases, this program's <codeph>--edit</codeph> and
 					<codeph>--dump</codeph> options.</p>
-			<note>Refer to this command's manpage for a complete list of options and outputs.</note>
+			<note>Refer to this command's manpage for a complete list of environment variables, options, and outputs.</note>
 		</section>
 	</refbody>
 </reference>
