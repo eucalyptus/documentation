@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euserv-describe-services">
+  <title>euserv-describe-services</title>
+  <abstract><shortdesc>Shows information about the cloud's services.</shortdesc>
+    <note>The <codeph>euserv-describe-services</codeph> command replaces the following deprecated commands:
+      <ul>
+        <li><codeph>euca_conf --list-</codeph>* (except --list-nodes)</li>
+        <li><codeph>euca-describe-arbitrators</codeph></li>
+        <li><codeph>euca-describe-autoscaling</codeph></li>
+        <li><codeph>euca-describe-cloudformation</codeph></li>
+        <li><codeph>euca-describe-clouds</codeph></li>
+        <li><codeph>euca-describe-cloudwatch</codeph></li>
+        <li><codeph>euca-describe-clusters</codeph></li>
+        <li><codeph>euca-describe-components</codeph></li>
+        <li><codeph>euca-describe-compute</codeph></li>
+        <li><codeph>euca-describe-euare</codeph></li>
+        <li><codeph>euca-describe-loadbalancing</codeph></li>
+        <li><codeph>euca-describe-nodes</codeph></li>
+        <li><codeph>euca-describe-object-storage-gateways</codeph></li>
+        <li><codeph>euca-describe-services</codeph></li>
+        <li><codeph>euca-describe-storage-controllers</codeph></li>
+        <li><codeph>euca-describe-tokens</codeph></li>
+        <li><codeph>euca-describe-walrusbackends</codeph></li>
+      </ul>
+      </note>
+  </abstract>
+  
+  <refbody>
+    <section>
+      <title>Syntax</title>
+      <codeblock>euserv-describe-services [-a]
+
+       [--group-by-type | <b>--group-by-zone</b> | <b>--group-by-host</b> | <b>--expert</b>]
+         [--show-headers]   [--show-empty-fields]   [-U   URL]  [--region
+         USER@REGION]  [-I  KEY_ID]  [-S  KEY]  [--security-token  TOKEN]
+         [--filter  NAME=VALUE]  [--debug]  [--debugger] [--version] [-h]
+         [SVCINSTANCE [SVCINSTANCE ...]]</codeblock>
+    </section>
+    <section>
+      <title>Positional Arguments</title>
+      <table>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Argument</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry><codeph>SVCINSTANCE</codeph></entry>
+              <entry>Limit results to specific instances of services.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Options</title>
+      <table>
+        <tgroup cols="3">
+          <colspec colwidth="28*"/>
+          <colspec colwidth="60*"/>
+          <colspec colwidth="12*"/>
+          
+          <thead>
+            <row>
+              <entry align="center">Option</entry>
+              <entry align="center">Description</entry>
+              <entry align="center">Required</entry>
+            </row>
+          </thead>
+          
+          <tbody>
+            <row>
+              <entry><codeph>-a, --all
+                </codeph></entry>
+              <entry>Show all services regardless of type. </entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--group-by-type
+              </codeph></entry>
+              <entry>Collate services by service type (default).</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--group-by-zone
+              </codeph></entry>
+              <entry>Collate services by availability zone.</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--group-by-host
+              </codeph></entry>
+              <entry>Collate services by host.</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--expert
+              </codeph></entry>
+              <entry>Show advanced information, including service accounts.</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--show-headers
+              </codeph></entry>
+              <entry>Show column headers.</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+            <row>
+              <entry><codeph>--filter <i>name=value</i>
+              </codeph></entry>
+              <entry>Restrict results to those that meet criteria. Allowed filter names:
+              <p><ul>
+                <li><codeph>availability-zone</codeph>. The service's availability zone.</li>
+                <li><codeph>host</codeph>. The machine running the service.</li>
+                <li><codeph>internal</codeph>. Whether the service is used only internally (true or false).</li>
+                <li><codeph>public</codeph>. Whether the service is public (true or false).</li>
+                <li><codeph>service-group</codeph>. Whether the service is a member of a specific service group.</li>
+                <li><codeph>service-group-member</codeph>. Whether the service is public (true or false).</li>
+                <li><codeph>service-type</codeph>. The service's availability zone</li>
+                <li><codeph>state</codeph>. The service's availability zone</li>
+              </ul></p>
+              </entry>
+              <entry align="center">No</entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+    <section
+      conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+    
+    <section>
+      <title>Output</title>
+      <p>Eucalyptus returns information about the services you specified.
+      </p>
+    </section>
+    
+    <section>
+      <title>Example</title>
+      <p>Verify that you are looking at the cloud controllers view of the service state by explicitly running against that host:</p>
+      <codeblock>euserv-describe-services --filter service-type=storage -U http://localhost:8773/services/Empyrean
+SERVICE  storage  one  one-sc-1  enabled</codeblock>
+    </section>
+  </refbody>
+</reference>
