@@ -7,100 +7,91 @@
     
 <!--This topic written for Euca 4.3 so not a conref for "4.3" above.
 -->
-    <shortdesc>This topic describes how to upgrade a <ph conref="../shared/conrefs.dita#prod/product"/>
-        <ph conref="../shared/conrefs.dita#prod/version"/> non-NC host machine to RHEL 7.</shortdesc>
+    <shortdesc>This topic describes how to upgrade <ph conref="../shared/conrefs.dita#prod/product"/>
+        <ph conref="../shared/conrefs.dita#prod/version"/> non-NC host machines to RHEL
+        7.</shortdesc>
     <taskbody>
         <!--    If there are no prereqs, state "None." -->        
         <prereq><b>Prerequisites</b>
-            <p>Before upgrading your non-NC host machine, ensure that:</p>
+            <p>Before upgrading your non-NC host machines, ensure that:</p>
             <ul>
                 <li>You understand where the RHEL 7 OS upgrade fits in the overall process, as
                     described in <xref
                         href="rhel7_upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> and you
                     have <xref href="upgrade_prep.dita#upgrade_prep">prepared for the
-                        upgrade</xref>.</li>
+                    upgrade</xref>.</li>
                 <li>You have successfully backed up your <ph
                         conref="../shared/conrefs.dita#prod/product"/> cloud state using the
                     instructions in <xref
                         href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</li>
-                <li>You have verified that this host machine is <i>not</i> running NC services.</li>
-                <li>All NC host machines have already been upgraded; see 
-                    <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"/>.</li>
-                <li>No <ph conref="../shared/conrefs.dita#prod/product"/> services are running 
+                <li>You have verified that these host machines are <i>not</i> running NC
+                    services.</li>
+                <li>All NC host machines have already been upgraded; see <xref
+                        href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"/>.</li>
+                <li>No <ph conref="../shared/conrefs.dita#prod/product"/> services are running
                     during this upgrade procedure.</li>
                 <li>You are prepared to upgrade all the non-NC host machines at the same time.</li>
-               <!-- <li>The current state of the host machine is STOPPED / DISABLED (VERIFY WHERE WE ARE
+                <!-- <li>The current state of the host machine is STOPPED / DISABLED (VERIFY WHERE WE ARE
                     AT THIS POINT!). THIS PROCEDURE IS LINKED-TO from THE TOP-LEVEL PROCESS
                     only.</li>-->
             </ul>
         </prereq>        
         <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
         <context>
-            <note>If this host machine is running NC services, do not perform these
-                steps; instead see <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"
-                />.</note>
+            <note>If a host machine is running NC services, do not perform these steps; instead see
+                    <xref href="rhel7_upgrade_nc_hosts.dita#rhel7_upgrade_nc"/>.</note>
           <!--  <p>SHOULD WE SAY SOMETHING ABOUT WHERE THEY ARE COMING FROM TO GET TO THIS
                 PROCEDURE?</p>-->
             <note type="warning">It is critical that the cloud state backup is valid and held in persistent storage that will be
                 unaffected by the <ph conref="../shared/conrefs.dita#prod/product"/>
                 <ph conref="../shared/conrefs.dita#prod/version"/> and RHEL 7 installs
                 before performing this procedure.</note>
-            <p><b>To upgrade a non-NC host machine to RHEL 7</b></p>
+            <p><b>To upgrade the set of non-NC host machines to RHEL 7</b></p>
         </context>
         <steps>
             <step>
-                <cmd>Shut down the host machine gracefully.</cmd>
-                <info>This is for the benefit of the other <ph conref="../shared/conrefs.dita#prod/product"/> hosts in the cloud.</info>
+                <cmd>Shut down all the non-NC host machines gracefully.</cmd>
             </step>
             <step>
-                <cmd>Replace the host machine's operating system with RHEL 7.</cmd>
+                <cmd>Replace each non-NC host machine's operating system with RHEL 7.</cmd>
                 <info>This is a clean install of the OS. <p>See <xref
                     href="rhel7_install_euca_hosts.dita#rhel7_install_euca_hosts"/>.</p>
                 </info>
             </step>
-            <!-- Lincoln does not think this needs to be called out.
-                <step>
-                <cmd>Disable FirewallD.</cmd>
-                <info><note>The firewall on a RHEL 7 system is enabled by
-                    default. After you upgrade to RHEL 7, and before you restart the CLC, you must disable the
-                    firewalld service on all host machines.</note>
-                    <p>See <xref href="rhel7_disable_firewalld.dita#upgrade_rhel7_disable_firewalld"/>.</p>
-                </info>
-            </step>-->
             <step>
                 <cmd>Install <ph conref="../shared/conrefs.dita#prod/product"/> <ph conref="../shared/conrefs.dita#prod/version"/>.</cmd>
-                <info>This is a clean install of <ph conref="../shared/conrefs.dita#prod/product"/>,
-                    specifically for this host machine. <p>See <xref
-                        href="installing_dependencies.dita#installing_dependencies"/> through 
-                        <xref href="configuring_security_groups.dita#configuring_security_groups"/>.</p>
-                    <p>Install the same set of <ph conref="../shared/conrefs.dita#prod/product"/> services 
-                        as you had running prior to the RHEL 7 upgrade.</p>
+                <info>This is a clean install of <ph conref="../shared/conrefs.dita#prod/product"/>
+                    on the set of non-NC host machines. <p>See <xref
+                            href="installing_dependencies.dita#installing_dependencies"/> through
+                            <xref
+                            href="configuring_security_groups.dita#configuring_security_groups"
+                        />.</p><p>
+                        <note>The installation sections include changes for RHEL 7.</note>
+                    </p><p>Install the same set of <ph conref="../shared/conrefs.dita#prod/product"
+                        /> services on each host machine as you had running prior to the RHEL 7
+                        upgrade.</p>
                 </info>
             </step>
-            <step>
-                <cmd>Recover the host machine's cloud state.</cmd>
-                <info>This restores the host's cloud state after the clean RHEL 7 and clean <ph conref="../shared/conrefs.dita#prod/product"/>
-                    installs. <p>See <xref href="../admin-guide/euca_recover.dita#euca_recover"
-                    />.</p>
-                </info>
-            </step>            
-            
+<!--  DOC-1943 & DOC-1921 - Lincoln recommends eliminating this recover step in this topic: 
+                <step>
+                <cmd>Recover each host machines' cloud state.</cmd>
+                <info>This restores the cloud state after the clean RHEL 7 and clean <ph
+                        conref="../shared/conrefs.dita#prod/product"/> installs. <p>See <xref
+                            href="../admin-guide/euca_recover.dita#euca_recover"/>.</p></info>
+            </step>     -->       
+
             <!--    A simple verification can be just another step. Complex verifications, with multiple steps, should be a separate task. -->    
             <step>
-                <cmd>Verify that the clean installs worked and that the host's cloud state has been
+                <cmd>Verify that the clean installs worked and that the overall cloud state has been
                     recovered properly.</cmd>
-                <info>
-                    <!--<codeblock>CODE SAMPLE TO VERIFY THE HOST MACHINE UPGRADE</codeblock>-->
-                </info>
-            </step>
-            <step>
-                <cmd>Repeat this procedure for all <ph conref="../shared/conrefs.dita#prod/product"/> host machines.</cmd>
+                <info><!--<codeblock>CODE SAMPLE TO VERIFY THE HOST MACHINE UPGRADE</codeblock>--></info>
             </step>
         </steps>
         <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
             in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
         <result>
-            <p>The upgraded host machine is now ready for production.</p>
+            <p>Now that you have upgraded the set of non-NC hosts, and previously upgraded all NC
+                hosts, your cloud is ready for production.</p>
             <!--            <p>(Optional) Where to go next.</p>
 -->        </result>
         <!--    If there are no postreqs, this section should be hidden. Don't expect many postreqs.
