@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euserv-describe-events">
+  <title>euserv-describe-events</title>
+  <abstract><shortdesc>Shows information about service-affecting events.</shortdesc>
+    <note>The <codeph>euserv-describe-events</codeph> command is intended to replace the <b>-E</b> option in the 
+      <codeph>euca-describe-services</codeph> command and is currently under Technical Preview and is subject to 
+      change without notice.</note>
+  </abstract>
+  
+  <refbody>
+    <section>
+      <title>Syntax</title>
+      <codeblock>euserv-describe-events [<b>-s</b>] [<b>-f</b> FORMAT]
+</codeblock>
+    </section>
+    <section>
+      <title>Description</title>
+      <p>Events come in the form of a list, where each event contains
+        one or more of the following tags:
+      </p>
+      <table>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Tag</entry>
+              <entry>Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>  <entry><codeph>id</codeph></entry>
+              <entry>A unique ID for the event.</entry>
+            </row>
+            <row>
+              <entry><codeph>message</codeph></entry>
+              <entry>A free-form text description of the event.</entry>
+            </row>
+            <row>
+              <entry><codeph>severity</codeph></entry>
+              <entry>The message's severity (FATAL, URGENT, ERROR, WARNING, INFO,
+                DEBUG, TRACE).</entry>
+            </row>
+            <row>
+              <entry><codeph>stack-trace</codeph></entry>
+              <entry>The stack trace, if any, corresponding to the event.  The <b>-s</b>
+                option is required to make this appear.</entry>
+            </row>
+            <row>
+              <entry><codeph>subject-arn</codeph></entry>
+              <entry>The Eucalyptus ARN of the service affected by the event.</entry>
+            </row>
+            <row>
+              <entry><codeph>subject-name</codeph></entry>
+              <entry>The name of the service affected by the event.</entry>
+            </row>
+            <row>
+              <entry><codeph>subject-type</codeph></entry>
+              <entry>The type of service affected by the event.</entry>
+            </row>
+            <row>
+              <entry><codeph>timestamp</codeph></entry>
+              <entry>The date and time of the event's creation.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+      
+      <section>
+        <title>Environment</title>
+        <note>The <codeph>euserv-describe-events</codeph> command requires access keys and knowledge of where to locate the
+          web services it needs to contact. It can obtain these from several locations.</note>
+        <table>
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Environment</entry>
+                <entry>Description</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>  <entry><codeph>AWS_ACCESS_KEY_ID</codeph></entry>
+                <entry>The access key ID to use when authenticating web service requests. 
+                  This takes precedence over and euca2ools.ini, but not <codeph>-I</codeph>.</entry>
+              </row>
+              <row>
+                <entry><codeph>AWS_SECRET_ACCESS_KEY</codeph></entry>
+                <entry>The secret key to use when authenticating web service requests. This
+                  takes precedence over --region and euca2ools.ini(5), but not <codeph>-S</codeph>.</entry>
+              </row>
+              <row>
+                <entry><codeph>EUCA_BOOTSTRAP_URL</codeph></entry>
+                <entry>The URL of the service to contact. This takes precedence over <codeph>--region</codeph>
+                  and euca2ools.ini, but not <codeph>-U</codeph>.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+    </section>
+   
+    <section>
+      <title>Options</title>
+      <table>
+        <tgroup cols="3">
+          <colspec colwidth="28*"/>
+          <colspec colwidth="60*"/>
+          <colspec colwidth="12*"/>
+          
+          <thead>
+            <row>
+              <entry align="center">Option</entry>
+              <entry align="center">Description</entry>
+              <entry align="center">Required</entry>
+            </row>
+          </thead>
+          
+          <tbody>
+            <row>
+              <entry><codeph>-f, --format
+                <i>format</i></codeph></entry>
+              <entry>Print events in a given format, where <i>format</i> can be:
+                  <codeph>yaml</codeph> or <codeph>oneline</codeph>, and
+                <codeph>format</codeph>:<i>string</i>. See <xref href="#euserv-describe-events_output"/> 
+                for details about each format. When omitted, the format defaults to <codeph>yaml</codeph>. </entry>
+              <entry align="center">No</entry>
+            </row>
+            <row>
+              <entry><codeph>-s, --show-stack-traces</codeph></entry>
+              <entry>Include the stack-trace tag in events' data. This is omitted by default
+                due to its length.</entry>
+              <entry align="center">No</entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+  
+    <section
+      conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+    
+    <section id="euserv-describe-events_output">
+      <title>Output</title>
+      <p>There are several built-in formats, and you can define additional formats using a
+        format: <i>string</i>, as described below.  Here are the details of the built-in formats:</p>
+      <dl>
+        <dlentry>
+          <dt><codeph>yaml</codeph></dt>
+          <dd> This outputs block-style YAML designed to be easily readable. Tags that are empty or not 
+            defined do not appear in this output at all.
+            <codeblock>events:
+            - timestamp: {timestamp}
+            severity: {severity}
+            id: {id}
+            subject-type: {subject-type}
+            subject-name: {subject-name}
+            subject-host: {subject-host}
+            subject-arn: {subject-arn}
+            message: |-
+            {message}
+            stack-trace: |-
+            {stack-trace}</codeblock>
+           </dd>
+        </dlentry>
+        <dlentry>
+          <dt><codeph>oneline</codeph></dt>
+          <dd> This output is designed to be as compact as possible. 
+            <codeblock>{timestamp} {severity} {subject-type} {subject-name} {message}</codeblock></dd>
+        </dlentry>
+        <dlentry>
+          <dt><codeph>format:</codeph><i>string</i></dt>
+          <dd>The <codeph>format:</codeph><i>string</i> format allows you to specify which information you want to
+            show using placeholders enclosed in curly braces to indicate where to show the
+            tags for each event. For example: 
+          <codeblock><codeph>euserv-describe-events -f </codeph>"format:{timestamp} {subject-name} {message}"</codeblock></dd>
+        </dlentry>
+      </dl>
+     
+    </section>
+    
+    <section>
+      <title>Example</title>
+      <p>To output a list of service-affecting events in the <codeph>oneline</codeph> format:</p>
+      <codeblock>euserv-describe-events --format oneline
+2016-06-20 16:16:08 INFO node 10.111.1.15 the node is operating normally\nFound service status for 10.111.1.15: ENABLED
+2016-06-27 17:37:57 ERROR node 10.111.5.50 Error occurred in transport
+2016-06-28 07:00:17 ERROR node 10.111.5.50</codeblock>
+    </section>
+  </refbody>
+</reference>
