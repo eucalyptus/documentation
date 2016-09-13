@@ -135,6 +135,33 @@ export LD_LIBRARY_PATH=$AXIS2C_HOME/lib:$AXIS2C_HOME/modules/rampart</codeblock>
                 <cmd>Verify that the instance is running and the destination NC started.</cmd>
                 <info><!--HOW TO KNOW it actually worked.--></info>
             </step>
+            <step>
+                <cmd>Re-enable the internal service instances.</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Set the property that will enable service instances to run, and cause
+                            autoscaling to launch the appropriate number of instances on the
+                            appropriate hosts:</cmd>
+                        <info>
+                            <codeblock>esi-manage-stack -a create imaging</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that service instances are enabled:</cmd>
+                        <info>
+                            <codeblock>euctl services.imaging.worker.configured</codeblock> The
+                            output should display "true". </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that the service instances have started by watching for
+                            instances to be created (the "pending" state) and go into the "running"
+                            state.</cmd>
+                        <info>
+                            <codeblock>euca-describe-instances verbose | grep euca-internal-imaging-service | grep -v terminated</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
         </steps>
         <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
             in a different context. Only include where to go next (you'll add an xref) when this is always the flow. -->
