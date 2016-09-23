@@ -33,6 +33,38 @@
         </context>
         <steps>
             <step>
+                <cmd>Disable the internal service instances until packing is completed.</cmd>
+                <info>
+                    <p><note>This will disable service instances on all hosts, not just the NC you are packing instances on.</note></p> 
+                </info>
+                <substeps>
+                    <substep>
+                        <cmd>Terminate all service instances and prevent autoscaling from re-starting them during the packing process:</cmd>
+                        <info>
+                            <codeblock>esi-manage-stack -a delete imaging</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that service instances are disabled:</cmd>
+                        <info>
+                            <codeblock>euctl services.imaging.worker.configured</codeblock> The
+                            output should display "false". </info>
+                    </substep>
+                    <substep>
+                        <cmd>Wait for the service instances to terminate. There should be no output from the command:</cmd>
+                        <info>
+                            <codeblock>euca-describe-instances verbose | grep euca-internal-imaging-service | grep -v terminated</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>If the service instances do not terminate after 5 minutes, terminate them using their instance IDs.</cmd>
+                        <info>For example:
+                            <codeblock>euca-terminate-instances i-182b5376 i-5810b164</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
                 <cmd>Change the state of the NC in the database to stopped. On the CLC host machine:</cmd>
                 <info>
                     <codeblock>euserv-modify-service -s STOP NC_IP_ADDRESS</codeblock>

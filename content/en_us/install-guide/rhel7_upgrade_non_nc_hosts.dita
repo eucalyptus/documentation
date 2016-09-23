@@ -50,6 +50,35 @@
         </context>
         <steps>
             <step>
+                <cmd>Disable the internal service instances until packing is completed.</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Terminate all service instances and prevent autoscaling from re-starting them during the packing process:</cmd>
+                        <info>
+                            <codeblock>esi-manage-stack -a delete imaging</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that service instances are disabled:</cmd>
+                        <info>
+                            <codeblock>euctl services.imaging.worker.configured</codeblock> The
+                            output should display "false". </info>
+                    </substep>
+                    <substep>
+                        <cmd>Wait for the service instances to terminate. There should be no output from the command:</cmd>
+                        <info>
+                            <codeblock>euca-describe-instances verbose | grep euca-internal-imaging-service | grep -v terminated</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>If the service instances do not terminate after 5 minutes, terminate them using their instance IDs.</cmd>
+                        <info>For example:
+                            <codeblock>euca-terminate-instances i-182b5376 i-5810b164</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
                 <cmd>Shut down all the non-NC host machines gracefully.</cmd>
             </step>
             <step>
@@ -85,6 +114,33 @@
                 <cmd>Verify that the clean installs worked and that the overall cloud state has been
                     recovered properly.</cmd>
                 <info><!--<codeblock>CODE SAMPLE TO VERIFY THE HOST MACHINE UPGRADE</codeblock>--></info>
+            </step>
+            <step>
+                <cmd>Re-enable the internal service instances.</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Set the property that will enable service instances to run, and cause
+                            autoscaling to launch the appropriate number of instances on the
+                            appropriate hosts:</cmd>
+                        <info>
+                            <codeblock>esi-manage-stack -a create imaging</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that service instances are enabled:</cmd>
+                        <info>
+                            <codeblock>euctl services.imaging.worker.configured</codeblock> The
+                            output should display "true". </info>
+                    </substep>
+                    <substep>
+                        <cmd>Verify that the service instances have started by watching for
+                            instances to be created (the "pending" state) and go into the "running"
+                            state.</cmd>
+                        <info>
+                            <codeblock>euca-describe-instances verbose | grep euca-internal-imaging-service | grep -v terminated</codeblock>
+                        </info>
+                    </substep>
+                </substeps>
             </step>
         </steps>
         <!--    The result tells me what to expect at the end of this task, and where to go next. Use CAUTION if this task will be reused 
