@@ -48,13 +48,16 @@
                         until it is explicitly enabled using <codeph>euserv-modify-service -s start HOST_NC_IP</codeph>. </p>
                 </info>
             </step>
-            <step>
-                <cmd>In some cases, timeouts may cause a migration to initially
-                    fail. Run the command again to complete the migration.</cmd>
-
-            </step>
         </steps-unordered>
-
+<result>
+    <p>In some cases, timeouts may cause a migration to initially
+        fail. Run the command again to complete the migration.</p>
+    <p>If the migration fails, check the <filepath>nc.log</filepath> file on the source and
+                destination NCs. If you see an error similar to: 
+        <codeblock>libvirt: Cannot get interface MTU on 'br0': No such device (code=38)</codeblock> 
+        ... then ensure the NCs have the same interface and bridge device names, as described in
+                    <xref href="../install-guide/configuring_bridge.dita#configuring_bridge"/>.</p>
+</result>
 
     </taskbody>
 
