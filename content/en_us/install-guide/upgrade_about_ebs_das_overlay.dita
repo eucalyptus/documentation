@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="upgrade_ebs_das_overlay">
+ <!--    This concept template to be used for conceptual or overview information. -->    
+    <title>About EBS Volumes During Upgrade</title>
+    <shortdesc>This topic describes inaccessible EBS volumes during upgrade for DAS and Overlay block storage.</shortdesc>
+    <conbody>
+        <p>During <ph conref="../shared/conrefs.dita#prod/product"/> upgrades, if you are using
+            either DAS or Overlay as your block storage option, your EBS volumes will be
+            inaccessible during the part of the upgrade when you are installing RHEL7 and 
+            <ph conref="../shared/conrefs.dita#prod/version"/> on the
+            non-NC hosts. This is because the non-NCs include the SC components (there may be more
+            than one SC for multi-zone clouds). And the SC provides access to the volumes, which are
+            either local DAS storage volumes on the SC host, or stored as files on the SC host's
+            filesystem in the Overlay case. If an SC's host is down, then no instances can access
+            any of its EBS volumes. Here are some cases to consider:</p>
+        <ol>
+            <li>Ephemeral instances that do not have any EBS volumes attached are not affected.</li>
+            <li>EBS-backed instances have their root volumes stored on the SC, so that volume's root
+                filesystems become read-only (RO) during the SC downtime. This can cause instability
+                in the instance when its processes cannot write to the root filesystems.</li>
+            <li>Any instances (ephemeral or EBS-backed) that attach EBS volumes will not be able to 
+                access those volumes. I/O errors will be returned by the operating system upon attempted 
+                reads or writes. This can cause instability in the instance when its processes cannot 
+                access those volumes.</li>
+        </ol>
+        <p>Cases 2 and 3 above can also cause the instance to become inaccessible over the network
+            (for example, for ssh and ping). In these cases, the instance would have to be rebooted
+            after the non-NC hosts have been upgraded to RHEL7 and the volumes are again
+            accessible.</p>
+        <p>It is up to you to determine the best scenario for your cloud. In some situations, it 
+            is acceptable as is. If not, before upgrading the non-NC hosts, 
+            <ph conref="../shared/conrefs.dita#prod/product"/> recommends the following.</p>
+        <p><b>To gracefully handle EBS volumes during non-NC upgrade:</b></p>
+        <p><ol>
+            <li>Stop all EBS-backed instances.</li>
+            <li>Detach all EBS volumes from all ephemeral instances.</li>
+        </ol>
+        </p>
+        <p><b>After the upgrade:</b></p>
+        <p><ol>
+            <li>Restart all EBS-backed instances.</li>
+            <li>Re-attach all EBS volumes to their ephemeral instances.</li>
+        </ol>
+        </p>
+        <p><note>Even if you leave an EBS-backed instance running, and it is accessible after the non-NC
+                upgrade, you must restart it after the non-NC upgrade for the root volume to become
+                read-writable (RW) again.</note></p>
+    </conbody>
+</concept>
