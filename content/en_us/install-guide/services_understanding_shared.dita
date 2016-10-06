@@ -3,14 +3,15 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="services_understanding_shared">
 	<title>Plan Services Placement</title>
-	<shortdesc>A <ph conref="../shared/conrefs.dita#prod/product"/> deployment includes user services (UFS and
-		Management Console), as well as cloud services (Cloud Controller and Walrus) and one or
-		more clusters, each of which contains a Cluster Controller, a Storage Controller, and
+	<shortdesc>A <ph conref="../shared/conrefs.dita#prod/product"/> deployment includes user services
+		(UFS and Management Console), as well as cloud services (Cloud Controller and Walrus) and
+		one or more zones, each of which contains a Cluster Controller, a Storage Controller, and
 		one or more Node Controllers.</shortdesc>
 	<prolog>
 		<metadata>
 			<keywords>
 				<indexterm>services <indexterm>cloud</indexterm>
+					<indexterm>zone</indexterm>
 					<indexterm>cluster</indexterm>
 					<indexterm>node</indexterm>
 				</indexterm>
@@ -45,8 +46,9 @@
 		
 		<section>
 			<title>User Services</title>
-			<p>The User Facing Services (UFS) handle most of the AWS APIs and provide an entry point for
-				clients and users interacting with the <ph conref="../shared/conrefs.dita#prod/product"/> cloud. The UFS and the Management
+			<p>The User Facing Services (UFS) handle all of the AWS APIs and provide an entry point for
+				clients and users interacting with the <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud. The UFS and the Management
 				Console are often hosted on the same machine since both must be accessible from the
 				public, client-facing network.</p>
 			<p>You may optionally choose to have redundant UFS and Management Console host machines behind a
@@ -54,14 +56,13 @@
 		</section>
 
 		<section>
-			<title>Cluster Services</title>
-<!--			Technically, this should be Zone Services and the zone level - talk to gholms - is the cluster-to-zone change going to work?
--->			<p>The <ph conref="../shared/conrefs.dita#prod/product"/> services deployed in the cluster level
-				of a <ph conref="../shared/conrefs.dita#prod/product"/> deployment are the Cluster
+			<title>Zone Services</title>
+			<p>The <ph conref="../shared/conrefs.dita#prod/product"/> services deployed in the zone level of
+				a <ph conref="../shared/conrefs.dita#prod/product"/> deployment are the Cluster
 				Controller (CC) and Storage Controller (SC).</p>
-			<p>You can install all cluster services on a single server, or you can distribute them on
-				different servers. The choice of one or multiple servers is dictated by the demands
-				of user workload in terms of external network utilization (CC) and EBS volume access
+			<p>You can install all zone services on a single server, or you can distribute them on different
+				servers. The choice of one or multiple servers is dictated by the demands of user
+				workload in terms of external network utilization (CC) and EBS volume access
 				(SC).</p>
 			<p>Things to consider for CC placement:</p>
 			<ul>
@@ -84,7 +85,7 @@
 					snapshots into the object store. (The SC does not require connectivity directly
 					to users, it is an internal component and does not serve user EBS API requests;
 					that job is done by the UFS.) </li>
-				<li>The SC must be reachable via TCP/IP from all NCs in the cluster within which the SC is
+				<li>The SC must be reachable via TCP/IP from all NCs in the zone within which the SC is
 					registered. The SC and NC exchange tokens to authorize volume attachment, so
 					they must be able to directly communicate. The SC provides the NCs with network
 					access to the dynamic block volumes on the SC's storage (if the SC is configured
@@ -98,7 +99,7 @@
 					(either local file-system or block-attached storage) so that the SC can create
 					and maintain volumes for the NCs. The capacity of the disk pool should be
 					sufficient to provide the NCs with enough space to accommodate all dynamic block
-					volumes requests from end-users.</li>
+					volumes requests from end users.</li>
 			</ul>
 		</section>
 
