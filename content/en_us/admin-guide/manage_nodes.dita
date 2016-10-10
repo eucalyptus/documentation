@@ -29,9 +29,9 @@
                 <cmd>To migrate a single instance to another NC, enter the
                     following command:</cmd>
                 <info>
-                    <codeblock>euserv-migrate-instances -i [instance_id]</codeblock>
-                    <p>You can also optionally specify <codeph>--dest=[destination NC IP]</codeph>
-                        or <codeph>--exclude-dest=[excluded NC IP]</codeph>, to ensure that the
+                    <codeblock>euserv-migrate-instances -i INSTANCE_ID</codeblock>
+                    <p>You can also optionally specify <codeph>--include-dest HOST_NC_IP</codeph>
+                        or <codeph>--exclude-dest HOST_NC_IP</codeph>, to ensure that the
                         instance is migrated to one of the specified NCs, or to avoid migrating the
                         instance to any of the specified NCs. These flags may be used more than once
                         to specify multiple NCs.</p>
@@ -40,22 +40,24 @@
             <step>
                 <cmd>To migrate all instances away from an NC, enter the following command:</cmd>
                 <info>
-                    <codeblock>euserv-migrate-instances --source=[NC IP]</codeblock>
-                    <p>You can also optionally specify <codeph>--stop-source</codeph>, to stop the
+                    <codeblock>euserv-migrate-instances --source HOST_NC_IP</codeblock>
+                    <p>You can also optionally specify <codeph>euserv-modify-service -s stop HOST_NC_IP</codeph>, to stop the
                         specified NC and ensure that no new instances are started on that NC while
                         the migration occurs. This allows you to safely remove the NC without
                         interrupting running instances. The NC will remain in the DISABLED state
-                        until it is explicitly enabled using <codeph>euserv-modify-service -s start
-                            [NC IP]</codeph>. </p>
+                        until it is explicitly enabled using <codeph>euserv-modify-service -s start HOST_NC_IP</codeph>. </p>
                 </info>
             </step>
-            <step>
-                <cmd>In some cases, timeouts may cause a migration to initially
-                    fail. Run the command again to complete the migration.</cmd>
-
-            </step>
         </steps-unordered>
-
+<result>
+    <p>In some cases, timeouts may cause a migration to initially
+        fail. Run the command again to complete the migration.</p>
+    <p>If the migration fails, check the <filepath>nc.log</filepath> file on the source and
+                destination NCs. If you see an error similar to: 
+        <codeblock>libvirt: Cannot get interface MTU on 'br0': No such device (code=38)</codeblock> 
+        ... then ensure the NCs have the same interface and bridge device names, as described in
+                    <xref href="../install-guide/configuring_bridge.dita#configuring_bridge"/>.</p>
+</result>
 
     </taskbody>
 

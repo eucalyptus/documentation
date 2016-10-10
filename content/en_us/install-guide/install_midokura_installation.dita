@@ -238,21 +238,12 @@
                         <substep>
                             <cmd>Disable midonet-api writing to STDOUT.</cmd>
                             <info>
-                                <p>Comment out the following lines in 
-                                    <filepath>/usr/share/midonet-api/WEB-INF/classes/logback.xml</filepath>:</p>
-                                <codeblock>&lt;!– Disables midonet-api writing to STDOUT ...
-&lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-&lt;encoder>
-&lt;pattern>%d
-{yyyy.MM.dd HH:mm:ss.SSS}
-
-%-5level %logger
-{0}
-
-- %m%n%rEx &lt;/pattern>
-&lt;/encoder>
-&lt;/appender>
-... End of Disable STDOUT -></codeblock>
+                                <p>Change the following lines in
+                                        <filepath>/usr/share/midonet-api/WEB-INF/classes/logback.xml</filepath>.</p>
+                                <p>From this:</p>
+                                <codeblock>&lt;appender-ref ref="STDOUT" /></codeblock>
+                                <p>To this:</p>
+                                <codeblock>&lt;!-- &lt;appender-ref ref="STDOUT" /> --></codeblock>
                             </info>
                         </substep>
                     </substeps>
@@ -302,7 +293,7 @@ systemctl enable tomcat.service</codeblock>
                 <step>
                     <cmd>Install iproute2 and Midolman:</cmd>
                     <info>
-                        <codeblock>yum install iproute-netns midolman</codeblock>
+                        <codeblock>yum install iproute midolman</codeblock>
                     </info>
                 </step>
                 <step>
