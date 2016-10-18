@@ -15,13 +15,13 @@
 
 	<conbody>
 		<!--	DOC-1542 need new architectural diagrams 
-			Source of below diagram: 
-			Technical Intro to Eucalyptus training
+			Source of below diagram:  updated to include eucanetd
+			https://eucalyptus.atlassian.net/wiki/pages/viewpage.action?pageId=125730836
 		-->
 		<p>The following image shows an example of <ph conref="../shared/conrefs.dita#prod/product"/>
 			components.</p>
 		<image href="images/euca_cloud_arch_basics.png" scale="75"> 
-		<alt>Image displaying user, cloud, cluster, and node components</alt>
+		<alt>Image displaying user, cloud, zone, node, and networking components</alt>
 		</image>
 		
 		<p>A detailed description of each <ph conref="../shared/conrefs.dita#prod/product"/> component follows.</p>
@@ -73,12 +73,9 @@
 			<p>The Cluster Controller (CC) must run on a host machine that has network connectivity to both
 				the machines running the Node Controllers (NCs) and to the machine running the CLC.
 				CCs gather information about a set of NCs and schedules virtual machine (VM)
-				execution on specific NCs. The CC also manages the virtual machine networks in
-				Managed and Managed (No VLAN) <xref href="planning_networking_modes.dita">networking
-				modes</xref>. All NCs associated with a single CC must be in the same
+				execution on specific NCs. All NCs associated with a single CC must be in the same
 				subnet.</p>
-<!--			DOC-1754: TO DO: Add VPC (MidoNet) note here, if applicable.
--->		</section>
+		</section>
 		<section><title>Storage Controller</title>
 			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic Block Store
 				(Amazon EBS). The SC can interface with various storage systems. Elastic block
@@ -92,13 +89,15 @@
 				ability to use your enterprise-grade SAN devices to host EBS storage within a <ph
 					conref="../shared/conrefs.dita#prod/product"/> cloud.</p></section>
 		<section><title>Node Controller</title>
-			<p>The Node Controller (NC) executes on any machine that hosts VM instances. The NC
-				controls VM activities, including the execution, inspection, and termination of VM
-				instances. It also fetches and maintains a local cache of instance images, and it
-				queries and controls the system software (host OS and the hypervisor) in response to
-				queries and control requests from the CC. The NC manages the virtual machine
-				networks in Edge <xref href="planning_networking_modes.dita">networking mode</xref>.
-				The NC is also responsible for the management of the virtual network
-			endpoint.</p></section>
+			<p>The Node Controller (NC) executes on any machine that hosts VM instances. The NC controls VM
+				activities, including the execution, inspection, and termination of VM instances. It
+				also fetches and maintains a local cache of instance images, and it queries and
+				controls the system software (host OS and the hypervisor) in response to queries and
+				control requests from the CC.</p></section>
+		<section><title>Eucanetd</title>
+			<p>The eucanetd service implements artifacts to manage and define <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud networking. Eucanetd runs
+				alongside the CLC, CC, and/or NC services, depending on the configured networking
+				mode.</p></section>
 	</conbody>
 </concept>
