@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
+<reference id="euare-getcallerid">
+  <title>euare-getcallerid</title>
+  <abstract><shortdesc>Shows information about the currently-active credentials.</shortdesc>
+  </abstract>
+  
+  <refbody>
+    <section>
+      <title>Syntax</title>
+      <codeblock>euare-getcallerid [-U URL] [--region USER@REGION] [-I KEY_ID] [-S KEY]
+       [--security-token TOKEN] [--debug] [--debugger] [--version] [-h]
+</codeblock>
+    </section>
+   
+    <section
+      conref="../shared/euca-common.dita#euca-common/euca_common_options"/>
+    
+    <section>
+      <title>Output</title>
+      <p>Eucalyptus returns information about the account, ARN, key ID, and user ID associated with the currently active credentials.</p>
+    </section>
+    
+    <section>
+      <title>Example</title>
+      <codeblock># euare-getcallerid 
+account = 000187952530
+arn = arn:aws:iam::000187952530:user/admin
+key-id = AKIAA3GFIXINJITSTQ2J
+user-id = AIDAAPSETREWQ3OVTYVJP</codeblock>
+      <p>To check information about a user's credentials after the user assumed a role:</p>
+      <codeblock># eval $(euare-assumerole arn:aws:iam::eucalyptus:role/eucalyptus/AccountAdministrator --session-name my-session)
+# 
+# euare-getcallerid 
+account = 000187952530
+arn = arn:aws:sts::000187952530:assumed-role/my-session
+key-id = AKIAAFHJHJJOOZSPZRCP
+user-id = AROAAJZOMI2TIIY3GAUGF:my-session
+# </codeblock>
+      </section>
+  </refbody>
+</reference>
