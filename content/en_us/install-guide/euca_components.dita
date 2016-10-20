@@ -18,19 +18,20 @@
 			Source of below diagram:  updated to include eucanetd
 			https://eucalyptus.atlassian.net/wiki/pages/viewpage.action?pageId=125730836
 		-->
-		<p>The following image shows an example of <ph conref="../shared/conrefs.dita#prod/product"/>
-			components.</p>
+		<p>The following image shows a high-level architecture of <ph conref="../shared/conrefs.dita#prod/product"/> 
+			with its main components.</p>
 		<image href="images/euca_cloud_arch_basics.png" scale="75"> 
 		<alt>Image displaying user, cloud, zone, node, and networking components</alt>
 		</image>
 		
 		<p>A detailed description of each <ph conref="../shared/conrefs.dita#prod/product"/> component follows.</p>
 		<section><title>Cloud Controller</title>
-			<p>In many deployments, the Cloud Controller (CLC) and the User-Facing Services (UFS) are on the
-				same host machine. This server is the entry-point into the cloud for administrators,
-				developers, project managers, and end-users. The CLC handles persistence and is the
-				backend for the UFS. A <ph conref="../shared/conrefs.dita#prod/product"/> cloud must
-				have exactly one CLC.</p>
+			<p>In many deployments, the Cloud Controller (CLC) service and the User-Facing Services (UFS) are
+				on the same host machine. This server is the entry-point into the cloud for
+				administrators, developers, project managers, and end-users. The CLC handles
+				persistence and is the backend for the UFS. A <ph
+					conref="../shared/conrefs.dita#prod/product"/> cloud must have exactly one
+				CLC.</p>
 		</section>
 		<section>
 			<title>User-Facing Services</title>
@@ -48,8 +49,8 @@
 			<title>Object Storage Provider</title>
 			<p>The Object Storage Provider (OSP) can be either the <ph
 					conref="../shared/conrefs.dita#prod/product"/> Walrus backend, Riak CS, or
-				Ceph-RGW. Walrus is intended for light S3 usage and is a single host. Riak CS is an
-				open source scalable general purpose data platform created by <xref
+				Ceph-RGW. Walrus is intended for light S3 usage and is a single service. Riak CS is
+				an open source scalable general purpose data platform created by <xref
 					href="http://docs.basho.com/riakcs/latest/" format="html" scope="external"
 					>Basho</xref>; it is intended for deployments with heavy S3 usage. Ceph-RGW is
 				an object storage interface built on top of Librados.</p>
@@ -70,15 +71,15 @@
 				Management Console host machines.</p>
 		</section>
 		<section><title>Cluster Controller</title>
-			<p>The Cluster Controller (CC) must run on a host machine that has network connectivity to both
-				the machines running the Node Controllers (NCs) and to the machine running the CLC.
-				CCs gather information about a set of NCs and schedules virtual machine (VM)
-				execution on specific NCs. All NCs associated with a single CC must be in the same
-				subnet.</p>
+			<p>The Cluster Controller (CC) service must run on a host machine that has network connectivity
+				to the host machines running the Node Controllers (NCs) and to the host machine for
+				the CLC. CCs gather information about a set of NCs and schedules virtual machine
+				(VM) execution on specific NCs. All NCs associated with a single CC must be in the
+				same subnet.</p>
 		</section>
 		<section><title>Storage Controller</title>
-			<p>The Storage Controller (SC) provides functionality similar to the Amazon Elastic Block Store
-				(Amazon EBS). The SC can interface with various storage systems. Elastic block
+			<p>The Storage Controller (SC) service provides functionality similar to Amazon Elastic Block
+				Store (Amazon EBS). The SC can interface with various storage systems. Elastic block
 				storage exports storage volumes that can be attached by a VM and mounted or accessed
 				as a raw block device. EBS volumes can persist past VM termination and are commonly
 				used to store persistent data. An EBS volume cannot be shared between multiple VMs
@@ -89,9 +90,9 @@
 				ability to use your enterprise-grade SAN devices to host EBS storage within a <ph
 					conref="../shared/conrefs.dita#prod/product"/> cloud.</p></section>
 		<section><title>Node Controller</title>
-			<p>The Node Controller (NC) executes on any machine that hosts VM instances. The NC controls VM
-				activities, including the execution, inspection, and termination of VM instances. It
-				also fetches and maintains a local cache of instance images, and it queries and
+			<p>The Node Controller (NC) service runs on any machine that hosts VM instances. The NC controls
+				VM activities, including the execution, inspection, and termination of VM instances.
+				It also fetches and maintains a local cache of instance images, and it queries and
 				controls the system software (host OS and the hypervisor) in response to queries and
 				control requests from the CC.</p></section>
 		<section><title>Eucanetd</title>
