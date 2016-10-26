@@ -18,8 +18,8 @@
 	
 	<conbody>
 
-		<p>In Managed mode, you define a subnet (usually private, unroutable) from which VM instances will
-			draw their private IP addresses. <ph conref="../shared/conrefs.dita#prod/product"/>
+		<p>In Managed mode, you define a subnet (usually private, un-routable) from which VM instances
+			will draw their private IP addresses. <ph conref="../shared/conrefs.dita#prod/product"/>
 			maintains a DHCP server with static mappings for each VM instance that is created. When
 			you create a new VM instance, you can specify the name of the security group to which
 			that VM will belong. <ph conref="../shared/conrefs.dita#prod/product"/> then selects a
@@ -41,6 +41,15 @@
 		<p>Each VM receives two IP addresses: a public IP address and a private
 			IP address. <ph conref="../shared/conrefs.dita#prod/product"/> maps public IP addresses to private IP
 			addresses. Access control is managed through security groups.</p>
+		<p>In Managed networking mode, <ph conref="../shared/conrefs.dita#prod/product"/> VM networking
+			artifacts are enforced at the cluster level: on the Linux host machines acting as the
+			CC. On each CC host machine, a <ph conref="../shared/conrefs.dita#prod/product"/>
+			stand-alone service, eucanetd, runs side-by-side with the CC service. The eucanetd
+			service receives dynamically changing <ph conref="../shared/conrefs.dita#prod/product"/>
+			networking views and is responsible for configuring the Linux networking subsystem to
+			reflect the latest view. The eucanetd service also runs on Linux host machines acting as
+			NCs, and is responsible for maintaining the network path of instances to their
+			corresponding CC.</p>
 		<section>
 			<title>Managed Mode Requirements</title>
 			<ul>
@@ -52,11 +61,10 @@
 					meaning that all switch ports that <ph conref="../shared/conrefs.dita#prod/product"/> components are
 					connected to will allow and forward VLAN tagged
 					packets.</li>
-				<li>Any firewall running on the Cluster Controller must be compatible with the dynamic changes
-					performed by <ph conref="../shared/conrefs.dita#prod/product"/> when working
-					with security groups. (Note that <ph
-						conref="../shared/conrefs.dita#prod/product"/> will flush the 'filter' and
-					'nat' tables when it starts).</li>
+				<li>Any firewall running on the CC must be compatible with the dynamic changes performed by <ph
+						conref="../shared/conrefs.dita#prod/product"/> when working with security
+					groups. (Note that <ph conref="../shared/conrefs.dita#prod/product"/> will flush
+					the 'filter' and 'nat' tables when it starts).</li>
 				<li>Any DHCP server on the subnet must be configured not to
 					serve <ph conref="../shared/conrefs.dita#prod/product"/> instances.</li>
 				<li>There must be a separate Layer 2 network for each cluster in a multiple cluster environment.</li>
