@@ -27,13 +27,13 @@
 			translates into Layer-3 only VM isolation.</note>
 		<p>In Managed (No VLAN) networking mode, <ph conref="../shared/conrefs.dita#prod/product"/> VM
 			networking artifacts are enforced at the cluster level: on the Linux host machines
-			acting as the Cluster Controllers (CC). On each CC host machine, a <ph
+			acting as the Cluster Controllers (CCs). On each CC host machine, a <ph
 				conref="../shared/conrefs.dita#prod/product"/> stand-alone service, eucanetd, runs
 			side-by-side with the CC service. The eucanetd service receives dynamically changing <ph
 				conref="../shared/conrefs.dita#prod/product"/> networking views and is responsible
 			for configuring the Linux networking subsystem to reflect the latest view. The eucanetd
-			service also runs on Linux host machines acting as Node Controllers (NC), and is
-			responsible for maintaining the network path of instances to their corresponding CC.</p>
+			service also runs on Linux host machines acting as Node Controllers (NCs), and is
+			responsible for basic network configuration checks.</p>
 <!--		IN DOC-1589, there is a question about whether eucanetd is actually needed on the NC.
 -->		<section>
 			<title>Managed (No VLAN) Mode Requirements</title>
@@ -48,8 +48,10 @@
 					the 'filter' and 'nat' tables when it starts). </li>
 				<li>A range of public IP addresses must be available for use by
 					<ph conref="../shared/conrefs.dita#prod/product"/>.</li>
-				<li>If you plan to set up more than one cluster, you need to have a bridge for security groups
-					to span the clusters.</li>
+				<li>If you plan to set up more than one cluster, you need to have a bridge (between clusters) to
+					enable security groups to span the clusters.</li>
+				<li>Any DHCP server on the subnet must be configured not to serve <ph
+						conref="../shared/conrefs.dita#prod/product"/> instances.</li>
 			</ul>
 		</section>
 		
@@ -61,6 +63,8 @@
 					of the private subnet and the number of security groups you choose to
 					allow.</li>
 				<li>Instances may belong only to one security group each.</li>
+				<li>The  machine that hosts the CC is a single point of failure for external VM
+					network communication.</li>
 			</ul>
 		</section>
 		
