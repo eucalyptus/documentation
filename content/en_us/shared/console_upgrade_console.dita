@@ -8,9 +8,10 @@
     <taskbody>
         <prereq><b>Prerequisites</b>
             <ul>
-                <li>If you are upgrading the Management Console to RHEL / CentOS 7, it is important to
-                    back up the configuration you have on RHEL / CentOS 6 so you can restore it after
-                    you re-install it on RHEL /CentOS 7.</li>
+                <li>If you are upgrading the Management Console to RHEL / CentOS 7, it is important
+                    to back up the console configuration you have on RHEL / CentOS 6 so you can
+                    restore the configuration after you re-install the console on RHEL /CentOS
+                    7.</li>
                 <li>If you are upgrading when deploying the Management Console behind a load balancer
                     (ELB), see <xref href="console_upgrade_deploy_elb.dita"/>.</li>
                 <li>The following instructions assume you have already successfully configured the
@@ -19,10 +20,12 @@
         
         <context><!--IMPORTANT NOTE TO WRITER: This is specific to RHEL 7 OS upgrade coincident with Euca upgrade. 
             This text will need to be edited / removed in the future. DOC-1924 -->
-            <p><note type="important">During the upgrade process from 4.2 to 4.3, you will upgrade the Management Console from 4.2 to
-                4.3 on RHEL / CentOS 6 following the normal process. After that, you will need to do
-                a fresh install of RHEL / CentOS 7 on the same host machine, wiping out RHEL /
-                CentOS 6 and eucaconsole 4.3. Then you re-install eucaconsole 4.3.</note></p>
+            <p><note type="important">During the upgrade process from 4.2 to 4.3, you will upgrade the Management
+                    Console from 4.2 to 4.3 on RHEL / CentOS 6 following the normal process. After
+                    that, you need to perform a fresh install of RHEL / CentOS 7 on the same host
+                    machine, wiping out RHEL / CentOS 6 and eucaconsole 4.3. Then you re-install
+                    eucaconsole 4.3. For more information see <xref
+                        href="../install-guide/upgrade.dita#upgrade"/>.</note></p>
             
             <p><b>To upgrade the Eucalyptus Management Console</b></p>
         </context>
@@ -46,10 +49,24 @@
             </info>
             </step>
             <step>
-                <cmd>If you are upgrading the OS to RHEL / CentOS 7, back up the console
-                    configuration files. See <xref
-                        href="../admin-guide/backup_euca.dita#backup_euca"/>. (This is where you'd
-                    upgrade the OS on the host machine.)</cmd>
+                <cmd>(Optional) If you are about to upgrade the OS to RHEL / CentOS 7 on the console
+                    host machine:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd>Back up the console configuration files. See <xref
+                                href="../admin-guide/backup_euca.dita#backup_euca"/>.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>See <xref
+                                href="../install-guide/rhel7_upgrade_non_nc_hosts.dita#rhel7_upgrade_non_nc"
+                            />.</cmd>
+                    </substep>
+                    <substep>
+                        <cmd>See <xref
+                                href="../install-guide/rhel7_install_euca_hosts.dita#rhel7_install_euca_hosts"
+                            />.</cmd>
+                    </substep>
+                </substeps>
             </step>
             <step>
                 <cmd>Run the following command to install the new Eucalyptus Management Console repository:</cmd>
@@ -69,11 +86,13 @@
                 </info>
             </step>
             <step>
-                <cmd>If you just upgraded the OS to RHEL / CentOS 7, perform the console
-                    configuration restore now. See <xref
+                <cmd>(Optional) If you just upgraded the host machine's OS to RHEL / CentOS 7, restore the
+                    console configuration now. See <xref
                         href="../admin-guide/euca_recover.dita#euca_recover"/>.</cmd>
+                <info>If you restore the console config (this step), you can skip the next 3
+                    steps.</info>
             </step>
-<!--            NOT SURE ABOUT THE RESTORE STEP ABOVE WRT THE STEPS BELOW
+<!--            NOT SURE ABOUT THE RESTORE STEP ABOVE WRT THE STEPS 7,8,9 BELOW - skip them? (As stated above)?
 -->            <step>
                 <cmd>Make a backup copy of the old <codeph>/etc/nginx/nginx.conf</codeph> file and replace it with a new one:</cmd>
                 <info>
