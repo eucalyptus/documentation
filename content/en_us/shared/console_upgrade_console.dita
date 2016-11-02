@@ -3,29 +3,53 @@
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="console_upgrade_console">
     <title>Upgrade the Management Console</title>
-    <shortdesc>To upgrade the Management Console to version <ph conref="../shared/conrefs.dita#prod/version_short"/>, 
-        complete the steps in this section.</shortdesc>
+    <shortdesc>This topic describes how to upgrade the Management Console.</shortdesc>
     
     <taskbody>
-        <prereq>The following instruction assumes you have already successfully configured the Eucalyptus Management
-            Console for nginx in a previous version of Eucalyptus.
-        </prereq>
-        <context>For instructions on upgrading when deploying the console behind a load balancer (ELB), see <xref
-            href="console_upgrade_deploy_elb.dita"/>
-            <p>To upgrade the Eucalyptus Management Console, perform the following:</p>
+        <prereq><b>Prerequisites</b>
+            <ul>
+                <li>If you are upgrading the Management Console to RHEL / CentOS 7, it is important to
+                    back up the configuration you have on RHEL / CentOS 6 so you can restore it after
+                    you re-install it on RHEL /CentOS 7.</li>
+                <li>If you are upgrading when deploying the Management Console behind a load balancer
+                    (ELB), see <xref href="console_upgrade_deploy_elb.dita"/>.</li>
+                <li>The following instructions assume you have already successfully configured the
+                    Eucalyptus Management Console for Nginx in a previous version of Eucalyptus.</li>
+            </ul></prereq>
+        
+        <context><!--IMPORTANT NOTE TO WRITER: This is specific to RHEL 7 OS upgrade coincident with Euca upgrade. 
+            This text will need to be edited / removed in the future. DOC-1924 -->
+            <p><note type="important">During the upgrade process from 4.2 to 4.3, you will upgrade the Management Console from 4.2 to
+                4.3 on RHEL / CentOS 6 following the normal process. After that, you will need to do
+                a fresh install of RHEL / CentOS 7 on the same host machine, wiping out RHEL /
+                CentOS 6 and eucaconsole 4.3. Then you re-install eucaconsole 4.3.</note></p>
+            
+            <p><b>To upgrade the Eucalyptus Management Console</b></p>
         </context>
         <steps>
             <step>
                 <cmd>Stop the eucaconsole service, if running:</cmd>
                 <info>
+                    <p>On a RHEL 6 host machine:</p>
+                    <codeblock>service eucaconsole stop</codeblock>
+                    <p>On a RHEL 7 host machine:</p>
                     <codeblock>systemctl stop eucaconsole.service</codeblock>
                 </info>
             </step>
             <step>
-            <cmd>Stop the nginx service, if running:</cmd>
+            <cmd>Stop the Nginx service, if running:</cmd>
             <info>
+                <p>On a RHEL 6 host machine:</p>
+                <codeblock>service nginx stop</codeblock>
+                <p>On a RHEL 7 host machine:</p>
                 <codeblock>systemctl stop nginx.service</codeblock>
             </info>
+            </step>
+            <step>
+                <cmd>If you are upgrading the OS to RHEL / CentOS 7, back up the console
+                    configuration files. See <xref
+                        href="../admin-guide/backup_euca.dita#backup_euca"/>. (This is where you'd
+                    upgrade the OS on the host machine.)</cmd>
             </step>
             <step>
                 <cmd>Run the following command to install the new Eucalyptus Management Console repository:</cmd>
@@ -41,10 +65,16 @@
                 <info>
                     <codeblock>yum upgrade eucaconsole</codeblock> or 
                     <p><codeblock>yum remove eucaconsole</codeblock></p> then 
-                     <p><codeblock>yum install eucaconsole</codeblock></p>
+                    <p><codeblock>yum install eucaconsole</codeblock></p>
                 </info>
             </step>
             <step>
+                <cmd>If you just upgraded the OS to RHEL / CentOS 7, perform the console
+                    configuration restore now. See <xref
+                        href="../admin-guide/euca_recover.dita#euca_recover"/>.</cmd>
+            </step>
+<!--            NOT SURE ABOUT THE RESTORE STEP ABOVE WRT THE STEPS BELOW
+-->            <step>
                 <cmd>Make a backup copy of the old <codeph>/etc/nginx/nginx.conf</codeph> file and replace it with a new one:</cmd>
                 <info>
                     <codeblock>mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak</codeblock>
@@ -85,8 +115,9 @@ ssl_certificate_key &lt;path to euca console key file>;
                                 and change its value from <codeph>false</codeph> to <codeph>true</codeph>, per this example:</cmd>
                             <info>
                                 <codeblock>session.secure = true</codeblock>
-                                <note>If HTTPS is used, meaning nginx is configured to use port 443, the <codeph>session.secure</codeph> 
-                                    setting must equal <codeph>true</codeph>.</note>
+                                <note>If HTTPS is used, meaning Nginx is configured to use port 443,
+                                the <codeph>session.secure</codeph> setting must equal
+                                    <codeph>true</codeph>.</note>
                             </info>
                         </substep>
                         <substep>
@@ -107,7 +138,12 @@ port = 8888</codeblock>
                 </step>
             <step>
                 <cmd>Start eucaconsole using the following command:</cmd>
-                <info><codeblock>systemctl start eucaconsole.service</codeblock></info>
+                <info>
+                    <p>On a RHEL 6 host machine:</p>
+                    <codeblock>service eucaconsole start</codeblock>
+                    <p>On a RHEL 7 host machine:</p>
+                    <codeblock>systemctl start eucaconsole.service</codeblock>
+                </info>
                 <info><note><b>This command starts nginx automatically. There is no need to run nginx manually.</b></note></info>
                 <stepresult>Your upgrade is now complete.</stepresult>
             </step>
