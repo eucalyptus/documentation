@@ -60,7 +60,21 @@ euctl ZONE.storage.chapuser=chap_username</codeblock>
                     <p>The SC and NC data IP address might be the same; or they can be different, if
                         EqualLogic has multiple data interfaces.</p>
                 </info>
-            </step>
+                </step>
+                <step>
+                <cmd>(Optional) These properties are available for EqualLogic thin provisioning,
+                    which can save significant space on your SAN.</cmd>
+                <info>These properties take effect only during new EBS volume / snapshot creation.
+                    EBS volumes created from previously existing snapshots inherit the provisioning
+                    settings of the parent.
+                    <codeblock>euctl ZONE.storage.eql                           
+PROPERTY        one.storage.eqlthinprovision     false
+DESCRIPTION     one.storage.eqlthinprovision     Thin provision space on EqualLogic SAN. Value must be true to enable and false to disable thin provisioning. Default value is false
+                            
+PROPERTY        one.storage.eqlthinminreserve    10
+DESCRIPTION     one.storage.eqlthinminreserve    Minimum volume reserve for a thin-provisioned volume expressed as a % of the volume size. This is the amount of immediately writable, guaranteed space reserved for the volume. Default value is 10</codeblock>
+                </info>
+                </step>
             </steps>
         <result>Your Dell EqualLogic SAN backend is now ready to use with <ph conref="../shared/conrefs.dita#prod/product"/>.</result>
         </taskbody>
