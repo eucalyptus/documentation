@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="backup_euca">
-    <title>Back Up Your Cloud</title>
+    <title>Back Up <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Data</title>
     <shortdesc>This section explains what you need to back up and protect your cloud
 		data.</shortdesc>
     <taskbody>
@@ -33,10 +33,12 @@
 							entire directory tree, which also contains snapshots in DAS and Overlay
 							modes.</li></ul>
         		</li>
-        		<li>The configuration file for the Eucalyptus cloud is stored on the CLC:
+        		<li>The configuration file for the <ph conref="../shared/conrefs.dita#prod/product"/>
+					cloud is stored on the CLC:
+					<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
+        		<li>Any configuration file for the <ph conref="../shared/conrefs.dita#prod/product"/>
+					cloud stored on any other host (UFS, CC, etc.):
 						<filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
-        		<li>Any configuration file for the Eucalyptus cloud stored on any other host (UFS, CC,
-					etc.): <filepath>/etc/eucalyptus/eucalyptus.conf</filepath>.</li>
         		<li>The cloud security credentials on all hosts (you already backed up the CLC keys as part of the database
         			backup). Use the tar command: 
         			<codeblock>tar -czvf ~/eucalyptus-keydir.tgz /var/lib/eucalyptus/keys</codeblock>.</li>
@@ -63,15 +65,16 @@
 				<li>Ensure you have your instances' <xref
 						href="../user-guide/create_keypairs.dita#create_keypairs">private ssh key
 						files stored safely</xref> so you can access the instances later.</li>
-        		<li>Eucalyptus and LVM snapshots
-        		<ul>
-        			<li>Ensure that the system is quiescent enough that snapshots are unlikely to be written while backing up these files.</li>
-						<li>Eucalyptus EBS snapshots for DAS and Overlay modes are stored in
+        		<li><ph conref="../shared/conrefs.dita#prod/product"/> and LVM snapshots <ul>
+						<li>Ensure that the system is quiescent enough that snapshots are unlikely
+							to be written while backing up these files.</li>
+						<li><ph conref="../shared/conrefs.dita#prod/product"/> EBS snapshots for DAS
+							and Overlay modes are stored in
 								<filepath>/var/lib/eucalyptus/volumes</filepath> on all host
 							machines running the Storage Controller (SC) service. Back up this
 							entire directory tree, which also contains EBS volumes in Overlay mode
 							only. </li>
-        		</ul></li>
+					</ul></li>
         		<li>SAN technologies vary, so see the backup documentation for your SAN.</li>
         	</ul>
         	<p>Users are responsible for volume backups using EBS snapshots on their defined schedules.</p>
