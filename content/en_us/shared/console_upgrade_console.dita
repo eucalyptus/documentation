@@ -39,16 +39,8 @@
                     <codeblock>systemctl stop eucaconsole.service</codeblock>
                 </info>
             </step>
-            <step>
-            <cmd>Stop the Nginx service, if running:</cmd>
-            <info>
-                <p>On a RHEL 6 host machine:</p>
-                <codeblock>service nginx stop</codeblock>
-                <p>On a RHEL 7 host machine:</p>
-                <codeblock>systemctl stop nginx.service</codeblock>
-            </info>
-            </step>
-            <step>
+<!--Removed the step to stop Nginx DOC-1924
+-->            <step>
                 <cmd>(Optional) If you are about to upgrade the OS to RHEL / CentOS 7 on the console
                     host machine:</cmd>
                 <substeps>
@@ -78,28 +70,32 @@
                 </info>
             </step>
             <step>
-                <cmd>Upgrade eucaconsole or remove and install eucaconsole, if desired:</cmd>
-                <info>
-                    <codeblock>yum upgrade eucaconsole</codeblock> or 
-                    <p><codeblock>yum remove eucaconsole</codeblock></p> then 
-                    <p><codeblock>yum install eucaconsole</codeblock></p>
-                </info>
+                <cmd>Upgrade eucaconsole or remove and install eucaconsole:</cmd>
+                <substeps>
+                    <substep>
+                        <cmd></cmd>
+                            <info><codeblock>yum upgrade eucaconsole</codeblock></info>
+                    </substep>
+                    <substep>
+                        <cmd>OR</cmd>
+                        <info>
+                            <codeblock>yum remove eucaconsole
+yum install eucaconsole</codeblock> 
+                        </info>
+                    </substep>
+                 </substeps>
             </step>
             <step>
                 <cmd>(Optional) If you just upgraded the host machine's OS to RHEL / CentOS 7, restore the
                     console configuration now. See <xref
                         href="../admin-guide/euca_recover.dita#euca_recover"/>.</cmd>
-                <info>If you restore the console config (this step), you can skip the next 3
+                <info>If you restore the console config (this step), you can skip the next 2
                     steps.</info>
             </step>
-<!--            NOT SURE ABOUT THE RESTORE STEP ABOVE WRT THE STEPS 7,8,9 BELOW - skip them? (As stated above)?
--->            <step>
-                <cmd>Make a backup copy of the old <codeph>/etc/nginx/nginx.conf</codeph> file and replace it with a new one:</cmd>
-                <info>
-                    <codeblock>mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak</codeblock>
-                    <codeblock>cp /etc/eucaconsole/nginx.conf /etc/nginx/nginx.conf</codeblock>
-                </info>
-            </step>
+<!--            NOT SURE ABOUT THE RESTORE STEP ABOVE WRT THE STEPS BELOW - skip them? (As stated above)?
+-->           
+            <!--Removed the step to move nginx.conf DOC-1924
+-->
             <step>
                 <cmd>Uncomment the 'listen' directive and uncomment/modify the SSL certificate paths in
                     <codeph>/etc/nginx/nginx.conf</codeph> (search for "SSL configuration"). For example:</cmd>
