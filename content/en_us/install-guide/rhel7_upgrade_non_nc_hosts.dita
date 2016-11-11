@@ -20,10 +20,14 @@
                         href="rhel7_upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> and you
                     have <xref href="upgrade_prep.dita#upgrade_prep">prepared for the
                     upgrade</xref>.</li>
-                <li>You have successfully backed up your <ph
-                        conref="../shared/conrefs.dita#prod/product"/> cloud state using the
-                    instructions in <xref
-                        href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</li>
+                <li>You back up your <ph conref="../shared/conrefs.dita#prod/product"/> cloud state
+                    using the instructions in <xref
+                        href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.
+                    <b>Note</b>: Back up before upgrading the non-NC set, except for the parts that
+                    apply only to NCs. Certain things about the cloud state will have changed since
+                    you did the original backup, including the cloud database, configuration files,
+                    volumes (when the block storage back end is Overlay), snapshots (block storage
+                    DAS or Overlay), and object storage contents (when the back end is Walrus).</li>
                 <li>You have verified that these host machines are <i>not</i> running NC
                     services.</li>
                 <li>All NC host machines have already been upgraded; see <xref
@@ -49,6 +53,12 @@
             <p><b>To upgrade the set of non-NC host machines to RHEL 7</b></p>
         </context>
         <steps>
+            <step>
+                <cmd>De-register <i>all</i> NCs before shutting them down. On each CC that has NCs registered:</cmd>
+                <info>
+                    <codeblock>clusteradmin-deregister-nodes NC_IP_ADDRESS1 NC_IP_ADDRESS2 ...</codeblock>
+                </info>
+            </step>
             <step>
                 <cmd>Disable the internal service instances until packing is completed.</cmd>
                 <substeps>

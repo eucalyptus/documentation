@@ -19,10 +19,11 @@
                         href="rhel7_upgrade_euca_before_os.dita#upgrade_euca_before_OS"/> and you
                     have <xref href="upgrade_prep.dita#upgrade_prep">prepared for the
                     upgrade</xref>.</li>
-            <li>You have successfully backed up your <ph
-                        conref="../shared/conrefs.dita#prod/product"/> cloud state using the
-                    instructions in <xref
-                        href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</li>
+            <li>You back up your <ph conref="../shared/conrefs.dita#prod/product"/> cloud state
+                    using the instructions in <xref
+                        href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.
+                    <b>Note</b>: back up before each NC OS upgrade (the parts that apply to that
+                    NC).</li>
                 <li>If you have autoscaling on your cloud, consider suspending it during the
                     migrations and resuming it after the upgrade is complete. For more information,
                     see <xref href="upgrade_about_autoscaling.dita#upgrade_autoscaling"/>.</li>
@@ -53,6 +54,12 @@
             <p><b>To upgrade an NC host machine to RHEL 7</b></p>
         </context>
         <steps>
+            <step>
+                <cmd>De-register the NC before shutting it down. On the CC that has the NC registered:</cmd>
+                <info>
+                    <codeblock>clusteradmin-deregister-nodes NC_IP_ADDRESS</codeblock>
+                </info>
+            </step>
             <step>
                 <cmd>Shut down the host machine gracefully.</cmd>
                 <info>This is for the benefit of the other <ph conref="../shared/conrefs.dita#prod/product"/> hosts in the cloud.</info>
