@@ -40,6 +40,44 @@
         </p>
         <p><b>After the upgrade:</b></p>
         <p><ol>
+            <li>Perform these steps on the SC before restarting the eucalyptus-cloud service.
+                <ol>
+                <li>Disable <codeph>use_lvmetad</codeph> flag in <filepath>/etc/lvm/lvm.conf</filepath>:
+                <codeblock> # Configuration option global/use_lvmetad.
+ # Use lvmetad to cache metadata and reduce disk scanning.
+ # When enabled (and running), lvmetad provides LVM commands with VG
+ # metadata and PV state. LVM commands then avoid reading this
+ # information from disks which can be slow. When disabled (or not
+ # running), LVM commands fall back to scanning disks to obtain VG
+ # metadata. lvmetad is kept updated via udev rules which must be set
+ # up for LVM to work correctly. (The udev rules should be installed
+ # by default.) Without a proper udev setup, changes in the system's
+ # block device configuration will be unknown to LVM, and ignored
+ # until a manual 'pvscan --cache' is run. If lvmetad was running
+ # while use_lvmetad was disabled, it must be stopped, use_lvmetad
+ # enabled, and then started. When using lvmetad, LV activation is
+ # switched to an automatic, event-based mode. In this mode, LVs are
+ # activated based on incoming udev events that inform lvmetad when
+ # PVs appear on the system. When a VG is complete (all PVs present),
+ # it is auto-activated. The auto_activation_volume_list setting
+ # controls which LVs are auto-activated (all by default.)
+ # When lvmetad is updated (automatically by udev events, or directly
+ # by pvscan --cache), devices/filter is ignored and all devices are
+ # scanned by default. lvmetad always keeps unfiltered information
+ # which is provided to LVM commands. Each LVM command then filters
+ # based on devices/filter. This does not apply to other, non-regexp,
+ # filtering settings: component filters such as multipath and MD
+ # are checked during pvscan --cache. To filter a device and prevent
+ # scanning from the LVM system entirely, including lvmetad, use
+ # devices/global_filter.
+                    use_lvmetad = 0</codeblock></li>
+            <li>Stop and disable the lvmetad service and socket:
+                <codeblock>systemctl stop lvm2-lvmetad.service
+systemctl disable lvm2-lvmetad.service
+systemctl stop lvm2-lvmetad.socket
+systemctl disable lvm2-lvmetad.socket</codeblock></li>
+            </ol>
+            </li>
             <li>Restart all EBS-backed instances.</li>
             <li>Re-attach all EBS volumes to their ephemeral instances.</li>
         </ol>
