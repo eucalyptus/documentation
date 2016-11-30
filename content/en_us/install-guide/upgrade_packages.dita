@@ -2,9 +2,9 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="upgrade_packages">
- <title>Upgrade Eucalyptus Package Repositories</title>
- <shortdesc>This topic describes the steps to upgrade the Eucalyptus package
-  repositories.</shortdesc>
+ <title>Upgrade <ph conref="../shared/conrefs.dita#prod/product"/> Package Repositories</title>
+ <shortdesc>This topic describes the steps to upgrade the <ph
+   conref="../shared/conrefs.dita#prod/product"/> package repositories.</shortdesc>
  <taskbody id="upgrade_packages_task">
   <!--    If there are no prereqs, state "None." -->        
   <prereq><b>Prerequisites</b>
@@ -13,54 +13,60 @@
   </prereq>        
   <!--    This "To ... " context states what we are trying to accomplish via the steps in this task. -->        
   <context>
-   <p>You need to upgrade your existing Eucalyptus package repositories to use the new features in
-     <ph conref="../shared/conrefs.dita#prod/version_long"/>.</p>
-   <p><note type="tip">It's a good idea to upgrade all the non-NC's before the NCs.</note></p>
-   <b>To upgrade Eucalyptus</b></context>
+   <p>You need to upgrade your existing <ph conref="../shared/conrefs.dita#prod/product"/> package
+    repositories to use the new features in <ph conref="../shared/conrefs.dita#prod/version_long"
+    />.</p>
+   <p>
+    <note type="tip">It's a good idea to upgrade all the non-NC's before the NCs.</note>
+   </p>
+   <b>To upgrade <ph conref="../shared/conrefs.dita#prod/product"/></b></context>
   <steps>
   	<step>
-  	 <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
-  	 <info>
-  	  <p>On a RHEL 6 host machine:</p>
-  	  <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download_during_upgrade"/></codeblock>
-  	  <p>On a RHEL 7 host machine:</p>
-  			<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
-  	  <p>Review the dependencies and install package information.</p>
-  	  <p>Enter <codeph>Y</codeph> when prompted to install the package.</p>
-  		</info>
-  	</step>
+    <cmd>Enter the following command on each host machine that runs a <ph
+      conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
+    <info>
+     <p>On a RHEL 6 host machine:</p>
+     <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download_during_upgrade"/></codeblock>
+     <p>On a RHEL 7 host machine:</p>
+     <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/eucalyptus_download"/></codeblock>
+     <p>Review the dependencies and install package information.</p>
+     <p>Enter <codeph>Y</codeph> when prompted to install the package.</p>
+    </info>
+   </step>
   	<step>
-  		<cmd>If you are not a Eucalyptus subscriber, skip this step. Install the Eucalyptus subscription
-     package on each host that will run a Eucalyptus service: </cmd>
-  		<info>
-  		 <p>On a RHEL 6 host machine:</p>
-  		 <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download_during_upgrade"/></codeblock>
-  		 <p>On a RHEL 7 host machine:</p>
-  			<codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
-  		 <p>Review the dependencies and install package information.</p>
-  		 <p>Enter <codeph>y</codeph> when prompted to install these packages.</p>
-  		</info>
-  	</step>
+    <cmd>If you are not a <ph conref="../shared/conrefs.dita#prod/product"/> subscriber, skip this
+     step. Install the <ph conref="../shared/conrefs.dita#prod/product"/> subscription package on
+     each host that will run a <ph conref="../shared/conrefs.dita#prod/product"/> service: </cmd>
+    <info>
+     <p>On a RHEL 6 host machine:</p>
+     <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download_during_upgrade"/></codeblock>
+     <p>On a RHEL 7 host machine:</p>
+     <codeblock>yum install <ph conref="../shared/conrefs.dita#paths/euca_subscription_download"/></codeblock>
+     <p>Review the dependencies and install package information.</p>
+     <p>Enter <codeph>y</codeph> when prompted to install these packages.</p>
+    </info>
+   </step>
   	<step>
-  	 <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
+    <cmd>Enter the following command on each host machine that runs a <ph
+      conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
     <info>
      <codeblock>yum clean all</codeblock>
     </info>
    </step>
    <step>
-    <cmd>Enter the following command on each host machine that runs a Eucalyptus service:</cmd>
+    <cmd>Enter the following command on each host machine that runs a <ph
+      conref="../shared/conrefs.dita#prod/product"/> service:</cmd>
     <info>
      <codeblock>yum update 'eucalyptus*'</codeblock>
-     <p>Enter <codeph>Y</codeph> when prompted to upgrade Eucalyptus.</p>
+     <p>Enter <codeph>Y</codeph> when prompted to upgrade <ph
+       conref="../shared/conrefs.dita#prod/product"/>.</p>
      <p>This retrieves the package verification keys; for more information, see <xref
-      href="installing_euca_software_signing.dita#installing_software_signing"/>.</p>
+       href="installing_euca_software_signing.dita#installing_software_signing"/>.</p>
     </info>
     <stepresult>
-     <p>If you have previously customized your configuration files,
-       <codeph>yum</codeph> returns a warning, and installs the new
-      configuration files with a different name. This preserves your
-      customizations. Before you continue, customize and rename the new
-      Configuration files.</p>
+     <p>If you have previously customized your configuration files, <codeph>yum</codeph> returns a
+      warning, and installs the new configuration files with a different name. This preserves your
+      customizations. Before you continue, customize and rename the new Configuration files.</p>
      <note type="tip">For larger deployments, use a script to upgrade the host machines. For
       example:
       <codeblock>for host in 28 29 32 33 35 39 40; do echo 203.0.113.$host; 
