@@ -9,8 +9,11 @@
         <ph conref="../shared/conrefs.dita#prod/version"/> and RHEL / CentOS 7 upgrade processes and
         procedural order.</shortdesc>
     <taskbody>
-        <!--    NOTE TO WRITER: This topic is VERY SPECIFIC TO EUCA 4.3 and RHEL 7 UPGRADE. -->
-        <!--    If there are no prereqs, state "None." -->        
+        <!--    NOTE TO WRITER: This topic is VERY SPECIFIC TO EUCA 4.3 and RHEL 7 UPGRADE. 
+It's also complicated with 4.3.1 and so conrefs are not going to work in all cases. 
+Changing to hard-coding the version numbers.
+There's a note about this, below:
+In general, this process will apply to 4.2 to 4.3 upgrades. Although there will be cases where a customer has 4.3.0 or 4.3.0.1 and they're still on RHEL 6, so this procedure will be applicable.-->
         <prereq><b>Prerequisites</b>
             <note type="important">Before you begin the <ph
                     conref="../shared/conrefs.dita#prod/product"/>
@@ -18,29 +21,25 @@
                 you understand these compatibility points:</note>
             <p>
                 <ul id="ul_zvd_djg_gw">
-                    <li><ph conref="../shared/conrefs.dita#prod/product"/>
-                        <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> requires RHEL
-                        / CentOS 6 as the underlying OS.</li>
+                    <li><ph conref="../shared/conrefs.dita#prod/product"/> 4.2 requires RHEL /
+                        CentOS 6 as the underlying OS.</li>
                     <li><b><i>For new installations</i></b>, <ph
-                            conref="../shared/conrefs.dita#prod/product"/>
-                        <ph conref="../shared/conrefs.dita#prod/version"/> requires RHEL / CentOS 7
-                        as the underlying OS.</li>
+                            conref="../shared/conrefs.dita#prod/product"/> 4.3 requires RHEL /
+                        CentOS 7 as the underlying OS.</li>
                     <li><b><i>If you are upgrading your existing cloud</i></b> to <ph
                             conref="../shared/conrefs.dita#prod/product"/>
                         <ph conref="../shared/conrefs.dita#prod/version"/>:
                     <ul>
-                        <li><ph conref="../shared/conrefs.dita#prod/product"/>
-                        <ph conref="../shared/conrefs.dita#prod/version"/> is the <i>last release
-                            series</i> where RHEL / CentOS 6 is a supported OS.</li>
-                        <li>The <ph conref="../shared/conrefs.dita#prod/product"/>
-                        <ph conref="../shared/conrefs.dita#prod/version"/>  series provides the
-                        opportunity, through instance migration tools, to migrate your existing <ph
-                            conref="../shared/conrefs.dita#prod/product"/> clouds to RHEL / CentOS
-                        7.</li>
+                        <li><ph conref="../shared/conrefs.dita#prod/product"/> 4.3 is the <i>last
+                                    release series</i> where RHEL / CentOS 6 is a supported OS.</li>
+                        <li>The <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 series
+                                provides the opportunity, through instance migration tools, to
+                                migrate your existing <ph
+                                    conref="../shared/conrefs.dita#prod/product"/> clouds to RHEL /
+                                CentOS 7.</li>
                         <li>If you expect to upgrade to future releases of <ph
-                            conref="../shared/conrefs.dita#prod/product"/>, beyond the <ph
-                            conref="../shared/conrefs.dita#prod/version"/> series, then RHEL /
-                        CentOS 7 will be required.</li>
+                                    conref="../shared/conrefs.dita#prod/product"/>, beyond the 4.3
+                                series, then RHEL / CentOS 7 will be required.</li>
                     </ul></li>
                 </ul>
             </p>
@@ -54,41 +53,38 @@
         
         <context>
             <p>The overall process of upgrading your cloud from <ph
-                    conref="../shared/conrefs.dita#prod/product"/>
-                <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+                    conref="../shared/conrefs.dita#prod/product"/> 4.2 to <ph
                     conref="../shared/conrefs.dita#prod/version"/> is outlined here. In some cases,
                 you need to choose the appropriate procedures for your specific cloud configuration
                 and your customers' needs.</p>
-            <p><b>To upgrade <ph conref="../shared/conrefs.dita#prod/product"/>
-                    <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to <ph
+            <p><note>This topic documents the process for a <ph conref="../shared/conrefs.dita#prod/product"/> 4.2
+                    to 4.3 upgrade. However, if your 4.3.0 or 4.3.0.1 cloud is running on RHEL 6,
+                    this procedure still applies (replace the "4.2" mentions with "4.3").</note></p>
+            <p><b>To upgrade <ph conref="../shared/conrefs.dita#prod/product"/> 4.2 to <ph
                         conref="../shared/conrefs.dita#prod/version"/>, follow this process</b></p>
         </context>
         <steps>
             <step id="backup_cloud_4.2_recovery">
                 <cmd>Back up the pre-upgrade cloud state.</cmd>
                 <info>
-                    <p>This is good to have in case you need to go back to the 
-                        <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> cloud state.</p>
+                    <p>This is good to have in case you need to go back to the 4.2 cloud state.</p>
                     <p>See <xref href="../admin-guide/backup_euca.dita#backup_euca"/> in the <xref
                         href="../admin-guide/index.dita">Administration Guide</xref>.</p>
                 </info>
             </step>
             <step>
                 <cmd>Upgrade each existing <ph conref="../shared/conrefs.dita#prod/product"/> host
-                    machine from <ph conref="../shared/conrefs.dita#prod/prev_version_short"/> to
-                        <ph conref="../shared/conrefs.dita#prod/version"/> while the OS is still
-                    RHEL 6.</cmd>
+                    machine from 4.2 to <ph conref="../shared/conrefs.dita#prod/version"/> while the
+                    OS is still RHEL 6.</cmd>
                 <info>
                     <p>
-                        <note><ph conref="../shared/conrefs.dita#prod/product"/>
-                            <ph conref="../shared/conrefs.dita#prod/version"/> provides new tools to
-                            help with the OS upgrade and migration, so it is important to perform
-                            this upgrade first. You need to upgrade all the host machines for all
-                                <ph conref="../shared/conrefs.dita#prod/product"/> services:
-                            <ol>
-                                    <li>Upgrade all the non-NCs first.</li>
-                                    <li>If you have any issues with the non-NC hosts, resolve
-                                    them before moving on to NC migrations.</li>
+                        <note><ph conref="../shared/conrefs.dita#prod/product"/> 4.3 provides new
+                            tools to help with the OS upgrade and migration, so it is important to
+                            perform this upgrade first. You need to upgrade all the host machines
+                            for all <ph conref="../shared/conrefs.dita#prod/product"/> services: <ol>
+                                <li>Upgrade all the non-NCs first.</li>
+                                <li>If you have any issues with the non-NC hosts, resolve them
+                                    before moving on to NC migrations.</li>
                                 <li>Upgrade the NCs.</li>
                             </ol>
                         </note>
@@ -99,11 +95,12 @@
             </step>
             <step id="backup_cloud_4.3_recovery">
                 <cmd>Back up the newly upgraded <ph conref="../shared/conrefs.dita#prod/product"/>
-                    <ph conref="../shared/conrefs.dita#prod/version"/> cloud state.</cmd>
+                    4.3 cloud state.</cmd>
                 <info>
-                    <p>This is good to have in case you need to go back to this initial 
-                        <ph conref="../shared/conrefs.dita#prod/version"/> cloud state.</p>
-                    <p>See <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"/>.</p>
+                    <p>This is good to have in case you need to go back to this initial 4.3 cloud
+                        state.</p>
+                    <p>See <xref href="rhel7_backup_cloud_state.dita#backup_cloud_state_rhel7"
+                        />.</p>
                 </info>
             </step>
             <step id="migrate_instance_choice">
@@ -141,8 +138,8 @@
                 <cmd>Create a detailed migration plan for your <ph
                         conref="../shared/conrefs.dita#prod/product"/> cloud, based on the instance
                     migration decisions you made in <xref
-                        href="#upgrade_euca_before_OS/migrate_instance_choice" format="dita">step
-                        3</xref>.</cmd>
+                        href="#upgrade_euca_before_OS/migrate_instance_choice" format="dita"
+                        >the previous step</xref>.</cmd>
                 <info>The process order at this point will vary, based on your detailed migration
                     plan. For example, if you choose a live migration from a RHEL 6 NC to a RHEL 7
                     NC, you will need to have the destination NC ready with RHEL 7 installed
