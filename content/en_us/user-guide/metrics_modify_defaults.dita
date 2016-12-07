@@ -2,40 +2,52 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="metrics_modify_default">
-    <title>Modify Metrics Defaults</title>
-	<shortdesc>You can modify the metrics and reporting defaults.</shortdesc>
+    <title>Modify Metric Polling Timing</title>
+	<shortdesc>You can modify metrics timing and reporting defaults.</shortdesc>
     <taskbody>
         <context>
-        	<p>To modify metrics defaults:</p>
+        	<p>When using the default CloudWatch properties, metrics reporting takes up to:<ul>
+					<li>5 minutes to receive a sensor data point for an instance.</li>
+					<li>5 more minutes to receive a second sensor data point for an instance.</li>
+					<li>1 minute to calculate the difference between these two and send a single
+						data point to CloudWatch.</li>
+					<li>1 minute for CloudWatch to put the data in the database, making it available
+						for a <codeph>euwatch-get-stats</codeph> call.</li>
+					<li>5 minutes for <codeph>euwatch-list-metrics</codeph> info to be available in
+						the database.</li>
+				</ul></p>
+        	<p>The sensor data point timing values can be shortened by changing variables in the
+				CLC.</p>
+			<note type="important">These changes will increase network traffic as polling will be done more frequently.</note>
+        	<p><b>To modify metrics defaults:</b></p>
         </context>
         <steps>
             <step>
-            	<cmd>Enter the following command.</cmd>
-            	<info>
-            		<codeblock>euwatch-list-metrics</codeblock>
-            		<!--<note type="tip">The <codeph>-\-headers</codeph> option generates column headings in
-            			the output.</note>-->
-            	</info>
-            	<stepresult>Eucalyptus returns a listing of all metrics, as shown in the following
-            		partial example output:
-            		<draft-comment author="scotmarvin">Update example</draft-comment>
-            	<codeblock>Metric Name         Namespace  Dimensions
-CPUUtilization      AWS/EC2    {InstanceId=i-5431413d}
-CPUUtilization      AWS/EC2    {InstanceId=i-d43242bd}
-CPUUtilization      AWS/EC2    {InstanceId=i-1d3d4d74}
-CPUUtilization      AWS/EC2    {InstanceId=i-78314111}
-CPUUtilization      AWS/EC2    {InstanceId=i-d3c8baba}
-CPUUtilization      AWS/EC2    {InstanceId=i-0d334364}
-CPUUtilization      AWS/EC2    {InstanceId=i-6732420e}	
-CPUUtilization      AWS/EC2    {InstanceId=i-d93141b0}
-CPUUtilization      AWS/EC2    {InstanceId=i-e03d4d89}
-CPUUtilization      AWS/EC2    {InstanceId=i-c93d4da0}
-CPUUtilization      AWS/EC2    {InstanceId=i-e0304089}
-CPUUtilization      AWS/EC2    {InstanceId=i-e1304088}
-CPUUtilization      AWS/EC2    {InstanceId=i-69334300}</codeblock>
-            	</stepresult>
-            </step>
-        	
+				<cmd>Modify the default polling interval CLC variable to a number less than 5.</cmd>
+				<info>
+					<codeblock>cloud.monitor.default_poll_interval_mins</codeblock>
+				</info>
+				<stepresult>This is how often the CLC sends a request to the CC for sensor data.
+					Default value is 5 minutes.</stepresult>
+			</step>
+        	<step>
+				<cmd>Modify the history size CLC variable to a number less than 5.</cmd>
+				<info>
+					<codeblock>cloud.monitor.history_size</codeblock>
+				</info>
+				<stepresult>This is how many data value samples are sent in each sensor data
+					request. The default value is 5. The frequency requests is either 1 minute (if
+					the <codeph>cloud.monitor.default_poll_interval_mins</codeph> is 1 minute) or
+					half the value of <codeph>cloud.monitor.default_poll_interval_mins</codeph> if
+					that value is greater).</stepresult>
+			</step>
         </steps>
+    	<result>So by default, with a <codeph>cloud.monitor.default_poll_interval_mins</codeph> of 5
+			minutes and <codeph>cloud.monitor.history_size</codeph> size of 5, every 5 minutes the
+			CLC asks for the last 5 data points from the CC, which should be timed for every 2.5
+			minutes (e.g., 2.5 minutes ago, 5 minutes ago, 7.5 minutes ago, and 10 minutes ago).
+				<note>These values may be skewed a bit based on the time the CC uses.</note>
+			<p>For more information, see <xref
+					href="../euca2ools-guide/euca-properties.dita#eucaproperties"/>.</p></result>
     </taskbody>
 </task>
