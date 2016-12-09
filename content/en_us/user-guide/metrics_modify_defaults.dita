@@ -6,16 +6,17 @@
 	<shortdesc>You can modify metrics timing and reporting defaults.</shortdesc>
     <taskbody>
         <context>
-        	<p>When using the default CloudWatch properties, metrics reporting takes up to:<ul>
+        	<p>When using the default CloudWatch properties, metrics reporting can take around 15 minutes:<ol>
 					<li>5 minutes to receive a sensor data point for an instance.</li>
 					<li>5 more minutes to receive a second sensor data point for an instance.</li>
-					<li>1 minute to calculate the difference between these two and send a single
-						data point to CloudWatch.</li>
-					<li>1 minute for CloudWatch to put the data in the database, making it available
-						for a <codeph>euwatch-get-stats</codeph> call.</li>
-					<li>5 minutes for <codeph>euwatch-list-metrics</codeph> info to be available in
-						the database.</li>
-				</ul></p>
+					<li>1 more minute to calculate the difference between these two and send a
+						single data point to CloudWatch.</li>
+					<li>1 more minute for CloudWatch to put the data in the database, making it
+						available for a <codeph>euwatch-get-stats</codeph> call.</li>
+					<li>5 more minutes for <codeph>euwatch-list-metrics</codeph> info to be
+						available in the database.</li>
+				</ol>
+				<note>The above workflow is sequential and cumulative.</note></p>
         	<p>The sensor data point timing values can be shortened by changing variables in the
 				CLC.</p>
 			<note type="important">These changes will increase network traffic as polling will be done more frequently.</note>
