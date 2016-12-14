@@ -19,24 +19,57 @@
 						<entry>Improved functionality</entry>
 						<entry>
 							<ul>
-								<li>The configuration file for AWS now includes the us-east-2, ap-south-1, and
-									ap-northeast-2 regions. <xref format="html"
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-661"
-										>TOOLS-661</xref></li>
-								<li>euca-describe-instance-type and euca-modify-instance-type now support VPC network interface limits. 
-									<xref format="html"
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-614"
-										>TOOLS-614</xref></li>
-								<li>euca-associate-address has a new --no-allow-reassociation option that explicitly prevents an address 
+								<li>Euca2ools 3.4.0 requires newer minimum versions of the following libraries:<ul>
+									<li>requestbuilder 0.6</li>
+									<li>six 1.8</li>
+								</ul></li>
+								<li>The default configuration for euca-bundle-vol now excludes the following directories 
+									in addition to those it excluded in previous releases. To customize this behavior, 
+									edit <filepath>/etc/euca2ools/bundle-vol/excludes</filepath> or use the <codeph>--no-filter</codeph> 
+									command line option.<ul>
+										<li><filepath>/run</filepath></li>
+										<li><filepath>/tmp</filepath></li>
+										<li><filepath>/var/cache</filepath></li>
+										<li><filepath>/var/run</filepath></li>
+										<li><filepath>/var/tmp</filepath></li>
+									</ul></li>
+								<li>euca-associate-address has a new <codeph>--no-allow-reassociation</codeph> option that explicitly prevents an address 
 									that is in use from being reassociated with another network interface. 
 									<!--<xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
-										>TOOLS-nnn</xref>--></li>
+										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></li>
+								<li>The new euare-getcallerid command makes it possible to request the ARN, account number, and other 
+									relevant information about the currently active set of access keys. 
+									<!--<xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
+										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></li>
 								<li>It is now possible to view attributes of a CloudFormation template, such as its parameters, without 
 									creating a stack using the new euform-get-template-summary command. 
 									<xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-607"
 										>TOOLS-607</xref></li>
+								<li>euwatch-put-data updates: <xref format="html"
+									href="https://eucalyptus.atlassian.net/browse/TOOLS-612"
+									>TOOLS-612</xref> <ul>
+									<li>now supports reporting multiple metric data in a single invocation using 
+										the -v or -s options multiple times.</li>
+									<li>-s option now accepts arbitrary attributes for metric data, making it 
+										possible to report data for multiple metrics or timestamps in a single invocation. 
+										See the command's documentation for additional details. The long name for -s is now 
+										<codeph>--metric-datum</codeph>. Its previous name, <codeph>--statistic-values</codeph>, 
+										continues to function as it did in previous releases.</li></ul></li>
+								<li>euca-describe-instance-type and euca-modify-instance-type now support VPC network interface limits. 
+									<xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-614"
+										>TOOLS-614</xref></li>
+								<li>euare commands that output euca2ools.ini files will replicate the verify-ssl option in its output if that option is set.
+									<xref format="html"
+									href="https://eucalyptus.atlassian.net/browse/TOOLS-631"
+									>TOOLS-631</xref></li>
+								<li>It is now possible to retry a failed CloudFormation rollback operation using the new euform-continue-rollback 
+									command. <xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-637"
+										>TOOLS-637</xref></li>
 								<li>It is now possible to create and manage VPC NAT gateways using the new euca-create-nat-gateway, 
 									euca-delete-nat-gateway, and euca-describe-nat-gateway commands. <xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-640"
@@ -52,11 +85,6 @@
 									<xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-644"
 										>TOOLS-644</xref></li>
-								<li>The new euare-getcallerid command makes it possible to request the ARN, account number, and other 
-									relevant information about the currently active set of access keys. 
-									<!--<xref format="html"
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
-										>TOOLS-nnn</xref>--></li>
 								<li>euform-update-stack no longer requires one to supply it with a template. When no template is specified, 
 									the CloudFormation service will reuse the existing template. <xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-650"
@@ -65,8 +93,7 @@
 									Eucalyptus and AWS: <xref format="html"
 										href="https://eucalyptus.atlassian.net/browse/TOOLS-653"
 										>TOOLS-653</xref>
-								<ul>
-									<li>euare-oidcprovideraddclientid</li>
+								<ul><li>euare-oidcprovideraddclientid</li>
 									<li>euare-oidcproviderchangethumbprint</li>
 									<li>euare-oidcprovidercreate</li>
 									<li>euare-oidcproviderdel</li>
@@ -74,6 +101,18 @@
 									<li>euare-oidcprovidergetattribute</li>
 									<li>euare-oidcproviderlist</li>
 								</ul></li>
+								<li>For CloudFormation template parameters with restrictions on allowed values, euform-get-template-summary 
+									now displays these allowed values. <xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-660"
+										>TOOLS-660</xref></li>
+								<li>The configuration file for AWS now includes the us-east-2, ca-central-1, 
+									ap-south-1, and ap-northeast-2 regions. <xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-661"
+										>TOOLS-661</xref>
+									<xref format="html"
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-670"
+										>TOOLS-670</xref>
+								</li>
 							</ul>
 						</entry>
 					</row>
