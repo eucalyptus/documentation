@@ -131,6 +131,28 @@ DESCRIPTION     one.storage.cephvolumepools Ceph storage pool(s) made available 
                 </substeps>
             </step>
             <step>
+                <cmd>If you want to enable snapshot deltas for your Ceph backend:</cmd>
+                <info><note>Snapshot deltas are supported only on Ceph-RBD.</note></info>
+                <substeps>
+                    <substep>
+                        <cmd>Verify that snapshots are enabled:</cmd>
+                        <info>
+                            <codeblock>euctl ZONE.storage.shouldtransfersnapshots=true</codeblock>
+                        </info>
+                    </substep>
+                    <substep>
+                        <cmd>Set the maximum number of deltas:</cmd>
+                        <info>
+                            <codeblock>euctl ZONE.storage.maxsnapshotdeltas=NON_ZERO_INTEGER</codeblock>
+                            <note>This variable applies to all Ceph volumes.</note>
+                            <note type="tip">If you need to create a
+                                non-Ceph volume from a Ceph snapshot, this value would need to be
+                                set to zero (at least temporarily).</note>
+                        </info>
+                    </substep>
+                </substeps>
+            </step>
+            <step>
                 <cmd>Every NC will assume the following defaults:</cmd>
                 <info>
                     <codeblock>CEPH_USER_NAME="eucalyptus"

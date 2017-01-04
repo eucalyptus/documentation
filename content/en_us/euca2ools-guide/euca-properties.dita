@@ -1323,6 +1323,18 @@
                                 at a given time</entry>
                         </row>
                         <row>
+                            <entry>ZONE.storage.maxsnapshotdeltas</entry>
+                            <entry>A non-zero integer value enables upload of incremental snapshots
+                                when possible. The configured value indicates the SC to
+                                create/upload that many snapshot deltas for a given EBS volume
+                                before triggering a full upload of the snapshot contents. Between
+                                any two consecutive full snapshot uploads for a given EBS volume
+                                there will be at most <codeph>maxsnapshotdeltas</codeph> number of
+                                incremental snapshot uploads. A value of 0 indicates that a newly
+                                created snapshot will always be uploaded in its entirety (that is,
+                                no deltas). Default value = 0.</entry>
+                        </row>
+                        <row>
                             <entry>ZONE.storage.maxsnapshotpartsqueuesize </entry>
                             <entry>Maximum number of snapshot parts per snapshot that can be spooled
                                 on the disk</entry>
@@ -1374,7 +1386,11 @@
                         </row>
                         <row>
                             <entry>ZONE.storage.shouldtransfersnapshots </entry>
-                            <entry>Should transfer snapshots</entry>
+                            <entry>Enable snapshot transfer to the OSG. Default is
+                                    <codeph>true</codeph>. (Setting it to false will stop snapshots
+                                transfer, occasionally needed for cost savings.) Must be set to
+                                    <codeph>true</codeph> for
+                                    <codeph>ZONE.storage.maxsnapshotdeltas</codeph> to work.</entry>
                         </row>
                         <row>
                             <entry>ZONE.storage.snapexpiration </entry>
