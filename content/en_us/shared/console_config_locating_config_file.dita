@@ -54,16 +54,61 @@
           <entry>yes</entry>
             <entry>8773</entry>
           </row>
-
-            <!-- removed ec2.host, ec2.port, and all the *.host and *.port entries per David K -->
-            
+          <row>
+            <entry>default.region</entry>
+            <entry>If the Eucalyptus cloud is configured for federation, set the default region.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>            
+          <row>
+            <entry>oidc.hostname</entry>
+            <entry>The OpenID Connect (OIDC) hostname. The IP address or DNS name of the machine that ???</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>            
+          <row>
+            <entry>oidc.client.id</entry>
+            <entry>The OIDC client ID for this installation, which comes from ident provider.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>            
+          <row>
+            <entry>oidc.client.secret</entry>
+            <entry>The OIDC client secret for this installation, which comes from ident provider.</entry>
+            <entry>no</entry>
+            <entry>--</entry>
+          </row>            
+          <row>
+            <entry>oidc.scope</entry>
+            <entry>The OIDC scope is specific to your ident provider and is used in any token API request.</entry>
+            <entry>no</entry>
+            <entry>
+              <pre>urn:globus:auth:scope:auth.globus.org:view_identities openid email profile</pre>
+            </entry>
+          </row>            
+          <row>
+            <entry>oidc.console.hostname</entry>
+            <entry>The OIDC return URL hostname. Required to be the hostname that this console runs as,
+              so callback from the ident provider can return control back to this application. If
+              the console is installed on the UFS host (as it sometimes is), this value would be the
+              same as ufshost above. It may be different based on where the console is
+              running.</entry>
+            <entry>yes</entry>
+            <entry>localhost</entry>
+          </row>            
+          <row>
+            <entry>oidc.login.button.label</entry>
+            <entry>The text that appears on the login button.</entry>
+            <entry>yes</entry>
+            <entry>Sign in with Globus Auth</entry>
+          </row>            
           <row>
             <entry>help.url</entry>
-            <entry>A url that directs users who select 'help' 
+            <entry>A URL that directs users who select 'help' 
               on the account menu to a help page. You can customize 
-              for your installation if you do not want our help system.</entry>
+              for your installation if you do not want to use the Eucalyptus help system.</entry>
             <entry>yes</entry>
-            <entry>--</entry>
+            <entry>https://support.eucalyptus.com/hc/en-us</entry>
           </row>
           <row>
             <entry>support.url</entry>
@@ -71,6 +116,12 @@
               It may be used to direct them to a cloud admin page or an e-mail address.</entry>
             <entry>yes</entry>
             <entry>--</entry>
+          </row>
+          <row>
+            <entry>log.useractions</entry>
+            <entry>To log user interaction in the std console log (configured below), set this to true.</entry>
+            <entry>yes</entry>
+            <entry>false</entry>
           </row>
           <row>
             <entry>aws.enabled</entry>
@@ -88,48 +139,59 @@
               <p><note>If you log into a multi-region cloud, the system automatically sets a default 
                 region based on which ufshost the console is configured to connect to. 
                 The console administrator can specify a different value for a user's default region 
-                in order to override the natural default, if needed.</note>  
-             
-            </p></entry>
+                in order to override the natural default, if needed.</note></p></entry>
             <entry>yes</entry>
             <entry>us-east-1</entry>
           </row>
           <row>
+            <entry>aws.govcloud.enabled</entry>
+            <entry>Set to <codeph>true</codeph> to enable the AWS us-gov-west-1 region.</entry>
+            <entry>yes</entry>
+            <entry>false</entry>
+          </row>
+          <row>
             <entry>static.cache.duration</entry>
-            <entry>Sets the cache control value for static assets (in seconds).</entry>
+            <entry>Sets the cache control value for static assets in seconds; defaults to 12
+              hours.</entry>
             <entry>no</entry>
-            <entry>43200 secs</entry>
+            <entry>43200</entry>
           </row>
           <row>
             <entry>browser.password.save</entry>
             <entry>Set to <codeph>true</codeph> to enable browser password saving.</entry>
-            <entry>no</entry>
-            <entry>true</entry>
+            <entry>yes</entry>
+            <entry>false</entry>
           </row>
           <row>
             <entry>file.uploads.enabled</entry>
             <entry>Defaults to <codeph>true</codeph> to enable file uploads for S3/Object Storage.</entry>
-            <entry>no</entry>
+            <entry>yes</entry>
             <entry>true</entry>
-          </row>
-          <row>
-            <entry>cache.images.disable</entry>
-            <entry>Set to <codeph>true</codeph> to disable image caching if users frequently change images outside of the console.</entry>
-            <entry>no</entry>
-            <entry>false</entry>
           </row>
           <row>
             <entry>connection.ssl.validation</entry>
             <entry>Set to <codeph>true</codeph> to enable validation of the SSL certificate 
               supplied by the ufshost (or other endpoint) to secure the connection to the service endpoint.</entry>
-            <entry>no</entry>
+            <entry>yes</entry>
             <entry>false</entry>
           </row>
           <row>
             <entry>connection.ssl.certfile</entry>
-            <entry>If certificate validation is on, you may specify a different certificate file than the default.</entry>
-            <entry>no</entry>
-            <entry>--</entry>
+            <entry>If certificate validation is enabled, you may specify a different certificate file than the boto-supplied default.</entry>
+            <entry>yes</entry>
+            <entry>cacerts.txt</entry>
+          </row>
+          <row>
+            <entry>cloudformation.samples.bucket</entry>
+            <entry>Set this to a public bucket that contains JSON templates.</entry>
+            <entry>yes</entry>
+            <entry>sample-templates</entry>
+          </row>
+          <row>
+            <entry>cloudformation.url.whitelist</entry>
+            <entry>List wildcard patterns that represent acceptable URLs.</entry>
+            <entry>yes</entry>
+            <entry>http://*, https://*</entry>
           </row>
           <row>
             <entry>connection.debug</entry>
@@ -148,34 +210,74 @@
           </row>
           <row>
             <entry>pyramid.default_locale_name</entry>
-            <entry>The default locale if none is specified by browser.</entry>
+            <entry>The default locale if none is specified by the browser user agent.</entry>
             <entry>no</entry>
             <entry>en</entry>
+          </row>
+          <row>
+            <entry>session.key</entry>
+            <entry>The session cookie name, which defaults to 'eucaconsole_session'.</entry>
+            <entry>yes</entry>
+            <entry>eucaconsole_session</entry>
           </row>
           <row>
             <entry>session.keyini</entry>
             <entry>The location of a file that contains session encryption keys.</entry>
             <entry>yes</entry>
-            <entry>--</entry>
+            <entry>/etc/eucaconsole/session-keys.ini</entry>
           </row>
           <row>
             <entry>session.secure</entry>
-            <entry>Set to <codeph>true</codeph> to send session cookies over a secure connection only. 
-              Needs to be set to <codeph>false</codeph> if SSL not configured.</entry>
-            <entry>no</entry>
+            <entry>Set to <codeph>true</codeph> to send session cookies over a secure connection
+              only. Needs to be set to <codeph>false</codeph> if SSL is not configured.</entry>
+            <entry>yes</entry>
             <entry>false</entry>
           </row>
           <row>
             <entry>session.timeout</entry>
-            <entry>Sets the idle session timeout.</entry>
-            <entry>yes</entry>
-            <entry>--</entry>
+            <entry>Sets the idle session timeout in seconds; defaults to 30 minutes. If null, never
+              times out.</entry>
+            <entry>no</entry>
+            <entry>1800</entry>
           </row>
           <row>
             <entry>session.cookie_expires</entry>
-            <entry>Sets the absolute session timeout.</entry>
+            <entry>Sets the absolute session timeout in seconds; defaults to 12 hours. If null,
+              never expires. See <xref
+                href="http://beaker.readthedocs.org/en/latest/configuration.html" format="html"
+                scope="external"/> for more options.</entry>
+            <entry>no</entry>
+            <entry>43200</entry>
+          </row>
+          <row>
+            <entry>cache.memory.url</entry>
+            <entry>Set the memory URL used for configuration of regions for dogpile.cache.</entry>
             <entry>yes</entry>
-            <entry>--</entry>
+            <entry>/var/run/eucaconsole/memcached.sock</entry>
+          </row>
+          <row>
+            <entry>cache.short_term.expire</entry>
+            <entry>Lower limit for cache expiry, in seconds.</entry>
+            <entry>yes</entry>
+            <entry>60</entry>
+          </row>
+          <row>
+            <entry>cache.default_term.expire</entry>
+            <entry>Default for cache expiry, in seconds.</entry>
+            <entry>yes</entry>
+            <entry>300</entry>
+          </row>
+          <row>
+            <entry>cache.long_term.expire</entry>
+            <entry>Longer term limit for cache expiry, in seconds.</entry>
+            <entry>yes</entry>
+            <entry>3600</entry>
+          </row>
+          <row>
+            <entry>cache.extra_long_term.expire</entry>
+            <entry>Upper limit for cache expiry, in seconds.</entry>
+            <entry>yes</entry>
+            <entry>43200</entry>
           </row>
           <row>
             <entry>cache.username</entry>
@@ -192,6 +294,12 @@
               is unauthenticated.</entry>
             <entry>no</entry>
             <entry>--</entry>
+          </row>
+          <row>
+            <entry>cache.images.disable</entry>
+            <entry>If true, disable EC2 image cache on Eucalyptus. If false, EC2 image API fetches will be cached for cache.long_term.expire duration.</entry>
+            <entry>yes</entry>
+            <entry>true</entry>
           </row>
         </tbody>
       </tgroup>
