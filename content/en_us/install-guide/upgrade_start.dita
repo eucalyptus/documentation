@@ -24,27 +24,24 @@
 			<step>
 				<cmd>Log in to the CLC host machine and start the services:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-cloud start</codeblock>
-					For RHEL 7:
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 				<stepresult>
-					<p>If you are upgrading from 4.2.2 you will see that the process starts the database upgrade.
+					<p>If you are upgrading from 4.3.1 you will see that the process starts the database upgrade.
 							<ph conref="../shared/conrefs.dita#prod/product"/> returns output
 						similar to the following example.</p>
-					<codeblock>Starting Eucalyptus services: Attempting database upgrade from 4.2.2 
+					<codeblock>Starting Eucalyptus services: Attempting database upgrade from 4.3.1 
 at /var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585...
 #                           UPGRADE INFORMATION
 #================================================================================
-# Old Version:              4.2.2
-# New Version:              4.3.1
+# Old Version:              4.3.1
+# New Version:              4.4.0
 # Upgrade keys:             false              using:                                          
 # Upgrade configuration:    false              using:                                          
 # Upgrade database:         true               using: upgrade_db
 # Same version:             false              using:                                          
 # Start upgrading: db
-<!--Upgrade command: //usr/sbin/eucalyptus-cloud -u eucalyptus -h / -\-upgrade  -\-upgrade-old-version=4.2.2 -\-upgrade-old-dir=/var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585
+<!--Upgrade command: //usr/sbin/eucalyptus-cloud -u eucalyptus -h / -\-upgrade  -\-upgrade-old-version=4.3.1 -\-upgrade-old-dir=/var/lib/eucalyptus/upgrade/eucalyptus.backup.1446434585
 -->
 Upgrading your database...
 .
@@ -62,9 +59,6 @@ done.
 			<step>
 				<cmd>If you have a separate SC host machine, log in and start the services:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-cloud start</codeblock>
-					For RHEL 7:
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 			</step>
@@ -72,18 +66,12 @@ done.
 				<cmd>If you have a separate Walrus host machine, log in and start the
 					services:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-cloud start</codeblock>
-					For RHEL 7:
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 			</step>
 			<step>
 				<cmd>If you have a separate UFS host machine, log in and start the services:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-cloud start</codeblock>
-					For RHEL 7:
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 			</step>
@@ -92,38 +80,31 @@ done.
 					services (for example Walrus, SC, UFS) co-located on the CC host machine, use
 					this command to start the other services on the CC host, and in the correct
 					order:</cmd>
-				<info> For RHEL 6: <codeblock>service eucalyptus-cloud start</codeblock> For RHEL 7:
+				<info>
 					<codeblock conref="../shared/conrefs.dita#prod/euca_start"/>
 				</info>
 			</step>			
 			<step>
 				<cmd>Log in to each CC host machine and start the service:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-cc start</codeblock>
-					For RHEL 7:
 					<codeblock>systemctl start eucalyptus-cluster.service</codeblock>
 				</info>
 			</step>
 			<step>
 				<cmd>Log in to each NC server and start the service:</cmd>
 				<info>
-					For RHEL 6:
-					<codeblock>service eucalyptus-nc start</codeblock>
-					For RHEL 7:
 					<codeblock>systemctl start eucalyptus-node.service</codeblock>
 				</info>
 			</step>
 			<step>
-				<cmd>Log in to each host machine that was running eucanetd prior to upgrade and
+<!--				NEED TO REVIEW AND RETHINK THIS eucanetd STEP wrt NETWORKING CHANGES in 4.4
+-->				<cmd>Log in to each host machine that was running eucanetd prior to upgrade and
 					start the service again:</cmd>
 				<info><p><note type="important">Depending on your network configuration, eucanetd might have been running on
 							any of these hosts: CLC, CC, NC. Also note that it might have been
 					<i>installed</i> and not <i>running</i>. See <xref href="eucanetd_about.dita#eucanetd_about"
 					/> for more information.</note></p>
-					<p>For RHEL 6: <codeblock>service eucanetd start</codeblock>
-					For RHEL 7:
-				<codeblock>systemctl start eucanetd.service</codeblock></p>
+					<p><codeblock>systemctl start eucanetd.service</codeblock></p>
 					<note>Use the list of <i>running</i> eucanetd hosts, which you created in <xref
 							href="upgrade_shutdown.dita#upgrade_shutdown"/>.</note>
 				</info>
