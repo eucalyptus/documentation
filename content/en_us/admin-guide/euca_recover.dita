@@ -4,60 +4,6 @@
     <title>Recover <ph conref="../shared/conrefs.dita#prod/product"/> Cloud Data</title>
     <shortdesc>This topic explains what to include when you recover your cloud.</shortdesc>
     <taskbody>
-    	<prereq>
-    		<note type="important">If you are recovering cloud data during an upgrade from RHEL / CentOS 6
-				to RHEL / CentOS 7, be aware of these special situations:<ol>
-					<li>The file ownership might not be the same as it was on RHEL / CentOS 6.</li>
-					<li>The file's SELinux security context might not be applied correctly on RHEL /
-						CentOS 7, since <ph conref="../shared/conrefs.dita#prod/product"/> did not
-						support SELinux on RHEL / CentOS 6.</li>
-				</ol>
-				<p><b>File Ownership</b></p>
-				<p>The ownership of a restored file depends on how it was backed up to another
-					machine over the network:</p><ul>
-					<li>The <codeph>tar -xvf</codeph> Linux command sets the owner of each file it
-						extracts to the same username and group name as the system on which it is
-						being extracted. If those names exist, then the owner will be set
-						appropriately, which will always be the case for <ph
-							conref="../shared/conrefs.dita#prod/product"/> files. This is the
-						recommended approach, except for large file sets that are too big to fit in
-						a tar file.</li>
-					<li>The <codeph>rsync</codeph> Linux command saves the owner (e.g.,
-							<codeph>eucalyptus:eucalyptus</codeph>) as its numeric user ID (UID) and
-						group (ID) (e.g., <codeph>498:498</codeph>). When you <codeph>rsync</codeph>
-						it back, it restores the UID and GID (e.g., <codeph>498:498</codeph>),
-						regardless of the UID/GID of the same owner's username and group name. For
-						example, <codeph>eucalyptus:eucalyptus</codeph> on RHEL 7 on the upgraded
-						host might have a UID and GID of <codeph>994:991</codeph>. So, the file will
-						no longer be owned by the <codeph>eucalyptus</codeph> user.</li>
-					<li>The <codeph>scp -p</codeph> Linux command preserves a file's modified time
-						and its permission bits, but it does not preserve the owner. When you
-							<codeph>scp</codeph> it back, the file may not have the same owner as
-						the original file did.</li>
-				</ul><p>Any file whose owner is different from the file's owner on RHEL 6 must be
-					changed with a command such as <codeph>chown eucalyptus:eucalyptus
-						FILENAME</codeph>, or for a directory tree, <codeph>chown -R
-						eucalyptus:eucalyptus DIRNAME</codeph>.</p>
-				<p><b>Security Context</b></p>
-				<p>Because <ph conref="../shared/conrefs.dita#prod/product"/> on RHEL 6 did not
-					support SELinux, the SELinux security contexts of <ph
-						conref="../shared/conrefs.dita#prod/product"/>-created files were not
-					defined. When you restore a backed-up file to a directory on RHEL 7 which is not
-					its final directory destination (such as recovering a set of files from a backup
-					machine over the network and then distributing them to their correct
-					directories), the security context may not be correct. After moving such files
-					to their correct directories, run the <codeph>restorecon</codeph> command on all
-					such files. For example: <codeph>restorecon /etc/eucalyptus/*.conf</codeph>
-				</p><p>In contrast, if you restore a file from its backup machine directly to its
-					correct destination directory, the SELinux security context will be applied
-					correctly. Likewise, if you copy a tar backup file from a backup machine (e.g.,
-						<codeph>eucalyptus-keydir.tgz</codeph>) to any directory, and run the
-						<codeph>tar -xvf</codeph> command to extract its files to the correct
-					destination directory, the security context will be applied correctly.</p>
-				<p>To view the security context of a file, use the <codeph>ls -Z</codeph>
-					command.</p></note>
-    		
-    	</prereq>
     	
     	<context><p><b>Recovering Your Cloud Data</b></p>
     		
