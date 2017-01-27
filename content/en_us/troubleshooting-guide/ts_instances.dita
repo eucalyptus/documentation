@@ -24,10 +24,7 @@
 					<note importance="high">A restart should only be performed when no instances are running, or
 						when instance service interruption can be tolerated. A restart causes the CC
 						to reset its networking configuration, regardless of whether or not it is in
-						use. A restart of a CC in Managed and Managed (NoVLAN) modes that is
-						managing active VMs can cause a temporary loss of network connectivity until
-						the CC relearns the network topology and rebuilds the IP table
-						entries.</note>
+						use.</note>
 					<codeblock>systemctl stop eucalyptus-cloud.service
 systemctl stop eucalyptus-cluster.service
 iptables -F
@@ -38,9 +35,8 @@ systemctl start eucalyptus-cloud.service</codeblock>
 			<dlentry>
 				<dt>NC does not recalculate disk size correctly</dt>
 				<dd>
-					<p> This can occur when trying to add extra disk space for instance ephemeral
-						storage. To resolve this, you need to delete the instance cache and restart
-						the NC. </p>
+					<p>This can occur when trying to add extra disk space for instance ephemeral storage. To
+						resolve this, you need to delete the instance cache and restart the NC. </p>
 					<p>For example: </p>
 					<codeblock>rm -rf /var/lib/eucalyptus/instances/* 
 systemctl restart eucalyptus-node.service               				</codeblock>
