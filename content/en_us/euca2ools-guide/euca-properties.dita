@@ -7,11 +7,13 @@
             euctl</codeph> command. This topic explains what types of variables Eucalyptus uses,
         and lists the most common configurable variables.</shortdesc>
  <conbody>
-  <section id="modifiable_property_notes"><title>Eucalyptus Variable Types</title><p>Eucalyptus uses
-                two types of variables: ones that can be changed (as configuration options), and
+  <section id="modifiable_property_notes"><title>Eucalyptus Variable Types</title><p>Eucalyptus uses two types of variables: ones that can be changed (as configuration options), and
                 ones that cannot be changed (they are displayed as variables, but configured by
-                modifying the <codeph>eucalyptus.conf</codeph> file on the CC). </p>
-            <p><b>Non-Changeable Variables</b></p>
+                modifying the <codeph>eucalyptus.conf</codeph> file on the CC). <draft-comment
+                    author="mereditk">Not 100 percent sure that ALL of the below properties go away
+                    with Managed modes deprecation. DOC-1888 wiki:
+                    https://eucalyptus.atlassian.net/wiki/display/ARCH/4.4+Managed+Mode+Removal</draft-comment></p>
+<!--            <p><b>Non-Changeable Variables</b></p>
             <p> The following variables are 'discovered' by the CLC by asking the CC for the values
                 of the variables. They are configured by setting them in eucalyptus.conf on a CC,
                 and define the 'maximum values that a zone can possibly support, based on the
@@ -91,7 +93,9 @@
             the zone ('cluster.') settings permit the software to use VLANs 2 - 511, the
             administrator has configured the cloud to only use VLANs 30 - 160. In MANAGED-NOVLAN
             mode, there is no reason to change these variables from defaults, which match the zone
-            configuration. <note importance="high">Once a cloud is in use and has started operating
+            configuration.--> 
+      
+      <note importance="high">Once a cloud is in use and has started operating
                 based on these variables, it is not safe to change them at runtime.</note></section>
   <section id="modifiable_property_table"><title>Eucalyptus Variables</title>The following table
    contains a list of common Eucalyptus cloud variables.<table>
@@ -697,29 +701,13 @@
                         </row>
                         <row>
                             <entry>cloud.network.ec2_classic_additional_protocols_allowed</entry>
-                            <entry>Comma delimited list of protocol numbers supported in in EDGE
+                            <entry>Comma delimited list of protocol numbers supported in EDGE
                                 mode for security group rules beyond the EC2-Classic defaults
                                 (TCP,UDP,ICMP). Only <xref
                                     href="http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml"
                                     format="xhtml"
                                     scope="external">valid IANA protocol numbers</xref> are
                                 accepted. <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>cloud.network.global_max_network_index </entry>
-                            <entry>Default max network index.</entry>
-                        </row>
-                        <row>
-                            <entry>cloud.network.global_max_network_tag </entry>
-                            <entry>Default max vlan tag.</entry>
-                        </row>
-                        <row>
-                            <entry>cloud.network.global_min_network_index </entry>
-                            <entry>Default min network index.</entry>
-                        </row>
-                        <row>
-                            <entry>cloud.network.global_min_network_tag </entry>
-                            <entry>Default min vlan tag.</entry>
                         </row>
                         <row>
                             <entry>cloud.network.min_broadcast_interval </entry>
@@ -729,11 +717,6 @@
                         <row>
                             <entry>cloud.network.network_index_pending_timeout </entry>
                             <entry>Minutes before a pending index allocation timesout and is
-                                released.</entry>
-                        </row>
-                        <row>
-                            <entry>cloud.network.network_tag_pending_timeout </entry>
-                            <entry>Minutes before a pending tag allocation timesout and is
                                 released.</entry>
                         </row>
                         <row>
@@ -1217,30 +1200,6 @@
                             <entry>Use HTTPS for communication to service backend.</entry>
                         </row>
                         <row>
-                            <entry>ZONE.cluster.addressespernetwork </entry>
-                            <entry>Number of total addresses per network (including unusable gateway
-                                addresses controlled by the system)</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.maxnetworkindex </entry>
-                            <entry>Maximum usable network index (0 &lt; x &lt;
-                                max_network_index)</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.maxnetworktag </entry>
-                            <entry>Maximum vlan tag to use (0 &lt; min_vlan &lt; x &lt;
-                                4096)</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.minnetworkindex </entry>
-                            <entry>Maximum usable network index (0 &lt; min_network_index &lt;
-                                x)</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.minnetworktag </entry>
-                            <entry>Minimum vlan tag to use (0 &lt; x &lt; max_vlan &lt;4096)</entry>
-                        </row>
-                        <row>
                             <entry>ZONE.cluster.networkmode </entry>
                             <entry>Currently configured network mode</entry>
                         </row>
@@ -1248,10 +1207,6 @@
                             <entry>ZONE.cluster.sourcehostname </entry>
                             <entry>Alternative address which is the source address for requests made
                                 by the component to the cloud controller.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.usenetworktags </entry>
-                            <entry>Indicates whether vlans are in use or not.</entry>
                         </row>
                         <row>
                             <entry>ZONE.cluster.vnetnetmask </entry>
