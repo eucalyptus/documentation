@@ -18,105 +18,166 @@
 				</thead>
 				<tbody>
 					<row>
-						<entry>Improved functionality</entry>
-						<entry>
-							<ul>
-								<li>Euca2ools 3.4.0 requires newer minimum versions of the following libraries:<ul>
-									<li>requestbuilder 0.6</li>
-									<li>six 1.8</li>
-								</ul></li>
-								<li>The default configuration for euca-bundle-vol now excludes the following directories 
-									in addition to those it excluded in previous releases. To customize this behavior, 
-									edit <filepath>/etc/euca2ools/bundle-vol/excludes</filepath> or use the <codeph>--no-filter</codeph> 
-									command line option.<ul>
-										<li><filepath>/run</filepath></li>
-										<li><filepath>/tmp</filepath></li>
-										<li><filepath>/var/cache</filepath></li>
-										<li><filepath>/var/run</filepath></li>
-										<li><filepath>/var/tmp</filepath></li>
-									</ul></li>
-								<li>euca-associate-address has a new <codeph>--no-allow-reassociation</codeph> option that explicitly prevents an address 
-									that is in use from being reassociated with another network interface. 
-									<!--<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
-										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></li>
-								<li>The new euare-getcallerid command makes it possible to request the ARN, account number, and other 
-									relevant information about the currently active set of access keys. 
-									<!--<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
-										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></li>
-								<li>It is now possible to view attributes of a CloudFormation template, such as its parameters, without 
-									creating a stack using the new euform-get-template-summary command. 
-									<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-607"
-										>TOOLS-607</xref></li>
-								<li>euwatch-put-data updates: <xref format="html" scope="external" 
-									href="https://eucalyptus.atlassian.net/browse/TOOLS-612"
-									>TOOLS-612</xref> <ul>
-									<li>now supports reporting multiple metric data in a single invocation using 
-										the -v or -s options multiple times.</li>
-									<li>-s option now accepts arbitrary attributes for metric data, making it 
-										possible to report data for multiple metrics or timestamps in a single invocation. 
-										See the command's documentation for additional details. The long name for -s is now 
-										<codeph>--metric-datum</codeph>. Its previous name, <codeph>--statistic-values</codeph>, 
-										continues to function as it did in previous releases.</li></ul></li>
-								<li>euca-describe-instance-type and euca-modify-instance-type now support VPC network interface limits. 
-									<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-614"
-										>TOOLS-614</xref></li>
-								<li>euare commands that output euca2ools.ini files will replicate the verify-ssl option in its output if that option is set.
-									<xref format="html" scope="external" 
-									href="https://eucalyptus.atlassian.net/browse/TOOLS-631"
-									>TOOLS-631</xref></li>
-								<li>It is now possible to retry a failed CloudFormation rollback operation using the new euform-continue-rollback 
-									command. <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-637"
-										>TOOLS-637</xref></li>
-								<li>It is now possible to create and manage VPC NAT gateways using the new euca-create-nat-gateway, 
-									euca-delete-nat-gateway, and euca-describe-nat-gateway commands. <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-640"
-										>TOOLS-640</xref> <xref format="html" scope="external" 
-											href="https://eucalyptus.atlassian.net/browse/TOOLS-641"
-											>TOOLS-641</xref> <xref format="html" scope="external" 
-												href="https://eucalyptus.atlassian.net/browse/TOOLS-642"
-												>TOOLS-642</xref></li>
-								<li>euca-create-route and euca-describe-routes now support NAT gateways. 
-									<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-643"
-										>TOOLS-643</xref>
-									<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-644"
-										>TOOLS-644</xref></li>
-								<li>euform-update-stack no longer requires one to supply it with a template. When no template is specified, 
-									the CloudFormation service will reuse the existing template. <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-650"
-										>TOOLS-650</xref></li>
-								<li>The following new commands add support for managing OpenID Connect providers' integration with 
-									Eucalyptus and AWS: <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-653"
-										>TOOLS-653</xref>
-								<ul><li>euare-oidcprovideraddclientid</li>
-									<li>euare-oidcproviderchangethumbprint</li>
-									<li>euare-oidcprovidercreate</li>
-									<li>euare-oidcproviderdel</li>
-									<li>euare-oidcproviderdelclientid</li>
-									<li>euare-oidcprovidergetattribute</li>
-									<li>euare-oidcproviderlist</li>
-								</ul></li>
-								<li>For CloudFormation template parameters with restrictions on allowed values, euform-get-template-summary 
-									now displays these allowed values. <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-660"
-										>TOOLS-660</xref></li>
-								<li>The configuration file for AWS now includes the us-east-2, ca-central-1, 
-									ap-south-1, and ap-northeast-2 regions. <xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-661"
-										>TOOLS-661</xref>
-									<xref format="html" scope="external" 
-										href="https://eucalyptus.atlassian.net/browse/TOOLS-670"
-										>TOOLS-670</xref>
-								</li>
+						<entry>Euca2ools 3.4.0 requires newer minimum versions of <codeph>requestbuilder</codeph> and
+								<codeph>six</codeph> libraries</entry>
+						<entry><p>Minimum versions required:</p>
+							<ul id="ul_cjc_43b_sy">
+								<li>requestbuilder 0.6</li>
+								<li>six 1.8</li>
 							</ul>
 						</entry>
+					</row>
+					<row>
+						<entry>euca-bundle-vol default configuration changes</entry>
+						<entry>The default configuration for euca-bundle-vol now excludes the following directories in
+							addition to those it excluded in previous releases. To customize this
+							behavior, edit <filepath>/etc/euca2ools/bundle-vol/excludes</filepath>
+							or use the <codeph>--no-filter</codeph> command line option.<ul
+								id="ul_ntb_n3b_sy">
+								<li><filepath>/run</filepath></li>
+								<li><filepath>/tmp</filepath></li>
+								<li><filepath>/var/cache</filepath></li>
+								<li><filepath>/var/run</filepath></li>
+								<li><filepath>/var/tmp</filepath></li>
+							</ul></entry>
+					</row>
+					<row>
+						<entry>euca-associate-address  option</entry>
+						<entry>The  <codeph>--no-allow-reassociation</codeph> option explicitly
+							prevents an address that is in use from being reassociated with another
+							network interface.
+							<!--<xref format="html" scope="external" 
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
+										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></entry>
+					</row>
+					<row>
+						<entry>Support added to retrieve information about the currently active set of access
+							keys</entry>
+						<entry>The new euare-getcallerid command makes it possible to request the
+							ARN, account number, and other relevant information about the currently
+							active set of access keys.
+							<!--<xref format="html" scope="external" 
+										href="https://eucalyptus.atlassian.net/browse/TOOLS-nnn"
+										>TOOLS-nnn</xref> (no JIRA # = pull request from community usually) --></entry>
+					</row>
+					<row>
+						<entry>Support added to view CloudFormation template attributes</entry>
+						<entry>It is now possible to view attributes of a CloudFormation template,
+							such as its parameters, without creating a stack using the new
+							euform-get-template-summary command. <xref format="html"
+								scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-607"
+								>TOOLS-607</xref></entry>
+					</row>
+					<row>
+						<entry>euwatch-put-data updates <xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-612"
+								>TOOLS-612</xref>
+						</entry>
+						<entry>
+							<ul id="ul_m3c_k3b_sy">
+								<li>now supports reporting multiple metric data in a single invocation using the -v or -s
+									options multiple times. </li>
+								<li>-s option now accepts arbitrary attributes for metric data,
+									making it possible to report data for multiple metrics or
+									timestamps in a single invocation. See the command's
+									documentation for additional details. The long name for -s is
+									now <codeph>--metric-datum</codeph>. Its previous name,
+										<codeph>--statistic-values</codeph>, continues to function
+									as it did in previous releases.</li>
+							</ul>
+						</entry>
+					</row>
+					<row>
+						<entry>VPC network interface limits</entry>
+						<entry>euca-describe-instance-type and euca-modify-instance-type now support VPC network
+							interface limits. <xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-614"
+								>TOOLS-614</xref>
+						</entry>
+					</row>
+					<row>
+						<entry>euare commands update</entry>
+						<entry>euare commands that output euca2ools.ini files will replicate the verify-ssl option in
+							its output if that option is set. <xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-631"
+								>TOOLS-631</xref></entry>
+					</row>
+					<row>
+						<entry>A failed CloudFormation rollback operation can be retried</entry>
+						<entry>It is now possible to retry a failed CloudFormation rollback
+							operation using the new euform-continue-rollback command. <xref
+								format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-637"
+								>TOOLS-637</xref></entry>
+					</row>
+					<row>
+						<entry>VPC NAT gateways can now be created and managed</entry>
+						<entry>It is now possible to create and manage VPC NAT gateways using the
+							new euca-create-nat-gateway, euca-delete-nat-gateway, and
+							euca-describe-nat-gateway commands. <xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-640"
+								>TOOLS-640</xref>
+							<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-641"
+								>TOOLS-641</xref>
+							<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-642"
+								>TOOLS-642</xref></entry>
+					</row>
+					<row>
+						<entry>Support added for NAT gateways</entry>
+						<entry>euca-create-route and euca-describe-routes now support NAT gateways.
+								<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-643"
+								>TOOLS-643</xref>
+							<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-644"
+								>TOOLS-644</xref></entry>
+					</row>
+					<row>
+						<entry>euform-update-stack no longer requires one to supply it with a template</entry>
+						<entry>When no template is specified, the CloudFormation service will reuse the existing
+							template. <xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-650"
+								>TOOLS-650</xref></entry>
+					</row>
+					<row>
+						<entry>New commands added to support  OpenID Connect providers' integration with Eucalyptus
+							and AWS</entry>
+						<entry>The following new commands add support for managing OpenID Connect
+							providers' integration with Eucalyptus and AWS: <xref format="html"
+								scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-653"
+								>TOOLS-653</xref>
+							<ul id="ul_zhv_xhb_sy">
+								<li>euare-oidcprovideraddclientid</li>
+								<li>euare-oidcproviderchangethumbprint</li>
+								<li>euare-oidcprovidercreate</li>
+								<li>euare-oidcproviderdel</li>
+								<li>euare-oidcproviderdelclientid</li>
+								<li>euare-oidcprovidergetattribute</li>
+								<li>euare-oidcproviderlist</li>
+							</ul></entry>
+					</row>
+					<row>
+						<entry>euform-get-template-summary update</entry>
+						<entry>For CloudFormation template parameters with restrictions on allowed
+							values, euform-get-template-summary now displays these allowed values.
+								<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-660"
+								>TOOLS-660</xref></entry>
+					</row>
+					<row>
+						<entry>Regions added to the AWS configuration file </entry>
+						<entry>The configuration file for AWS now includes the us-east-2,
+							ca-central-1, ap-south-1, and ap-northeast-2 regions. <xref
+								format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-661"
+								>TOOLS-661</xref>
+							<xref format="html" scope="external"
+								href="https://eucalyptus.atlassian.net/browse/TOOLS-670"
+								>TOOLS-670</xref></entry>
 					</row>
 <!--					<row>
 						<entry>Removed feature</entry>
