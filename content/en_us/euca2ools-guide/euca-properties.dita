@@ -7,94 +7,11 @@
             euctl</codeph> command. This topic explains what types of variables Eucalyptus uses,
         and lists the most common configurable variables.</shortdesc>
  <conbody>
-  <section id="modifiable_property_notes"><title>Eucalyptus Variable Types</title><p>Eucalyptus uses two types of variables: ones that can be changed (as configuration options), and
+  <section id="modifiable_property_notes"><title>Eucalyptus Variable Types</title>
+      <p>Eucalyptus uses two types of variables: ones that can be changed (as configuration options), and
                 ones that cannot be changed (they are displayed as variables, but configured by
-                modifying the <codeph>eucalyptus.conf</codeph> file on the CC). <draft-comment
-                    author="mereditk">Not 100 percent sure that ALL of the below properties go away
-                    with Managed modes deprecation. DOC-1888 wiki:
-                    https://eucalyptus.atlassian.net/wiki/display/ARCH/4.4+Managed+Mode+Removal</draft-comment></p>
-<!--            <p><b>Non-Changeable Variables</b></p>
-            <p> The following variables are 'discovered' by the CLC by asking the CC for the values
-                of the variables. They are configured by setting them in eucalyptus.conf on a CC,
-                and define the 'maximum values that a zone can possibly support, based on the
-                settings in eucalyptus.conf', and some static values (such as mode and
-                usenetworktags). </p><ul>
-                <li>ecc-cluster-1.cluster.addressespernetwork=128</li>
-                <li>ecc-cluster-1.cluster.maxnetworkindex=126</li>
-                <li>ecc-cluster-1.cluster.maxnetworktag=511</li>
-                <li>ecc-cluster-1.cluster.minnetworkindex=9</li>
-                <li>ecc-cluster-1.cluster.minnetworktag=2</li>
-                <li>ecc-cluster-1.cluster.networkmode=MANAGED</li>
-                <li>ecc-cluster-1.cluster.usenetworktags=true</li>
-            </ul><p>If you attempt to change these variables on the CLC, they will revert back to
-                the values that are set on the CC. This information is discovered through an
-                internal call (from CLC to CC) to describeNetworks(). </p><p>Note that all of these
-                variables are zone ('cluster.') variables, and they cannot be set (as variables).
-                The meaning of each follows:</p><table>
-                <tgroup cols="2">
-                    <colspec colwidth="1*"/>
-                    <colspec colwidth="1.55*"/>
-                    <thead>
-                        <row>
-                            <entry>Variable</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
-                    <tbody>
-                        <row>
-                            <entry>cluster.addressespernetwork</entry>
-                            <entry>Value set on the CC as VNET_ADDRSPERNET.</entry>
-                        </row>
-                        <row>
-                            <entry>cluster.maxnetworkindex</entry>
-                            <entry>Value calculated as the maximum index into a sec. group subnet
-                                (VNET_ADDRSPERNET - 2).</entry>
-                        </row>
-                        <row>
-                            <entry>cluster.maxnetworktag</entry>
-                            <entry>Maximum network tag that the zone (cluster) will support
-                                (calculated as VNET_SUBNET/VNET_NETMASK size divided by
-                                VNET_ADDRSPERNET minus 1 (starts at 0)).</entry>
-                        </row>
-                        <row>
-                            <entry>cluster.minnetworkindex</entry>
-                            <entry>Value calculated as the minimum index into a sec. group subnet (0
-                                is reserved, 1-8 are reserved as zone (cluster) def. GW IPs, so
-                                9).</entry>
-                        </row>
-                        <row>
-                            <entry>cluster.minnetworktag</entry>
-                            <entry>Minimum network tag (VLAN, in MANAGED mode, just an index in
-                                MANAGED-NOVLAN mode) that the zone (cluster) will support (VLAN 0
-                                and 1 is reserved, so 2).</entry>
-                        </row>
-                        <row>
-                            <entry>cluster.usenetworktags</entry>
-                            <entry>Determines whether or not the system will be using network
-                                tags/indices at all (true in MANAGED* modes, false in
-                                SYSTEM/STATIC)</entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </table>
-            <p><b>Configurable Variables</b></p>
-            <p>The following are the variables that can be set on the CLC, by the admin, as
-                configuration options:</p><ul>
-                <li>cloud.network.global_max_network_index=4096</li>
-                <li>cloud.network.global_max_network_tag=160</li>
-                <li>cloud.network.global_min_network_index=2</li>
-                <li>cloud.network.global_min_network_tag=30</li>
-            </ul><p>These are variables that must be either identical or non-overlapping subsets of
-                their equivalent zone ('cluster.') variables. Their meanings are similar to the zone
-                (cluster) level variables, but they can be constrained by setting them to a subset
-                range of the range that the zone supports.</p><p>For example, if an administrator
-                wants a zone to only use VLANs 30 - 160 (the above case), then they would set these
-                cloud.network.global settings appropriately.</p>The above example shows that while
-            the zone ('cluster.') settings permit the software to use VLANs 2 - 511, the
-            administrator has configured the cloud to only use VLANs 30 - 160. In MANAGED-NOVLAN
-            mode, there is no reason to change these variables from defaults, which match the zone
-            configuration.--> 
-      
+                modifying the <codeph>eucalyptus.conf</codeph> file on the CC).</p>
+
       <note importance="high">Once a cloud is in use and has started operating
                 based on these variables, it is not safe to change them at runtime.</note></section>
   <section id="modifiable_property_table"><title>Eucalyptus Variables</title>The following table
@@ -700,6 +617,11 @@
                                     CLC. The default value is 5.</entry>
                         </row>
                         <row>
+                            <entry>cloud.network.address_pending_timeout </entry>
+                            <entry>Minutes before a pending system public address 
+                                allocation times out and is released. <p>Default: 35 minutes.</p></entry>
+                        </row>
+                        <row>
                             <entry>cloud.network.ec2_classic_additional_protocols_allowed</entry>
                             <entry>Comma delimited list of protocol numbers supported in EDGE
                                 mode for security group rules beyond the EC2-Classic defaults
@@ -710,14 +632,18 @@
                                 accepted. <p>Default: None</p></entry>
                         </row>
                         <row>
+                            <entry>cloud.network.max_broadcast_apply </entry>
+                            <entry>Maximum time to apply network information. <p>Default: 120 seconds.</p></entry>
+                        </row>
+                        <row>
                             <entry>cloud.network.min_broadcast_interval </entry>
-                            <entry>Minimum interval between broadcasts of network information
-                                (seconds).</entry>
+                            <entry>Minimum interval between broadcasts of network information. 
+                                <p>Default: 5 seconds.</p></entry>
                         </row>
                         <row>
                             <entry>cloud.network.network_index_pending_timeout </entry>
-                            <entry>Minutes before a pending index allocation timesout and is
-                                released.</entry>
+                            <entry>Minutes before a pending index allocation times out and is
+                                released. <p>Default: 35 minutes.</p></entry>
                         </row>
                         <row>
                             <entry>cloud.vmstate.buried_time </entry>
@@ -1201,26 +1127,27 @@
                         </row>
                         <row>
                             <entry>ZONE.cluster.networkmode </entry>
-                            <entry>Currently configured network mode</entry>
+                            <entry>Currently configured network mode. <p>Default: None</p></entry>
                         </row>
                         <row>
                             <entry>ZONE.cluster.sourcehostname </entry>
                             <entry>Alternative address which is the source address for requests made
-                                by the component to the cloud controller.</entry>
+                                by the component to the cloud controller. <p>Default: None</p></entry>
                         </row>
                         <row>
                             <entry>ZONE.cluster.vnetnetmask </entry>
-                            <entry>Netmask used by the cluster's virtual private networking.</entry>
+                            <entry>Netmask used by the cluster's virtual private networking. 
+                                <p>Default: None</p></entry>
                         </row>
                         <row>
                             <entry>ZONE.cluster.vnetsubnet </entry>
                             <entry>IP subnet used by the cluster's virtual private
-                                networking.</entry>
+                                networking. <p>Default: None</p></entry>
                         </row>
                         <row>
                             <entry>ZONE.cluster.vnettype </entry>
                             <entry>IP version used by the cluster's virtual private
-                                networking.</entry>
+                                networking. <p>Default: None</p></entry>
                         </row>
                         <row>
                             <entry>ZONE.storage.blockstoragemanager </entry>
