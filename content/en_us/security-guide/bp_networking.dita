@@ -2,24 +2,23 @@
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <concept id="bp_networking">
 	<title>Networking Modes</title>
-	<shortdesc>This topic describes the recommendations for networking modes.<draft-comment
-			author="mereditk">THIS TOPIC needs to be updated for DOC-1888 - Managed modes
-			gone.</draft-comment></shortdesc>
+	<shortdesc>This topic describes the recommendations for networking modes.</shortdesc>
 	<conbody>
-		<p>We recommend that you use Edge or Managed networking mode, to ensure a secure deployment.
-			They provide security groups, which are used to control inbound traffic to instances, as
-			well as Layer-2 isolation between security groups.</p>
-		<p>Layer-2 isolation protects traffic within a security group from potential eavesdropping
-			and hijacking by instances that belong to other security groups. In Edge mode, Layer-2
-			isolation is also enforced between instances within the same security group. For more
-			information about choosing a networking modes, see <xref
+		<p>A <ph conref="../shared/conrefs.dita#prod/product"/> deployment can be configured in 
+			EDGE (AWS EC2 Classic compatible) or VPCMIDO (AWS
+			VPC compatible) networking modes. In both modes, by default, instances are not allowed
+			to send traffic with spoofed IP and/or MAC addresses and receive traffic that are not
+			destined to their own IP and/or MAC addresses. Security groups should be used to control
+			the ingress traffic to instances (EDGE and VPCMIDO modes) and to control the egress
+			traffic from instances (VPCMIDO mode).</p>
+		<p>VPCMIDO mode offers many security features not present in EDGE mode. Instances of different
+			accounts are deployed in user-defined isolated networks within a <ph
+				conref="../shared/conrefs.dita#prod/product"/> cloud. A
+			combination of security features including VPC, VPC subnets, security groups,
+			source/destination check configuration, route tables, internet gateways, and NAT
+			gateways can be used to selectively enable and configure network access to/from
+			instances or group of instances.</p>
+		<p>For more information about choosing a networking modes, see <xref
 				href="../install-guide/planning_networking_modes.dita"/>.</p>
-		<p>Note that while Edge provides stronger Layer-2 isolation within a security group, it requires
-			NCs to be on the data path to all VMs running on it. It means that all user traffic to
-			VMs has to make it all the way to NCs before it can be blocked, if necessary. This is
-			different from the Managed mode, where all user traffic goes through the CC and can be
-			controlled in a centralized way. This needs to be taken into consideration when choosing
-			between two modes. If Edge mode is selected, we recommend that you have a local firewall
-			on each NC; this allows user traffic only to VMs, but not to the NC itself.</p>
 	</conbody>
 </concept>
