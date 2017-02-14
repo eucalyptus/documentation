@@ -5,9 +5,8 @@
 	<title>Plan Networking Modes</title>
 	<shortdesc><ph conref="../shared/conrefs.dita#prod/product"/> overlays a virtual network on top of
 		your existing network. In order to do this, <ph conref="../shared/conrefs.dita#prod/product"
-		/> supports four different networking modes: Edge, Managed, Managed (No VLAN), and VPC
-			(VPCMIDO).<draft-comment author="mereditk">THIS TOPIC still needs updating DOC-1888 and
-			DOC-2002</draft-comment></shortdesc>
+		/> supports these networking modes: EDGE (AWS EC2 Classic compatible)
+		and VPCMIDO (AWS VPC compatible).</shortdesc>
 	 
 	<prolog>
 		<metadata>
@@ -19,124 +18,36 @@
 	</prolog>
 	
 	<conbody>
-		<note><ph conref="../shared/conrefs.dita#prod/deprecated"/></note>
-		<p>Each mode is designed to allow you to choose an appropriate level of
-			security and flexibility. The purpose of these modes is to direct
-			<ph conref="../shared/conrefs.dita#prod/product"/> to use different network features to manage the virtual
-			networks that connect VMs to each other and to clients external to
-			<ph conref="../shared/conrefs.dita#prod/product"/>. </p>
-		<p>A <ph conref="../shared/conrefs.dita#prod/product"/> installation must be compatible with local site policies
-			and configurations (e.g., firewall rules). <ph conref="../shared/conrefs.dita#prod/product"/> configuration
-			and deployment interfaces allow a wide range of options for
-			specifying how it should be deployed. However, choosing between
-			these options implies tradeoffs.</p>
-		
-		<p>These networking features are described in the following table:</p>
-		<table>
-			<tgroup cols="3">
-				<colspec colname="left" colwidth="20*"/>
-				<colspec colname="mid" colwidth="80*"/>
-				<colspec colname="right" colwidth="20*"/>
-				<thead>
-					<row>
-						<entry colname="left">Feature</entry>
-						<entry colname="mid">Description</entry>
-						<entry colname="right">Mode</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>Elastic IPs</entry>
-						<entry><ph conref="../shared/conrefs.dita#prod/product"/> instances typically have two IPs
-							associated with them: a private one and a public
-							one. Private IPs are intended for internal
-							communications between instances and are usually
-							only routable within a <ph conref="../shared/conrefs.dita#prod/product"/> cloud. Public IPs
-							are used for external access and are usually
-							routable outside <ph conref="../shared/conrefs.dita#prod/product"/> cloud. How these
-							addresses are allocated and assigned to instances is
-							determined by a networking mode. The distinction between public and
-							private addresses becomes important in Edge, Managed, and
-							Managed (No VLAN) modes, which support elastic IPs.
-							With elastic IPs the user gains control over a set
-							of static IP addresses. Once allocated to the user,
-							those same IPs can be dynamically associated to
-							running instances, overriding pre-assigned public
-							IPs. This allows users to run well-known services
-							(for example, web sites) within the <ph conref="../shared/conrefs.dita#prod/product"/> cloud
-							and to assign those services fixed IPs that do not
-							change.</entry>
-						<entry><p>Edge</p>
-							<p>Managed</p>
-							<p>Managed (No VLAN)</p>
-							<p>VPCMIDO</p>
-						</entry>
-					</row>
-					<row>
-						<entry>Security groups</entry>
-						<entry>Security groups are sets of networking rules that
-							define the access rules for all VM instances
-							associated with a group. For example, you can
-							specify ingress rules, such as allowing ping (ICMP)
-							or SSH (TCP, port 22) traffic to reach VMs in a
-							specific security group. When you create a VM
-							instance, unless otherwise specified at instance
-							run-time, it is assigned to a default security group
-							that denies incoming network traffic from all
-							sources. Thus, to allow login and usage of a new VM
-							instance you must authorize network access to the
-							default security group with the
-							<cmdname>euca-authorize</cmdname> command. </entry>
-						<entry><p>Edge</p>
-							<p>Managed</p>
-							<p>Managed (No VLAN)</p>
-							<p>VPCMIDO</p>
-						</entry>
-					</row>
-					<row>
-						<entry>VM isolation</entry>
-						<entry>Although network traffic between VM instances
-							belonging to a security group is always open,
-							<ph conref="../shared/conrefs.dita#prod/product"/> can enforce isolation of network traffic
-							between different security groups. This isolation is
-							enforced using ebtables (Edge) or VLAN tags (Managed), thus,
-							protecting VMs from possible eavesdropping by VM
-							instances belonging to other security
-							groups.</entry>
-						<entry><p>Edge</p>
-							<p>Managed</p>
-							<p>VPCMIDO</p>
-						</entry>
-					</row>
-					<row>
-						<entry>DHCP server</entry>
-						<entry> <ph conref="../shared/conrefs.dita#prod/product"/> assigns IP addresses to VMs in all modes. </entry>
-						<entry><p>Edge</p>
-							<p>Managed</p>
-							<p>Managed (No VLAN)</p>
-							<p>VPCMIDO</p>
-						</entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
-		
-		<p>If <ph conref="../shared/conrefs.dita#prod/product"/> can control and condition the networks its components
-			use, your deployment will support the full set of API features.
-			However, if <ph conref="../shared/conrefs.dita#prod/product"/> is confined to using an existing network,
-			some of the API features might be disabled. So, understanding and
-			choosing the right networking configuration is an important (and
-			complex) step in deployment planning.</p>
-<!--		<p>The following image shows which networking mode you should choose,
+		<p>These networking modes are designed to allow you to choose an appropriate level of security and
+			flexibility for your cloud. The purpose is to direct <ph
+				conref="../shared/conrefs.dita#prod/product"/> to use different network features to
+			manage the virtual networks that connect VMs to each other and to clients external to
+				<ph conref="../shared/conrefs.dita#prod/product"/>.</p>
+		<p><ph conref="../shared/conrefs.dita#prod/product"/> networking modes are generally modeled after
+			AWS networking capabilities. In legacy AWS accounts, you have the ability to choose EC2
+			Classic network mode or VPC network mode. New AWS accounts do not have this flexibility
+			and are forced into using VPC. <ph conref="../shared/conrefs.dita#prod/product"/>
+			VPCMIDO mode is similar to AWS VPC in that it allows users to fully manage their cloud
+			network, including the definition of a Classless Inter-Domain Routing (CIDR) block,
+			subnets, and security groups with rules for additional protocols beyond the default
+			three (UDP, TCP, and ICMP) available in EC2 Classic networking.</p>
+		<p>Your choice of networking mode depends on the following considerations:
+		<ul>
+			<li>Does your <ph conref="../shared/conrefs.dita#prod/product"/> cloud need to mimic behavior in
+					your AWS account? If you need EC2-Classic behavior, select EDGE mode. If you
+					need EC2-VPC behavior, select VPCMIDO mode.</li>
+			<li>Do you need to create security group rules with additional protocols (e.g., all protocols,
+					RDP, XTP, etc.)? If so, choose VPCMIDO mode.</li>
+			<li>If there is no specific requirement for either mode, then VPCMIDO mode is recommended given
+					its flexibility and networking features.</li></ul></p>
+<!--	The following is an old diagram but a nice idea. Keeping it in notes to remind us to consider
+			creating something like it again.
+			<p>The following image shows which networking mode you should choose,
 			depending on what networking features you want: </p>
-		
 		<image href="images/networking_mode_decision75.jpg" scale="90">
 			<alt>Decision tree for determining networking mode</alt>
 		</image>
 		-->
-		<p>Each networking mode is detailed in the following sections.</p>
-		
-		
+		<p>Each networking mode is described in the following sections.</p>	
 	</conbody>
-	
 </concept>
