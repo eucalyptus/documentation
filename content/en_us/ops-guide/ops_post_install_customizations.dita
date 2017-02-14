@@ -6,6 +6,8 @@
     <shortdesc/>
     <taskbody>
         <context>
+            <draft-comment author="mereditk">Managed mode references should be deleted in 5.0.
+                DOC-1888</draft-comment>
             <p>For most production deployments, we recommend that you use a configuration management tool.
                 Customers have been successful deploying using the following:</p>
             <ul>
@@ -16,7 +18,7 @@
             <p>This section describes the most commonly applied post-install customizations and the issues they pose:</p>
             <ul>
                 <li>Over-subscription</li>
-                <li>Networking changes (Edge and managed modes)</li>
+                <li>Networking changes (EDGE and Managed modes)</li>
                 <li>Reporting / CloudWatch tweaks/customizations</li>
                 <li>Capacity changes</li>
             </ul>
@@ -66,48 +68,37 @@
             </taskbody>
         </task>
    <task id="network_changes_modes">
-                <title>Networking Changes (EDGE and Managed Modes)</title>
-                <shortdesc>You can modify the default by adding network IPs to your cloud or changing your network from managed to EDGE network. 
-                    Changing these values do not require turning down the whole system.
-                </shortdesc>
+                <title>Networking Changes (EDGE and Managed modes)</title>
+                <shortdesc>You can modify the default by adding network IPs to your cloud or
+            changing your network from Managed to EDGE mode. Changing these values do not require
+            shutting down the whole system. </shortdesc>
        <task id="add_network_ips">
            <title>Add Network IPs</title>
-           <shortdesc>To add network IPs, perform one of the following:</shortdesc>
+           <shortdesc>To add network IPs:</shortdesc>
            <taskbody>
-                    <steps>
-                   <step>
-                       <cmd>In Edge network mode, adding or changing the IP involves creating a JSON file and uploading it the Cloud Controller (CLC). See <xref
-                                href="../install-guide/nw_edge.dita">Configure for Edge Mode</xref> for more details.</cmd>
-                            <stepresult>No restart needed, changes apply automatically.</stepresult>
-                        </step>
+                    <steps-unordered>
                         <step>
-                            <cmd>In managed mode, navigate to <codeph>/etc/eucalyptus/</codeph> and locate the <codeph>eucalyptus.conf</codeph> file. </cmd>
-                            <substeps>
-                                <substep>
-                                    <cmd>Add more IPs by specifying them in the <codeph>VNET_PUBLICIPS</codeph> parameter.</cmd>
-                                </substep>
-                                <substep>
-                                    <cmd>Restart the CC and CLC in order to apply the changes.</cmd>
-                                </substep>
-                            </substeps>
-                        </step>
-                    </steps>
+                        <cmd>In EDGE mode, adding or changing the IP involves creating a JSON file
+                            and uploading it the Cloud Controller (CLC). See <xref
+                                href="../install-guide/nw_edge.dita">Configure for Edge Mode</xref>
+                            for more details.</cmd>
+                        <stepresult>No restart needed, changes apply automatically.</stepresult>
+                    </step>
+                    </steps-unordered>
            </taskbody>
-   </task>
+    </task>
     <task id="change_modes">
         <title>Change Modes</title>
-        <shortdesc>You can modify the default network from managed to Edge network. </shortdesc>
+        <shortdesc>You can modify the default network from Managed to EDGE networking mode. </shortdesc>
         <taskbody>
-            <steps>
+            <steps-unordered>
                 <step>
                     <cmd>See <xref href="../install-guide/moving_to_edge.dita">
                         Eucalyptus Migration to Edge Networking Mode</xref> for more details.</cmd>
                 </step>
-            </steps>
+            </steps-unordered>
         </taskbody>
     </task>
-      
-
    </task>
     <task id="change_reports_cloudwatch">
         <title>Change Reporting/CloudWatch Properties</title>
@@ -154,13 +145,15 @@
 
 <task id="capacity_changes">
     <title>Change Capacity</title>
-    <shortdesc>Capacity changes refer to adding another cluster or more nodes.</shortdesc>
+    <shortdesc>Capacity changes refer to adding another zone or more nodes.</shortdesc>
     <taskbody>
         <steps>
             <step>
-                <cmd>To add another cluster, <xref href="../install-guide/install_repos_intro.dita">
-                    install</xref>, <xref href="../install-guide/starting_euca.dita"> start</xref>, and <xref href="../install-guide/registering_ccs.dita"> register</xref>.</cmd>
-            </step>
+                    <cmd>To add another zone, <xref href="../install-guide/install_repos_intro.dita"
+                            > install</xref>, <xref href="../install-guide/starting_euca.dita">
+                            start</xref>, and <xref href="../install-guide/registering_ccs.dita">
+                            register</xref>.</cmd>
+                </step>
             <step>
                 <cmd>To add more nodes, see <xref href="../admin-guide/add_nodes.dita">Add a Node Controller</xref>.</cmd>
             </step>
