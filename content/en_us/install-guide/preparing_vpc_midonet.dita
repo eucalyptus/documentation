@@ -33,7 +33,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
     with MidoNet are accomplished through Application Programming Interface (API) calls, which are
     translated into (virtual) network topology changes. Network state information is stored in a
     logically centralized data store, called the Network State Database (NSDB), which is implemented
-    on top of two open-source distributed coordination and data store technologies: Zookeeper and
+    on top of two open-source distributed coordination and data store technologies: ZooKeeper and
     Cassandra. Implementation of (virtual) network topology is realized via cooperation and
     coordination among MidoNet agents, which are deployed in nodes that participate in MidoNet.</p>
    <image href="images/euca_mido_1.png" scale="95"> 
@@ -43,7 +43,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
      networks.</i></p>
    <p>Node types:</p>
    <ul>
-    <li>MidoNet Network State Database (NSDB): consists of a cluster of Zookeeper and Cassandra. All
+    <li>MidoNet Network State Database (NSDB): consists of a cluster of ZooKeeper and Cassandra. All
      MidoNet nodes must have IP connectivity with NSDB.</li>
     <li>MidoNet API: consists of MidoNet web app. Exposes MidoNet REST APIs.</li>
     <li>Hypervisor: MidoNet agent (Midolman) are required in all Hypervisors to enable VMs to be
@@ -227,7 +227,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
    </ul>
    <p><b>Deployment Topology</b></p>
    <ul>
-    <li>A 3-node cluster for NSDB (co-located Zookeeper and Cassandra)</li>
+    <li>A 3-node cluster for NSDB (co-located ZooKeeper and Cassandra)</li>
     <li>eucanetd co-located with MidoNet API Server</li>
     <li>Two (2) MidoNet Gateway Nodes</li>
     <li>Hypervisors with Midolman</li>
@@ -258,7 +258,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
    <p><b>NSDB Data Replication</b></p>
    <ul>
     <li>NSDB is deployed in a cluster of 3 nodes</li>
-    <li>Zookeeper and Cassandra both have built-in data replication</li>
+    <li>ZooKeeper and Cassandra both have built-in data replication</li>
     <li>One server failure is tolerated</li>
    </ul>
    <p><b>MidoNet Gateway Failover</b></p>
@@ -306,6 +306,11 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
     <li>One 10Gbps IP Network for Tunnel Zone</li>
     <li>Public Classless Inter-Domain Routing (CIDR) block (Euca_public_IPs)</li>
     <li>Three (3) BGP terminated uplinks, each of which coming from an independent router</li>
+    <li>ZooKeeper performance recommendations:
+     <ul>
+      <li>Use dedicated physical disk drives for ZooKeeper snapshots</li>
+      <li>Use dedicated physical disk drives for ZooKeeper commit logs (SSD highly recommended)</li>
+     </ul></li>
    </ul>
    <p>Limits:</p>
    <ul>
@@ -316,7 +321,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
    </ul>
    <p><b>Deployment Topology</b></p>
    <ul>
-    <li>A 5-node cluster for NSDB (co-located Zookeeper and Cassandra)</li>
+    <li>A 5-node cluster for NSDB (co-located ZooKeeper and Cassandra)</li>
     <li>eucanetd co-located with MidoNet API Server</li>
     <li>Three (3) MidoNet Gateway Nodes</li>
     <li>Hypervisors with Midolman</li>
@@ -340,7 +345,7 @@ BELOW is a generic MidoNet discussion so it does not need to be MEM here ...-->
    <p><b>NSDB Data Replication</b></p>
    <ul>
     <li>NSDB is deployed in a cluster of 5 nodes</li>
-    <li>Zookeeper and Cassandra both have built-in data replication</li>
+    <li>ZooKeeper and Cassandra both have built-in data replication</li>
     <li>Up to 2 server failures tolerated</li>
    </ul>
    <p><b>MidoNet Gateway Failover</b></p>
