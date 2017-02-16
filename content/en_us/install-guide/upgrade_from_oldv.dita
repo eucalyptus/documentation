@@ -28,23 +28,6 @@ user = 000805022146:admin</codeblock>
 						<codeblock>--region 000805022146:admin@machine1.example.com</codeblock></note>
 				</info>
 			</step>
- 			<step>
- 				<note type="important">Notes about the following steps. <ul>
- 					<li>Perform these steps as a <ph conref="../shared/conrefs.dita#prod/product"/> admin.</li>
- 					<li>These steps need to be completed only once after upgrading to a 4.2.x
- 						release.</li>
- 				</ul>
- 				</note>
- 				<cmd>Run the following commands to clean up the old imaging worker instance:</cmd>
- 				<info>
- 					<codeblock># euscale-describe-auto-scaling-groups
-AUTO-SCALING-GROUP	asg-euca-internal-imaging-worker-01	lc-euca-internal-imaging-worker-01	one		1	1	1	Default
-INSTANCE	i-ce92fd76	one	InService	Healthy	lc-euca-internal-imaging-worker-01
-TAG	auto-scaling-group	asg-euca-internal-imaging-worker-01	Name	euca-internal-imaging-workers	true
-
-# euscale-update-auto-scaling-group asg-euca-internal-imaging-worker-01 --launch-configuration lc-euca-internal-imaging-worker-01 --max-size 1 --min-size 0 --desired-capacity 0</codeblock>
- 				</info>
- 			</step>		
     		<step>
     			<cmd>Once the imaging worker instance is terminated, delete the related autoscaling group and
 					launch config:</cmd>
