@@ -9,8 +9,11 @@
   <!--  DOC-2034 documenting the https://raw.githubusercontent.com/eucalyptus/eucaconsole/maint-4.4/conf/console.default.ini 
     version of the console.ini file, which changes a lot!-->
     <p>For Centos and RHEL installations from packages, this file is located in
-      <codeph>/etc/eucaconsole/console.ini</codeph>.</p>
+        <codeph>/etc/eucaconsole/console.ini</codeph>.</p>
     <p>The configurable options in the <codeph>[app:main]</codeph> section of the console.ini file are:</p>
+    
+    <!--ADDed XREF TO CONTROLLED AVAILABILITY DOC-2086-->
+    
     <table>
       <tgroup cols="4">
         <colspec
@@ -63,26 +66,27 @@
           </row>            
           <row>
             <entry>oidc.hostname</entry>
-            <entry>The OpenID Connect (OIDC) hostname for the ident host.</entry>
+            <entry>The OpenID Connect (OIDC) hostname for the ident host.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>no</entry>
             <entry>--</entry>
           </row>            
           <row>
             <entry>oidc.client.id</entry>
-            <entry>The OIDC client ID for this installation, which comes from ident provider.</entry>
+            <entry>The OIDC client ID for this installation, which comes from ident provider.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>no</entry>
             <entry>--</entry>
           </row>            
           <row>
             <entry>oidc.client.secret</entry>
-            <entry>The OIDC client secret for this installation, which comes from ident provider.</entry>
+            <entry>The OIDC client secret for this installation, which comes from ident
+              provider.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>no</entry>
             <entry>--</entry>
           </row>            
           <row>
             <entry>oidc.scope</entry>
             <entry>The OIDC scope is specific to your ident provider and is used in a token API
-              request.</entry>
+              request.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>yes</entry>
             <entry>urn:globus:auth:scope:auth.globus.org:view_identities openid email profile</entry>
           </row>            
@@ -91,13 +95,13 @@
             <entry>The OIDC return URL hostname. Required to be the hostname that this console runs
               as, so callback from the ident provider can return control back to this application.
               If the console is installed on the UFS host, this value would be the same as ufshost
-              above. It may be different based on where the console is running.</entry>
+              above. It may be different based on where the console is running.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>yes</entry>
             <entry>localhost</entry>
           </row>            
           <row>
             <entry>oidc.login.button.label</entry>
-            <entry>The text that appears on the login button.</entry>
+            <entry>The text that appears on the login button.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>yes</entry>
             <entry>Sign in with Globus Auth</entry>
           </row>            
@@ -137,10 +141,10 @@
                 href="http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region"
                 scope="external" format="html"
                 >http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region</xref>
-              <p><note>If you log into a multi-region cloud, the system automatically sets a default 
+              <p><b>Note:</b> If you log into a multi-region cloud, the system automatically sets a default 
                 region based on which ufshost the console is configured to connect to. 
                 The console administrator can specify a different value for a user's default region 
-                in order to override the natural default, if needed.</note></p></entry>
+                in order to override the natural default, if needed.</p></entry>
             <entry>yes</entry>
             <entry>us-east-1</entry>
           </row>
