@@ -9,7 +9,18 @@
   <!--  DOC-2034 documenting the https://raw.githubusercontent.com/eucalyptus/eucaconsole/maint-4.4/conf/console.default.ini 
     version of the console.ini file, which changes a lot!-->
     <p>For Centos and RHEL installations from packages, this file is located in
-        <codeph>/etc/eucaconsole/console.ini</codeph>.</p>
+        <codeph>/etc/eucaconsole/console.ini</codeph>.<note type="important">
+        <p>You should always start (or restart) the console when you make changes to the console
+          configuration.</p>
+        <p>You can start the console using the following command:</p>
+        <p>
+          <codeblock>systemctl start eucaconsole.service</codeblock>
+        </p>
+        <p>You can restart the console using the following command:</p>
+        <p>
+          <codeblock>systemctl restart eucaconsole.service</codeblock>
+        </p>
+      </note></p>
     <p>The configurable options in the <codeph>[app:main]</codeph> section of the console.ini file are:</p>
     
     <!--ADDed XREF TO CONTROLLED AVAILABILITY DOC-2086-->
@@ -69,19 +80,13 @@
             <entry>The OpenID Connect (OIDC) hostname for the ident host.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
             <entry>no</entry>
             <entry>--</entry>
-          </row>            
+          </row>
           <row>
-            <entry>oidc.client.id</entry>
-            <entry>The OIDC client ID for this installation, which comes from ident provider.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>no</entry>
-            <entry>--</entry>
-          </row>            
-          <row>
-            <entry>oidc.client.secret</entry>
-            <entry>The OIDC client secret for this installation, which comes from ident
-              provider.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>no</entry>
-            <entry>--</entry>
+            <entry>oidc.client.ini</entry>
+            <entry>The location of a file that contains the OIDC credentials.<p><b>Note:</b>
+                <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
+            <entry>yes</entry>
+            <entry>/etc/eucaconsole/oidc-credentials.ini</entry>
           </row>            
           <row>
             <entry>oidc.scope</entry>
@@ -377,13 +382,5 @@
       these settings, see <xref
         href="http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html"
         format="html" scope="external"/>.</p>
-    <note type="important">
-      <p>You should always start (or restart) the console when you make changes
-        to the console configuration.</p>
-      <p>You can start the console using the following command:</p>
-      <p><codeblock>systemctl start eucaconsole.service</codeblock></p>
-      <p>You can restart the console using the following command:</p>
-      <p><codeblock>systemctl restart eucaconsole.service</codeblock></p>
-    </note>
   </body>
 </topic>
