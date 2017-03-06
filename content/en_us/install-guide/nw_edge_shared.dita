@@ -2,7 +2,7 @@
 <!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
 <task id="nw_edge_shared">
-	<title>Configure for Edge Mode</title>
+	<title>Configure for EDGE Mode</title>
 	<shortdesc/>
 	<prolog>
 		<metadata>
@@ -93,23 +93,27 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
 		</taskbody>
 	</task>
 	<task id="nw_edge_json_shared">
-		<title>Create the JSON File</title>
+		<title>Create the Network JSON File</title>
 		<taskbody>
 			<context>
-				<p>To configure the rest of the Edge mode parameters, you must create a JSON configuration file.
-					Later in the installation process you will upload this file to the CLC.</p>
+				<p>To configure the rest of the EDGE mode parameters, you must create a
+						<codeph>network.json</codeph> configuration file. Later in the installation
+					process you will <xref href="nw_json_upload.dita#nw_edge_json_upload"/> to the
+					CLC.</p>
 			</context>
 			<steps>
 				<step>
-					<cmd>Create the JSON file.</cmd>
+					<cmd>Create the network JSON file.</cmd>
 					<substeps>
 						<substep>
 							<cmd>Open a text editor. </cmd>
 						</substep>
 						<substep>
-							<cmd>Create a file similar to the following structure. Substitute comments for your system
-								settings. See examples at the end of this topic.</cmd>
+							<cmd>Create a file similar to the following structure. Substitute
+								comments for your system settings. See examples at the end of this
+								topic.</cmd>
 							<info>
+								<draft-comment>Useful to ensure JSON is valid: http://jsonparseronline.com/</draft-comment> 
 								<codeblock>{
   "InstanceDnsDomain": ""
     "_comment": "Internal DNS domain used for instance private DNS names"
@@ -155,15 +159,8 @@ VNET_DHCPDAEMON="/usr/sbin/dhcpd"</codeblock>
 					</substeps>
 				</step>
 				<step>
-					<cmd>Save the file.</cmd>
+					<cmd>Save the <codeph>network.json</codeph> file.</cmd>
 				</step>
-				<!--<step><note type="important">This step can only be run after getting your credentials in <xref
-					href="../install-guide/admin_creds.dita"/>.</note>
-					<cmd>Run the following command to upload the configuration file to the CLC (with valid eucalyptus/admin credentials sourced):</cmd>
-					<info>
-<codeblock>euctl-modify-property -f cloud.network.network_configuration=&lt;/path/to/your/json_config_file></codeblock>
-					</info>
-				</step>-->
 			</steps>
 			<example>
 				<p>The following example is for a setup with one cluster (AZ), called PARTI00, with a flat network
