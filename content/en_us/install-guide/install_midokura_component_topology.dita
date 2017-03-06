@@ -15,30 +15,39 @@
    <li>It is recommended that your User Facing Services (UFS) host be used as the MidoNet Gateway
         (i.e., running a Midolman agent) when configuring <ph
           conref="../shared/conrefs.dita#prod/product"/>.</li>
-    <li>The network interface(s) specified as "GatewayInterface" (in network.json configuration file) should be dedicated for 
-      <ph conref="../shared/conrefs.dita#prod/product"/>/MidoNet (for configuration/operation/use).</li>
-    <li><ph conref="../shared/conrefs.dita#prod/product"/>/MidoNet expects exclusive use of the network interface specified in GatewayInterface.</li>
-    <li>If the main network interface of a server is specified in GatewayInterface, most likely the connectivity 
-    to that server will be lost once <ph conref="../shared/conrefs.dita#prod/product"/> is deployed.
-      
-      <ul>
-       <li>If you have only one interface on your host, then you need to follow the instructions
+    <li>The network interface(s) specified as <codeph>ExternalDevice</codeph>* (in the
+      <codeph>network.json</codeph> configuration file) should be dedicated for <ph
+          conref="../shared/conrefs.dita#prod/product"/>/MidoNet (for
+        configuration/operation/use).</li>
+    <li><ph conref="../shared/conrefs.dita#prod/product"/>/MidoNet expects exclusive use of the
+        network interface specified in <codeph>ExternalDevice</codeph>.</li>
+    <li>If the main network interface of a server is specified in <codeph>ExternalDevice</codeph>,
+        most likely the connectivity to that server will be lost once <ph
+          conref="../shared/conrefs.dita#prod/product"/> is deployed. <ul>
+          <li>If you have only one interface on your host, then you need to follow the instructions
             from Midokura on setting up a veth pair so that MidoNet can take over a virtual
             interface rather than a physical one, as in this example (for <ph
               conref="../shared/conrefs.dita#prod/product"/> installs, you can skip step 6, "Create
             a port on the MidoNet Provider Router..." in the <xref
               href="http://docs.midokura.com/docs/v5.2/en/operations-guide/content/static_setup.html"
               format="html" scope="external">Midokura Static Setup instructions</xref>).
-         <draft-comment author="mereditk">Check MidoNet version # and doc paths each release - match
-                the compat matrix for the release! NOTE that Midokura changes doc repo frequently.
-                GLOBAL SEARCH on "docs.midokura.com" across all docs.</draft-comment></li>
-      </ul>
-     </li>
+              <draft-comment author="mereditk">Check MidoNet version # and doc paths each release -
+              match the compat matrix for the release! NOTE that Midokura changes doc repo
+              frequently. GLOBAL SEARCH on "docs.midokura.com" across all docs.</draft-comment></li>
+        </ul>
+      </li>
     </ul>
+   <p>* In <ph conref="../shared/conrefs.dita#prod/product"/> 4.4, <codeph>ExternalDevice</codeph> replaces <codeph>GatewayInterface</codeph> in
+      4.3 and prior releases.</p>
   <section>
-    <title><ph conref="../shared/conrefs.dita#prod/product"/> Network JSON Example</title>
-    <p>The following <ph conref="../shared/conrefs.dita#prod/product"/> network JSON template file shows a sample VPCMIDO mode
-        configuration:</p>
+    <title><ph conref="../shared/conrefs.dita#prod/product"/> 4.3 Network JSON Example</title>
+    <note>This <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 version of the VPCMIDO
+          <codeph>network.json</codeph> file is still accepted, however we strongly encourage use of
+        the updated <ph conref="../shared/conrefs.dita#prod/product"/> 4.4 template instead. See
+          <xref href="nw_vpmido.dita#nw_vpcmido_overview"/>.</note>
+    <p>The following <ph conref="../shared/conrefs.dita#prod/product"/> 4.3 network JSON template
+        file shows a sample VPCMIDO mode configuration:</p>
+    <draft-comment>Useful to ensure JSON is valid: http://jsonparseronline.com/</draft-comment>
    <codeblock>
 {
   "InstanceDnsServers": [
