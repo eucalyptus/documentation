@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="vpcmido_gateway_config_params">
+    <title>VPCMIDO Gateway Configuration Parameters</title>
+	<shortdesc>This topic provides detailed configuration parameter information for <ph
+            conref="../shared/conrefs.dita#prod/product"/> VPCMIDO network mode.</shortdesc>
+	<prolog>
+		<metadata>
+			<keywords>
+				<indexterm>VPCMIDO Gateway <indexterm>configuration</indexterm>
+				</indexterm>
+			</keywords>
+		</metadata>
+	</prolog>
+    <conbody>
+        <section id="vpc_gateway_param_table">
+            <title><ph conref="../shared/conrefs.dita#prod/product"/> VPCMIDO Gateway
+                Configuration</title>The following table provides a list of VPCMIDO parameters.<table>
+                <tgroup cols="3">
+                    <colspec colnum="1" colname="c1" colwidth="1*"/>
+                    <colspec colnum="2" colname="c2" colwidth="1.5*"/>
+                    <colspec colnum="3" colname="c2" colwidth="1.5*"/>
+                    <thead>
+                        <row>
+                            <entry>Parameter</entry>
+                            <entry>Description</entry>
+                            <entry>Validation</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry><codeph>BgpAsn</codeph></entry>
+                            <entry><p>(Optional) <i>Global</i> BGP configuration *</p>BGP Autonomous
+                                System Number assigned (to be decided by Euca
+                                administrator/installer) for this Euca VPCMIDO deployment. Private
+                                ASN range should be used:<ul>
+                                    <li>16-bit: 64512 - 65534</li>
+                                    <li>32-bit: 131072 - 4199999999 (RFC6996)</li>
+                                </ul></entry>
+                            <entry>
+                                <ul>
+                                    <li>Private use blocks recommended, but owners of public ASNs
+                                        can use public ASNs or other blocks if they wish.</li>
+                                    <li>Valid range is 1 - 4294967295.</li>
+                                </ul>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><codeph>Gateways</codeph></entry>
+                            <entry>(The VPCMIDO gateway parameters are below.)</entry>
+                            <entry>Per MidoNet/BGP limitation, a maximum of 6 MidoGateways can be
+                                used.</entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>Ip</codeph></entry>
+                            <entry>Internal IP address of Mido Gateway (not to be confused with the
+                                IP address of the gateway interface used in external
+                                communications). <p><b>Note</b>: Replaces 4.3
+                                        <codeph>GatewayHost</codeph> parameter.</p></entry>
+                            <entry>
+                                <ul>
+                                    <li>Must be a valid IP address.</li>
+                                    <li>Must be a live IP address configured on the
+                                        machine.<!-- (hard to check)--></li>
+                                </ul>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>ExternalDevice</codeph></entry>
+                            <entry>Device name of Mido Gateway interface that is physically
+                                connected to the external network (i.e., has L2 connectivity to the
+                                infrastructure router or BGP peer). This interface is dedicated for
+                                MidoNet use (Mido Gateway Operating System should not have control
+                                of this device). <p><b>Note</b>: Replaces 4.3
+                                            <codeph><i>GatewayInterface</i></codeph>
+                                parameter.</p></entry>
+                            <entry>Must be a valid network interface connected to the network where
+                                L2 communication with <codeph>BgpPeerIp</codeph> (or
+                                    <codeph>ExternalRouterIp</codeph>) can be
+                                established.<!-- (hard to check)--></entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>ExternalCidr</codeph></entry>
+                            <entry>CIDR block used in the external routing. <p><b>Note</b>: Replaces
+                                    4.3 <codeph>PublicNetworkCidr</codeph> parameter.</p></entry>
+                            <entry>Must be a valid CIDR block.</entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>ExternalIp</codeph></entry>
+                            <entry>IP address to be configured on <codeph>ExternalDevice</codeph> by
+                                eucanetd. Its subnet is as specified in
+                                    <codeph>ExternalCidr</codeph> (<codeph>ExternalCidr</codeph>
+                                must contain <codeph>ExternalIp</codeph>). <p><b>Note</b>: Replaces
+                                    4.3 <codeph>GatewayIP</codeph> parameter.</p></entry>
+                            <entry>
+                                <ul>
+                                    <li>Must be a valid and unused IP address.</li>
+                                    <li>Must be within <codeph>ExternalCidr</codeph>.</li>
+                                    <li>Must not be a network or broadcast address.</li>
+                                </ul>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>ExternalRouterIp</codeph></entry>
+                            <entry>IP address of an external router (for static configuration). This
+                                is the router IP address used in default routes for traffic
+                                originating from MidoNet. <p><b>Note</b>: Partially replaces 4.3
+                                        <codeph>PublicGatewayIp</codeph> parameter.</p></entry>
+                            <entry>
+                                <ul>
+                                    <li>Must be a valid and unused IP address.</li>
+                                    <li>Must be within <codeph>ExternalCidr</codeph>.</li>
+                                    <li>Must not be a network or broadcast address.</li>
+                                </ul>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>BgpPeerIp</codeph></entry>
+                            <entry>IP address of a BGP peer. This is the IP address to where MidoNet
+                                router will attempt to establish a BGP session.<p><b>Note</b>:
+                                    Partially replaces 4.3 <codeph>PublicGatewayIp</codeph>
+                                    parameter.</p></entry>
+                            <entry>
+                                <ul>
+                                    <li>Must be a valid and unused IP address.</li>
+                                    <li>Must be within <codeph>ExternalCidr</codeph>.</li>
+                                    <li>Must not be a network or broadcast address.</li>
+                                </ul>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>BgpPeerAsn</codeph></entry>
+                            <entry><p>(Optional) BGP configuration *</p> BGP peer ASN for this
+                                MidoGateway.</entry>
+                            <entry>Valid range is 1 - 4294967295.</entry>
+                        </row>
+                        <row>
+                            <entry>
+                                <codeph>BgpAdRoutes</codeph></entry>
+                            <entry><p>(Optional) BGP configuration *</p> A list of CIDR blocks
+                                delegated to this Euca VPCMIDO deployment. VPCMIDO BGP will be
+                                configured to advertise these routes. Euca public IPs must be within
+                                these CIDR blocks. The same list can be used for all MidoGateways.
+                                The advantage of having a separate list per MidoGateway is that it
+                                allows different MidoGateways to be responsible for different CIDR
+                                blocks. If the same list of CIDR blocks is used for all
+                                MidoGateways, MidoNet built-in load sharing/balancing mechanism is
+                                used.</entry>
+                            <entry>Each entry must be a valid CIDR block.</entry>
+                        </row>
+                        <row>
+                            <entry><codeph>PublicIps</codeph></entry>
+                            <entry>The public IP address ranges associated with VPCMIDO.</entry>
+                            <entry>
+                                <ul>
+                                    <li>With BGP: <ul>
+                                        <li>Each public IP must be within one of the CIDR blocks in the union 
+                                            of all <codeph>BgpAdRoutes</codeph>  entries.</li>
+                                        <li>Must be a valid IP address range.</li>
+                                        <li>Must not contain network or broadcast address of the CIDR blocks in the union of all 
+                                        <codeph>BgpAdRoutes</codeph>.</li>
+                                    </ul></li>
+                                    <li>Without BGP: On-premise infrastructure must rout all
+                                        PublicIps to one of the MidoGateways.<!-- (hard to check)--></li>
+                                </ul>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <p>* BGP parameters are optional. Technically, it is OK to combine gateways with BGP and
+                gateways without BGP (static configuration). Gateways with BGP require
+                    <codeph>BgpPeerAsn</codeph>, <codeph>BgpAdRoutes</codeph>, and
+                    <codeph>BgpAsn</codeph>. If all gateways are static (no BGP),
+                    <codeph>BgpAsn</codeph> is optional. A gateway with BGP has
+                    <codeph>BgpPeerAsn</codeph> and <codeph>BgpAdRoutes</codeph> parameters; a
+                static gateway does not.</p>
+        </section>
+    </conbody>
+</concept>
