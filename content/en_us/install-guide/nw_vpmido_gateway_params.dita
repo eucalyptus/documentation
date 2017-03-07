@@ -34,8 +34,8 @@
                         <row>
                             <entry><codeph>BgpAsn</codeph></entry>
                             <entry><p>(Optional) <i>Global</i> BGP configuration *</p>BGP Autonomous
-                                System Number assigned (to be decided by Euca
-                                administrator/installer) for this Euca VPCMIDO deployment. Private
+                                System Number assigned (to be decided by <ph conref="../shared/conrefs.dita#prod/product"/>
+                                administrator/installer) for this <ph conref="../shared/conrefs.dita#prod/product"/> VPCMIDO deployment. Private
                                 ASN range should be used:<ul>
                                     <li>16-bit: 64512 - 65534</li>
                                     <li>32-bit: 131072 - 4199999999 (RFC6996)</li>
@@ -148,8 +148,8 @@
                             <entry>
                                 <codeph>BgpAdRoutes</codeph></entry>
                             <entry><p>(Optional) BGP configuration *</p> A list of CIDR blocks
-                                delegated to this Euca VPCMIDO deployment. VPCMIDO BGP will be
-                                configured to advertise these routes. Euca public IPs must be within
+                                delegated to this <ph conref="../shared/conrefs.dita#prod/product"/> VPCMIDO deployment. VPCMIDO BGP will be
+                                configured to advertise these routes. <ph conref="../shared/conrefs.dita#prod/product"/> public IPs must be within
                                 these CIDR blocks. The same list can be used for all MidoGateways.
                                 The advantage of having a separate list per MidoGateway is that it
                                 allows different MidoGateways to be responsible for different CIDR
@@ -178,11 +178,12 @@
                     </tbody>
                 </tgroup>
             </table>
-            <p>* BGP parameters are optional. Technically, it is OK to combine gateways with BGP and
-                gateways without BGP (static configuration). Gateways with BGP require
-                    <codeph>BgpPeerAsn</codeph>, <codeph>BgpAdRoutes</codeph>, and
-                    <codeph>BgpAsn</codeph>. If all gateways are static (no BGP),
-                    <codeph>BgpAsn</codeph> is optional. A gateway with BGP has
+            <p>* BGP parameters are optional but recommended for production. Static configuration can be used for a 
+                Proof of Concept (POC) environment; however, it is not recommended for production.</p>
+            <p>Technically, it is OK to combine gateways with BGP and gateways without BGP (static
+                configuration). Gateways with BGP require <codeph>BgpPeerAsn</codeph>,
+                    <codeph>BgpAdRoutes</codeph>, and <codeph>BgpAsn</codeph>. If all gateways are
+                static (no BGP), <codeph>BgpAsn</codeph> is optional. A gateway with BGP has
                     <codeph>BgpPeerAsn</codeph> and <codeph>BgpAdRoutes</codeph> parameters; a
                 static gateway does not.</p>
         </section>
