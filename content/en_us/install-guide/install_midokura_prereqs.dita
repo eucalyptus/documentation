@@ -7,55 +7,62 @@
  <conbody>
    <p><note type="important"><ph
      conref="../shared/conrefs.dita#prod/compat_matrix"/></note></p>
+   <p>You need to configure software repositories and install Network State Database (NSDB) services: ZooKeeper and Cassandra.</p>
   <section>
    <title>Repository Access</title>
     <p>In order to use MidoNet with <ph conref="../shared/conrefs.dita#prod/product"/> you need
         access to the Midokura repositories. You can sign up here: <xref
           href="https://support.midokura.com/access/unauthenticated" format="html" scope="external"
         />.</p>
-   <p>Create <codeph>/etc/yum.repos.d/midokura.repo</codeph> on all machines that will run MidoNet
-        components including ZooKeeper. For example:</p>
+   <p>Create <codeph>/etc/yum.repos.d/midokura.repo</codeph> on all host machines that will run
+        MidoNet components including ZooKeeper and Cassandra. For example:</p>
     <draft-comment author="mereditk">Check MidoNet version # for software and gpgkey - Midokura changes often.</draft-comment>
    <codeblock>[midokura]
-name=Midokura Repository
+name=MidoRepo
 baseurl=http://USERNAME:PASSWORD@repo.midokura.com/mem-5.2/stable/el7/
-gpgkey=http://USERNAME:PASSWORD@repo.midokura.com/midorepo.key
+enabled=1
 gpgcheck=1
-enabled=1</codeblock>
+gpgkey=https://repo.midokura.com/midorepo.key</codeblock>
+    <p>See <xref
+          href="http://docs.midokura.com/docs/v5.2/en/quick-start-guide/rhel-7_kilo-rdo/content/_repository_configuration.html"
+          format="html" scope="external">MidoNet Repository Configuration</xref>.</p>
   </section>
   <section>
    <title>ZooKeeper</title>
-   <p>ZooKeeper is where MidoNet stores most of its running state. This service needs to be up and
-        running before any other installation takes place. </p>
+    <p>MidoNet uses Apache ZooKeeper to store critical path data about the virtual and physical network topology.</p>
     <draft-comment author="mereditk">Check MidoNet version # and doc paths each release - 
       match the compat matrix for the release! NOTE that Midokura changes doc repo frequently.</draft-comment>
-   <note>For advanced ZooKeeper installation (clustered for reliability), see the <xref
-     href="http://docs.midokura.com/docs/v5.2/en/quick-start-guide/rhel-7_kilo-rdo/content/_zookeeper_installation.html"
-          format="html" scope="external">MidoNet NSDB Installation Guide</xref>. </note>
-   <p>For a simple single-server installation, install the ZooKeeper package on any server that is
-        IP accessible from all Midolman agents (for example: on the Cloud Controller server itself),
-        start the service and ensure that the service is enabled. For example: </p>
-   <codeblock>yum install zookeeper
-systemctl start zookeeper.service
-systemctl enable zookeeper.service</codeblock>
+   <p>For a simple single-server installation, install ZooKeeper on any server that is IP accessible
+        from all Midolman agents (for example: on the CLC host machine itself). You can also cluster
+        ZooKeeper for fault tolerance. See <xref
+          href="http://docs.midokura.com/docs/v5.2/en/quick-start-guide/rhel-7_kilo-rdo/content/_zookeeper_installation.html"
+          format="html" scope="external">MidoNet NSDB ZooKeeper Installation</xref>.</p>
+    <p>Enable and start the ZooKeeper service before installing the other MidoNet services.</p>
   </section>
   <section>
    <title>Cassandra</title>
-   <p>Cassandra is used to track flows in MidoNet. This service needs to be up and running before
-        any other installation takes place. For a simple single-server installation, install
-        Cassandra on any server that is IP accessible from all Midolman agents (for example: on the
-        Cloud Controller server itself), start the service and ensure that the service is enabled. </p>
-   <p>To install Cassandra, please refer to the documentation for Cassandra <xref
-     href="http://docs.datastax.com/en/cassandra/2.2/cassandra/install/installRHEL.html"
-     format="html" scope="external">installation</xref> and <xref
-     href="http://docs.datastax.com/en/cassandra/2.2/cassandra/initialize/initSingleDS.html"
-     format="html" scope="external">configuration</xref>.</p>
+    <p>MidoNet uses Apache Cassandra to store flow state information.</p>
     <draft-comment author="mereditk">Check MidoNet version # and doc paths each release - match
       the compat matrix for the release! NOTE that Midokura changes doc repo frequently.
       GLOBAL SEARCH on "docs.midokura.com" across all docs.</draft-comment>
-   <note>For advanced MidoNet-specific installation of Cassandra, see the <xref
+   <p>For a simple single-server installation, install Cassandra on any server that is IP accessible
+        from all Midolman agents (for example: on the CLC host machine itself). You can also cluster
+        Cassandra for fault tolerance. See <xref
      href="http://docs.midokura.com/docs/v5.2/en/quick-start-guide/rhel-7_kilo-rdo/content/_cassandra_installation.html"
-          format="html" scope="external">MidoNet NSDB Installation Guide</xref>. </note>
+          format="html" scope="external">MidoNet NSDB Cassandra Installation</xref>.</p>
+    <p>Enable and start the Cassandra service before installing the other MidoNet services.</p>
+<!--  Datastax docs not needed:  
+      <p>To install Cassandra, see the documentation for Cassandra <xref
+      href="http://docs.datastax.com/en/cassandra/2.2/cassandra/install/installRHEL.html"
+      format="html" scope="external">installation</xref> and <xref
+        href="http://docs.datastax.com/en/cassandra/2.2/cassandra/initialize/initSingleDS.html"
+        format="html" scope="external">configuration</xref>.</p>
+    FOR TECH WRITERS: Other interesting reference docs:
+    http://docs.midokura.com/docs/v5.2/en/quick-start-guide/rhel-7_kilo-rdo/content/_hosts_and_services.html
+    https://docs.midonet.org/docs/v5.2/en/reference-architecture/content/zookeeper.html
+    https://docs.midonet.org/docs/v5.2/en/reference-architecture/content/cassandra.html
+    https://docs.midonet.org/
+    -->
   </section>
  </conbody>
 </concept>

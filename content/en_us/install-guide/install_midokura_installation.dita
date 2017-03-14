@@ -6,265 +6,66 @@
     <shortdesc>This topic shows how to install Midokura Enterprise MidoNet for use in your <ph
             conref="../shared/conrefs.dita#prod/product"/> cloud.</shortdesc>
     <taskbody/>
-    <task id="install_midokura_api">
-        <title>Install the MidoNet API on the Cloud Controller (CLC)</title>
-        <shortdesc>This topic describes how to install the MidoNet API.</shortdesc>
+    <task id="install_midonet_cluster">
+        <title>Install the MidoNet Cluster on the Cloud Controller (CLC)</title>
+        <shortdesc>This topic describes how to install the MidoNet Cluster.</shortdesc>
         <taskbody>
-            <context>To install the MidoNet API on the CLC:</context>
+            <context>The MidoNet Cluster is a type of node introduced in MidoNet v5 that replaces
+                the MidoNet API. The MidoNet Cluster provides the REST API endpoint, and also hosts
+                a number of management services such as VxLAN Gateway Controller.
+                <p><b>To install the MidoNet Cluster on the CLC</b></p></context>
             <steps>
                 <step>
-                    <cmd>Add the MidoNet repo file as discussed in <xref href="install_midokura_prereqs.dita"/>.</cmd>
-                    
+                    <cmd>Add the MidoNet repo file as described in <xref
+                            href="install_midokura_prereqs.dita"/>.</cmd>
                 </step>
                 <step>
-                    <cmd>Install <codeph>tomcat</codeph>.</cmd>
+                    <cmd>Install MidoNet Cluster packages.</cmd>
                     <info>
-                        <codeblock>yum install tomcat</codeblock>
+                        <codeblock>yum install midonet-cluster python-midonetclient</codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>Install <codeph>midonet-api</codeph>.</cmd>
+                    <cmd>Edit the <filepath>/etc/midonet/midonet.conf</filepath> file to set the
+                        ZooKeeper host IP(s). Replace ZOOKEEPER_HOST_IP in the following
+                        example:</cmd>
                     <info>
-                        <codeblock>yum install midonet-api</codeblock>
+                        <codeblock>[zookeeper]
+zookeeper_hosts = ZOOKEEPER_HOST_IP:2181 </codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>Install <codeph>python-midonetclient</codeph>.</cmd>
+                    <cmd>Configure cloud-wide access to the NSDB services:</cmd>
                     <info>
-                        <codeblock>yum install python-midonetclient</codeblock>
+                        <codeblock>cat &lt;&lt; EOF | mn-conf set -t default
+zookeeper {
+  zookeeper_hosts = “ZOOKEEPER_HOST:2181"
+}
+
+cassandra {
+  servers = “CASSANDRA_HOST"
+}
+EOF               </codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>Configure the <codeph>/usr/share/midonet-api/WEB-INF/web.xml</codeph> file.
-                        See the example file below.</cmd>
-                    <substeps>
-                        <substep>
-                            <cmd>Set rest_api-base_uri to "127.0.0.1"</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Set auth-auth_provider to org.midonet.cluster.auth.MockAuthService
-                            </cmd>
-                        </substep>
-                        <substep>
-                            <cmd>Set zookeeper-zookeeper_hosts. In the example config below, replace
-                                    <codeph>ZOOKEEPER_IP</codeph>.</cmd>
-                        </substep>
-                        <substep>
-                            <cmd>An example configuration:</cmd>
-                            <info>
-                                <codeblock>&lt;!DOCTYPE web-app SYSTEM "http://java.sun.com/dtd/web-app_2_3.dtd">
-&lt;web-app>
-    &lt;display-name>MidoNet API &lt;/display-name>
-    &lt;!-- REST API configuration -->
-    &lt;!-- This value overrides the default base URI. This is typically set if you are proxying the API server and the base URI that the clients use to access the API is different from the actual server base URI. -->
-    &lt;context-param>
-        &lt;param-name>rest_api-base_uri &lt;/param-name>
-        &lt;param-value>http://127.0.0.1:8080/midonet-api &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- CORS configuration -->
-    &lt;context-param>
-        &lt;param-name>cors-access_control_allow_origin &lt;/param-name>
-        &lt;param-value>* &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cors-access_control_allow_headers &lt;/param-name>
-        &lt;param-value>Origin, X-Auth-Token, Content-Type, Accept, Authorization &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cors-access_control_allow_methods &lt;/param-name>
-        &lt;param-value>GET, POST, PUT, DELETE, OPTIONS &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cors-access_control_expose_headers &lt;/param-name>
-        &lt;param-value>Location &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- Auth configuration -->
-    &lt;context-param>
-        &lt;param-name>auth-auth_provider &lt;/param-name>
-        &lt;!-- Specify the class path of the auth service -->
-        &lt;param-value> org.midonet.cluster.auth.MockAuthService &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>auth-admin_role &lt;/param-name>
-        &lt;param-value>admin &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- Mock auth configuration -->
-    &lt;context-param>
-        &lt;param-name>mock_auth-admin_token &lt;/param-name>
-        &lt;param-value>999888777666 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>mock_auth-tenant_admin_token &lt;/param-name>
-        &lt;param-value>999888777666 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>mock_auth-tenant_user_token &lt;/param-name>
-        &lt;param-value>999888777666 &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- Keystone configuration -->
-    &lt;context-param>
-        &lt;param-name>keystone-service_protocol &lt;/param-name>
-        &lt;param-value>http &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>keystone-service_host &lt;/param-name>
-        &lt;param-value>127.0.0.1 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>keystone-service_port &lt;/param-name>
-        &lt;param-value>999888777666 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>keystone-admin_token &lt;/param-name>
-        &lt;param-value>999888777666 &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- This tenant name is used to get the scoped token from Keystone, and should be the tenant name of the user that owns the token sent in the request -->
-    &lt;context-param>
-        &lt;param-name>keystone-tenant_name &lt;/param-name>
-        &lt;param-value>admin &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- CloudStack auth configuration -->
-    &lt;context-param>
-        &lt;param-name>cloudstack-api_base_uri &lt;/param-name>
-        &lt;param-value>http://127.0.0.1:8080 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cloudstack-api_path &lt;/param-name>
-        &lt;param-value>/client/api? &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cloudstack-api_key &lt;/param-name>
-        &lt;param-value/>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>cloudstack-secret_key &lt;/param-name>
-        &lt;param-value/>
-    &lt;/context-param>
-    &lt;!-- Zookeeper configuration -->
-    &lt;!-- The following parameters should match the ones in midolman.conf except 'use_mock' -->
-    &lt;context-param>
-        &lt;param-name>zookeeper-use_mock &lt;/param-name>
-        &lt;param-value>false &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>zookeeper-zookeeper_hosts &lt;/param-name>
-        &lt;!-- comma separated list of Zookeeper nodes(host:port) -->
-        &lt;param-value>ZOOKEEPER_IP:2181, &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>zookeeper-session_timeout &lt;/param-name>
-        &lt;param-value>30000 &lt;/param-value>
-    &lt;/context-param>
-    &lt;context-param>
-        &lt;param-name>zookeeper-midolman_root_key &lt;/param-name>
-        &lt;param-value>/midonet/v1 &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- VXLAN gateway configuration -->
-    &lt;context-param>
-        &lt;param-name>midobrain-vxgw_enabled &lt;/param-name>
-        &lt;param-value>false &lt;/param-value>
-    &lt;/context-param>
-    &lt;!-- Servlet Listener -->
-    &lt;listener>
-        &lt;listener-class>&lt;!-- Use Jersey's Guice compatible context listener -->
-            org.midonet.api.servlet.JerseyGuiceServletContextListener &lt;/listener-class>
-    &lt;/listener>
-    &lt;!-- Servlet filter -->
-    &lt;filter>
-        &lt;!-- Filter to enable Guice -->
-        &lt;filter-name>Guice Filter &lt;/filter-name>
-        &lt;filter-class>com.google.inject.servlet.GuiceFilter &lt;/filter-class>
-    &lt;/filter>
-    &lt;filter-mapping>
-        &lt;filter-name>Guice Filter &lt;/filter-name>
-        &lt;url-pattern>/* &lt;/url-pattern>
-    &lt;/filter-mapping>
-&lt;/web-app></codeblock>
-                            </info>
-                        </substep>
-                    </substeps>
-                </step>
-                <step>
-                    <cmd>Create the file
-                            <codeph>/etc/tomcat/Catalina/localhost/midonet-api.xml</codeph> with
-                        this content:</cmd>
-                    <info><codeblock><![CDATA[<Context path="/midonet-api" docBase="/usr/share/midonet-api" antiResourceLocking="false" privileged="true"/>]]></codeblock></info>
-                </step>
-                <step>
-                    <cmd>Modify <codeph>/etc/tomcat/server.xml</codeph>.</cmd>
-                    <substeps>
-                        <substep>
-                            <cmd>Allow only localhost access to the API.</cmd>
-                            <info>
-                                <p>Change the line:</p>
-                             <codeblock>Connector port="8080" protocol="HTTP/1.1"</codeblock>
-                                <p>... to:</p>
-                                <codeblock>Connector address="127.0.0.1" port="8080" protocol="HTTP/1.1"</codeblock>
-                            </info>
-                        </substep>
-                        <substep>
-                            <cmd>Comment out the Connector Port 8009 (AJP) line:</cmd>
-                            <info>
-                                <codeblock>&lt;!-- Connector port="8009" protocol="AJP/1.3" redirectPort="8443" --&gt;</codeblock>
-                            </info>
-                        </substep>
-                    </substeps>
-                </step>
-                <step>
-                    <cmd>(Optional) Change Tomcat logging properties to reduce excessive logging and avoid filling up the 
-                        <filepath>/var/log</filepath> filesystem.</cmd>
-                    <substeps>
-                        <substep>
-                            <cmd>Disable ConsoleHandler as described in <xref
-                                    href="https://tomcat.apache.org/tomcat-7.0-doc/logging.html#Considerations_for_productive_usage"
-                                    format="html" scope="external">Considerations for productive
-                                    usage</xref>.</cmd>
-                            <info>
-                                <p>Edit <filepath>/etc/tomcat/logging.properties</filepath> and change the line:</p>
-                                <codeblock>.handlers = 1catalina.org.apache.juli.FileHandler, java.util.logging.ConsoleHandler</codeblock>
-                                <p>... to:</p>
-                                <codeblock>.handlers = 1catalina.org.apache.juli.FileHandler</codeblock>
-                            </info>
-                        </substep>
-                        <substep>
-                            <cmd>Set log level to WARN to avoid unnecessary logs.</cmd>
-                            <info>
-                                <p>Edit <filepath>/etc/tomcat/logging.properties</filepath> and change the line:</p>
-                                <codeblock>1catalina.org.apache.juli.FileHandler.level = FINE</codeblock>
-                                <p>... to:</p>
-                                <codeblock>1catalina.org.apache.juli.FileHandler.level = WARN</codeblock>
-                            </info>
-                        </substep>
-                        <substep>
-                            <cmd>Disable midonet-api writing to STDOUT.</cmd>
-                            <info>
-                                <p>Change the following lines in
-                                        <filepath>/usr/share/midonet-api/WEB-INF/classes/logback.xml</filepath>.</p>
-                                <p>From this:</p>
-                                <codeblock>&lt;appender-ref ref="STDOUT" /></codeblock>
-                                <p>To this:</p>
-                                <codeblock>&lt;!-- &lt;appender-ref ref="STDOUT" /> --></codeblock>
-                            </info>
-                        </substep>
-                    </substeps>
-                </step>
-                <step>
-                    <cmd>Start tomcat:</cmd>
+                    <cmd>Enable and start the MidoNet Cluster:</cmd>
                     <info>
-                        <codeblock>systemctl start tomcat.service
-systemctl enable tomcat.service</codeblock>
+                        <codeblock>systemctl enable midonet-cluster.service
+systemctl start midonet-cluster.service</codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>After approximately one minute, you should be able to access the MidoNet
-                        API using the MidoNet shell:</cmd>
+                    <cmd>Set the midonet-api end point:</cmd>
                     <info>
-                        <codeblock>midonet-cli -A --midonet-url=http://127.0.0.1:8080/midonet-api</codeblock>
+                        <codeblock>mn-conf set cluster.rest_api.http_port=8080
+mn-conf set cluster.rest_api.http_host="127.0.0.1"</codeblock>
                     </info>
+                </step>
+                <step>
+                    <cmd>Restart the Midonet Cluster so the rest_api parameters take effect:</cmd>
                     <info>
-                        <note>If this command does not work, check
-                                <codeph>/var/log/tomcat/catalina.out</codeph> for possible
-                            errors.</note>
+                        <codeblock>systemctl restart midonet-cluster</codeblock>
                     </info>
                 </step>
             </steps>
@@ -276,29 +77,14 @@ systemctl enable tomcat.service</codeblock>
             components</title>
         <shortdesc>This topic describes how to install the Midolman agent.</shortdesc>
         <taskbody>
-            <context>The Midolman agent is required on the Cloud Controller (CLC), Node Controllers (NCs), 
-                and MidoNet Gateway nodes (UFS host).
-                <p><b>To install Midolman agent</b></p>
-                To install the Midolman agent on the node controllers and user facing
-                service:</context>
+            <context>The Midolman agent is required on the Cloud Controller (CLC), Node Controllers
+                (NCs), and any host that is a MidoNet Gateway node (e.g., UFS). 
+                <p><b>To install Midolman agent</b></p></context>
             <steps>
                 <step>
-                    <cmd>Update to the latest kernel and reboot for the kernel changes to take
-                        effect:</cmd>
-                    <info>
-                        <codeblock>yum upgrade kernel </codeblock>
-                    </info>
-                    <info><codeblock>reboot now</codeblock></info>
-                </step>
-                <step>
-                    <cmd>Install iproute2 and Midolman:</cmd>
-                    <info>
-                        <codeblock>yum install iproute midolman</codeblock>
-                    </info>
-                </step>
-                <step>
                     <cmd>Edit the <codeph>/etc/midolman/midolman.conf</codeph> file to set the
-                        ZooKeeper IP(s) (replace ZOOKEEPER_IP in the following example):</cmd>
+                        ZooKeeper host IP(s). Replace ZOOKEEPER_HOST_IP in the following
+                        example:</cmd>
                     <info>
                         <codeblock>[zookeeper]
 zookeeper_hosts = ZOOKEEPER_IP:2181
@@ -306,17 +92,10 @@ root_key = /midonet/v1</codeblock>
                     </info>
                 </step>
                 <step>
-                    <cmd>Start Midolman:</cmd>
+                    <cmd>Enable and start Midolman:</cmd>
                     <info>
-                        <codeblock>systemctl start midolman.service
-systemctl enable midolman.service</codeblock>
-                    </info>
-                </step>
-                <step>
-                    <cmd>Edit the <codeph>/etc/midolman/mn.conf</codeph> file to set the Cassandra
-                        IP(s) (replace CASSANDRA_IP in the following example):</cmd>
-                    <info>
-                        <codeblock>echo 'cassandra.servers : CASSANDRA_IP' | mn-conf set -t default</codeblock>
+                        <codeblock>systemctl enable midolman.service
+systemctl start midolman.service</codeblock>
                     </info>
                 </step>
                 <step>
@@ -365,7 +144,8 @@ default</codeblock>
     </task>
     <task id="install_midokura_tunnel">
         <title>Create a tunnel zone in MidoNet and add hosts</title>
-        <shortdesc>In MidoNet, a tunnel zone groups hosts together for use as a SDN.</shortdesc>
+        <shortdesc>In MidoNet, a tunnel zone groups hosts together for use as a software-defined
+            network (SDN).</shortdesc>
         <taskbody>
             <context>To create a tunnel zone in MidoNet:</context>
             <steps>
@@ -422,9 +202,11 @@ midonet> tunnel-zone tzone0 add member host host2 address HOST_2_IP</codeblock>
         <info>
             <codeblock>autopurge.snapRetainCount=3  # The number of snapshots to retain in dataDir
 autopurge.purgeInterval=1  # Purge task interval in hours</codeblock>
+            <draft-comment author="mereditk">Check ZooKeeper version # and doc paths each release - match
+                the compat matrix for the release!</draft-comment>
             <p>For more information, see <xref
-                                href="http://zookeeper.apache.org/doc/r3.4.5/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup"
-                                format="html" scope="external"/>.</p>
+                                href="http://zookeeper.apache.org/doc/r3.4.8/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup"
+                                format="html" scope="external">ZooKeeper Admin Guide, Ongoing Data Directory Cleanup</xref>.</p>
         </info>
     </step>
 </steps>
