@@ -10,14 +10,14 @@
         <title>Install the MidoNet Cluster on the Cloud Controller (CLC)</title>
         <shortdesc>This topic describes how to install the MidoNet Cluster.</shortdesc>
         <taskbody>
-            <context>MidoNet management services provide a means to manage MidoNet functions that MidoNet agents
-                    (Midolman) are unable to perform on their own; MidoNet Cluster services include
-                    state synchronization of VxLAN gateways and the MidoNet REST API. A MidoNet v5
-                    deployment requires at least one MidoNet cluster node, and since it replaces the
-                    MidoNet API webapp (which was hosted by tomcat in MidoNet v1 series), it must be
-                    co-located on the CLC host machine in <ph
-                        conref="../shared/conrefs.dita#prod/product"/> deployments.
-                <p>For security reasons, the MidoNet REST API is accessed only on the CLC (localhost
+            <context>MidoNet Cluster services provide a means to manage MidoNet functions that
+                MidoNet agents (Midolman) are unable to perform on their own. MidoNet Cluster
+                services include state synchronization of VxLAN gateways and the MidoNet REST API. A
+                MidoNet v5 deployment requires at least one MidoNet cluster node, and since it
+                replaces the MidoNet API webapp (which was hosted by tomcat in MidoNet v1 series),
+                it must be co-located on the CLC host machine in <ph
+                    conref="../shared/conrefs.dita#prod/product"/> deployments. <p>For security
+                    reasons, the MidoNet REST API is accessed only on the CLC (localhost
                     interface).</p>
                 <p><b>To install the MidoNet Cluster on the CLC</b></p>
             </context>
@@ -95,8 +95,7 @@ mn-conf set cluster.rest_api.http_host="127.0.0.1"</codeblock>
                         example:</cmd>
                     <info>
                         <codeblock>[zookeeper]
-zookeeper_hosts = ZOOKEEPER_HOST_IP:2181
-root_key = /midonet/v1</codeblock>
+zookeeper_hosts = ZOOKEEPER_HOST_IP:2181</codeblock>
                     </info>
                 </step>
                 <step>
@@ -154,14 +153,14 @@ default</codeblock>
         <title>Create a tunnel zone in MidoNet and add hosts</title>
         <shortdesc>This topic describes how to create a MidoNet tunnel zone.</shortdesc>
         <taskbody>
-            <context>In MidoNet, a tunnel zone is an isolation zone for hosts. 
-                Physical hosts that are members of a given tunnel zone communicate directly
-                with one another and establish network tunnels as needed, and on demand. These
-                network tunnels are used to transport overlay traffic (e.g., inter-VM communication)
-                and isolate the underlying physical network communication (i.e., inter-physical
-                hosts communication). On a <ph conref="../shared/conrefs.dita#prod/product"/>
-                deployment, one MidoNet tunnel zone is expected with the IP address on the physical
-                network designated to carry VM traffic being used when configuring its members. <ph
+            <context>In MidoNet, a tunnel zone is an isolation zone for hosts. Physical hosts that
+                are members of a given tunnel zone communicate directly with one another and
+                establish network tunnels as needed, and on demand. These network tunnels are used
+                to transport overlay traffic (e.g., inter-VM communication) and isolate the underlay
+                physical network communication (i.e., inter-physical hosts communication). On a <ph
+                    conref="../shared/conrefs.dita#prod/product"/> deployment, one MidoNet tunnel
+                zone is expected with the IP address on the physical network designated to carry VM
+                traffic being used when configuring its members. <ph
                     conref="../shared/conrefs.dita#prod/product"/> accepts the following tunnel zone names:<ul>
                     <li>eucatz</li>
                     <li>euca-tz</li>
@@ -170,6 +169,10 @@ default</codeblock>
                 </ul><p>For more information, see <xref
                         href="http://docs.midokura.com/docs/v5.2/en/operations-guide/content/tunnel_zones.html"
                         format="html" scope="external">What are Tunnel Zones?</xref></p>
+                <draft-comment author="mereditk">Note to WRITER: Yep, it's "underlay physical
+                    network"
+                    https://docs.midonet.org/docs/v5.2/en/reference-architecture/content/underlay_network.html
+                    (not "underlying physical network")</draft-comment>
                 <p><b>To create a tunnel zone in MidoNet</b></p></context>
             <steps>
                 <step>
