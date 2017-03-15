@@ -10,10 +10,17 @@
         <title>Install the MidoNet Cluster on the Cloud Controller (CLC)</title>
         <shortdesc>This topic describes how to install the MidoNet Cluster.</shortdesc>
         <taskbody>
-            <context>The MidoNet Cluster is a type of node introduced in MidoNet v5 that replaces
-                the MidoNet API. The MidoNet Cluster provides the REST API endpoint, and also hosts
-                a number of management services such as VxLAN Gateway Controller.
-                <p><b>To install the MidoNet Cluster on the CLC</b></p></context>
+            <context>MidoNet management services provide a means to manage MidoNet functions that MidoNet agents
+                    (Midolman) are unable to perform on their own; MidoNet Cluster services include
+                    state synchronization of VxLAN gateways and the MidoNet REST API. A MidoNet v5
+                    deployment requires at least one MidoNet cluster node, and since it replaces the
+                    MidoNet API webapp (which was hosted by tomcat in MidoNet v1 series), it must be
+                    co-located on the CLC host machine in <ph
+                        conref="../shared/conrefs.dita#prod/product"/> deployments.
+                <p>For security reasons, the MidoNet REST API is accessed only on the CLC (localhost
+                    interface).</p>
+                <p><b>To install the MidoNet Cluster on the CLC</b></p>
+            </context>
             <steps>
                 <step>
                     <cmd>Add the MidoNet repo file as described in <xref
@@ -77,9 +84,10 @@ mn-conf set cluster.rest_api.http_host="127.0.0.1"</codeblock>
             components</title>
         <shortdesc>This topic describes how to install the Midolman agent.</shortdesc>
         <taskbody>
-            <context>The Midolman agent is required on the Cloud Controller (CLC), Node Controllers
-                (NCs), and any host that is a MidoNet Gateway node (e.g., UFS). 
-                <p><b>To install Midolman agent</b></p></context>
+            <context>Midolman is the MidoNet Agent, which is a daemon that runs on all hosts where
+                traffic enters and leaves MidoNet. The Midolman agent is required on the Cloud
+                Controller (CLC), Node Controllers (NCs), and any host that is a MidoNet Gateway
+                node (e.g., UFS).<p><b>To install Midolman agent</b></p></context>
             <steps>
                 <step>
                     <cmd>Edit the <codeph>/etc/midolman/midolman.conf</codeph> file to set the
@@ -87,7 +95,7 @@ mn-conf set cluster.rest_api.http_host="127.0.0.1"</codeblock>
                         example:</cmd>
                     <info>
                         <codeblock>[zookeeper]
-zookeeper_hosts = ZOOKEEPER_IP:2181
+zookeeper_hosts = ZOOKEEPER_HOST_IP:2181
 root_key = /midonet/v1</codeblock>
                     </info>
                 </step>
@@ -144,10 +152,25 @@ default</codeblock>
     </task>
     <task id="install_midokura_tunnel">
         <title>Create a tunnel zone in MidoNet and add hosts</title>
-        <shortdesc>In MidoNet, a tunnel zone groups hosts together for use as a software-defined
-            network (SDN).</shortdesc>
+        <shortdesc>This topic describes how to create a MidoNet tunnel zone.</shortdesc>
         <taskbody>
-            <context>To create a tunnel zone in MidoNet:</context>
+            <context>In MidoNet, a tunnel zone is an isolation zone for hosts. 
+                Physical hosts that are members of a given tunnel zone communicate directly
+                with one another and establish network tunnels as needed, and on demand. These
+                network tunnels are used to transport overlay traffic (e.g., inter-VM communication)
+                and isolate the underlying physical network communication (i.e., inter-physical
+                hosts communication). On a <ph conref="../shared/conrefs.dita#prod/product"/>
+                deployment, one MidoNet tunnel zone is expected with the IP address on the physical
+                network designated to carry VM traffic being used when configuring its members. <ph
+                    conref="../shared/conrefs.dita#prod/product"/> accepts the following tunnel zone names:<ul>
+                    <li>eucatz</li>
+                    <li>euca-tz</li>
+                    <li>midotz</li>
+                    <li>mido-tz</li>
+                </ul><p>For more information, see <xref
+                        href="http://docs.midokura.com/docs/v5.2/en/operations-guide/content/tunnel_zones.html"
+                        format="html" scope="external">What are Tunnel Zones?</xref></p>
+                <p><b>To create a tunnel zone in MidoNet</b></p></context>
             <steps>
                 <step>
                     <cmd>Log into the MidoNet shell. For example:</cmd>
@@ -194,7 +217,10 @@ midonet> tunnel-zone tzone0 add member host host2 address HOST_2_IP</codeblock>
     <title>Additional ZooKeeper Configuration</title>
     <shortdesc>Ongoing data directory cleanup is required for ZooKeeper.</shortdesc>
     <taskbody>
-        <context></context>
+        <context>
+        <draft-comment author="mereditk">This should be moved to the Admin Guide when networking
+                    docs are rearranged further.</draft-comment>
+        </context>
 <steps>
     <step>
         <cmd>The following parameters should be added in <filepath>/etc/zookeeper/zoo.cfg</filepath> for 
