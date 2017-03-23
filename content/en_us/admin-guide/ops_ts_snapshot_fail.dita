@@ -5,14 +5,22 @@
 	<shortdesc/>
 	<taskbody>
 		<context>
-			<p>On the SC, use <codeph>df</codeph> or <codeph>lvdisplay</codeph> to check the disk space in
-				<filepath>var/lib/eucalyptus/volumes</filepath>. Is there enough space?</p>
+			<p>On the SC, depending on the backend used for storage:<ul>
+					<li>For Overlay, use the <codeph>df</codeph> command to check the disk space in
+							<filepath>var/lib/eucalyptus/volumes</filepath>.</li>
+					<li>For DAS, use the <codeph>lvdisplay</codeph> command to check the disk space
+						in the DAS volumes.</li>
+					<li>For any other backend, use its specific commands to check the free space for storage
+						allocated for volumes.</li>
+				</ul>Is there enough space?</p>
 		</context>
 		<steps-unordered>
 			<step>
 				<cmd>Yes:</cmd>
-				<info>Use <codeph>df</codeph> or <codeph>lvdisplay</codeph> to check the disk space in
-					<filepath>var/lib/eucalyptus/bukkits</filepath>. Is there enough space?</info>
+				<info>On the OSG host, depending on the backend used for object storage:<ul>
+					<li>For Walrus, use the <codeph>df</codeph> command to check the disk space in <filepath>var/lib/eucalyptus/bukkits</filepath>.</li>
+					<li>For RiakCS or Ceph-RGW, use its specific commands to check the free space for storage allocated for buckets and objects.</li>
+				</ul>Is there enough space?</info>
 				<substeps>
 					<substep>
 						<cmd>Yes.</cmd>

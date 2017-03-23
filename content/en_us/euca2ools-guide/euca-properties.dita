@@ -1219,11 +1219,14 @@
                                 when possible. The configured value indicates the SC to
                                 create/upload that many snapshot deltas for a given EBS volume
                                 before triggering a full upload of the snapshot contents. Between
-                                any two consecutive full snapshot uploads for a given EBS volume
+                                any two consecutive full snapshot uploads for a given EBS volume,
                                 there will be at most <codeph>maxsnapshotdeltas</codeph> number of
                                 incremental snapshot uploads. A value of 0 indicates that a newly
                                 created snapshot will always be uploaded in its entirety (that is,
-                                no deltas). <p>Default: 0</p>
+                                no deltas). Snapshot deltas are only used when your backend is
+                                Ceph-RBD. <codeph>ZONE.storage.shouldtransfersnapshots</codeph> must
+                                be set to <codeph>true</codeph> to enable snapshot
+                                    deltas.<p>Default: 0</p>
                                 <!--ADDed XREF TO TECHNICAL PREVIEW DOC-2019-->
                                 <p><ph conref="../shared/conrefs.dita#prod/tech_preview_snap_delta"
                                     /></p></entry>
@@ -1276,11 +1279,17 @@
                         </row>
                         <row>
                             <entry>ZONE.storage.shouldtransfersnapshots </entry>
-                            <entry>Enable snapshot transfer to the OSG. Default is
-                                    <codeph>true</codeph>. (Setting it to false will stop snapshots
-                                transfer, occasionally needed for cost savings.) Must be set to
-                                    <codeph>true</codeph> for
-                                    <codeph>ZONE.storage.maxsnapshotdeltas</codeph> to work.</entry>
+                            <entry>Enable snapshot transfer to the OSG. Setting it to <codeph>false</codeph> will
+                                disable storing snapshots (full or delta) in object storage. While a
+                                    <codeph>false</codeph> setting will reduce object storage
+                                requirements, it also prevents the ability to use a snapshot from
+                                one availability zone to create a volume in another zone. You can
+                                still take/use snapshots even when the setting is
+                                    <codeph>false</codeph>, but you can only use a snapshot to
+                                create a volume in the same zone. Must be set to
+                                    <codeph>true</codeph> to use snapshot deltas, which are managed
+                                by the <codeph>ZONE.storage.maxsnapshotdeltas</codeph>
+                                property.<p>Default: <codeph>true</codeph></p></entry>
                         </row>
                         <row>
                             <entry>ZONE.storage.snapexpiration </entry>
