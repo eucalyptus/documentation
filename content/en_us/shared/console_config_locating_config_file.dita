@@ -12,11 +12,11 @@
         <codeph>/etc/eucaconsole/console.ini</codeph>.<note type="important">
         <p>You should always start (or restart) the console when you make changes to the console
           configuration.</p>
-        <p>You can start the console using the following command:</p>
+        <p>Start the console using the following command:</p>
         <p>
           <codeblock>systemctl start eucaconsole.service</codeblock>
         </p>
-        <p>You can restart the console using the following command:</p>
+        <p>Restart the console using the following command:</p>
         <p>
           <codeblock>systemctl restart eucaconsole.service</codeblock>
         </p>
@@ -77,38 +77,38 @@
           </row>            
           <row>
             <entry>oidc.hostname</entry>
-            <entry>The OpenID Connect (OIDC) hostname for the ident host.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>no</entry>
-            <entry>--</entry>
+            <entry>See <xref href="#console_config_locating_config_file/p_nbf_qtz_dz" format="dita"
+                >configuration information</xref> below.</entry>
+            <entry/>
+            <entry/>
           </row>
           <row>
             <entry>oidc.client.ini</entry>
-            <entry>The location of a file that contains the OIDC credentials.<p><b>Note:</b>
-                <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>yes</entry>
-            <entry>/etc/eucaconsole/oidc-credentials.ini</entry>
+            <entry>See <xref href="#console_config_locating_config_file/p_nbf_qtz_dz" format="dita"
+                >configuration information</xref> below.</entry>
+            <entry/>
+            <entry/>
           </row>            
           <row>
             <entry>oidc.scope</entry>
-            <entry>The OIDC scope is specific to your ident provider and is used in a token API
-              request.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>yes</entry>
-            <entry>urn:globus:auth:scope:auth.globus.org:view_identities openid email profile</entry>
+            <entry>See <xref href="#console_config_locating_config_file/p_nbf_qtz_dz" format="dita"
+                >configuration information</xref> below.</entry>
+            <entry/>
+            <entry/>
           </row>            
           <row>
             <entry>oidc.console.hostname</entry>
-            <entry>The OIDC return URL hostname. Required to be the hostname that this console runs
-              as, so callback from the ident provider can return control back to this application.
-              If the console is installed on the UFS host, this value would be the same as ufshost
-              above. It may be different based on where the console is running.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>yes</entry>
-            <entry>localhost</entry>
+            <entry>See <xref href="#console_config_locating_config_file/p_nbf_qtz_dz" format="dita"
+                >configuration information</xref> below.</entry>
+            <entry/>
+            <entry/>
           </row>            
           <row>
             <entry>oidc.login.button.label</entry>
-            <entry>The text that appears on the login button.<p><b>Note:</b> <ph conref="conrefs.dita#prod/control_avail_oidc"/></p></entry>
-            <entry>yes</entry>
-            <entry>Sign in with Globus Auth</entry>
+            <entry>See <xref href="#console_config_locating_config_file/p_nbf_qtz_dz" format="dita"
+                >configuration information</xref> below.</entry>
+            <entry/>
+            <entry/>
           </row>            
           <row>
             <entry>help.url</entry>
@@ -317,6 +317,66 @@
         </tbody>
       </tgroup>
     </table>
+    <p id="p_nbf_qtz_dz">The configurable options for the OpenID Connect (OIDC) properties in the
+        <codeph>[app:main]</codeph> section of the console.ini file are:<note><ph
+          conref="conrefs.dita#prod/control_avail_oidc"/></note>
+      <!--TO DO: add links to the forthcoming OIDC topic for details--><table id="table_jfh_t4z_dz">
+        <tgroup cols="4">
+          <colspec colnum="1" colname="c1" colwidth="3.61*"/>
+          <colspec colnum="2" colname="c2" colwidth="7.8*"/>
+          <colspec colnum="3" colname="c3" colwidth="1.1*"/>
+          <colspec colnum="4" colname="c4" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry>Property</entry>
+              <entry>Description</entry>
+              <entry>Required</entry>
+              <entry>Default Value</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>oidc.hostname</entry>
+              <entry>The OpenID Connect (OIDC) hostname for the ident host. OIDC login functionality
+                is enabled when a value is assigned. Once enabled, all other OIDC properties are
+                required. This property is commented out by default. </entry>
+              <entry>no</entry>
+              <entry>--</entry>
+            </row>
+            <row>
+              <entry>oidc.client.ini</entry>
+              <entry>The location of a file that contains the OIDC credentials. This file contains
+                client id and secret that are generated by the ident provider.</entry>
+              <entry>yes</entry>
+              <entry>/etc/eucaconsole/oidc-credentials.ini</entry>
+            </row>
+            <row>
+              <entry>oidc.scope</entry>
+              <entry>The OIDC scope is specific to your ident provider and is used in a token API
+                request.</entry>
+              <entry>yes</entry>
+              <entry>urn:globus:auth:scope:auth.globus.org:view_identities openid email
+                profile</entry>
+            </row>
+            <row>
+              <entry>oidc.console.hostname</entry>
+              <entry>The OIDC return URL hostname. Required to be the hostname that this console
+                runs as, so callback from the ident provider can return control back to this
+                application. If the console is installed on the UFS host, this value would be the
+                same as ufshost above. It may be different based on where the console is
+                running.</entry>
+              <entry>yes</entry>
+              <entry>localhost</entry>
+            </row>
+            <row>
+              <entry>oidc.login.button.label</entry>
+              <entry>The text that appears on the login button.</entry>
+              <entry>yes</entry>
+              <entry>Sign in with Globus Auth</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></p>
     <p>The configurable options in the <codeph>[server:main]</codeph> section of the console.ini file are:</p>
     <table>
       <tgroup
