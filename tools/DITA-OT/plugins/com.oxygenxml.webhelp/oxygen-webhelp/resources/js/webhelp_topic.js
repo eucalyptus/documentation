@@ -51,7 +51,7 @@ function feedback(){
 		var topic=document.getElementsByTagName("title")[0].innerHTML ;
 		var tmp=topic.replace(/<[^>]*>/, "");
 		var topic=tmp.replace(/<\/[^>]*>/, "");
-		document.getElementById("feedback").innerHTML = "<a href=\"mailto:euca-users@eucalyptus.com&subject=Eucalyptus%20Documentation%20Feedback%20on%20'"+topic+"'&body=Thank%20you%20for%20providing%20the%20Eucalyptus%20Documentation%20Team%20with%20feedback%20about%20this%20topic!%20%20Please%20replace%20this%20text%20with%20your%20feedback.%0D%0A%20%0D%0ALeave%20the%20title%20unchanged,%20because%20this%20will%20make%20it%20clear%20to%20us%20what%20topic%20you%20are%20providing%20feedback%20about.%20%20If%20you%20need%20support,%20please%20contact%20your%20Eucalyptus%20Support%20representative.%0D%0A%20%0D%0AThanks%20for%20helping%20us%20improve%20the%20documentation!\">Feedback to the Eucalyptus Docs Team</a>  ";
+		document.getElementById("feedback").innerHTML = "<a href=\"mailto:euca-users@eucalyptus.com?subject=Eucalyptus%20Documentation%20Feedback%20on%20'"+topic+"'&body=Thank%20you%20for%20providing%20the%20Eucalyptus%20Documentation%20Team%20with%20feedback%20about%20this%20topic!%20%20Please%20replace%20this%20text%20with%20your%20feedback.%0D%0A%20%0D%0ALeave%20the%20title%20unchanged,%20because%20this%20will%20make%20it%20clear%20to%20us%20what%20topic%20you%20are%20providing%20feedback%20about.%20%20If%20you%20need%20support,%20please%20contact%20your%20Eucalyptus%20Support%20representative.%0D%0A%20%0D%0AThanks%20for%20helping%20us%20improve%20the%20documentation!\">Feedback to the Eucalyptus Docs Team</a>  ";
 	}else {
 		document.getElementById("feedback").style.display = "none";
 	}
