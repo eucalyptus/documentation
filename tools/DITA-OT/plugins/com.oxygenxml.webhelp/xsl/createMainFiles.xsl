@@ -243,6 +243,10 @@ available in the base directory of this Oxygen Webhelp plugin.
                     href="oxygen-webhelp/resources/css/webhelp_topic.css">
                 <xsl:comment/>
             </link>
+            <link rel="stylesheet" type="text/css"
+                    href="oxygen-webhelp/resources/css/skin_dxc.css">
+                <xsl:comment/>
+            </link>
             <!-- custom CSS -->
             <xsl:if test="string-length($CSS)>0">
                 <xsl:variable name="urltest"> <!-- test for URL -->
@@ -648,6 +652,9 @@ available in the base directory of this Oxygen Webhelp plugin.
             <xsl:comment/>
           </link>
           <link rel="stylesheet" type="text/css" href="oxygen-webhelp/resources/css/webhelp_topic.css">
+            <xsl:comment/>
+          </link>
+          <link rel="stylesheet" type="text/css" href="oxygen-webhelp/resources/css/skin_dxc.css">
             <xsl:comment/>
           </link>
             <!-- custom CSS -->
