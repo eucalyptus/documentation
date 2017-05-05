@@ -324,7 +324,7 @@ available in the base directory of this Oxygen Webhelp plugin.
           <div id="header">
             <div id="lHeader">
               <xsl:if test="not($withFrames)">
-                <div id="productTitle"><img src="oxygen-webhelp/resources/img/dxc_logo_hz_blk_rgb_300.png" alt="DXC Technology Eucalyptus Documentation" />
+                <div id="productTitle"><img src="oxygen-webhelp/resources/img/dxc_logo_hz_blk_rgb_300.png" alt="DXC Technology Eucalyptus Documentation" style="width: 300px;" />
 <!-- 2017-05-05 display logo instead of product title
             <h1>
               <xsl:copy-of select="$title"/>
