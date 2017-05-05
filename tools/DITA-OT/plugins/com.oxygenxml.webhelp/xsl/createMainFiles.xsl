@@ -324,10 +324,12 @@ available in the base directory of this Oxygen Webhelp plugin.
           <div id="header">
             <div id="lHeader">
               <xsl:if test="not($withFrames)">
-                <div id="productTitle">
-                  <h1>
-                    <xsl:copy-of select="$title"/>
-                  </h1>
+                <div id="productTitle"><img src="oxygen-webhelp/resources/img/dxc_logo_hz_blk_rgb_300.png" alt="DXC Technology Eucalyptus Documentation" />
+<!-- 2017-05-05 display logo instead of product title
+            <h1>
+              <xsl:copy-of select="$title"/>
+            </h1>
+ -->
                   <div class="framesLink">
                     <a href="index_frames.html" id="oldFrames">
                       <img src="oxygen-webhelp/resources/img/frames.png" alt="With Frames"
