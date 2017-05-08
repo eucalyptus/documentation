@@ -34,9 +34,8 @@
 		<xsl:attribute name="background-color">#eeeeee</xsl:attribute>
 		<xsl:attribute name="font-family">Monospaced</xsl:attribute>
 		<xsl:attribute name="line-height">106%</xsl:attribute>
-		<xsl:attribute name="padding">8pt</xsl:attribute>
-		<xsl:attribute name="space-before">.6em</xsl:attribute>
-		<xsl:attribute name="space-after">.6em</xsl:attribute>
+		<xsl:attribute name="space-before">0.6em</xsl:attribute>
+		<xsl:attribute name="space-after">0.6em</xsl:attribute>
 		<xsl:attribute name="border-top-style">dashed</xsl:attribute>
 		<xsl:attribute name="border-top-width">1pt</xsl:attribute>
 		<xsl:attribute name="border-top-color">#6A737B</xsl:attribute>
@@ -125,7 +124,6 @@
 
 	<xsl:attribute-set name="tbody.row.entry__content">
 		<xsl:attribute name="color">#000000</xsl:attribute>
-		<xsl:attribute name="wrap-option">wrap</xsl:attribute>
 	</xsl:attribute-set>
 	
 </xsl:stylesheet>
