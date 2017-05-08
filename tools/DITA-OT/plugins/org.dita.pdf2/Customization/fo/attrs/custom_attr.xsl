@@ -17,6 +17,14 @@
 		<xsl:attribute name="padding-right">1.4pc</xsl:attribute>
 		<xsl:attribute name="keep-with-next.within-column">always</xsl:attribute>
 	</xsl:attribute-set>
+	
+	<!-- Links -->
+  <xsl:attribute-set name="common.link">
+    <xsl:attribute name="color">#000000</xsl:attribute>
+    <xsl:attribute name="font-style">normal</xsl:attribute>
+    <xsl:attribute name="border-bottom">1px solid #000000</xsl:attribute>
+  </xsl:attribute-set>
+   
 
 	<!-- Codeblocks -->
 	
