@@ -405,12 +405,12 @@ available in the base directory of this Oxygen Webhelp plugin.
                     <div id="expnd">
                       <a href="javascript:void(0);" onclick="collapseAll();" id="collapseAllLink"
                         title="CollapseAll">
-                        <img src="oxygen-webhelp/resources/img/CollapseAll16.png" alt="Collapse All"
+                        <img src="oxygen-webhelp/resources/img/collapse_all.png" alt="Collapse All"
                           border="0"/>
                       </a>
                       <a href="javascript:void(0);" onclick="expandAll();" id="expandAllLink"
                         title="ExpandAll">
-                        <img src="oxygen-webhelp/resources/img/ExpandAll16.png" alt="Expand All"
+                        <img src="oxygen-webhelp/resources/img/expand_all.png" alt="Expand All"
                           border="0"/>
                       </a>                      
                     </div>
