@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="rn_issues_4.4.1">
+	<title>Known Issues</title>
+	<shortdesc>This topic lists known issues in <ph
+			conref="../../shared/conrefs.dita#prod/product_longname"/> 4.4.1 and its
+		dependencies.</shortdesc>
+	<conbody>
+		<p>Please contact Eucalyptus Support for known workarounds to these issues.</p>
+		
+		<!--		<p><b>New known issues for this release:</b></p>
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>TBD</entry>
+						<entry>TBD</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>-->
+		
+		<p><b>Outstanding known issues from previous releases:</b></p>
+		<table>
+			<tgroup cols="2">
+				<colspec colnum="1" colname="c1" colwidth="1*"/>
+				<colspec colnum="2" colname="c2" colwidth="2.44*"/>
+				<thead>
+					<row>
+						<entry>Issue</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry><codeph>esi-*</codeph> tools have issues with HTTPS endpoints (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-11682"
+								scope="external">EUCA-11682</xref>)</entry>
+						<entry>Workaround: Use non-HTTPS endpoints, for example, use localhost region. See linked bug for procedure.</entry>
+					</row>
+					<row>
+						<entry><codeph>ImportInstance</codeph> failed to create booting instance 
+							on HTTPS-enabled Eucalyptus Cloud (<xref format="html"
+								href="https://eucalyptus.atlassian.net/browse/EUCA-12253"
+								scope="external">EUCA-12253</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>Unable to replace copied object (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/EUCA-12439"
+							scope="external">EUCA-12439</xref>)</entry>
+						<entry>Copied objects are added as a duplicate object. 
+							<p>Workaround: Manually delete the unwanted duplicate entry.</p></entry>
+					</row>
+					<row>
+						<entry>Failed migration due to space limitations leave instance's artifacts
+							on destination host (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-12468"
+								format="html" scope="external">EUCA-12468</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>JVM crash after creating numerous Ceph volumes (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-12953"
+								format="html" scope="external">EUCA-12953</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>S3 signature v4 error creating bucket using aws cli (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13098"
+								format="html" scope="external">EUCA-13098</xref>)</entry>
+						<entry>
+							<p>When creating a bucket using the aws cli signature, v4 request signing will be used by
+								default. Due to a bug in the AWS cli, the request is invalid.</p>
+							<p>Workaround: To explicitly configure use of signature v4:</p>
+							<p><codeph># aws configure set s3.signature_version s3v4</codeph></p>
+							<p>See the <xref href="https://github.com/aws/aws-cli/issues/2243"
+									format="html" scope="external">aws cli issue</xref></p>
+						</entry>
+					</row>
+					<row>
+						<entry>Ceph null context assertion crashes eucalyptus-cloud (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13199"
+								format="html" scope="external">EUCA-13199</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>eucanetd fails to provision network artifacts for new VMs when &lt; 100% of gateways
+							are available (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13217"
+								format="html" scope="external">EUCA-13217</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>CloudFormation: Stack fails when using NetworkInterfaceId property in
+							AWS::EC2::EIPAssociation resource (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13230"
+								format="html" scope="external">EUCA-13230</xref>)</entry>
+						<entry>Workaround: Add an explicit dependency to order the resource
+								creation.<p>See linked bug for more information.</p></entry>
+					</row>
+					<row>
+						<entry>Multi-AZ ELB returns 503 when one out of three backend instances are
+							in 'InService' state (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13233"
+								format="html" scope="external">EUCA-13233</xref>)</entry>
+						<entry>When the ELB has one out of three back-end instances registered with
+							an InService state, any query against the ELB returns a 503. Eventually,
+							a 200 code is returned.<p>See linked bug for more
+							information.</p></entry>
+					</row>
+					<row>
+						<entry>S3 signature v4 form post is unsupported (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13238"
+								format="html" scope="external">EUCA-13238</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>CloudFormation nested stacks: Outputs from stack resources cannot be used as parameter
+							values for other stacks (<xref
+								href="https://eucalyptus.atlassian.net/browse/EUCA-13258"
+								format="html" scope="external">EUCA-13258</xref>)</entry>
+						<entry>Outputs used from one CloudFormation stack cannot be passed as parameter values using
+							Fn::GetAtt. <p>See linked bug for more information.</p></entry>
+					</row>
+					<row>
+						<entry>Bucket object URLs not displayed properly in IE11 (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2215"
+							scope="external">GUI-2215</xref>)</entry>
+						<entry>Workaround: Use another Internet browser if necessary.</entry>
+					</row>
+					<row>
+						<entry>Metrics landing page display issues (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2503"
+							scope="external">GUI-2503</xref>)</entry>
+						<entry>In FireFox, if the browser is displayed widely, the <uicontrol>Actions</uicontrol> menu 
+							displays too far right and becomes partially cut off. 
+							<p>Workaround: Narrow the width of the browser or use another Internet browser.</p></entry>
+					</row>
+					<row>
+						<entry>ELB Instances page doesn't always automatically select instances in the ELB. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2567"
+							scope="external">GUI-2567</xref>)</entry>
+						<entry>Issue appears intermittent. See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>Memcache is not cleared when user adds a new image or makes image public. (<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2669"
+							scope="external">GUI-2669</xref>)</entry>
+						<entry>When a user adds an image or changes permissions on image, it does not take effect immediately. 
+							The refresh time is considerable.
+							<p>Workaround: To make images available sooner, restart the console by running 
+								<codeph>servicectl restart eucaconsole</codeph>.</p></entry>
+					</row>
+					<row>
+						<entry>Authorize ports for ELB created in VPC.(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2673"
+							scope="external">GUI-2673</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+					<row>
+						<entry>Cloud formation stack supplied via URL in the console throws 
+							"Can not read from URL provided" error.(<xref format="html"
+							href="https://eucalyptus.atlassian.net/browse/GUI-2912"
+							scope="external">GUI-2912</xref>)</entry>
+						<entry>See linked bug for more information.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		
+	</conbody>
+</concept>

@@ -243,6 +243,10 @@ available in the base directory of this Oxygen Webhelp plugin.
                     href="oxygen-webhelp/resources/css/webhelp_topic.css">
                 <xsl:comment/>
             </link>
+            <link rel="stylesheet" type="text/css"
+                    href="oxygen-webhelp/resources/css/skin_dxc.css">
+                <xsl:comment/>
+            </link>
             <!-- custom CSS -->
             <xsl:if test="string-length($CSS)>0">
                 <xsl:variable name="urltest"> <!-- test for URL -->
@@ -276,10 +280,12 @@ available in the base directory of this Oxygen Webhelp plugin.
         </head>
         <body onload="javascript:showMenu('content');">
           <xsl:if test="$withFrames">
-            <div id="productTitle">
+            <div id="productTitle"><img src="oxygen-webhelp/resources/img/dxc_logo_hz_blk_rgb_300.png" alt="DXC Technology Eucalyptus Documentation" style="width: 300px;" />
+<!-- 2017-05-05 display logo instead of product title
             <h1>
               <xsl:copy-of select="$title"/>
             </h1>
+ -->
             </div>
           </xsl:if>
           <noscript>
@@ -318,10 +324,12 @@ available in the base directory of this Oxygen Webhelp plugin.
           <div id="header">
             <div id="lHeader">
               <xsl:if test="not($withFrames)">
-                <div id="productTitle">
-                  <h1>
-                    <xsl:copy-of select="$title"/>
-                  </h1>
+                <div id="productTitle"><img src="oxygen-webhelp/resources/img/dxc_logo_hz_blk_rgb_300.png" alt="DXC Technology Eucalyptus Documentation" style="width: 300px;" />
+<!-- 2017-05-05 display logo instead of product title
+            <h1>
+              <xsl:copy-of select="$title"/>
+            </h1>
+ -->
                   <div class="framesLink">
                     <a href="index_frames.html" id="oldFrames">
                       <img src="oxygen-webhelp/resources/img/frames.png" alt="With Frames"
@@ -397,12 +405,12 @@ available in the base directory of this Oxygen Webhelp plugin.
                     <div id="expnd">
                       <a href="javascript:void(0);" onclick="collapseAll();" id="collapseAllLink"
                         title="CollapseAll">
-                        <img src="oxygen-webhelp/resources/img/CollapseAll16.png" alt="Collapse All"
+                        <img src="oxygen-webhelp/resources/img/collapse_all.png" alt="Collapse All"
                           border="0"/>
                       </a>
                       <a href="javascript:void(0);" onclick="expandAll();" id="expandAllLink"
                         title="ExpandAll">
-                        <img src="oxygen-webhelp/resources/img/ExpandAll16.png" alt="Expand All"
+                        <img src="oxygen-webhelp/resources/img/expand_all.png" alt="Expand All"
                           border="0"/>
                       </a>                      
                     </div>
@@ -648,6 +656,9 @@ available in the base directory of this Oxygen Webhelp plugin.
             <xsl:comment/>
           </link>
           <link rel="stylesheet" type="text/css" href="oxygen-webhelp/resources/css/webhelp_topic.css">
+            <xsl:comment/>
+          </link>
+          <link rel="stylesheet" type="text/css" href="oxygen-webhelp/resources/css/skin_dxc.css">
             <xsl:comment/>
           </link>
             <!-- custom CSS -->

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This work by Eucalyptus Systems is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. See the accompanying LICENSE file for more information.-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
+<concept id="euca_default_limits_4.4.1">
+ <title>Eucalyptus Limitations and Restrictions</title>
+ <shortdesc>This topic provides defaults used for known limitations and restrictions associated with
+      <ph conref="../../shared/conrefs.dita#prod/product_longname"/> 4.4 features, services, and
+    accounts as tested and supported by the Eucalyptus Quality Team. Some of these limitations may
+    reflect the supported differences between AWS and Eucalyptus. </shortdesc>
+ <conbody>
+  <section>
+   <title>Functional Limitations</title>
+   <p>This section describes features and operations that are not supported by Eucalyptus, and therefore, 
+   considered a functional limitation or difference from that of AWS. </p>
+  <ul>
+   <li>Eucalyptus CloudFormation Update Stack does not support Notification Configurations for given
+     resources since Eucalyptus has not implemented Simple Notification Service (SNS) or Simple
+     Queue Service (SQS).</li>
+   <li>Eucalyptus CloudFormation Update Stack supports the <codeph>UpdatePolicy</codeph> attribute
+     on the <codeph>AWS::AutoScaling::AutoScalingGroup</codeph> type but only the
+      <codeph>AutoScalingRollingUpdate</codeph> condition is supported since Eucalyptus Auto Scaling
+     does not support Scheduled Actions.</li>
+   <li>Full access to the Management Console requires a minimum IAM policy. See <xref
+      href="../../shared/console_iam_policy.dita">Add Access Policy</xref> for the recommended
+     minimal IAM policy to apply when creating a group.</li>
+   <li>Auto scaling limits are aligned with the AWS limits, except for SNS topics, as SNS is
+        currently not supported in Eucalyptus. The <xref 
+         href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_autoscaling"
+         scope="external"
+         format="html">AWS Auto Scaling Limits</xref> are also generally applicable to
+        Eucalyptus.</li>
+   <li>API support for object lifecycle in S3 is the same as for AWS S3 except for:
+    <ul>
+     <li><b>Glacier support</b>. There is no "transition" operation type to transition objects to Glacier.</li>
+     <li><b>Transitions between storage classes</b>. Eucalyptus allows multiple storage classes but
+       they have no real meaning and do not differentiate either cost or durability of the data. See
+        <xref href="http://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html"
+        scope="external" format="html">AWS Object Lifecycle Management</xref> for more
+       information.</li>
+    </ul>
+    
+    </li>
+  </ul>
+   
+   
+  </section>
+  <section>
+    <title>Configurable Limitations</title>
+    <p>This section lists the limitations that are present for configuring certain resources, as tested by Eucalyptus, 
+     and may differ from those imposed by AWS. </p>
+    <table>
+     <tgroup
+     cols="3">
+     <colspec
+      colnum="1"
+      colname="c1"
+      colwidth="2.52*"/>
+     <colspec
+      colnum="2"
+      colname="c2"
+      colwidth="1.08*"/>
+     <colspec
+      colnum="3"
+      colname="c3"
+      colwidth="1*"/>
+     <thead>
+      <row>
+       <entry>Description</entry>
+       <entry>Default</entry>
+       <entry>Maximum</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry>The number of instances that can be started in one cluster. Configurable via
+                MAX_INSTANCES_PER_CC in eucalyptus.conf. <b>Note:</b> Once a cloud is in use and has
+                started operating based on this variable, it is not safe to change it at runtime. If
+                the value needs to be changed, stop the CC process, remove the files in
+                /var/lib/eucalyptus/CC/*, change the variable in the config file, and start the CC
+                process again.</entry>
+       <entry>2048</entry>
+       <entry>4096</entry>
+      </row>
+      <row>
+       <entry>The number of volumes that can be attached to a VM. Eucalyptus can attach up to 24-25
+        volumes per VM.</entry>
+       <entry>None</entry>
+       <entry>Unknown because EBS/HVM/PV instances would have different limits.</entry>
+      </row>
+      <row>
+       <entry>The number of access keys a user can have. Configurable in property
+         <codeph>authentication.access_keys_limit</codeph>.</entry>
+       <entry>2</entry>
+       <entry>None</entry>
+      </row>
+      <row>
+       <entry>Name restrictions on the values that can be used with IAM.</entry>
+       <entry>Same as AWS. The <xref
+         href="http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html"
+         scope="external"
+         format="html">AWS restrictions on names</xref> are also generally applicable to
+        Eucalyptus.</entry>
+       <entry>n/a</entry>
+      </row>
+      <row>
+       <entry>Most default limits are defined via cloud properties.</entry>
+       <entry>varies</entry>
+       <entry>varies</entry>
+      </row>
+     </tbody>
+    </tgroup>
+    </table>
+  </section>
+ </conbody>
+</concept>

@@ -40,6 +40,8 @@ available in the base directory of this Oxygen Webhelp plugin.
       <link rel="stylesheet" type="text/css" href="{$PATH2PROJ}oxygen-webhelp/resources/css/jquery.cleditor.css"><xsl:comment/></link>
       <link rel="stylesheet" type="text/css" href="{$PATH2PROJ}oxygen-webhelp/resources/css/admin.css"><xsl:comment/></link>  
     </xsl:if>
+    
+    <link rel="stylesheet" type="text/css" href="{$PATH2PROJ}oxygen-webhelp/resources/css/skin_dxc.css"><xsl:comment/></link>
     <!-- JS -->
     <!-- Generates the inline scripts. -->    
     <script type="text/javascript">
