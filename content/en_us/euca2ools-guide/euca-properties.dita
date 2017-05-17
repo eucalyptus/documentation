@@ -1145,214 +1145,6 @@
                             <entry>Use HTTPS for communication to service backend.</entry>
                         </row>
                         <row>
-                            <entry>ZONE.cluster.networkmode </entry>
-                            <entry>Currently configured network mode. <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.sourcehostname </entry>
-                            <entry>Alternative address which is the source address for requests made
-                                by the component to the cloud controller. <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.vnetnetmask </entry>
-                            <entry>Netmask used by the cluster's virtual private networking. 
-                                <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.vnetsubnet </entry>
-                            <entry>IP subnet used by the cluster's virtual private
-                                networking. <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.cluster.vnettype </entry>
-                            <entry>IP version used by the cluster's virtual private
-                                networking. <p>Default: None</p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.blockstoragemanager </entry>
-                            <entry>EBS Block Storage Manager to use for backend</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.cephconfigfile </entry>
-                            <entry>Absolute path to Ceph configuration (ceph.conf) file. Default
-                                value is '/etc/ceph/ceph.conf'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.cephkeyringfile </entry>
-                            <entry>Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring)
-                                file. Default value is
-                                '/etc/ceph/ceph.client.eucalyptus.keyring'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.cephsnapshotpools </entry>
-                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
-                                snapshots. Use a comma separated list for configuring multiple
-                                pools. Default value is 'rbd'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.cephuser </entry>
-                            <entry>Ceph username employed by Eucalyptus operations. Default value is
-                                'eucalyptus'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.cephvolumepools </entry>
-                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
-                                volumes. Use a comma separated list for configuring multiple pools.
-                                Default value is 'rbd'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.chapuser </entry>
-                            <entry>User ID for CHAP authentication</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.dasdevice </entry>
-                            <entry>Direct attached storage device location</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxconcurrentsnapshots </entry>
-                            <entry>Maximum number of snapshots processed on the block storage
-                                backend at a given time</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxconcurrentsnapshottransfers </entry>
-                            <entry>Maximum number of snapshots that can be uploaded to or downloaded
-                                from objectstorage gateway at a given time</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxconcurrentvolumes </entry>
-                            <entry>Maximum number of volumes processed on the block storage backend
-                                at a given time</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxsnapshotdeltas</entry>
-                            <entry>A non-zero integer value enables upload of incremental snapshots
-                                when possible. The configured value indicates the SC to
-                                create/upload that many snapshot deltas for a given EBS volume
-                                before triggering a full upload of the snapshot contents. Between
-                                any two consecutive full snapshot uploads for a given EBS volume,
-                                there will be at most <codeph>maxsnapshotdeltas</codeph> number of
-                                incremental snapshot uploads. A value of 0 indicates that a newly
-                                created snapshot will always be uploaded in its entirety (that is,
-                                no deltas). Snapshot deltas are only used when your backend is
-                                Ceph-RBD. <codeph>ZONE.storage.shouldtransfersnapshots</codeph> must
-                                be set to <codeph>true</codeph> to enable snapshot
-                                    deltas.<p>Default: 0</p>
-                                <!--ADDed XREF TO TECHNICAL PREVIEW DOC-2019-->
-                                <p><ph conref="../shared/conrefs.dita#prod/tech_preview_snap_delta"
-                                    /></p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxsnapshotpartsqueuesize </entry>
-                            <entry>Maximum number of snapshot parts per snapshot that can be spooled
-                                on the disk</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxtotalvolumesizeingb </entry>
-                            <entry>Total disk space reserved for volumes</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.maxvolumesizeingb </entry>
-                            <entry>Max volume size</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.ncpaths </entry>
-                            <entry>iSCSI Paths for NC. Default value is 'nopath'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.readbuffersizeinmb </entry>
-                            <entry>Buffer size in MB for reading data from snapshot when uploading
-                                snapshot to objectstorage gateway</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.resourceprefix </entry>
-                            <entry>Prefix for resource name on SAN</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.resourcesuffix </entry>
-                            <entry>Suffix for resource name on SAN</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.sanhost </entry>
-                            <entry>Hostname for SAN device.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.sanpassword </entry>
-                            <entry>Password for SAN device.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.sanuser </entry>
-                            <entry>Username for SAN device.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.scpaths </entry>
-                            <entry>iSCSI Paths for SC. Default value is 'nopath'</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.shouldtransfersnapshots </entry>
-                            <entry>Enable snapshot transfer to the OSG. Setting it to <codeph>false</codeph> will
-                                disable storing snapshots (full or delta) in object storage. While a
-                                    <codeph>false</codeph> setting will reduce object storage
-                                requirements, it also prevents the ability to use a snapshot from
-                                one availability zone to create a volume in another zone. You can
-                                still take/use snapshots even when the setting is
-                                    <codeph>false</codeph>, but you can only use a snapshot to
-                                create a volume in the same zone. Must be set to
-                                    <codeph>true</codeph> to use snapshot deltas, which are managed
-                                by the <codeph>ZONE.storage.maxsnapshotdeltas</codeph>
-                                property.<p>Default: <codeph>true</codeph></p></entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.snapexpiration </entry>
-                            <entry>Time interval in minutes after which Storage Controller metadata
-                                for snapshots that have been physically removed from the block
-                                storage backend will be deleted</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.snapshotpartsizeinmb </entry>
-                            <entry>Snapshot part size in MB for snapshot transfers using multipart
-                                upload. Minimum part size is 5MB</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.snapshottransfertimeoutinhours </entry>
-                            <entry>Snapshot upload wait time in hours after which the upload will be
-                                cancelled</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.storeprefix </entry>
-                            <entry>Prefix for ISCSI device</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.tasktimeout </entry>
-                            <entry>Timeout for SAN commands.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.tid </entry>
-                            <entry>Next Target ID for ISCSI device</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.timeoutinmillis </entry>
-                            <entry>Timeout value in milli seconds for storage operations</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.volexpiration </entry>
-                            <entry>Time interval in minutes after which Storage Controller metadata
-                                for volumes that have been physically removed from the block storage
-                                backend will be deleted</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.volumesdir </entry>
-                            <entry>Storage volumes directory.</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.writebuffersizeinmb </entry>
-                            <entry>Buffer size in MB for writing data to snapshot when downloading
-                                snapshot from object storage gateway</entry>
-                        </row>
-                        <row>
-                            <entry>ZONE.storage.zerofillvolumes </entry>
-                            <entry>Should volumes be zero filled.</entry>
-                        </row>
-                        <row>
                             <entry>region.region_enable_ssl </entry>
                             <entry>Enable SSL (HTTPS) for regions.</entry>
                         </row>
@@ -1674,6 +1466,214 @@
                         <row>
                             <entry>walrusbackend.storagemaxtotalcapacity </entry>
                             <entry>Total WalrusBackend storage capacity for Objects</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.cluster.networkmode </entry>
+                            <entry>Currently configured network mode. <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.cluster.sourcehostname </entry>
+                            <entry>Alternative address which is the source address for requests made
+                                by the component to the cloud controller. <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.cluster.vnetnetmask </entry>
+                            <entry>Netmask used by the cluster's virtual private networking. 
+                                <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.cluster.vnetsubnet </entry>
+                            <entry>IP subnet used by the cluster's virtual private
+                                networking. <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.cluster.vnettype </entry>
+                            <entry>IP version used by the cluster's virtual private
+                                networking. <p>Default: None</p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.blockstoragemanager </entry>
+                            <entry>EBS Block Storage Manager to use for backend</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.cephconfigfile </entry>
+                            <entry>Absolute path to Ceph configuration (ceph.conf) file. Default
+                                value is '/etc/ceph/ceph.conf'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.cephkeyringfile </entry>
+                            <entry>Absolute path to Ceph keyring (ceph.client.eucalyptus.keyring)
+                                file. Default value is
+                                '/etc/ceph/ceph.client.eucalyptus.keyring'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.cephsnapshotpools </entry>
+                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
+                                snapshots. Use a comma separated list for configuring multiple
+                                pools. Default value is 'rbd'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.cephuser </entry>
+                            <entry>Ceph username employed by Eucalyptus operations. Default value is
+                                'eucalyptus'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.cephvolumepools </entry>
+                            <entry>Ceph storage pool(s) made available to Eucalyptus for EBS
+                                volumes. Use a comma separated list for configuring multiple pools.
+                                Default value is 'rbd'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.chapuser </entry>
+                            <entry>User ID for CHAP authentication</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.dasdevice </entry>
+                            <entry>Direct attached storage device location</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxconcurrentsnapshots </entry>
+                            <entry>Maximum number of snapshots processed on the block storage
+                                backend at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxconcurrentsnapshottransfers </entry>
+                            <entry>Maximum number of snapshots that can be uploaded to or downloaded
+                                from objectstorage gateway at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxconcurrentvolumes </entry>
+                            <entry>Maximum number of volumes processed on the block storage backend
+                                at a given time</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxsnapshotdeltas</entry>
+                            <entry>A non-zero integer value enables upload of incremental snapshots
+                                when possible. The configured value indicates the SC to
+                                create/upload that many snapshot deltas for a given EBS volume
+                                before triggering a full upload of the snapshot contents. Between
+                                any two consecutive full snapshot uploads for a given EBS volume,
+                                there will be at most <codeph>maxsnapshotdeltas</codeph> number of
+                                incremental snapshot uploads. A value of 0 indicates that a newly
+                                created snapshot will always be uploaded in its entirety (that is,
+                                no deltas). Snapshot deltas are only used when your backend is
+                                Ceph-RBD. <codeph>ZONE.storage.shouldtransfersnapshots</codeph> must
+                                be set to <codeph>true</codeph> to enable snapshot
+                                deltas.<p>Default: 0</p>
+                                <!--ADDed XREF TO TECHNICAL PREVIEW DOC-2019-->
+                                <p><ph conref="../shared/conrefs.dita#prod/tech_preview_snap_delta"
+                                /></p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxsnapshotpartsqueuesize </entry>
+                            <entry>Maximum number of snapshot parts per snapshot that can be spooled
+                                on the disk</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxtotalvolumesizeingb </entry>
+                            <entry>Total disk space reserved for volumes</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.maxvolumesizeingb </entry>
+                            <entry>Max volume size</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.ncpaths </entry>
+                            <entry>iSCSI Paths for NC. Default value is 'nopath'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.readbuffersizeinmb </entry>
+                            <entry>Buffer size in MB for reading data from snapshot when uploading
+                                snapshot to objectstorage gateway</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.resourceprefix </entry>
+                            <entry>Prefix for resource name on SAN</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.resourcesuffix </entry>
+                            <entry>Suffix for resource name on SAN</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.sanhost </entry>
+                            <entry>Hostname for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.sanpassword </entry>
+                            <entry>Password for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.sanuser </entry>
+                            <entry>Username for SAN device.</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.scpaths </entry>
+                            <entry>iSCSI Paths for SC. Default value is 'nopath'</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.shouldtransfersnapshots </entry>
+                            <entry>Enable snapshot transfer to the OSG. Setting it to <codeph>false</codeph> will
+                                disable storing snapshots (full or delta) in object storage. While a
+                                <codeph>false</codeph> setting will reduce object storage
+                                requirements, it also prevents the ability to use a snapshot from
+                                one availability zone to create a volume in another zone. You can
+                                still take/use snapshots even when the setting is
+                                <codeph>false</codeph>, but you can only use a snapshot to
+                                create a volume in the same zone. Must be set to
+                                <codeph>true</codeph> to use snapshot deltas, which are managed
+                                by the <codeph>ZONE.storage.maxsnapshotdeltas</codeph>
+                                property.<p>Default: <codeph>true</codeph></p></entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.snapexpiration </entry>
+                            <entry>Time interval in minutes after which Storage Controller metadata
+                                for snapshots that have been physically removed from the block
+                                storage backend will be deleted</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.snapshotpartsizeinmb </entry>
+                            <entry>Snapshot part size in MB for snapshot transfers using multipart
+                                upload. Minimum part size is 5MB</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.snapshottransfertimeoutinhours </entry>
+                            <entry>Snapshot upload wait time in hours after which the upload will be
+                                cancelled</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.storeprefix </entry>
+                            <entry>Prefix for ISCSI device</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.tasktimeout </entry>
+                            <entry>Timeout for SAN commands.</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.tid </entry>
+                            <entry>Next Target ID for ISCSI device</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.timeoutinmillis </entry>
+                            <entry>Timeout value in milli seconds for storage operations</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.volexpiration </entry>
+                            <entry>Time interval in minutes after which Storage Controller metadata
+                                for volumes that have been physically removed from the block storage
+                                backend will be deleted</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.volumesdir </entry>
+                            <entry>Storage volumes directory.</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.writebuffersizeinmb </entry>
+                            <entry>Buffer size in MB for writing data to snapshot when downloading
+                                snapshot from object storage gateway</entry>
+                        </row>
+                        <row>
+                            <entry>ZONE.storage.zerofillvolumes </entry>
+                            <entry>Should volumes be zero filled.</entry>
                         </row>
                     </tbody>
                 </tgroup>
